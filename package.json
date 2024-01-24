@@ -1,0 +1,11 @@
+{
+  "name": "t-ui",
+  "version": "1.0.0",
+  "description": "t-ui vue3 的简易UI组件库",
+  "main": "./packages/index.js",
+  "scripts": {
+    "build": "vue-tsc && vite build"
+  },
+  "author": "tommy",
+  "license": "ISC"
+}
