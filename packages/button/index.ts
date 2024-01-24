@@ -1,5 +1,5 @@
-import Button from "./index.vue";
-export const TButton = Button;
+import Button from './index.vue'
+export const TButton = Button
 export default {
-  TButton,
-};
+  TButton
+}
