@@ -14,7 +14,6 @@ export default defineConfig({
         "sass",
         "sass-loader",
         "vite-plugin-md",
-        "vue-router",
         "@babel/preset-env",
         "@vitejs/plugin-vue",
         "@vue/reactivity",
@@ -26,7 +25,6 @@ export default defineConfig({
         "vite",
         "vue-jest",
         "commitizen",
-        "cz-conventional-changelog",
       ],
       output: {
         globals: {
