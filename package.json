@@ -1,11 +1,17 @@
 {
-  "name": "t-ui",
+  "name": "tui",
   "version": "1.0.0",
-  "description": "t-ui vue3 的简易UI组件库",
+  "description": "tui vue3 的简易UI组件库",
   "main": "./packages/index.js",
   "scripts": {
-    "build": "vue-tsc && vite build"
+    "build": "vue-tsc && vite build",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
-  "author": "tommy",
-  "license": "ISC"
+  "author": "tommyrunner",
+  "license": "ISC",
+  "devDependencies": {
+    "vitepress": "^1.0.0-rc.40"
+  }
 }
