@@ -1,8 +1,9 @@
 import { App } from 'vue'
 import { TButton } from './button'
 
+const components = { TButton }
 // 单独引入
-export const components = { TButton }
+export { TButton }
 // 全局注册
 export default {
   version: '1.0.0',
