@@ -2,7 +2,7 @@
   "name": "tui",
   "version": "1.0.0",
   "description": "tui vue3 的简易UI组件库",
-  "main": "./packages/index.ts",
+  "main": "./src/index.ts",
   "typings": "./dist/lib/index.d.ts",
   "type": "module",
   "scripts": {
@@ -10,7 +10,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "lint:es": "eslint --cache --max-warnings 0  \"packages/**/*.{vue,ts,tsx}\" --fix"
+    "lint:es": "eslint --cache --max-warnings 0  \"./**/*.{vue,ts,tsx}\" --fix"
   },
   "author": "tommyrunner",
   "license": "ISC",
