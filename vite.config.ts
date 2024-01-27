@@ -64,8 +64,8 @@ export default defineConfig({
       ]
     },
     lib: {
-      entry: './index.ts',
-      formats: ['es', 'cjs']
+      entry: './index.ts'
+      // formats: ['es', 'cjs']
     }
   },
   plugins: [

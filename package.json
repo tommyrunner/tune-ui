@@ -4,6 +4,7 @@
   "description": "tui vue3 的简易UI组件库",
   "main": "./packages/index.ts",
   "typings": "./dist/lib/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "vite build",
     "docs:dev": "vitepress dev docs",
