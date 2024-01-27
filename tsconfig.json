@@ -28,6 +28,9 @@
     "packages/**/*.tsx",
     "packages/**/*.vue"
   ],
+  "exclude": [
+    "dist/**/*.ts"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

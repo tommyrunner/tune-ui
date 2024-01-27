@@ -2,9 +2,7 @@ import { App } from 'vue'
 import { TButton } from './button'
 
 const components = { TButton }
-// 单独引入
-export { TButton }
-// 全局注册
+// 全局组件注册
 export default {
   version: '1.0.0',
   install: (Vue: App) => {
@@ -14,3 +12,5 @@ export default {
     }
   }
 }
+// 导出所有组件类型
+export * from './button'

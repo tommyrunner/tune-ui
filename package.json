@@ -2,7 +2,8 @@
   "name": "tui",
   "version": "1.0.0",
   "description": "tui vue3 的简易UI组件库",
-  "main": "./packages/index.js",
+  "main": "./packages/index.ts",
+  "typings": "./dist/lib/index.d.ts",
   "scripts": {
     "build": "vite build",
     "docs:dev": "vitepress dev docs",
