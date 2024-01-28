@@ -2,8 +2,9 @@
   "name": "tui",
   "version": "1.0.0",
   "description": "tui vue3 的简易UI组件库",
-  "main": "./src/index.ts",
+  "main": "./dist/es/index.js",
   "typings": "./dist/lib/index.d.ts",
+  "module": "./dist/es/index.js",
   "type": "module",
   "scripts": {
     "build": "vite build",
@@ -22,5 +23,8 @@
     "eslint-plugin-vue": "^9.20.1",
     "vite-plugin-dts": "^3.7.2",
     "vitepress": "^1.0.0-rc.40"
-  }
+  },
+  "sideEffects": [
+    "**/*.css"
+  ]
 }

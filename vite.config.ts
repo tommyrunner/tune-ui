@@ -1,3 +1,4 @@
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
@@ -32,13 +33,13 @@ export default defineConfig({
               //截取出css打包名称中的组件名 button.vue_vue_type_style_index_0_lang.css 截出button
               let str = (assetInfo.name || 'style.').split('.')[0]
               //将组件css输出到组件目录下 组件/组件.css
-              return `${str}/${str}.css`
+              return `${str}.css`
             } else {
               //其他静态资源则返回默认的 后续也可以对其他资源文件细分
               return 'assets/[name].[ext]'
             }
           },
-          preserveModulesRoot: ''
+          preserveModulesRoot: 'src'
         },
         {
           format: 'cjs',
@@ -53,18 +54,18 @@ export default defineConfig({
               //截取出css打包名称中的组件名 button.vue_vue_type_style_index_0_lang.css 截出button
               let str = (assetInfo.name || 'style.').split('.')[0]
               //将组件css输出到组件目录下 组件/组件.css
-              return `${str}/${str}.css`
+              return `${str}.css`
             } else {
               //其他静态资源则返回默认的 后续也可以对其他资源文件细分
               return 'assets/[name].[ext]'
             }
           },
-          preserveModulesRoot: ''
+          preserveModulesRoot: 'src'
         }
       ]
     },
     lib: {
-      entry: './index.ts'
+      entry: './src/index.ts'
       // formats: ['es', 'cjs']
     }
   },
@@ -85,11 +86,17 @@ export default defineConfig({
       renderChunk(code, chunk) {
         // 判断是不是组件入口js
         if (!chunk.isEntry && chunk.type === 'chunk' && /\index.(js)$/i.test(chunk.fileName)) {
-          // 截取出组件名称
-          let str = chunk.fileName.split('/')[0]
+          // 引入分隔出来的css
+          let fileNames = chunk.fileName.split('/')
+          let str = fileNames[fileNames.length - 1].split('.')[0]
           return `import './${str}.css';\n${code}`
         }
       }
     }
-  ]
+  ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src')
+    }
+  }
 })
