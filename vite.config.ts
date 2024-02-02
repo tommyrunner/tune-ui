@@ -85,7 +85,12 @@ export default defineConfig({
       enforce: 'post',
       renderChunk(code, chunk) {
         // 判断是不是组件入口js
-        if (!chunk.isEntry && chunk.type === 'chunk' && /\index.(js)$/i.test(chunk.fileName)) {
+        if (
+          !chunk.isEntry &&
+          chunk.type === 'chunk' &&
+          /\index.(js)$/i.test(chunk.fileName) &&
+          chunk.name.includes('packages/') // 组件全在packages包里
+        ) {
           // 引入分隔出来的css
           let fileNames = chunk.fileName.split('/')
           let str = fileNames[fileNames.length - 1].split('.')[0]

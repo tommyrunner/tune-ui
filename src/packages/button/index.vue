@@ -1,9 +1,21 @@
 <template>
-  <button>按钮2</button>
-  <i class="iconfont icon-xianxing-_shanchu1"></i>
+  <button
+    :class="[
+      't-button',
+      `t-button-type-${props.type}`,
+      `t-button-size-${props.size}`,
+      `t-button-radius-${props.radius}`
+    ]"
+  >
+    <i :class="['t-button-startIcon', 'iconfont', props.startIcon]"></i>
+    <slot />
+    <i :class="['t-button-endIcon', 'iconfont', props.endIcon]"></i>
+  </button>
 </template>
 <script lang="ts" setup>
+import { defaultProps, ButtonPropsType } from './button'
 defineOptions({ name: 'TButton' })
+const props = withDefaults(defineProps<ButtonPropsType>(), defaultProps)
 defineExpose({
   test: () => {
     console.log('测试')
@@ -11,8 +23,5 @@ defineExpose({
 })
 </script>
 <style lang="scss" scoped>
-@import '../../styles/index.scss';
-button {
-  background-color: $bgColor;
-}
+@import 'index.scss';
 </style>

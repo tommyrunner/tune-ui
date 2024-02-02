@@ -1,0 +1,125 @@
+@import '@/styles/index.scss';
+
+.t-button {
+    color: $text-color-default;
+    background-color: $bg-color-default;
+    border: 1px solid $border-color-default;
+    font-size: 14px;
+    outline: none;
+    height: 100%;
+    cursor: pointer;
+    white-space: nowrap;
+    height: 32px;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    vertical-align: middle;
+    box-sizing: border-box;
+    padding: 4px 16px;
+    transition: 0.22s;
+
+    &:active {
+        transform: scale(0.88);
+    }
+
+    .t-button-startIcon {
+        margin-right: 4px;
+    }
+
+    .t-button-endIcon {
+        margin-left: 4px;
+    }
+}
+
+// 主题色
+.t-button-type-default {
+    color: $text-color-default;
+    background-color: $bg-color-default;
+    border: 1px solid $border-color-default;
+}
+
+.t-button-type-primary {
+    color: $color-white;
+    background-color: $theme-color-primary;
+    border: 1px solid $theme-color-primary;
+}
+
+.t-button-type-success {
+    color: $color-white;
+    background-color: $theme-color-success;
+    border: 1px solid $theme-color-success;
+}
+
+.t-button-type-info {
+    color: $color-white;
+    background-color: $theme-color-info;
+    border: 1px solid $theme-color-info;
+}
+
+.t-button-type-warning {
+    color: $color-white;
+    background-color: $theme-color-warning;
+    border: 1px solid $theme-color-warning;
+}
+
+.t-button-type-danger {
+    color: $color-white;
+    background-color: $theme-color-danger;
+    border: 1px solid $theme-color-danger;
+}
+
+// 主题大小
+.t-button-size-default {
+    font-size: 14px;
+    height: 32px;
+    padding: 4px 16px;
+
+    .t-button-startIcon,
+    .t-button-endIcon {
+        font-size: 14px;
+    }
+}
+
+.t-button-size-small {
+    font-size: 12px;
+    height: 24px;
+    padding: 2px 8px;
+
+    .t-button-startIcon,
+    .t-button-endIcon {
+        font-size: 12px;
+    }
+}
+
+.t-button-size-large {
+    font-size: 16px;
+    height: 36px;
+    padding: 6px 20px;
+
+    .t-button-startIcon,
+    .t-button-endIcon {
+        font-size: 18px;
+    }
+}
+
+//  radius圆角
+.t-button-radius-default {
+    border-radius: 4px;
+}
+
+.t-button-radius-round {
+    border-radius: 32px;
+}
+
+.t-button-radius-circle {
+    border-radius: 50%;
+    padding: 8px;
+
+    .t-button-startIcon,
+    .t-button-endIcon {
+        margin: 0px;
+    }
+}
