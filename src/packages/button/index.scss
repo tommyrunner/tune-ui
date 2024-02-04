@@ -71,6 +71,12 @@
     border: 1px solid $theme-color-danger;
 }
 
+.t-button-type-text {
+    color: $theme-color-primary;
+    background-color: transparent;
+    border: none;
+}
+
 // 主题大小
 .t-button-size-default {
     font-size: 14px;
@@ -95,13 +101,13 @@
 }
 
 .t-button-size-large {
-    font-size: 16px;
-    height: 36px;
-    padding: 6px 20px;
+    font-size: 14px;
+    height: 38px;
+    padding: 6px 16px;
 
     .t-button-startIcon,
     .t-button-endIcon {
-        font-size: 18px;
+        font-size: 16px;
     }
 }
 
@@ -121,5 +127,30 @@
     .t-button-startIcon,
     .t-button-endIcon {
         margin: 0px;
+    }
+}
+
+// loading
+.t-button-loading {
+    animation: anima-loading 2s linear infinite;
+}
+
+@keyframes anima-loading {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// disabled
+.t-button-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:active {
+        transform: scale(1);
     }
 }

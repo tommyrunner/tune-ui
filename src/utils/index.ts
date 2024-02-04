@@ -1,11 +1,10 @@
 import { configOptions } from '@/hooks/useOptions'
-import { ElType, ElSizeType } from '@/types'
+import { ElSizeType } from '@/types'
 
 /**
  * @description: 组件的基本props属性
  */
 export interface BaseProps {
-  type?: ElType
   size?: ElSizeType
 }
 
