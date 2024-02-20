@@ -11,6 +11,7 @@ export interface ButtonPropsType extends BaseProps {
   radius?: 'default' | 'round' | 'circle'
   color?: string
   disabled?: boolean
+  scale?: boolean
 }
 /**
  * @description: Button组件props默认值
@@ -19,5 +20,6 @@ export const defaultProps = baseProps<ButtonPropsType>({
   type: 'default',
   loading: false,
   radius: 'default',
-  disabled: false
+  disabled: false,
+  scale: true
 })

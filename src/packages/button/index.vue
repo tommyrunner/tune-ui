@@ -1,12 +1,14 @@
 <template>
   <button
+    :scale="props.scale && !props.disabled"
+    :disabled="props.disabled || props.loading"
     autofocus
     :class="[
       't-button',
       !props.color && `t-button-type-${props.type}`,
       `t-button-size-${props.size}`,
       `t-button-radius-${props.radius}`,
-      props.disabled && 't-button-disabled'
+      (props.disabled || props.loading) && 't-button-disabled'
     ]"
     :style="getCustemStyle"
   >
