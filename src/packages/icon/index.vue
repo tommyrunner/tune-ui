@@ -2,10 +2,13 @@
   <i :style="getStyle" :class="['t-icon', 'iconfont', `icon-${props.icon}`, props.primary && 'primary']"><slot /></i>
 </template>
 <script lang="ts" setup>
+import type { PropsType } from './icon'
 import { computed, type StyleValue } from 'vue'
-import { defaultProps, type IconPropsType } from './icon'
 defineOptions({ name: 'TIcon' })
-const props = withDefaults(defineProps<IconPropsType>(), defaultProps)
+const props = withDefaults(defineProps<PropsType>(), {
+  size: 16,
+  icon: 'success-to'
+})
 
 const getStyle = computed((): StyleValue => {
   return {

@@ -1,8 +1,9 @@
 import { App } from 'vue'
 import { TButton } from './button'
 import { TIcon } from './icon'
+import { TFlex } from './flex'
 
-const components = { TButton, TIcon }
+const components = { TButton, TIcon, TFlex }
 // 全局组件注册
 export default {
   version: '1.0.0',
@@ -16,3 +17,4 @@ export default {
 // 导出所有组件类型
 export * from './button'
 export * from './icon'
+export * from './flex'

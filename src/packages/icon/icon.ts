@@ -7,18 +7,11 @@ import icons from '@/icons/iconfont'
 export type IconTypes = (typeof icons)[number]['font_class']
 
 /**
- * @description: Icon组件props类型
+ * @description: 组件props类型
  */
-export interface IconPropsType {
+export interface PropsType {
   icon: IconTypes
   size?: number
   color?: string
   primary?: boolean
-}
-/**
- * @description: Icon组件props默认值
- */
-export const defaultProps: IconPropsType = {
-  size: 16,
-  icon: 'success-to'
 }
