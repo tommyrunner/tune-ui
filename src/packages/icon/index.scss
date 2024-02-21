@@ -1,0 +1,7 @@
+@import '@/styles/index.scss';
+
+.t-icon {
+    &.primary {
+        color: $theme-color-primary !important;
+    }
+}

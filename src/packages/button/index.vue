@@ -12,23 +12,27 @@
     ]"
     :style="getCustemStyle"
   >
-    <i v-if="props.startIcon" :class="['t-button-startIcon', 'iconfont', props.startIcon]"></i>
+    <TIcon v-if="props.startIcon" :icon="startIcon" class="t-button-startIcon" />
     <slot />
-    <i
+    <TIcon
       v-if="props.endIcon || props.loading"
-      :class="['t-button-endIcon', 'iconfont', endIcon, props.loading && 't-button-loading']"
-    ></i>
+      :icon="endIcon"
+      :class="['t-button-endIcon', props.loading && 't-button-loading']"
+    />
   </button>
 </template>
 <script lang="ts" setup>
 import { computed, StyleValue } from 'vue'
-import { defaultProps, ButtonPropsType } from './button'
+import { defaultProps, emits, type PropsType } from './button'
+import { TIcon } from '..'
+import { IconTypes } from '../icon/icon'
 defineOptions({ name: 'TButton' })
-const props = withDefaults(defineProps<ButtonPropsType>(), defaultProps)
-const endIcon = computed(() => {
+const emit = defineEmits(emits)
+const props = withDefaults(defineProps<PropsType>(), defaultProps)
+// 处理loading-icon
+const endIcon = computed((): IconTypes => {
   if (!props.loading) return props.endIcon
-  // 处理loading-icon
-  else return 'icon-xianxing-_jiazai'
+  else return 'loading'
 })
 const getCustemStyle = computed((): StyleValue => {
   if (props.color) {
@@ -40,8 +44,8 @@ const getCustemStyle = computed((): StyleValue => {
   } else return void 0
 })
 defineExpose({
-  test: () => {
-    console.log('测试')
+  handleClick: (evt: MouseEvent) => {
+    emit('click', evt)
   }
 })
 </script>

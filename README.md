@@ -36,3 +36,7 @@
 - - Image
 - - Video
 - - Audio
+
+- 全局配置主题方式
+- - 通过js设置 useOptions
+- - 通过css覆盖 :root
