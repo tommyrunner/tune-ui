@@ -10,4 +10,9 @@ export interface PropsType {
   offset?: number[]
   itemDisplay?: string
   sort?: number[]
+  xs?: number[]
+  sm?: number[]
+  md?: number[]
+  lg?: number[]
+  xl?: number[]
 }
