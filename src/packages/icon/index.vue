@@ -1,5 +1,7 @@
 <template>
-  <i :style="getStyle" :class="['t-icon', 'iconfont', `icon-${props.icon}`, props.primary && 'primary']"><slot /></i>
+  <i :style="getStyle" :class="['t-icon', 'iconfont', `icon-${props.customIcon || props.icon}`, `color-${props.type}`]">
+    <slot />
+  </i>
 </template>
 <script lang="ts" setup>
 import type { PropsType } from './icon'

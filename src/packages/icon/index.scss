@@ -1,7 +1,23 @@
 @import '@/styles/index.scss';
 
 .t-icon {
-    &.primary {
+    &.color-primary {
         color: $theme-color-primary !important;
+    }
+
+    &.color-success {
+        color: $theme-color-success !important;
+    }
+
+    &.color-info {
+        color: $theme-color-info !important;
+    }
+
+    &.color-warning {
+        color: $theme-color-warning !important;
+    }
+
+    &.color-danger {
+        color: $theme-color-danger !important;
     }
 }

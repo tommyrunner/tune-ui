@@ -11,7 +11,8 @@ export type IconTypes = (typeof icons)[number]['font_class']
  */
 export interface PropsType {
   icon: IconTypes
+  customIcon?: string
   size?: number
   color?: string
-  primary?: boolean
+  type?: 'default' | 'primary' | 'success' | 'info' | 'warning' | 'danger'
 }

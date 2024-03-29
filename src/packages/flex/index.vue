@@ -24,6 +24,7 @@ const getStyle = computed((): StyleValue => {
   }
 })
 watch(() => props.spans, updateLayout, { immediate: true })
+// TODO: 做优化处理
 window.addEventListener('resize', updateLayout)
 onMounted(updateLayout)
 onDeactivated(() => {

@@ -1,0 +1,61 @@
+@import '@/styles/index.scss';
+
+.t-radio {
+    position: relative;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    justify-content: start;
+
+    &:hover .radio-span {
+        border-color: $theme-color-primary;
+    }
+
+
+    >.radio-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    >.radio-span {
+        border: 1px solid #dcdfe6;
+        border-radius: 100%;
+        width: 14px;
+        height: 14px;
+        background-color: #fff;
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        box-sizing: border-box;
+        transition: 0.22s;
+
+
+    }
+
+
+    >input {
+        opacity: 0;
+        outline: none;
+        position: absolute;
+        z-index: -1;
+    }
+
+
+    .title {
+        cursor: pointer;
+        margin-left: 6px;
+        transition: 0.22s;
+    }
+
+
+    &[checked="true"] {
+        .radio-span {
+            background-color: $theme-color-primary;
+        }
+
+        .title {
+            color: $theme-color-primary;
+        }
+
+    }
+}

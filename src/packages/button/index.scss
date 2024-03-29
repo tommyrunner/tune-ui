@@ -40,7 +40,7 @@
 
     // 单独处理text闪动效果
     &:not([disabled]).t-button-type-text:hover {
-        opacity: 0.6;
+        opacity: $opacity-disabled;
     }
 
     &:hover {

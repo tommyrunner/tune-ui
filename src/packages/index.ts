@@ -2,8 +2,10 @@ import { App } from 'vue'
 import { TButton } from './button'
 import { TIcon } from './icon'
 import { TFlex } from './flex'
+import { TRadio } from './radio'
+import { TGroup } from './group'
 
-const components = { TButton, TIcon, TFlex }
+const components = { TButton, TIcon, TFlex, TRadio, TGroup }
 // 全局组件注册
 export default {
   version: '1.0.0',
@@ -18,3 +20,5 @@ export default {
 export * from './button'
 export * from './icon'
 export * from './flex'
+export * from './radio'
+export * from './group'
