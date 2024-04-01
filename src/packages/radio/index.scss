@@ -2,12 +2,13 @@
 
 .t-radio {
     position: relative;
+    font-size: 15px;
+    transition: 0.22s;
+    position: relative;
     display: flex;
     align-items: center;
-    font-size: 15px;
-    justify-content: start;
 
-    &:hover .radio-span {
+    &:not(.is-disabled):hover .radio-span {
         border-color: $theme-color-primary;
     }
 
@@ -23,14 +24,17 @@
         width: 14px;
         height: 14px;
         background-color: #fff;
-        position: relative;
         cursor: pointer;
         display: inline-block;
         box-sizing: border-box;
         transition: 0.22s;
-
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
 
     }
+
+    >.custom-radio-span {}
 
 
     >input {
@@ -38,13 +42,21 @@
         outline: none;
         position: absolute;
         z-index: -1;
+        margin-left: 14px;
     }
 
 
     .title {
         cursor: pointer;
-        margin-left: 6px;
         transition: 0.22s;
+        margin-left: 18px;
+        user-select: none;
+        text-wrap: nowrap;
+        color: $text-color-default;
+    }
+
+    .custom-title {
+        margin-left: 4px;
     }
 
 
@@ -55,6 +67,76 @@
 
         .title {
             color: $theme-color-primary;
+        }
+    }
+}
+
+// group style
+.t-group {
+
+    // 默认配置
+    .t-radio {
+        width: 100%;
+
+        .title {
+            margin-left: 0px;
+        }
+
+        &:not(.is-disabled):hover {
+            .title {
+                color: $theme-color-primary;
+            }
+        }
+
+        .radio-span {
+            display: none;
+        }
+    }
+
+    &[type="button"] .t-radio {
+        background-color: white;
+        padding: 6px;
+        box-sizing: border-box;
+        text-align: center;
+
+        &[checked="true"] {
+            background-color: $theme-color-primary;
+
+            .title {
+                color: white;
+            }
+        }
+
+    }
+
+    &[type="border"] .t-radio {
+        background-color: white;
+        padding: 6px;
+        box-sizing: border-box;
+        text-align: center;
+
+        .radio-span {
+            display: inline-block;
+        }
+
+        .title {
+            margin-left: 18px;
+        }
+
+        &[checked="true"] {
+
+            .title {
+                color: $theme-color-primary;
+            }
+        }
+
+    }
+
+    &[type="text"] .t-radio {
+        &[checked="true"] {
+            .title {
+                color: $theme-color-primary;
+            }
         }
 
     }

@@ -12,3 +12,9 @@ $bg-color-default: #ffffff;
 $border-color-default: #dcdfe6;
 $text-color-default: #606266;
 $opacity-disabled: 0.6;
+
+// 公共样式
+.is-disabled {
+    cursor: not-allowed !important;
+    opacity: $opacity-disabled !important;
+}

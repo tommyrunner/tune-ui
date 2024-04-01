@@ -1,5 +1,12 @@
 <template>
-  <div class="t-group" ref="groupRef" @click="handClick">
+  <div
+    class="t-group"
+    :direction="props.direction"
+    :style="{ flexDirection: props.direction }"
+    :type="props.type"
+    ref="groupRef"
+    @click="handClick"
+  >
     <slot />
   </div>
 </template>
@@ -14,20 +21,23 @@ const groupRef = ref()
 const vis = useVModel(props, 'modelValue', emit)
 watch(
   () => vis.value,
-  (val) => updateState(val)
+  (val) => updateValue(val)
 )
 function handClick(e: MouseEvent) {
-  const el = (e.target as HTMLElement)?.offsetParent
-  if (!el || !_getAttribute(el, 't-group')) return
-  vis.value = _getAttribute(el, '_value')
+  let el = e.target as HTMLElement
+  if (el) {
+    // 如果点击的不是radio(可能是它的子元素)，获取最近的父元素
+    if (!_getAttribute(el, 't-group')) el = el.offsetParent as HTMLElement
+    if (_getAttribute(el, 't-group')) vis.value = _getAttribute(el, '_value')
+  }
 }
-function updateState(val?: string | null) {
+function updateValue(val?: string | null) {
   const children: HTMLElement[] = [...groupRef.value.children]
   children.forEach((chil) => {
     chil.setAttribute('checked', String(_getAttribute(chil, '_value') === val))
   })
 }
-nextTick(() => updateState(vis.value))
+nextTick(() => updateValue(vis.value))
 </script>
 <style lang="scss" scoped>
 @import 'index.scss';

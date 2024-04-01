@@ -1,5 +1,5 @@
 <template>
-  <i :style="getStyle" :class="['t-icon', 'iconfont', `icon-${props.customIcon || props.icon}`, `color-${props.type}`]">
+  <i :style="getStyle" :class="getClass">
     <slot />
   </i>
 </template>
@@ -17,6 +17,9 @@ const getStyle = computed((): StyleValue => {
     fontSize: `${props.size}px`,
     color: props.color
   }
+})
+const getClass = computed(() => {
+  return ['t-icon', 'iconfont', `icon-${props.customIcon || props.icon}`, `color-${props.type}`]
 })
 </script>
 <style lang="scss" scoped>

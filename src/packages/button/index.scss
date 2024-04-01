@@ -22,24 +22,24 @@
     transition: 0.22s;
 
     // 处理缩放
-    &[scale="true"]:not([disabled]):active {
+    &[scale="true"]:not(.is-disabled):active {
         transform: scale(0.88);
     }
 
-    &[scale="false"]:not([disabled]):active {
+    &[scale="false"]:not(.is-disabled):active {
         filter: brightness(0.95);
         opacity: 1 !important;
     }
 
 
     // 处理闪动效果
-    &:not([disabled]).t-button-type-default:hover {
+    &:not(.is-disabled).t-button-type-default:hover {
         color: $theme-color-primary;
         border-color: $theme-color-primary;
     }
 
     // 单独处理text闪动效果
-    &:not([disabled]).t-button-type-text:hover {
+    &:not(.is-disabled).t-button-type-text:hover {
         opacity: $opacity-disabled;
     }
 
@@ -164,15 +164,5 @@
 
     to {
         transform: rotate(360deg);
-    }
-}
-
-// disabled
-.t-button-disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-
-    &:active {
-        transform: scale(1);
     }
 }

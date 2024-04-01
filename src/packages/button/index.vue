@@ -1,17 +1,5 @@
 <template>
-  <button
-    :scale="props.scale && !props.disabled"
-    :disabled="props.disabled || props.loading"
-    autofocus
-    :class="[
-      't-button',
-      !props.color && `t-button-type-${props.type}`,
-      `t-button-size-${props.size}`,
-      `t-button-radius-${props.radius}`,
-      (props.disabled || props.loading) && 't-button-disabled'
-    ]"
-    :style="getCustemStyle"
-  >
+  <button :class="getClass" :style="getStyle" :scale="props.scale && !props.disabled" autofocus>
     <TIcon v-if="props.startIcon" :icon="startIcon" class="t-button-startIcon" />
     <slot />
     <TIcon
@@ -34,7 +22,7 @@ const endIcon = computed((): IconTypes => {
   if (!props.loading) return props.endIcon
   else return 'loading'
 })
-const getCustemStyle = computed((): StyleValue => {
+const getStyle = computed((): StyleValue => {
   if (props.color) {
     return {
       color: '#ffffff',
@@ -42,6 +30,15 @@ const getCustemStyle = computed((): StyleValue => {
       border: ` 1px solid ${props.color}`
     }
   } else return void 0
+})
+const getClass = computed(() => {
+  return [
+    't-button',
+    !props.color && `t-button-type-${props.type}`,
+    `t-button-size-${props.size}`,
+    `t-button-radius-${props.radius}`,
+    (props.disabled || props.loading) && 'is-disabled'
+  ]
 })
 defineExpose({
   handleClick: (evt: MouseEvent) => {
