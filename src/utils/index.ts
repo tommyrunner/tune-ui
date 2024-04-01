@@ -13,7 +13,6 @@ export interface BaseProps {
  */
 export function baseProps<T>(props: T) {
   return {
-    type: configOptions.value.elType,
     size: configOptions.value.elSize,
     ...props
   }

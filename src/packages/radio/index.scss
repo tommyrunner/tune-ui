@@ -133,6 +133,8 @@
     }
 
     &[type="text"] .t-radio {
+        border: none !important;
+
         &[checked="true"] {
             .title {
                 color: $theme-color-primary;

@@ -1,7 +1,6 @@
-import { ElSizeType, ElType } from '@/types'
+import { ElSizeType } from '@/types'
 export interface OptionsType {
   theme: OptionsThemeType
-  elType: ElType
   elSize: ElSizeType
 }
 

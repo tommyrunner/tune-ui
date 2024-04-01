@@ -21,23 +21,28 @@
  *  t-group="t-radio" : 代表支持t-group组件
  * _value : 内部标记值
  */
-import { defaultProps, type PropsType, type EmitsType } from './radio'
+import { type PropsType, type EmitsType } from './radio'
 import { useVModel } from '@vueuse/core'
 import { TIcon } from '..'
 import { useSlots } from 'vue'
+import { baseProps } from '@/utils'
 defineOptions({ name: 'TRadio' })
 const emit = defineEmits<EmitsType>()
-const props = withDefaults(defineProps<PropsType>(), defaultProps)
+const props = withDefaults(
+  defineProps<PropsType>(),
+  baseProps<PropsType>({
+    radius: 'default',
+    disabled: false
+  })
+)
 const slot = useSlots()
 const vis = useVModel(props, 'modelValue', emit)
 const handChecked = () => {
-  if (!props.disabled) vis.value = props.value
-}
-defineExpose({
-  handleClick: (evt: MouseEvent) => {
-    emit('click', evt)
+  if (!props.disabled) {
+    vis.value = props.value
+    emit('change', vis.value)
   }
-})
+}
 </script>
 <style lang="scss" scoped>
 @import 'index.scss';
