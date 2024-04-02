@@ -1,6 +1,10 @@
 import { ref } from 'vue'
 import { OptionsResultType, OptionsThemeType, OptionsType } from './type'
 
+/**
+ * 初始化全局配置api
+ * @returns
+ */
 export function initOptions(): OptionsType {
   return {
     theme: {
@@ -12,12 +16,15 @@ export function initOptions(): OptionsType {
       dark: '#1890ff',
       light: '#fff'
     },
-    elType: 'default',
     elSize: 'default'
   }
 }
 // 全局配置，初始化一次
 export const configOptions = ref<OptionsType>(initOptions())
+/**
+ * 抛出全局配置api
+ * @returns OptionsResultType
+ */
 export function useOptions(): OptionsResultType {
   function updateThemeColor(theme: OptionsThemeType) {
     let updateTheme = Object.assign(configOptions.value.theme, theme) as Required<OptionsThemeType>

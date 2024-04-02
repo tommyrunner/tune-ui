@@ -1,6 +1,9 @@
 @import '@/styles/index.scss';
 
 .t-icon {
+    vertical-align: middle;
+
+    /* 或者使用其他合适的值 */
     &.color-primary {
         color: $theme-color-primary !important;
     }

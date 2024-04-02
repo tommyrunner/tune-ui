@@ -11,7 +11,6 @@ const props = withDefaults(defineProps<PropsType>(), {
   size: 16,
   icon: 'success-to'
 })
-
 const getStyle = computed((): StyleValue => {
   return {
     fontSize: `${props.size}px`,

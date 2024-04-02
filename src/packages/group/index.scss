@@ -31,6 +31,7 @@
 
     }
 
+    // 处理合并边框
     &[direction="row"] {
         ::v-deep(>*) {
             border-left: 1px solid $border-color-default;

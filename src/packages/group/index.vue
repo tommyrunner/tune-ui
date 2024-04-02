@@ -1,6 +1,6 @@
 <template>
   <div
-    class="t-group"
+    :class="['t-group', `t-group-size-${props.size}`]"
     :direction="props.direction"
     :style="{ flexDirection: props.direction }"
     :type="props.type"
@@ -28,8 +28,12 @@ const groupRef = ref()
 const vis = useVModel(props, 'modelValue', emit)
 watch(
   () => vis.value,
-  (val) => updateValue(val)
+  (val) => updateValue(val, true)
 )
+/**
+ * 事件捕捉处理子组件状态切换
+ * @param e MouseEvent
+ */
 function handClick(e: MouseEvent) {
   let el = e.target as HTMLElement
   if (el) {

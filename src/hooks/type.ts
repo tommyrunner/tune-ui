@@ -1,9 +1,14 @@
 import { ElSizeType } from '@/types'
+/**
+ * 全局配置
+ */
 export interface OptionsType {
   theme: OptionsThemeType
   elSize: ElSizeType
 }
-
+/**
+ * 全局主题配置
+ */
 export interface OptionsThemeType {
   primary?: string
   success?: string
@@ -23,12 +28,16 @@ export interface OptionsThemeType {
   borderGray?: string
   borderPrimary?: string
 }
-
+/**
+ * 全局配置hooks操作返回
+ */
 export interface OptionsResultType {
   updateThemeColor: (theme: OptionsThemeType) => void
 }
 
+/**
+ * 组件基础属性
+ */
 export interface PropsBaseType {
-  type: ElType
   size: ElSizeType
 }

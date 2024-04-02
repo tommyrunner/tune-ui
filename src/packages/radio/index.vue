@@ -18,8 +18,8 @@
 <script lang="ts" setup>
 /**
  * @displayName Radio 单选框
- *  t-group="t-radio" : 代表支持t-group组件
- * _value : 内部标记值
+ *  t-group="t-radio" : 代表支持t-group组件组合
+ * _value : 内部标记值(用于标记当前组件状态)
  */
 import { type PropsType, type EmitsType } from './radio'
 import { useVModel } from '@vueuse/core'
@@ -38,10 +38,9 @@ const props = withDefaults(
 const slot = useSlots()
 const vis = useVModel(props, 'modelValue', emit)
 const handChecked = () => {
-  if (!props.disabled) {
-    vis.value = props.value
-    emit('change', vis.value)
-  }
+  if (props.disabled) return
+  vis.value = props.value
+  emit('change', vis.value)
 }
 </script>
 <style lang="scss" scoped>

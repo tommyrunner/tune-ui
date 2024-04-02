@@ -23,6 +23,7 @@ const getStyle = computed((): StyleValue => {
     justifyContent: props.justify
   }
 })
+// 监听spans变化，动态更新响应式布局
 watch(() => props.spans, updateLayout, { immediate: true })
 // TODO: 做优化处理
 window.addEventListener('resize', updateLayout)

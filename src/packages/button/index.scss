@@ -4,7 +4,7 @@
     color: $text-color-default;
     background-color: $bg-color-default;
     border: 1px solid $border-color-default;
-    font-size: 14px;
+    font-size: $font-size-default;
     outline: none;
     height: 100%;
     cursor: pointer;
@@ -101,8 +101,9 @@
 
 // 主题大小
 .t-button-size-default {
-    font-size: 14px;
+    font-size: $font-size-default;
     height: 32px;
+    line-height: 32px;
     padding: 4px 16px;
 
     .t-button-startIcon,
@@ -112,8 +113,9 @@
 }
 
 .t-button-size-small {
-    font-size: 12px;
+    font-size: $font-size-small;
     height: 24px;
+    line-height: 24px;
     padding: 2px 8px;
 
     .t-button-startIcon,
@@ -123,9 +125,11 @@
 }
 
 .t-button-size-large {
-    font-size: 14px;
+    font-size: $font-size-large;
     height: 38px;
     padding: 6px 16px;
+    line-height: 38px;
+
 
     .t-button-startIcon,
     .t-button-endIcon {
