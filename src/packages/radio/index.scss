@@ -19,7 +19,7 @@
 
     >.radio-span {
         border: 1px solid #dcdfe6;
-        border-radius: 100%;
+
         width: 14px;
         height: 14px;
         background-color: #fff;
@@ -33,7 +33,13 @@
 
     }
 
-    >.custom-radio-span {}
+    >.radio-span-default {
+        border-radius: 100%;
+    }
+
+    >.radio-span-square {
+        border-radius: 0px;
+    }
 
 
     >input {

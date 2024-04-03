@@ -9,7 +9,7 @@
     <div class="custom-radio-span" v-if="!props.icon && slot.radioSpan">
       <slot name="radioSpan" :value="vis" />
     </div>
-    <span class="radio-span" v-else-if="!props.icon" />
+    <span :class="['radio-span', `radio-span-${props.radius}`]" v-else-if="!props.icon" />
     <TIcon class="radio-icon" :icon="props.icon" :type="props.value === vis ? 'primary' : 'default'" v-else />
     <input type="radio" :name="props.name" :value="props.value" />
     <span :class="['title', props.disabled && 'is-disabled', slot.radioSpan && 'custom-title']"><slot /></span>
