@@ -5,7 +5,7 @@
     font-size: $font-size-default;
     transition: 0.22s;
     position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
 
     &:not(.is-disabled):hover .radio-span {
@@ -19,7 +19,6 @@
 
     >.radio-span {
         border: 1px solid #dcdfe6;
-
         width: 14px;
         height: 14px;
         background-color: #fff;
@@ -60,7 +59,7 @@
         color: $text-color-default;
     }
 
-    .custom-title {
+    .custom-span {
         margin-left: 4px;
     }
 
@@ -75,6 +74,23 @@
         }
     }
 }
+
+// 处理size
+.t-radio[size="default"] {
+    font-size: $font-size-default;
+    padding: 6px;
+}
+
+.t-radio[size="small"] {
+    font-size: $font-size-small;
+    padding: 2px;
+}
+
+.t-radio[size="large"] {
+    font-size: $font-size-large;
+    padding: 8px;
+}
+
 
 // group style
 .t-group {
@@ -147,27 +163,5 @@
             }
         }
 
-    }
-}
-
-// 处理size
-.t-group-size-default {
-    .t-radio {
-        font-size: $font-size-default;
-        padding: 6px;
-    }
-}
-
-.t-group-size-small {
-    .t-radio {
-        font-size: $font-size-small;
-        padding: 2px;
-    }
-}
-
-.t-group-size-large {
-    .t-radio {
-        font-size: $font-size-large;
-        padding: 8px;
     }
 }

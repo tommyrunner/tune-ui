@@ -21,7 +21,6 @@ export interface EmitsType {
   // 值更新事件
   (e: 'update:modelValue', data: string): void
 }
-
 /**
  * 获取内部专属key值
  * @param el 组件

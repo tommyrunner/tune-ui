@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['t-group', `t-group-size-${props.size}`]"
+    :class="['t-group']"
     :direction="props.direction"
     :style="{ flexDirection: props.direction }"
     :type="props.type"
@@ -50,6 +50,8 @@ function handClick(e: MouseEvent) {
 function updateValue(val?: string | number | boolean, immediateChange?: boolean) {
   const children: HTMLElement[] = [...groupRef.value.children]
   children.forEach((chil) => {
+    // 处理size
+    chil.setAttribute('size', props.size)
     chil.setAttribute('checked', String(_getAttribute(chil, '_value') === val))
   })
   if (immediateChange) emit('change', vis.value)

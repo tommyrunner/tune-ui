@@ -10,8 +10,8 @@
   </button>
 </template>
 <script lang="ts" setup>
+import type { EmitsType, PropsType } from './button'
 import { computed, StyleValue } from 'vue'
-import { type EmitsType, type PropsType } from './button'
 import { TIcon } from '..'
 import { IconTypes } from '../icon/icon'
 import { baseProps } from '@/utils'
