@@ -2,53 +2,7 @@
 
 .t-group {
     display: flex;
-    flex-direction: column;
     justify-content: start;
     align-items: start;
-
-    ::v-deep(>*) {
-        cursor: pointer;
-    }
-
-    // 处理合并边框
-    &[direction="column"] {
-        ::v-deep(>*) {
-            border-top: 1px solid $border-color-default;
-            border-left: 1px solid $border-color-default;
-            border-right: 1px solid $border-color-default;
-
-            &:first-child {
-                border-top-left-radius: 6px;
-                border-top-right-radius: 6px;
-            }
-
-            &:last-child {
-                border-bottom: 1px solid $border-color-default;
-                border-bottom-left-radius: 6px;
-                border-bottom-right-radius: 6px;
-            }
-        }
-
-    }
-
-    // 处理合并边框
-    &[direction="row"] {
-        ::v-deep(>*) {
-            border-left: 1px solid $border-color-default;
-            border-top: 1px solid $border-color-default;
-            border-bottom: 1px solid $border-color-default;
-
-            &:first-child {
-                border-top-left-radius: 6px;
-                border-bottom-left-radius: 6px;
-            }
-
-            &:last-child {
-                border-top-right-radius: 6px;
-                border-bottom-right-radius: 6px;
-                border-right: 1px solid $border-color-default;
-            }
-        }
-
-    }
+    cursor: pointer;
 }

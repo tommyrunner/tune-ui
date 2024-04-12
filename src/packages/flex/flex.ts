@@ -5,6 +5,7 @@ export type AlignmentTypes = 'start' | 'center' | 'end' | 'space-between' | 'spa
 export interface PropsType {
   // 栅格占据
   spans: number[]
+  // TODO: 实现竖向响应式
   // 栅格间隔
   gap?: number
   // 横向对齐方式

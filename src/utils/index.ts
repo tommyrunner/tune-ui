@@ -1,4 +1,3 @@
-import { configOptions } from '@/hooks/useOptions'
 import { ElSizeType } from '@/types'
 
 /**
@@ -6,14 +5,4 @@ import { ElSizeType } from '@/types'
  */
 export interface BaseProps {
   size?: ElSizeType
-}
-
-/**
- * @description: 初始化组件的基本props属性
- */
-export function baseProps<T>(props: T) {
-  return {
-    size: configOptions.value.elSize,
-    ...props
-  }
 }

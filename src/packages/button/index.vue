@@ -10,26 +10,24 @@
   </button>
 </template>
 <script lang="ts" setup>
+import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './button'
 import { computed, StyleValue } from 'vue'
 import { TIcon } from '..'
 import { IconTypes } from '../icon/icon'
-import { baseProps } from '@/utils'
 defineOptions({ name: 'TButton' })
 const emit = defineEmits<EmitsType>()
-const props = withDefaults(
-  defineProps<PropsType>(),
-  baseProps<PropsType>({
-    type: 'default',
-    loading: false,
-    radius: 'default',
-    disabled: false,
-    scale: true
-  })
-)
+const props = withDefaults(defineProps<PropsType>(), {
+  size: configOptions.value.elSize,
+  type: 'default',
+  loading: false,
+  radius: 'default',
+  disabled: false,
+  scale: true
+})
 // 处理loading-icon
 const endIcon = computed((): IconTypes => {
-  if (!props.loading) return props.endIcon
+  if (!props.loading && props.endIcon) return props.endIcon
   else return 'loading'
 })
 const getStyle = computed((): StyleValue => {

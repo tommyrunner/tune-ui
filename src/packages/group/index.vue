@@ -11,20 +11,18 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { baseProps } from '@/utils'
-import { type PropsType, type EmitsType, _getAttribute } from './group'
+import { configOptions } from '@/hooks/useOptions'
+import { type PropsType, type EmitsType, type ValueType, _getAttribute } from './group'
 import { useVModel } from '@vueuse/core'
-import { ref, nextTick, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 defineOptions({ name: 'TGroup' })
-const props = withDefaults(
-  defineProps<PropsType>(),
-  baseProps<PropsType>({
-    type: 'button',
-    direction: 'row'
-  })
-)
+const props = withDefaults(defineProps<PropsType>(), {
+  size: configOptions.value.elSize,
+  type: 'button',
+  direction: 'row'
+})
 const emit = defineEmits<EmitsType>()
-const groupRef = ref()
+const groupRef = ref<HTMLElement>()
 const vis = useVModel(props, 'modelValue', emit)
 watch(
   () => vis.value,
@@ -39,7 +37,13 @@ function handClick(e: MouseEvent) {
   if (el) {
     // 如果点击的不是radio(可能是它的子元素)，获取最近的父元素
     if (!_getAttribute(el, 't-group')) el = el.offsetParent as HTMLElement
-    if (_getAttribute(el, 't-group')) vis.value = _getAttribute(el, '_value')
+    if (_getAttribute(el, 't-group-disabled')) {
+      // 处理对象类型
+      if (props.data && props.objKey) {
+        const key: string = props.objKey
+        vis.value = props.data.find((item: any) => item[key] && String(item[key]) === _getAttribute(el, '_value'))
+      } else vis.value = _getAttribute(el, '_value')
+    }
   }
 }
 /**
@@ -47,16 +51,20 @@ function handClick(e: MouseEvent) {
  * @param val 状态值
  * @param immediateChange 是否立即触发change事件
  */
-function updateValue(val?: string | number | boolean, immediateChange?: boolean) {
-  const children: HTMLElement[] = [...groupRef.value.children]
+function updateValue(val?: ValueType, immediateChange?: boolean) {
+  const children: HTMLElement[] = Array.from(groupRef.value?.querySelectorAll<HTMLElement>('[t-group]') ?? [])
   children.forEach((chil) => {
     // 处理size
     chil.setAttribute('size', props.size)
-    chil.setAttribute('checked', String(_getAttribute(chil, '_value') === val))
+    // 处理对象类型
+    if (props.data && props.objKey && val) {
+      const key: string = props.objKey
+      chil.setAttribute('checked', String(_getAttribute(chil, '_value') === String((val as any)[key])))
+    } else chil.setAttribute('checked', String(_getAttribute(chil, '_value') === String(val)))
   })
   if (immediateChange) emit('change', vis.value)
 }
-nextTick(() => updateValue(vis.value, props.immediateChange))
+onMounted(() => updateValue(vis.value, props.immediateChange))
 </script>
 <style lang="scss" scoped>
 @import 'index.scss';

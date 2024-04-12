@@ -1,0 +1,133 @@
+$title-margin-left: 16px;
+
+// group style
+.t-group {
+
+    // 处理边框
+    &[direction="row"] .t-radio {
+        border-left: 1px solid $border-color-default;
+        border-top: 1px solid $border-color-default;
+        border-bottom: 1px solid $border-color-default;
+
+        &:first-child {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+
+        &:last-child {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            border-right: 1px solid $border-color-default;
+        }
+    }
+
+    // 处理边框
+    &[direction="column"] .t-radio {
+        border-top: 1px solid $border-color-default;
+        border-left: 1px solid $border-color-default;
+        border-right: 1px solid $border-color-default;
+
+        &:first-child {
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        &:last-child {
+            border-bottom: 1px solid $border-color-default;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+    }
+
+    // 默认配置
+    .t-radio {
+        width: 100%;
+
+
+        .title {
+            margin-left: 0px;
+        }
+
+        &:not(.is-disabled):hover {
+            .title {
+                color: $theme-color-primary;
+            }
+        }
+
+        .radio-span {
+            display: none;
+        }
+    }
+
+    // 处理type样式
+    &[type="button"] .t-radio {
+        background-color: white;
+        padding: 6px;
+        box-sizing: border-box;
+        text-align: center;
+
+        &[checked="true"] {
+            background-color: $theme-color-primary;
+
+            .title {
+                color: white;
+            }
+        }
+
+    }
+
+    &[type="border"] .t-radio {
+        background-color: white;
+        padding: 6px;
+        box-sizing: border-box;
+        text-align: center;
+
+        .radio-span {
+            display: inline-block;
+        }
+
+        .title {
+            margin-left: $title-margin-left;
+        }
+
+        &[checked="true"] {
+
+            .title {
+                color: $theme-color-primary;
+            }
+        }
+
+    }
+
+    &[type="text"] .t-radio {
+        border: none !important;
+
+        &[checked="true"] {
+            .title {
+                color: $theme-color-primary;
+            }
+        }
+
+    }
+
+    &[type="default"] .t-radio {
+        border: none !important;
+
+        .title {
+            margin-left: $title-margin-left;
+        }
+
+        .radio-span {
+            display: inline-block;
+        }
+
+        &[checked="true"] {
+            .title {
+
+                color: $theme-color-primary;
+            }
+
+        }
+
+    }
+}
