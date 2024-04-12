@@ -1,0 +1,11 @@
+@import '@/styles/index.scss';
+$title-margin-left: 16px;
+
+// group style
+.t-radio-group {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    cursor: pointer;
+
+}

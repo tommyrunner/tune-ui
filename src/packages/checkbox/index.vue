@@ -1,8 +1,8 @@
 <template>
   <span
     :class="getClass"
-    t-group
-    :t-group-disabled="!props.disabled ? 't-radio' : void 0"
+    t-group="t-checkbox"
+    :t-group-disabled="props.disabled ? 'disabled' : void 0"
     :checked="isChecked"
     :size="props.size"
     :_value="props.value"
@@ -11,9 +11,11 @@
     <div class="custom-radio-span" v-if="!props.icon && slot.radioSpan">
       <slot name="radioSpan" :value="vis" />
     </div>
-    <span :class="['radio-span', `radio-span-${props.radius}`]" v-else-if="!props.icon" />
-    <TIcon class="radio-icon" :icon="props.icon" :type="isChecked ? 'primary' : 'default'" v-else />
-    <input type="radio" :name="props.name" :value="props.value" />
+    <span :class="['radio-span', `radio-span-${props.radius}`]" v-else-if="!props.icon">
+      <TIcon icon="success" color="white" />
+    </span>
+    <TIcon class="radio-icon" :icon="props.icon" v-else />
+    <input type="checkbox" :name="props.name" :value="props.value" />
     <span :class="getTitleClass"><slot /></span>
   </span>
 </template>
@@ -23,16 +25,16 @@
  *  t-group="t-radio" : 代表支持t-group组件组合
  * _value : 内部标记值(用于标记当前组件状态)
  */
-import { type PropsType, type EmitsType } from './radio'
+import { type PropsType, type EmitsType } from './checkbox'
 import { isObject, useVModel } from '@vueuse/core'
 import { TIcon } from '..'
 import { computed, useSlots } from 'vue'
 import { configOptions } from '@/hooks/useOptions'
-defineOptions({ name: 'TRadio' })
+defineOptions({ name: 'TCheckbox' })
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
-  radius: 'default',
+  radius: 'square',
   disabled: false
 })
 const slot = useSlots()
@@ -45,17 +47,21 @@ const getTitleClass = computed(() => {
   return ['title', props.disabled && 'is-disabled', (slot.radioSpan || props.icon) && 'custom-span']
 })
 const getClass = computed(() => {
-  return ['t-radio', props.disabled && 'is-disabled']
+  return ['t-checkbox', props.disabled && 'is-disabled']
 })
+/**
+ * 组合使用时会失效
+ */
 const isChecked = computed(() => {
   // 处理对象类型
-  if (isObject(vis) && props.objKey && vis.value) {
+  if (isObject(vis.value) && props.objKey) {
     return (props.value as any)[props.objKey] === (vis.value as any)[props.objKey]
   } else return props.value === vis
 })
 const handChecked = () => {
   if (props.disabled) return
-  vis.value = props.value
+  if (vis.value) vis.value = void 0
+  else vis.value = props.value
   emit('change', vis.value)
 }
 </script>

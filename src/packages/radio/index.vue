@@ -1,10 +1,9 @@
 <template>
   <span
     :class="getClass"
-    t-group
-    :t-group-disabled="!props.disabled ? 't-radio' : void 0"
+    t-group="t-radio"
+    :t-group-disabled="props.disabled ? 'disabled' : void 0"
     :checked="isChecked"
-    :size="props.size"
     :_value="props.value"
     @click="handChecked"
   >
@@ -12,7 +11,7 @@
       <slot name="radioSpan" :value="vis" />
     </div>
     <span :class="['radio-span', `radio-span-${props.radius}`]" v-else-if="!props.icon" />
-    <TIcon class="radio-icon" :icon="props.icon" :type="isChecked ? 'primary' : 'default'" v-else />
+    <TIcon class="radio-icon" :icon="props.icon" v-else />
     <input type="radio" :name="props.name" :value="props.value" />
     <span :class="getTitleClass"><slot /></span>
   </span>
@@ -45,11 +44,14 @@ const getTitleClass = computed(() => {
   return ['title', props.disabled && 'is-disabled', (slot.radioSpan || props.icon) && 'custom-span']
 })
 const getClass = computed(() => {
-  return ['t-radio', props.disabled && 'is-disabled']
+  return ['t-radio', `radio-size-${props.size}`, props.disabled && 'is-disabled']
 })
+/**
+ * 组合使用时会失效
+ */
 const isChecked = computed(() => {
   // 处理对象类型
-  if (isObject(vis) && props.objKey && vis.value) {
+  if (isObject(vis.value) && props.objKey) {
     return (props.value as any)[props.objKey] === (vis.value as any)[props.objKey]
   } else return props.value === vis
 })

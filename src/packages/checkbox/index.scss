@@ -3,7 +3,7 @@
 
 $title-margin-left: 16px;
 
-.t-radio {
+.t-checkbox {
     position: relative;
     font-size: $font-size-default;
     transition: 0.22s;
@@ -32,6 +32,16 @@ $title-margin-left: 16px;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
+
+        >i {
+            pointer-events: none;
+            display: none;
+            font-size: 70% !important;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     }
 
     >.radio-span-default {
@@ -69,6 +79,14 @@ $title-margin-left: 16px;
     &[checked="true"] {
         .radio-span {
             background-color: $theme-color-primary;
+
+            >i {
+                display: inline-block;
+            }
+        }
+
+        .radio-icon {
+            color: $theme-color-primary;
         }
 
         .title {

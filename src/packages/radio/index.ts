@@ -1,5 +1,7 @@
 import Radio from './index.vue'
-// 导出组件
+import RadioGroup from './radio-group.vue'
 export const TRadio = Radio
-// 导出组件类型
 export type TRadioType = InstanceType<typeof TRadio>
+// 组合
+export const TRadioGroup = RadioGroup
+export type TRadioGroupType = InstanceType<typeof TRadioGroup>

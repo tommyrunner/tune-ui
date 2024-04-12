@@ -1,5 +1,4 @@
 @import '@/styles/index.scss';
-@import './group.scss';
 
 $title-margin-left: 16px;
 
@@ -60,7 +59,7 @@ $title-margin-left: 16px;
         color: $text-color-default;
     }
 
-    // 如果span被自定义后跳转left样式
+    // 如果span被自定义后调整left样式
     .custom-span {
         margin-left: 4px !important;
     }
@@ -71,6 +70,10 @@ $title-margin-left: 16px;
             background-color: $theme-color-primary;
         }
 
+        .radio-icon {
+            color: $theme-color-primary;
+        }
+
         .title {
             color: $theme-color-primary;
         }
@@ -78,11 +81,11 @@ $title-margin-left: 16px;
 }
 
 // 处理size
-.t-radio[size="default"] {
+.radio-size-default {
     font-size: $font-size-default;
 }
 
-.t-radio[size="small"] {
+.radio-size-small {
     font-size: $font-size-small;
 
     >.radio-span {
@@ -91,6 +94,129 @@ $title-margin-left: 16px;
     }
 }
 
-.t-radio[size="large"] {
+.radio-size-large {
     font-size: $font-size-large;
+}
+
+// 处理group样式
+.group-type-button,
+.group-type-border {
+    background-color: white;
+    padding: 6px;
+    box-sizing: border-box;
+    text-align: center;
+
+    .title {
+        margin-left: 0px;
+    }
+
+    .radio-span {
+        display: none;
+    }
+
+    &:not(.is-disabled):hover {
+        .title {
+            color: $theme-color-primary;
+        }
+    }
+
+    &[checked="true"] {
+        background-color: $theme-color-primary;
+
+        &:hover .title {
+            color: white;
+        }
+
+        .title {
+            color: white;
+        }
+
+    }
+
+    // 处理边框
+    &.group-direction-row {
+        border-left: 1px solid $border-color-default;
+        border-top: 1px solid $border-color-default;
+        border-bottom: 1px solid $border-color-default;
+
+        &:first-child {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+
+        &:last-child {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            border-right: 1px solid $border-color-default;
+        }
+    }
+
+    &.group-direction-column {
+        border-top: 1px solid $border-color-default;
+        border-left: 1px solid $border-color-default;
+        border-right: 1px solid $border-color-default;
+
+        &:first-child {
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        &:last-child {
+            border-bottom: 1px solid $border-color-default;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+    }
+}
+
+.group-type-border {
+    .radio-span {
+        display: inline-block;
+    }
+
+    .title {
+        margin-left: $title-margin-left;
+    }
+
+    &[checked="true"] {
+        background-color: white;
+
+        .title {
+            color: $theme-color-primary;
+        }
+    }
+}
+
+.group-type-text {
+    .radio-span {
+        display: none;
+    }
+
+
+    .title {
+        margin-left: 2px;
+    }
+
+    &[checked="true"] {
+        .title {
+            color: $theme-color-primary;
+        }
+    }
+}
+
+.group-type-default {
+    .title {
+        margin-left: $title-margin-left;
+    }
+
+    .radio-span {
+        display: inline-block;
+    }
+
+    &[checked="true"] {
+        .title {
+            color: $theme-color-primary;
+        }
+
+    }
 }

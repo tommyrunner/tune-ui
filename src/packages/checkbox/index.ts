@@ -1,5 +1,5 @@
-import Radio from './index.vue'
+import Checkbox from './index.vue'
 // 导出组件
-export const TRadio = Radio
+export const TCheckbox = Checkbox
 // 导出组件类型
-export type TRadioType = InstanceType<typeof TRadio>
+export type TCheckboxType = InstanceType<typeof TCheckbox>
