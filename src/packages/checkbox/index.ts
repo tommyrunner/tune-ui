@@ -1,5 +1,7 @@
 import Checkbox from './index.vue'
-// 导出组件
+import CheckboxGroup from './checkbox-group.vue'
 export const TCheckbox = Checkbox
-// 导出组件类型
-export type TCheckboxType = InstanceType<typeof TCheckbox>
+export type TCheckboxType = InstanceType<typeof Checkbox>
+// 组合
+export const TCheckboxGroup = CheckboxGroup
+export type TCheckboxGroupType = InstanceType<typeof TCheckboxGroup>

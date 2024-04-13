@@ -181,6 +181,10 @@ $title-margin-left: 16px;
     &[checked="true"] {
         background-color: white;
 
+        &:hover .title {
+            color: $theme-color-primary;
+        }
+
         .title {
             color: $theme-color-primary;
         }

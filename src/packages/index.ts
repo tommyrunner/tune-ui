@@ -3,8 +3,7 @@ import { TButton } from './button'
 import { TIcon } from './icon'
 import { TFlex } from './flex'
 import { TRadio, TRadioGroup } from './radio'
-import { TCheckbox } from './checkbox'
-import { TCheckboxGroup } from './checkbox-group'
+import { TCheckbox, TCheckboxGroup } from './checkbox'
 
 const components = { TButton, TIcon, TFlex, TRadio, TCheckbox, TRadioGroup, TCheckboxGroup }
 // 全局组件注册
@@ -24,4 +23,3 @@ export * from './flex'
 export * from './radio'
 export * from './radio/radio-group'
 export * from './checkbox'
-export * from './checkbox-group'

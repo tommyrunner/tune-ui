@@ -1,35 +1,23 @@
 <template>
-  <span
-    :class="getClass"
-    t-group="t-checkbox"
-    :t-group-disabled="props.disabled ? 'disabled' : void 0"
-    :checked="isChecked"
-    :size="props.size"
-    :_value="props.value"
-    @click="handChecked"
-  >
-    <div class="custom-radio-span" v-if="!props.icon && slot.radioSpan">
-      <slot name="radioSpan" :value="vis" />
+  <span :class="getClass" :checked="isChecked" @click="handChecked">
+    <div class="custom-checkbox-span" v-if="!props.icon && slot.checkboxSpan">
+      <slot name="checkboxSpan" :value="modelValue" />
     </div>
-    <span :class="['radio-span', `radio-span-${props.radius}`]" v-else-if="!props.icon">
-      <TIcon icon="success" color="white" />
+    <span :class="['checkbox-span', `checkbox-span-${props.radius}`]" v-else-if="!props.icon">
+      <TIcon icon="success" color="white" v-if="isChecked" />
     </span>
-    <TIcon class="radio-icon" :icon="props.icon" v-else />
+    <TIcon class="checkbox-icon" :icon="props.icon" v-else />
     <input type="checkbox" :name="props.name" :value="props.value" />
     <span :class="getTitleClass"><slot /></span>
   </span>
 </template>
 <script lang="ts" setup>
-/**
- * @displayName Radio 单选框
- *  t-group="t-radio" : 代表支持t-group组件组合
- * _value : 内部标记值(用于标记当前组件状态)
- */
 import { type PropsType, type EmitsType } from './checkbox'
-import { isObject, useVModel } from '@vueuse/core'
+import { useVModel } from '@vueuse/core'
 import { TIcon } from '..'
-import { computed, useSlots } from 'vue'
+import { computed, inject, useSlots } from 'vue'
 import { configOptions } from '@/hooks/useOptions'
+import { type GroupContextType, checkboxGroupKey } from './constants'
 defineOptions({ name: 'TCheckbox' })
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
@@ -39,32 +27,60 @@ const props = withDefaults(defineProps<PropsType>(), {
 })
 const slot = useSlots()
 const vis = useVModel(props, 'modelValue', emit)
+const groupContext = inject<GroupContextType | undefined>(checkboxGroupKey, void 0)
 /**
    span的class配置
    custom-span 代表有自定义组件代替了span，需要修复样式
  **/
 const getTitleClass = computed(() => {
-  return ['title', props.disabled && 'is-disabled', (slot.radioSpan || props.icon) && 'custom-span']
+  const base = ['title', props.disabled && 'is-disabled', (slot.checkboxSpan || props.icon) && 'custom-span']
+  return base
 })
 const getClass = computed(() => {
-  return ['t-checkbox', props.disabled && 'is-disabled']
+  const base = ['t-checkbox', `checkbox-size-${props.size}`, props.disabled && 'is-disabled']
+  // 组合样式
+  if (groupContext) {
+    return [...base, `group-type-${groupContext.type}`, `group-direction-${groupContext.direction}`]
+  }
+  return base
 })
 /**
  * 组合使用时会失效
  */
 const isChecked = computed(() => {
-  // 处理对象类型
-  if (isObject(vis.value) && props.objKey) {
-    return (props.value as any)[props.objKey] === (vis.value as any)[props.objKey]
-  } else return props.value === vis
+  // model值
+  const visValue = groupContext?.objKey && vis.value ? (vis.value as any)[modelObjKey.value] : vis.value
+  // 组件绑定value值
+  const propValue = modelObjKey.value ? (props.value as any)[modelObjKey.value] : props.value
+  // 如果是组合组件
+  if (groupContext && groupContext.modelValue) {
+    // 是对象属性
+    if (modelObjKey.value) {
+      return groupContext.modelValue.some((v: any) => v[modelObjKey.value] === propValue)
+    } else {
+      return groupContext.modelValue.includes(propValue)
+    }
+  } else {
+    // 是对象属性
+    if (modelObjKey.value) {
+      return (vis.value as any)[modelObjKey.value] === propValue
+    } else return visValue === propValue
+  }
+})
+
+const modelObjKey = computed((): string => {
+  if (groupContext) return groupContext.objKey || ''
+  return props.objKey || ''
 })
 const handChecked = () => {
   if (props.disabled) return
-  if (vis.value) vis.value = void 0
-  else vis.value = props.value
+  if (groupContext) {
+    groupContext.changeEvent(isChecked.value, props.value)
+  } else vis.value = isChecked.value ? void 0 : props.value
   emit('change', vis.value)
 }
 </script>
 <style lang="scss" scoped>
 @import 'index.scss';
 </style>
+./checkbox

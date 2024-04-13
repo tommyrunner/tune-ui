@@ -1,5 +1,4 @@
 @import '@/styles/index.scss';
-@import './group.scss';
 
 $title-margin-left: 16px;
 
@@ -12,16 +11,16 @@ $title-margin-left: 16px;
     align-items: center;
     cursor: pointer;
 
-    &:not(.is-disabled):hover .radio-span {
+    &:not(.is-disabled):hover .checkbox-span {
         border-color: $theme-color-primary;
     }
 
-    >.radio-icon {
+    >.checkbox-icon {
         width: 14px;
         height: 14px;
     }
 
-    >.radio-span {
+    >.checkbox-span {
         border: 1px solid #dcdfe6;
         width: 14px;
         height: 14px;
@@ -34,9 +33,7 @@ $title-margin-left: 16px;
         transform: translateY(-50%);
 
         >i {
-            pointer-events: none;
-            display: none;
-            font-size: 70% !important;
+            font-size: 80% !important;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -44,11 +41,11 @@ $title-margin-left: 16px;
         }
     }
 
-    >.radio-span-default {
+    >.checkbox-span-default {
         border-radius: 100%;
     }
 
-    >.radio-span-square {
+    >.checkbox-span-square {
         border-radius: 0px;
     }
 
@@ -70,22 +67,18 @@ $title-margin-left: 16px;
         color: $text-color-default;
     }
 
-    // 如果span被自定义后跳转left样式
+    // 如果span被自定义后调整left样式
     .custom-span {
         margin-left: 4px !important;
     }
 
 
     &[checked="true"] {
-        .radio-span {
+        .checkbox-span {
             background-color: $theme-color-primary;
-
-            >i {
-                display: inline-block;
-            }
         }
 
-        .radio-icon {
+        .checkbox-icon {
             color: $theme-color-primary;
         }
 
@@ -96,19 +89,146 @@ $title-margin-left: 16px;
 }
 
 // 处理size
-.t-radio[size="default"] {
+.checkbox-size-default {
     font-size: $font-size-default;
 }
 
-.t-radio[size="small"] {
+.checkbox-size-small {
     font-size: $font-size-small;
 
-    >.radio-span {
+    >.checkbox-span {
         width: 12px;
         height: 12px;
     }
 }
 
-.t-radio[size="large"] {
+.checkbox-size-large {
     font-size: $font-size-large;
+}
+
+// 处理group样式
+.group-type-button,
+.group-type-border {
+    background-color: white;
+    padding: 6px;
+    box-sizing: border-box;
+    text-align: center;
+
+    .title {
+        margin-left: 0px;
+    }
+
+    .checkbox-span {
+        display: none;
+    }
+
+    &:not(.is-disabled):hover {
+        .title {
+            color: $theme-color-primary;
+        }
+    }
+
+    &[checked="true"] {
+        background-color: $theme-color-primary;
+
+        &:hover .title {
+            color: white;
+        }
+
+        .title {
+            color: white;
+        }
+
+    }
+
+    // 处理边框
+    &.group-direction-row {
+        border-left: 1px solid $border-color-default;
+        border-top: 1px solid $border-color-default;
+        border-bottom: 1px solid $border-color-default;
+
+        &:first-child {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+
+        &:last-child {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            border-right: 1px solid $border-color-default;
+        }
+    }
+
+    &.group-direction-column {
+        border-top: 1px solid $border-color-default;
+        border-left: 1px solid $border-color-default;
+        border-right: 1px solid $border-color-default;
+
+        &:first-child {
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        &:last-child {
+            border-bottom: 1px solid $border-color-default;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+    }
+}
+
+.group-type-border {
+    .checkbox-span {
+        display: inline-block;
+    }
+
+    .title {
+        margin-left: $title-margin-left;
+    }
+
+    &[checked="true"] {
+        background-color: white;
+
+        &:hover .title {
+            color: $theme-color-primary;
+        }
+
+        .title {
+            color: $theme-color-primary;
+        }
+    }
+}
+
+.group-type-text {
+    .checkbox-span {
+        display: none;
+    }
+
+
+    .title {
+        margin-left: 2px;
+    }
+
+    &[checked="true"] {
+        .title {
+            color: $theme-color-primary;
+        }
+    }
+}
+
+.group-type-default {
+    .title {
+        margin-left: $title-margin-left;
+    }
+
+    .checkbox-span {
+        display: inline-block;
+    }
+
+    &[checked="true"] {
+        .title {
+            color: $theme-color-primary;
+        }
+
+    }
 }
