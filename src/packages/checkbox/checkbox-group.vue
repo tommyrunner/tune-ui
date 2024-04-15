@@ -12,7 +12,7 @@
 <script lang="ts" setup>
 import { configOptions } from '@/hooks/useOptions'
 import { type PropsType, type EmitsType } from './checkbox-group'
-import { isObject, useVModel } from '@vueuse/core'
+import { useVModel } from '@vueuse/core'
 import { ref, provide, reactive, toRefs, nextTick, onMounted } from 'vue'
 import { type GroupContextType, checkboxGroupKey } from './constants'
 import { ValueType } from '..'

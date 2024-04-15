@@ -62,7 +62,7 @@ const isChecked = computed(() => {
     }
   } else {
     // 是对象属性
-    if (modelObjKey.value) {
+    if (modelObjKey.value && vis.value) {
       return (vis.value as any)[modelObjKey.value] === propValue
     } else return visValue === propValue
   }
