@@ -61,6 +61,8 @@ const isChecked = computed(() => {
       return groupContext.modelValue.includes(propValue)
     }
   } else {
+    // 未值定value默认以boolean类型
+    if (typeof vis.value === 'boolean' && !props.value) return vis.value
     // 是对象属性
     if (modelObjKey.value && vis.value) {
       return (vis.value as any)[modelObjKey.value] === propValue
@@ -76,7 +78,13 @@ const handChecked = () => {
   if (props.disabled) return
   if (groupContext) {
     groupContext.changeEvent(isChecked.value, props.value)
-  } else vis.value = isChecked.value ? void 0 : props.value
+  } else {
+    // 未值定value默认以boolean类型
+    console.log(vis.value, props.value)
+    if (typeof vis.value === 'boolean' && !props.value) vis.value = !vis.value
+    // 则
+    else vis.value = isChecked.value ? void 0 : props.value
+  }
   emit('change', vis.value)
 }
 </script>

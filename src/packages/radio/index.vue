@@ -49,7 +49,11 @@ const isChecked = computed(() => {
   // 处理对象类型
   if (isObject(modelValue.value) && modelObjKey.value) {
     return (props.value as any)[modelObjKey.value] === (modelValue.value as any)[modelObjKey.value]
-  } else return props.value === modelValue.value
+  } else {
+    // 未值定value默认以boolean类型
+    if (typeof vis.value === 'boolean' && !props.value) return vis.value
+    return props.value === modelValue.value
+  }
 })
 // 兼容个体以及组合
 const modelValue = computed(() => {
@@ -64,7 +68,12 @@ const handChecked = () => {
   if (props.disabled) return
   if (groupContext) {
     groupContext.changeEvent(props.value)
-  } else vis.value = props.value
+  } else {
+    // 未值定value默认以boolean类型
+    if (typeof vis.value === 'boolean' && !props.value) vis.value = !vis.value
+    // 则
+    else vis.value = props.value
+  }
   emit('change', vis.value)
 }
 </script>
