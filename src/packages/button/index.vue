@@ -1,11 +1,11 @@
 <template>
-  <button :class="getClass" :style="getStyle" :scale="props.scale && !props.disabled" autofocus>
+  <button :class="getClass" :style="getStyle" autofocus>
     <TIcon v-if="props.startIcon" :icon="startIcon" class="t-button-startIcon" />
     <slot />
     <TIcon
       v-if="props.endIcon || props.loading"
       :icon="endIcon"
-      :class="['t-button-endIcon', props.loading && 't-button-loading']"
+      :class="['t-button-endIcon', props.loading && 't-loading']"
     />
   </button>
 </template>
@@ -45,6 +45,7 @@ const getClass = computed(() => {
     !props.color && `t-button-type-${props.type}`,
     `t-button-size-${props.size}`,
     `t-button-radius-${props.radius}`,
+    props.scale && !props.disabled && `t-button-scale`,
     (props.disabled || props.loading) && 'is-disabled'
   ]
 })

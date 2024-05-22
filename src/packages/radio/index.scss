@@ -89,11 +89,11 @@ $title-margin-left: 16px;
 }
 
 // 处理size
-.radio-size-default {
+.t-radio-size-default {
     font-size: $font-size-default;
 }
 
-.radio-size-small {
+.t-radio-size-small {
     font-size: $font-size-small;
 
     >.radio-span {
@@ -102,7 +102,7 @@ $title-margin-left: 16px;
     }
 }
 
-.radio-size-large {
+.t-radio-size-large {
     font-size: $font-size-large;
 }
 

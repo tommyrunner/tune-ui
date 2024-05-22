@@ -48,13 +48,7 @@
         background-color: $theme-color-primary;
     }
 
-    &[radius="square"] {
-        border-radius: 0px;
-    }
 
-    &[radius="square"] .t-switch-action {
-        border-radius: 0px;
-    }
 
     &:not(.is-disabled):hover {
         .t-switch-action {
@@ -63,6 +57,14 @@
     }
 
 
+}
+
+.t-switch-radius-square {
+    border-radius: 0px;
+}
+
+.t-switch-radius-square .t-switch-action {
+    border-radius: 0px;
 }
 
 // 处理状态样式

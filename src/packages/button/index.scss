@@ -22,11 +22,11 @@
     transition: 0.22s;
 
     // 处理缩放
-    &[scale="true"]:not(.is-disabled):active {
+    &.t-button-scale:not(.is-disabled):active {
         transform: scale(0.88);
     }
 
-    &[scale="false"]:not(.is-disabled):active {
+    &:not(.t-button-scale):not(.is-disabled):active {
         filter: brightness(0.95);
         opacity: 1 !important;
     }
@@ -153,20 +153,5 @@
     .t-button-startIcon,
     .t-button-endIcon {
         margin: 0px;
-    }
-}
-
-// loading
-.t-button-loading {
-    animation: anima-loading 2s linear infinite;
-}
-
-@keyframes anima-loading {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
     }
 }

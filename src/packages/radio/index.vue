@@ -35,7 +35,7 @@ const getTitleClass = computed(() => {
   return base
 })
 const getClass = computed(() => {
-  const base = ['t-radio', `radio-size-${props.size}`, props.disabled && 'is-disabled']
+  const base = ['t-radio', `t-radio-size-${props.size}`, props.disabled && 'is-disabled']
   // 组合样式
   if (groupContext) {
     return [...base, `group-type-${groupContext.type}`, `group-direction-${groupContext.direction}`]

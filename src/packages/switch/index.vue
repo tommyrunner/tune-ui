@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass" @click="handleClick" :radius="props.radius">
+  <div :class="getClass" @click="handleClick">
     <div class="bg bg1" :style="{ backgroundColor: props.offBgColor }"><slot name="offContent" /></div>
     <div class="bg bg2" :style="{ backgroundColor: props.onBgColor }"><slot name="onContent" /></div>
     <div class="t-switch-action">
@@ -25,6 +25,7 @@ const getClass = computed(() => {
     't-switch',
     `t-switch-${props.modelValue ? 'on' : 'off'}`,
     `t-switch-size-${props.size}`,
+    `t-switch-radius-${props.radius}`,
     (props.disabled || props.loading) && 'is-disabled'
   ]
 })

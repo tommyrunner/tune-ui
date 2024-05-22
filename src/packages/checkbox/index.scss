@@ -96,11 +96,11 @@ $title-margin-left: 16px;
 }
 
 // 处理size
-.checkbox-size-default {
+.t-checkbox-size-default {
     font-size: $font-size-default;
 }
 
-.checkbox-size-small {
+.t-checkbox-size-small {
     font-size: $font-size-small;
 
     >.checkbox-span {
@@ -109,7 +109,7 @@ $title-margin-left: 16px;
     }
 }
 
-.checkbox-size-large {
+.t-checkbox-size-large {
     font-size: $font-size-large;
 }
 
