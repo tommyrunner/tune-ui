@@ -18,7 +18,23 @@ $font-size-default: 14px;
 $font-size-large: 16px;
 
 // 公共样式
+// - 禁用
 .is-disabled {
     cursor: not-allowed !important;
     opacity: $opacity-disabled !important;
+}
+
+// -loading
+.t-loading {
+    animation: anima-loading 2s linear infinite;
+}
+
+@keyframes anima-loading {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }

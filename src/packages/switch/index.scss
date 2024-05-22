@@ -1,0 +1,126 @@
+@import '@/styles/index.scss';
+
+.t-switch {
+    border-radius: 16px;
+    display: inline-flex;
+    height: 22px;
+    width: 48px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+
+    .t-switch-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%) scale(0.9);
+        transition: 0.22s;
+        background: linear-gradient(145deg, #ffffff, #e6e6e6);
+        box-shadow: 20px 20px 60px #d9d9d9,
+            -20px -20px 60px #ffffff;
+    }
+
+    .bg {
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 2px 6px;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+        transition: 0.30s;
+    }
+
+    .bg1 {
+        justify-content: flex-end;
+        background-color: $border-color-default;
+    }
+
+    .bg2 {
+        background-color: $theme-color-primary;
+    }
+
+    &[radius="square"] {
+        border-radius: 0px;
+    }
+
+    &[radius="square"] .t-switch-action {
+        border-radius: 0px;
+    }
+
+    &:not(.is-disabled):hover {
+        .t-switch-action {
+            transform: translateY(-50%) scale(1);
+        }
+    }
+
+
+}
+
+// 处理状态样式
+.t-switch-off {
+    .t-switch-action {
+        left: 2px;
+    }
+
+    .bg1 {
+        left: 0%;
+    }
+
+    .bg2 {
+        left: -100%;
+    }
+}
+
+.t-switch-on {
+    .t-switch-action {
+        left: 56%;
+    }
+
+    .bg1 {
+        left: 100%;
+    }
+
+    .bg2 {
+        left: 0%;
+    }
+}
+
+// 处理size
+.t-switch-size-default {
+    height: 22px;
+    width: 46px;
+
+    .t-switch-action {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+.t-switch-size-small {
+    height: 20px;
+    width: 40px;
+
+    .t-switch-action {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.t-switch-size-large {
+    height: 26px;
+    width: 54px;
+
+    .t-switch-action {
+        width: 20px;
+        height: 20px;
+    }
+}
