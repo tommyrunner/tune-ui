@@ -1,4 +1,4 @@
-import { type BaseProps } from '@/utils'
+import { type BaseProps } from '@/types'
 import { IconTypes } from '../icon/icon'
 /**
  * value 类型
@@ -10,8 +10,6 @@ export type ValueType = string | number | boolean | object
 export interface PropsType extends BaseProps {
   // 选中图形样式
   radius?: 'default' | 'square'
-  // 当前状态值
-  modelValue?: ValueType
   // 绑定对象类型的标记key
   objKey?: string
   // 是否禁用
@@ -29,6 +27,4 @@ export interface PropsType extends BaseProps {
 export interface EmitsType {
   // 选择事件
   (e: 'change', data?: ValueType): void
-  // 状态更新事件
-  (e: 'update:modelValue', data?: ValueType): void
 }

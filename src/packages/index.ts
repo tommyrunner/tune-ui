@@ -5,8 +5,10 @@ import { TFlex } from './flex'
 import { TRadio, TRadioGroup } from './radio'
 import { TCheckbox, TCheckboxGroup } from './checkbox'
 import { TSwitch } from './switch'
+import { TInput } from './input'
+import { TTextarea } from './textarea'
 
-const components = { TButton, TIcon, TFlex, TRadio, TCheckbox, TRadioGroup, TCheckboxGroup, TSwitch }
+const components = { TButton, TIcon, TFlex, TRadio, TCheckbox, TRadioGroup, TCheckboxGroup, TSwitch, TInput, TTextarea }
 // 全局组件注册
 export default {
   version: '1.0.0',
@@ -25,3 +27,5 @@ export * from './radio'
 export * from './radio/radio-group'
 export * from './checkbox'
 export * from './switch'
+export * from './input'
+export * from './textarea'

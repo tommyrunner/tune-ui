@@ -1,4 +1,4 @@
-import { type BaseProps } from '@/utils'
+import { type BaseProps } from '@/types'
 import type { IconTypes } from '../icon/icon'
 /**
  * @description: 组件props类型
@@ -7,9 +7,9 @@ export interface PropsType extends BaseProps {
   // 按钮类型
   type?: 'default' | 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'text'
   // 开始icon
-  startIcon?: IconTypes
+  prefixIcon?: IconTypes
   // 结束icon
-  endIcon?: IconTypes
+  suffixIcon?: IconTypes
   // 加载按钮状态
   loading?: boolean
   // 按钮圆角

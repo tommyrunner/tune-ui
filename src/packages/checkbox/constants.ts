@@ -3,6 +3,7 @@ import { PropsType } from './checkbox-group'
 import { ValueType } from '..'
 
 export interface GroupContextType extends PropsType {
+  model?: ValueType[]
   changeEvent: (isChecked?: boolean, val?: ValueType) => void
 }
 

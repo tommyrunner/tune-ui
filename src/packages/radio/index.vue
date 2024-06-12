@@ -11,10 +11,10 @@
 </template>
 <script lang="ts" setup>
 import { type PropsType, type EmitsType } from './radio'
-import { isObject, useVModel } from '@vueuse/core'
-import { TIcon } from '..'
+import { TIcon, ValueType } from '..'
 import { computed, inject, useSlots } from 'vue'
 import { configOptions } from '@/hooks/useOptions'
+import { isObject } from '@/utils'
 import { type GroupContextType, radioGroupKey } from './constants'
 defineOptions({ name: 'TRadio' })
 const emit = defineEmits<EmitsType>()
@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabled: false
 })
 const slot = useSlots()
-const vis = useVModel(props, 'modelValue', emit)
+const model = defineModel<ValueType>()
 const groupContext = inject<GroupContextType | undefined>(radioGroupKey, void 0)
 /**
    span的class配置
@@ -51,14 +51,14 @@ const isChecked = computed(() => {
     return (props.value as any)[modelObjKey.value] === (modelValue.value as any)[modelObjKey.value]
   } else {
     // 未值定value默认以boolean类型
-    if (typeof vis.value === 'boolean' && !props.value) return vis.value
+    if (typeof model.value === 'boolean' && !props.value) return model.value
     return props.value === modelValue.value
   }
 })
 // 兼容个体以及组合
 const modelValue = computed(() => {
-  if (groupContext) return groupContext.modelValue
-  return vis.value
+  if (groupContext) return groupContext.model
+  return model.value
 })
 const modelObjKey = computed(() => {
   if (groupContext) return groupContext.objKey
@@ -70,11 +70,11 @@ const handChecked = () => {
     groupContext.changeEvent(props.value)
   } else {
     // 未值定value默认以boolean类型
-    if (typeof vis.value === 'boolean' && !props.value) vis.value = !vis.value
+    if (typeof model.value === 'boolean' && !props.value) model.value = !model.value
     // 则
-    else vis.value = props.value
+    else model.value = props.value
   }
-  emit('change', vis.value)
+  emit('change', model.value)
 }
 </script>
 <style lang="scss" scoped>

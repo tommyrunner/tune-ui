@@ -12,7 +12,6 @@
 <script lang="ts" setup>
 import { configOptions } from '@/hooks/useOptions'
 import { type PropsType, type EmitsType } from './checkbox-group'
-import { useVModel } from '@vueuse/core'
 import { ref, provide, reactive, toRefs, nextTick, onMounted } from 'vue'
 import { type GroupContextType, checkboxGroupKey } from './constants'
 import { ValueType } from '..'
@@ -22,30 +21,29 @@ const props = withDefaults(defineProps<PropsType>(), {
   type: 'button',
   direction: 'row'
 })
-
 const emit = defineEmits<EmitsType>()
 const groupRef = ref<HTMLElement>()
-const vis = useVModel(props, 'modelValue', emit)
+const model = defineModel<ValueType[]>()
 /**
  * 子组件状态更新函数
  * @param isChecked 当前是否选中
  * @param item 子组件绑定value值
  */
 const changeEvent = (isChecked?: boolean, item?: ValueType) => {
-  if (!item || !vis.value) return
+  if (!item || !model.value) return
   // 如果选中，则取消选中
   if (isChecked) {
     // 获取当前是否已经选中(基础值/对象值)
     const isCheckedItem = props.objKey
-      ? vis.value.some((v) => getItemByObjKey(v, item, true))
-      : vis.value.includes(item as any)
+      ? model.value.some((v) => getItemByObjKey(v, item, true))
+      : model.value.includes(item as any)
         ? item
         : false
     if (isCheckedItem) {
-      vis.value = vis.value.filter((v) => (props.objKey ? getItemByObjKey(v, item, false) : v === item))
+      model.value = model.value.filter((v) => (props.objKey ? getItemByObjKey(v, item, false) : v !== item))
     }
-  } else vis.value.push(item)
-  nextTick(() => emit('change', vis.value))
+  } else model.value.push(item)
+  nextTick(() => emit('change', model.value))
 }
 /**
  * 获取状态数据函数
@@ -63,6 +61,7 @@ provide<GroupContextType>(
   checkboxGroupKey,
   reactive({
     ...toRefs(props),
+    model,
     changeEvent
   })
 )

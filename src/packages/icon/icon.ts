@@ -4,7 +4,7 @@ import icons from '@/icons/iconfont'
  * 所有图标类型
  */
 
-export type IconTypes = (typeof icons)[number]['font_class']
+export type IconTypes = (typeof icons.glyphs)[number]['font_class']
 
 /**
  * @description: 组件props类型

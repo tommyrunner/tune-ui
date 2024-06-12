@@ -13,8 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { type PropsType, type EmitsType } from './checkbox'
-import { useVModel } from '@vueuse/core'
-import { TIcon } from '..'
+import { TIcon, ValueType } from '..'
 import { computed, inject, useSlots } from 'vue'
 import { configOptions } from '@/hooks/useOptions'
 import { type GroupContextType, checkboxGroupKey } from './constants'
@@ -26,7 +25,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabled: false
 })
 const slot = useSlots()
-const vis = useVModel(props, 'modelValue', emit)
+const model = defineModel<ValueType>()
 const groupContext = inject<GroupContextType | undefined>(checkboxGroupKey, void 0)
 /**
    span的class配置
@@ -49,23 +48,23 @@ const getClass = computed(() => {
  */
 const isChecked = computed(() => {
   // model值
-  const visValue = groupContext?.objKey && vis.value ? (vis.value as any)[modelObjKey.value] : vis.value
+  const visValue = groupContext?.objKey && model.value ? (model.value as any)[modelObjKey.value] : model.value
   // 组件绑定value值
   const propValue = modelObjKey.value ? (props.value as any)[modelObjKey.value] : props.value
   // 如果是组合组件
-  if (groupContext && groupContext.modelValue) {
+  if (groupContext && groupContext.model) {
     // 是对象属性
     if (modelObjKey.value) {
-      return groupContext.modelValue.some((v: any) => v[modelObjKey.value] === propValue)
+      return groupContext.model.some((v: any) => v[modelObjKey.value] === propValue)
     } else {
-      return groupContext.modelValue.includes(propValue)
+      return groupContext.model.includes(propValue)
     }
   } else {
     // 未值定value默认以boolean类型
-    if (typeof vis.value === 'boolean' && !props.value) return vis.value
+    if (typeof model.value === 'boolean' && !props.value) return model.value
     // 是对象属性
-    if (modelObjKey.value && vis.value) {
-      return (vis.value as any)[modelObjKey.value] === propValue
+    if (modelObjKey.value && model.value) {
+      return (model.value as any)[modelObjKey.value] === propValue
     } else return visValue === propValue
   }
 })
@@ -80,12 +79,12 @@ const handChecked = () => {
     groupContext.changeEvent(isChecked.value, props.value)
   } else {
     // 未值定value默认以boolean类型
-    console.log(vis.value, props.value)
-    if (typeof vis.value === 'boolean' && !props.value) vis.value = !vis.value
+    console.log(model.value, props.value)
+    if (typeof model.value === 'boolean' && !props.value) model.value = !model.value
     // 则
-    else vis.value = isChecked.value ? void 0 : props.value
+    else model.value = isChecked.value ? void 0 : props.value
   }
-  emit('change', vis.value)
+  emit('change', model.value)
 }
 </script>
 <style lang="scss" scoped>

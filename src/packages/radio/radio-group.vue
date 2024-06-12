@@ -12,9 +12,9 @@
 <script lang="ts" setup>
 import { configOptions } from '@/hooks/useOptions'
 import { type PropsType, type EmitsType } from './radio-group'
-import { useVModel } from '@vueuse/core'
 import { ref, provide, reactive, toRefs, nextTick, onMounted } from 'vue'
 import { type GroupContextType, radioGroupKey } from './constants'
+import { ValueType } from './radio'
 defineOptions({ name: 'TRadioGroup' })
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
@@ -24,17 +24,18 @@ const props = withDefaults(defineProps<PropsType>(), {
 
 const emit = defineEmits<EmitsType>()
 const groupRef = ref<HTMLElement>()
-const vis = useVModel(props, 'modelValue', emit)
-const changeEvent = (value: PropsType['modelValue']) => {
-  vis.value = value
-  nextTick(() => emit('change', vis.value))
+const model = defineModel<ValueType>()
+const changeEvent = (value?: ValueType) => {
+  model.value = value
+  nextTick(() => emit('change', model.value))
 }
-onMounted(() => props.immediateChange && changeEvent(vis.value))
+onMounted(() => props.immediateChange && changeEvent(model.value))
 // 抛出操作api，与子组件交互
 provide<GroupContextType>(
   radioGroupKey,
   reactive({
     ...toRefs(props),
+    model,
     changeEvent
   })
 )

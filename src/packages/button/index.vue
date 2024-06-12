@@ -1,11 +1,11 @@
 <template>
   <button :class="getClass" :style="getStyle" autofocus>
-    <TIcon v-if="props.startIcon" :icon="startIcon" class="t-button-startIcon" />
+    <TIcon v-if="props.prefixIcon" :icon="prefixIcon" class="t-button-prefixIcon" />
     <slot />
     <TIcon
-      v-if="props.endIcon || props.loading"
-      :icon="endIcon"
-      :class="['t-button-endIcon', props.loading && 't-loading']"
+      v-if="props.suffixIcon || props.loading"
+      :icon="suffixIcon"
+      :class="['t-button-suffixIcon', props.loading && 't-loading']"
     />
   </button>
 </template>
@@ -26,8 +26,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   scale: true
 })
 // 处理loading-icon
-const endIcon = computed((): IconTypes => {
-  if (!props.loading && props.endIcon) return props.endIcon
+const suffixIcon = computed((): IconTypes => {
+  if (!props.loading && props.suffixIcon) return props.suffixIcon
   else return 'loading'
 })
 const getStyle = computed((): StyleValue => {

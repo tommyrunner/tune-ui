@@ -14,8 +14,8 @@ import { computed } from 'vue'
 import { TIcon } from '..'
 defineOptions({ name: 'TSwitch' })
 const emit = defineEmits<EmitsType>()
+const model = defineModel<boolean>()
 const props = withDefaults(defineProps<PropsType>(), {
-  modelValue: false,
   size: configOptions.value.elSize,
   loading: false,
   disabled: false
@@ -23,14 +23,14 @@ const props = withDefaults(defineProps<PropsType>(), {
 const getClass = computed(() => {
   return [
     't-switch',
-    `t-switch-${props.modelValue ? 'on' : 'off'}`,
+    `t-switch-${model.value ? 'on' : 'off'}`,
     `t-switch-size-${props.size}`,
     `t-switch-radius-${props.radius}`,
     (props.disabled || props.loading) && 'is-disabled'
   ]
 })
 const handleClick = () => {
-  if (!props.disabled && !props.loading) emit('change', props.modelValue)
+  if (!props.disabled && !props.loading) emit('change', model.value)
 }
 </script>
 <style lang="scss" scoped>

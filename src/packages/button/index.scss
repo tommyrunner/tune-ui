@@ -47,7 +47,7 @@
         filter: brightness(1.06);
     }
 
-    .t-button-startIcon {
+    .t-button-prefixIcon {
         margin-right: 4px;
     }
 
@@ -106,7 +106,7 @@
     line-height: 32px;
     padding: 4px 16px;
 
-    .t-button-startIcon,
+    .t-button-prefixIcon,
     .t-button-endIcon {
         font-size: 14px;
     }
@@ -118,7 +118,7 @@
     line-height: 24px;
     padding: 2px 8px;
 
-    .t-button-startIcon,
+    .t-button-prefixIcon,
     .t-button-endIcon {
         font-size: 12px;
     }
@@ -131,7 +131,7 @@
     line-height: 38px;
 
 
-    .t-button-startIcon,
+    .t-button-prefixIcon,
     .t-button-endIcon {
         font-size: 16px;
     }
@@ -150,7 +150,7 @@
     border-radius: 50%;
     padding: 8px;
 
-    .t-button-startIcon,
+    .t-button-prefixIcon,
     .t-button-endIcon {
         margin: 0px;
     }
