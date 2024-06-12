@@ -40,13 +40,14 @@ const getStyle = computed((): StyleValue => {
   } else return void 0
 })
 const getClass = computed(() => {
+  const { color, type, size, radius, scale, disabled, loading } = props
   return [
     't-button',
-    !props.color && `t-button-type-${props.type}`,
-    `t-button-size-${props.size}`,
-    `t-button-radius-${props.radius}`,
-    props.scale && !props.disabled && `t-button-scale`,
-    (props.disabled || props.loading) && 'is-disabled'
+    !color && `t-button-type-${type}`,
+    `t-button-size-${size}`,
+    `t-button-radius-${radius}`,
+    scale && !disabled && `t-button-scale`,
+    (disabled || loading) && 'is-disabled'
   ]
 })
 defineExpose({

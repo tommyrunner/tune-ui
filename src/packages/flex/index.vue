@@ -17,10 +17,11 @@ const props = withDefaults(defineProps<PropsType>(), {
 })
 const flexRef = ref()
 const getStyle = computed((): StyleValue => {
+  const { gap, align, justify } = props
   return {
-    gap: `${props.gap}px`,
-    alignItems: props.align,
-    justifyContent: props.justify
+    gap: `${gap}px`,
+    alignItems: align,
+    justifyContent: justify
   }
 })
 // 监听spans变化，动态更新响应式布局

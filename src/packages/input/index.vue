@@ -1,6 +1,8 @@
 <template>
   <div :class="getClass">
-    <TIcon color="#757575" :size="14" :icon="props.prefixIcon" class="prefix-icon" v-if="props.prefixIcon" />
+    <div class="prefix">
+      <slot name="prefix" />
+    </div>
     <span class="tip" v-if="getTip">{{ getTip }}</span>
     <input
       ref="inputRef"
@@ -21,9 +23,17 @@
           :icon="isPreview ? 'preview' : 'unpreview'"
           color="#656a6e88"
           class="clear"
+          :size="getIconSize"
           @click="isPreview = !isPreview"
         />
-        <TIcon v-if="props.clearable" icon="close-to" color="#656a6e88" class="clear" @click="handleClear" />
+        <TIcon
+          :size="getIconSize"
+          v-if="props.clearable"
+          icon="close-to"
+          color="#656a6e55"
+          class="clear"
+          @click="handleClear"
+        />
       </div>
     </transition>
   </div>
@@ -31,29 +41,32 @@
 <script lang="ts" setup>
 import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './input'
-import { InputTypeHTMLAttribute, computed, ref, getCurrentInstance } from 'vue'
+import { InputTypeHTMLAttribute, computed, ref } from 'vue'
 import { TIcon } from '../icon'
+import { isFunction } from '@/utils'
+import { ElSizeType } from '@/types'
 defineOptions({ name: 'TInput' })
 const inputRef = ref()
 const emit = defineEmits<EmitsType>()
-const instance = getCurrentInstance()
 const props = withDefaults(defineProps<PropsType>(), {
+  debounce: undefined,
   isTipe: true,
   clearable: true,
   size: configOptions.value.elSize,
-  loading: false,
-  disabled: false
+  disabled: false,
+  debounceDelay: 1200
 })
 const model = defineModel<string>()
 const isPreview = ref(false)
 
 const getClass = computed(() => {
+  const { size, password, clearable, disabled } = props
   return [
     't-input',
-    `t-input-size-${props.size}`,
-    props.password && 'password',
-    props.clearable && 'clearable',
-    (props.disabled || props.loading) && 'is-disabled'
+    `t-input-size-${size}`,
+    password && 'password',
+    clearable && 'clearable',
+    disabled && 'is-disabled'
   ]
 })
 const getTip = computed(() => {
@@ -61,6 +74,14 @@ const getTip = computed(() => {
 })
 const getInputType = computed((): InputTypeHTMLAttribute => {
   return props.password && !isPreview.value ? 'password' : 'text'
+})
+const sizes: { [key in ElSizeType]: number } = {
+  default: 16,
+  small: 14,
+  large: 18
+}
+const getIconSize = computed(() => {
+  return sizes[props.size]
 })
 const isRightIcon = computed(() => {
   return model.value && (props.clearable || props.password)
@@ -70,15 +91,20 @@ const handleClear = () => {
   emit('clear')
 }
 let tmieout: undefined | NodeJS.Timeout = void 0
+// 输入处理
 const handleInput = () => {
   emit('input', model.value)
-  // 如果没绑定防抖事件直接返回
-  console.dir(instance)
+  // 优化处理:如果没绑定防抖事件直接返回
+  if (!props.debounce) return
+  // 防抖处理
   if (tmieout) clearTimeout(tmieout)
   tmieout = setTimeout(() => {
-    emit('debounce', model.value)
+    if (props.debounce) {
+      let reFun = props.debounce(model.value)
+      isFunction(reFun) && reFun()
+    }
     clearTimeout(tmieout)
-  }, 1200)
+  }, props.debounceDelay)
 }
 </script>
 <style lang="scss" scoped>

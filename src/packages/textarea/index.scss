@@ -1,15 +1,13 @@
 @import '@/styles/index.scss';
 
-.t-input {
+.t-textarea {
     border: $border-color-default 1px solid;
     box-sizing: border-box;
-    padding: 4px 8px;
     border-radius: 4px;
     transition: 0.22s;
+    width: 164px;
     cursor: text;
     position: relative;
-    width: 164px;
-    height: 28px;
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
@@ -18,20 +16,36 @@
         border: $theme-color-primary 1px solid;
     }
 
+    &.is-disabled {
+        background-color: $border-color-default;
 
-    >input {
+        >textarea {
+            cursor: not-allowed;
+        }
+    }
+
+    >textarea {
         padding: 0;
         outline: none;
         border: none;
         background: none;
         box-sizing: border-box;
-        width: 100%;
-        height: 100%;
+        color: $text-color-default;
+        width: 164px !important;
+        min-height: 28px;
+        padding: 4px 8px;
+        font-family: $font-family;
+        resize: none;
+    }
+
+    >textarea::placeholder {
+        opacity: 0.5;
+        font-size: 12px;
     }
 
     .tip {
         position: absolute;
-        color: $text-color-default;
+        color: rgba(128, 128, 128, 0.747);
         font-size: 10px;
         transition: 0.22s;
         left: 8px;
@@ -42,48 +56,28 @@
         animation: anima-tip ease 0.11s;
     }
 
-    &.clearable {
-        padding-right: 22px;
-    }
 
-    &.password {
-        padding-right: 22px;
-    }
 
-    &.clearable.password {
-        padding-right: 44px;
-    }
-
-    // icon 处理
-
-    .prefix-icon {
-        margin-right: 2px;
-    }
-
-    .right-icon {
+    .point {
         cursor: pointer;
         position: absolute;
-        right: 6px;
+        right: 8px;
+        bottom: 1px;
+        transform: translateX(-50%);
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 4px;
+        font-size: 12px;
+        transform: scale(0.8);
+        color: rgba(128, 128, 128, 0.644);
+        user-select: none;
     }
+}
 
-    .right-icon-enter-active {
-        animation: anima-in-right_icon ease 0.11s;
-    }
-
-    .right-icon-leave-active {
-        animation: anima-out-right_icon ease 0.11s;
-    }
-
-    &.is-disabled {
-        background-color: $border-color-default;
-
-        >input {
-            cursor: not-allowed;
-        }
+.resize {
+    >textarea {
+        resize: vertical;
     }
 }
 
@@ -96,29 +90,5 @@
     100% {
         opacity: 1;
         top: -10px;
-    }
-}
-
-@keyframes anima-in-right_icon {
-    0% {
-        opacity: 0.5;
-        right: 0px;
-    }
-
-    100% {
-        opacity: 1;
-        right: 6px;
-    }
-}
-
-@keyframes anima-out-right_icon {
-    0% {
-        opacity: 1;
-        right: 6px;
-    }
-
-    100% {
-        opacity: 0;
-        right: 0px;
     }
 }

@@ -36,7 +36,8 @@ const getTitleClass = computed(() => {
   return base
 })
 const getClass = computed(() => {
-  const base = ['t-checkbox', `t-checkbox-size-${props.size}`, props.disabled && 'is-disabled']
+  const { size, disabled } = props
+  const base = ['t-checkbox', `t-checkbox-size-${size}`, disabled && 'is-disabled']
   // 组合样式
   if (groupContext) {
     return [...base, `group-type-${groupContext.type}`, `group-direction-${groupContext.direction}`]

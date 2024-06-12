@@ -1,72 +1,86 @@
 <template>
-  <div :class="getClass">
-    <TIcon :size="14" :icon="props.prefixIcon" class="prefix-icon" v-if="props.prefixIcon" />
+  <div :class="getClass" @click="updateCursor">
     <span class="tip" v-if="getTip">{{ getTip }}</span>
-    <input
-      ref="inputRef"
-      v-model="value"
-      :type="getInputType"
+    <textarea
+      ref="textareaRef"
+      v-model="model"
       :placeholder="props.placeholder"
       :disabled="props.disabled"
       :maxlength="props.maxlength"
+      @focus="emit('focus', model)"
+      @blur="emit('blur', model)"
+      @keyup="onKeyDown"
+      @input="handleInput"
     />
-    <transition name="right-icon">
-      <div class="right-icon" v-if="isRightIcon">
-        <TIcon
-          v-if="props.password"
-          :icon="isPreview ? 'preview' : 'unpreview'"
-          color="#656a6e88"
-          class="clear"
-          @click="isPreview = !isPreview"
-        />
-        <TIcon v-if="props.clearable" icon="close-to" color="#656a6e88" class="clear" @click="handleClear" />
-      </div>
-    </transition>
+    <div class="point" v-if="props.maxlength">
+      <span>[{{ cursor }}]{{ model?.length }}/{{ props.maxlength }}</span>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './textarea'
-import { InputTypeHTMLAttribute, computed, ref } from 'vue'
-import { useVModel } from '@vueuse/core'
-import { TIcon } from '../icon'
+import { computed, ref } from 'vue'
+import { isFunction } from '@/utils'
 defineOptions({ name: 'TTextarea' })
-const inputRef = ref()
+const textareaRef = ref()
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
-  modelValue: '',
+  debounce: undefined,
   isTipe: true,
   clearable: true,
   size: configOptions.value.elSize,
-  loading: false,
-  disabled: false
+  isEnter: true,
+  disabled: false,
+  debounceDelay: 1200
 })
-const value = useVModel(props, 'modelValue', emit)
-const isPreview = ref(false)
+const model = defineModel<string>()
+const cursor = ref(0)
 
 const getClass = computed(() => {
-  return [
-    't-input',
-    props.password && 'password',
-    props.clearable && 'clearable',
-    (props.disabled || props.loading) && 'is-disabled'
-  ]
+  const { isResize, disabled } = props
+  return ['t-textarea', !disabled && isResize && 'resize', disabled && 'is-disabled']
 })
 const getTip = computed(() => {
-  return props.isTipe && props.modelValue && (props.placeholder || props.tip)
+  return props.isTipe && model.value && (props.placeholder || props.tip)
 })
-const getInputType = computed((): InputTypeHTMLAttribute => {
-  return props.password && !isPreview.value ? 'password' : 'text'
-})
-const isRightIcon = computed(() => {
-  return props.modelValue && (props.clearable || props.password)
-})
-const handleClear = () => {
-  value.value = ''
-  emit('clear')
+const onKeyDown = (payload: KeyboardEvent) => {
+  if (payload.key.toLocaleLowerCase() === 'enter') emit('enter', model.value)
+  updateCursor()
+}
+// 计算光标行数
+const updateCursor = () => {
+  if (!model.value) return
+  let index = textareaRef.value.selectionStart
+  let startText = model.value.slice(0, index)
+  cursor.value = startText.split('\n').length
+}
+let tmieout: undefined | NodeJS.Timeout = void 0
+// 输入处理
+const handleInput = () => {
+  const value = model.value
+  // 限制回车
+  if (!props.isEnter && value && value.includes('\n')) {
+    return (model.value = value.replace('\n', ''))
+  }
+  // 限制长度
+  if (value && props.maxlength && value.length > props.maxlength) {
+    return (model.value = value.slice(0, props.maxlength))
+  }
+  emit('input', value)
+  // 优化处理:如果没绑定防抖事件直接返回
+  if (!props.debounce) return
+  // 防抖处理
+  if (tmieout) clearTimeout(tmieout)
+  tmieout = setTimeout(() => {
+    if (props.debounce) {
+      let reFun = props.debounce(value)
+      isFunction(reFun) && reFun()
+    }
+    clearTimeout(tmieout)
+  }, props.debounceDelay)
 }
 </script>
 <style lang="scss" scoped>
 @import 'index.scss';
 </style>
-./textarea

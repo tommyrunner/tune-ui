@@ -10,3 +10,9 @@ export function is(val: unknown, type: string) {
 export const isObject = (val: any): val is Record<any, any> => {
   return val !== null && is(val, 'Object')
 }
+/**
+ * @description:  是否为函数
+ */
+export function isFunction<T = Function>(val: unknown): val is T {
+  return is(val, 'Function')
+}

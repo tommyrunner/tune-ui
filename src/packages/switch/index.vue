@@ -21,12 +21,13 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabled: false
 })
 const getClass = computed(() => {
+  const { size, radius, disabled, loading } = props
   return [
     't-switch',
     `t-switch-${model.value ? 'on' : 'off'}`,
-    `t-switch-size-${props.size}`,
-    `t-switch-radius-${props.radius}`,
-    (props.disabled || props.loading) && 'is-disabled'
+    `t-switch-size-${size}`,
+    `t-switch-radius-${radius}`,
+    (disabled || loading) && 'is-disabled'
   ]
 })
 const handleClick = () => {
