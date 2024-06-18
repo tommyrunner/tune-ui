@@ -85,7 +85,8 @@ const getIconSize = computed(() => {
   return sizes[props.size]
 })
 const isRightIcon = computed(() => {
-  return model.value && (props.clearable || props.password)
+  const { disabled, clearable, password } = props
+  return model.value && !disabled && (clearable || password)
 })
 const handleClear = () => {
   model.value = ''

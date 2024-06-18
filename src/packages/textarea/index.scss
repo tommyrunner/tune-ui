@@ -19,6 +19,10 @@
     &.is-disabled {
         background-color: $border-color-default;
 
+        .tip {
+            background-color: transparent;
+        }
+
         >textarea {
             cursor: not-allowed;
         }

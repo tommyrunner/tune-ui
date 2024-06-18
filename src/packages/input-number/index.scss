@@ -49,6 +49,7 @@
             animation: anima-tip ease 0.11s;
         }
 
+
         // icon 处理
 
         .prefix {
@@ -97,6 +98,10 @@
 
     &.is-disabled {
         background-color: $border-color-default;
+
+        .tip {
+            background-color: transparent;
+        }
 
         >input {
             cursor: not-allowed;

@@ -78,6 +78,10 @@
     &.is-disabled {
         background-color: $border-color-default;
 
+        .tip {
+            background-color: transparent;
+        }
+
         >input {
             cursor: not-allowed;
         }
