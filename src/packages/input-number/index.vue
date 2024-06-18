@@ -3,7 +3,6 @@
     <div class="range" v-for="index in getRangeLength" :key="index">
       <span class="tip" v-if="getTip">{{ getTip }}</span>
       <input
-        ref="inputRef"
         :value="props.isRange ? model[index - 1] : model"
         type="number"
         :placeholder="props.placeholder"
@@ -32,12 +31,10 @@
 <script lang="ts" setup>
 import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './input-number'
-import { computed, ref, useSlots } from 'vue'
+import { computed, useSlots } from 'vue'
 import { TIcon } from '../icon'
 import { ElSizeType } from '@/types'
-import { isArray } from 'element-plus/es/utils/types.mjs'
-defineOptions({ name: 'TInput' })
-const inputRef = ref<HTMLInputElement>()
+defineOptions({ name: 'TInputNumber' })
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
   isTipe: true,
@@ -79,7 +76,7 @@ const handlerStep = (is: boolean) => {
 // 输入处理
 const handleInput = (target: HTMLInputElement, index: number) => {
   const value = Number(target.value)
-  if (props.isRange && isArray(model.value)) model.value[index] = value
+  if (props.isRange) model.value[index] = value
   else model.value = value
   emit('input', model.value)
 }
