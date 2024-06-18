@@ -30,6 +30,33 @@ $font-family: "JetBrains Mono", source-code-pro, Menlo, Monaco, Consolas, "Couri
     animation: anima-loading 2s linear infinite;
 }
 
+// input
+input,
+textarea {
+    padding: 0;
+    outline: none;
+    border: none;
+    background: none;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    font-family: $font-family;
+    color: $text-color-default;
+}
+
+input::placeholder,
+textarea::placeholder {
+    opacity: 0.5;
+    font-size: 12px;
+    font-family: $font-family;
+}
+
+// 去除加减符
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 @keyframes anima-loading {
     from {
         transform: rotate(0deg);

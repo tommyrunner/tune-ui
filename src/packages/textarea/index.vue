@@ -9,7 +9,7 @@
       :maxlength="props.maxlength"
       @focus="emit('focus', model)"
       @blur="emit('blur', model)"
-      @keyup="onKeyDown"
+      @keyup="handleKeyup"
       @input="handleInput"
     />
     <div class="point" v-if="props.maxlength">
@@ -21,7 +21,7 @@
 import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './textarea'
 import { computed, ref } from 'vue'
-import { isFunction } from '@/utils'
+import { isFunction, isKeyboard } from '@/utils'
 defineOptions({ name: 'TTextarea' })
 const textareaRef = ref()
 const emit = defineEmits<EmitsType>()
@@ -44,8 +44,8 @@ const getClass = computed(() => {
 const getTip = computed(() => {
   return props.isTipe && model.value && (props.placeholder || props.tip)
 })
-const onKeyDown = (payload: KeyboardEvent) => {
-  if (payload.key.toLocaleLowerCase() === 'enter') emit('enter', model.value)
+const handleKeyup = (event: KeyboardEvent) => {
+  if (isKeyboard(event, 'enter')) emit('enter', model.value)
   updateCursor()
 }
 // 计算光标行数

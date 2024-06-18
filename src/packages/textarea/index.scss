@@ -25,22 +25,10 @@
     }
 
     >textarea {
-        padding: 0;
-        outline: none;
-        border: none;
-        background: none;
-        box-sizing: border-box;
-        color: $text-color-default;
         width: 164px !important;
         min-height: 28px;
         padding: 4px 8px;
-        font-family: $font-family;
         resize: none;
-    }
-
-    >textarea::placeholder {
-        opacity: 0.5;
-        font-size: 12px;
     }
 
     .tip {

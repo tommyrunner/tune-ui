@@ -21,7 +21,7 @@
         <TIcon
           v-if="props.password"
           :icon="isPreview ? 'preview' : 'unpreview'"
-          color="#656a6e88"
+          :color="defIconColor"
           class="clear"
           :size="getIconSize"
           @click="isPreview = !isPreview"
@@ -30,7 +30,7 @@
           :size="getIconSize"
           v-if="props.clearable"
           icon="close-to"
-          color="#656a6e55"
+          :color="defIconColor"
           class="clear"
           @click="handleClear"
         />
@@ -80,6 +80,7 @@ const sizes: { [key in ElSizeType]: number } = {
   small: 14,
   large: 18
 }
+const defIconColor = '#656a6e88'
 const getIconSize = computed(() => {
   return sizes[props.size]
 })
