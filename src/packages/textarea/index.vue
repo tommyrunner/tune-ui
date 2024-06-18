@@ -21,7 +21,8 @@
 import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './textarea'
 import { computed, ref } from 'vue'
-import { isFunction, isKeyboard } from '@/utils'
+import { isFunction } from '@/utils/is'
+import { isKeyboard } from '@/utils'
 defineOptions({ name: 'TTextarea' })
 const textareaRef = ref()
 const emit = defineEmits<EmitsType>()

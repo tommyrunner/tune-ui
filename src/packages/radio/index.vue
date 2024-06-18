@@ -14,7 +14,7 @@ import { type PropsType, type EmitsType } from './radio'
 import { TIcon, ValueType } from '..'
 import { computed, inject, useSlots } from 'vue'
 import { configOptions } from '@/hooks/useOptions'
-import { isObject } from '@/utils'
+import { isObject } from '@/utils/is'
 import { type GroupContextType, radioGroupKey } from './constants'
 defineOptions({ name: 'TRadio' })
 const emit = defineEmits<EmitsType>()

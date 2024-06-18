@@ -1,7 +1,7 @@
 <template>
   <div :class="getClass">
-    <div class="range" v-for="index in getRangeLength" :key="index">
-      <span class="tip" v-if="getTip">{{ getTip }}</span>
+    <div class="range" v-for="index in props.isRange ? 2 : 1" :key="index">
+      <span class="tip" v-if="props.isTipe && isValue(props.isRange ? model[index - 1] : model)">{{ getTip }}</span>
       <input
         :value="props.isRange ? model[index - 1] : model"
         type="number"
@@ -34,6 +34,7 @@ import type { EmitsType, PropsType } from './input-number'
 import { computed, useSlots } from 'vue'
 import { TIcon } from '../icon'
 import { ElSizeType } from '@/types'
+import { isValue } from '@/utils/is'
 defineOptions({ name: 'TInputNumber' })
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
@@ -55,20 +56,18 @@ const getClass = computed(() => {
   ]
 })
 const getTip = computed(() => {
-  return props.isTipe && (model.value || model.value === 0) && (props.placeholder || props.tip)
+  return props.placeholder || props.tip
 })
+const defIconColor = '#656a6e88'
 const sizes: { [key in ElSizeType]: number } = {
   default: 14,
   small: 12,
   large: 16
 }
-const defIconColor = '#656a6e88'
 const getIconSize = computed(() => {
   return sizes[props.size]
 })
-const getRangeLength = computed(() => {
-  return props.isRange ? 2 : 1
-})
+// 控制步长
 const handlerStep = (is: boolean) => {
   if (is) (model.value as number) += props.step
   else (model.value as number) -= props.step
@@ -76,6 +75,7 @@ const handlerStep = (is: boolean) => {
 // 输入处理
 const handleInput = (target: HTMLInputElement, index: number) => {
   const value = Number(target.value)
+  // 处理范围以及单个
   if (props.isRange) model.value[index] = value
   else model.value = value
   emit('input', model.value)

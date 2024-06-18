@@ -43,7 +43,7 @@ import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './input'
 import { InputTypeHTMLAttribute, computed, ref } from 'vue'
 import { TIcon } from '../icon'
-import { isFunction } from '@/utils'
+import { isFunction } from '@/utils/is'
 import { ElSizeType } from '@/types'
 defineOptions({ name: 'TInput' })
 const inputRef = ref()
