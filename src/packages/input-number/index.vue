@@ -30,20 +30,22 @@
 </template>
 <script lang="ts" setup>
 import { configOptions } from '@/hooks/useOptions'
-import type { EmitsType, PropsType } from './input-number'
+import type { EmitsType, ModelType, PropsType } from './input-number'
 import { computed, useSlots } from 'vue'
 import { TIcon } from '../icon'
 import { ElSizeType } from '@/types'
 import { isValue } from '@/utils/is'
+import { bindDebounce } from '@/utils'
 defineOptions({ name: 'TInputNumber' })
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
   isTipe: true,
   isControls: true,
   size: configOptions.value.elSize,
-  step: 1
+  step: 1,
+  debounceDelay: 1000
 })
-const model = defineModel<number | number[]>()
+const model = defineModel<ModelType>()
 const slot = useSlots()
 const getClass = computed(() => {
   const { size, disabled, isRange, isControls } = props
@@ -79,6 +81,10 @@ const handleInput = (target: HTMLInputElement, index: number) => {
   if (props.isRange) model.value[index] = value
   else model.value = value
   emit('input', model.value)
+  // 优化处理:如果没绑定防抖事件直接返回
+  if (!props.debounce) return
+  // 防抖处理
+  bindDebounce(props.debounce, props.debounceDelay, value)
 }
 </script>
 <style lang="scss" scoped>

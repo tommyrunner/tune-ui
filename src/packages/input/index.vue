@@ -43,8 +43,8 @@ import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './input'
 import { InputTypeHTMLAttribute, computed, ref } from 'vue'
 import { TIcon } from '../icon'
-import { isFunction } from '@/utils/is'
 import { ElSizeType } from '@/types'
+import { bindDebounce } from '@/utils'
 defineOptions({ name: 'TInput' })
 const inputRef = ref()
 const emit = defineEmits<EmitsType>()
@@ -54,7 +54,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   clearable: true,
   size: configOptions.value.elSize,
   disabled: false,
-  debounceDelay: 1200
+  debounceDelay: 1000
 })
 const model = defineModel<string>()
 const isPreview = ref(false)
@@ -92,21 +92,13 @@ const handleClear = () => {
   model.value = ''
   emit('clear')
 }
-let tmieout: undefined | NodeJS.Timeout = void 0
 // 输入处理
 const handleInput = () => {
   emit('input', model.value)
   // 优化处理:如果没绑定防抖事件直接返回
   if (!props.debounce) return
   // 防抖处理
-  if (tmieout) clearTimeout(tmieout)
-  tmieout = setTimeout(() => {
-    if (props.debounce) {
-      let reFun = props.debounce(model.value)
-      isFunction(reFun) && reFun()
-    }
-    clearTimeout(tmieout)
-  }, props.debounceDelay)
+  bindDebounce(props.debounce, props.debounceDelay, model.value)
 }
 </script>
 <style lang="scss" scoped>

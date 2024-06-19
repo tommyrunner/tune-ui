@@ -16,7 +16,7 @@ $opacity-disabled: 0.6;
 $font-size-small: 12px;
 $font-size-default: 14px;
 $font-size-large: 16px;
-$font-family: "JetBrains Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+$font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5fae\8f6f\96c5\9ed1", Arial, sans-serif;
 
 // 公共样式
 // - 禁用
@@ -42,6 +42,7 @@ textarea {
     height: 100%;
     font-family: $font-family;
     color: $text-color-default;
+    font-size: inherit;
 }
 
 input::placeholder,

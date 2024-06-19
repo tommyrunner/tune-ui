@@ -2,6 +2,7 @@ import { type BaseProps } from '@/types'
 /**
  * @description: 组件props类型
  */
+export type ModelType = number | number[]
 export interface PropsType extends BaseProps {
   // 占位符
   placeholder?: string
@@ -21,6 +22,10 @@ export interface PropsType extends BaseProps {
   maxValue?: number
   // 是否禁用
   disabled?: boolean
+  // 防抖事件
+  debounce?: (data?: ModelType) => void | Function
+  // 防抖延迟时间
+  debounceDelay?: number
 }
 /**
  * @description: 组件emit类型
@@ -28,9 +33,9 @@ export interface PropsType extends BaseProps {
 export interface EmitsType {
   // 清空事件
   (e: 'clear'): void
-  (e: 'blur', data?: number | number[]): void
-  (e: 'focus', data?: number | number[]): void
+  (e: 'blur', data?: ModelType): void
+  (e: 'focus', data?: ModelType): void
   // 用户回车触发
-  (e: 'enter', data?: number | number[]): void
-  (e: 'input', data?: number | number[]): void
+  (e: 'enter', data?: ModelType): void
+  (e: 'input', data?: ModelType): void
 }

@@ -2,7 +2,6 @@
 
 .t-input-number {
     border: $border-color-default 1px solid;
-    padding: 4px 8px;
     box-sizing: border-box;
     border-radius: 4px;
     transition: 0.22s;
@@ -35,6 +34,7 @@
         position: relative;
         display: flex;
         align-items: center;
+        padding: 4px 8px;
 
         .tip {
             position: absolute;
@@ -112,14 +112,17 @@
 // 处理size
 .t-input-number-size-default {
     height: 28px;
+    font-size: $font-size-default;
 }
 
 .t-input-number-size-small {
     height: 24px;
+    font-size: $font-size-small;
 }
 
 .t-input-number-size-large {
     height: 36px;
+    font-size: $font-size-large;
 }
 
 @keyframes anima-tip {

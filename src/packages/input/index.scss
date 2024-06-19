@@ -91,14 +91,17 @@
 // 处理size
 .t-input-size-default {
     height: 28px;
+    font-size: $font-size-default;
 }
 
 .t-input-size-small {
     height: 24px;
+    font-size: $font-size-small;
 }
 
 .t-input-size-large {
     height: 36px;
+    font-size: $font-size-large;
 }
 
 @keyframes anima-tip {

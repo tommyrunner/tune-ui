@@ -11,6 +11,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
+    font-size: $font-size-default;
 
     &:not(.is-disabled):focus-within {
         border: $theme-color-primary 1px solid;

@@ -21,8 +21,8 @@
 import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './textarea'
 import { computed, ref } from 'vue'
-import { isFunction } from '@/utils/is'
 import { isKeyboard } from '@/utils'
+import { bindDebounce } from '@/utils'
 defineOptions({ name: 'TTextarea' })
 const textareaRef = ref()
 const emit = defineEmits<EmitsType>()
@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   isEnter: true,
   disabled: false,
-  debounceDelay: 1200
+  debounceDelay: 1000
 })
 const model = defineModel<string>()
 const cursor = ref(0)
@@ -56,7 +56,6 @@ const updateCursor = () => {
   let startText = model.value.slice(0, index)
   cursor.value = startText.split('\n').length
 }
-let tmieout: undefined | NodeJS.Timeout = void 0
 // 输入处理
 const handleInput = () => {
   const value = model.value
@@ -72,14 +71,7 @@ const handleInput = () => {
   // 优化处理:如果没绑定防抖事件直接返回
   if (!props.debounce) return
   // 防抖处理
-  if (tmieout) clearTimeout(tmieout)
-  tmieout = setTimeout(() => {
-    if (props.debounce) {
-      let reFun = props.debounce(value)
-      isFunction(reFun) && reFun()
-    }
-    clearTimeout(tmieout)
-  }, props.debounceDelay)
+  bindDebounce(props.debounce, props.debounceDelay, model.value)
 }
 </script>
 <style lang="scss" scoped>
