@@ -57,7 +57,7 @@ const getIcon = (i: number) => {
   // 配置三种情况icon,默认值优先级:自定义>其他自定义>默认icon
   const icon = {
     empty: empty || defIcon || 'rate-null',
-    half: half || defIcon || 'rate-hale',
+    half: half || defIcon || 'rate-half',
     show: show || defIcon || 'rate'
   }
   // 根据位置以及值判断显示图标，并实现半值
