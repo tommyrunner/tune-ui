@@ -6,6 +6,27 @@ export default {
   description: 'tui 组件库 icon',
   glyphs: [
     {
+      icon_id: '15342948',
+      name: '半星',
+      font_class: 'rate-half',
+      unicode: 'e614',
+      unicode_decimal: 58900
+    },
+    {
+      icon_id: '15342953',
+      name: '星',
+      font_class: 'rate-null',
+      unicode: 'e615',
+      unicode_decimal: 58901
+    },
+    {
+      icon_id: '15342955',
+      name: '整星',
+      font_class: 'rate',
+      unicode: 'e616',
+      unicode_decimal: 58902
+    },
+    {
       icon_id: '39628369',
       name: '指纹',
       font_class: 'fingerprint',

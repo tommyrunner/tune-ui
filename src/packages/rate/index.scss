@@ -1,0 +1,38 @@
+@import '@/styles/index.scss';
+
+.t-rate {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .t-icon {
+        transition: 0.22s;
+        cursor: pointer;
+        animation: anima-rate ease 0.33s;
+
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &.is-disabled {
+        pointer-events: none;
+
+        .t-icon {
+            opacity: $opacity-disabled;
+        }
+    }
+}
+
+@keyframes anima-rate {
+    0% {
+        opacity: 0.5;
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

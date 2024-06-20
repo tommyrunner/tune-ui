@@ -8,6 +8,7 @@ import { TSwitch } from './switch'
 import { TInput } from './input'
 import { TInputNumber } from './input-number'
 import { TTextarea } from './textarea'
+import { TRate } from './rate'
 
 const components = {
   TButton,
@@ -20,7 +21,8 @@ const components = {
   TSwitch,
   TInput,
   TInputNumber,
-  TTextarea
+  TTextarea,
+  TRate
 }
 // 全局组件注册
 export default {
@@ -43,3 +45,4 @@ export * from './switch'
 export * from './input'
 export * from './input-number'
 export * from './textarea'
+export * from './rate'
