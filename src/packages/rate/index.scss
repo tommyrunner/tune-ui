@@ -3,7 +3,8 @@
 .t-rate {
     display: flex;
     align-items: center;
-    gap: 5px;
+    cursor: pointer;
+    transition: 0.22s;
 
     .t-icon {
         transition: 0.22s;

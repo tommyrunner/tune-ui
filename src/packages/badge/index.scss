@@ -1,0 +1,50 @@
+@import '@/styles/index.scss';
+
+.t-badge {
+    cursor: pointer;
+    transition: 0.22s;
+    position: relative;
+    width: fit-content;
+    font-size: 12px;
+    color: white;
+
+    .num {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        background-color: red;
+        border: 1px solid white;
+        z-index: 1;
+        border-radius: 10px;
+        padding: 1px 4px;
+        white-space: nowrap;
+        user-select: none;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        animation: anima-badge ease 0.22s;
+    }
+
+    .num-dot {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 8px;
+        height: 8px;
+        z-index: 1;
+        border-radius: 100%;
+    }
+
+}
+
+@keyframes anima-badge {
+    0% {
+        opacity: 0.5;
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

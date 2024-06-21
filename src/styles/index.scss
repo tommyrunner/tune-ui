@@ -30,9 +30,11 @@ $font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "M
     animation: anima-loading 2s linear infinite;
 }
 
+// 全局元素样式
 * {
     transform-origin: center;
-    will-change: transform;
+    will-change: transform; // 解决transform抖动
+    font-family: $font-family; // 全局字体
 }
 
 // input

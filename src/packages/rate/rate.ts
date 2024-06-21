@@ -12,8 +12,10 @@ export interface PropsType extends BaseProps {
     half?: IconTypes
     show?: IconTypes
   }
+  // 间隔
+  gap?: number
   // 最大评分
-  max: number
+  max?: number
   // 支持半选
   isHalf?: boolean
   // 是否禁用

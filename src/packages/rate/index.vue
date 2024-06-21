@@ -1,5 +1,10 @@
 <template>
-  <div :class="getClass" @mouseenter="handlerParent(true)" @mouseleave="handlerParent(false)">
+  <div
+    :style="{ gap: `${props.gap}px` }"
+    :class="getClass"
+    @mouseenter="handlerParent(true)"
+    @mouseleave="handlerParent(false)"
+  >
     <TIcon
       @mouseenter="handlerMouseenter(i)"
       @mousemove="handlerMousemove($event, i)"
@@ -23,6 +28,7 @@ const model = defineModel<number>()
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   max: 5,
+  gap: 5,
   disabled: false
 })
 const getColor = computed(() => {
