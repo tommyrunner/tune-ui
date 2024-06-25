@@ -13,7 +13,7 @@
     align-items: center;
     justify-content: flex-start;
 
-    &:not(.is-disabled):focus-within {
+    &:not(.t-disabled):focus-within {
         border: $theme-color-primary 1px solid;
     }
 
@@ -81,7 +81,7 @@
         animation: anima-out-right_icon ease 0.11s;
     }
 
-    &.is-disabled {
+    &.t-disabled {
         background-color: $border-color-default;
 
         ._t-input-number-tip {

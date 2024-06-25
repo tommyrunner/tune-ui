@@ -41,7 +41,7 @@ const cursor = ref(0)
 
 const getClass = computed(() => {
   const { isResize, disabled } = props
-  return ['t-textarea', !disabled && isResize && 't-textarea-resize', disabled && 'is-disabled']
+  return ['t-textarea', !disabled && isResize && 't-textarea-resize', disabled && 't-disabled']
 })
 const getTip = computed(() => {
   return props.isTipe && model.value && (props.placeholder || props.tip)

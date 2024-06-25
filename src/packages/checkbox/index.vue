@@ -34,14 +34,14 @@ const groupContext = inject<GroupContextType | undefined>(checkboxGroupKey, void
 const getTitleClass = computed(() => {
   const base = [
     '_t-checkbox-title',
-    props.disabled && 'is-disabled',
+    props.disabled && 't-disabled',
     (slot.checkboxSpan || props.icon) && '_t-checkbox-custom-span'
   ]
   return base
 })
 const getClass = computed(() => {
   const { size, disabled } = props
-  const base = ['t-checkbox', `t-checkbox-size-${size}`, disabled && 'is-disabled']
+  const base = ['t-checkbox', `t-checkbox-size-${size}`, disabled && 't-disabled']
   // 组合样式
   if (groupContext) {
     return [

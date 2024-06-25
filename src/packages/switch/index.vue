@@ -31,7 +31,7 @@ const getClass = computed(() => {
     `t-switch-${model.value ? 'on' : 'off'}`,
     `t-switch-size-${size}`,
     `t-switch-radius-${radius}`,
-    (disabled || loading) && 'is-disabled'
+    (disabled || loading) && 't-disabled'
   ]
 })
 const handleClick = () => {

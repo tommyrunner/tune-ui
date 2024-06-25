@@ -33,14 +33,14 @@ const groupContext = inject<GroupContextType | undefined>(radioGroupKey, void 0)
 const getTitleClass = computed(() => {
   const base = [
     '_t-radio-title',
-    props.disabled && 'is-disabled',
+    props.disabled && 't-disabled',
     (slot.radioSpan || props.icon) && '_t-radio-custom-span'
   ]
   return base
 })
 const getClass = computed(() => {
   const { size, disabled } = props
-  const base = ['t-radio', `t-radio-size-${size}`, disabled && 'is-disabled']
+  const base = ['t-radio', `t-radio-size-${size}`, disabled && 't-disabled']
   // 组合样式
   if (groupContext) {
     return [...base, `_t-radio-group-type-${groupContext.type}`, `_t-radio-group-direction-${groupContext.direction}`]

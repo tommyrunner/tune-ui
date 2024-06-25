@@ -52,7 +52,7 @@ const showModel = ref(model.value)
 const isHoverParent = ref(false)
 const getClass = computed(() => {
   const { disabled } = props
-  return ['t-rate', disabled && 'is-disabled']
+  return ['t-rate', disabled && 't-disabled']
 })
 // 根据不同情况小时icon
 const getIcon = (i: number) => {

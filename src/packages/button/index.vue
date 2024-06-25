@@ -47,7 +47,7 @@ const getClass = computed(() => {
     `t-button-size-${size}`,
     `t-button-radius-${radius}`,
     scale && !disabled && `t-button-scale`,
-    (disabled || loading) && 'is-disabled'
+    (disabled || loading) && 't-disabled'
   ]
 })
 defineExpose({

@@ -58,7 +58,7 @@ const getClass = computed(() => {
     `t-input-size-${size}`,
     password && 't-input-password',
     clearable && 't-input-clearable',
-    disabled && 'is-disabled'
+    disabled && 't-disabled'
   ]
 })
 const getTip = computed(() => {

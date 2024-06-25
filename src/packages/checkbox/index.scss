@@ -83,7 +83,7 @@ $title-margin-left: 16px;
         }
     }
 
-    &:not(.is-disabled):hover {
+    &:not(.t-disabled):hover {
         ._t-checkbox-title {
             color: $theme-color-primary;
         }

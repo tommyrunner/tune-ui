@@ -13,11 +13,11 @@
     justify-content: flex-start;
     font-size: $font-size-default;
 
-    &:not(.is-disabled):focus-within {
+    &:not(.t-disabled):focus-within {
         border: $theme-color-primary 1px solid;
     }
 
-    &.is-disabled {
+    &.t-disabled {
         background-color: $border-color-default;
 
         ._t-textarea-tip {

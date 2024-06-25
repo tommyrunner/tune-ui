@@ -56,7 +56,7 @@ const getClass = computed(() => {
     `t-input-number-size-${size}`,
     isRange && 't-input-number-range',
     isControls && 't-input-number-controls',
-    disabled && 'is-disabled'
+    disabled && 't-disabled'
   ]
 })
 const getTip = computed(() => {

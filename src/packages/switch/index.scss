@@ -50,7 +50,7 @@
 
 
 
-    &:not(.is-disabled):hover {
+    &:not(.t-disabled):hover {
         ._t-switch-action {
             transform: translateY(-50%) scale(1);
         }
