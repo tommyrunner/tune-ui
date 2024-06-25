@@ -4,23 +4,23 @@
     vertical-align: middle;
 
     /* 或者使用其他合适的值 */
-    &.color-primary {
+    &.t-icon-color-primary {
         color: $theme-color-primary !important;
     }
 
-    &.color-success {
+    &.t-icon-color-success {
         color: $theme-color-success !important;
     }
 
-    &.color-info {
+    &.t-icon-color-info {
         color: $theme-color-info !important;
     }
 
-    &.color-warning {
+    &.t-icon-color-warning {
         color: $theme-color-warning !important;
     }
 
-    &.color-danger {
+    &.t-icon-color-danger {
         color: $theme-color-danger !important;
     }
 }

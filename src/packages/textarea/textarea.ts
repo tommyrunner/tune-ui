@@ -10,6 +10,8 @@ export interface PropsType {
   tip?: string
   // 最大长度
   maxlength?: number
+  // 是否展示当前光标行
+  isCursor?: boolean
   // 是否开启拖动
   isResize?: boolean
   // 是否允许出现回车

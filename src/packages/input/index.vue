@@ -1,9 +1,9 @@
 <template>
   <div :class="getClass">
-    <div class="prefix">
+    <div class="_t-input-prefix">
       <slot name="prefix" />
     </div>
-    <span class="tip" v-if="getTip">{{ getTip }}</span>
+    <span class="_t-input-tip" v-if="getTip">{{ getTip }}</span>
     <input
       ref="inputRef"
       v-model="model"
@@ -17,23 +17,15 @@
       @input="handleInput"
     />
     <transition name="right-icon">
-      <div class="right-icon" v-if="isRightIcon">
+      <div class="_t-input-right-icon" v-if="isRightIcon">
         <TIcon
           v-if="props.password"
           :icon="isPreview ? 'preview' : 'unpreview'"
           :color="defIconColor"
-          class="clear"
           :size="getIconSize"
           @click="isPreview = !isPreview"
         />
-        <TIcon
-          :size="getIconSize"
-          v-if="props.clearable"
-          icon="close-to"
-          :color="defIconColor"
-          class="clear"
-          @click="handleClear"
-        />
+        <TIcon :size="getIconSize" v-if="props.clearable" icon="close-to" :color="defIconColor" @click="handleClear" />
       </div>
     </transition>
   </div>
@@ -64,8 +56,8 @@ const getClass = computed(() => {
   return [
     't-input',
     `t-input-size-${size}`,
-    password && 'password',
-    clearable && 'clearable',
+    password && 't-input-password',
+    clearable && 't-input-clearable',
     disabled && 'is-disabled'
   ]
 })

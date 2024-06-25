@@ -19,7 +19,7 @@ const getStyle = computed((): StyleValue => {
 })
 const getClass = computed(() => {
   const { customIcon, icon, type } = props
-  return ['t-icon', 'iconfont', `icon-${customIcon || icon}`, type && `color-${type}`]
+  return ['t-icon', 'iconfont', `icon-${customIcon || icon}`, type && `t-icon-color-${type}`]
 })
 </script>
 <style lang="scss" scoped>

@@ -11,12 +11,12 @@ $title-margin-left: 16px;
     align-items: center;
     cursor: pointer;
 
-    >.checkbox-icon {
+    >._t-checkbox-icon {
         width: 14px;
         height: 14px;
     }
 
-    >.checkbox-span {
+    >._t-checkbox-span {
         border: 1px solid #dcdfe6;
         width: 14px;
         height: 14px;
@@ -37,11 +37,11 @@ $title-margin-left: 16px;
         }
     }
 
-    >.checkbox-span-default {
+    >._t-checkbox-span-default {
         border-radius: 100%;
     }
 
-    >.checkbox-span-square {
+    >._t-checkbox-span-square {
         border-radius: 0px;
     }
 
@@ -55,7 +55,7 @@ $title-margin-left: 16px;
     }
 
 
-    .title {
+    ._t-checkbox-title {
         transition: 0.22s;
         margin-left: $title-margin-left;
         user-select: none;
@@ -64,31 +64,31 @@ $title-margin-left: 16px;
     }
 
     // 如果span被自定义后调整left样式
-    .custom-span {
+    ._t-checkbox-custom-span {
         margin-left: 4px !important;
     }
 
 
     &[checked="true"] {
-        .checkbox-span {
+        ._t-checkbox-span {
             background-color: $theme-color-primary;
         }
 
-        .checkbox-icon {
+        ._t-checkbox-icon {
             color: $theme-color-primary;
         }
 
-        .title {
+        ._t-checkbox-title {
             color: $theme-color-primary;
         }
     }
 
     &:not(.is-disabled):hover {
-        .title {
+        ._t-checkbox-title {
             color: $theme-color-primary;
         }
 
-        .checkbox-span {
+        ._t-checkbox-span {
             border-color: $theme-color-primary;
         }
 
@@ -114,36 +114,36 @@ $title-margin-left: 16px;
 }
 
 // 处理group样式
-.group-type-button,
-.group-type-border {
+._t-checkbox-group-type-button,
+._t-checkbox-group-type-border {
     background-color: white;
     padding: 6px;
     box-sizing: border-box;
     text-align: center;
 
-    .title {
+    ._t-checkbox-title {
         margin-left: 0px;
     }
 
-    .checkbox-span {
+    ._t-checkbox-span {
         display: none;
     }
 
     &[checked="true"] {
         background-color: $theme-color-primary;
 
-        &:hover .title {
+        &:hover ._t-checkbox-title {
             color: white;
         }
 
-        .title {
+        ._t-checkbox-title {
             color: white;
         }
 
     }
 
     // 处理边框
-    &.group-direction-row {
+    &._t-checkbox-group-direction-row {
         border-left: 1px solid $border-color-default;
         border-top: 1px solid $border-color-default;
         border-bottom: 1px solid $border-color-default;
@@ -160,7 +160,7 @@ $title-margin-left: 16px;
         }
     }
 
-    &.group-direction-column {
+    &._t-checkbox-group-direction-column {
         border-top: 1px solid $border-color-default;
         border-left: 1px solid $border-color-default;
         border-right: 1px solid $border-color-default;
@@ -178,56 +178,56 @@ $title-margin-left: 16px;
     }
 }
 
-.group-type-border {
-    .checkbox-span {
+._t-checkbox-group-type-border {
+    ._t-checkbox-span {
         display: inline-block;
     }
 
-    .title {
+    ._t-checkbox-title {
         margin-left: $title-margin-left;
     }
 
     &[checked="true"] {
         background-color: white;
 
-        &:hover .title {
+        &:hover ._t-checkbox-title {
             color: $theme-color-primary;
         }
 
-        .title {
+        ._t-checkbox-title {
             color: $theme-color-primary;
         }
     }
 }
 
-.group-type-text {
-    .checkbox-span {
+._t-checkbox-group-type-text {
+    ._t-checkbox-span {
         display: none;
     }
 
 
-    .title {
+    ._t-checkbox-title {
         margin-left: 2px;
     }
 
     &[checked="true"] {
-        .title {
+        ._t-checkbox-title {
             color: $theme-color-primary;
         }
     }
 }
 
-.group-type-default {
-    .title {
+._t-checkbox-group-type-default {
+    ._t-checkbox-title {
         margin-left: $title-margin-left;
     }
 
-    .checkbox-span {
+    ._t-checkbox-span {
         display: inline-block;
     }
 
     &[checked="true"] {
-        .title {
+        ._t-checkbox-title {
             color: $theme-color-primary;
         }
 

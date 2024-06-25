@@ -1,6 +1,11 @@
 <template>
-  <div :class="getClass">
-    <div v-if="model !== props.hiddenValue" :class="[props.isDot ? 'num-dot' : 'num']" :style="getStyle" ref="badgeRef">
+  <div class="t-badge">
+    <div
+      v-if="model !== props.hiddenValue && model"
+      :class="[props.isDot ? '_t-badge-num-dot' : '_t-badge-num']"
+      :style="getStyle"
+      ref="badgeRef"
+    >
       {{ getModel }}
     </div>
     <slot />
@@ -18,9 +23,6 @@ const props = withDefaults(defineProps<PropsType>(), {
   max: 99,
   color: '#f56c6c',
   hiddenValue: 0
-})
-const getClass = computed(() => {
-  return ['t-badge']
 })
 // 根据props计算样式
 const getStyle = computed((): StyleValue => {

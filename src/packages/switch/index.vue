@@ -1,8 +1,12 @@
 <template>
   <div :class="getClass" @click="handleClick">
-    <div class="bg bg1" :style="{ backgroundColor: props.offBgColor }"><slot name="offContent" /></div>
-    <div class="bg bg2" :style="{ backgroundColor: props.onBgColor }"><slot name="onContent" /></div>
-    <div class="t-switch-action">
+    <div class="_t-switch-bg _t-switch-bg1" :style="{ backgroundColor: props.offBgColor }">
+      <slot name="offContent" />
+    </div>
+    <div class="_t-switch-bg _t-switch-bg2" :style="{ backgroundColor: props.onBgColor }">
+      <slot name="onContent" />
+    </div>
+    <div class="_t-switch-action">
       <TIcon v-if="props.loading" icon="loading" :class="`${props.loading && 't-loading'}`" />
     </div>
   </div>
@@ -31,7 +35,10 @@ const getClass = computed(() => {
   ]
 })
 const handleClick = () => {
-  if (!props.disabled && !props.loading) emit('change', model.value)
+  if (!props.disabled && !props.loading) {
+    model.value = !model.value
+    emit('change', model.value)
+  }
 }
 </script>
 <style lang="scss" scoped>

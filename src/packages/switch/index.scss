@@ -10,7 +10,7 @@
     cursor: pointer;
 
 
-    .t-switch-action {
+    ._t-switch-action {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -26,7 +26,7 @@
             -20px -20px 60px #ffffff;
     }
 
-    .bg {
+    ._t-switch-bg {
         display: flex;
         align-items: center;
         box-sizing: border-box;
@@ -39,19 +39,19 @@
         transition: 0.30s;
     }
 
-    .bg1 {
+    ._t-switch-bg1 {
         justify-content: flex-end;
         background-color: $border-color-default;
     }
 
-    .bg2 {
+    ._t-switch-bg2 {
         background-color: $theme-color-primary;
     }
 
 
 
     &:not(.is-disabled):hover {
-        .t-switch-action {
+        ._t-switch-action {
             transform: translateY(-50%) scale(1);
         }
     }
@@ -63,35 +63,35 @@
     border-radius: 0px;
 }
 
-.t-switch-radius-square .t-switch-action {
+.t-switch-radius-square ._t-switch-action {
     border-radius: 0px;
 }
 
 // 处理状态样式
 .t-switch-off {
-    .t-switch-action {
+    ._t-switch-action {
         left: 2px;
     }
 
-    .bg1 {
+    ._t-switch-bg1 {
         left: 0%;
     }
 
-    .bg2 {
+    ._t-switch-bg2 {
         left: -100%;
     }
 }
 
 .t-switch-on {
-    .t-switch-action {
+    ._t-switch-action {
         left: 56%;
     }
 
-    .bg1 {
+    ._t-switch-bg1 {
         left: 100%;
     }
 
-    .bg2 {
+    ._t-switch-bg2 {
         left: 0%;
     }
 }
@@ -101,7 +101,7 @@
     height: 22px;
     width: 46px;
 
-    .t-switch-action {
+    ._t-switch-action {
         width: 18px;
         height: 18px;
     }
@@ -111,7 +111,7 @@
     height: 20px;
     width: 40px;
 
-    .t-switch-action {
+    ._t-switch-action {
         width: 16px;
         height: 16px;
     }
@@ -121,7 +121,7 @@
     height: 26px;
     width: 54px;
 
-    .t-switch-action {
+    ._t-switch-action {
         width: 20px;
         height: 20px;
     }

@@ -10,6 +10,7 @@ import { TInputNumber } from './input-number'
 import { TTextarea } from './textarea'
 import { TRate } from './rate'
 import { TBadge } from './badge'
+import { TCard } from './card'
 
 const components = {
   TButton,
@@ -24,7 +25,8 @@ const components = {
   TInputNumber,
   TTextarea,
   TRate,
-  TBadge
+  TBadge,
+  TCard
 }
 // 全局组件注册
 export default {
@@ -49,3 +51,4 @@ export * from './input-number'
 export * from './textarea'
 export * from './rate'
 export * from './badge'
+export * from './card'

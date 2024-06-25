@@ -1,6 +1,6 @@
 <template>
   <div :class="getClass" @click="updateCursor">
-    <span class="tip" v-if="getTip">{{ getTip }}</span>
+    <span class="_t-textarea-tip" v-if="getTip">{{ getTip }}</span>
     <textarea
       ref="textareaRef"
       v-model="model"
@@ -8,12 +8,12 @@
       :disabled="props.disabled"
       :maxlength="props.maxlength"
       @focus="emit('focus', model)"
-      @blur="emit('blur', model)"
+      @blur="handleBlur"
       @keyup="handleKeyup"
       @input="handleInput"
     />
-    <div class="point" v-if="props.maxlength">
-      <span>[{{ cursor }}]{{ model?.length }}/{{ props.maxlength }}</span>
+    <div class="_t-textarea-point" v-if="props.maxlength">
+      <span>{{ getPointText }}</span>
     </div>
   </div>
 </template>
@@ -29,10 +29,11 @@ const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
   debounce: undefined,
   isTipe: true,
-  clearable: true,
   size: configOptions.value.elSize,
   isEnter: true,
   disabled: false,
+  isResize: true,
+  isCursor: true,
   debounceDelay: 1000
 })
 const model = defineModel<string>()
@@ -40,14 +41,28 @@ const cursor = ref(0)
 
 const getClass = computed(() => {
   const { isResize, disabled } = props
-  return ['t-textarea', !disabled && isResize && 'resize', disabled && 'is-disabled']
+  return ['t-textarea', !disabled && isResize && 't-textarea-resize', disabled && 'is-disabled']
 })
 const getTip = computed(() => {
   return props.isTipe && model.value && (props.placeholder || props.tip)
 })
+const getPointText = computed(() => {
+  return (props.isCursor ? `[${cursor.value}]` : '') + (model.value?.length + '/' + props.maxlength)
+})
+/**
+ * 处理键盘事件
+ * @param event 事件值
+ */
 const handleKeyup = (event: KeyboardEvent) => {
   if (isKeyboard(event, 'enter')) emit('enter', model.value)
   updateCursor()
+}
+/**
+ * 处理失去焦点
+ */
+const handleBlur = () => {
+  cursor.value = 0
+  emit('blur', model.value)
 }
 // 计算光标行数
 const updateCursor = () => {

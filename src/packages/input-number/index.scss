@@ -18,17 +18,17 @@
     }
 
     // 范围无需控制组件
-    &:not(.range).controls .range {
+    &:not(.t-input-number-range).t-input-number-controls .t-input-number-range {
         padding-right: 24px;
     }
 
-    &.range.controls .range {
+    &.t-input-number-range.t-input-number-controls .t-input-number-range {
         >input {
             text-align: center;
         }
     }
 
-    .range {
+    ._t-input-number-range-item {
         height: 100%;
         transition: 0.22s;
         position: relative;
@@ -36,7 +36,7 @@
         align-items: center;
         padding: 4px 8px;
 
-        .tip {
+        ._t-input-number-tip {
             position: absolute;
             color: rgba(128, 128, 128, 0.747);
             font-size: 10px;
@@ -49,22 +49,7 @@
             animation: anima-tip ease 0.11s;
         }
 
-
-        // icon 处理
-
-        .prefix {
-            margin-right: 4px;
-            font-size: 14px;
-            flex-shrink: 0;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(128, 128, 128, 0.63);
-            font-weight: bold;
-        }
-
-        .right-icon {
+        ._t-input-number-right-icon {
             cursor: pointer;
             position: absolute;
             right: 6px;
@@ -80,7 +65,7 @@
             }
         }
 
-        .spe {
+        ._t-input-number-spe {
             margin: 0px 4px;
             color: $text-color-default;
             font-size: 12px;
@@ -99,7 +84,7 @@
     &.is-disabled {
         background-color: $border-color-default;
 
-        .tip {
+        ._t-input-number-tip {
             background-color: transparent;
         }
 
