@@ -1,26 +1,36 @@
 <template>
   <div :class="getClass">
-    <div class="t_card_head">标题</div>
-    <div class="t_card_body">
+    <div class="_t-card-head" v-if="isHead">
+      <slot name="headLeft" v-if="slot.headLeft" />
+      <div class="left" v-else>
+        <TIcon :icon="props.titleIcon" v-if="props.titleIcon" />
+        {{ props.title }}
+      </div>
+      <slot name="headRight" />
+    </div>
+    <div class="_t-card-body">
       <slot />
+    </div>
+    <div class="_t-card-foot" v-if="slot.foot">
+      <slot name="foot" />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import { TIcon } from '../icon'
 import type { PropsType } from './card'
-import { computed, ref } from 'vue'
+import { computed, useSlots } from 'vue'
 defineOptions({ name: 'TBadge' })
-const badgeRef = ref<InstanceType<typeof HTMLDivElement>>()
-const model = defineModel<number>()
+const slot = useSlots()
 const props = withDefaults(defineProps<PropsType>(), {
-  offsetY: 0,
-  offsetX: 0,
-  max: 99,
-  color: '#f56c6c',
-  hiddenValue: 0
+  shadow: 'always'
 })
 const getClass = computed(() => {
-  return ['t-card']
+  const { shadow } = props
+  return ['t-card', `t-card-shadow-${shadow}`]
+})
+const isHead = computed(() => {
+  return props.title || slot.headLeft
 })
 </script>
 <style lang="scss" scoped>
