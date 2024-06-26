@@ -18,8 +18,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './rate'
+import { configOptions } from '@/hooks/useOptions'
 import { computed, ref } from 'vue'
 import { TIcon } from '..'
 defineOptions({ name: 'TRate' })

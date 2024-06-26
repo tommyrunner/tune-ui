@@ -5,7 +5,7 @@
 </template>
 <script lang="ts" setup>
 import type { PropsType } from './icon'
-import { computed, type StyleValue } from 'vue'
+import { type StyleValue, computed } from 'vue'
 defineOptions({ name: 'TIcon' })
 const props = withDefaults(defineProps<PropsType>(), {
   size: 16,

@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import type { PropsType } from './badge'
-import { computed, ref, type StyleValue } from 'vue'
+import { type StyleValue, computed, ref } from 'vue'
 defineOptions({ name: 'TBadge' })
 const badgeRef = ref<InstanceType<typeof HTMLDivElement>>()
 const model = defineModel<number>()

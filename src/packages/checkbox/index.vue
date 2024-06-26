@@ -12,11 +12,11 @@
   </span>
 </template>
 <script lang="ts" setup>
-import { type PropsType, type EmitsType } from './checkbox'
-import { TIcon, ValueType } from '..'
+import type { PropsType, EmitsType, ValueType } from './checkbox'
+import { type GroupContextType, checkboxGroupKey } from './constants'
+import { TIcon } from '../icon'
 import { computed, inject, useSlots } from 'vue'
 import { configOptions } from '@/hooks/useOptions'
-import { type GroupContextType, checkboxGroupKey } from './constants'
 defineOptions({ name: 'TCheckbox' })
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {

@@ -10,11 +10,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { configOptions } from '@/hooks/useOptions'
-import { type PropsType, type EmitsType } from './radio-group'
-import { ref, provide, reactive, toRefs, nextTick, onMounted } from 'vue'
+import type { PropsType, EmitsType } from './radio-group'
+import type { ValueType } from './radio'
 import { type GroupContextType, radioGroupKey } from './constants'
-import { ValueType } from './radio'
+import { configOptions } from '@/hooks/useOptions'
+import { ref, provide, reactive, toRefs, nextTick, onMounted } from 'vue'
 defineOptions({ name: 'TRadioGroup' })
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
@@ -41,5 +41,10 @@ provide<GroupContextType>(
 )
 </script>
 <style lang="scss" scoped>
-@import './radio-group.scss';
+.t-radio-group {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  cursor: pointer;
+}
 </style>

@@ -12,8 +12,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './switch'
+import { configOptions } from '@/hooks/useOptions'
 import { computed } from 'vue'
 import { TIcon } from '..'
 defineOptions({ name: 'TSwitch' })

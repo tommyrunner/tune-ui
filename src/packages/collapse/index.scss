@@ -1,0 +1,26 @@
+@import '@/styles/index.scss';
+
+.t-collapse-item {
+    border-bottom: 1px solid rgba(220, 220, 220, 0.3);
+    min-width: 100px;
+    padding: 6px;
+    box-sizing: border-box;
+    transition: 0.22s;
+
+    &:hover {
+        border-bottom: 1px solid rgba(220, 220, 220, 0.8);
+    }
+
+    ._t-collapse-item-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+    }
+
+    ._t-collapse-item-body {
+        overflow: hidden;
+        transition: 0.55s;
+        height: 0px;
+    }
+}

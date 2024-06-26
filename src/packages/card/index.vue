@@ -17,10 +17,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { TIcon } from '../icon'
 import type { PropsType } from './card'
+import { TIcon } from '../icon'
 import { computed, useSlots } from 'vue'
-defineOptions({ name: 'TBadge' })
+defineOptions({ name: 'TCard' })
 const slot = useSlots()
 const props = withDefaults(defineProps<PropsType>(), {
   shadow: 'always'

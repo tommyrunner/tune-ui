@@ -5,7 +5,7 @@
 </template>
 <script lang="ts" setup>
 import type { PropsType } from './flex'
-import { computed, ref, watch, type StyleValue, onMounted, onDeactivated } from 'vue'
+import { type StyleValue, computed, ref, watch, onMounted, onDeactivated } from 'vue'
 defineOptions({ name: 'TFlex' })
 const props = withDefaults(defineProps<PropsType>(), {
   spans: () => [],

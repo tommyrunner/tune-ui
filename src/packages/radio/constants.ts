@@ -1,6 +1,6 @@
 import type { InjectionKey } from 'vue'
+import type { ValueType } from './radio'
 import { PropsType } from './radio-group'
-import { ValueType } from './radio'
 
 export interface GroupContextType extends PropsType {
   model?: ValueType

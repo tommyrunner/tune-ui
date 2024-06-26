@@ -1,6 +1,6 @@
 import type { InjectionKey } from 'vue'
+import type { ValueType } from './checkbox'
 import { PropsType } from './checkbox-group'
-import { ValueType } from '..'
 
 export interface GroupContextType extends PropsType {
   model?: ValueType[]

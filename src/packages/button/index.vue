@@ -10,9 +10,9 @@
   </button>
 </template>
 <script lang="ts" setup>
-import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './button'
-import { computed, StyleValue } from 'vue'
+import { type StyleValue, computed } from 'vue'
+import { configOptions } from '@/hooks/useOptions'
 import { TIcon } from '..'
 import { IconTypes } from '../icon/icon'
 defineOptions({ name: 'TButton' })

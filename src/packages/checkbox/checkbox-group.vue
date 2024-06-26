@@ -10,11 +10,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { configOptions } from '@/hooks/useOptions'
-import { type PropsType, type EmitsType } from './checkbox-group'
-import { ref, provide, reactive, toRefs, nextTick, onMounted } from 'vue'
+import type { ValueType } from './checkbox'
+import type { PropsType, EmitsType } from './checkbox-group'
 import { type GroupContextType, checkboxGroupKey } from './constants'
-import { ValueType } from '..'
+import { configOptions } from '@/hooks/useOptions'
+import { ref, provide, reactive, toRefs, nextTick, onMounted } from 'vue'
 defineOptions({ name: 'TCheckboxGroup' })
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
@@ -67,6 +67,10 @@ provide<GroupContextType>(
 )
 </script>
 <style lang="scss" scoped>
-@import './checkbox-group.scss';
+.t-checkbox-group {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  cursor: pointer;
+}
 </style>
-./checkbox-group

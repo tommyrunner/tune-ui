@@ -31,11 +31,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, PropsType } from './input'
+import type { ElSizeType } from '@/types'
+import { configOptions } from '@/hooks/useOptions'
 import { InputTypeHTMLAttribute, computed, ref } from 'vue'
 import { TIcon } from '../icon'
-import { ElSizeType } from '@/types'
 import { bindDebounce } from '@/utils'
 defineOptions({ name: 'TInput' })
 const inputRef = ref()

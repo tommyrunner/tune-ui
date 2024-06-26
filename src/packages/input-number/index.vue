@@ -31,11 +31,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { configOptions } from '@/hooks/useOptions'
 import type { EmitsType, ModelType, PropsType } from './input-number'
+import type { ElSizeType } from '@/types'
+import { configOptions } from '@/hooks/useOptions'
 import { computed, useSlots } from 'vue'
 import { TIcon } from '../icon'
-import { ElSizeType } from '@/types'
 import { isValue } from '@/utils/is'
 import { bindDebounce } from '@/utils'
 defineOptions({ name: 'TInputNumber' })

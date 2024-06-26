@@ -11,6 +11,7 @@ import { TTextarea } from './textarea'
 import { TRate } from './rate'
 import { TBadge } from './badge'
 import { TCard } from './card'
+import { TCollapse, TCollapseItem } from './collapse'
 
 const components = {
   TButton,
@@ -26,7 +27,9 @@ const components = {
   TTextarea,
   TRate,
   TBadge,
-  TCard
+  TCard,
+  TCollapse,
+  TCollapseItem
 }
 // 全局组件注册
 export default {
@@ -43,7 +46,6 @@ export * from './button'
 export * from './icon'
 export * from './flex'
 export * from './radio'
-export * from './radio/radio-group'
 export * from './checkbox'
 export * from './switch'
 export * from './input'
@@ -52,3 +54,4 @@ export * from './textarea'
 export * from './rate'
 export * from './badge'
 export * from './card'
+export * from './collapse'

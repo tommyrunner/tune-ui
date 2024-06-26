@@ -10,12 +10,12 @@
   </span>
 </template>
 <script lang="ts" setup>
-import { type PropsType, type EmitsType } from './radio'
-import { TIcon, ValueType } from '..'
+import type { PropsType, ValueType, EmitsType } from './radio'
+import { type GroupContextType, radioGroupKey } from './constants'
+import { TIcon } from '../icon'
 import { computed, inject, useSlots } from 'vue'
 import { configOptions } from '@/hooks/useOptions'
 import { isObject } from '@/utils/is'
-import { type GroupContextType, radioGroupKey } from './constants'
 defineOptions({ name: 'TRadio' })
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
