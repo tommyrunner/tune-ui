@@ -11,7 +11,7 @@ import { TTextarea } from './textarea'
 import { TRate } from './rate'
 import { TBadge } from './badge'
 import { TCard } from './card'
-import { TCollapse, TCollapseItem } from './collapse'
+import { TCollapse, TCollapseGroup } from './collapse'
 
 const components = {
   TButton,
@@ -29,7 +29,7 @@ const components = {
   TBadge,
   TCard,
   TCollapse,
-  TCollapseItem
+  TCollapseGroup
 }
 // 全局组件注册
 export default {

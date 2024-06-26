@@ -1,7 +1,7 @@
 <template>
   <span :class="getClass" :checked="isChecked" @click="handChecked">
     <div v-if="!props.icon && slot.radioSpan">
-      <slot name="radioSpan" :value="modelValue" />
+      <slot name="radioSpan" :value="model" />
     </div>
     <span :class="['_t-radio-span', `_t-radio-span-${props.radius}`]" v-else-if="!props.icon" />
     <TIcon class="_t-radio-icon" :icon="props.icon" v-else />
@@ -21,6 +21,7 @@ const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   radius: 'default',
+  value: false,
   disabled: false
 })
 const slot = useSlots()

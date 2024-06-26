@@ -1,9 +1,5 @@
 import { type BaseProps } from '@/types'
-
-/**
- * value 类型
- */
-export type ValueType = string | number | boolean | object
+import { ValueType } from './radio'
 /**
  * @description: 组件props类型
  */

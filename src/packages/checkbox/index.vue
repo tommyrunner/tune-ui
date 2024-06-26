@@ -1,7 +1,7 @@
 <template>
   <span :class="getClass" :checked="isChecked" @click="handChecked">
     <div v-if="!props.icon && slot.checkboxSpan">
-      <slot name="checkboxSpan" :value="modelValue" />
+      <slot name="checkboxSpan" :value="model" />
     </div>
     <span :class="['_t-checkbox-span', `_t-checkbox-span-${props.radius}`]" v-else-if="!props.icon">
       <TIcon icon="success" color="white" v-if="isChecked" />
@@ -22,6 +22,7 @@ const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   radius: 'square',
+  value: false,
   disabled: false
 })
 const slot = useSlots()
@@ -88,7 +89,6 @@ const handChecked = () => {
     groupContext.changeEvent(isChecked.value, props.value)
   } else {
     // 未值定value默认以boolean类型
-    console.log(model.value, props.value)
     if (typeof model.value === 'boolean' && !props.value) model.value = !model.value
     // 则
     else model.value = isChecked.value ? void 0 : props.value

@@ -5,7 +5,6 @@ $theme-color-info: var(--info, #17a2b8);
 $theme-color-warning: var(--warning, #ffc107);
 $theme-color-danger: var(--danger, #dc3545);
 
-
 // 默认颜色
 $color-white: #ffffff;
 $bg-color-default: #ffffff;
@@ -17,6 +16,11 @@ $font-size-small: 12px;
 $font-size-default: 14px;
 $font-size-large: 16px;
 $font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5fae\8f6f\96c5\9ed1", Arial, sans-serif;
+
+// 边框颜色颜色
+@function border-color($opacity) {
+    @return rgba(220, 220, 220, $opacity);
+}
 
 // 公共样式
 // - 禁用

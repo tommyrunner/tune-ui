@@ -1,10 +1,12 @@
 @import '@/styles/index.scss';
 
+$shadow-color: rgba(0, 0, 0, 0.1);
+
 .t-card {
     transition: 0.55s;
     position: relative;
     border-radius: 4px;
-    border: 1px solid rgba(220, 220, 220, 0);
+    border: 1px solid border-color(0);
 
     ._t-card-body {
         padding: 12px;
@@ -14,7 +16,7 @@
         font-size: 14px;
         padding: 12px;
         box-sizing: border-box;
-        border-bottom: 1px solid rgba(220, 220, 220, 0.788);
+        border-bottom: 1px solid border-color(5);
         margin-bottom: 6px;
         transition: 0.22s;
         display: flex;
@@ -23,7 +25,7 @@
         justify-content: space-between;
 
         &:hover {
-            border-color: rgb(201, 201, 201, 0.8);
+            border-color: border-color(8);
         }
     }
 
@@ -31,21 +33,21 @@
         font-size: 14px;
         padding: 6px 12px;
         box-sizing: border-box;
-        border-top: 1px solid rgba(220, 220, 220, 0.788);
+        border-top: 1px solid border-color(5);
         transition: 0.22s;
 
         &:hover {
-            border-color: rgb(201, 201, 201);
+            border-color: border-color(8);
         }
     }
 
     &.t-card-shadow-always {
-        box-shadow: 0px 0px 12px rgba(0, 0, 0, .1);
-        border: 1px solid rgba(220, 220, 220, 0.6);
+        box-shadow: 0px 0px 12px $shadow-color;
+        border: 1px solid border-color(5);
     }
 
     &.t-card-shadow-hover:hover {
-        box-shadow: 0px 0px 12px rgba(0, 0, 0, .1);
-        border: 1px solid rgba(220, 220, 220, 0.6);
+        box-shadow: 0px 0px 12px $shadow-color;
+        border: 1px solid border-color(5);
     }
 }

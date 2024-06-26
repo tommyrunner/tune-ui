@@ -1,26 +1,50 @@
 @import '@/styles/index.scss';
 
-.t-collapse-item {
-    border-bottom: 1px solid rgba(220, 220, 220, 0.3);
+$transition-delay: 0.55s;
+
+.t-collapse {
+    border-bottom: 1px solid border-color(0.3);
     min-width: 100px;
     padding: 6px;
     box-sizing: border-box;
     transition: 0.22s;
 
-    &:hover {
-        border-bottom: 1px solid rgba(220, 220, 220, 0.8);
+    .t-icon {
+        display: flex;
+        transition: $transition-delay;
+        color: border-color(0.6);
     }
 
-    ._t-collapse-item-head {
+    ._t-collapse-icon-active {
+        transform: rotate(90deg);
+    }
+
+    &:hover {
+        border-bottom: 1px solid border-color(0.8);
+
+        .t-icon {
+            color: border-color(0.9);
+        }
+    }
+
+    ._t-collapse-head {
         display: flex;
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
+        padding-bottom: 6px;
+        font-size: 14px;
+
+        ._t-collapse-head-right {
+            display: flex;
+            align-items: center;
+        }
     }
 
-    ._t-collapse-item-body {
+    ._t-collapse-body {
         overflow: hidden;
-        transition: 0.55s;
-        height: 0px;
+        transition: height $transition-delay;
     }
+
+
 }
