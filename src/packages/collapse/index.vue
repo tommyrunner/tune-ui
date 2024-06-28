@@ -32,6 +32,7 @@ const groupContext = inject<GroupContextType | undefined>(collapseGroupKey, void
 const bodyHeight = ref(0)
 const bodyRef = ref<InstanceType<typeof HTMLDivElement>>()
 onMounted(() => {
+  // 进入记录body原始高度
   bodyHeight.value = bodyRef.value?.clientHeight
 })
 // 判断是否选中

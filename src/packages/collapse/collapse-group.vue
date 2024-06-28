@@ -1,5 +1,5 @@
 <template>
-  <div class="t-collapse" ref="groupRef">
+  <div class="t-collapse-group" ref="groupRef">
     <slot />
   </div>
 </template>
