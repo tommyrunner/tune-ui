@@ -45,4 +45,3 @@ const getModel = computed(() => {
 <style lang="scss" scoped>
 @import 'index.scss';
 </style>
-./colorPicker ./nadge

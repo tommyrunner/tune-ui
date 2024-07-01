@@ -99,4 +99,3 @@ const handChecked = () => {
 <style lang="scss" scoped>
 @import 'index.scss';
 </style>
-./checkbox

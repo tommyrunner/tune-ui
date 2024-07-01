@@ -12,6 +12,7 @@ import { TRate } from './rate'
 import { TBadge } from './badge'
 import { TCard } from './card'
 import { TCollapse, TCollapseGroup } from './collapse'
+import { TCarousel, TCarouselGroup } from './carousel'
 
 const components = {
   TButton,
@@ -29,7 +30,9 @@ const components = {
   TBadge,
   TCard,
   TCollapse,
-  TCollapseGroup
+  TCollapseGroup,
+  TCarousel,
+  TCarouselGroup
 }
 // 全局组件注册
 export default {
@@ -55,3 +58,4 @@ export * from './rate'
 export * from './badge'
 export * from './card'
 export * from './collapse'
+export * from './carousel'
