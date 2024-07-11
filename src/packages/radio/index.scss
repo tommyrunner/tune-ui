@@ -44,7 +44,7 @@ $title-margin-left: 16px;
         opacity: 0;
         outline: none;
         position: absolute;
-        z-index: -1;
+        z-index: $z-index-dow;
         margin-left: 14px;
     }
 

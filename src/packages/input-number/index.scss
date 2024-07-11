@@ -43,7 +43,7 @@
             transition: 0.22s;
             left: 8px;
             top: -10px;
-            z-index: 2001;
+            z-index: $z-index-up;
             background-color: white;
             user-select: none;
             animation: anima-tip ease 0.11s;

@@ -40,3 +40,8 @@
 - 全局配置主题方式
 - - 通过js设置 useOptions
 - - 通过css覆盖 :root
+
+初步规则：
+组件导出: Txx
+组件class:t-xx-xx
+组件class嵌套样式:_t-xx-xx

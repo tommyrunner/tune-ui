@@ -16,6 +16,10 @@ $font-size-small: 12px;
 $font-size-default: 14px;
 $font-size-large: 16px;
 $font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5fae\8f6f\96c5\9ed1", Arial, sans-serif;
+// z-index 层
+$z-index-show: 1;
+$z-index-up: 2001;
+$z-index-dow: -1;
 
 // 边框颜色颜色
 @function border-color($opacity) {
