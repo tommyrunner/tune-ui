@@ -53,7 +53,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   direction: 'horizontal',
   trigger: 'hover',
   arrow: 'always',
-  toggle: 'vision'
+  toggle: 'none'
 })
 const emit = defineEmits<EmitsType>()
 const groupContent = ref<HTMLElement>()
@@ -64,7 +64,9 @@ const state = reactive({
   // 防止抖动动画
   bindDebounce: true,
   triggerActive: 0,
-  isHoverContent: false
+  isHoverContent: false,
+  // 控制repeatedly反复 方向
+  isRepeatedly: false
 })
 /**
  * 子组件状态更新函数
@@ -87,8 +89,9 @@ onMounted(() => {
   // 初始化
   if (childEls.value.length) {
     // 监听滚动回调
-    groupContent.value?.addEventListener('scroll', () => {
-      updatePageIndex()
+    groupContent.value?.addEventListener('scroll', updatePageIndex)
+    // 监听滚动结束回调
+    groupContent.value?.addEventListener('scrollend', () => {
       state.bindDebounce = true
     })
     // vision模式克隆视觉组件
@@ -106,8 +109,7 @@ onMounted(() => {
 })
 const updatePageIndex = () => {
   const { toggle, trigger } = props
-  if (trigger === 'none' || !state.bindDebounce) return
-  state.bindDebounce = false
+  if (trigger === 'none') return
   const el = groupContent.value
   const box = props[getBoxConter.value.box]
   const scrollDirection = el[getBoxConter.value.scrollDirection]
@@ -138,62 +140,75 @@ const runAutoplay = (animationFrame?: AnimationFrame) => {
 }
 /**
  * 根据不同 toggle 值切换
+ * @param is true: 前进 false:退后
  */
-const toIndex = () => {
+const toIndex = (is: boolean) => {
   const { toggle } = props
   const el = groupContent.value
   const direction = getBoxConter.value.direction
   const box = props[getBoxConter.value.box]
   const isVision = toggle === 'vision'
-  // 控制repeatedly反复 方向
-  let isRepeatedly = toggle === 'repeatedly'
   // 鼠标进入暂停轮播
   if (state.isHoverContent) return
   const scrollDirection = el[getBoxConter.value.scrollDirection]
   const scrollBox = el[getBoxConter.value.scrollBox]
   // 当前处于最后一个
   const lastBox = scrollDirection >= scrollBox - box
+  // 最后一个下标的滚动值
+  const lastDirection = childEls.value.length * box
   // 当前处于第一个
-  const firstLeft = scrollDirection <= 0
+  const firstBox = scrollDirection <= 0
+
   // 结束播放
-  if (toggle === 'none' && lastBox) {
-    return animationFrame.value.clear()
+  if (toggle === 'none' && (lastBox || firstBox)) return
+  // vision 需要提前 映射 克隆下标
+  if (isVision && firstBox && !is) {
+    el.scrollTo({
+      [direction]: lastDirection
+    })
   }
-  // 到达克隆dom（提前切换克隆下标）
-  if (isVision && scrollDirection >= scrollBox - box * 2) {
+  if (isVision && lastBox && is) {
     el.scrollTo({
       [direction]: 0
     })
   }
-  // 重复
-  if (toggle === 'repeat' && lastBox) {
-    el.scrollTo({
+  // repeat 边缘值时处理
+  if (toggle === 'repeat' && firstBox && !is) {
+    return el.scrollTo({
+      [direction]: lastDirection,
+      behavior: 'smooth'
+    })
+  }
+  if (toggle === 'repeat' && lastBox && is) {
+    return el.scrollTo({
       [direction]: 0,
       behavior: 'smooth'
     })
   }
   // 反复(相反方向)
   else if (toggle === 'repeatedly') {
-    if (lastBox) isRepeatedly = false
-    else if (firstLeft) isRepeatedly = true
+    if (lastBox) state.isRepeatedly = false
+    else if (firstBox) state.isRepeatedly = true
     el.scrollBy({
-      [direction]: isRepeatedly ? box : -box,
+      [direction]: state.isRepeatedly ? box : -box,
       behavior: 'smooth'
     })
   } else {
     el.scrollBy({
-      [direction]: box,
+      [direction]: is ? box : -box,
       behavior: 'smooth'
     })
   }
 }
+
 /**
  * 根据 toggle 类型切换下标
  * @param is true: 下一个 ,false: 上一个
  */
 const incrementedIndex = (is: boolean) => {
-  console.log(is)
-  toIndex()
+  if (!state.bindDebounce) return
+  state.bindDebounce = false
+  toIndex(is)
 }
 /**
  * 根据 direction 方向获取对应宽高值
