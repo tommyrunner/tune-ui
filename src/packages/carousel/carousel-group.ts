@@ -9,6 +9,7 @@ export interface PropsType {
   delay?: number
   initIndex?: number // 初始化值
   autoplay?: boolean
+  autoplayBack?: boolean // 轮播后退: true前进,默认 flase
   pauseOnHover?: boolean // 鼠标悬停是否暂停
   // 指示器: hover 悬停 , click 点击 none 不显示
   trigger?: 'hover' | 'click' | 'none'

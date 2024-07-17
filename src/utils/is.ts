@@ -74,6 +74,12 @@ export function isString(val: unknown): val is string {
 export function isBoolean(val: unknown): val is boolean {
   return is(val, 'Boolean')
 }
+/**
+ * @description:  是否为 Float 类型
+ */
+export function isFloat(val: unknown): val is Number {
+  return isNumber(val) && Number.isFinite(val) && Math.floor(val) !== val
+}
 
 /**
  * @description:  是否为数组

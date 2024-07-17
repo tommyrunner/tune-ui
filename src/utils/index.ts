@@ -4,8 +4,6 @@ export function isKeyboard(event: KeyboardEvent, key: string | number) {
   else event.key.toLocaleLowerCase() === key.toLocaleString()
 }
 
-let tmieout: undefined | NodeJS.Timeout = void 0
-
 /**
  * 处理绑定防抖事件
  * @param fun 事件触发
@@ -13,14 +11,17 @@ let tmieout: undefined | NodeJS.Timeout = void 0
  * @param params 参数
  */
 export function bindDebounce<T>(fun: (data?: T) => void | Function, delay: number, params?: T) {
-  if (tmieout) clearTimeout(tmieout)
-  tmieout = setTimeout(() => {
-    if (fun) {
-      let reFun = fun(params)
-      isFunction(reFun) && reFun()
-    }
-    clearTimeout(tmieout)
-  }, delay)
+  let tmieout: undefined | NodeJS.Timeout = void 0
+  return (() => {
+    if (tmieout) clearTimeout(tmieout)
+    tmieout = setTimeout(() => {
+      if (fun) {
+        let reFun = fun(params)
+        isFunction(reFun) && reFun()
+      }
+      clearTimeout(tmieout)
+    }, delay)
+  })()
 }
 
 const requestAnimationFrame = window.requestAnimationFrame
