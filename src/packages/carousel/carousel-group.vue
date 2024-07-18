@@ -1,5 +1,10 @@
 <template>
-  <div class="t-carousel-group" :style="getStyle">
+  <div
+    :class="['t-carousel-group', `t-carousel-group-${props.direction}`]"
+    :style="getStyle"
+    @mouseover="state.isHoverContent = true"
+    @mouseout="state.isHoverContent = false"
+  >
     <!-- 箭头 -->
     <TIcon
       :class="['_t-carousel-group-arrow', '_t-carousel-group-arrow-icon1', `_t-carousel-group-arrow-${props.arrow}`]"
@@ -26,22 +31,16 @@
         @mouseover="setPageIndex(index, 'hover')"
       ></div>
     </div>
-    <div
-      :class="getContentClass"
-      ref="groupContent"
-      @mouseover="state.isHoverContent = true"
-      @mouseout="state.isHoverContent = false"
-    >
+    <div :class="getContentClass" ref="groupContent">
       <slot />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import type { ValueType } from './carousel'
 import type { PropsType, EmitsType } from './carousel-group'
 import { type GroupContextType, collapseGroupKey } from './constants'
-import { type StyleValue, ref, provide, reactive, toRefs, nextTick, onMounted, computed, onDeactivated } from 'vue'
-import { AnimationFrame, bindDebounce } from '@/utils'
+import { type StyleValue, ref, provide, reactive, toRefs, onMounted, computed, onDeactivated, watch } from 'vue'
+import { AnimationFrame } from '@/utils'
 import { TIcon } from '../icon'
 defineOptions({ name: 'TCheckboxGroup' })
 const props = withDefaults(defineProps<PropsType>(), {
@@ -52,17 +51,16 @@ const props = withDefaults(defineProps<PropsType>(), {
   pauseOnHover: true,
   direction: 'horizontal',
   trigger: 'hover',
-  arrow: 'always',
+  arrow: 'hover',
   toggle: 'vision'
 })
 const emit = defineEmits<EmitsType>()
 const groupContent = ref<HTMLElement>()
-const model = defineModel<ValueType[]>()
 const childEls = ref<HTMLDivElement[]>([])
 const animationFrame = ref<AnimationFrame>()
 const initData = {
   // 防止抖动动画
-  bindDebounce: true,
+  debounce: true,
   triggerActive: 0,
   isHoverContent: false,
   // 控制repeatedly反复 方向
@@ -70,19 +68,7 @@ const initData = {
   contentObserver: void 0 as undefined | MutationObserver
 }
 const state = reactive({ ...initData })
-/**
- * 子组件状态更新函数
- * @param isChecked 当前是否选中
- * @param item 子组件绑定value值
- */
-const changeEvent = (isChecked?: boolean, item?: ValueType) => {
-  if (!item || !model.value) return
-  // 如果选中，则取消选中
-  if (isChecked && model.value.includes(item)) {
-    model.value = model.value.filter((v) => v !== item)
-  }
-  nextTick(() => emit('change', model.value))
-}
+
 const getChildElsLength = computed(() => {
   if (props.toggle === 'vision') {
     return childEls.value.length - 1
@@ -128,6 +114,14 @@ onMounted(() => {
     updateElClass()
   }
 })
+// 动态控制轮播状态
+watch(
+  () => props.autoplay,
+  (val) => {
+    if (val) runAutoplay(animationFrame.value)
+    else animationFrame.value.clear()
+  }
+)
 const updateChildEls = () => {
   childEls.value = Array.from(groupContent.value?.querySelectorAll('#_t-carousel'))
 }
@@ -135,18 +129,15 @@ const updateChildEls = () => {
  * 清空防抖处理
  */
 const clearBindDebounce = () => {
-  // 优化防抖切换
-  bindDebounce(() => {
-    state.bindDebounce = true
-  }, 350)
+  state.debounce = true
 }
 const updatePageIndex = () => {
   const { toggle, trigger, autoplay } = props
   if (trigger === 'none' && autoplay) return
   const el = groupContent.value
-  const box = props[getBoxConter.value.box]
-  const scrollDirection = el[getBoxConter.value.scrollDirection]
-  const scrollBox = el[getBoxConter.value.scrollBox]
+  const box = props[getBoxContent.value.box]
+  const scrollDirection = el[getBoxContent.value.scrollDirection]
+  const scrollBox = el[getBoxContent.value.scrollBox]
   // 使用四舍五入让指示标提前显示
   state.triggerActive = Math.round(scrollDirection / box)
   // 处理克隆多出的page
@@ -162,7 +153,7 @@ const updatePageIndex = () => {
 const setPageIndex = (index: number, val: typeof props.trigger, behavior: ScrollBehavior = 'smooth') => {
   if (props.trigger === val)
     groupContent.value?.scrollTo({
-      [getBoxConter.value.direction]: props[getBoxConter.value.box] * index,
+      [getBoxContent.value.direction]: props[getBoxContent.value.box] * index,
       behavior: behavior
     })
 }
@@ -170,7 +161,11 @@ const setPageIndex = (index: number, val: typeof props.trigger, behavior: Scroll
  * 轮播
  */
 const runAutoplay = (animationFrame?: AnimationFrame) => {
-  animationFrame.call(() => toIndex(!props.autoplayBack))
+  if (animationFrame)
+    animationFrame.call(() => {
+      toIndex(!props.autoplayBack)
+      emit('autoplay', state.triggerActive)
+    })
 }
 /**
  * 根据不同 toggle 值切换
@@ -179,16 +174,16 @@ const runAutoplay = (animationFrame?: AnimationFrame) => {
 const toIndex = (is: boolean) => {
   const { toggle } = props
   const el = groupContent.value
-  const direction = getBoxConter.value.direction
-  const box = props[getBoxConter.value.box]
+  const direction = getBoxContent.value.direction
+  const box = props[getBoxContent.value.box]
   const isNone = toggle === 'none'
   const isVision = toggle === 'vision'
-  const isRepet = toggle === 'repeat'
+  const isRepeat = toggle === 'repeat'
   const isRepeatedly = toggle === 'repeatedly'
-  // 鼠标进入暂停轮播
-  if (state.isHoverContent) return
-  const scrollDirection = el[getBoxConter.value.scrollDirection]
-  const scrollBox = el[getBoxConter.value.scrollBox]
+  // 鼠标进入暂停轮播（点击箭头时除外）
+  if ((state.isHoverContent && state.debounce) || !el) return
+  const scrollDirection = el[getBoxContent.value.scrollDirection]
+  const scrollBox = el[getBoxContent.value.scrollBox]
   // 当前处于最后一个
   const lastBox = scrollDirection >= scrollBox - box
   // 最后一个下标的滚动值
@@ -210,7 +205,7 @@ const toIndex = (is: boolean) => {
     }
   }
   // repeat 边缘值时处理
-  if (isRepet) {
+  if (isRepeat) {
     if (firstBox && !is) {
       el.scrollTo({
         [direction]: lastDirection,
@@ -219,6 +214,11 @@ const toIndex = (is: boolean) => {
     } else if (lastBox && is) {
       el.scrollTo({
         [direction]: 0,
+        behavior: 'smooth'
+      })
+    } else {
+      el.scrollBy({
+        [direction]: is ? box : -box,
         behavior: 'smooth'
       })
     }
@@ -238,15 +238,15 @@ const toIndex = (is: boolean) => {
     })
   }
 }
-
 /**
  * 根据 toggle 类型切换下标
  * @param is true: 下一个 ,false: 上一个
  */
 const incrementedIndex = (is: boolean) => {
-  if (!state.bindDebounce) return
-  state.bindDebounce = false
+  if (!state.debounce) return
+  state.debounce = false
   toIndex(is)
+  emit('change', state.triggerActive)
 }
 /**
  * 根据 direction 方向获取对应宽高值
@@ -255,7 +255,7 @@ const incrementedIndex = (is: boolean) => {
  * @param box 方向值(el)
  * @param scrollBox 滚动方向值(el)
  */
-const getBoxConter = computed(() => {
+const getBoxContent = computed(() => {
   let params = { direction: 'left', scrollDirection: 'scrollLeft', box: 'width', scrollBox: 'scrollWidth' }
   if (props.direction === 'vertical')
     params = { direction: 'top', scrollDirection: 'scrollTop', box: 'height', scrollBox: 'scrollHeight' }
@@ -269,19 +269,26 @@ const getStyle = computed((): StyleValue => {
   }
 })
 const getTriggerClass = computed(() => {
-  return ['_t-carousel-group-trigger', `_t-carousel-group-trigger-${props.direction}`]
+  return ['_t-carousel-group-trigger']
 })
 const getContentClass = computed(() => {
-  return ['_t-carousel-group-content', `_t-carousel-group-content-${props.direction}`]
+  return ['_t-carousel-group-content']
 })
 const updateElClass = () => {
+  if (!props.animation) {
+    // 清空动画class
+    childEls.value.forEach((ch) => {
+      ch.classList.add('_t-carousel-active')
+      ch.classList.remove('_t-carousel-def')
+    })
+    return
+  }
   const { toggle } = props
   // 修改子元素样式
   childEls.value.forEach((ch, index) => {
     let active = state.triggerActive
     // 如果是克隆元素特殊处理
     const isClone = toggle === 'vision' && index === childEls.value.length - 1 && active === 0
-    console.log(1)
     if (active === index || isClone) {
       ch.classList.add('_t-carousel-active')
       ch.classList.remove('_t-carousel-def')
@@ -296,9 +303,7 @@ const updateElClass = () => {
 provide<GroupContextType>(
   collapseGroupKey,
   reactive({
-    ...toRefs(props),
-    model,
-    changeEvent
+    ...toRefs(props)
   })
 )
 defineExpose({

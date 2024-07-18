@@ -11,15 +11,15 @@ export function isKeyboard(event: KeyboardEvent, key: string | number) {
  * @param params 参数
  */
 export function bindDebounce<T>(fun: (data?: T) => void | Function, delay: number, params?: T) {
-  let tmieout: undefined | NodeJS.Timeout = void 0
+  let timeout: undefined | NodeJS.Timeout = void 0
   return (() => {
-    if (tmieout) clearTimeout(tmieout)
-    tmieout = setTimeout(() => {
+    if (timeout) clearTimeout(timeout)
+    timeout = setTimeout(() => {
       if (fun) {
         let reFun = fun(params)
         isFunction(reFun) && reFun()
       }
-      clearTimeout(tmieout)
+      clearTimeout(timeout)
     }, delay)
   })()
 }

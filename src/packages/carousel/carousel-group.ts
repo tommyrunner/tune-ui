@@ -1,5 +1,3 @@
-import { ValueType } from './carousel'
-
 /**
  * @description: 组件props类型
  */
@@ -11,6 +9,7 @@ export interface PropsType {
   autoplay?: boolean
   autoplayBack?: boolean // 轮播后退: true前进,默认 flase
   pauseOnHover?: boolean // 鼠标悬停是否暂停
+  animation?: boolean // 切换动画
   // 指示器: hover 悬停 , click 点击 none 不显示
   trigger?: 'hover' | 'click' | 'none'
   // 箭头: always 总是显示 , hover 悬停 none 不显示
@@ -25,5 +24,7 @@ export interface PropsType {
  */
 export interface EmitsType {
   // 切换事件
-  (e: 'change', data?: ValueType[]): void
+  (e: 'change', index?: number): void
+  // 轮播监听
+  (e: 'autoplay', index?: number): void
 }
