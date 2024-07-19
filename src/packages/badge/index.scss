@@ -6,9 +6,9 @@
     position: relative;
     width: fit-content;
     font-size: 12px;
-    color: white;
 
-    ._t-badge-num {
+    ._num {
+        color: white;
         position: absolute;
         right: 0px;
         top: 0px;
@@ -25,7 +25,7 @@
         animation: anima-badge ease 0.22s;
     }
 
-    ._t-badge-num-dot {
+    ._num-dot {
         position: absolute;
         right: 0px;
         top: 0px;

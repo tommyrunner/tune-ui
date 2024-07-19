@@ -28,7 +28,7 @@
         }
     }
 
-    ._t-input-number-range-item {
+    ._range-item {
         height: 100%;
         transition: 0.22s;
         position: relative;
@@ -36,7 +36,7 @@
         align-items: center;
         padding: 4px 8px;
 
-        ._t-input-number-tip {
+        ._tip {
             position: absolute;
             color: rgba(128, 128, 128, 0.747);
             font-size: 10px;
@@ -49,7 +49,7 @@
             animation: anima-tip ease 0.11s;
         }
 
-        ._t-input-number-right-icon {
+        ._right-icon {
             cursor: pointer;
             position: absolute;
             right: 6px;
@@ -65,7 +65,7 @@
             }
         }
 
-        ._t-input-number-spe {
+        ._spe {
             margin: 0px 4px;
             color: $text-color-default;
             font-size: 12px;
@@ -84,7 +84,7 @@
     &.t-disabled {
         background-color: $border-color-default;
 
-        ._t-input-number-tip {
+        ._tip {
             background-color: transparent;
         }
 

@@ -1,10 +1,5 @@
 <template>
-  <div
-    :style="{ gap: `${props.gap}px` }"
-    :class="getClass"
-    @mouseenter="handlerParent(true)"
-    @mouseleave="handlerParent(false)"
-  >
+  <div :style="getStyle" :class="getClass" @mouseenter="handlerParent(true)" @mouseleave="handlerParent(false)">
     <TIcon
       @mouseenter="handlerMouseenter(i)"
       @mousemove="handlerMousemove($event, i)"
@@ -20,7 +15,7 @@
 <script lang="ts" setup>
 import type { EmitsType, PropsType } from './rate'
 import { configOptions } from '@/hooks/useOptions'
-import { computed, ref } from 'vue'
+import { computed, ref, StyleValue } from 'vue'
 import { TIcon } from '..'
 defineOptions({ name: 'TRate' })
 const emit = defineEmits<EmitsType>()
@@ -29,6 +24,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   max: 5,
   gap: 5,
+  isHalf: true,
   disabled: false
 })
 const getColor = computed(() => {
@@ -48,7 +44,7 @@ const sizes = {
 const getSize = computed(() => {
   return sizes[props.size]
 })
-const showModel = ref(model.value)
+const showModel = ref()
 const isHoverParent = ref(false)
 const getClass = computed(() => {
   const { disabled } = props
@@ -95,6 +91,11 @@ const handlerClick = () => {
   } else model.value = showModel.value
   emit('change', model.value)
 }
+const getStyle = computed((): StyleValue => {
+  return {
+    gap: `${props.gap}px`
+  }
+})
 </script>
 <style lang="scss" scoped>
 @import 'index.scss';

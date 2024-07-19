@@ -6,10 +6,9 @@
     border: 1px solid $border-color-default;
     font-size: $font-size-default;
     outline: none;
-    height: 100%;
     cursor: pointer;
     white-space: nowrap;
-    height: 32px;
+    min-height: 24px;
     border-radius: 4px;
     overflow: hidden;
     display: inline-flex;
@@ -47,11 +46,11 @@
         filter: brightness(1.06);
     }
 
-    ._t-button-prefixIcon {
+    ._prefixIcon {
         margin-right: 4px;
     }
 
-    ._t-button-suffixIcon {
+    ._suffixIcon {
         margin-left: 4px;
     }
 }
@@ -102,37 +101,37 @@
 // 主题大小
 .t-button-size-default {
     font-size: $font-size-default;
-    height: 32px;
-    line-height: 32px;
+    min-height: 24px;
+    line-height: 24px;
     padding: 4px 16px;
 
-    ._t-button-prefixIcon,
-    ._t-button-suffixIcon {
+    ._prefixIcon,
+    ._suffixIcon {
         font-size: 14px;
     }
 }
 
 .t-button-size-small {
     font-size: $font-size-small;
-    height: 24px;
-    line-height: 24px;
+    min-height: 16px;
+    line-height: 16px;
     padding: 2px 8px;
 
-    ._t-button-prefixIcon,
-    ._t-button-suffixIcon {
+    ._prefixIcon,
+    ._suffixIcon {
         font-size: 12px;
     }
 }
 
 .t-button-size-large {
     font-size: $font-size-large;
-    height: 38px;
-    padding: 6px 16px;
-    line-height: 38px;
+    min-height: 28px;
+    line-height: 28px;
+    padding: 6px 18px;
 
 
-    ._t-button-prefixIcon,
-    ._t-button-suffixIcon {
+    ._prefixIcon,
+    ._suffixIcon {
         font-size: 16px;
     }
 }
@@ -150,8 +149,8 @@
     border-radius: 50%;
     padding: 8px;
 
-    ._t-button-prefixIcon,
-    ._t-button-suffixIcon {
+    ._prefixIcon,
+    ._suffixIcon {
         margin: 0px;
     }
 }

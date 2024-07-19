@@ -13,12 +13,12 @@ $title-margin-left: 16px;
 
 
 
-    >._t-radio-icon {
+    >._icon {
         width: 14px;
         height: 14px;
     }
 
-    >._t-radio-span {
+    >._span {
         border: 1px solid #dcdfe6;
         width: 14px;
         height: 14px;
@@ -31,11 +31,11 @@ $title-margin-left: 16px;
         transform: translateY(-50%);
     }
 
-    >._t-radio-span-default {
+    >._span-default {
         border-radius: 100%;
     }
 
-    >._t-radio-span-square {
+    >._span-square {
         border-radius: 0px;
     }
 
@@ -49,7 +49,7 @@ $title-margin-left: 16px;
     }
 
 
-    ._t-radio-title {
+    ._title {
         transition: 0.22s;
         margin-left: $title-margin-left;
         user-select: none;
@@ -58,31 +58,31 @@ $title-margin-left: 16px;
     }
 
     // 如果span被自定义后调整left样式
-    ._t-radio-custom-span {
+    ._custom-span {
         margin-left: 4px !important;
     }
 
 
     &[checked="true"] {
-        ._t-radio-span {
+        ._span {
             background-color: $theme-color-primary;
         }
 
-        ._t-radio-icon {
+        ._icon {
             color: $theme-color-primary;
         }
 
-        ._t-radio-title {
+        ._title {
             color: $theme-color-primary;
         }
     }
 
     &:not(.t-disabled):hover {
-        ._t-radio-title {
+        ._title {
             color: $theme-color-primary;
         }
 
-        ._t-radio-span {
+        ._span {
             border-color: $theme-color-primary;
         }
     }
@@ -96,7 +96,7 @@ $title-margin-left: 16px;
 .t-radio-size-small {
     font-size: $font-size-small;
 
-    >._t-radio-span {
+    >._span {
         width: 12px;
         height: 12px;
     }
@@ -107,36 +107,36 @@ $title-margin-left: 16px;
 }
 
 // 处理group样式
-._t-radio-group-type-button,
-._t-radio-group-type-border {
+._type-button,
+._type-border {
     background-color: white;
     padding: 6px;
     box-sizing: border-box;
     text-align: center;
 
-    ._t-radio-title {
+    ._title {
         margin-left: 0px;
     }
 
-    ._t-radio-span {
+    ._span {
         display: none;
     }
 
     &[checked="true"] {
         background-color: $theme-color-primary;
 
-        &:hover ._t-radio-title {
+        &:hover ._title {
             color: white;
         }
 
-        ._t-radio-title {
+        ._title {
             color: white;
         }
 
     }
 
     // 处理边框
-    &._t-radio-group-direction-row {
+    &._direction-row {
         border-left: 1px solid $border-color-default;
         border-top: 1px solid $border-color-default;
         border-bottom: 1px solid $border-color-default;
@@ -153,7 +153,7 @@ $title-margin-left: 16px;
         }
     }
 
-    &._t-radio-group-direction-column {
+    &._direction-column {
         border-top: 1px solid $border-color-default;
         border-left: 1px solid $border-color-default;
         border-right: 1px solid $border-color-default;
@@ -171,56 +171,56 @@ $title-margin-left: 16px;
     }
 }
 
-._t-radio-group-type-border {
-    ._t-radio-span {
+._type-border {
+    ._span {
         display: inline-block;
     }
 
-    ._t-radio-title {
+    ._title {
         margin-left: $title-margin-left;
     }
 
     &[checked="true"] {
         background-color: white;
 
-        &:hover ._t-radio-title {
+        &:hover ._title {
             color: $theme-color-primary;
         }
 
-        ._t-radio-title {
+        ._title {
             color: $theme-color-primary;
         }
     }
 }
 
-._t-radio-group-type-text {
-    ._t-radio-span {
+._type-text {
+    ._span {
         display: none;
     }
 
 
-    ._t-radio-title {
+    ._title {
         margin-left: 2px;
     }
 
     &[checked="true"] {
-        ._t-radio-title {
+        ._title {
             color: $theme-color-primary;
         }
     }
 }
 
-._t-radio-group-type-default {
-    ._t-radio-title {
+._type-default {
+    ._title {
         margin-left: $title-margin-left;
     }
 
-    ._t-radio-span {
+    ._span {
         display: inline-block;
     }
 
     &[checked="true"] {
-        ._t-radio-title {
+        ._title {
             color: $theme-color-primary;
         }
 

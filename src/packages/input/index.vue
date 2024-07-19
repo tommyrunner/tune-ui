@@ -1,9 +1,9 @@
 <template>
   <div :class="getClass">
-    <div class="_t-input-prefix">
+    <div class="_prefix">
       <slot name="prefix" />
     </div>
-    <span class="_t-input-tip" v-if="getTip">{{ getTip }}</span>
+    <span class="_tip" v-if="getTip">{{ getTip }}</span>
     <input
       ref="inputRef"
       v-model="model"
@@ -17,7 +17,7 @@
       @input="handleInput"
     />
     <transition name="right-icon">
-      <div class="_t-input-right-icon" v-if="isRightIcon">
+      <div class="_right-icon" v-if="isRightIcon">
         <TIcon
           v-if="props.password"
           :icon="isPreview ? 'preview' : 'unpreview'"

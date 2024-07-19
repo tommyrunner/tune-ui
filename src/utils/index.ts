@@ -23,6 +23,22 @@ export function bindDebounce<T>(fun: (data?: T) => void | Function, delay: numbe
     }, delay)
   })()
 }
+/**
+ * 处理绑定节流事件
+ * @param fun 事件触发
+ * @param delay 延迟
+ * @param params 参数
+ */
+export function bindThrottle<T>(fun: (data?: T) => void, delay: number) {
+  let isThrottled = false
+  return function (...args: any[]) {
+    if (!isThrottled) {
+      fun(...args)
+      isThrottled = true
+      setTimeout(() => (isThrottled = false), delay)
+    }
+  }
+}
 
 const requestAnimationFrame = window.requestAnimationFrame
 export class AnimationFrame {

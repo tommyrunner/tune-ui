@@ -1,8 +1,8 @@
 <template>
   <div class="t-badge">
     <div
-      v-if="model !== props.hiddenValue && model"
-      :class="[props.isDot ? '_t-badge-num-dot' : '_t-badge-num']"
+      v-if="props.value !== props.hiddenValue && props.value"
+      :class="[props.isDot ? '_num-dot' : '_num']"
       :style="getStyle"
       ref="badgeRef"
     >
@@ -16,7 +16,6 @@ import type { PropsType } from './badge'
 import { type StyleValue, computed, ref } from 'vue'
 defineOptions({ name: 'TBadge' })
 const badgeRef = ref<InstanceType<typeof HTMLDivElement>>()
-const model = defineModel<number>()
 const props = withDefaults(defineProps<PropsType>(), {
   offsetY: 0,
   offsetX: 0,
@@ -35,11 +34,10 @@ const getStyle = computed((): StyleValue => {
   }
 })
 const getModel = computed(() => {
-  const { max, value, isDot } = props
+  const { max, isDot } = props
   if (isDot) return ''
-  if (value) return value
-  if (model.value > max) return `${max}+`
-  else return model.value
+  if (props.value > max) return `${max}+`
+  else return props.value
 })
 </script>
 <style lang="scss" scoped>

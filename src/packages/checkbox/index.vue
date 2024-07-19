@@ -3,10 +3,10 @@
     <div v-if="!props.icon && slot.checkboxSpan">
       <slot name="checkboxSpan" :value="model" />
     </div>
-    <span :class="['_t-checkbox-span', `_t-checkbox-span-${props.radius}`]" v-else-if="!props.icon">
+    <span :class="['_span', `_span-${props.radius}`]" v-else-if="!props.icon">
       <TIcon icon="success" color="white" v-if="isChecked" />
     </span>
-    <TIcon class="_t-checkbox-icon" :icon="props.icon" v-else />
+    <TIcon class="_icon" :icon="props.icon" v-else />
     <input type="checkbox" :name="props.name" :value="props.value" />
     <span :class="getTitleClass"><slot /></span>
   </span>
@@ -33,11 +33,7 @@ const groupContext = inject<GroupContextType | undefined>(checkboxGroupKey, void
    custom-span 代表有自定义组件代替了span，需要修复样式
  **/
 const getTitleClass = computed(() => {
-  const base = [
-    '_t-checkbox-title',
-    props.disabled && 't-disabled',
-    (slot.checkboxSpan || props.icon) && '_t-checkbox-custom-span'
-  ]
+  const base = ['_title', props.disabled && 't-disabled', (slot.checkboxSpan || props.icon) && '_custom-span']
   return base
 })
 const getClass = computed(() => {
@@ -45,11 +41,7 @@ const getClass = computed(() => {
   const base = ['t-checkbox', `t-checkbox-size-${size}`, disabled && 't-disabled']
   // 组合样式
   if (groupContext) {
-    return [
-      ...base,
-      `_t-checkbox-group-type-${groupContext.type}`,
-      `_t-checkbox-group-direction-${groupContext.direction}`
-    ]
+    return [...base, `_type-${groupContext.type}`, `_direction-${groupContext.direction}`]
   }
   return base
 })

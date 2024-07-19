@@ -1,11 +1,11 @@
 <template>
   <button :class="getClass" :style="getStyle" autofocus>
-    <TIcon v-if="props.prefixIcon" :icon="prefixIcon" class="_t-button-prefixIcon" />
+    <TIcon v-if="props.prefixIcon" :icon="prefixIcon" class="_prefixIcon" />
     <slot />
     <TIcon
       v-if="props.suffixIcon || props.loading"
       :icon="suffixIcon"
-      :class="['_t-button-suffixIcon', props.loading && 't-loading']"
+      :class="['_suffixIcon', props.loading && 't-loading']"
     />
   </button>
 </template>

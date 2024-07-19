@@ -14,7 +14,7 @@ $transition-delay: 0.55s;
         color: border-color(0.6);
     }
 
-    ._t-collapse-icon-active {
+    ._icon-active {
         transform: rotate(90deg);
     }
 
@@ -26,23 +26,23 @@ $transition-delay: 0.55s;
         }
     }
 
-    ._t-collapse-head {
+    ._head {
         display: flex;
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
         padding-bottom: 6px;
         font-size: 14px;
-        min-height: 32px;
+        min-height: 24px;
 
 
-        ._t-collapse-head-right {
+        ._head-right {
             display: flex;
             align-items: center;
         }
     }
 
-    ._t-collapse-body {
+    ._body {
         overflow: hidden;
         transition: height $transition-delay;
     }

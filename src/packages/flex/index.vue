@@ -1,84 +1,53 @@
 <template>
-  <div :class="['t-flex']" :style="getStyle" ref="flexRef">
+  <div :class="['t-flex']" :style="getStyle">
     <slot />
   </div>
 </template>
 <script lang="ts" setup>
+import { bindThrottle } from '@/utils'
 import type { PropsType } from './flex'
-import { type StyleValue, computed, ref, watch, onMounted, onDeactivated } from 'vue'
+import { computed, onDeactivated, ref, StyleValue } from 'vue'
 defineOptions({ name: 'TFlex' })
-const props = withDefaults(defineProps<PropsType>(), {
-  spans: () => [],
-  gap: 12,
-  justify: 'start',
-  itemDisplay: 'inline-block',
-  sort: () => [],
-  offset: () => []
-})
-const flexRef = ref()
-const getStyle = computed((): StyleValue => {
-  const { gap, align, justify } = props
-  return {
-    gap: `${gap}px`,
-    alignItems: align,
-    justifyContent: justify
-  }
-})
-// 监听spans变化，动态更新响应式布局
-watch(() => props.spans, updateLayout, { immediate: true })
-// TODO: 做优化处理
+const props = withDefaults(defineProps<PropsType>(), {})
+// 处理动态变化
+const innerWidth = ref(window.innerWidth)
+// 更新屏幕宽度
+const updateLayout = bindThrottle(() => {
+  innerWidth.value = window.innerWidth
+  // console.log(innerWidth.value)
+}, 2000)
 window.addEventListener('resize', updateLayout)
-onMounted(updateLayout)
 onDeactivated(() => {
   window.removeEventListener('resize', updateLayout)
 })
-function updateLayout() {
-  if (flexRef.value) {
-    // 获取所有子元素
-    const children = [...flexRef.value.children]
-    // 得出需要减去的间隔宽度
-    let gapVal = (props.gap * (children.length - 1)) / children.length
-    // 处理响应式
-    let span = props.spans
-    let w = window.innerWidth
-    if (w >= 1920 && props.xl?.length) {
-      span = props.xl
-    } else if (w >= 1200 && props.lg?.length) {
-      span = props.lg
-    } else if (w >= 768 && props.sm?.length) {
-      span = props.sm
-    } else if (props.xs?.length) {
-      span = props.xs
-    }
-    children.forEach((child: HTMLElement, index: number) => {
-      let isShow = false
-      // 处理超出值
-      if (span[index] > 10) span[index] = 10
-      if (span[index] < 0 || span[index] === 0) {
-        // 如果为0，默认不显示
-        span[index] = 0
-        isShow = true
-      }
-      /**
-       * 处理对齐
-       * 处理元素宽度
-       * 处理排序
-       * 处理左偏移度
-       */
-      child.style.cssText = `
-        display: ${isShow ? 'none' : props.itemDisplay};
-        width: calc(${span[index] * 10}% - ${gapVal}px);
-        order: ${props.sort[index]};
-        margin-left:${props.offset[index] * 10}%;
-        transition: 0.22s;
-      `
-    })
+
+const getStyle = computed((): StyleValue => {
+  const { span, sort, offset, xs, sm, md, lg, xl } = props
+  let spanVal = span > 10 ? 10 : span
+  // 处理响应式
+  let w = innerWidth.value
+  if (w >= 1920 && xl) {
+    spanVal = xl
+  } else if (w >= 1200 && lg) {
+    spanVal = lg
+  } else if (w >= 992 && md) {
+    spanVal = md
+  } else if (w >= 768 && sm) {
+    spanVal = sm
+  } else if (xs) {
+    spanVal = xs
   }
-}
-defineExpose({
-  updateLayout
+  return {
+    // 如果<=0默认不显示
+    display: span <= 0 ? 'none' : 'inline-block',
+    width: spanVal && `calc(${spanVal * 10}%`,
+    marginLeft: offset && `${offset * 10}%`,
+    order: `${sort}`
+  }
 })
 </script>
 <style lang="scss" scoped>
-@import 'index.scss';
+.t-flex {
+  transition: 0.33s;
+}
 </style>

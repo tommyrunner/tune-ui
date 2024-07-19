@@ -20,7 +20,7 @@
     &.t-disabled {
         background-color: $border-color-default;
 
-        ._t-textarea-tip {
+        ._tip {
             background-color: transparent;
         }
 
@@ -36,7 +36,7 @@
         resize: none;
     }
 
-    ._t-textarea-tip {
+    ._tip {
         position: absolute;
         color: rgba(128, 128, 128, 0.747);
         font-size: 10px;
@@ -51,7 +51,7 @@
 
 
 
-    ._t-textarea-point {
+    ._point {
         cursor: pointer;
         position: absolute;
         right: 8px;

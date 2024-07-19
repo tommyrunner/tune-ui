@@ -1,7 +1,7 @@
 <template>
   <div :class="getClass">
-    <div class="_t-input-number-range-item" v-for="index in props.isRange ? 2 : 1" :key="index">
-      <span class="_t-input-number-tip" v-if="props.isTipe && isValue(props.isRange ? model[index - 1] : model)">
+    <div class="_range-item" v-for="index in props.isRange ? 2 : 1" :key="index">
+      <span class="_tip" v-if="props.isTipe && isValue(props.isRange ? model[index - 1] : model)">
         {{ getTip }}
       </span>
       <input
@@ -18,12 +18,12 @@
         @input="handleInput($event.target as HTMLInputElement, index - 1)"
       />
       <transition name="right-icon">
-        <div class="_t-input-number-right-icon" v-if="props.isControls && !props.isRange">
+        <div class="_right-icon" v-if="props.isControls && !props.isRange">
           <TIcon icon="caret-up" :color="defIconColor" :size="getIconSize" @click="handlerStep(true)" />
           <TIcon icon="caret-down" :color="defIconColor" :size="getIconSize" @click="handlerStep(false)" />
         </div>
       </transition>
-      <div class="_t-input-number-spe" v-if="index !== 2 && props.isRange">
+      <div class="_spe" v-if="index !== 2 && props.isRange">
         <slot v-if="slot.spe" name="spe" />
         <TIcon v-else icon="minus" :color="defIconColor" :size="getIconSize" />
       </div>

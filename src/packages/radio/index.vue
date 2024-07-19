@@ -3,8 +3,8 @@
     <div v-if="!props.icon && slot.radioSpan">
       <slot name="radioSpan" :value="model" />
     </div>
-    <span :class="['_t-radio-span', `_t-radio-span-${props.radius}`]" v-else-if="!props.icon" />
-    <TIcon class="_t-radio-icon" :icon="props.icon" v-else />
+    <span :class="['_span', `_span-${props.radius}`]" v-else-if="!props.icon" />
+    <TIcon class="_icon" :icon="props.icon" v-else />
     <input type="radio" :name="props.name" :value="props.value" />
     <span :class="getTitleClass"><slot /></span>
   </span>
@@ -32,11 +32,7 @@ const groupContext = inject<GroupContextType | undefined>(radioGroupKey, void 0)
    custom-span 代表有自定义组件代替了span，需要修复样式
  **/
 const getTitleClass = computed(() => {
-  const base = [
-    '_t-radio-title',
-    props.disabled && 't-disabled',
-    (slot.radioSpan || props.icon) && '_t-radio-custom-span'
-  ]
+  const base = ['_title', props.disabled && 't-disabled', (slot.radioSpan || props.icon) && '_custom-span']
   return base
 })
 const getClass = computed(() => {
@@ -44,7 +40,7 @@ const getClass = computed(() => {
   const base = ['t-radio', `t-radio-size-${size}`, disabled && 't-disabled']
   // 组合样式
   if (groupContext) {
-    return [...base, `_t-radio-group-type-${groupContext.type}`, `_t-radio-group-direction-${groupContext.direction}`]
+    return [...base, `_type-${groupContext.type}`, `_direction-${groupContext.direction}`]
   }
   return base
 })

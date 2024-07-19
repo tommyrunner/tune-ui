@@ -7,13 +7,13 @@
   >
     <!-- 箭头 -->
     <TIcon
-      :class="['_t-carousel-group-arrow', '_t-carousel-group-arrow-icon1', `_t-carousel-group-arrow-${props.arrow}`]"
+      :class="['_arrow', '_arrow-icon1', `_arrow-${props.arrow}`]"
       icon="left-circle"
       :size="32"
       @click="incrementedIndex(false)"
     />
     <TIcon
-      :class="['_t-carousel-group-arrow', '_t-carousel-group-arrow-icon2', `_t-carousel-group-arrow-${props.arrow}`]"
+      :class="['_arrow', '_arrow-icon2', `_arrow-${props.arrow}`]"
       icon="right-circle"
       :size="32"
       @click="incrementedIndex(true)"
@@ -21,10 +21,7 @@
     <!-- 指示器 -->
     <div :class="getTriggerClass" v-if="childEls.length && props.trigger !== 'none'">
       <div
-        :class="[
-          '_t-carousel-group-trigger-item',
-          state.triggerActive === index && '_t-carousel-group-trigger-item-active'
-        ]"
+        :class="['_trigger-item', state.triggerActive === index && '_trigger-item-active']"
         v-for="(_, index) in getChildElsLength"
         :key="index"
         @click="setPageIndex(index, 'click')"
@@ -38,8 +35,7 @@
 </template>
 <script lang="ts" setup>
 import type { PropsType, EmitsType } from './carousel-group'
-import { type GroupContextType, collapseGroupKey } from './constants'
-import { type StyleValue, ref, provide, reactive, toRefs, onMounted, computed, onDeactivated, watch } from 'vue'
+import { type StyleValue, ref, reactive, onMounted, computed, onDeactivated, watch } from 'vue'
 import { AnimationFrame } from '@/utils'
 import { TIcon } from '../icon'
 defineOptions({ name: 'TCheckboxGroup' })
@@ -69,12 +65,6 @@ const initData = {
 }
 const state = reactive({ ...initData })
 
-const getChildElsLength = computed(() => {
-  if (props.toggle === 'vision') {
-    return childEls.value.length - 1
-  }
-  return childEls.value.length
-})
 onDeactivated(() => {
   // 初始化状态
   Object.assign(state, initData)
@@ -122,6 +112,18 @@ watch(
     else animationFrame.value.clear()
   }
 )
+/**
+ * 动态获取子元素length
+ */
+const getChildElsLength = computed(() => {
+  if (props.toggle === 'vision') {
+    return childEls.value.length - 1
+  }
+  return childEls.value.length
+})
+/**
+ * 动态更新子元素
+ */
 const updateChildEls = () => {
   childEls.value = Array.from(groupContent.value?.querySelectorAll('#_t-carousel'))
 }
@@ -131,6 +133,9 @@ const updateChildEls = () => {
 const clearBindDebounce = () => {
   state.debounce = true
 }
+/**
+ * 更新当前活动元素
+ */
 const updatePageIndex = () => {
   const { toggle, trigger, autoplay } = props
   if (trigger === 'none' && autoplay) return
@@ -269,17 +274,17 @@ const getStyle = computed((): StyleValue => {
   }
 })
 const getTriggerClass = computed(() => {
-  return ['_t-carousel-group-trigger']
+  return ['_trigger']
 })
 const getContentClass = computed(() => {
-  return ['_t-carousel-group-content']
+  return ['_content']
 })
 const updateElClass = () => {
   if (!props.animation) {
     // 清空动画class
     childEls.value.forEach((ch) => {
-      ch.classList.add('_t-carousel-active')
-      ch.classList.remove('_t-carousel-def')
+      ch.classList.add('_active')
+      ch.classList.remove('_def')
     })
     return
   }
@@ -290,22 +295,15 @@ const updateElClass = () => {
     // 如果是克隆元素特殊处理
     const isClone = toggle === 'vision' && index === childEls.value.length - 1 && active === 0
     if (active === index || isClone) {
-      ch.classList.add('_t-carousel-active')
-      ch.classList.remove('_t-carousel-def')
+      ch.classList.add('_active')
+      ch.classList.remove('_def')
     } else {
-      ch.classList.add('_t-carousel-def')
-      ch.classList.remove('_t-carousel-active')
+      ch.classList.add('_def')
+      ch.classList.remove('_active')
     }
   })
 }
 
-// 抛出操作api，与子组件交互
-provide<GroupContextType>(
-  collapseGroupKey,
-  reactive({
-    ...toRefs(props)
-  })
-)
 defineExpose({
   /**
    * 手动修改下表

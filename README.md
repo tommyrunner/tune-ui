@@ -44,4 +44,4 @@
 初步规则：
 组件导出: Txx
 组件class:t-xx-xx
-组件class嵌套样式:_t-xx-xx
+组件class嵌套样式:_xx

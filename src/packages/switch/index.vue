@@ -1,12 +1,12 @@
 <template>
   <div :class="getClass" @click="handleClick">
-    <div class="_t-switch-bg _t-switch-bg1" :style="{ backgroundColor: props.offBgColor }">
+    <div class="_bg _bg1" :style="{ backgroundColor: props.offBgColor }">
       <slot name="offContent" />
     </div>
-    <div class="_t-switch-bg _t-switch-bg2" :style="{ backgroundColor: props.onBgColor }">
+    <div class="_bg _bg2" :style="{ backgroundColor: props.onBgColor }">
       <slot name="onContent" />
     </div>
-    <div class="_t-switch-action">
+    <div class="_action">
       <TIcon v-if="props.loading" icon="loading" :class="`${props.loading && 't-loading'}`" />
     </div>
   </div>

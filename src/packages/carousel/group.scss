@@ -7,7 +7,7 @@
     overflow: hidden;
 
     // 容器
-    ._t-carousel-group-content {
+    ._content {
         display: flex;
         overflow: hidden;
         position: absolute;
@@ -16,7 +16,7 @@
     }
 
     // 指示器
-    ._t-carousel-group-trigger {
+    ._trigger {
         position: absolute;
         z-index: $z-index-show;
         display: flex;
@@ -29,7 +29,7 @@
         left: 50%;
         transform: translateX(-50%);
 
-        ._t-carousel-group-trigger-item {
+        ._trigger-item {
             cursor: pointer;
             width: 12px;
             height: 8px;
@@ -40,7 +40,7 @@
             transform: scale(0.8);
         }
 
-        ._t-carousel-group-trigger-item-active {
+        ._trigger-item-active {
             background-color: rgba(255, 255, 255, 0.719);
             transform: scale(1);
         }
@@ -48,7 +48,7 @@
     }
 
     // 箭头
-    ._t-carousel-group-arrow {
+    ._arrow {
         position: absolute;
         z-index: $z-index-show;
         cursor: pointer;
@@ -57,7 +57,7 @@
         transition: 0.22s;
     }
 
-    ._t-carousel-group-arrow-icon1 {
+    ._arrow-icon1 {
         left: -50%;
         top: 50%;
         transform: translateY(-50%);
@@ -67,7 +67,7 @@
         }
     }
 
-    ._t-carousel-group-arrow-icon2 {
+    ._arrow-icon2 {
         right: -50%;
         top: 50%;
         transform: translateY(-50%);
@@ -79,26 +79,26 @@
 
 
     // 处理 always 属性
-    ._t-carousel-group-arrow-always._t-carousel-group-arrow-icon1 {
+    ._arrow-always._arrow-icon1 {
         left: 4%;
     }
 
-    ._t-carousel-group-arrow-always._t-carousel-group-arrow-icon2 {
+    ._arrow-always._arrow-icon2 {
         right: 4%;
     }
 
     // 处理 none 属性
-    ._t-carousel-group-arrow-none {
+    ._arrow-none {
         display: none;
     }
 
     // 处理 always 属性
     &:hover {
-        ._t-carousel-group-arrow-hover._t-carousel-group-arrow-icon1 {
+        ._arrow-hover._arrow-icon1 {
             left: 4%;
         }
 
-        ._t-carousel-group-arrow-hover._t-carousel-group-arrow-icon2 {
+        ._arrow-hover._arrow-icon2 {
             right: 4%;
         }
     }
@@ -106,34 +106,34 @@
 
 // 竖向样式
 .t-carousel-group-vertical {
-    ._t-carousel-group-arrow-icon1 {
+    ._arrow-icon1 {
         left: 50% !important;
         top: -50%;
         transform: translateX(-50%) rotate(90deg);
     }
 
     // 容器
-    ._t-carousel-group-content {
+    ._content {
         flex-direction: column;
     }
 
 
     // 指示器
-    ._t-carousel-group-trigger {
+    ._trigger {
         flex-direction: column;
         left: 96% !important;
         top: 50%;
         bottom: 0px !important;
         transform: translate(-100%, -50%);
 
-        ._t-carousel-group-trigger-item {
+        ._trigger-item {
             width: 8px;
             height: 12px;
         }
     }
 
     // 箭头
-    ._t-carousel-group-arrow-icon2 {
+    ._arrow-icon2 {
         right: 50% !important;
         top: 150% !important;
         transform: translate(50%, -100%) rotate(90deg) !important;
@@ -141,11 +141,11 @@
 
     // 处理 always 属性
     &:hover {
-        ._t-carousel-group-arrow-hover._t-carousel-group-arrow-icon1 {
+        ._arrow-hover._arrow-icon1 {
             top: 4%;
         }
 
-        ._t-carousel-group-arrow-hover._t-carousel-group-arrow-icon2 {
+        ._arrow-hover._arrow-icon2 {
             top: 96% !important;
         }
     }

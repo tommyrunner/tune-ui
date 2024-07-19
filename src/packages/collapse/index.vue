@@ -1,14 +1,14 @@
 <template>
   <div class="t-collapse">
-    <div class="_t-collapse-head" @click="updateModel">
+    <div class="_head" @click="updateModel">
       <slot name="title" :value="model" v-if="slot.title" />
       <div v-else>{{ props.title }}</div>
-      <div class="_t-collapse-head-right">
+      <div class="_head-right">
         <slot name="headRight" :value="model" v-if="slot.headRight" />
-        <TIcon v-else :class="isChecked && '_t-collapse-icon-active'" :icon="props.rightIcon" :size="14" />
+        <TIcon v-else :class="isChecked && '_icon-active'" :icon="props.rightIcon" :size="14" />
       </div>
     </div>
-    <div class="_t-collapse-body" ref="bodyRef" :style="getBodyStyle">
+    <div class="_body" ref="bodyRef" :style="getBodyStyle">
       <slot />
     </div>
   </div>

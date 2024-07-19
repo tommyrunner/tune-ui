@@ -1,7 +1,7 @@
 import { App } from 'vue'
 import { TButton } from './button'
 import { TIcon } from './icon'
-import { TFlex } from './flex'
+import { TFlex, TFlexGroup } from './flex'
 import { TRadio, TRadioGroup } from './radio'
 import { TCheckbox, TCheckboxGroup } from './checkbox'
 import { TSwitch } from './switch'
@@ -18,6 +18,7 @@ const components = {
   TButton,
   TIcon,
   TFlex,
+  TFlexGroup,
   TRadio,
   TCheckbox,
   TRadioGroup,

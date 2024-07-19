@@ -1,6 +1,6 @@
 <template>
   <div :class="getClass" @click="updateCursor">
-    <span class="_t-textarea-tip" v-if="getTip">{{ getTip }}</span>
+    <span class="_tip" v-if="getTip">{{ getTip }}</span>
     <textarea
       ref="textareaRef"
       v-model="model"
@@ -12,7 +12,7 @@
       @keyup="handleKeyup"
       @input="handleInput"
     />
-    <div class="_t-textarea-point" v-if="props.maxlength">
+    <div class="_point" v-if="props.maxlength">
       <span>{{ getPointText }}</span>
     </div>
   </div>
