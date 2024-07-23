@@ -1,4 +1,4 @@
-import { is, isFunction } from './is'
+import { is } from './is'
 export function isKeyboard(event: KeyboardEvent, key: string | number) {
   if (is(key, 'Number')) return event.keyCode === key
   else event.key.toLocaleLowerCase() === key.toLocaleString()
@@ -10,18 +10,16 @@ export function isKeyboard(event: KeyboardEvent, key: string | number) {
  * @param delay 延迟
  * @param params 参数
  */
-export function bindDebounce<T>(fun: (data?: T) => void | Function, delay: number, params?: T) {
+export function bindDebounce<T>(fun: (data?: T) => void | Function, delay: number) {
   let timeout: undefined | NodeJS.Timeout = void 0
-  return (() => {
+  return (...args: any[]) => {
     if (timeout) clearTimeout(timeout)
     timeout = setTimeout(() => {
-      if (fun) {
-        let reFun = fun(params)
-        isFunction(reFun) && reFun()
-      }
+      if (fun) fun(...args)
       clearTimeout(timeout)
+      timeout = void 0
     }, delay)
-  })()
+  }
 }
 /**
  * 处理绑定节流事件
@@ -85,4 +83,13 @@ export class AnimationFrame {
       window.cancelAnimationFrame(this.id)
     }
   }
+}
+/**
+ * 生成唯一id(通过随机数+时间戳)
+ * @returns string
+ */
+export function generateId() {
+  const timestamp = String(Date.now())
+  const randomPart = Math.random().toString(36).slice(2, 6)
+  return `${timestamp.slice(timestamp.length - 4, timestamp.length)}${randomPart}`
 }

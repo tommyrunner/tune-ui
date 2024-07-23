@@ -1,0 +1,105 @@
+@import '@/styles/index.scss';
+
+.t-tooltip {
+  position: relative;
+  width: fit-content;
+}
+._t-tooltip {
+  background-color: white;
+  border: 1px solid gainsboro;
+  word-wrap: break-word;
+  position: fixed;
+  transition: 0.22s;
+  border-radius: 8px;
+  padding: 4px 8px;
+  box-sizing: border-box;
+  z-index: $z-index-up;
+  ._triangle {
+    position: absolute;
+    z-index: $z-index-up;
+
+    > div {
+      position: absolute;
+      overflow: hidden;
+      bottom: 0px;
+      left: 0px;
+      width: 0;
+      height: 0;
+      border-width: 8px;
+      border-style: dashed solid dashed dashed;
+    }
+    > div:nth-child(1) {
+      border-color: gainsboro transparent transparent transparent;
+    }
+    > div:nth-child(2) {
+      border-color: white transparent transparent transparent;
+    }
+  }
+  // 三角指向处理
+  @mixin tooltip-triangle($position, $transform) {
+    &._t-tooltip-#{$position} ._triangle {
+      // 根据位置设置基本样式
+      @if $position == 'top' {
+        bottom: 0%;
+        left: 5%;
+      } @else if $position == 'right' {
+        top: 50%;
+        left: 0%;
+      } @else if $position == 'bottom' {
+        top: 0%;
+        left: 5%;
+      } @else if $position == 'left' {
+        top: 50%;
+        right: 0%;
+      }
+
+      // 第一个div的变换
+      > div {
+        transform: #{$transform};
+      }
+
+      // 第二个div的偏移
+      > div:nth-child(2) {
+        @if $position == 'top' {
+          bottom: 1px;
+        } @else if $position == 'right' {
+          left: 1px;
+        } @else if $position == 'bottom' {
+          bottom: -1px;
+        } @else if $position == 'left' {
+          left: -1px;
+        }
+      }
+    }
+  }
+  @include tooltip-triangle('top', translateY(100%));
+  @include tooltip-triangle('right', rotate(90deg) translate(50%, 100%));
+  @include tooltip-triangle('bottom', rotate(180deg) translateY(-0%));
+  @include tooltip-triangle('left', rotate(270deg) translate(-50%, 0%));
+}
+
+// 处理不同方向时出现，离开动画
+@mixin tooltip-animation($position, $direction, $enter-translate, $leave-translate) {
+  .tooltip-#{$position}-enter-active,
+  .tooltip-#{$position}-leave-active {
+    opacity: 1;
+    transform: scale(1) #{$direction }($enter-translate);
+  }
+
+  .tooltip-#{$position}-enter-from,
+  .tooltip-#{$position}-leave-to {
+    opacity: 0;
+    transform: scale(0.8) #{$direction }($leave-translate);
+  }
+}
+// top动画
+@include tooltip-animation('top', 'translateY', 0%, 30%);
+
+// right动画
+@include tooltip-animation('right', 'translateX', 0%, -30%);
+
+// bottom动画
+@include tooltip-animation('bottom', 'translateY', 0%, -30%);
+
+// left动画
+@include tooltip-animation('left', 'translateX', 0%, 30%);
