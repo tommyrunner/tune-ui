@@ -5,6 +5,8 @@ import type { IconTypes } from '../icon/icon'
  * @description: 组件props类型
  */
 export interface PropsType {
+  // 是否禁用(显示)
+  disabled?: boolean
   // 显示方式
   type?: 'hover' | 'click'
   // 标题
@@ -23,6 +25,8 @@ export interface PropsType {
   appendTo?: string | RendererElement
   // 自动适配position
   autoPosition?: boolean
+  // 是否显示箭头
+  showArrow?: boolean
 }
 
 export interface TooltipHookParamsType {

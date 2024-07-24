@@ -10,14 +10,14 @@
         <div
           @mouseenter="state.isHoverTooltip = true"
           @mouseleave="onTooltipHoverOut"
-          v-if="state.show"
+          v-if="state.show && props.disabled"
           :class="getTooltipClass"
           :style="getTooltipStyle"
           :id="state.tooltipId"
         >
           <slot name="content" v-if="slots.content" />
           <span v-else>{{ props.content }}</span>
-          <div class="_triangle">
+          <div class="_triangle" :style="getTriangleStyle">
             <div></div>
             <div></div>
           </div>
@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 import { bindDebounce, generateId } from '@/utils'
 import type { PropsType } from './tooltip'
-import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, useSlots } from 'vue'
+import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, useSlots } from 'vue'
 defineOptions({ name: 'TTooltip' })
 const props = withDefaults(defineProps<PropsType>(), {
   radius: 8,
@@ -39,6 +39,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   position: 'top',
   appendTo: 'body',
   hideAfter: 150,
+  disabled: true,
+  showArrow: true,
   autoPosition: true
 })
 const state = reactive({
@@ -46,6 +48,8 @@ const state = reactive({
   show: false,
   // tooltip标记id
   tooltipId: '_tooltip_0',
+  // 需要tooltip的元素
+  tooltipRect: void 0 as DOMRect,
   // 动画标记
   isTransitionEnterOk: false,
   // 标记hover进入tooltip
@@ -108,10 +112,10 @@ const updateView = async (el: Element) => {
   await nextTick()
   const { position } = props
   tooltipRef.value = document.body.querySelector(`#${state.tooltipId}`)
-  const rect = el.getBoundingClientRect()
-  state.point = getPoint(rect, position)
+  state.tooltipRect = el.getBoundingClientRect()
+  state.point = getPoint(state.tooltipRect, position)
   // 自动检测如果超出调整 position
-  autoPosition(rect, tooltipRef.value)
+  autoPosition(state.tooltipRect, tooltipRef.value)
 }
 /**
  * 自动调整 position
@@ -225,6 +229,55 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position) => {
 const getTooltipClass = computed(() => {
   // 因为抛出使用特殊格式
   return ['_t-tooltip', `_t-tooltip-${state.dyPosition}`]
+})
+/**
+ * 根据元素动态三角的指向以及样式
+ */
+const getTriangleStyle = computed((): StyleValue => {
+  const { gap, showArrow } = props
+  // 元素
+  const { height = gap, width = gap } = state.tooltipRect
+  // tooltip
+  const { offsetHeight = 0, offsetWidth = 0 } = tooltipRef.value || {}
+  // 通过tooltip与元素对比取最小宽高(优先于元素大小)
+  const valW = width / 2 - gap / 2
+  const valH = height / 2 - gap / 2
+  const contrast: any = {
+    width: width < offsetWidth ? `${valW}px` : '50%',
+    height: height < offsetHeight ? `${valH}px` : '50%'
+  }
+  let point: any = {
+    left: 'initial',
+    top: 'initial',
+    right: 'initial',
+    bottom: 'initial'
+  }
+  if (state.dyPosition === 'top')
+    point = {
+      bottom: '0px',
+      left: contrast.width
+    }
+  else if (state.dyPosition === 'right')
+    point = {
+      left: '0px',
+      top: contrast.height
+    }
+  else if (state.dyPosition === 'bottom')
+    point = {
+      top: '0px',
+      left: contrast.width
+    }
+  else if (state.dyPosition === 'left')
+    point = {
+      right: '0px',
+      top: contrast.height
+    }
+  // visibility 不满足显示三角条件(隐藏)
+  return { visibility: valW < 0 || valH < 0 || !showArrow ? 'hidden' : 'visible', ...point }
+})
+defineExpose({
+  tooltipRef,
+  ...toRefs(state)
 })
 </script>
 <style lang="scss" scoped>

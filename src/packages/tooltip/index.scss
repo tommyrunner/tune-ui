@@ -38,21 +38,6 @@
   // 三角指向处理
   @mixin tooltip-triangle($position, $transform) {
     &._t-tooltip-#{$position} ._triangle {
-      // 根据位置设置基本样式
-      @if $position == 'top' {
-        bottom: 0%;
-        left: 5%;
-      } @else if $position == 'right' {
-        top: 50%;
-        left: 0%;
-      } @else if $position == 'bottom' {
-        top: 0%;
-        left: 5%;
-      } @else if $position == 'left' {
-        top: 50%;
-        right: 0%;
-      }
-
       // 第一个div的变换
       > div {
         transform: #{$transform};
