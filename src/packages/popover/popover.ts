@@ -27,6 +27,11 @@ export interface PropsType {
   autoPosition?: boolean
   // 是否显示箭头
   showArrow?: boolean
+  // 自定义xy轴
+  custom?: {
+    x: number
+    y: number
+  }
 }
 
 export interface TooltipHookParamsType {

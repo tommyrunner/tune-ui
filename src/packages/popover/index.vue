@@ -1,19 +1,19 @@
 <template>
-  <div class="t-tooltip" ref="contentRef">
+  <div class="t-popover" ref="contentRef">
     <Teleport :to="props.appendTo">
       <Transition
-        :name="`tooltip-${state.dyPosition}`"
+        :name="getTransitionName"
         @after-enter="animationAfterEnter"
         @enter="animationEnter"
         @leave="animationLeave"
       >
         <div
-          @mouseenter="state.isHoverTooltip = true"
-          @mouseleave="onTooltipHoverOut"
+          @mouseenter="state.isHoverPopover = true"
+          @mouseleave="onPopoverHoverOut"
           v-if="state.show && props.disabled"
-          :class="getTooltipClass"
-          :style="getTooltipStyle"
-          :id="state.tooltipId"
+          :class="getPopoverClass"
+          :style="getPopoverStyle"
+          :id="state.popoverId"
         >
           <slot name="content" v-if="slots.content" />
           <span v-else>{{ props.content }}</span>
@@ -29,9 +29,9 @@
 </template>
 <script lang="ts" setup>
 import { bindDebounce, generateId } from '@/utils'
-import type { PropsType } from './tooltip'
+import type { PropsType } from './popover'
 import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, useSlots } from 'vue'
-defineOptions({ name: 'TTooltip' })
+defineOptions({ name: 'TPopover' })
 const props = withDefaults(defineProps<PropsType>(), {
   radius: 8,
   gap: 12,
@@ -41,24 +41,25 @@ const props = withDefaults(defineProps<PropsType>(), {
   hideAfter: 150,
   disabled: true,
   showArrow: true,
-  autoPosition: true
+  autoPosition: true,
+  custom: void 0
 })
 const state = reactive({
-  // tooltip 显示
+  // popover 显示
   show: false,
-  // tooltip标记id
-  tooltipId: '_tooltip_0',
-  // 需要tooltip的元素
-  tooltipRect: void 0 as DOMRect,
+  // popover标记id
+  popoverId: '_popover_0',
+  // 需要popover的元素
+  popoverRect: void 0 as DOMRect,
   // 动画标记
   isTransitionEnterOk: false,
-  // 标记hover进入tooltip
-  isHoverTooltip: false,
+  // 标记hover进入popover
+  isHoverPopover: false,
   // 标记hover进入元素
   isHoverContent: false,
   // 动态方向
   dyPosition: props.position,
-  // 暂存tooltip位置
+  // 暂存popover位置
   point: {
     left: 0,
     top: 0
@@ -66,21 +67,21 @@ const state = reactive({
 })
 const slots = useSlots()
 const contentRef = ref<HTMLDivElement>()
-const tooltipRef = ref<HTMLDivElement>()
+const popoverRef = ref<HTMLDivElement>()
 /**
- * 延迟隐藏tooltip，用户可能需要复制tooltip内部内容
+ * 延迟隐藏popover，用户可能需要复制popover内部内容
  */
 const bounceShow = bindDebounce(() => {
-  if ((!state.isHoverTooltip && !state.isHoverContent) || props.type === 'click') state.show = false
+  if ((!state.isHoverPopover && !state.isHoverContent) || props.type === 'click') state.show = false
 }, props.hideAfter)
 /**
- * 显示tooltip
+ * 显示popover
  */
-const showTooltip = (el: Element, type: typeof props.type) => {
-  state.tooltipId = `t-tooltip-${generateId()}`
+const showPopover = (el: Element, type: typeof props.type) => {
+  state.popoverId = `t-popover-${generateId()}`
   if (type === props.type) {
     if (props.type === 'click' && state.show) {
-      hideTooltip(true)
+      hidePopover(true)
     } else {
       state.show = true
       state.isHoverContent = true
@@ -89,20 +90,20 @@ const showTooltip = (el: Element, type: typeof props.type) => {
   }
 }
 /**
- * 隐藏tooltip
+ * 隐藏popover
  */
-const hideTooltip = (hide?: boolean) => {
+const hidePopover = (hide?: boolean) => {
   if (hide || props.type === 'hover') {
     state.isHoverContent = false
     bounceShow()
   }
 }
 /**
- * 标记是否hover在tooltip上
+ * 标记是否hover在popover上
  */
-const onTooltipHoverOut = () => {
-  state.isHoverTooltip = false
-  hideTooltip()
+const onPopoverHoverOut = () => {
+  state.isHoverPopover = false
+  hidePopover()
 }
 /**
  * 更新元素位置
@@ -111,11 +112,11 @@ const onTooltipHoverOut = () => {
 const updateView = async (el: Element) => {
   await nextTick()
   const { position } = props
-  tooltipRef.value = document.body.querySelector(`#${state.tooltipId}`)
-  state.tooltipRect = el.getBoundingClientRect()
-  state.point = getPoint(state.tooltipRect, position)
+  popoverRef.value = document.body.querySelector(`#${state.popoverId}`)
+  state.popoverRect = el.getBoundingClientRect()
+  state.point = getPoint(state.popoverRect, position)
   // 自动检测如果超出调整 position
-  autoPosition(state.tooltipRect, tooltipRef.value)
+  autoPosition(state.popoverRect, popoverRef.value)
 }
 /**
  * 自动调整 position
@@ -124,6 +125,7 @@ const updateView = async (el: Element) => {
 const autoPosition = (elRect: DOMRect, contentEl: HTMLDivElement) => {
   const { gap, autoPosition } = props
   if (!autoPosition) return
+  const { offsetWidth = 0, offsetHeight = 0 } = contentEl || {}
   const { innerWidth, innerHeight } = window
   let { point } = state
   let newPosition = props.position
@@ -131,9 +133,9 @@ const autoPosition = (elRect: DOMRect, contentEl: HTMLDivElement) => {
     newPosition = 'right'
   } else if (point.top - gap < 0) {
     newPosition = 'bottom'
-  } else if (point.left > innerWidth - gap - contentEl.offsetWidth) {
+  } else if (point.left > innerWidth - gap - offsetWidth) {
     newPosition = 'left'
-  } else if (point.top > innerHeight - gap - contentEl.offsetHeight) {
+  } else if (point.top > innerHeight - gap - offsetHeight) {
     newPosition = 'top'
   }
   // 调整位置
@@ -152,13 +154,13 @@ const handlerEventListener = (remove: boolean = false) => {
     Array.from(contentRef.value.children).forEach((child) => {
       // 初始化监听
       child[funKey]('click', () => {
-        showTooltip(child, 'click')
+        showPopover(child, 'click')
       })
       child[funKey]('mouseenter', () => {
-        showTooltip(child, 'hover')
+        showPopover(child, 'hover')
       })
       child[funKey]('mouseleave', () => {
-        hideTooltip()
+        hidePopover()
       })
       // 初始化样式
       if (!remove) updateView(child)
@@ -182,8 +184,8 @@ const animationAfterEnter = () => {
 const animationLeave = () => {
   state.isTransitionEnterOk = false
 }
-// 动态处理tooltip样式处理
-const getTooltipStyle = computed((): StyleValue => {
+// 动态处理popover样式处理
+const getPopoverStyle = computed((): StyleValue => {
   return {
     pointerEvents: state.isTransitionEnterOk ? 'none' : 'initial',
     left: `${state.point.left}px`,
@@ -191,21 +193,27 @@ const getTooltipStyle = computed((): StyleValue => {
   }
 })
 /**
- * 处理tooltip位置
+ * 处理popover位置
  * @param domRect 元素信息
  * @param position 指定位置
  */
 const getPoint = (domRect: DOMRect, position?: typeof props.position) => {
   const { x, y, width, height } = domRect
-  const { gap } = props
-  // offsetHeight 包含padding
-  const { offsetHeight = 0, offsetWidth = 0 } = tooltipRef.value || {}
+  const { gap, custom } = props
+  const { offsetHeight = 0, offsetWidth = 0 } = popoverRef.value || {}
   let point = { left: 0, top: 0 }
+  // 处理自定义xy轴
+  if (custom) {
+    return (point = {
+      left: custom.x,
+      top: custom.y
+    })
+  }
   // 根据指定显示的位置调整样式
   if (position === 'top') {
     point = {
       left: x,
-      top: !tooltipRef.value ? y - gap : y - offsetHeight - gap
+      top: !popoverRef.value ? y - gap : y - offsetHeight - gap
     }
   } else if (position === 'right') {
     point = {
@@ -216,7 +224,7 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position) => {
   } else if (position === 'bottom') {
     point = {
       left: x,
-      top: !tooltipRef.value ? y + gap : y + height + gap
+      top: y + height + gap
     }
   } else if (position === 'left') {
     point = {
@@ -226,9 +234,14 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position) => {
   }
   return point
 }
-const getTooltipClass = computed(() => {
+const getPopoverClass = computed(() => {
+  const { custom } = props
   // 因为抛出使用特殊格式
-  return ['_t-tooltip', `_t-tooltip-${state.dyPosition}`]
+  return ['_t-popover', `_t-popover-${state.dyPosition}`, custom && `_t-popover-custom`]
+})
+const getTransitionName = computed(() => {
+  const { custom } = props
+  return `${custom ? 't-popover-custom' : `t-popover-${state.dyPosition}`}`
 })
 /**
  * 根据元素动态三角的指向以及样式
@@ -236,10 +249,10 @@ const getTooltipClass = computed(() => {
 const getTriangleStyle = computed((): StyleValue => {
   const { gap, showArrow } = props
   // 元素
-  const { height = gap, width = gap } = state.tooltipRect
-  // tooltip
-  const { offsetHeight = 0, offsetWidth = 0 } = tooltipRef.value || {}
-  // 通过tooltip与元素对比取最小宽高(优先于元素大小)
+  const { height = gap, width = gap } = state.popoverRect
+  // popover
+  const { offsetHeight = 0, offsetWidth = 0 } = popoverRef.value || {}
+  // 通过popover与元素对比取最小宽高(优先于元素大小)
   const valW = width / 2 - gap / 2
   const valH = height / 2 - gap / 2
   const contrast: any = {
@@ -272,11 +285,12 @@ const getTriangleStyle = computed((): StyleValue => {
       right: '0px',
       top: contrast.height
     }
+  console.log(point)
   // visibility 不满足显示三角条件(隐藏)
   return { visibility: valW < 0 || valH < 0 || !showArrow ? 'hidden' : 'visible', ...point }
 })
 defineExpose({
-  tooltipRef,
+  popoverRef,
   ...toRefs(state)
 })
 </script>

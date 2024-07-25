@@ -13,7 +13,7 @@ import { TBadge } from './badge'
 import { TCard } from './card'
 import { TCollapse, TCollapseGroup } from './collapse'
 import { TCarousel, TCarouselGroup } from './carousel'
-import { TTooltip } from './tooltip'
+import { TPopover } from './popover'
 
 const components = {
   TButton,
@@ -35,7 +35,7 @@ const components = {
   TCollapseGroup,
   TCarousel,
   TCarouselGroup,
-  TTooltip
+  TPopover
 }
 // 全局组件注册
 export default {
@@ -62,4 +62,4 @@ export * from './badge'
 export * from './card'
 export * from './collapse'
 export * from './carousel'
-export * from './tooltip'
+export * from './popover'
