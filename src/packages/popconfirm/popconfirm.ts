@@ -1,0 +1,34 @@
+import type { IconTypes } from '../icon/icon'
+import { PropsType as ButtonPropsType } from '../button/button'
+
+/**
+ * @description: 组件props类型
+ */
+export interface PropsType {
+  // 最大宽高
+  maxWidth?: string
+  maxHeight?: string
+  // 是否禁用(显示)
+  disabled?: boolean
+  // 标题
+  content?: string
+  // icon
+  icon?: IconTypes
+  // 按钮文字
+  confirmText?: string
+  cancelText?: string
+  confirmType?: ButtonPropsType['type']
+  cancelType?: ButtonPropsType['type']
+  // 方向
+  position?: 'top' | 'right' | 'bottom' | 'left'
+}
+
+/**
+ * @description: 组件emit类型
+ */
+export interface EmitsType {
+  // 提交
+  (e: 'confirm'): void
+  // 取消
+  (e: 'cancel'): void
+}

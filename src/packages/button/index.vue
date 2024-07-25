@@ -1,5 +1,5 @@
 <template>
-  <button :class="getClass" :style="getStyle" autofocus>
+  <button :class="getClass" :style="getStyle" autofocus @click="hanlderClick">
     <TIcon v-if="props.prefixIcon" :icon="prefixIcon" class="_prefixIcon" />
     <slot />
     <TIcon
@@ -30,6 +30,10 @@ const suffixIcon = computed((): IconTypes => {
   if (!props.loading && props.suffixIcon) return props.suffixIcon
   else return 'loading'
 })
+// 处理点击事件
+const hanlderClick = (e: MouseEvent) => {
+  emit('click', e)
+}
 const getStyle = computed((): StyleValue => {
   if (props.color) {
     return {

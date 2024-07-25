@@ -10,7 +10,7 @@
         <div
           @mouseenter="state.isHoverPopover = true"
           @mouseleave="onPopoverHoverOut"
-          v-if="state.show && props.disabled"
+          v-if="model && !props.disabled"
           :class="getPopoverClass"
           :style="getPopoverStyle"
           :id="state.popoverId"
@@ -39,14 +39,11 @@ const props = withDefaults(defineProps<PropsType>(), {
   position: 'top',
   appendTo: 'body',
   hideAfter: 150,
-  disabled: true,
   showArrow: true,
   autoPosition: true,
   custom: void 0
 })
 const state = reactive({
-  // popover 显示
-  show: false,
   // popover标记id
   popoverId: '_popover_0',
   // 需要popover的元素
@@ -65,6 +62,8 @@ const state = reactive({
     top: 0
   }
 })
+// 绑定显示值
+const model = defineModel<boolean>()
 const slots = useSlots()
 const contentRef = ref<HTMLDivElement>()
 const popoverRef = ref<HTMLDivElement>()
@@ -72,7 +71,7 @@ const popoverRef = ref<HTMLDivElement>()
  * 延迟隐藏popover，用户可能需要复制popover内部内容
  */
 const bounceShow = bindDebounce(() => {
-  if ((!state.isHoverPopover && !state.isHoverContent) || props.type === 'click') state.show = false
+  if ((!state.isHoverPopover && !state.isHoverContent) || props.type === 'click') model.value = false
 }, props.hideAfter)
 /**
  * 显示popover
@@ -80,10 +79,10 @@ const bounceShow = bindDebounce(() => {
 const showPopover = (el: Element, type: typeof props.type) => {
   state.popoverId = `t-popover-${generateId()}`
   if (type === props.type) {
-    if (props.type === 'click' && state.show) {
+    if (props.type === 'click' && model.value) {
       hidePopover(true)
     } else {
-      state.show = true
+      model.value = true
       state.isHoverContent = true
       updateView(el)
     }
@@ -285,7 +284,6 @@ const getTriangleStyle = computed((): StyleValue => {
       right: '0px',
       top: contrast.height
     }
-  console.log(point)
   // visibility 不满足显示三角条件(隐藏)
   return { visibility: valW < 0 || valH < 0 || !showArrow ? 'hidden' : 'visible', ...point }
 })

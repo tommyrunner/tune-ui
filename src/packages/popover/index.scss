@@ -9,12 +9,13 @@
   border: 1px solid gainsboro;
   color: $text-color-default;
   word-wrap: break-word;
-  position: fixed;
+  position: absolute;
   transition: 0.22s;
   border-radius: 8px;
-  padding: 4px 8px;
+  padding: 8px 12px;
   box-sizing: border-box;
   z-index: $z-index-up;
+  font-size: $font-size-default;
   ._triangle {
     position: absolute;
     z-index: $z-index-up;

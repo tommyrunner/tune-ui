@@ -1,0 +1,20 @@
+@import '@/styles/index.scss';
+
+.t-popconfirm {
+  position: relative;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  ._head {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  ._btns {
+    text-align: end;
+    .t-button:nth-child(1) {
+      color: $text-color-default;
+    }
+  }
+}
