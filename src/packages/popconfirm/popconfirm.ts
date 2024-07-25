@@ -21,6 +21,8 @@ export interface PropsType {
   cancelType?: ButtonPropsType['type']
   // 方向
   position?: 'top' | 'right' | 'bottom' | 'left'
+  // 是否按下esc关闭
+  closeOnPressEscape?: boolean
 }
 
 /**

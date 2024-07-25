@@ -1,5 +1,10 @@
 <template>
-  <div class="t-popover" ref="contentRef">
+  <div
+    class="t-popover"
+    ref="contentRef"
+    @mouseenter="state.isHvoerOther = true"
+    @mouseleave="state.isHvoerOther = false"
+  >
     <Teleport :to="props.appendTo">
       <Transition
         :name="getTransitionName"
@@ -8,7 +13,7 @@
         @leave="animationLeave"
       >
         <div
-          @mouseenter="state.isHoverPopover = true"
+          @mouseenter="state.isHvoerOther = state.isHoverPopover = true"
           @mouseleave="onPopoverHoverOut"
           v-if="model && !props.disabled"
           :class="getPopoverClass"
@@ -28,7 +33,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { bindDebounce, generateId } from '@/utils'
+import { bindDebounce, generateId, isDownKeyboard } from '@/utils'
 import type { PropsType } from './popover'
 import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, useSlots } from 'vue'
 defineOptions({ name: 'TPopover' })
@@ -41,7 +46,9 @@ const props = withDefaults(defineProps<PropsType>(), {
   hideAfter: 150,
   showArrow: true,
   autoPosition: true,
-  custom: void 0
+  custom: void 0,
+  closeOnPressEscape: true,
+  closeOnPressOther: true
 })
 const state = reactive({
   // popover标记id
@@ -56,6 +63,8 @@ const state = reactive({
   isHoverContent: false,
   // 动态方向
   dyPosition: props.position,
+  // 标记鼠标是否处于其他区域
+  isHvoerOther: false,
   // 暂存popover位置
   point: {
     left: 0,
@@ -102,6 +111,7 @@ const hidePopover = (hide?: boolean) => {
  */
 const onPopoverHoverOut = () => {
   state.isHoverPopover = false
+  state.isHvoerOther = false
   hidePopover()
 }
 /**
@@ -149,6 +159,15 @@ const autoPosition = (elRect: DOMRect, contentEl: HTMLDivElement) => {
  */
 const handlerEventListener = (remove: boolean = false) => {
   let funKey: 'addEventListener' | 'removeEventListener' = 'addEventListener'
+  // 处理按下esc关闭
+  window[funKey]('keydown', function (event) {
+    if (props.closeOnPressEscape) model.value = !isDownKeyboard(event, 'escape')
+  })
+  // 点击其他区域关闭
+  window[funKey]('mousedown', function () {
+    // 计算区域
+    if (!state.isHvoerOther) model.value = false
+  })
   if (contentRef.value) {
     Array.from(contentRef.value.children).forEach((child) => {
       // 初始化监听
@@ -248,7 +267,7 @@ const getTransitionName = computed(() => {
 const getTriangleStyle = computed((): StyleValue => {
   const { gap, showArrow } = props
   // 元素
-  const { height = gap, width = gap } = state.popoverRect
+  const { height = gap, width = gap } = state.popoverRect || {}
   // popover
   const { offsetHeight = 0, offsetWidth = 0 } = popoverRef.value || {}
   // 通过popover与元素对比取最小宽高(优先于元素大小)

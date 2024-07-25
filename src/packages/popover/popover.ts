@@ -29,6 +29,10 @@ export interface PropsType {
     x: number
     y: number
   }
+  // 是否按下esc关闭
+  closeOnPressEscape?: boolean
+  // 是否点击其他区域关闭
+  closeOnPressOther?: boolean
 }
 
 export interface TooltipHookParamsType {

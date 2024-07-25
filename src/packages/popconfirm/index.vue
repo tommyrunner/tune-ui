@@ -1,5 +1,11 @@
 <template>
-  <TPopover position="top" type="click" v-model="show" :disabled="props.disabled">
+  <TPopover
+    position="top"
+    type="click"
+    v-model="show"
+    :disabled="props.disabled"
+    :close-on-press-escape="props.closeOnPressEscape"
+  >
     <template #content>
       <div class="t-popconfirm" :style="getPopconfirmSytle">
         <slot name="content" v-if="slots.content" />
@@ -34,7 +40,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   confirmText: '确认',
   confirmType: 'text',
   cancelText: '取消',
-  cancelType: 'text'
+  cancelType: 'text',
+  closeOnPressEscape: true
 })
 const show = ref(false)
 const handlerSubmit = (isConfirm) => {

@@ -93,3 +93,12 @@ export function generateId() {
   const randomPart = Math.random().toString(36).slice(2, 6)
   return `${timestamp.slice(timestamp.length - 4, timestamp.length)}${randomPart}`
 }
+/**
+ * 是否按下某个键盘按键
+ * @param event 事件信息
+ * @param key 按键key
+ * @returns
+ */
+export function isDownKeyboard(event: KeyboardEvent, key: string) {
+  return key.toLocaleLowerCase() === event.key.toLocaleLowerCase()
+}
