@@ -7,6 +7,7 @@
 ._t-popover {
   background-color: white;
   border: 1px solid gainsboro;
+  box-shadow: 0px 0px 2px gainsboro;
   color: $text-color-default;
   word-wrap: break-word;
   position: absolute;
@@ -14,11 +15,9 @@
   border-radius: 8px;
   padding: 8px 12px;
   box-sizing: border-box;
-  z-index: $z-index-up;
   font-size: $font-size-default;
   ._triangle {
     position: absolute;
-    z-index: $z-index-up;
 
     > div {
       position: absolute;
@@ -106,4 +105,24 @@
 .t-popover-custom-leave-to {
   opacity: 0;
   transform: scale(0.8) translate(-50%, -50%);
+}
+
+// 处理遮罩层
+._t-model {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  background-color: $bg-color-model;
+}
+.t-model-enter-active,
+.t-model-leave-active {
+  opacity: 1;
+}
+
+.t-model-enter-from,
+.t-model-leave-to {
+  opacity: 0;
 }

@@ -10,99 +10,102 @@ $color-white: #ffffff;
 $bg-color-default: #ffffff;
 $border-color-default: #dcdfe6;
 $text-color-default: #606266;
+$bg-color-model: #00000056;
 $opacity-disabled: 0.6;
 // 默认字体大小
 $font-size-small: 12px;
 $font-size-default: 14px;
 $font-size-large: 16px;
-$font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "\5fae\8f6f\96c5\9ed1", Arial, sans-serif;
+$font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '\5fae\8f6f\96c5\9ed1',
+  Arial, sans-serif;
 // z-index 层
 $z-index-show: 1;
 $z-index-up: 2001;
+$z-index-max: 3001;
 $z-index-dow: -1;
 
 // 边框颜色颜色
 @function border-color($opacity) {
-    @return rgba(220, 220, 220, $opacity);
+  @return rgba(220, 220, 220, $opacity);
 }
 
 // 公共样式
 // - 禁用
 .t-disabled {
-    cursor: not-allowed !important;
-    opacity: $opacity-disabled !important;
+  cursor: not-allowed !important;
+  opacity: $opacity-disabled !important;
 }
 
 // -loading
 .t-loading {
-    animation: anima-loading 2s linear infinite;
+  animation: anima-loading 2s linear infinite;
 }
 
 // 全局元素样式
 * {
-    transform-origin: center;
-    will-change: transform; // 解决transform抖动
-    font-family: $font-family; // 全局字体
+  transform-origin: center;
+  will-change: transform; // 解决transform抖动
+  font-family: $font-family; // 全局字体
 }
 
 // input
 input,
 textarea {
-    padding: 0;
-    outline: none;
-    border: none;
-    background: none;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    font-family: $font-family;
-    color: $text-color-default;
-    font-size: inherit;
+  padding: 0;
+  outline: none;
+  border: none;
+  background: none;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  font-family: $font-family;
+  color: $text-color-default;
+  font-size: inherit;
 }
 
 input::placeholder,
 textarea::placeholder {
-    opacity: 0.5;
-    font-size: 12px;
-    font-family: $font-family;
+  opacity: 0.5;
+  font-size: 12px;
+  font-family: $font-family;
 }
 
 // 去除加减符
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }
 
 @keyframes anima-loading {
-    from {
-        transform: rotate(0deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
 
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 // 全局滚动条
 /* 全局滚动条宽度 */
 ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+  width: 12px;
+  height: 12px;
 }
 
 /* 滚动条轨道 */
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
-    background-color: $theme-color-primary;
-    border-radius: 6px;
-    border: 3px solid #f1f1f1;
+  background-color: $theme-color-primary;
+  border-radius: 6px;
+  border: 3px solid #f1f1f1;
 }
 
 /* 滑块hover效果 */
 ::-webkit-scrollbar-thumb:hover {
-    background-color: $theme-color-primary;
+  background-color: $theme-color-primary;
 }

@@ -7,11 +7,15 @@ export interface PropsType {
   // 是否禁用(显示)
   disabled?: boolean
   // 显示方式
-  type?: 'hover' | 'click'
+  type?: 'hover' | 'click' | 'none'
   // 标题
   content?: string
   // 圆角
   radius?: number
+  // 内间距
+  padding?: [number, number, number, number]
+  // 阴影
+  boxShadow?: [number, number, number, string]
   // 间隙
   gap?: number
   // 隐藏时间
@@ -33,8 +37,21 @@ export interface PropsType {
   closeOnPressEscape?: boolean
   // 是否点击其他区域关闭
   closeOnPressOther?: boolean
+  // 是否有遮罩层
+  isModal?: boolean
+  // 是否遮罩层允许嵌套
+  isModalNest?: boolean
 }
 
 export interface TooltipHookParamsType {
   type: PropsType['type']
+}
+/**
+ * @description: 组件emit类型
+ */
+export interface EmitsType {
+  // 遮罩层点击
+  (e: 'clickModel'): void
+  // model改变监听
+  (e: 'modelChange', el: HTMLElement): void
 }

@@ -6,6 +6,13 @@
   "description": "tui 组件库 icon",
   "glyphs": [
     {
+      "icon_id": "749276",
+      "name": "关闭",
+      "font_class": "close",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
       "icon_id": "11891857",
       "name": "右圆形",
       "font_class": "right-circle",
@@ -858,13 +865,6 @@
       "font_class": "cloud-download",
       "unicode": "e62c",
       "unicode_decimal": 58924
-    },
-    {
-      "icon_id": "39110743",
-      "name": "关闭",
-      "font_class": "close",
-      "unicode": "e62d",
-      "unicode_decimal": 58925
     },
     {
       "icon_id": "39110744",

@@ -12,7 +12,9 @@
     gap: 4px;
   }
   ._btns {
-    text-align: end;
+    display: flex;
+    gap: 6px;
+    justify-content: flex-end;
     .t-button:nth-child(1) {
       color: $text-color-default;
     }

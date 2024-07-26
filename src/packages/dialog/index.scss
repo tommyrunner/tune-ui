@@ -1,0 +1,47 @@
+@import '@/styles/index.scss';
+
+.t-dialog {
+  position: relative;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  ._head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $text-color-default;
+    font-size: 18px;
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(220, 220, 220, 0.493);
+    ._title {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .t-icon {
+      opacity: 0.8;
+      transition: 0.22s;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .icon-close {
+      cursor: pointer;
+    }
+  }
+  ._head-draggable {
+    cursor: move;
+  }
+  .content {
+    flex: 1;
+  }
+  ._foot {
+    display: flex;
+    ._btns {
+      display: flex;
+      gap: 12px;
+    }
+  }
+}

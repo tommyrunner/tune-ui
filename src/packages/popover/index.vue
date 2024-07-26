@@ -28,14 +28,20 @@
           </div>
         </div>
       </Transition>
+      <!-- 遮罩 -->
+      <Transition name="t-model">
+        <div class="_t-model" v-if="props.isModal && model" :style="getModelStyle" @click="emit('clickModel')"></div>
+      </Transition>
     </Teleport>
-    <slot />
+
+    <slot v-if="slots.define" />
+    <div v-else></div>
   </div>
 </template>
 <script lang="ts" setup>
 import { bindDebounce, generateId, isDownKeyboard } from '@/utils'
-import type { PropsType } from './popover'
-import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, useSlots } from 'vue'
+import type { EmitsType, PropsType } from './popover'
+import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, useSlots, watch } from 'vue'
 defineOptions({ name: 'TPopover' })
 const props = withDefaults(defineProps<PropsType>(), {
   radius: 8,
@@ -44,6 +50,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   position: 'top',
   appendTo: 'body',
   hideAfter: 150,
+  padding: () => [8, 12, 8, 12],
+  boxShadow: () => [0, 0, 2, 'gainsboro'],
   showArrow: true,
   autoPosition: true,
   custom: void 0,
@@ -52,7 +60,7 @@ const props = withDefaults(defineProps<PropsType>(), {
 })
 const state = reactive({
   // popover标记id
-  popoverId: '_popover_0',
+  popoverId: 't-popover-0',
   // 需要popover的元素
   popoverRect: void 0 as DOMRect,
   // 动画标记
@@ -65,6 +73,8 @@ const state = reactive({
   dyPosition: props.position,
   // 标记鼠标是否处于其他区域
   isHvoerOther: false,
+  // 当前的z-index
+  zIndex: 2001,
   // 暂存popover位置
   point: {
     left: 0,
@@ -74,6 +84,7 @@ const state = reactive({
 // 绑定显示值
 const model = defineModel<boolean>()
 const slots = useSlots()
+const emit = defineEmits<EmitsType>()
 const contentRef = ref<HTMLDivElement>()
 const popoverRef = ref<HTMLDivElement>()
 /**
@@ -97,6 +108,21 @@ const showPopover = (el: Element, type: typeof props.type) => {
     }
   }
 }
+watch(model, () => {
+  if (model.value && props.isModalNest) {
+    // 控制遮罩层层级
+    const modelChild: HTMLElement[] = Array.from(document.querySelectorAll('._t-popover'))
+    modelChild.forEach((m) => {
+      const elZIndex = parseInt(m.style.zIndex)
+      if (elZIndex >= state.zIndex) state.zIndex = elZIndex + 1
+    })
+  }
+  // 抛出model改变事件
+  nextTick(() => {
+    console.log(popoverRef.value)
+    emit('modelChange', popoverRef.value)
+  })
+})
 /**
  * 隐藏popover
  */
@@ -154,41 +180,53 @@ const autoPosition = (elRect: DOMRect, contentEl: HTMLDivElement) => {
 }
 
 /**
+ * 处理window初始化事件
+ */
+const keydownHandler = (event: KeyboardEvent) => {
+  if (props.closeOnPressEscape) model.value = !isDownKeyboard(event, 'escape')
+}
+
+const mousedownHandler = () => {
+  if (!state.isHvoerOther && props.closeOnPressOther) model.value = false
+}
+
+/**
+ * 处理子元素初始化事件
+ * @param event
+ */
+const childClickHandler = (event: MouseEvent) => {
+  showPopover(event.target as Element, 'click')
+}
+
+const childMouseenterHandler = (event: MouseEvent) => {
+  showPopover(event.target as Element, 'hover')
+}
+
+const childMouseleaveHandler = () => {
+  hidePopover()
+}
+/**
  * 处理元素事件
  * @param remove 是否移出事件
  */
-const handlerEventListener = (remove: boolean = false) => {
-  let funKey: 'addEventListener' | 'removeEventListener' = 'addEventListener'
-  // 处理按下esc关闭
-  window[funKey]('keydown', function (event) {
-    if (props.closeOnPressEscape) model.value = !isDownKeyboard(event, 'escape')
-  })
-  // 点击其他区域关闭
-  window[funKey]('mousedown', function () {
-    // 计算区域
-    if (!state.isHvoerOther) model.value = false
-  })
+const handlerEventListener = (remove = false) => {
+  const method = remove ? 'removeEventListener' : 'addEventListener'
+  window[method]('keydown', keydownHandler)
+  window[method]('mousedown', mousedownHandler)
   if (contentRef.value) {
     Array.from(contentRef.value.children).forEach((child) => {
-      // 初始化监听
-      child[funKey]('click', () => {
-        showPopover(child, 'click')
-      })
-      child[funKey]('mouseenter', () => {
-        showPopover(child, 'hover')
-      })
-      child[funKey]('mouseleave', () => {
-        hidePopover()
-      })
+      child[method]('click', childClickHandler)
+      child[method]('mouseenter', childMouseenterHandler)
+      child[method]('mouseleave', childMouseleaveHandler)
       // 初始化样式
       if (!remove) updateView(child)
     })
   }
 }
 onDeactivated(() => {
-  // 清空事件
   handlerEventListener(true)
 })
+
 onMounted(() => {
   handlerEventListener()
 })
@@ -202,12 +240,22 @@ const animationAfterEnter = () => {
 const animationLeave = () => {
   state.isTransitionEnterOk = false
 }
-// 动态处理popover样式处理
+// 动态处理popover样式
 const getPopoverStyle = computed((): StyleValue => {
+  const { padding = [], boxShadow = [] } = props
   return {
     pointerEvents: state.isTransitionEnterOk ? 'none' : 'initial',
     left: `${state.point.left}px`,
-    top: `${state.point.top}px`
+    top: `${state.point.top}px`,
+    padding: `${padding[0] || 0}px ${padding[1] || 0}px ${padding[2] || 0}px ${padding[3] || 0}px`,
+    boxShadow: `${boxShadow[0] || 0}px ${boxShadow[1] || 0}px ${boxShadow[2] || 0}px ${boxShadow[3]}`,
+    zIndex: state.zIndex
+  }
+})
+// 动态处理遮罩层样式
+const getModelStyle = computed((): StyleValue => {
+  return {
+    zIndex: state.zIndex - 1
   }
 })
 /**

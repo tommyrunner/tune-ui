@@ -2,15 +2,18 @@
   <TPopover
     position="top"
     type="click"
-    v-model="show"
+    v-model="visible"
     :disabled="props.disabled"
     :close-on-press-escape="props.closeOnPressEscape"
+    :close-on-press-other="props.closeOnPressOther"
+    :padding="props.padding"
+    :box-shadow="props.boxShadow"
   >
     <template #content>
       <div class="t-popconfirm" :style="getPopconfirmSytle">
         <slot name="content" v-if="slots.content" />
         <div class="_head" v-else>
-          <TIcon :icon="props.icon" color="#fc9824" :size="14" />
+          <TIcon :icon="props.icon" color="#fc9824" :size="14" v-if="props.icon" />
           <span>{{ props.content }}</span>
         </div>
         <div class="_btns">
@@ -35,25 +38,23 @@ const emit = defineEmits<EmitsType>()
 const slots = useSlots()
 const props = withDefaults(defineProps<PropsType>(), {
   maxWidth: '140px',
-  maxHeight: '60px',
   icon: 'illustrate',
   confirmText: '确认',
   confirmType: 'text',
   cancelText: '取消',
   cancelType: 'text',
-  closeOnPressEscape: true
+  closeOnPressOther: false
 })
-const show = ref(false)
+const visible = ref(false)
 const handlerSubmit = (isConfirm) => {
   if (isConfirm) emit('confirm')
   else emit('cancel')
-  show.value = false
+  visible.value = false
 }
 const getPopconfirmSytle = computed((): StyleValue => {
-  const { maxWidth, maxHeight } = props
+  const { maxWidth } = props
   return {
-    maxWidth: maxWidth,
-    maxHeight: maxHeight
+    maxWidth: maxWidth
   }
 })
 </script>

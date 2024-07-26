@@ -17,7 +17,7 @@
     user-select: none;
     vertical-align: middle;
     box-sizing: border-box;
-    padding: 4px 16px;
+    padding: 2px 16px;
     transition: 0.22s;
 
     // 处理缩放
@@ -103,7 +103,7 @@
     font-size: $font-size-default;
     min-height: 24px;
     line-height: 24px;
-    padding: 4px 16px;
+    padding: 2px 16px;
 
     ._prefixIcon,
     ._suffixIcon {
