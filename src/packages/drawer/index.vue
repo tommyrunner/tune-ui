@@ -5,21 +5,22 @@
     v-model="visible"
     :disabled="props.disabled"
     :close-on-press-escape="props.closeOnPressEscape"
-    :close-on-press-other="props.closeOnPressModel"
+    :close-on-press-other="!props.isModal && props.closeOnPressModel"
     :padding="props.padding"
     :box-shadow="props.boxShadow"
     :custom="state.custom"
-    :dialog-aniamtion="true"
+    :drawer-aniamtion="true"
     :show-arrow="false"
     :is-modal="props.isModal"
-    :is-modal-nest="props.isModal"
+    :is-modal-nest="true"
+    :radius="state.radius"
     @click-model="handlerClickmodel"
     @hover-enter="handlerDrag"
     @open="emit('open')"
     @close="emit('close')"
   >
     <template #content>
-      <div class="t-dialog" :style="getPopconfirmSytle">
+      <div class="t-drawer" :style="getPopconfirmSytle">
         <div :class="['_head', props.draggable && '_head-draggable']">
           <slot name="title" v-if="slots.title" />
           <div class="_title" v-else>
@@ -45,20 +46,24 @@
   </TPopover>
 </template>
 <script lang="ts" setup>
-import type { PropsType, EmitsType } from './dialog'
+import type { PropsType, EmitsType } from './drawer'
 import { TPopover } from '../popover'
 import { TButton } from '../button'
 import { TIcon } from '../icon'
-import { computed, onMounted, reactive, StyleValue, useSlots } from 'vue'
+import { computed, reactive, StyleValue, useSlots } from 'vue'
 import { useDraggable } from '@/hooks/useDraggable'
-defineOptions({ name: 'TDialog' })
+defineOptions({ name: 'Tdrawer' })
 const emit = defineEmits<EmitsType>()
+const gap = 4
+const defRadius = 8
 const slots = useSlots()
 const state = reactive({
-  custom: { x: 0, y: 0 }
+  custom: { x: 0, y: 0 },
+  radius: [0, defRadius, defRadius, 0] as [number, number, number, number]
 })
 const props = withDefaults(defineProps<PropsType>(), {
   width: '600px',
+  height: `${window.innerHeight}px`,
   icon: 'inspiration',
   confirmText: '确认',
   confirmType: 'success',
@@ -77,13 +82,6 @@ const visible = defineModel<boolean>()
 // 注册拖动hooks事件
 const { injectDrag } = useDraggable()
 
-onMounted(() => {
-  const { offset } = props
-  state.custom = {
-    x: window.innerWidth / 2 + offset.x,
-    y: window.innerHeight / 2 + offset.y
-  }
-})
 const handlerSubmit = (isConfirm) => {
   if (isConfirm) emit('confirm')
   else emit('cancel')
@@ -102,7 +100,8 @@ const handlerDrag = (el: HTMLElement) => {
 const getPopconfirmSytle = computed((): StyleValue => {
   const { width } = props
   return {
-    width: width
+    width: width,
+    height: `${innerHeight - props.padding[0] * 2 - gap}px`
   }
 })
 const getFootStyle = computed((): StyleValue => {

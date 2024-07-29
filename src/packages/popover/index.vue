@@ -42,9 +42,10 @@
 import { bindDebounce, generateId, getMaxZIndex, isDownKeyboard } from '@/utils'
 import type { EmitsType, PropsType } from './popover'
 import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, useSlots, watch } from 'vue'
+import { isNumber, isString } from '@/utils/is'
 defineOptions({ name: 'TPopover' })
 const props = withDefaults(defineProps<PropsType>(), {
-  radius: 8,
+  radius: () => [8, 8, 8, 8],
   gap: 12,
   type: 'hover',
   position: 'top',
@@ -97,7 +98,6 @@ const bounceShow = bindDebounce(() => {
  * 显示popover
  */
 const bindPopover = (el: Element, type: typeof props.type) => {
-  state.popoverId = `t-popover-${generateId()}`
   if (type === props.type) {
     if (props.type === 'click' && model.value) {
       hidePopover(true)
@@ -237,6 +237,7 @@ onDeactivated(() => {
 })
 
 onMounted(() => {
+  state.popoverId = `t-popover-${generateId()}`
   handlerEventListener()
 })
 // 标记动画状态
@@ -251,16 +252,32 @@ const animationLeave = () => {
 }
 // 动态处理popover样式
 const getPopoverStyle = computed((): StyleValue => {
-  const { padding = [], boxShadow = [] } = props
+  const { padding = [], boxShadow = [], radius = [] } = props
   return {
     pointerEvents: state.isTransitionEnterOk ? 'none' : 'initial',
     left: `${state.point.left}px`,
     top: `${state.point.top}px`,
-    padding: `${padding[0] || 0}px ${padding[1] || 0}px ${padding[2] || 0}px ${padding[3] || 0}px`,
-    boxShadow: `${boxShadow[0] || 0}px ${boxShadow[1] || 0}px ${boxShadow[2] || 0}px ${boxShadow[3]}`,
+    padding: `${fromCssVal(padding)}`,
+    boxShadow: `${fromCssVal(boxShadow)}`,
+    borderRadius: `${fromCssVal(radius)}`,
     zIndex: state.zIndex
   }
 })
+/**
+ * 格式化css四位值
+ * @param array
+ */
+const fromCssVal = (array: any[]) => {
+  return array
+    .filter((item) => isNumber(item) || isString(item)) // 只保留数字和字符串
+    .map((item) => {
+      // 对数字进行处理，如果不是数字则默认为0
+      const number = isNumber(item) ? item : 0
+      return `${number}px` // 转换为字符串并添加'px'
+    })
+    .filter((str) => str) // 过滤掉空字符串
+    .join(' ') // 连接成单个字符串
+}
 // 动态处理遮罩层样式
 const getModelStyle = computed((): StyleValue => {
   return {
@@ -310,13 +327,23 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position) => {
   return point
 }
 const getPopoverClass = computed(() => {
-  const { custom } = props
+  const { dialogAniamtion, drawerAniamtion } = props
+  let animatinoClass = `_t-popover-${state.dyPosition}`
+  // 切换dialog动画
+  if (dialogAniamtion) animatinoClass = `_t-popover-dialog`
+  // 切换drawer动画
+  if (drawerAniamtion) animatinoClass = `_t-popover-drawer`
   // 因为抛出使用特殊格式
-  return ['_t-popover', `_t-popover-${state.dyPosition}`, custom && `_t-popover-custom`]
+  return ['_t-popover', animatinoClass]
 })
 const getTransitionName = computed(() => {
-  const { custom } = props
-  return `${custom ? 't-popover-custom' : `t-popover-${state.dyPosition}`}`
+  const { dialogAniamtion, drawerAniamtion } = props
+  let name = `t-popover-${state.dyPosition}`
+  // 切换dialog动画
+  if (dialogAniamtion) name = 't-popover-dialog'
+  // 切换drawer动画
+  if (drawerAniamtion) name = 't-popover-drawer'
+  return name
 })
 /**
  * 根据元素动态三角的指向以及样式

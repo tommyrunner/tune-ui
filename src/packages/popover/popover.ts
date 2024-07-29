@@ -11,7 +11,7 @@ export interface PropsType {
   // 标题
   content?: string
   // 圆角
-  radius?: number
+  radius?: [number, number, number, number]
   // 内间距
   padding?: [number, number, number, number]
   // 阴影
@@ -33,6 +33,10 @@ export interface PropsType {
     x: number
     y: number
   }
+  // 是否 dialog弹窗动画
+  dialogAniamtion?: boolean
+  // 是否 drawer弹窗动画
+  drawerAniamtion?: boolean
   // 是否按下esc关闭
   closeOnPressEscape?: boolean
   // 是否点击其他区域关闭

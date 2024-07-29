@@ -16,6 +16,7 @@ import { TCarousel, TCarouselGroup } from './carousel'
 import { TPopover } from './popover'
 import { TPopconfirm } from './popconfirm'
 import { TDialog } from './dialog'
+import { TDrawer } from './drawer'
 
 const components = {
   TButton,
@@ -39,7 +40,8 @@ const components = {
   TCarouselGroup,
   TPopover,
   TPopconfirm,
-  TDialog
+  TDialog,
+  TDrawer
 }
 // 全局组件注册
 export default {
@@ -69,3 +71,4 @@ export * from './carousel'
 export * from './popover'
 export * from './popconfirm'
 export * from './dialog'
+export * from './drawer'

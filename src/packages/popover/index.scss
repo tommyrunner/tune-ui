@@ -90,23 +90,6 @@
 // left动画
 @include popover-animation('left', 'translateX', 0%, 30%);
 
-// 自定义xy轴后的动画
-._t-popover-custom {
-  transform: scale(1) translate(-50%, -50%);
-  transform-origin: left;
-}
-.t-popover-custom-enter-active,
-.t-popover-custom-leave-active {
-  opacity: 1;
-  transform: scale(1) translate(-50%, -50%);
-}
-
-.t-popover-custom-enter-from,
-.t-popover-custom-leave-to {
-  opacity: 0;
-  transform: scale(0.8) translate(-50%, -50%);
-}
-
 // 处理遮罩层
 ._t-model {
   position: fixed;
@@ -122,4 +105,36 @@
 .t-model-enter-from,
 .t-model-leave-to {
   opacity: 0;
+}
+
+// dialog轴后的动画
+._t-popover-dialog {
+  transform: scale(1) translate(-50%, -50%);
+  transform-origin: left;
+}
+.t-popover-dialog-enter-active,
+.t-popover-dialog-leave-active {
+  opacity: 1;
+  transform: scale(1) translate(-50%, -50%);
+}
+
+.t-popover-dialog-enter-from,
+.t-popover-dialog-leave-to {
+  opacity: 0;
+  transform: scale(0.8) translate(-50%, -50%);
+}
+// drawer轴后的动画
+._t-popover-drawer {
+  transform: scale(1) translate(0, 0);
+}
+.t-popover-drawer-enter-active,
+.t-popover-drawer-leave-active {
+  opacity: 1;
+  transform: translate(0%, 0%);
+}
+
+.t-popover-drawer-enter-from,
+.t-popover-drawer-leave-to {
+  opacity: 0;
+  transform: translate(-100%, 0%);
 }
