@@ -13,7 +13,7 @@
         @leave="animationLeave"
       >
         <div
-          @mouseenter="state.isHvoerOther = state.isHoverPopover = true"
+          @mouseenter="onPopoverHoverEnter"
           @mouseleave="onPopoverHoverOut"
           v-if="model && !props.disabled"
           :class="getPopoverClass"
@@ -39,7 +39,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { bindDebounce, generateId, isDownKeyboard } from '@/utils'
+import { bindDebounce, generateId, getMaxZIndex, isDownKeyboard } from '@/utils'
 import type { EmitsType, PropsType } from './popover'
 import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, useSlots, watch } from 'vue'
 defineOptions({ name: 'TPopover' })
@@ -96,7 +96,7 @@ const bounceShow = bindDebounce(() => {
 /**
  * 显示popover
  */
-const showPopover = (el: Element, type: typeof props.type) => {
+const bindPopover = (el: Element, type: typeof props.type) => {
   state.popoverId = `t-popover-${generateId()}`
   if (type === props.type) {
     if (props.type === 'click' && model.value) {
@@ -108,19 +108,20 @@ const showPopover = (el: Element, type: typeof props.type) => {
     }
   }
 }
+
+const maxZIndex = () => {
+  return getMaxZIndex('._t-popover')
+}
 watch(model, () => {
   if (model.value && props.isModalNest) {
-    // 控制遮罩层层级
-    const modelChild: HTMLElement[] = Array.from(document.querySelectorAll('._t-popover'))
-    modelChild.forEach((m) => {
-      const elZIndex = parseInt(m.style.zIndex)
-      if (elZIndex >= state.zIndex) state.zIndex = elZIndex + 1
-    })
+    const max = maxZIndex()
+    if (max >= state.zIndex) state.zIndex = max + 1
   }
   // 抛出model改变事件
   nextTick(() => {
-    console.log(popoverRef.value)
-    emit('modelChange', popoverRef.value)
+    if (model.value) emit('open')
+    else emit('close')
+    emit('modelChange')
   })
 })
 /**
@@ -133,12 +134,19 @@ const hidePopover = (hide?: boolean) => {
   }
 }
 /**
+ * 标记离开popover上
+ */
+const onPopoverHoverEnter = (event: MouseEvent) => {
+  state.isHvoerOther = state.isHoverPopover = true
+  emit('hoverEnter', event.target as HTMLElement)
+}
+/**
  * 标记是否hover在popover上
  */
-const onPopoverHoverOut = () => {
-  state.isHoverPopover = false
-  state.isHvoerOther = false
+const onPopoverHoverOut = (event: MouseEvent) => {
+  state.isHvoerOther = state.isHoverPopover = false
   hidePopover()
+  emit('hoverOut', event.target as HTMLElement)
 }
 /**
  * 更新元素位置
@@ -181,13 +189,14 @@ const autoPosition = (elRect: DOMRect, contentEl: HTMLDivElement) => {
 
 /**
  * 处理window初始化事件
+ * 关闭条件:props && 条件 && 当前最上层
  */
 const keydownHandler = (event: KeyboardEvent) => {
-  if (props.closeOnPressEscape) model.value = !isDownKeyboard(event, 'escape')
+  if (props.closeOnPressEscape && isDownKeyboard(event, 'escape') && maxZIndex() <= state.zIndex) model.value = false
 }
 
 const mousedownHandler = () => {
-  if (!state.isHvoerOther && props.closeOnPressOther) model.value = false
+  if (!state.isHvoerOther && props.closeOnPressOther && maxZIndex() <= state.zIndex) model.value = false
 }
 
 /**
@@ -195,11 +204,11 @@ const mousedownHandler = () => {
  * @param event
  */
 const childClickHandler = (event: MouseEvent) => {
-  showPopover(event.target as Element, 'click')
+  bindPopover(event.target as Element, 'click')
 }
 
 const childMouseenterHandler = (event: MouseEvent) => {
-  showPopover(event.target as Element, 'hover')
+  bindPopover(event.target as Element, 'hover')
 }
 
 const childMouseleaveHandler = () => {

@@ -115,11 +115,8 @@
   bottom: 0;
   left: 0;
   overflow: auto;
+  transition: 0.22s;
   background-color: $bg-color-model;
-}
-.t-model-enter-active,
-.t-model-leave-active {
-  opacity: 1;
 }
 
 .t-model-enter-from,

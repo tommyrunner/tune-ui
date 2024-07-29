@@ -13,10 +13,12 @@
     :is-modal="true"
     :is-modal-nest="true"
     @click-model="handlerClickmodel"
-    @model-change="handlerModelChange"
+    @hover-enter="handlerDrag"
+    @open="emit('open')"
+    @close="emit('close')"
   >
     <template #content>
-      <div class="t-dialog" :style="getPopconfirmSytle" :id="state.dialogId">
+      <div class="t-dialog" :style="getPopconfirmSytle">
         <div :class="['_head', props.draggable && '_head-draggable']">
           <slot name="title" v-if="slots.title" />
           <div class="_title" v-else>
@@ -70,11 +72,13 @@ const props = withDefaults(defineProps<PropsType>(), {
   isModal: true,
   isFoot: true,
   isCloseIcon: true,
-  draggable: true,
   padding: () => [12, 16, 12, 16],
   offset: () => ({ x: 0, y: 0 })
 })
 const visible = defineModel<boolean>()
+// 注册拖动hooks事件
+const { injectDrag } = useDraggable()
+
 onMounted(() => {
   const { offset } = props
   state.custom = {
@@ -92,14 +96,12 @@ const handlerSubmit = (isConfirm) => {
 const handlerClickmodel = () => {
   if (props.closeOnPressModel) handlerSubmit(false)
 }
-const handlerModelChange = (popover: HTMLElement) => {
-  // 处理移动对话框
-  console.log(popover)
-  // if (props.draggable) {
-  //   const dialogEl: HTMLElement = document.querySelector('#state.dialogId')
-  //   if (!dialogEl) return
-  //   useDraggable(dialogEl, dialogEl.querySelector('>._head-draggable'))
-  // }
+/**
+ * 实现拖动弹框
+ * @param el
+ */
+const handlerDrag = (el: HTMLElement) => {
+  injectDrag(el, '._head-draggable')
 }
 const getPopconfirmSytle = computed((): StyleValue => {
   const { width } = props

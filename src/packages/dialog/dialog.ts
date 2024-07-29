@@ -53,4 +53,7 @@ export interface EmitsType {
   (e: 'confirm'): void
   // 取消
   (e: 'cancel'): void
+  // 打开关闭回调
+  (e: 'open'): void
+  (e: 'close'): void
 }

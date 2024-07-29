@@ -19,6 +19,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
+      cursor: pointer;
     }
     .t-icon {
       opacity: 0.8;
@@ -33,6 +34,7 @@
   }
   ._head-draggable {
     cursor: move;
+    user-select: none;
   }
   .content {
     flex: 1;

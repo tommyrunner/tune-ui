@@ -52,6 +52,12 @@ export interface TooltipHookParamsType {
 export interface EmitsType {
   // 遮罩层点击
   (e: 'clickModel'): void
+  // 鼠标进入退出事件
+  (e: 'hoverEnter', el: HTMLElement): void
+  (e: 'hoverOut', el: HTMLElement): void
   // model改变监听
-  (e: 'modelChange', el: HTMLElement): void
+  (e: 'modelChange'): void
+  // 打开关闭回调
+  (e: 'open'): void
+  (e: 'close'): void
 }

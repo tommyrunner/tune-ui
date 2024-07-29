@@ -102,3 +102,19 @@ export function generateId() {
 export function isDownKeyboard(event: KeyboardEvent, key: string) {
   return key.toLocaleLowerCase() === event.key.toLocaleLowerCase()
 }
+
+/**
+ * 获取该元素最大的z-index值
+ * @param selectors  元素
+ * @returns
+ */
+export function getMaxZIndex(selectors: string) {
+  // 控制遮罩层层级
+  const modelChild: HTMLElement[] = Array.from(document.querySelectorAll(selectors))
+  let maxZIndex = 0
+  modelChild.forEach((m) => {
+    const elZIndex = parseInt(m.style.zIndex)
+    if (elZIndex >= maxZIndex) maxZIndex = elZIndex
+  })
+  return maxZIndex
+}
