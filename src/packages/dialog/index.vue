@@ -9,12 +9,12 @@
     :padding="props.padding"
     :box-shadow="props.boxShadow"
     :custom="state.custom"
-    :dialog-aniamtion="true"
+    :dialog-animation="true"
     :show-arrow="false"
     :is-modal="props.isModal"
     :is-modal-nest="props.isModal"
     :width="props.width"
-    @click-model="handlerClickmodel"
+    @click-model="handlerClickModel"
     @hover-enter="handlerDrag"
     @open="emit('open')"
     @close="emit('close')"
@@ -34,7 +34,7 @@
         </div>
         <div class="_foot" :style="getFootStyle" v-if="props.isFoot">
           <slot name="foot" v-if="slots.foot" />
-          <div class="_btns" v-else>
+          <div class="_btn" v-else>
             <TButton :type="props.cancelType" @click="handlerSubmit(true)">{{ props.cancelText }}</TButton>
             <TButton :type="props.confirmType" @click="handlerSubmit(false)">
               {{ props.confirmText }}
@@ -90,7 +90,7 @@ const handlerSubmit = (isConfirm) => {
   else emit('cancel')
   visible.value = false
 }
-const handlerClickmodel = () => {
+const handlerClickModel = () => {
   if (props.closeOnPressModel) handlerSubmit(false)
 }
 /**

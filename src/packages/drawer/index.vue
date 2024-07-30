@@ -2,7 +2,7 @@
   <TPopover
     type="none"
     :position="props.position"
-    :width="isSide && props.size"
+    :width="isSide ? props.size : '100%'"
     v-model="visible"
     :disabled="props.disabled"
     :close-on-press-escape="props.closeOnPressEscape"
@@ -10,19 +10,18 @@
     :padding="props.padding"
     :box-shadow="props.boxShadow"
     :custom="state.custom"
-    :drawer-aniamtion="true"
+    :drawer-animation="true"
     :show-arrow="false"
     :is-modal="props.isModal"
     :is-modal-nest="true"
     :radius="[0, 0, 0, 0]"
-    @click-model="handlerClickmodel"
-    @hover-enter="handlerDrag"
+    @click-model="handlerClickModel"
     @open="emit('open')"
     @close="emit('close')"
   >
     <template #content>
-      <div class="t-drawer" :style="getPopconfirmSytle">
-        <div :class="['_head', props.draggable && '_head-draggable']">
+      <div class="t-drawer" :style="getPopconfirmStyle">
+        <div class="_head">
           <slot name="title" v-if="slots.title" />
           <div class="_title" v-else>
             <TIcon :icon="props.icon" :size="18" v-if="props.icon" />
@@ -35,7 +34,7 @@
         </div>
         <div class="_foot" :style="getFootStyle" v-if="props.isFoot">
           <slot name="foot" v-if="slots.foot" />
-          <div class="_btns" v-else>
+          <div class="_btn" v-else>
             <TButton :type="props.cancelType" @click="handlerSubmit(true)">{{ props.cancelText }}</TButton>
             <TButton :type="props.confirmType" @click="handlerSubmit(false)">
               {{ props.confirmText }}
@@ -52,8 +51,7 @@ import { TPopover } from '../popover'
 import { TButton } from '../button'
 import { TIcon } from '../icon'
 import { computed, reactive, StyleValue, useSlots } from 'vue'
-import { useDraggable } from '@/hooks/useDraggable'
-defineOptions({ name: 'Tdrawer' })
+defineOptions({ name: 'TDrawer' })
 const emit = defineEmits<EmitsType>()
 const gap = 4
 const slots = useSlots()
@@ -91,17 +89,10 @@ const handlerSubmit = (isConfirm) => {
   else emit('cancel')
   visible.value = false
 }
-const handlerClickmodel = () => {
+const handlerClickModel = () => {
   if (props.closeOnPressModel) handlerSubmit(false)
 }
-/**
- * 实现拖动弹框
- * @param el
- */
-const handlerDrag = (el: HTMLElement) => {
-  injectDrag(el, '._head-draggable')
-}
-const getPopconfirmSytle = computed((): StyleValue => {
+const getPopconfirmStyle = computed((): StyleValue => {
   const { size, isSetMaxHeight } = props
   let sizeKey = 'width'
   let maxKey = 'height'

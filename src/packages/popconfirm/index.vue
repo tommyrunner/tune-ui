@@ -10,13 +10,13 @@
     :box-shadow="props.boxShadow"
   >
     <template #content>
-      <div class="t-popconfirm" :style="getPopconfirmSytle">
+      <div class="t-popconfirm" :style="getPopconfirmStyle">
         <slot name="content" v-if="slots.content" />
         <div class="_head" v-else>
           <TIcon :icon="props.icon" color="#fc9824" :size="14" v-if="props.icon" />
           <span>{{ props.content }}</span>
         </div>
-        <div class="_btns">
+        <div class="_btn">
           <TButton :type="props.cancelType" size="small" @click="handlerSubmit(true)">{{ props.cancelText }}</TButton>
           <TButton :type="props.confirmType" size="small" @click="handlerSubmit(false)">
             {{ props.confirmText }}
@@ -32,26 +32,26 @@ import type { PropsType, EmitsType } from './popconfirm'
 import { TPopover } from '../popover'
 import { TButton } from '../button'
 import { TIcon } from '../icon'
-import { computed, ref, StyleValue, useSlots } from 'vue'
+import { computed, StyleValue, useSlots } from 'vue'
 defineOptions({ name: 'TPopconfirm' })
 const emit = defineEmits<EmitsType>()
 const slots = useSlots()
 const props = withDefaults(defineProps<PropsType>(), {
-  maxWidth: '140px',
   icon: 'illustrate',
   confirmText: '确认',
   confirmType: 'text',
   cancelText: '取消',
   cancelType: 'text',
+  padding: () => [8, 6, 8, 6],
   closeOnPressOther: false
 })
-const visible = ref(false)
+const visible = defineModel<boolean>()
 const handlerSubmit = (isConfirm) => {
   if (isConfirm) emit('confirm')
   else emit('cancel')
   visible.value = false
 }
-const getPopconfirmSytle = computed((): StyleValue => {
+const getPopconfirmStyle = computed((): StyleValue => {
   const { maxWidth } = props
   return {
     maxWidth: maxWidth

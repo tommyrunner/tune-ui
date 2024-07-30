@@ -36,9 +36,9 @@ export interface PropsType {
     y: number
   }
   // 是否 dialog弹窗动画
-  dialogAniamtion?: boolean
+  dialogAnimation?: boolean
   // 是否 drawer弹窗动画
-  drawerAniamtion?: boolean
+  drawerAnimation?: boolean
   // 是否按下esc关闭
   closeOnPressEscape?: boolean
   // 是否点击其他区域关闭

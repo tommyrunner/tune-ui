@@ -2,8 +2,8 @@
   <div
     class="t-popover"
     ref="contentRef"
-    @mouseenter="state.isHvoerOther = true"
-    @mouseleave="state.isHvoerOther = false"
+    @mouseenter="state.isHoverOther = true"
+    @mouseleave="state.isHoverOther = false"
   >
     <Teleport :to="props.appendTo">
       <Transition
@@ -34,7 +34,7 @@
       </Transition>
     </Teleport>
 
-    <slot v-if="slots.define" />
+    <slot v-if="slots.default" />
     <div v-else></div>
   </div>
 </template>
@@ -52,7 +52,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   appendTo: 'body',
   hideAfter: 150,
   padding: () => [8, 12, 8, 12],
-  boxShadow: () => [0, 0, 2, 'gainsboro'],
+  boxShadow: () => [0, 0, 4, '#000008'],
   showArrow: true,
   autoPosition: true,
   custom: void 0,
@@ -73,7 +73,7 @@ const state = reactive({
   // 动态方向
   dyPosition: props.position,
   // 标记鼠标是否处于其他区域
-  isHvoerOther: false,
+  isHoverOther: false,
   // 当前的z-index
   zIndex: 2001,
   // 暂存popover位置
@@ -137,14 +137,14 @@ const hidePopover = (hide?: boolean) => {
  * 标记离开popover上
  */
 const onPopoverHoverEnter = (event: MouseEvent) => {
-  state.isHvoerOther = state.isHoverPopover = true
+  state.isHoverOther = state.isHoverPopover = true
   emit('hoverEnter', event.target as HTMLElement)
 }
 /**
  * 标记是否hover在popover上
  */
 const onPopoverHoverOut = (event: MouseEvent) => {
-  state.isHvoerOther = state.isHoverPopover = false
+  state.isHoverOther = state.isHoverPopover = false
   hidePopover()
   emit('hoverOut', event.target as HTMLElement)
 }
@@ -196,7 +196,7 @@ const keydownHandler = (event: KeyboardEvent) => {
 }
 
 const mousedownHandler = () => {
-  if (!state.isHvoerOther && props.closeOnPressOther && maxZIndex() <= state.zIndex) model.value = false
+  if (!state.isHoverOther && props.closeOnPressOther && maxZIndex() <= state.zIndex) model.value = false
 }
 
 /**
@@ -328,22 +328,22 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position) => {
   return point
 }
 const getPopoverClass = computed(() => {
-  const { dialogAniamtion, drawerAniamtion } = props
-  let animatinoClass = `_t-popover-${state.dyPosition}`
+  const { dialogAnimation, drawerAnimation } = props
+  let animationClass = `_t-popover-${state.dyPosition}`
   // 切换dialog动画
-  if (dialogAniamtion) animatinoClass = `_t-popover-dialog`
+  if (dialogAnimation) animationClass = `_t-popover-dialog`
   // 切换drawer动画
-  if (drawerAniamtion) animatinoClass = `_t-popover-drawer-${props.position}`
+  if (drawerAnimation) animationClass = `_t-popover-drawer-${props.position}`
   // 因为抛出使用特殊格式
-  return ['_t-popover', animatinoClass]
+  return ['_t-popover', animationClass]
 })
 const getTransitionName = computed(() => {
-  const { dialogAniamtion, drawerAniamtion } = props
+  const { dialogAnimation, drawerAnimation } = props
   let name = `t-popover-${state.dyPosition}`
   // 切换dialog动画
-  if (dialogAniamtion) name = 't-popover-dialog'
+  if (dialogAnimation) name = 't-popover-dialog'
   // 切换drawer动画
-  if (drawerAniamtion) name = `t-popover-drawer-${props.position}`
+  if (drawerAnimation) name = `t-popover-drawer-${props.position}`
   return name
 })
 /**
@@ -356,8 +356,8 @@ const getTriangleStyle = computed((): StyleValue => {
   // popover
   const { offsetHeight = 0, offsetWidth = 0 } = popoverRef.value || {}
   // 通过popover与元素对比取最小宽高(优先于元素大小)
-  const valW = width / 2 - gap / 2
-  const valH = height / 2 - gap / 2
+  const valW = width / 2
+  const valH = height / 2
   const contrast: any = {
     width: width < offsetWidth ? `${valW}px` : '50%',
     height: height < offsetHeight ? `${valH}px` : '50%'
