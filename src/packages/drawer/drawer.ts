@@ -9,9 +9,8 @@ export interface PropsType {
   padding?: [number, number, number, number]
   // 阴影
   boxShadow?: [number, number, number, string]
-  // 最大宽高
-  width?: string
-  height?: string
+  // 大小
+  size?: string
   // 是否禁用(显示)
   disabled?: boolean
   // 标题
@@ -35,10 +34,10 @@ export interface PropsType {
   closeOnPressModel?: boolean
   // 是否显示默认按钮组
   isFoot?: boolean
+  // 是否设置全屏高度值(适用于 left|right)
+  isSetMaxHeight?: boolean
   // 是否显示关闭icon
   isCloseIcon?: boolean
-  // 是否可以拖动
-  draggable?: boolean
   // 偏移xy轴
   offset?: {
     x: number

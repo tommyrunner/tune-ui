@@ -38,6 +38,7 @@
   }
   .content {
     flex: 1;
+    overflow: auto;
   }
   ._foot {
     display: flex;

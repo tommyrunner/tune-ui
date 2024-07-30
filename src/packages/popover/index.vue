@@ -252,7 +252,7 @@ const animationLeave = () => {
 }
 // 动态处理popover样式
 const getPopoverStyle = computed((): StyleValue => {
-  const { padding = [], boxShadow = [], radius = [] } = props
+  const { padding = [], boxShadow = [], radius = [], width } = props
   return {
     pointerEvents: state.isTransitionEnterOk ? 'none' : 'initial',
     left: `${state.point.left}px`,
@@ -260,7 +260,8 @@ const getPopoverStyle = computed((): StyleValue => {
     padding: `${fromCssVal(padding)}`,
     boxShadow: `${fromCssVal(boxShadow)}`,
     borderRadius: `${fromCssVal(radius)}`,
-    zIndex: state.zIndex
+    zIndex: state.zIndex,
+    width: width
   }
 })
 /**
@@ -332,7 +333,7 @@ const getPopoverClass = computed(() => {
   // 切换dialog动画
   if (dialogAniamtion) animatinoClass = `_t-popover-dialog`
   // 切换drawer动画
-  if (drawerAniamtion) animatinoClass = `_t-popover-drawer`
+  if (drawerAniamtion) animatinoClass = `_t-popover-drawer-${props.position}`
   // 因为抛出使用特殊格式
   return ['_t-popover', animatinoClass]
 })
@@ -342,7 +343,7 @@ const getTransitionName = computed(() => {
   // 切换dialog动画
   if (dialogAniamtion) name = 't-popover-dialog'
   // 切换drawer动画
-  if (drawerAniamtion) name = 't-popover-drawer'
+  if (drawerAniamtion) name = `t-popover-drawer-${props.position}`
   return name
 })
 /**

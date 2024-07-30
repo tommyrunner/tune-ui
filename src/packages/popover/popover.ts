@@ -4,6 +4,8 @@ import { RendererElement } from 'vue'
  * @description: 组件props类型
  */
 export interface PropsType {
+  // 宽
+  width?: string
   // 是否禁用(显示)
   disabled?: boolean
   // 显示方式

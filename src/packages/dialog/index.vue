@@ -13,13 +13,14 @@
     :show-arrow="false"
     :is-modal="props.isModal"
     :is-modal-nest="props.isModal"
+    :width="props.width"
     @click-model="handlerClickmodel"
     @hover-enter="handlerDrag"
     @open="emit('open')"
     @close="emit('close')"
   >
     <template #content>
-      <div class="t-dialog" :style="getPopconfirmSytle">
+      <div class="t-dialog">
         <div :class="['_head', props.draggable && '_head-draggable']">
           <slot name="title" v-if="slots.title" />
           <div class="_title" v-else>
@@ -99,12 +100,6 @@ const handlerClickmodel = () => {
 const handlerDrag = (el: HTMLElement) => {
   injectDrag(el, '._head-draggable')
 }
-const getPopconfirmSytle = computed((): StyleValue => {
-  const { width } = props
-  return {
-    width: width
-  }
-})
 const getFootStyle = computed((): StyleValue => {
   return {
     justifyContent: props.btnAlign

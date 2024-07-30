@@ -1,7 +1,8 @@
 <template>
   <TPopover
-    position="top"
     type="none"
+    :position="props.position"
+    :width="isSide && props.size"
     v-model="visible"
     :disabled="props.disabled"
     :close-on-press-escape="props.closeOnPressEscape"
@@ -13,7 +14,7 @@
     :show-arrow="false"
     :is-modal="props.isModal"
     :is-modal-nest="true"
-    :radius="state.radius"
+    :radius="[0, 0, 0, 0]"
     @click-model="handlerClickmodel"
     @hover-enter="handlerDrag"
     @open="emit('open')"
@@ -55,15 +56,13 @@ import { useDraggable } from '@/hooks/useDraggable'
 defineOptions({ name: 'Tdrawer' })
 const emit = defineEmits<EmitsType>()
 const gap = 4
-const defRadius = 8
 const slots = useSlots()
 const state = reactive({
-  custom: { x: 0, y: 0 },
-  radius: [0, defRadius, defRadius, 0] as [number, number, number, number]
+  custom: { x: 0, y: 0 }
 })
 const props = withDefaults(defineProps<PropsType>(), {
-  width: '600px',
-  height: `${window.innerHeight}px`,
+  position: 'left',
+  size: '600px',
   icon: 'inspiration',
   confirmText: '确认',
   confirmType: 'success',
@@ -75,12 +74,17 @@ const props = withDefaults(defineProps<PropsType>(), {
   isModal: true,
   isFoot: true,
   isCloseIcon: true,
+  isSetMaxHeight: true,
   padding: () => [12, 16, 12, 16],
   offset: () => ({ x: 0, y: 0 })
 })
 const visible = defineModel<boolean>()
-// 注册拖动hooks事件
-const { injectDrag } = useDraggable()
+/**
+ * 判断是否是两侧方向
+ */
+const isSide = computed(() => {
+  return ['left', 'right'].includes(props.position)
+})
 
 const handlerSubmit = (isConfirm) => {
   if (isConfirm) emit('confirm')
@@ -98,10 +102,23 @@ const handlerDrag = (el: HTMLElement) => {
   injectDrag(el, '._head-draggable')
 }
 const getPopconfirmSytle = computed((): StyleValue => {
-  const { width } = props
+  const { size, isSetMaxHeight } = props
+  let sizeKey = 'width'
+  let maxKey = 'height'
+  // 高度需要计算
+  let maxScreen = `${window.innerHeight - props.padding[0] * 2 - gap}px`
+  // 设置上下
+  if (!isSide.value) {
+    sizeKey = 'height'
+    maxKey = 'width'
+    maxScreen = '100%'
+  }
+  // 设置body样式
+  document.body.style.overflow = 'hidden'
   return {
-    width: width,
-    height: `${innerHeight - props.padding[0] * 2 - gap}px`
+    [sizeKey]: isSide.value ? '100%' : size,
+    // isSetMaxScreen 控制是否占全高(只适用于 left|right)
+    [maxKey]: isSetMaxHeight ? maxScreen : 'auto'
   }
 })
 const getFootStyle = computed((): StyleValue => {

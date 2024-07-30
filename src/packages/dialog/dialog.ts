@@ -9,7 +9,7 @@ export interface PropsType {
   padding?: [number, number, number, number]
   // 阴影
   boxShadow?: [number, number, number, string]
-  // 最大宽高
+  // 宽
   width?: string
   // 是否禁用(显示)
   disabled?: boolean
@@ -26,8 +26,6 @@ export interface PropsType {
   cancelType?: ButtonPropsType['type']
   // 按钮对齐
   btnAlign?: 'flex-start' | 'center' | 'flex-end'
-  // 方向
-  position?: 'top' | 'right' | 'bottom' | 'left'
   // 是否按下esc关闭
   closeOnPressEscape?: boolean
   // 是否点击遮罩层关闭

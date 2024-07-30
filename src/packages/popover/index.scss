@@ -106,7 +106,7 @@
 .t-model-leave-to {
   opacity: 0;
 }
-
+// TODO: 可以优化，将动画抛出去除耦合
 // dialog轴后的动画
 ._t-popover-dialog {
   transform: scale(1) translate(-50%, -50%);
@@ -123,18 +123,22 @@
   opacity: 0;
   transform: scale(0.8) translate(-50%, -50%);
 }
-// drawer轴后的动画
-._t-popover-drawer {
-  transform: scale(1) translate(0, 0);
+// 处理不同方向 drawer 动画
+@mixin popover-drawer-animation($position, $top, $right, $bottom, $left, $translate) {
+  ._t-popover-drawer-#{$position} {
+    top: #{$top} !important;
+    right: #{$right} !important;
+    bottom: #{$bottom} !important;
+    left: #{$left} !important;
+    transform: scale(1) translate(0, 0);
+  }
+  .t-popover-drawer-#{$position}-enter-from,
+  .t-popover-drawer-#{$position}-leave-to {
+    opacity: 0;
+    transform: #{$translate};
+  }
 }
-.t-popover-drawer-enter-active,
-.t-popover-drawer-leave-active {
-  opacity: 1;
-  transform: translate(0%, 0%);
-}
-
-.t-popover-drawer-enter-from,
-.t-popover-drawer-leave-to {
-  opacity: 0;
-  transform: translate(-100%, 0%);
-}
+@include popover-drawer-animation('top', 0, initial, initial, 0, translate(0%, -100%));
+@include popover-drawer-animation('right', 0, 0, initial, initial, translate(100%, 0%));
+@include popover-drawer-animation('bottom', initial, initial, 0, 0, translate(0%, 100%));
+@include popover-drawer-animation('left', 0, initial, initial, 0, translate(-100%, 0%));
