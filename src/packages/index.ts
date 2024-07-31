@@ -17,6 +17,7 @@ import { TPopover } from './popover'
 import { TPopconfirm } from './popconfirm'
 import { TDialog } from './dialog'
 import { TDrawer } from './drawer'
+import { TMessage } from './message'
 
 const components = {
   TButton,
@@ -41,7 +42,8 @@ const components = {
   TPopover,
   TPopconfirm,
   TDialog,
-  TDrawer
+  TDrawer,
+  TMessage
 }
 // 全局组件注册
 export default {
@@ -72,3 +74,4 @@ export * from './popover'
 export * from './popconfirm'
 export * from './dialog'
 export * from './drawer'
+export * from './message'

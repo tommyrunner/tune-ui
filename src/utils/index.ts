@@ -1,4 +1,4 @@
-import { is } from './is'
+import { is, isNumber, isString } from './is'
 export function isKeyboard(event: KeyboardEvent, key: string | number) {
   if (is(key, 'Number')) return event.keyCode === key
   else event.key.toLocaleLowerCase() === key.toLocaleString()
@@ -117,4 +117,20 @@ export function getMaxZIndex(selectors: string) {
     if (elZIndex >= maxZIndex) maxZIndex = elZIndex
   })
   return maxZIndex
+}
+/**
+ * 格式化css四位值
+ * @param array
+ */
+export function fromCssVal(array: (number | string)[]) {
+  return array
+    .filter((item) => isNumber(item) || isString(item)) // 只保留数字和字符串
+    .map((item) => {
+      if (isString(item)) return item
+      // 对数字进行处理，如果不是数字则默认为0
+      const number = isNumber(item) ? item : 0
+      return `${number}px` // 转换为字符串并添加'px'
+    })
+    .filter((str) => str) // 过滤掉空字符串
+    .join(' ') // 连接成单个字符串
 }

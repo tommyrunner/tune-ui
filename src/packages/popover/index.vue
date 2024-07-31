@@ -39,20 +39,19 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { bindDebounce, generateId, getMaxZIndex, isDownKeyboard } from '@/utils'
 import type { EmitsType, PropsType } from './popover'
+import { bindDebounce, fromCssVal, generateId, getMaxZIndex, isDownKeyboard } from '@/utils'
 import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, useSlots, watch } from 'vue'
-import { isNumber, isString } from '@/utils/is'
 defineOptions({ name: 'TPopover' })
 const props = withDefaults(defineProps<PropsType>(), {
-  radius: () => [8, 8, 8, 8],
   gap: 12,
   type: 'hover',
   position: 'top',
   appendTo: 'body',
   hideAfter: 150,
+  radius: () => [8, 8, 8, 8],
   padding: () => [8, 12, 8, 12],
-  boxShadow: () => [0, 0, 4, '#000008'],
+  boxShadow: () => [0, 0, 4, 'rgba(0, 0, 0, 0.5)'],
   showArrow: true,
   autoPosition: true,
   custom: void 0,
@@ -264,21 +263,7 @@ const getPopoverStyle = computed((): StyleValue => {
     width: width
   }
 })
-/**
- * 格式化css四位值
- * @param array
- */
-const fromCssVal = (array: any[]) => {
-  return array
-    .filter((item) => isNumber(item) || isString(item)) // 只保留数字和字符串
-    .map((item) => {
-      // 对数字进行处理，如果不是数字则默认为0
-      const number = isNumber(item) ? item : 0
-      return `${number}px` // 转换为字符串并添加'px'
-    })
-    .filter((str) => str) // 过滤掉空字符串
-    .join(' ') // 连接成单个字符串
-}
+
 // 动态处理遮罩层样式
 const getModelStyle = computed((): StyleValue => {
   return {
