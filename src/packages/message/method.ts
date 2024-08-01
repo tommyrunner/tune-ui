@@ -7,12 +7,13 @@ import Notification from './notification.vue'
 
 const messageGap = 24
 const messageTag = `tui`
-
+// message组件VNode虚拟dom集合
+const messageVNodeAll: InstanceType<typeof Message>[] = []
 const isNotification = (messageType: PropsType['messageType']) => messageType === 'notice'
 
 function getLastMessage(messageType: PropsType['messageType']) {
   let max = 0
-  let lastMessageEl = void 0
+  let lastMessageEl: HTMLElement | undefined = void 0
   const className = isNotification(messageType) ? notificationClass : messageClass
   const messageAllEl: HTMLElement[] = Array.from(document.querySelectorAll(`.${className}[${messageTag}]`))
   messageAllEl.forEach((el) => {
@@ -23,17 +24,13 @@ function getLastMessage(messageType: PropsType['messageType']) {
   })
   return { lastMessageEl, messageAllEl }
 }
-// message组件VNode虚拟dom集合
-const messageVNodeAll: InstanceType<typeof Message>[] = []
+
 function createMessage(props: PropsType) {
   const { duration, maxLength, messageType } = props
   // 判断得出最大的y轴
   const { lastMessageEl, messageAllEl } = getLastMessage(messageType)
   if (messageAllEl.length > maxLength) return
-  const custom = { x: '50%', y: `${messageGap}px` }
-  if (lastMessageEl) {
-    custom.y = `${lastMessageEl.offsetHeight + lastMessageEl.offsetTop + messageGap}px`
-  }
+  const custom = initCustom(props, lastMessageEl)
   const VNode = createVNode(isNotification(messageType) ? Notification : Message, {
     ...props,
     ...{ custom }
@@ -47,6 +44,18 @@ function createMessage(props: PropsType) {
     window.setTimeout(() => component.closeMessage(), duration)
   }
   return { VNode: VNode }
+}
+function initCustom(props: PropsType, lastMessageEl: HTMLElement): PropsType['custom'] {
+  const { messageType } = props
+  let custom = { x: '50%', y: `${messageGap}px` }
+  if (isNotification(messageType)) {
+    custom = { x: `${messageGap}px`, y: `${messageGap}px` }
+  }
+  // 处理下一个位置
+  if (lastMessageEl) {
+    custom.y = `${lastMessageEl.offsetHeight + lastMessageEl.offsetTop + messageGap}px`
+  }
+  return custom
 }
 function initProps(props?: PropsType) {
   return {

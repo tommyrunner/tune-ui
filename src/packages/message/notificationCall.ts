@@ -5,11 +5,12 @@ export const notificationClass = `t-notification`
 
 /***************  快捷操作 ********************/
 // 快捷message触发
-function message(content: string, type?: PropsType['type'], config?: PropsType) {
+function message(title: string, content: string, type?: PropsType['type'], config?: PropsType) {
   return createMessage(
     initProps(
       Object.assign(
         {
+          title,
           content,
           type
         },
@@ -21,8 +22,8 @@ function message(content: string, type?: PropsType['type'], config?: PropsType) 
 }
 export default {
   message,
-  info: (content: string) => message(content, 'info'),
-  success: (content: string) => message(content, 'success'),
-  warning: (content: string) => message(content, 'warning'),
-  danger: (content: string) => message(content, 'danger')
+  info: (title: string, content: string) => message(title, content, 'info'),
+  success: (title: string, content: string) => message(title, content, 'success'),
+  warning: (title: string, content: string) => message(title, content, 'warning'),
+  danger: (title: string, content: string) => message(title, content, 'danger')
 }

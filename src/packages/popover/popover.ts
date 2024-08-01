@@ -10,7 +10,7 @@ export interface PropsType {
   disabled?: boolean
   // 显示方式
   type?: 'hover' | 'click' | 'none'
-  // 标题
+  // 内容
   content?: string
   // 圆角
   radius?: [number, number, number, number]

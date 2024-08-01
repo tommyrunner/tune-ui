@@ -78,8 +78,9 @@ const getMessageClass = computed(() => {
   return [messageClass, `t-message-type-${type}`, plain && `t-message-plain-${type}`]
 })
 const getMessageStyle = computed(() => {
-  const { padding = [], radius = [], custom } = props
+  const { padding = [], radius = [], custom, width } = props
   return {
+    width,
     padding: `${fromCssVal(padding)}`,
     borderRadius: `${fromCssVal(radius)}`,
     left: custom.x,

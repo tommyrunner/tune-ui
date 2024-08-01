@@ -13,7 +13,7 @@ export interface PropsType {
   maxWidth?: string
   // 是否禁用(显示)
   disabled?: boolean
-  // 标题
+  // 内容
   content?: string
   // icon
   icon?: IconTypes

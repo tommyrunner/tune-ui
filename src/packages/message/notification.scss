@@ -1,21 +1,30 @@
 @import '@/styles/index.scss';
 
+$gap: 24px;
 .t-notification {
   position: fixed;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 4px;
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%);
   z-index: $z-index-up;
   color: $text-color-default;
   font-size: $font-size-default;
   transform-origin: left;
-  animation: animation-notification-in forwards 0.44s;
-}
-.t-notification-close {
-  animation: animation-notification-out forwards 0.28s;
+  ._head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    ._title {
+      font-size: 16px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      .t-icon {
+        font-weight: 400;
+      }
+    }
+  }
 }
 ._icon-close {
   cursor: pointer;
@@ -24,53 +33,78 @@
     transform: scale(1.1);
   }
 }
-// 不同type样式
-@mixin notification-type($type, $bgColor, $textColor) {
+// 处理不同type样式
+@mixin notification-type($type, $textColor) {
   .t-notification-type-#{$type} {
-    background-color: #{$bgColor};
-    color: #{$textColor};
-    box-shadow: 0 0 2px #{$bgColor};
-    border: 1px solid #{$bgColor};
-  }
-  // 处理plain样式
-  .t-notification-plain-#{$type} {
     background-color: white;
-    color: $bgColor;
+    border: 1px solid #dfdfdf96;
+    box-shadow: 0 0 5px #bebebe;
+    ._title {
+      color: #{$textColor};
+    }
   }
 }
-@include notification-type('info', $theme-color-info, white);
-@include notification-type('success', $theme-color-success, white);
-@include notification-type('warning', $theme-color-warning, white);
-@include notification-type('danger', $theme-color-danger, white);
+@include notification-type('info', #000);
+@include notification-type('success', $theme-color-success);
+@include notification-type('warning', $theme-color-warning);
+@include notification-type('danger', $theme-color-danger);
+// 处理不同 position 方向
+@mixin notification-position(
+  $position,
+  $top,
+  $right,
+  $bottom,
+  $left,
+  $translateIn0,
+  $translateIn50,
+  $translateIn65,
+  $translateIn80,
+  $translateIn100,
+  $translateOut0,
+  $translateOut100
+) {
+  .t-notification-#{$position} {
+    top: #{$top};
+    right: #{$right};
+    bottom: #{$bottom};
+    left: #{$left};
+    animation: animation-notification-#{$position}-in forwards 0.44s;
+  }
+  .t-notification-#{$position}-close {
+    animation: animation-notification-#{$position}-out forwards 0.28s;
+  }
+  @keyframes animation-notification-#{$position}-in {
+    0% {
+      opacity: 0;
+      transform: translateX($translateIn0);
+    }
+    50% {
+      transform: translateX($translateIn50);
+    }
+    65% {
+      transform: translateX($translateIn65);
+    }
+    80% {
+      transform: translateX($translateIn80);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX($translateIn100);
+    }
+  }
 
-@keyframes animation-notification-in {
-  0% {
-    opacity: 0;
-    transform: scale(0.5) translateX(-50%);
-    backface-visibility: hidden;
-  }
-  50% {
-    transform: scale(1.1) translateX(-50%);
-  }
-  65% {
-    transform: scale(0.95) translateX(-50%);
-  }
-  80% {
-    transform: scale(1.05) translateX(-50%);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateX(-50%);
-    backface-visibility: hidden;
+  @keyframes animation-notification-#{$position}-out {
+    0% {
+      opacity: 1;
+      transform: translateX($translateOut0); /* 初始状态，缩小并稍微向下偏移 */
+    }
+    100% {
+      opacity: 0;
+      transform: translateX($translateOut100); /* 回到原始尺寸和位置 */
+    }
   }
 }
-@keyframes animation-notification-out {
-  0% {
-    opacity: 1;
-    transform: scale(1) translateX(-50%); /* 初始状态，缩小并稍微向下偏移 */
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0) translateX(-50%); /* 回到原始尺寸和位置 */
-  }
-}
+@include notification-position('topRight', 0px, $gap, initial, initial, 100%, 2%, -1%, 1%, 0px, 0px, 100%);
+@include notification-position('bottomRight', initial, $gap, 0px, initial, 100%, 2%, -1%, 1%, 0px, 0px, 100%);
+@include notification-position('bottomLeft', initial, initial, 0px, $gap, -100%, 2%, -2%, 1%, 0px, 0px, -100%);
+@include notification-position('topLeft', 0px, initial, initial, $gap, -100%, 2%, -2%, 1%, 0px, 0px, -100%);

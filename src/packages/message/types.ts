@@ -5,12 +5,19 @@ import type { RendererElement } from 'vue'
  * @description: 组件props类型
  */
 export interface PropsType {
+  // 宽度
+  width?: string
+  // 类型
   type?: 'success' | 'warning' | 'info' | 'danger'
   // 是否 plain 格式
   plain?: boolean
   // 显示方式
   messageType?: 'default' | 'notice'
-  // 标题
+  // 标题(notification可用)
+  title?: string
+  // 方向(notification可用)
+  position?: 'topRight' | 'bottomRight' | 'bottomLeft' | 'topLeft'
+  // 内容
   content?: string
   // icon
   icon?: IconTypes
