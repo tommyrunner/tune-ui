@@ -1,0 +1,76 @@
+@import '@/styles/index.scss';
+
+.t-notification {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: $z-index-up;
+  color: $text-color-default;
+  font-size: $font-size-default;
+  transform-origin: left;
+  animation: animation-notification-in forwards 0.44s;
+}
+.t-notification-close {
+  animation: animation-notification-out forwards 0.28s;
+}
+._icon-close {
+  cursor: pointer;
+  transition: 0.22s;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+// 不同type样式
+@mixin notification-type($type, $bgColor, $textColor) {
+  .t-notification-type-#{$type} {
+    background-color: #{$bgColor};
+    color: #{$textColor};
+    box-shadow: 0 0 2px #{$bgColor};
+    border: 1px solid #{$bgColor};
+  }
+  // 处理plain样式
+  .t-notification-plain-#{$type} {
+    background-color: white;
+    color: $bgColor;
+  }
+}
+@include notification-type('info', $theme-color-info, white);
+@include notification-type('success', $theme-color-success, white);
+@include notification-type('warning', $theme-color-warning, white);
+@include notification-type('danger', $theme-color-danger, white);
+
+@keyframes animation-notification-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateX(-50%);
+    backface-visibility: hidden;
+  }
+  50% {
+    transform: scale(1.1) translateX(-50%);
+  }
+  65% {
+    transform: scale(0.95) translateX(-50%);
+  }
+  80% {
+    transform: scale(1.05) translateX(-50%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(-50%);
+    backface-visibility: hidden;
+  }
+}
+@keyframes animation-notification-out {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateX(-50%); /* 初始状态，缩小并稍微向下偏移 */
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0) translateX(-50%); /* 回到原始尺寸和位置 */
+  }
+}
