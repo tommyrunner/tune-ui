@@ -4,7 +4,7 @@
       :class="getMessageClass"
       v-bind="{ [messageTag]: messageTag }"
       :style="getMessageStyle"
-      :id="state.messageId"
+      :id="id"
       ref="messageRef"
     >
       <div class="_head">
@@ -21,17 +21,17 @@
 <script lang="ts" setup>
 import type { PropsType } from './types'
 import type { IconTypes } from '../icon/icon'
-import { computed, onDeactivated, onMounted, reactive, ref, StyleValue } from 'vue'
-import { messageGap, messageTag, messageVNodeAll } from './method'
+import { computed, ref, StyleValue } from 'vue'
+import { messageGap, messageTag } from './method'
 import { notificationClass } from './notificationCall'
-import { fromCssVal, generateId, isDownKeyboard } from '@/utils'
+import { fromCssVal } from '@/utils'
 import { TIcon } from '../icon'
-import { isFunction } from '@/utils/is'
+import { useMessage } from './hooks'
 defineOptions({ name: 'TNotification' })
 const props = withDefaults(defineProps<PropsType>(), {
   width: '340px',
   type: 'info',
-  messageType: 'default',
+  messageType: 'notice',
   appendTo: 'body',
   position: 'topRight',
   closeOnPressEscape: true,
@@ -43,26 +43,13 @@ const props = withDefaults(defineProps<PropsType>(), {
   padding: () => [12, 16, 12, 16],
   boxShadow: () => [0, 0, 4, 'rgba(0, 0, 0, 0.5)']
 })
+// 节点
 const messageRef = ref()
-const state = reactive({
-  messageId: 't-notification-0'
-})
-onMounted(() => {
-  state.messageId = `t-notification-${generateId()}`
-  window.addEventListener('keydown', keydownHandler)
-})
-onDeactivated(() => {
-  window.removeEventListener('keydown', keydownHandler)
-})
+// 处理基础事件
+const { id, closeMessage } = useMessage(props, messageRef)
 /**
- * 处理message按下esc关闭事件
+ * 动态获取icon
  */
-const keydownHandler = (event: KeyboardEvent) => {
-  if (props.closeOnPressEscape && isDownKeyboard(event, 'escape')) {
-    messageVNodeAll[messageVNodeAll.length - 1].closeMessage()
-  }
-}
-
 const getIcon = computed((): IconTypes => {
   const { type, icon } = props
   // 优先指定
@@ -78,10 +65,16 @@ const getIcon = computed((): IconTypes => {
       return 'help'
   }
 })
+/**
+ * 动态设置class
+ */
 const getMessageClass = computed(() => {
   const { type, position } = props
   return [notificationClass, `t-notification-type-${type}`, `t-notification-${position}`]
 })
+/**
+ * 动态设置style样式
+ */
 const getMessageStyle = computed((): StyleValue => {
   const { padding = [], radius = [], position, custom, width } = props
   // 处理上下初始化位置
@@ -95,20 +88,6 @@ const getMessageStyle = computed((): StyleValue => {
     [customY]: custom.y
   }
 })
-const closeMessage = () => {
-  if (!messageRef.value) return
-  messageRef.value.classList.add(`t-notification-${props.position}-close`)
-  messageRef.value.addEventListener('animationend', removeElement)
-}
-const removeElement = function (event: MouseEvent) {
-  const { closeCallback } = props
-  const element = event.target as HTMLElement
-  element.remove() // 从DOM中移除元素
-  // 移除事件监听器
-  element.removeEventListener('animationend', removeElement)
-  messageVNodeAll.pop()
-  if (closeCallback && isFunction(closeCallback)) closeCallback(state.messageId)
-}
 defineExpose({
   closeMessage
 })
