@@ -33,8 +33,7 @@ const handlerPush = (model: ValueType) => {
   const { isRouter, isReplace } = props
   if (!isRouter || !router || model.disabled) return
   if (!model.to) console.warn('to parameter not filled in')
-  if (isReplace) router.replace(model.to)
-  else router.push(model.to)
+  isReplace ? router.replace(model.to) : router.push(model.to)
 }
 </script>
 <style lang="scss" scoped>

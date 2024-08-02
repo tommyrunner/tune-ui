@@ -1,5 +1,5 @@
-import Popconfirm from './index.vue'
+import PopConfirm from './index.vue'
 // 导出组件
-export const TPopconfirm = Popconfirm
+export const TPopConfirm = PopConfirm
 // 导出组件类型
-export type TPopconfirmType = InstanceType<typeof TPopconfirm>
+export type TPopConfirmType = InstanceType<typeof TPopConfirm>

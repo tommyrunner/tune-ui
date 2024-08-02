@@ -10,7 +10,7 @@
     :box-shadow="props.boxShadow"
   >
     <template #content>
-      <div class="t-popconfirm" :style="getPopconfirmStyle">
+      <div class="t-popConfirm" :style="getPopConfirmStyle">
         <slot name="content">
           <div class="_head">
             <TIcon :icon="props.icon" color="#fc9824" :size="14" v-if="props.icon" />
@@ -29,12 +29,12 @@
   </TPopover>
 </template>
 <script lang="ts" setup>
-import type { PropsType, EmitsType } from './popconfirm'
+import type { PropsType, EmitsType } from './popConfirm'
 import { TPopover } from '../popover'
 import { TButton } from '../button'
 import { TIcon } from '../icon'
 import { computed, StyleValue } from 'vue'
-defineOptions({ name: 'TPopconfirm' })
+defineOptions({ name: 'TPopConfirm' })
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
   icon: 'illustrate',
@@ -51,7 +51,7 @@ const handlerSubmit = (isConfirm) => {
   else emit('cancel')
   visible.value = false
 }
-const getPopconfirmStyle = computed((): StyleValue => {
+const getPopConfirmStyle = computed((): StyleValue => {
   const { maxWidth } = props
   return {
     maxWidth: maxWidth

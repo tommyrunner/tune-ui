@@ -14,11 +14,12 @@ import { TCard } from './card'
 import { TCollapse, TCollapseGroup } from './collapse'
 import { TCarousel, TCarouselGroup } from './carousel'
 import { TPopover } from './popover'
-import { TPopconfirm } from './popconfirm'
+import { TPopConfirm } from './popConfirm'
 import { TDialog } from './dialog'
 import { TDrawer } from './drawer'
-import { TMessage, TNotification } from './message'
+import { Message, Notification } from './message'
 import { TBreadcrumb } from './breadcrumb'
+import { TBackTop } from './backTop'
 
 const components = {
   TButton,
@@ -41,12 +42,13 @@ const components = {
   TCarousel,
   TCarouselGroup,
   TPopover,
-  TPopconfirm,
+  TPopConfirm,
   TDialog,
   TDrawer,
-  TMessage,
-  TNotification,
-  TBreadcrumb
+  Message,
+  Notification,
+  TBreadcrumb,
+  TBackTop
 }
 // 全局组件注册
 export default {
@@ -74,8 +76,9 @@ export * from './card'
 export * from './collapse'
 export * from './carousel'
 export * from './popover'
-export * from './popconfirm'
+export * from './popConfirm'
 export * from './dialog'
 export * from './drawer'
 export * from './message'
 export * from './breadcrumb'
+export * from './backTop'
