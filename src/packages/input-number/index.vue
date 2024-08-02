@@ -24,8 +24,9 @@
         </div>
       </transition>
       <div class="_spe" v-if="index !== 2 && props.isRange">
-        <slot v-if="slot.spe" name="spe" />
-        <TIcon v-else icon="minus" :color="defIconColor" :size="getIconSize" />
+        <slot name="spe">
+          <TIcon icon="minus" :color="defIconColor" :size="getIconSize" />
+        </slot>
       </div>
     </div>
   </div>
@@ -34,7 +35,7 @@
 import type { EmitsType, ModelType, PropsType } from './input-number'
 import type { ElSizeType } from '@/types'
 import { configOptions } from '@/hooks/useOptions'
-import { computed, useSlots } from 'vue'
+import { computed } from 'vue'
 import { TIcon } from '../icon'
 import { isValue } from '@/utils/is'
 import { bindDebounce } from '@/utils'
@@ -48,7 +49,6 @@ const props = withDefaults(defineProps<PropsType>(), {
   debounceDelay: 1000
 })
 const model = defineModel<ModelType>()
-const slot = useSlots()
 const getClass = computed(() => {
   const { size, disabled, isRange, isControls } = props
   return [

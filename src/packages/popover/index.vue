@@ -20,8 +20,9 @@
           :style="getPopoverStyle"
           :id="state.popoverId"
         >
-          <slot name="content" v-if="slots.content" />
-          <span v-else>{{ props.content }}</span>
+          <slot name="content">
+            <span>{{ props.content }}</span>
+          </slot>
           <div class="_triangle" :style="getTriangleStyle">
             <div></div>
             <div></div>
@@ -34,14 +35,15 @@
       </Transition>
     </Teleport>
 
-    <slot v-if="slots.default" />
-    <div v-else></div>
+    <slot>
+      <div></div>
+    </slot>
   </div>
 </template>
 <script lang="ts" setup>
 import type { EmitsType, PropsType } from './popover'
 import { bindDebounce, fromCssVal, generateId, getMaxZIndex, isDownKeyboard } from '@/utils'
-import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, useSlots, watch } from 'vue'
+import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, watch } from 'vue'
 defineOptions({ name: 'TPopover' })
 const props = withDefaults(defineProps<PropsType>(), {
   gap: 12,
@@ -83,7 +85,6 @@ const state = reactive({
 })
 // 绑定显示值
 const model = defineModel<boolean>()
-const slots = useSlots()
 const emit = defineEmits<EmitsType>()
 const contentRef = ref<HTMLDivElement>()
 const popoverRef = ref<HTMLDivElement>()

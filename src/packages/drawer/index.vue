@@ -22,24 +22,26 @@
     <template #content>
       <div class="t-drawer" :style="getPopconfirmStyle">
         <div class="_head">
-          <slot name="title" v-if="slots.title" />
-          <div class="_title" v-else>
-            <TIcon :icon="props.icon" :size="18" v-if="props.icon" />
-            <span class="_title">{{ props.title }}</span>
-          </div>
+          <slot name="title">
+            <div class="_title">
+              <TIcon :icon="props.icon" :size="18" v-if="props.icon" />
+              <span class="_title">{{ props.title }}</span>
+            </div>
+          </slot>
           <TIcon icon="close" :size="28" @click="handlerSubmit(false)" v-if="props.isCloseIcon" />
         </div>
         <div class="content">
           <slot />
         </div>
         <div class="_foot" :style="getFootStyle" v-if="props.isFoot">
-          <slot name="foot" v-if="slots.foot" />
-          <div class="_btn" v-else>
-            <TButton :type="props.cancelType" @click="handlerSubmit(true)">{{ props.cancelText }}</TButton>
-            <TButton :type="props.confirmType" @click="handlerSubmit(false)">
-              {{ props.confirmText }}
-            </TButton>
-          </div>
+          <slot name="foot">
+            <div class="_btn">
+              <TButton :type="props.cancelType" @click="handlerSubmit(true)">{{ props.cancelText }}</TButton>
+              <TButton :type="props.confirmType" @click="handlerSubmit(false)">
+                {{ props.confirmText }}
+              </TButton>
+            </div>
+          </slot>
         </div>
       </div>
     </template>
@@ -50,11 +52,10 @@ import type { PropsType, EmitsType } from './drawer'
 import { TPopover } from '../popover'
 import { TButton } from '../button'
 import { TIcon } from '../icon'
-import { computed, reactive, StyleValue, useSlots } from 'vue'
+import { computed, reactive, StyleValue } from 'vue'
 defineOptions({ name: 'TDrawer' })
 const emit = defineEmits<EmitsType>()
 const gap = 4
-const slots = useSlots()
 const state = reactive({
   custom: { x: 0, y: 0 }
 })

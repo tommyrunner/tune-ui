@@ -1,11 +1,13 @@
 <template>
   <div class="t-collapse">
     <div class="_head" @click="updateModel">
-      <slot name="title" :value="model" v-if="slot.title" />
-      <div v-else>{{ props.title }}</div>
+      <slot name="title" :value="model">
+        <div>{{ props.title }}</div>
+      </slot>
       <div class="_head-right">
-        <slot name="headRight" :value="model" v-if="slot.headRight" />
-        <TIcon v-else :class="isChecked && '_icon-active'" :icon="props.rightIcon" :size="14" />
+        <slot name="headRight" :value="model">
+          <TIcon :class="isChecked && '_icon-active'" :icon="props.rightIcon" :size="14" />
+        </slot>
       </div>
     </div>
     <div class="_body" ref="bodyRef" :style="getBodyStyle">
@@ -18,9 +20,8 @@ import type { StyleValue } from 'vue'
 import type { PropsType, ValueType, EmitsType } from './collapse'
 import { type GroupContextType, collapseGroupKey } from './constants'
 import { TIcon } from '../icon'
-import { computed, inject, onMounted, ref, useSlots } from 'vue'
+import { computed, inject, onMounted, ref } from 'vue'
 defineOptions({ name: 'TCollapse' })
-const slot = useSlots()
 const emit = defineEmits<EmitsType>()
 const props = withDefaults(defineProps<PropsType>(), {
   value: false,

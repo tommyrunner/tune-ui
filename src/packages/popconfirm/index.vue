@@ -11,11 +11,12 @@
   >
     <template #content>
       <div class="t-popconfirm" :style="getPopconfirmStyle">
-        <slot name="content" v-if="slots.content" />
-        <div class="_head" v-else>
-          <TIcon :icon="props.icon" color="#fc9824" :size="14" v-if="props.icon" />
-          <span>{{ props.content }}</span>
-        </div>
+        <slot name="content">
+          <div class="_head">
+            <TIcon :icon="props.icon" color="#fc9824" :size="14" v-if="props.icon" />
+            <span>{{ props.content }}</span>
+          </div>
+        </slot>
         <div class="_btn">
           <TButton :type="props.cancelType" size="small" @click="handlerSubmit(true)">{{ props.cancelText }}</TButton>
           <TButton :type="props.confirmType" size="small" @click="handlerSubmit(false)">
@@ -32,10 +33,9 @@ import type { PropsType, EmitsType } from './popconfirm'
 import { TPopover } from '../popover'
 import { TButton } from '../button'
 import { TIcon } from '../icon'
-import { computed, StyleValue, useSlots } from 'vue'
+import { computed, StyleValue } from 'vue'
 defineOptions({ name: 'TPopconfirm' })
 const emit = defineEmits<EmitsType>()
-const slots = useSlots()
 const props = withDefaults(defineProps<PropsType>(), {
   icon: 'illustrate',
   confirmText: '确认',

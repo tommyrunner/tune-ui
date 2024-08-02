@@ -1,11 +1,12 @@
 <template>
   <div :class="getClass">
     <div class="_head" v-if="isHead">
-      <slot name="headLeft" v-if="slot.headLeft" />
-      <div v-else>
-        <TIcon :icon="props.titleIcon" v-if="props.titleIcon" />
-        {{ props.title }}
-      </div>
+      <slot name="headLeft">
+        <div>
+          <TIcon :icon="props.titleIcon" v-if="props.titleIcon" />
+          {{ props.title }}
+        </div>
+      </slot>
       <slot name="headRight" />
     </div>
     <div class="_body">
