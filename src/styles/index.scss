@@ -35,6 +35,7 @@ $z-index-dow: -1;
 .t-disabled {
   cursor: not-allowed !important;
   opacity: $opacity-disabled !important;
+  user-select: none;
 }
 
 // -loading

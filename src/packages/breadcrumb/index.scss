@@ -1,0 +1,26 @@
+@import '@/styles/index.scss';
+
+.t-breadcrumb {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  color: $text-color-default;
+  ._item {
+    display: flex;
+    align-items: center;
+    ._separated {
+      font-weight: bold;
+      color: gainsboro;
+    }
+    ._label {
+      cursor: pointer;
+      transition: 0.22s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      &:not(.t-disabled):hover {
+        color: $theme-color-primary;
+      }
+    }
+  }
+}
