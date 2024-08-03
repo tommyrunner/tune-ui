@@ -8,9 +8,9 @@
   </Transition>
 </template>
 <script lang="ts" setup>
+import type { EmitsType, PropsType } from './backTop'
 import { computed, onMounted, ref } from 'vue'
 import { TIcon } from '../icon'
-import type { EmitsType, PropsType } from './backTop'
 import { isString } from '@/utils/is'
 import { onDeactivated } from 'vue'
 defineOptions({ name: 'TBackTop' })

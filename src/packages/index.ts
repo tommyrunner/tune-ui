@@ -20,6 +20,7 @@ import { TDrawer } from './drawer'
 import { Message, Notification } from './message'
 import { TBreadcrumb } from './breadcrumb'
 import { TBackTop } from './backTop'
+import { TTabs, TTabsGroup } from './tabs'
 
 const components = {
   TButton,
@@ -48,7 +49,9 @@ const components = {
   Message,
   Notification,
   TBreadcrumb,
-  TBackTop
+  TBackTop,
+  TTabs,
+  TTabsGroup
 }
 // 全局组件注册
 export default {
@@ -82,3 +85,4 @@ export * from './drawer'
 export * from './message'
 export * from './breadcrumb'
 export * from './backTop'
+export * from './tabs'

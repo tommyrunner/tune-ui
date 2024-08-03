@@ -1,0 +1,18 @@
+.t-radio-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid gainsboro;
+  gap: 4px;
+  padding: 4px 6px;
+  box-sizing: border-box;
+  ._action {
+    position: absolute;
+    background-color: rgba(220, 220, 220, 0.541);
+    padding: 0px 2px;
+    height: 90%;
+    width: 20px;
+    transition: 0.22s;
+    border-radius: 6px;
+  }
+}
