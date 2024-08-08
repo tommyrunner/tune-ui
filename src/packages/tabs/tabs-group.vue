@@ -8,7 +8,7 @@
 import type { PropsType, EmitsType } from './tabs-group'
 import type { ValueType } from './tabs'
 import { type GroupContextType, radioGroupKey } from './constants'
-import { provide, reactive, toRefs, computed, nextTick, StyleValue, onMounted, ref, onDeactivated, watch } from 'vue'
+import { provide, reactive, toRefs, computed, nextTick, StyleValue, onMounted, onDeactivated, watch } from 'vue'
 defineOptions({ name: 'TTabsGroup' })
 const padding = 4
 const props = withDefaults(defineProps<PropsType>(), {
@@ -21,6 +21,7 @@ const model = defineModel<ValueType>()
 const state = reactive({
   // 标记是否选中
   isChange: false,
+  // 记录当前选中的元素
   childEl: void 0 as HTMLElement,
   actionPosition: {
     width: 20,
@@ -29,6 +30,7 @@ const state = reactive({
   }
 })
 const emit = defineEmits<EmitsType>()
+// 监听参数变化调整action位置
 watch(
   () => props,
   () => updateAction,
@@ -48,7 +50,6 @@ const getGroupStyle = computed((): StyleValue => {
     gap: `${gap}px`
   }
 })
-
 const getActionStyle = computed((): StyleValue => {
   const { left, width } = state.actionPosition
   return {
@@ -81,6 +82,7 @@ const changeEvent = (childEl: HTMLElement, value?: ValueType, isChange?: boolean
 const updateAction = () => {
   if (state.childEl) changeEvent(state.childEl, model.value, true, false)
 }
+// 处理动画更新action位置
 onMounted(() => {
   window.addEventListener('resize', updateAction)
   window.addEventListener('transitionend', updateAction)

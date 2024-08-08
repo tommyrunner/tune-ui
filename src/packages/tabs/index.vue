@@ -16,23 +16,16 @@ const props = withDefaults(defineProps<PropsType>(), {
 })
 const tabsRef = ref()
 const groupContext = inject<GroupContextType | undefined>(radioGroupKey, void 0)
-/**
-   span的class配置
-   custom-span 代表有自定义组件代替了span，需要修复样式
- **/
+
+//  Label class配置
 const getLabelClass = computed(() => {
-  const base = ['_label', props.disabled && 't-disabled']
-  return base
+  return ['_label', props.disabled && 't-disabled']
 })
+//  tabs class配置
 const getTabsClass = computed(() => {
   const { disabled } = props
   const { gap, type } = groupContext
-  const base = ['t-tabs', disabled && 't-disabled', gap <= 0 && 't-tabs-full', `t-tabs-type-${type}`]
-  // 组合样式
-  if (groupContext) {
-    return [...base, `_type-${groupContext.type}`]
-  }
-  return base
+  return ['t-tabs', disabled && 't-disabled', gap <= 0 && 't-tabs-full', `t-tabs-type-${type}`]
 })
 /**
  * 组合使用时会失效
@@ -40,15 +33,22 @@ const getTabsClass = computed(() => {
 const isChecked = computed(() => {
   return props.value === groupContext.model
 })
+/**
+ * 处理选中事件
+ */
 const handlerChecked = () => {
   if (props.disabled) return
   groupContext.changeEvent(tabsRef.value, props.value, true, true)
 }
+/**
+ * 处理关闭事件
+ */
 const handlerClose = () => {
   // 如果删除的当前选中项，设置未选中
   if (isChecked.value) groupContext.changeEvent(tabsRef.value, props.value, false, false)
   groupContext.handlerClose(props.value)
 }
+// 初始化选中
 onMounted(() => {
   if (isChecked.value) handlerChecked()
 })

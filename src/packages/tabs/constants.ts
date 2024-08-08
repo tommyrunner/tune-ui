@@ -12,7 +12,11 @@ export interface GroupContextType extends PropsType {
    * @param isEmit 标记是否抛出
    */
   changeEvent: (el: HTMLElement, value?: ValueType, isChange?: boolean, isEmit?: boolean) => void
+  /**
+   * 关闭事件
+   * @param params 当前value参数
+   */
   handlerClose: (params?: ValueType) => void
 }
 
-export const radioGroupKey: InjectionKey<GroupContextType> = Symbol('radioGroupKey')
+export const radioGroupKey: InjectionKey<GroupContextType> = Symbol('tabsGroupKey')
