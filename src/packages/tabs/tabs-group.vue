@@ -1,11 +1,5 @@
 <template>
-  <div
-    class="t-radio-group"
-    :direction="props.direction"
-    :style="{ flexDirection: props.direction }"
-    :type="props.type"
-    ref="groupRef"
-  >
+  <div :class="getGroupClass" :style="getGroupStyle">
     <div class="_action" :style="getActionStyle"></div>
     <slot />
   </div>
@@ -14,15 +8,20 @@
 import type { PropsType, EmitsType } from './tabs-group'
 import type { ValueType } from './tabs'
 import { type GroupContextType, radioGroupKey } from './constants'
-import { configOptions } from '@/hooks/useOptions'
-import { ref, provide, reactive, toRefs, nextTick, computed, StyleValue } from 'vue'
-defineOptions({ name: 'TRadioGroup' })
+import { provide, reactive, toRefs, computed, nextTick, StyleValue, onMounted, ref, onDeactivated, watch } from 'vue'
+defineOptions({ name: 'TTabsGroup' })
+const padding = 4
 const props = withDefaults(defineProps<PropsType>(), {
-  size: configOptions.value.elSize,
-  type: 'button',
-  direction: 'row'
+  height: '42px',
+  type: 'line',
+  gap: 8,
+  actionDuration: 220
 })
+const model = defineModel<ValueType>()
 const state = reactive({
+  // 标记是否选中
+  isChange: false,
+  childEl: void 0 as HTMLElement,
   actionPosition: {
     width: 20,
     left: 0,
@@ -30,24 +29,66 @@ const state = reactive({
   }
 })
 const emit = defineEmits<EmitsType>()
-const groupRef = ref<HTMLElement>()
-const model = defineModel<ValueType>()
-const getActionStyle = computed((): StyleValue => {
-  const { left, width } = state.actionPosition
+watch(
+  () => props,
+  () => updateAction,
+  { deep: true }
+)
+
+const getGroupClass = computed(() => {
+  const { type } = props
+  return ['t-tabs-group', `t-tabs-type-${type}`]
+})
+const getGroupStyle = computed((): StyleValue => {
+  const { height, gap, type } = props
+  const isBorder = type === 'border'
   return {
-    transform: `translateX(${left}px)`,
-    width: `${width}px`
+    height,
+    padding: `0px ${isBorder ? 0 : padding}px`,
+    gap: `${gap}px`
   }
 })
 
-const changeEvent = (childEl: HTMLElement, value?: ValueType) => {
+const getActionStyle = computed((): StyleValue => {
+  const { left, width } = state.actionPosition
+  return {
+    transform: `translateX(${state.isChange ? left : -(width + padding)}px)`,
+    width: `${width}px`,
+    transition: `${props.actionDuration / 1000}s`
+  }
+})
+/**
+ * 修改action状态
+ * @param el 更改组件
+ * @param params 当前value参数
+ * @param isChange 标记是否选中
+ * @param isEmit 标记是否抛出
+ */
+const changeEvent = (childEl: HTMLElement, value?: ValueType, isChange?: boolean, isEmit: boolean = true) => {
+  if (!childEl) return
   // 获取定位
-  const { offsetLeft, offsetWidth } = childEl
-  state.actionPosition.left = offsetLeft - 2 - 6
-  state.actionPosition.width = offsetWidth
-  model.value = value
-  nextTick(() => emit('change', model.value))
+  nextTick(() => {
+    const { offsetLeft, offsetWidth } = childEl
+    state.actionPosition.left = offsetLeft
+    if (props.type !== 'border') state.actionPosition.left -= padding
+    state.actionPosition.width = offsetWidth
+    model.value = value
+    state.isChange = isChange
+    if (state.childEl !== childEl) state.childEl = childEl
+    if (isEmit) emit('change', model.value)
+  })
 }
+const updateAction = () => {
+  if (state.childEl) changeEvent(state.childEl, model.value, true, false)
+}
+onMounted(() => {
+  window.addEventListener('resize', updateAction)
+  window.addEventListener('transitionend', updateAction)
+})
+onDeactivated(() => {
+  window.removeEventListener('resize', updateAction)
+  window.removeEventListener('transitionend', updateAction)
+})
 
 // 抛出操作api，与子组件交互
 provide<GroupContextType>(
@@ -55,9 +96,19 @@ provide<GroupContextType>(
   reactive({
     ...toRefs(props),
     model,
-    changeEvent
+    changeEvent,
+    handlerClose: (params?: ValueType) => {
+      emit('close', params)
+      // 删除更新view
+      nextTick(() => {
+        updateAction()
+      })
+    }
   })
 )
+defineExpose({
+  updateAction
+})
 </script>
 <style lang="scss" scoped>
 @import './group.scss';
