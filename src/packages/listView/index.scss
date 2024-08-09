@@ -1,0 +1,10 @@
+@import '@/styles/index.scss';
+
+.t-listView {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  height: 200px;
+  overflow: auto;
+}

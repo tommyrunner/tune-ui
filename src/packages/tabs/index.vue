@@ -7,15 +7,16 @@
 </template>
 <script lang="ts" setup>
 import type { PropsType } from './tabs'
-import { type GroupContextType, radioGroupKey } from './constants'
+import { type GroupContextType, tabsGroupKey } from './constants'
 import { TIcon } from '../icon'
 import { computed, inject, onMounted, ref } from 'vue'
+import { isValue } from '@/utils/is'
 defineOptions({ name: 'TTabs' })
 const props = withDefaults(defineProps<PropsType>(), {
   disabled: false
 })
 const tabsRef = ref()
-const groupContext = inject<GroupContextType | undefined>(radioGroupKey, void 0)
+const groupContext = inject<GroupContextType | undefined>(tabsGroupKey, void 0)
 
 //  Label class配置
 const getLabelClass = computed(() => {
@@ -50,6 +51,7 @@ const handlerClose = () => {
 }
 // 初始化选中
 onMounted(() => {
+  if (!isValue(groupContext)) return console.warn('The tabs component is missing the tabs-group component')
   if (isChecked.value) handlerChecked()
 })
 </script>

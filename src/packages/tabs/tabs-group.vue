@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import type { PropsType, EmitsType } from './tabs-group'
 import type { ValueType } from './tabs'
-import { type GroupContextType, radioGroupKey } from './constants'
+import { type GroupContextType, tabsGroupKey } from './constants'
 import { provide, reactive, toRefs, computed, nextTick, StyleValue, onMounted, onDeactivated, watch } from 'vue'
 defineOptions({ name: 'TTabsGroup' })
 const padding = 4
@@ -94,7 +94,7 @@ onDeactivated(() => {
 
 // 抛出操作api，与子组件交互
 provide<GroupContextType>(
-  radioGroupKey,
+  tabsGroupKey,
   reactive({
     ...toRefs(props),
     model,

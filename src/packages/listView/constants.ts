@@ -1,6 +1,6 @@
 import type { InjectionKey } from 'vue'
-import type { ValueType } from './tabs'
-import { PropsType } from './tabs-group'
+import type { ValueType } from './listView'
+import { PropsType } from './listView-group'
 
 export interface GroupContextType extends PropsType {
   model?: ValueType
@@ -11,12 +11,12 @@ export interface GroupContextType extends PropsType {
    * @param isChange 标记是否选中
    * @param isEmit 标记是否抛出
    */
-  changeEvent: (el: HTMLElement, value?: ValueType, isChange?: boolean, isEmit?: boolean) => void
+  changeEvent?: (el: HTMLElement, value?: ValueType, isChange?: boolean, isEmit?: boolean) => void
   /**
    * 关闭事件
    * @param params 当前value参数
    */
-  handlerClose: (params?: ValueType) => void
+  handlerClose?: (params?: ValueType) => void
 }
 
-export const tabsGroupKey: InjectionKey<GroupContextType> = Symbol('tabsGroupKey')
+export const listViewGroupKey: InjectionKey<GroupContextType> = Symbol('listViewGroupKey')

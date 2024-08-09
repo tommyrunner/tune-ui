@@ -21,6 +21,7 @@ import { Message, Notification } from './message'
 import { TBreadcrumb } from './breadcrumb'
 import { TBackTop } from './backTop'
 import { TTabs, TTabsGroup } from './tabs'
+import { TListView, TListViewItem } from './listView'
 
 const components = {
   TButton,
@@ -51,7 +52,9 @@ const components = {
   TBreadcrumb,
   TBackTop,
   TTabs,
-  TTabsGroup
+  TTabsGroup,
+  TListView,
+  TListViewItem
 }
 // 全局组件注册
 export default {
@@ -86,3 +89,4 @@ export * from './message'
 export * from './breadcrumb'
 export * from './backTop'
 export * from './tabs'
+export * from './listView'
