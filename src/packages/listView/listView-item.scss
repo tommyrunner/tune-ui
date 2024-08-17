@@ -5,5 +5,11 @@ $title-margin-left: 16px;
 .t-listView-item {
   border: 1px solid gainsboro;
   padding: 4px;
+  &.t-listView-item-virtualized {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0px;
+  }
 }
-  

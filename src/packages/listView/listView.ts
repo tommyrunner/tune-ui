@@ -1,6 +1,7 @@
 import { IconTypes } from '../icon/icon'
 
 export type ListDataType = {
+  id: number
   // 是否禁用
   disabled?: boolean
   // title
@@ -16,7 +17,7 @@ export type ListDataType = {
  */
 export interface PropsType {
   // 高度
-  height?: string
+  height?: number
   // 是否虚拟列表
   isVirtualized?: boolean
   // 数组

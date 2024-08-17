@@ -4,7 +4,16 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-
-  height: 200px;
   overflow: auto;
+  position: relative;
+  border: 1px solid gainsboro;
+  box-sizing: border-box;
+  ._virtualized {
+    position: absolute;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+  }
 }
