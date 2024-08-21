@@ -11,7 +11,8 @@ export type ListDataType = {
   // 自定义图表图形
   icon?: IconTypes
 }
-
+//
+export type DirectionType = 'top' | 'left'
 /**
  * @description: 组件props类型
  */

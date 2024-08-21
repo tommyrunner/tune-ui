@@ -4,10 +4,26 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  overflow: auto;
   position: relative;
-  border: 1px solid gainsboro;
+  // border: 1px solid gainsboro;
   box-sizing: border-box;
+  &:hover {
+    ._scrollbar {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+  ._content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 0px;
+      height: 0px;
+    }
+  }
   ._virtualized {
     position: absolute;
     width: 100%;
@@ -15,5 +31,42 @@
     margin: 0px;
     display: flex;
     flex-direction: column;
+  }
+  ._scrollbar {
+    cursor: pointer;
+    position: absolute;
+    left: calc(100% - 10px);
+    top: 2px;
+    width: $scrollbar-size;
+    height: calc(100% - 2px);
+    z-index: $z-index-up;
+    transition: 0.32s;
+    // opacity: 0;
+    // transform: translateX($scrollbar-size);
+    &:hover {
+      background-color: $scrollbar-bg;
+    }
+    ._scrollbar-thumb {
+      width: 100%;
+      border-radius: 10px;
+      background-color: $scrollbar-thumb-color;
+      transform-origin: center;
+    }
+  }
+  // 拖动时显示
+  ._scrollbar-notMove {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  // 横向轴
+  ._scrollbar-h {
+    top: auto;
+    left: 2px;
+    bottom: 2px;
+    height: $scrollbar-size;
+    width: calc(100% - 2px);
+    ._scrollbar-thumb {
+      height: 100%;
+    }
   }
 }

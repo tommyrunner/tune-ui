@@ -13,6 +13,9 @@ $border-color-default: #dcdfe6;
 $text-color-default: #606266;
 $bg-color-model: #00000056;
 $opacity-disabled: 0.6;
+$scrollbar-size: 6px;
+$scrollbar-bg: rgba(#000000, 0.05);
+$scrollbar-thumb-color: rgba(#000000, 0.3);
 // 主题浅色
 
 // 默认字体大小
@@ -92,27 +95,18 @@ input::-webkit-inner-spin-button {
 // 全局滚动条
 /* 全局滚动条宽度 */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: $scrollbar-size;
+  height: $scrollbar-size;
 }
 
 /* 滚动条轨道 */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-:root {
-  --primary: #007bff; /* 定义CSS自定义属性 */
+  background: transparent;
 }
 /* 滚动条滑块 */
 ::-webkit-scrollbar-thumb {
-  background-color: $theme-color-primary;
-  border-radius: 6px;
-  border: 3px solid #f1f1f1;
-}
-
-/* 滑块hover效果 */
-::-webkit-scrollbar-thumb:hover {
-  background-color: $theme-color-primary;
+  background-color: $scrollbar-thumb-color;
+  border-radius: 10px;
   cursor: pointer;
 }
 

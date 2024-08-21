@@ -20,4 +20,5 @@ export interface PropsType {
   value?: ValueType
   // 自定义图表图形
   icon?: IconTypes
+  row?: any
 }
