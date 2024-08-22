@@ -7,10 +7,11 @@
   position: relative;
   // border: 1px solid gainsboro;
   box-sizing: border-box;
+  user-select: none;
   &:hover {
     ._scrollbar {
-      opacity: 1;
-      transform: translateX(0px);
+      // opacity: 1;
+      // transform: translateX(0px);
     }
   }
   ._content {
@@ -41,8 +42,8 @@
     height: calc(100% - 2px);
     z-index: $z-index-up;
     transition: 0.32s;
-    // opacity: 0;
-    // transform: translateX($scrollbar-size);
+    opacity: 0;
+    transform: translateX($scrollbar-size);
     &:hover {
       background-color: $scrollbar-bg;
     }

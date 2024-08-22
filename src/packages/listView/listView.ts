@@ -1,3 +1,4 @@
+import { Ref } from 'vue'
 import { IconTypes } from '../icon/icon'
 
 export type ListDataType = {
@@ -12,7 +13,6 @@ export type ListDataType = {
   icon?: IconTypes
 }
 //
-export type DirectionType = 'top' | 'left'
 /**
  * @description: 组件props类型
  */
@@ -30,4 +30,17 @@ export interface PropsType {
 export interface EmitsType {
   // 切换事件
   (e: 'change'): void
+}
+
+// Scrollbar 组件类型
+export namespace ScrollbarType {
+  export type DirectionType = 'top' | 'left'
+  /**
+   * @description: 组件props类型
+   */
+  export interface PropsType {
+    // 高度
+    totalHeight?: number
+    view?: HTMLElement
+  }
 }
