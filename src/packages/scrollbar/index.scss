@@ -9,22 +9,18 @@
   height: calc(100% - 2px);
   z-index: $z-index-up;
   transition: 0.32s;
-  // opacity: 0;
-  // transform: translateX($scrollbar-size);
+  opacity: 0;
+  transform: translateX($scrollbar-size);
   &:hover {
     background-color: $scrollbar-bg;
   }
+
   ._scrollbar-thumb {
     width: 100%;
     border-radius: 10px;
     background-color: $scrollbar-thumb-color;
     transform-origin: center;
   }
-}
-// 拖动时显示
-._scrollbar-notMove {
-  opacity: 1;
-  transform: translateX(0px);
 }
 // 横向轴
 ._scrollbar-h {
@@ -33,7 +29,34 @@
   bottom: 2px;
   height: $scrollbar-size;
   width: calc(100% - 2px);
+  transform: translateY($scrollbar-size);
   ._scrollbar-thumb {
     height: 100%;
   }
+}
+
+// hover元素
+._scrollbar-h._scrollbar-hover-h {
+  opacity: 1;
+  transform: translateX(0px);
+}
+._scrollbar-v._scrollbar-hover-v {
+  opacity: 1;
+  transform: translateY(0px);
+}
+// 拖动时显示
+._scrollbar-notMove {
+  opacity: 1;
+  transform: translateX(0px);
+  transform: translateY(0px);
+}
+
+.t-scrollbar-enter-active,
+.t-scrollbar-leave-active {
+  opacity: 1;
+}
+
+.t-scrollbar-enter-from,
+.t-scrollbar-leave-to {
+  opacity: 0;
 }

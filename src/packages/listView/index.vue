@@ -1,20 +1,6 @@
 <template>
   <div :class="getGroupClass" :style="getGroupStyle">
-    <div
-      :class="['_scrollbar', '_scrollbar-v', state.scrollbar.isMove && '_scrollbar-notMove']"
-      @mousedown="(event: MouseEvent) => handlerScrollbarClick(event, 'top')"
-      ref="scrollbarVRef"
-    >
-      <div class="_scrollbar-thumb" @mousedown="handlerOpenMove" :style="getScrollbarThumbVStyle"></div>
-    </div>
-    <div
-      :class="['_scrollbar', '_scrollbar-h', state.scrollbar.isMove && '_scrollbar-notMove']"
-      @mousedown="(event: MouseEvent) => handlerScrollbarClick(event, 'left')"
-      ref="scrollbarHRef"
-    >
-      <div class="_scrollbar-thumb" @mousedown="handlerOpenMove" :style="getScrollbarThumbHStyle"></div>
-    </div>
-    <Scrollbar :view="listViewRef" :total-height="state.virtualized.height" />
+    <Scrollbar :element="listViewRef" :total-height="state.virtualized.height" v-if="listViewRef" />
     <div class="_content" ref="listViewRef" @scroll="handleScroll">
       <slot v-if="!isVirtualized" />
       <div v-else class="_virtualized" ref="virtualizedRef" :style="getVirtualizedStyle"></div>
@@ -22,52 +8,17 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { PropsType, DirectionType } from './listView'
-import {
-  reactive,
-  computed,
-  onMounted,
-  ref,
-  createVNode,
-  render,
-  StyleValue,
-  Fragment,
-  onDeactivated,
-  useSlots,
-  nextTick
-} from 'vue'
+import type { PropsType } from './listView'
+import { reactive, computed, onMounted, ref, createVNode, render, StyleValue, Fragment, useSlots, nextTick } from 'vue'
 import listViewItem from './listView-item.vue'
-import Scrollbar from './scrollbar.vue'
+import Scrollbar from '../scrollbar/index.vue'
 defineOptions({ name: 'TListView' })
 const props = withDefaults(defineProps<PropsType>(), {
   isVirtualized: false,
-  height: 420,
+  height: 1420,
   listData: () => []
 })
 const state = reactive({
-  height: 0,
-  width: 0,
-  // 当前滚动位置
-  scrollTop: 0,
-  scrollLeft: 0,
-  // 总高度
-  totalHeight: 0,
-  totalWidth: 0,
-  // listView当前处于位置
-  point: {
-    x: 0,
-    y: 0
-  },
-  // 滚动条
-  scrollbar: {
-    // 拖动方向
-    direction: 'top' as DirectionType,
-    // 滚动条高度
-    height: 0,
-    width: 0,
-    // 当前是否处于拖动
-    isMove: false
-  },
   // 虚拟列表
   virtualized: {
     // 虚拟列表高度
@@ -84,13 +35,8 @@ const state = reactive({
 const slot = useSlots()
 const virtualizedRef = ref<HTMLDivElement>()
 const listViewRef = ref<HTMLDivElement>()
-const scrollbarVRef = ref<HTMLDivElement>()
-const scrollbarHRef = ref<HTMLDivElement>()
 // 测量单个元素的高度并计算总高度
 onMounted(async () => {
-  window.addEventListener('mousemove', handlerScrollbarMover)
-  window.addEventListener('mouseup', handlerCloseMove)
-  window.addEventListener('mouseleave', handlerCloseMove)
   // 虚拟列表中测量单个元素的高度
   if (props.isVirtualized) {
     const firstItem = createVNode(listViewItem, props.listData[0], () => [...slot.default(props.listData[0])])
@@ -102,33 +48,13 @@ onMounted(async () => {
     // 渲染列表项
     renderList()
   }
-  state.height = listViewRef.value.offsetHeight
-  state.width = listViewRef.value.offsetWidth
-  state.totalHeight = props.isVirtualized ? state.virtualized.height : listViewRef.value.scrollHeight
-  state.totalWidth = listViewRef.value.scrollWidth
-  // 计算滚动条高度
-  state.scrollbar.height = state.height * (state.height / state.totalHeight) - 4
-  state.scrollbar.width =
-    listViewRef.value.clientWidth * (listViewRef.value.clientWidth / listViewRef.value.scrollWidth) - 4
-  const listRect = listViewRef.value.getBoundingClientRect()
+})
 
-  state.point = {
-    x: listRect.left,
-    y: listRect.top
-  }
-})
-// 清理：移除滚动监听器
-onDeactivated(() => {
-  window.removeEventListener('mousemove', handlerScrollbarMover)
-  window.removeEventListener('mouseup', handlerCloseMove)
-  window.removeEventListener('mouseleave', handlerCloseMove)
-})
 // 根据当前滚动位置动态渲染列表项
 const renderList = () => {
-  state.scrollTop = listViewRef.value.scrollTop
-  state.scrollLeft = listViewRef.value.scrollLeft
   if (!props.isVirtualized) return
-  const itemsToRender = calculateItemsToRender()
+  const scrollTop = listViewRef.value.scrollTop
+  const itemsToRender = calculateItemsToRender(scrollTop)
   // 渲染的item总个数高度
   const itemHeight = state.virtualized.itemNum * state.virtualized.firstItemHeight - props.height
   state.virtualized.itemNum = 0
@@ -138,7 +64,7 @@ const renderList = () => {
     // props 参数
     const propsParams = {
       isVirtualized: true,
-      top: index * firstItemHeight - Math.max(0, Math.min(state.scrollTop, itemHeight))
+      top: index * firstItemHeight - Math.max(0, Math.min(scrollTop, itemHeight))
     }
     return createVNode(listViewItem, propsParams, () => [...slot.default(item)])
   })
@@ -146,8 +72,7 @@ const renderList = () => {
 }
 
 // 计算当前需要渲染的元素范围
-const calculateItemsToRender = () => {
-  const scrollTop = (state.scrollTop = listViewRef.value.scrollTop)
+const calculateItemsToRender = (scrollTop: number) => {
   const firstItemHeight = state.virtualized.firstItemHeight
   const startIndex = Math.floor(scrollTop / firstItemHeight)
   const endIndex = startIndex + Math.ceil(props.height / firstItemHeight)
@@ -158,69 +83,20 @@ const calculateItemsToRender = () => {
 const handleScroll = () => {
   renderList()
 }
-const handlerScrollbarClick = (event: MouseEvent, direction: DirectionType) => {
-  state.scrollbar.direction = direction
-  const mobile = direction === 'left' ? event.layerX : event.layerY
-  updateScrollbar(mobile, direction)
-}
-const handlerScrollbarMover = (event: MouseEvent) => {
-  if (state.scrollbar.isMove) {
-    const { scrollbar, point } = state
-    const pageVal = scrollbar.direction === 'left' ? event.pageX : event.pageY
-    const pointVal = scrollbar.direction === 'left' ? point.x : point.y
-    updateScrollbar(pageVal - pointVal - 4, state.scrollbar.direction)
-  }
-}
-const handlerCloseMove = () => {
-  state.scrollbar.isMove = false
-}
-const handlerOpenMove = () => {
-  state.scrollbar.isMove = true
-}
-const updateScrollbar = (mobile: number, direction: DirectionType) => {
-  if (listViewRef.value) {
-    const scrollbarRef = direction === 'left' ? scrollbarHRef : scrollbarVRef
-    let offsetValue = scrollbarRef.value.offsetHeight
-    let scrollValue = listViewRef.value.scrollHeight
-    let barValue = state.scrollbar.height
-    if (direction === 'left') {
-      offsetValue = scrollbarRef.value.offsetWidth
-      scrollValue = listViewRef.value.scrollWidth
-      barValue = state.scrollbar.width
-    }
-    listViewRef.value.scrollTo({
-      [direction]: scrollValue * (mobile / offsetValue) - barValue
-    })
-  }
-}
+
 const getGroupClass = computed(() => {
   return ['t-listView']
 })
 const getGroupStyle = computed((): StyleValue => {
   const { height } = props
   return {
-    height: `${height}px`,
-    userSelect: state.scrollbar.isMove ? 'none' : 'auto'
+    height: `${height}px`
   }
 })
 const getVirtualizedStyle = computed((): StyleValue => {
   const { height } = state.virtualized
   return {
     height: `${height}px`
-  }
-})
-const getScrollbarThumbVStyle = computed((): StyleValue => {
-  const { scrollbar, totalHeight, scrollTop, height } = state
-  return {
-    transform: `translateY(${height * (scrollTop / totalHeight)}px)`,
-    height: `${scrollbar.height}px`
-  }
-})
-const getScrollbarThumbHStyle = computed((): StyleValue => {
-  const { scrollbar, totalWidth, scrollLeft, width } = state
-  return {
-    transform: `translateX(${width * (scrollLeft / totalWidth)}px)`,
-    width: `${scrollbar.width}px`
   }
 })
 </script>
