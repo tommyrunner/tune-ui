@@ -55,7 +55,7 @@ import { TIcon } from '../icon'
 import { computed, reactive, StyleValue } from 'vue'
 defineOptions({ name: 'TDrawer' })
 const emit = defineEmits<EmitsType>()
-const gap = 4
+const GAP = 4
 const state = reactive({
   custom: { x: 0, y: 0 }
 })
@@ -98,7 +98,7 @@ const getPopconfirmStyle = computed((): StyleValue => {
   let sizeKey = 'width'
   let maxKey = 'height'
   // 高度需要计算
-  let maxScreen = `${window.innerHeight - props.padding[0] * 2 - gap}px`
+  let maxScreen = `${window.innerHeight - props.padding[0] * 2 - GAP}px`
   // 设置上下
   if (!isSide.value) {
     sizeKey = 'height'

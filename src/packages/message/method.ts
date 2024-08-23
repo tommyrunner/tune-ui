@@ -6,8 +6,8 @@ import Message from './message.vue'
 import Notification from './notification.vue'
 
 // 初始化固定参数
-const messageGap = 24
-const messageTag = `tui`
+const MESSAGE_GAP = 24
+const MESSAGE_TAG = `tui`
 // message组件VNode虚拟dom集合（包含notification）
 const messageVNodeAll: InstanceType<typeof Message>[] = []
 /**
@@ -25,7 +25,7 @@ function getLastMessage(messageType: PropsType['messageType']) {
   let max = 0
   let lastMessageEl: HTMLElement | undefined = void 0
   const className = isNotification(messageType) ? notificationClass : messageClass
-  const messageAllEl: HTMLElement[] = Array.from(document.querySelectorAll(`.${className}[${messageTag}]`))
+  const messageAllEl: HTMLElement[] = Array.from(document.querySelectorAll(`.${className}[${MESSAGE_TAG}]`))
   messageAllEl.forEach((el) => {
     if (el.offsetTop >= max) {
       max = el.offsetTop
@@ -72,13 +72,13 @@ function createMessage(props: PropsType) {
  */
 function initCustom(props: PropsType, lastMessageEl: HTMLElement): PropsType['custom'] {
   const { messageType } = props
-  let custom = { x: '50%', y: `${messageGap}px` }
+  let custom = { x: '50%', y: `${MESSAGE_GAP}px` }
   if (isNotification(messageType)) {
-    custom = { x: `${messageGap}px`, y: `${messageGap}px` }
+    custom = { x: `${MESSAGE_GAP}px`, y: `${MESSAGE_GAP}px` }
   }
   // 处理下一个位置
   if (lastMessageEl) {
-    custom.y = `${lastMessageEl.offsetHeight + lastMessageEl.offsetTop + messageGap}px`
+    custom.y = `${lastMessageEl.offsetHeight + lastMessageEl.offsetTop + MESSAGE_GAP}px`
   }
   return custom
 }
@@ -94,4 +94,4 @@ function initProps(props?: PropsType) {
   }
 }
 
-export { messageGap, messageTag, messageVNodeAll, createMessage, initProps }
+export { MESSAGE_GAP, MESSAGE_TAG, messageVNodeAll, createMessage, initProps }

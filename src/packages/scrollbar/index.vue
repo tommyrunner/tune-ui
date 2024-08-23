@@ -23,13 +23,14 @@
 import type { PropsType, DirectionType, EmitsType } from './scrollbar'
 import { computed, nextTick, onDeactivated, reactive, ref, StyleValue, watch } from 'vue'
 
+defineOptions({ name: 'TScrollbar' })
 const emit = defineEmits<EmitsType>()
 const scrollbarRef = ref<HTMLDivElement>()
 const thumbVRef = ref<HTMLDivElement>()
 const thumbHRef = ref<HTMLDivElement>()
 const props = withDefaults(defineProps<PropsType>(), {})
 // 默认间距
-const gap = 4
+const GAP = 4
 let elementObserver: null | MutationObserver = null
 const state = reactive({
   // 记录element宽高
@@ -120,8 +121,8 @@ const updateScrollbar = () => {
   // 指定高度
   if (props.totalHeight) state.totalHeight = props.totalHeight
   // 计算滚动条高度（总高度 * (比例) - 间距）
-  state.scrollbar.height = state.elementHeight * (state.elementHeight / state.totalHeight) - gap
-  state.scrollbar.width = clientWidth * (clientWidth / scrollWidth) - gap
+  state.scrollbar.height = state.elementHeight * (state.elementHeight / state.totalHeight) - GAP
+  state.scrollbar.width = clientWidth * (clientWidth / scrollWidth) - GAP
 }
 
 /**
@@ -154,7 +155,7 @@ const handlerScrollbarMove = (event: MouseEvent) => {
     const pageVal =
       scrollbar.direction === 'left' ? event.clientX - scrollbar.clickPoint.x : event.clientY - scrollbar.clickPoint.y
     const pointVal = scrollbar.direction === 'left' ? pageElementPoint.x : pageElementPoint.y
-    setScrollbar(pageVal - pointVal - gap, state.scrollbar.direction)
+    setScrollbar(pageVal - pointVal - GAP, state.scrollbar.direction)
   }
   return false
 }
