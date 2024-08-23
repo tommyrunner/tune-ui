@@ -15,7 +15,7 @@ import Scrollbar from '../scrollbar/index.vue'
 defineOptions({ name: 'TListView' })
 const props = withDefaults(defineProps<PropsType>(), {
   isVirtualized: false,
-  height: 1420,
+  height: 420,
   listData: () => []
 })
 const state = reactive({

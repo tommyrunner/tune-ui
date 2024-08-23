@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: 通过距离计算 -->
   <div
     :class="[...getScrollbarClass, '_scrollbar-v']"
     @mousedown="(event: MouseEvent) => handlerScrollbarClick(event, 'top')"
@@ -34,7 +35,7 @@ const state = reactive({
   totalHeight: 0,
   totalWidth: 0,
   // listView当前处于位置
-  point: {
+  pageViewPoint: {
     x: 0,
     y: 0
   },
@@ -45,6 +46,11 @@ const state = reactive({
     // 滚动条高度
     height: 0,
     width: 0,
+    // 记录点击滑块位置
+    clickPoint: {
+      x: 0,
+      y: 0
+    },
     // 当前是否处于拖动
     isMove: false,
     // 是否显示
@@ -106,17 +112,18 @@ const updatePoint = () => {
  * @param direction 方向
  */
 const handlerScrollbarClick = (event: MouseEvent, direction: DirectionType) => {
-  event.preventDefault()
   //   计算当前位置
   const rect = props.element.getBoundingClientRect()
   // 每次点击的时候获取view当前屏幕位置(*用于计算全屏拉动)
-  state.point = {
+  state.pageViewPoint = {
     x: rect.left,
     y: rect.top
   }
   state.scrollbar.direction = direction
   const mobile = direction === 'left' ? event.layerX : event.layerY
-  updateScrollbar(mobile, direction)
+  // 点击滑块无需快捷跳转
+  if (event.target === scrollbarVRef.value.firstChild || event.target === scrollbarHRef.value.firstChild) return
+  updateScrollbar(mobile - state.scrollbar.height / 2, direction)
 }
 /**
  * 处理拖动事件(这里是全屏拖动，尽量模拟window)
@@ -124,9 +131,11 @@ const handlerScrollbarClick = (event: MouseEvent, direction: DirectionType) => {
  */
 const handlerScrollbarMove = (event: MouseEvent) => {
   if (state.scrollbar.isMove) {
-    const { scrollbar, point } = state
-    const pageVal = scrollbar.direction === 'left' ? event.clientX : event.clientY
-    const pointVal = scrollbar.direction === 'left' ? point.x : point.y
+    const { scrollbar, pageViewPoint } = state
+    // 计算(界面点击位置 - 当前拖块本身点击位置)
+    const pageVal =
+      scrollbar.direction === 'left' ? event.clientX - scrollbar.clickPoint.x : event.clientY - scrollbar.clickPoint.y
+    const pointVal = scrollbar.direction === 'left' ? pageViewPoint.x : pageViewPoint.y
     updateScrollbar(pageVal - pointVal - gap, state.scrollbar.direction)
   }
   return false
@@ -137,7 +146,12 @@ const handlerScrollbarMove = (event: MouseEvent) => {
 const handlerCloseMove = () => {
   state.scrollbar.isMove = false
 }
-const handlerOpenMove = () => {
+const handlerOpenMove = (event: MouseEvent) => {
+  // 记录拖块本身点击位置(作为拖块位置的条件)
+  state.scrollbar.clickPoint = {
+    x: event.offsetX,
+    y: event.offsetY
+  }
   state.scrollbar.isMove = true
 }
 const handlerViewEnter = () => {
@@ -163,15 +177,13 @@ const updateScrollbar = (mobile: number, direction: DirectionType) => {
   const scrollbarRef = direction === 'left' ? scrollbarHRef : scrollbarVRef
   let offsetValue = scrollbarRef.value.offsetHeight
   let scrollValue = element.scrollHeight
-  let barValue = state.scrollbar.height
   if (direction === 'left') {
     offsetValue = scrollbarRef.value.offsetWidth
     scrollValue = element.scrollWidth
-    barValue = state.scrollbar.width
   }
-  // 更新滚动值(滚动值 * (比例) - 当前拖块大小)
+  // 更新滚动值(滚动值 * (比例))
   element.scrollTo({
-    [direction]: scrollValue * (mobile / offsetValue) - barValue
+    [direction]: scrollValue * (mobile / offsetValue)
   })
 }
 /**
