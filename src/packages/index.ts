@@ -22,6 +22,7 @@ import { TBreadcrumb } from './breadcrumb'
 import { TBackTop } from './backTop'
 import { TTabs, TTabsGroup } from './tabs'
 import { TListView, TListViewItem } from './listView'
+import { TScrollbar } from './scrollbar'
 
 const components = {
   TButton,
@@ -54,7 +55,8 @@ const components = {
   TTabs,
   TTabsGroup,
   TListView,
-  TListViewItem
+  TListViewItem,
+  TScrollbar
 }
 // 全局组件注册
 export default {
@@ -90,3 +92,4 @@ export * from './breadcrumb'
 export * from './backTop'
 export * from './tabs'
 export * from './listView'
+export * from './scrollbar'

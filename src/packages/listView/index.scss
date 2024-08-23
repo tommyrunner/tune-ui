@@ -5,19 +5,13 @@
   flex-direction: column;
   gap: 6px;
   position: relative;
-  // border: 1px solid gainsboro;
   box-sizing: border-box;
-  user-select: none;
   ._content {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0px;
     overflow: auto;
-    &::-webkit-scrollbar {
-      width: 0px;
-      height: 0px;
-    }
   }
   ._virtualized {
     position: absolute;

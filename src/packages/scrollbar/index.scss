@@ -1,54 +1,73 @@
 @import '@/styles/index.scss';
 
-._scrollbar {
-  cursor: pointer;
-  position: absolute;
-  left: calc(100% - 10px);
-  top: 2px;
-  width: $scrollbar-size;
-  height: calc(100% - 2px);
-  z-index: $z-index-up;
-  transition: 0.32s;
-  opacity: 0;
-  transform: translateX($scrollbar-size);
-  &:hover {
-    background-color: $scrollbar-bg;
-  }
-
-  ._scrollbar-thumb {
+.t-scrollbar {
+  width: 100%;
+  height: 100%;
+  ._content {
+    position: absolute;
     width: 100%;
-    border-radius: 10px;
-    background-color: $scrollbar-thumb-color;
-    transform-origin: center;
-  }
-}
-// 横向轴
-._scrollbar-h {
-  top: auto;
-  left: 2px;
-  bottom: 2px;
-  height: $scrollbar-size;
-  width: calc(100% - 2px);
-  transform: translateY($scrollbar-size);
-  ._scrollbar-thumb {
     height: 100%;
+    top: 0px;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 0px;
+      height: 0px;
+    }
   }
-}
+  ._scrollbar {
+    cursor: pointer;
+    position: absolute;
+    left: calc(100% - 10px);
+    top: 2px;
+    width: $scrollbar-size;
+    height: calc(100% - 2px);
+    z-index: $z-index-up;
+    transition: 0.32s;
+    &._scrollbar-permanent {
+      opacity: 0;
+      transform: translateX($scrollbar-size);
+    }
+    &:hover {
+      background-color: $scrollbar-bg;
+    }
 
-// hover元素
-._scrollbar-h._scrollbar-hover-h {
-  opacity: 1;
-  transform: translateX(0px);
-}
-._scrollbar-v._scrollbar-hover-v {
-  opacity: 1;
-  transform: translateY(0px);
-}
-// 拖动时显示
-._scrollbar-notMove {
-  opacity: 1;
-  transform: translateX(0px);
-  transform: translateY(0px);
+    ._scrollbar-thumb {
+      width: 100%;
+      border-radius: 10px;
+      background-color: $scrollbar-thumb-color;
+      transform-origin: center;
+    }
+  }
+  // 横向轴
+  ._scrollbar-h {
+    top: auto;
+    left: 2px;
+    bottom: 2px;
+    height: $scrollbar-size;
+    &._scrollbar-permanent {
+      width: calc(100% - 2px);
+      transform: translateY($scrollbar-size);
+    }
+    ._scrollbar-thumb {
+      height: 100%;
+    }
+  }
+
+  // hover元素
+  ._scrollbar-h._scrollbar-hover-h {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  ._scrollbar-v._scrollbar-hover-v {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  // 拖动时显示
+  ._scrollbar-notMove {
+    opacity: 1 !important;
+    transform: translateX(0px) !important;
+    transform: translateY(0px) !important;
+  }
 }
 
 .t-scrollbar-enter-active,

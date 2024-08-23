@@ -1,15 +1,26 @@
 <template>
   <div :class="getGroupClass" :style="getGroupStyle">
-    <Scrollbar :element="listViewRef" :total-height="state.virtualized.height" v-if="listViewRef" />
-    <div class="_content" ref="listViewRef" @scroll="handleScroll">
+    <Scrollbar :total-height="state.virtualized.height" @scroll-y="handleScroll">
       <slot v-if="!isVirtualized" />
       <div v-else class="_virtualized" ref="virtualizedRef" :style="getVirtualizedStyle"></div>
-    </div>
+    </Scrollbar>
   </div>
 </template>
 <script lang="ts" setup>
 import type { PropsType } from './listView'
-import { reactive, computed, onMounted, ref, createVNode, render, StyleValue, Fragment, useSlots, nextTick } from 'vue'
+import {
+  reactive,
+  computed,
+  onMounted,
+  ref,
+  createVNode,
+  render,
+  StyleValue,
+  Fragment,
+  useSlots,
+  nextTick,
+  watch
+} from 'vue'
 import listViewItem from './listView-item.vue'
 import Scrollbar from '../scrollbar/index.vue'
 defineOptions({ name: 'TListView' })
@@ -19,6 +30,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   listData: () => []
 })
 const state = reactive({
+  // 滚动element值
+  scrollTop: 0,
   // 虚拟列表
   virtualized: {
     // 虚拟列表高度
@@ -34,7 +47,12 @@ const state = reactive({
 })
 const slot = useSlots()
 const virtualizedRef = ref<HTMLDivElement>()
-const listViewRef = ref<HTMLDivElement>()
+watch(
+  () => props.listData,
+  () => {
+    renderList()
+  }
+)
 // 测量单个元素的高度并计算总高度
 onMounted(async () => {
   // 虚拟列表中测量单个元素的高度
@@ -53,8 +71,7 @@ onMounted(async () => {
 // 根据当前滚动位置动态渲染列表项
 const renderList = () => {
   if (!props.isVirtualized) return
-  const scrollTop = listViewRef.value.scrollTop
-  const itemsToRender = calculateItemsToRender(scrollTop)
+  const itemsToRender = calculateItemsToRender()
   // 渲染的item总个数高度
   const itemHeight = state.virtualized.itemNum * state.virtualized.firstItemHeight - props.height
   state.virtualized.itemNum = 0
@@ -64,7 +81,7 @@ const renderList = () => {
     // props 参数
     const propsParams = {
       isVirtualized: true,
-      top: index * firstItemHeight - Math.max(0, Math.min(scrollTop, itemHeight))
+      top: index * firstItemHeight - Math.max(0, Math.min(state.scrollTop, itemHeight))
     }
     return createVNode(listViewItem, propsParams, () => [...slot.default(item)])
   })
@@ -72,15 +89,16 @@ const renderList = () => {
 }
 
 // 计算当前需要渲染的元素范围
-const calculateItemsToRender = (scrollTop: number) => {
+const calculateItemsToRender = () => {
   const firstItemHeight = state.virtualized.firstItemHeight
-  const startIndex = Math.floor(scrollTop / firstItemHeight)
+  const startIndex = Math.floor(state.scrollTop / firstItemHeight)
   const endIndex = startIndex + Math.ceil(props.height / firstItemHeight)
   return props.listData.slice(startIndex, endIndex)
 }
 
 // 滚动事件处理函数
-const handleScroll = () => {
+const handleScroll = (listElement: HTMLElement) => {
+  state.scrollTop = listElement.scrollTop
   renderList()
 }
 

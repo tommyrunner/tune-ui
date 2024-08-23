@@ -46,6 +46,13 @@ $z-index-dow: -1;
 .t-loading {
   animation: anima-loading 2s linear infinite;
 }
+// scrollbar
+.t-scrollbar-default {
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+}
 
 // 全局元素样式
 * {

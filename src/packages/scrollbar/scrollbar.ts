@@ -6,6 +6,14 @@ export type DirectionType = 'top' | 'left'
 export interface PropsType {
   // 高度
   totalHeight?: number
-  // 需要处理元素
-  element?: HTMLElement
+  //   滚动条是否常驻
+  permanent?: boolean
+}
+/**
+ * @description: 组件emit类型
+ */
+export interface EmitsType {
+  // 切换事件
+  (e: 'scrollX', listElement: HTMLElement): void
+  (e: 'scrollY', listElement: HTMLElement): void
 }
