@@ -2,7 +2,7 @@
   <Teleport :to="props.appendTo">
     <div
       :class="getMessageClass"
-      v-bind="{ [messageTag]: messageTag }"
+      v-bind="{ [MESSAGE_TAG]: MESSAGE_TAG }"
       :style="getMessageStyle"
       :id="id"
       ref="messageRef"
@@ -17,7 +17,7 @@
 import type { PropsType } from './types'
 import type { IconTypes } from '../icon/icon'
 import { computed, ref } from 'vue'
-import { messageGap, messageTag } from './method'
+import { MESSAGE_GAP, MESSAGE_TAG } from './method'
 import { messageClass } from './messageCall'
 import { fromCssVal } from '@/utils'
 import { TIcon } from '../icon'
@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   closeOnPressEscape: true,
   custom: () => ({
     x: '50%',
-    y: `${messageGap}px`
+    y: `${MESSAGE_GAP}px`
   }),
   radius: () => [6, 6, 6, 6],
   padding: () => [8, 12, 8, 12],

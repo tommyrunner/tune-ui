@@ -20,7 +20,7 @@
     @close="emit('close')"
   >
     <template #content>
-      <div class="t-drawer" :style="getPopconfirmStyle">
+      <div class="t-drawer" :style="getDrawerStyle">
         <div class="_head">
           <slot name="title">
             <div class="_title">
@@ -93,7 +93,7 @@ const handlerSubmit = (isConfirm) => {
 const handlerClickModel = () => {
   if (props.closeOnPressModel) handlerSubmit(false)
 }
-const getPopconfirmStyle = computed((): StyleValue => {
+const getDrawerStyle = computed((): StyleValue => {
   const { size, isSetMaxHeight } = props
   let sizeKey = 'width'
   let maxKey = 'height'

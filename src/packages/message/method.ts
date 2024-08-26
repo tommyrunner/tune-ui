@@ -1,4 +1,5 @@
 import type { PropsType } from './types'
+import type { VNode } from 'vue'
 import { createVNode, render } from 'vue'
 import { messageClass } from './messageCall'
 import { notificationClass } from './notificationCall'
@@ -21,7 +22,10 @@ export const isNotification = (messageType: PropsType['messageType']) => message
  * @param messageType message类型
  * @returns { lastMessageEl, messageAllEl }
  */
-function getLastMessage(messageType: PropsType['messageType']) {
+function getLastMessage(messageType: PropsType['messageType']): {
+  lastMessageEl: HTMLElement
+  messageAllEl: HTMLElement[]
+} {
   let max = 0
   let lastMessageEl: HTMLElement | undefined = void 0
   const className = isNotification(messageType) ? notificationClass : messageClass
@@ -39,7 +43,7 @@ function getLastMessage(messageType: PropsType['messageType']) {
  * @param props 组件参数
  * @returns {VNode}
  */
-function createMessage(props: PropsType) {
+function createMessage(props: PropsType): { VNode: VNode } {
   const { duration, maxLength, messageType } = props
   // 得出最后一个message组件dom元素
   const { lastMessageEl, messageAllEl } = getLastMessage(messageType)
