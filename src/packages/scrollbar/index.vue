@@ -29,8 +29,8 @@ const scrollbarRef = ref<HTMLDivElement>()
 const thumbVRef = ref<HTMLDivElement>()
 const thumbHRef = ref<HTMLDivElement>()
 const props = withDefaults(defineProps<PropsType>(), {})
-// 默认间距
-const GAP = 4
+// 最小thumb尺寸 比例
+const THUMB_MIN_SIZE = 0.046
 let elementObserver: null | MutationObserver = null
 const state = reactive({
   // 记录element宽高
@@ -120,9 +120,12 @@ const updateScrollbar = () => {
   state.totalWidth = scrollWidth
   // 指定高度
   if (props.totalHeight) state.totalHeight = props.totalHeight
-  // 计算滚动条高度（总高度 * (比例) - 间距）
-  state.scrollbar.height = state.elementHeight * (state.elementHeight / state.totalHeight) - GAP
-  state.scrollbar.width = clientWidth * (clientWidth / scrollWidth) - GAP
+  // 计算滚动条高度（总高度 * (比例) - 间距）:取最小尺寸(高度*比例)
+  state.scrollbar.height = Math.max(
+    state.elementHeight * (state.elementHeight / state.totalHeight),
+    state.elementHeight * THUMB_MIN_SIZE
+  )
+  state.scrollbar.width = Math.max(clientWidth * (clientWidth / scrollWidth), clientWidth * THUMB_MIN_SIZE)
 }
 
 /**
@@ -155,7 +158,7 @@ const handlerScrollbarMove = (event: MouseEvent) => {
     const pageVal =
       scrollbar.direction === 'left' ? event.clientX - scrollbar.clickPoint.x : event.clientY - scrollbar.clickPoint.y
     const pointVal = scrollbar.direction === 'left' ? pageElementPoint.x : pageElementPoint.y
-    setScrollbar(pageVal - pointVal - GAP, state.scrollbar.direction)
+    setScrollbar(pageVal - pointVal, state.scrollbar.direction)
   }
   return false
 }
@@ -226,15 +229,21 @@ const getScrollbarClass = computed(() => {
 })
 const getScrollbarThumbVStyle = computed((): StyleValue => {
   const { scrollbar, totalHeight, scrollTop, elementHeight } = state
+  // 得出位置率: 滚动位置/(滚动高度 - 组件高度)
+  const ratio = scrollTop / (totalHeight - elementHeight)
+  // 得出真实高度(组件高度 - 拖块高度 - 间距)
+  const height = elementHeight - scrollbar.height - 4
   return {
-    transform: `translateY(${elementHeight * (scrollTop / totalHeight)}px)`,
+    transform: `translateY(${ratio * height}px)`,
     height: `${scrollbar.height}px`
   }
 })
 const getScrollbarThumbHStyle = computed((): StyleValue => {
   const { scrollbar, totalWidth, scrollLeft, elementWidth } = state
+  const ratio = scrollLeft / (totalWidth - elementWidth)
+  const width = elementWidth - scrollbar.width - 4
   return {
-    transform: `translateX(${elementWidth * (scrollLeft / totalWidth)}px)`,
+    transform: `translateX(${ratio * width}px)`,
     width: `${scrollbar.width}px`
   }
 })
