@@ -1,8 +1,8 @@
 <template>
   <div :class="getGroupClass" :style="getGroupStyle">
-    <Scrollbar :total-height="state.virtualized.height" @scroll-y="handleScroll">
+    <Scrollbar :total-height="getInnerHeight" @scroll-y="handleScroll">
       <slot v-if="!isVirtualized" />
-      <div v-else class="_virtualized" ref="virtualizedRef" :style="getVirtualizedStyle"></div>
+      <div v-else class="_inner" ref="innerRef" :style="getInnerStyle"></div>
     </Scrollbar>
   </div>
 </template>
@@ -33,10 +33,9 @@ const state = reactive({
   // 滚动element值
   scrollTop: 0,
   // 虚拟列表
-  virtualized: {
-    // 虚拟列表高度
+  inner: {
+    // 标记高度
     height: 0,
-    width: 0,
     // 虚拟列表渲染的元素个数
     itemNum: 0,
     // 虚拟列表渲染的元素起始位置
@@ -46,7 +45,7 @@ const state = reactive({
   }
 })
 const slot = useSlots()
-const virtualizedRef = ref<HTMLDivElement>()
+const innerRef = ref<HTMLDivElement>()
 watch(
   () => props.listData,
   () => {
@@ -59,13 +58,15 @@ onMounted(async () => {
   if (props.isVirtualized) {
     const firstItem = createVNode(listViewItem, props.listData[0], () => [...slot.default(props.listData[0])])
     await nextTick()
-    render(firstItem, virtualizedRef.value)
+    render(firstItem, innerRef.value)
     const itemRect = firstItem.el.getBoundingClientRect()
-    if (itemRect) state.virtualized.firstItemHeight = itemRect.height
-    state.virtualized.height = props.listData.length * state.virtualized.firstItemHeight
+    if (itemRect) state.inner.firstItemHeight = itemRect.height
     // 渲染列表项
     renderList()
   }
+})
+const getInnerHeight = computed(() => {
+  return state.inner.height || props.listData.length * state.inner.firstItemHeight
 })
 
 // 根据当前滚动位置动态渲染列表项
@@ -73,24 +74,24 @@ const renderList = () => {
   if (!props.isVirtualized) return
   const itemsToRender = calculateItemsToRender()
   // 渲染的item总个数高度
-  const itemHeight = state.virtualized.itemNum * state.virtualized.firstItemHeight - props.height
-  state.virtualized.itemNum = 0
-  const firstItemHeight = state.virtualized.firstItemHeight
+  const itemHeight = state.inner.itemNum * state.inner.firstItemHeight - props.height
+  state.inner.itemNum = 0
+  const firstItemHeight = state.inner.firstItemHeight
   const VNodes = itemsToRender.map((item, index) => {
-    state.virtualized.itemNum++
+    state.inner.itemNum++
     // props 参数
     const propsParams = {
-      isVirtualized: true,
+      isVirtualized: props.isVirtualized,
       top: index * firstItemHeight - Math.max(0, Math.min(state.scrollTop, itemHeight))
     }
     return createVNode(listViewItem, propsParams, () => [...slot.default(item)])
   })
-  render(createVNode(Fragment, null, VNodes), virtualizedRef.value)
+  render(createVNode(Fragment, null, VNodes), innerRef.value)
 }
 
 // 计算当前需要渲染的元素范围
 const calculateItemsToRender = () => {
-  const firstItemHeight = state.virtualized.firstItemHeight
+  const firstItemHeight = state.inner.firstItemHeight
   const startIndex = Math.floor(state.scrollTop / firstItemHeight)
   const endIndex = startIndex + Math.ceil(props.height / firstItemHeight)
   return props.listData.slice(startIndex, endIndex)
@@ -111,12 +112,23 @@ const getGroupStyle = computed((): StyleValue => {
     height: `${height}px`
   }
 })
-const getVirtualizedStyle = computed((): StyleValue => {
-  const { height } = state.virtualized
-  return {
-    height: `${height}px`
+const getInnerStyle = computed(
+  (): StyleValue => {
+    return {
+      height: `${getInnerHeight.value}px`
+    }
+  },
+  {
+    async onTrack() {
+      await nextTick()
+      const offsetHeight = innerRef.value?.offsetHeight
+      // 当浏览器重置高度时,重新设置高度
+      if (getInnerHeight.value > offsetHeight) {
+        state.inner.height = innerRef.value.offsetHeight
+      }
+    }
   }
-})
+)
 </script>
 <style lang="scss" scoped>
 @import './index.scss';

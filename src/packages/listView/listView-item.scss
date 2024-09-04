@@ -5,7 +5,7 @@ $title-margin-left: 16px;
 .t-listView-item {
   padding: 4px;
   border: 1px solid gainsboro;
-  &.t-listView-item-virtualized {
+  &.t-listView-item-inner {
     width: 100%;
     height: auto;
     box-sizing: border-box;

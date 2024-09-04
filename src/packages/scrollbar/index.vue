@@ -233,6 +233,7 @@ const getScrollbarThumbVStyle = computed((): StyleValue => {
   const ratio = scrollTop / (totalHeight - elementHeight)
   // 得出真实高度(组件高度 - 拖块高度 - 间距)
   const height = elementHeight - scrollbar.height - 4
+
   return {
     transform: `translateY(${ratio * height}px)`,
     height: `${scrollbar.height}px`

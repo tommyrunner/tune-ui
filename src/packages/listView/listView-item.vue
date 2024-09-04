@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<PropsType>(), {
 })
 const getListViewItemClass = computed(() => {
   const { isVirtualized } = props
-  return ['t-listView-item', isVirtualized && 't-listView-item-virtualized']
+  return ['t-listView-item', isVirtualized && 't-listView-item-inner']
 })
 const getListViewItemStyle = computed((): StyleValue => {
   return {

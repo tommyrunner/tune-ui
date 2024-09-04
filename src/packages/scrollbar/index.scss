@@ -9,6 +9,8 @@
     height: 100%;
     top: 0px;
     overflow: auto;
+    // 隐藏滚动条 全面兼容
+    scrollbar-width: none;
     &::-webkit-scrollbar {
       width: 0px;
       height: 0px;
