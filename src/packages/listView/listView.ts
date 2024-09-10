@@ -22,6 +22,8 @@ export interface PropsType {
   isVirtualized?: boolean
   // 数组
   listData?: ListDataType[]
+  // 列表方向:row横向，row竖向(默认)
+  direction?: 'row' | 'column'
 }
 /**
  * @description: 组件emit类型

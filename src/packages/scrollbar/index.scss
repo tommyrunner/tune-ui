@@ -4,6 +4,7 @@
   width: 100%;
   height: 100%;
   ._content {
+    display: flex;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -57,17 +58,11 @@
 
   // hover元素
   ._scrollbar-h._scrollbar-hover-h {
-    opacity: 1;
-    transform: translateX(0px);
-  }
-  ._scrollbar-v._scrollbar-hover-v {
-    opacity: 1;
-    transform: translateY(0px);
-  }
-  // 拖动时显示
-  ._scrollbar-notMove {
     opacity: 1 !important;
     transform: translateX(0px) !important;
+  }
+  ._scrollbar-v._scrollbar-hover-v {
+    opacity: 1 !important;
     transform: translateY(0px) !important;
   }
 }

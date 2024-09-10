@@ -1,20 +1,20 @@
 <template>
   <div class="t-scrollbar">
-    <div
-      :class="[...getScrollbarClass, '_scrollbar-v']"
-      @mousedown="(event: MouseEvent) => handlerScrollbarClick(event, 'top')"
-      ref="thumbVRef"
-    >
-      <div class="_scrollbar-thumb" @mousedown="handlerOpenMove" :style="getScrollbarThumbVStyle"></div>
+    <div :class="[...getScrollbarClass, '_scrollbar-v']" @mousedown="handlerScrollbarClick" ref="thumbVRef">
+      <div
+        class="_scrollbar-thumb"
+        @mousedown="(event: MouseEvent) => handlerOpenMove(event, 'top')"
+        :style="getScrollbarThumbVStyle"
+      ></div>
     </div>
-    <div
-      :class="[...getScrollbarClass, '_scrollbar-h']"
-      @mousedown="(event: MouseEvent) => handlerScrollbarClick(event, 'left')"
-      ref="thumbHRef"
-    >
-      <div class="_scrollbar-thumb" @mousedown="handlerOpenMove" :style="getScrollbarThumbHStyle"></div>
+    <div :class="[...getScrollbarClass, '_scrollbar-h']" @mousedown="handlerScrollbarClick" ref="thumbHRef">
+      <div
+        class="_scrollbar-thumb"
+        @mousedown="(event: MouseEvent) => handlerOpenMove(event, 'left')"
+        :style="getScrollbarThumbHStyle"
+      ></div>
     </div>
-    <div class="_content" ref="scrollbarRef">
+    <div class="_content" ref="scrollbarRef" :style="getContentStyle">
       <slot />
     </div>
   </div>
@@ -28,7 +28,9 @@ const emit = defineEmits<EmitsType>()
 const scrollbarRef = ref<HTMLDivElement>()
 const thumbVRef = ref<HTMLDivElement>()
 const thumbHRef = ref<HTMLDivElement>()
-const props = withDefaults(defineProps<PropsType>(), {})
+const props = withDefaults(defineProps<PropsType>(), {
+  listDirection: 'column'
+})
 // 最小thumb尺寸 比例
 const THUMB_MIN_SIZE = 0.046
 let elementObserver: null | MutationObserver = null
@@ -50,7 +52,7 @@ const state = reactive({
   // 滚动条
   scrollbar: {
     // 拖动方向
-    direction: 'top' as DirectionType,
+    direction: 'none' as DirectionType,
     // 滚动条高度
     height: 0,
     width: 0,
@@ -60,7 +62,8 @@ const state = reactive({
       y: 0
     },
     // 当前是否处于拖动
-    isMove: false,
+    isMoveH: false,
+    isMoveV: false,
     // 是否显示
     isShowH: false,
     isShowV: false
@@ -101,7 +104,7 @@ const handlerEventListener = (remove = false) => {
     element.parentElement[method]('mouseenter', handlerElementEnter)
     element.parentElement[method]('mouseleave', handlerElementLeave)
     // 节点发生变化，更新拖块大小
-    elementObserver.observe(element, { childList: true, subtree: true })
+    elementObserver.observe(element, { childList: true, attributes: true, attributeFilter: ['style'], subtree: true })
   }
   if (remove) {
     elementObserver.disconnect()
@@ -133,7 +136,7 @@ const updateScrollbar = () => {
  * @param event 事件
  * @param direction 方向
  */
-const handlerScrollbarClick = (event: MouseEvent, direction: DirectionType) => {
+const handlerScrollbarClick = (event: MouseEvent) => {
   //   计算当前位置
   const rect = scrollbarRef.value.getBoundingClientRect()
   // 每次点击的时候获取element当前屏幕位置(*用于计算全屏拉动)
@@ -141,18 +144,18 @@ const handlerScrollbarClick = (event: MouseEvent, direction: DirectionType) => {
     x: rect.left,
     y: rect.top
   }
-  state.scrollbar.direction = direction
-  const mobile = direction === 'left' ? event.layerX : event.layerY
+  const mobile = state.scrollbar.direction === 'left' ? event.layerX : event.layerY
   // 点击滑块无需快捷跳转
   if (event.target === thumbVRef.value.firstChild || event.target === thumbHRef.value.firstChild) return
-  setScrollbar(mobile - state.scrollbar.height / 2, direction)
+  setScrollbar(mobile - state.scrollbar.height / 2, state.scrollbar.direction)
 }
 /**
  * 处理拖动事件(这里是全屏拖动，尽量模拟window)
  * @param event
  */
 const handlerScrollbarMove = (event: MouseEvent) => {
-  if (state.scrollbar.isMove) {
+  const { isMoveH, isMoveV } = state.scrollbar
+  if (isMoveH || isMoveV) {
     const { scrollbar, pageElementPoint } = state
     // 计算(界面点击位置 - 当前拖块本身点击位置)
     const pageVal =
@@ -166,9 +169,12 @@ const handlerScrollbarMove = (event: MouseEvent) => {
  * 处理状态
  */
 const handlerCloseMove = () => {
-  state.scrollbar.isMove = false
+  state.scrollbar.isMoveH = false
+  state.scrollbar.isMoveV = false
 }
-const handlerOpenMove = (event: MouseEvent) => {
+const handlerOpenMove = (event: MouseEvent, direction: DirectionType) => {
+  // 更新当前触发滚动条方向
+  state.scrollbar.direction = direction
   // 拖动时不能选中文本
   event.preventDefault()
   // 记录拖块本身点击位置(作为拖块位置的条件)
@@ -176,7 +182,8 @@ const handlerOpenMove = (event: MouseEvent) => {
     x: event.offsetX,
     y: event.offsetY
   }
-  state.scrollbar.isMove = true
+  if (direction === 'left') state.scrollbar.isMoveH = true
+  if (direction === 'top') state.scrollbar.isMoveV = true
 }
 const handlerElementEnter = () => {
   const { offsetHeight, offsetWidth, scrollHeight, scrollWidth } = scrollbarRef.value
@@ -218,13 +225,12 @@ const setScrollbar = (mobile: number, direction: DirectionType) => {
  * 处理class 以及 style 动态样式
  */
 const getScrollbarClass = computed(() => {
-  const { isMove, isShowH, isShowV } = state.scrollbar
+  const { isMoveH, isMoveV, isShowH, isShowV } = state.scrollbar
   return [
     '_scrollbar',
     !props.permanent && '_scrollbar-permanent',
-    isMove && '_scrollbar-notMove',
-    isShowH && '_scrollbar-hover-h',
-    isShowV && '_scrollbar-hover-v'
+    (isShowH || isMoveH) && '_scrollbar-hover-h',
+    (isShowV || isMoveV) && '_scrollbar-hover-v'
   ]
 })
 const getScrollbarThumbVStyle = computed((): StyleValue => {
@@ -246,6 +252,11 @@ const getScrollbarThumbHStyle = computed((): StyleValue => {
   return {
     transform: `translateX(${ratio * width}px)`,
     width: `${scrollbar.width}px`
+  }
+})
+const getContentStyle = computed((): StyleValue => {
+  return {
+    flexDirection: props.listDirection
   }
 })
 defineExpose({

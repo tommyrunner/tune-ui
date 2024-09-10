@@ -1,6 +1,6 @@
 <template>
   <div :class="getGroupClass" :style="getGroupStyle">
-    <Scrollbar :total-height="getInnerHeight" @scroll-y="handleScroll">
+    <Scrollbar :total-height="getInnerHeight" @scroll-y="handleScroll" :list-direction="props.direction">
       <slot v-if="!isVirtualized" />
       <div v-else class="_inner" ref="innerRef" :style="getInnerStyle"></div>
     </Scrollbar>
@@ -25,6 +25,7 @@ import listViewItem from './listView-item.vue'
 import Scrollbar from '../scrollbar/index.vue'
 defineOptions({ name: 'TListView' })
 const props = withDefaults(defineProps<PropsType>(), {
+  direction: 'column',
   isVirtualized: false,
   height: 420,
   listData: () => []
