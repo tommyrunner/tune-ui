@@ -13,29 +13,29 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { TIcon } from '../icon'
-import type { EmitsType, PropsType, ValueType } from './breadcrumb'
-import { useRouter } from 'vue-router'
-defineOptions({ name: 'TBreadcrumb' })
+import { TIcon } from "../icon";
+import type { EmitsType, PropsType, ValueType } from "./breadcrumb";
+import { useRouter } from "vue-router";
+defineOptions({ name: "TBreadcrumb" });
 const props = withDefaults(defineProps<PropsType>(), {
   isRouter: true,
   gap: 6
-})
-const emit = defineEmits<EmitsType>()
-const models = defineModel<ValueType[]>()
-const router = useRouter()
-if (!router) console.warn('router not injected!')
+});
+const emit = defineEmits<EmitsType>();
+const models = defineModel<ValueType[]>();
+const router = useRouter();
+if (!router) console.warn("router not injected!");
 /**
  * 处理点击路由跳转事件
  */
 const handlerPush = (model: ValueType) => {
-  emit('change', model)
-  const { isRouter, isReplace } = props
-  if (!isRouter || !router || model.disabled) return
-  if (!model.to) console.warn('to parameter not filled in')
-  isReplace ? router.replace(model.to) : router.push(model.to)
-}
+  emit("change", model);
+  const { isRouter, isReplace } = props;
+  if (!isRouter || !router || model.disabled) return;
+  if (!model.to) console.warn("to parameter not filled in");
+  isReplace ? router.replace(model.to) : router.push(model.to);
+};
 </script>
 <style lang="scss" scoped>
-@import 'index.scss';
+@import "index.scss";
 </style>

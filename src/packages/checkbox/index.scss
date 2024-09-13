@@ -1,4 +1,4 @@
-@import '@/styles/index.scss';
+@import "@/styles/index.scss";
 
 $title-margin-left: 16px;
 
@@ -66,7 +66,7 @@ $title-margin-left: 16px;
     margin-left: 4px !important;
   }
 
-  &[checked='true'] {
+  &[checked="true"] {
     ._span {
       background-color: $theme-color-primary;
     }
@@ -125,7 +125,7 @@ $title-margin-left: 16px;
     display: none;
   }
 
-  &[checked='true'] {
+  &[checked="true"] {
     background-color: $theme-color-primary;
 
     &:hover ._title {
@@ -182,7 +182,7 @@ $title-margin-left: 16px;
     margin-left: $title-margin-left;
   }
 
-  &[checked='true'] {
+  &[checked="true"] {
     background-color: white;
 
     &:hover ._title {
@@ -204,7 +204,7 @@ $title-margin-left: 16px;
     margin-left: 2px;
   }
 
-  &[checked='true'] {
+  &[checked="true"] {
     ._title {
       color: $theme-color-primary;
     }
@@ -220,7 +220,7 @@ $title-margin-left: 16px;
     display: inline-block;
   }
 
-  &[checked='true'] {
+  &[checked="true"] {
     ._title {
       color: $theme-color-primary;
     }

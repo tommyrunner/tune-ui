@@ -16,60 +16,60 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { StyleValue } from 'vue'
-import type { PropsType, ValueType, EmitsType } from './collapse'
-import { type GroupContextType, collapseGroupKey } from './constants'
-import { TIcon } from '../icon'
-import { computed, inject, onMounted, ref } from 'vue'
-defineOptions({ name: 'TCollapse' })
-const emit = defineEmits<EmitsType>()
+import type { StyleValue } from "vue";
+import type { PropsType, ValueType, EmitsType } from "./collapse";
+import { type GroupContextType, collapseGroupKey } from "./constants";
+import { TIcon } from "../icon";
+import { computed, inject, onMounted, ref } from "vue";
+defineOptions({ name: "TCollapse" });
+const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   value: false,
-  rightIcon: 'caret-right'
-})
-const model = defineModel<ValueType>()
-const groupContext = inject<GroupContextType | undefined>(collapseGroupKey, void 0)
+  rightIcon: "caret-right"
+});
+const model = defineModel<ValueType>();
+const groupContext = inject<GroupContextType | undefined>(collapseGroupKey, void 0);
 // 记录原始高度
-const bodyHeight = ref(0)
-const bodyRef = ref<InstanceType<typeof HTMLDivElement>>()
+const bodyHeight = ref(0);
+const bodyRef = ref<InstanceType<typeof HTMLDivElement>>();
 onMounted(() => {
   // 进入记录body原始高度
-  bodyHeight.value = bodyRef.value?.clientHeight
-})
+  bodyHeight.value = bodyRef.value?.clientHeight;
+});
 // 判断是否选中
 const isChecked = computed(() => {
   // 如果是组合组件
   if (groupContext && groupContext.model) {
-    return groupContext.model.includes(props.value)
+    return groupContext.model.includes(props.value);
   } else {
     // 未值定value默认以boolean类型
-    if (typeof model.value === 'boolean' && !props.value) return model.value
-    else return model.value === props.value
+    if (typeof model.value === "boolean" && !props.value) return model.value;
+    else return model.value === props.value;
   }
-})
+});
 const getBodyStyle = computed((): StyleValue => {
   // 默认样式
   if (!bodyHeight.value)
     return {
-      height: 'auto'
-    }
+      height: "auto"
+    };
   return {
     height: `${isChecked.value ? bodyHeight.value : 0}px`
-  }
-})
+  };
+});
 const updateModel = () => {
-  if (props.disabled) return
+  if (props.disabled) return;
   if (groupContext) {
-    groupContext.changeEvent(isChecked.value, props.value)
+    groupContext.changeEvent(isChecked.value, props.value);
   } else {
     // 未值定value默认以boolean类型
-    if (typeof model.value === 'boolean' && !props.value) model.value = !model.value
+    if (typeof model.value === "boolean" && !props.value) model.value = !model.value;
     // 则
-    else model.value = isChecked.value ? void 0 : props.value
+    else model.value = isChecked.value ? void 0 : props.value;
   }
-  emit('change', model.value)
-}
+  emit("change", model.value);
+};
 </script>
 <style lang="scss" scoped>
-@import 'index.scss';
+@import "index.scss";
 </style>

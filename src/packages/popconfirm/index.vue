@@ -29,35 +29,35 @@
   </TPopover>
 </template>
 <script lang="ts" setup>
-import type { PropsType, EmitsType } from './popConfirm'
-import { TPopover } from '../popover'
-import { TButton } from '../button'
-import { TIcon } from '../icon'
-import { computed, StyleValue } from 'vue'
-defineOptions({ name: 'TPopConfirm' })
-const emit = defineEmits<EmitsType>()
+import type { PropsType, EmitsType } from "./popConfirm";
+import { TPopover } from "../popover";
+import { TButton } from "../button";
+import { TIcon } from "../icon";
+import { computed, StyleValue } from "vue";
+defineOptions({ name: "TPopConfirm" });
+const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
-  icon: 'illustrate',
-  confirmText: '确认',
-  confirmType: 'text',
-  cancelText: '取消',
-  cancelType: 'text',
+  icon: "illustrate",
+  confirmText: "确认",
+  confirmType: "text",
+  cancelText: "取消",
+  cancelType: "text",
   padding: () => [8, 6, 8, 6],
   closeOnPressOther: false
-})
-const visible = defineModel<boolean>()
+});
+const visible = defineModel<boolean>();
 const handlerSubmit = isConfirm => {
-  if (isConfirm) emit('confirm')
-  else emit('cancel')
-  visible.value = false
-}
+  if (isConfirm) emit("confirm");
+  else emit("cancel");
+  visible.value = false;
+};
 const getPopConfirmStyle = computed((): StyleValue => {
-  const { maxWidth } = props
+  const { maxWidth } = props;
   return {
     maxWidth: maxWidth
-  }
-})
+  };
+});
 </script>
 <style lang="scss" scoped>
-@import 'index.scss';
+@import "index.scss";
 </style>

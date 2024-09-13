@@ -7,17 +7,17 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { PropsType } from './listView'
-import { reactive, computed, onMounted, ref, createVNode, render, StyleValue, Fragment, useSlots, nextTick, watch } from 'vue'
-import listViewItem from './listView-item.vue'
-import Scrollbar from '../scrollbar/index.vue'
-defineOptions({ name: 'TListView' })
+import type { PropsType } from "./listView";
+import { reactive, computed, onMounted, ref, createVNode, render, StyleValue, Fragment, useSlots, nextTick, watch } from "vue";
+import listViewItem from "./listView-item.vue";
+import Scrollbar from "../scrollbar/index.vue";
+defineOptions({ name: "TListView" });
 const props = withDefaults(defineProps<PropsType>(), {
-  direction: 'column',
+  direction: "column",
   isVirtualized: false,
   height: 420,
   listData: () => []
-})
+});
 const state = reactive({
   // 滚动element值
   scrollTop: 0,
@@ -32,93 +32,93 @@ const state = reactive({
     // 虚拟列表的元素高度
     firstItemHeight: 0
   }
-})
-const slot = useSlots()
-const innerRef = ref<HTMLDivElement>()
+});
+const slot = useSlots();
+const innerRef = ref<HTMLDivElement>();
 watch(
   () => props.listData,
   () => {
-    renderList()
+    renderList();
   }
-)
+);
 // 测量单个元素的高度并计算总高度
 onMounted(async () => {
   // 虚拟列表中测量单个元素的高度
   if (props.isVirtualized) {
-    const firstItem = createVNode(listViewItem, props.listData[0], () => [...slot.default(props.listData[0])])
-    await nextTick()
-    render(firstItem, innerRef.value)
-    const itemRect = firstItem.el.getBoundingClientRect()
-    if (itemRect) state.inner.firstItemHeight = itemRect.height
+    const firstItem = createVNode(listViewItem, props.listData[0], () => [...slot.default(props.listData[0])]);
+    await nextTick();
+    render(firstItem, innerRef.value);
+    const itemRect = firstItem.el.getBoundingClientRect();
+    if (itemRect) state.inner.firstItemHeight = itemRect.height;
     // 渲染列表项
-    renderList()
+    renderList();
   }
-})
+});
 const getInnerHeight = computed(() => {
-  return state.inner.height || props.listData.length * state.inner.firstItemHeight
-})
+  return state.inner.height || props.listData.length * state.inner.firstItemHeight;
+});
 
 // 根据当前滚动位置动态渲染列表项
 const renderList = () => {
-  if (!props.isVirtualized) return
-  const itemsToRender = calculateItemsToRender()
+  if (!props.isVirtualized) return;
+  const itemsToRender = calculateItemsToRender();
   // 渲染的item总个数高度
-  const itemHeight = state.inner.itemNum * state.inner.firstItemHeight - props.height
-  state.inner.itemNum = 0
-  const firstItemHeight = state.inner.firstItemHeight
+  const itemHeight = state.inner.itemNum * state.inner.firstItemHeight - props.height;
+  state.inner.itemNum = 0;
+  const firstItemHeight = state.inner.firstItemHeight;
   const VNodes = itemsToRender.map((item, index) => {
-    state.inner.itemNum++
+    state.inner.itemNum++;
     // props 参数
     const propsParams = {
       isVirtualized: props.isVirtualized,
       top: index * firstItemHeight - Math.max(0, Math.min(state.scrollTop, itemHeight))
-    }
-    return createVNode(listViewItem, propsParams, () => [...slot.default(item)])
-  })
-  render(createVNode(Fragment, null, VNodes), innerRef.value)
-}
+    };
+    return createVNode(listViewItem, propsParams, () => [...slot.default(item)]);
+  });
+  render(createVNode(Fragment, null, VNodes), innerRef.value);
+};
 
 // 计算当前需要渲染的元素范围
 const calculateItemsToRender = () => {
-  const firstItemHeight = state.inner.firstItemHeight
-  const startIndex = Math.floor(state.scrollTop / firstItemHeight)
-  const endIndex = startIndex + Math.ceil(props.height / firstItemHeight)
-  return props.listData.slice(startIndex, endIndex)
-}
+  const firstItemHeight = state.inner.firstItemHeight;
+  const startIndex = Math.floor(state.scrollTop / firstItemHeight);
+  const endIndex = startIndex + Math.ceil(props.height / firstItemHeight);
+  return props.listData.slice(startIndex, endIndex);
+};
 
 // 滚动事件处理函数
 const handleScroll = (listElement: HTMLElement) => {
-  state.scrollTop = listElement.scrollTop
-  renderList()
-}
+  state.scrollTop = listElement.scrollTop;
+  renderList();
+};
 
 const getGroupClass = computed(() => {
-  return ['t-listView']
-})
+  return ["t-listView"];
+});
 const getGroupStyle = computed((): StyleValue => {
-  const { height } = props
+  const { height } = props;
   return {
     height: `${height}px`
-  }
-})
+  };
+});
 const getInnerStyle = computed(
   (): StyleValue => {
     return {
       height: `${getInnerHeight.value}px`
-    }
+    };
   },
   {
     async onTrack() {
-      await nextTick()
-      const offsetHeight = innerRef.value?.offsetHeight
+      await nextTick();
+      const offsetHeight = innerRef.value?.offsetHeight;
       // 当浏览器重置高度时,重新设置高度
       if (getInnerHeight.value > offsetHeight) {
-        state.inner.height = innerRef.value.offsetHeight
+        state.inner.height = innerRef.value.offsetHeight;
       }
     }
   }
-)
+);
 </script>
 <style lang="scss" scoped>
-@import './index.scss';
+@import "./index.scss";
 </style>

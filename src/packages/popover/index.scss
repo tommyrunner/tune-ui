@@ -1,4 +1,4 @@
-@import '@/styles/index.scss';
+@import "@/styles/index.scss";
 
 .t-popover {
   position: relative;
@@ -46,22 +46,22 @@
 
       // 第二个div的偏移
       > div:nth-child(2) {
-        @if $position == 'top' {
+        @if $position == "top" {
           bottom: 1px;
-        } @else if $position == 'right' {
+        } @else if $position == "right" {
           left: 1px;
-        } @else if $position == 'bottom' {
+        } @else if $position == "bottom" {
           bottom: -1px;
-        } @else if $position == 'left' {
+        } @else if $position == "left" {
           left: -1px;
         }
       }
     }
   }
-  @include popover-triangle('top', translateY(100%));
-  @include popover-triangle('right', rotate(90deg) translate(50%, 100%));
-  @include popover-triangle('bottom', rotate(180deg) translateY(0%));
-  @include popover-triangle('left', rotate(270deg) translate(-50%, 0%));
+  @include popover-triangle("top", translateY(100%));
+  @include popover-triangle("right", rotate(90deg) translate(50%, 100%));
+  @include popover-triangle("bottom", rotate(180deg) translateY(0%));
+  @include popover-triangle("left", rotate(270deg) translate(-50%, 0%));
 }
 
 // 处理不同方向时出现，离开动画
@@ -79,16 +79,16 @@
   }
 }
 // top动画
-@include popover-animation('top', 'translateY', 0%, 30%);
+@include popover-animation("top", "translateY", 0%, 30%);
 
 // right动画
-@include popover-animation('right', 'translateX', 0%, -30%);
+@include popover-animation("right", "translateX", 0%, -30%);
 
 // bottom动画
-@include popover-animation('bottom', 'translateY', 0%, -30%);
+@include popover-animation("bottom", "translateY", 0%, -30%);
 
 // left动画
-@include popover-animation('left', 'translateX', 0%, 30%);
+@include popover-animation("left", "translateX", 0%, 30%);
 
 // 处理遮罩层
 ._t-model {
@@ -138,7 +138,7 @@
     transform: #{$translate};
   }
 }
-@include popover-drawer-animation('top', 0, initial, initial, 0, translate(0%, -100%));
-@include popover-drawer-animation('right', 0, 0, initial, initial, translate(100%, 0%));
-@include popover-drawer-animation('bottom', initial, initial, 0, 0, translate(0%, 100%));
-@include popover-drawer-animation('left', 0, initial, initial, 0, translate(-100%, 0%));
+@include popover-drawer-animation("top", 0, initial, initial, 0, translate(0%, -100%));
+@include popover-drawer-animation("right", 0, 0, initial, initial, translate(100%, 0%));
+@include popover-drawer-animation("bottom", initial, initial, 0, 0, translate(0%, 100%));
+@include popover-drawer-animation("left", 0, initial, initial, 0, translate(-100%, 0%));

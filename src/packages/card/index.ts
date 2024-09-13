@@ -1,5 +1,5 @@
-import Card from './index.vue'
+import Card from "./index.vue";
 // 导出组件
-export const TCard = Card
+export const TCard = Card;
 // 导出组件类型
-export type TCardType = InstanceType<typeof TCard>
+export type TCardType = InstanceType<typeof TCard>;

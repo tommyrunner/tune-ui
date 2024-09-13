@@ -1,28 +1,28 @@
-import { IconTypes } from '../icon/icon'
+import { IconTypes } from "../icon/icon";
 
 /**
  * @description: 组件props类型
  */
 export interface PropsType {
   // 触发滚动对象
-  target?: HTMLElement | string
+  target?: HTMLElement | string;
   // 分隔icon
-  icon?: IconTypes
+  icon?: IconTypes;
   // icon大小
-  iconSize?: number
+  iconSize?: number;
   // bottom
-  bottom?: string
+  bottom?: string;
   // right
-  right?: string
+  right?: string;
   // 滚动到底差异值
-  visibilityHeight?: number
+  visibilityHeight?: number;
   // 是否纯色
-  plain?: boolean
+  plain?: boolean;
 }
 /**
  * @description: 组件emit类型
  */
 export interface EmitsType {
   // 选择事件
-  (e: 'click'): void
+  (e: "click"): void;
 }

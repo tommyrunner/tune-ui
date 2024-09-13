@@ -1,4 +1,4 @@
-@import '@/styles/index.scss';
+@import "@/styles/index.scss";
 
 $title-margin-left: 16px;
 
@@ -23,7 +23,7 @@ $title-margin-left: 16px;
       opacity: 1;
     }
   }
-  &[checked='true'] {
+  &[checked="true"] {
     color: $theme-color-primary;
     ._icon-close {
       opacity: 1;
@@ -52,7 +52,7 @@ $title-margin-left: 16px;
     &:last-child {
       border: none;
     }
-    &[checked='true'] {
+    &[checked="true"] {
       color: white;
       ._icon-close {
         color: white;

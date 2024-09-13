@@ -1,4 +1,4 @@
-@import '@/styles/index.scss';
+@import "@/styles/index.scss";
 
 $gap: 24px;
 .t-notification {
@@ -44,10 +44,10 @@ $gap: 24px;
     }
   }
 }
-@include notification-type('info', #000);
-@include notification-type('success', $theme-color-success);
-@include notification-type('warning', $theme-color-warning);
-@include notification-type('danger', $theme-color-danger);
+@include notification-type("info", #000);
+@include notification-type("success", $theme-color-success);
+@include notification-type("warning", $theme-color-warning);
+@include notification-type("danger", $theme-color-danger);
 // 处理不同 position 方向
 @mixin notification-position(
   $position,
@@ -104,7 +104,7 @@ $gap: 24px;
     }
   }
 }
-@include notification-position('topRight', 0px, $gap, initial, initial, 100%, 2%, -1%, 1%, 0px, 0px, 100%);
-@include notification-position('bottomRight', initial, $gap, 0px, initial, 100%, 2%, -1%, 1%, 0px, 0px, 100%);
-@include notification-position('bottomLeft', initial, initial, 0px, $gap, -100%, 2%, -2%, 1%, 0px, 0px, -100%);
-@include notification-position('topLeft', 0px, initial, initial, $gap, -100%, 2%, -2%, 1%, 0px, 0px, -100%);
+@include notification-position("topRight", 0px, $gap, initial, initial, 100%, 2%, -1%, 1%, 0px, 0px, 100%);
+@include notification-position("bottomRight", initial, $gap, 0px, initial, 100%, 2%, -1%, 1%, 0px, 0px, 100%);
+@include notification-position("bottomLeft", initial, initial, 0px, $gap, -100%, 2%, -2%, 1%, 0px, 0px, -100%);
+@include notification-position("topLeft", 0px, initial, initial, $gap, -100%, 2%, -2%, 1%, 0px, 0px, -100%);

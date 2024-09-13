@@ -1,24 +1,24 @@
-import { IconTypes } from '../icon/icon'
+import { IconTypes } from "../icon/icon";
 /**
  * value 类型
  */
-export type ValueType = string | number
+export type ValueType = string | number;
 /**
  * @description: 组件props类型
  */
 export interface PropsType {
-  id?: number
-  top?: number
-  isVirtualized?: boolean
+  id?: number;
+  top?: number;
+  isVirtualized?: boolean;
   // 是否禁用
-  disabled?: boolean
+  disabled?: boolean;
   // title
-  title?: string
+  title?: string;
   // subtitle
-  subtitle?: string
+  subtitle?: string;
   // 状态值
-  value?: ValueType
+  value?: ValueType;
   // 自定义图表图形
-  icon?: IconTypes
-  row?: any
+  icon?: IconTypes;
+  row?: any;
 }

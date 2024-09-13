@@ -6,56 +6,56 @@
   </button>
 </template>
 <script lang="ts" setup>
-import type { EmitsType, PropsType } from './button'
-import { type StyleValue, computed } from 'vue'
-import { configOptions } from '@/hooks/useOptions'
-import { TIcon } from '..'
-import { IconTypes } from '../icon/icon'
-defineOptions({ name: 'TButton' })
-const emit = defineEmits<EmitsType>()
+import type { EmitsType, PropsType } from "./button";
+import { type StyleValue, computed } from "vue";
+import { configOptions } from "@/hooks/useOptions";
+import { TIcon } from "..";
+import { IconTypes } from "../icon/icon";
+defineOptions({ name: "TButton" });
+const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
-  type: 'default',
+  type: "default",
   loading: false,
-  radius: 'default',
+  radius: "default",
   disabled: false,
   scale: true
-})
+});
 // 处理loading-icon
 const suffixIcon = computed((): IconTypes => {
-  if (!props.loading && props.suffixIcon) return props.suffixIcon
-  else return 'loading'
-})
+  if (!props.loading && props.suffixIcon) return props.suffixIcon;
+  else return "loading";
+});
 // 处理点击事件
 const hanlderClick = (e: MouseEvent) => {
-  emit('click', e)
-}
+  emit("click", e);
+};
 const getStyle = computed((): StyleValue => {
   if (props.color) {
     return {
-      color: '#ffffff',
+      color: "#ffffff",
       backgroundColor: props.color,
       border: ` 1px solid ${props.color}`
-    }
-  } else return void 0
-})
+    };
+  } else return void 0;
+});
 const getClass = computed(() => {
-  const { color, type, size, radius, scale, disabled, loading } = props
+  const { color, type, size, radius, scale, disabled, loading } = props;
   return [
-    't-button',
+    "t-button",
     !color && `t-button-type-${type}`,
     `t-button-size-${size}`,
     `t-button-radius-${radius}`,
     scale && !disabled && `t-button-scale`,
-    (disabled || loading) && 't-disabled'
-  ]
-})
+    (disabled || loading) && "t-disabled"
+  ];
+});
 defineExpose({
   handleClick: (evt: MouseEvent) => {
-    emit('click', evt)
+    emit("click", evt);
   }
-})
+});
 </script>
 <style lang="scss" scoped>
-@import 'index.scss';
+@import "index.scss";
 </style>

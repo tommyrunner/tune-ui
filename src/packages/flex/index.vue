@@ -4,45 +4,45 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { PropsType } from './flex'
-import { computed, onDeactivated, ref, StyleValue } from 'vue'
-defineOptions({ name: 'TFlex' })
-const props = withDefaults(defineProps<PropsType>(), {})
+import type { PropsType } from "./flex";
+import { computed, onDeactivated, ref, StyleValue } from "vue";
+defineOptions({ name: "TFlex" });
+const props = withDefaults(defineProps<PropsType>(), {});
 // 处理动态变化
-const innerWidth = ref(window.innerWidth)
+const innerWidth = ref(window.innerWidth);
 // 更新屏幕宽度
 const updateLayout = () => {
-  innerWidth.value = window.innerWidth
-}
-window.addEventListener('resize', updateLayout)
+  innerWidth.value = window.innerWidth;
+};
+window.addEventListener("resize", updateLayout);
 onDeactivated(() => {
-  window.removeEventListener('resize', updateLayout)
-})
+  window.removeEventListener("resize", updateLayout);
+});
 
 const getStyle = computed((): StyleValue => {
-  const { span, sort, offset, xs, sm, md, lg, xl } = props
-  let spanVal = span > 10 ? 10 : span
+  const { span, sort, offset, xs, sm, md, lg, xl } = props;
+  let spanVal = span > 10 ? 10 : span;
   // 处理响应式
-  let w = innerWidth.value
+  let w = innerWidth.value;
   if (w >= 1920 && xl) {
-    spanVal = xl
+    spanVal = xl;
   } else if (w >= 1200 && lg) {
-    spanVal = lg
+    spanVal = lg;
   } else if (w >= 992 && md) {
-    spanVal = md
+    spanVal = md;
   } else if (w >= 768 && sm) {
-    spanVal = sm
+    spanVal = sm;
   } else if (xs) {
-    spanVal = xs
+    spanVal = xs;
   }
   return {
     // 如果<=0默认不显示
-    display: span <= 0 ? 'none' : 'inline-block',
+    display: span <= 0 ? "none" : "inline-block",
     width: spanVal && `${spanVal * 10}%`,
     marginLeft: offset && `${offset * 10}%`,
     order: `${sort}`
-  }
-})
+  };
+});
 </script>
 <style lang="scss" scoped>
 .t-flex {

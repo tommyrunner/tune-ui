@@ -12,82 +12,82 @@
   </span>
 </template>
 <script lang="ts" setup>
-import type { PropsType, EmitsType, ValueType } from './checkbox'
-import { type GroupContextType, checkboxGroupKey } from './constants'
-import { TIcon } from '../icon'
-import { computed, inject, useSlots } from 'vue'
-import { configOptions } from '@/hooks/useOptions'
-defineOptions({ name: 'TCheckbox' })
-const emit = defineEmits<EmitsType>()
+import type { PropsType, EmitsType, ValueType } from "./checkbox";
+import { type GroupContextType, checkboxGroupKey } from "./constants";
+import { TIcon } from "../icon";
+import { computed, inject, useSlots } from "vue";
+import { configOptions } from "@/hooks/useOptions";
+defineOptions({ name: "TCheckbox" });
+const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
-  radius: 'square',
+  radius: "square",
   value: false,
   disabled: false
-})
-const slot = useSlots()
-const model = defineModel<ValueType>()
-const groupContext = inject<GroupContextType | undefined>(checkboxGroupKey, void 0)
+});
+const slot = useSlots();
+const model = defineModel<ValueType>();
+const groupContext = inject<GroupContextType | undefined>(checkboxGroupKey, void 0);
 /**
    span的class配置
    custom-span 代表有自定义组件代替了span，需要修复样式
  **/
 const getTitleClass = computed(() => {
-  const base = ['_title', props.disabled && 't-disabled', (slot.checkboxSpan || props.icon) && '_custom-span']
-  return base
-})
+  const base = ["_title", props.disabled && "t-disabled", (slot.checkboxSpan || props.icon) && "_custom-span"];
+  return base;
+});
 const getClass = computed(() => {
-  const { size, disabled } = props
-  const base = ['t-checkbox', `t-checkbox-size-${size}`, disabled && 't-disabled']
+  const { size, disabled } = props;
+  const base = ["t-checkbox", `t-checkbox-size-${size}`, disabled && "t-disabled"];
   // 组合样式
   if (groupContext) {
-    return [...base, `_type-${groupContext.type}`, `_direction-${groupContext.direction}`]
+    return [...base, `_type-${groupContext.type}`, `_direction-${groupContext.direction}`];
   }
-  return base
-})
+  return base;
+});
 /**
  * 组合使用时会失效
  */
 const isChecked = computed(() => {
   // model值
-  const visValue = groupContext?.objKey && model.value ? (model.value as any)[modelObjKey.value] : model.value
+  const visValue = groupContext?.objKey && model.value ? (model.value as any)[modelObjKey.value] : model.value;
   // 组件绑定value值
-  const propValue = modelObjKey.value ? (props.value as any)[modelObjKey.value] : props.value
+  const propValue = modelObjKey.value ? (props.value as any)[modelObjKey.value] : props.value;
   // 如果是组合组件
   if (groupContext && groupContext.model) {
     // 是对象属性
     if (modelObjKey.value) {
-      return groupContext.model.some((v: any) => v[modelObjKey.value] === propValue)
+      return groupContext.model.some((v: any) => v[modelObjKey.value] === propValue);
     } else {
-      return groupContext.model.includes(propValue)
+      return groupContext.model.includes(propValue);
     }
   } else {
     // 未值定value默认以boolean类型
-    if (typeof model.value === 'boolean' && !props.value) return model.value
+    if (typeof model.value === "boolean" && !props.value) return model.value;
     // 是对象属性
     if (modelObjKey.value && model.value) {
-      return (model.value as any)[modelObjKey.value] === propValue
-    } else return visValue === propValue
+      return (model.value as any)[modelObjKey.value] === propValue;
+    } else return visValue === propValue;
   }
-})
+});
 
 const modelObjKey = computed((): string => {
-  if (groupContext) return groupContext.objKey || ''
-  return props.objKey || ''
-})
+  if (groupContext) return groupContext.objKey || "";
+  return props.objKey || "";
+});
 const handChecked = () => {
-  if (props.disabled) return
+  if (props.disabled) return;
   if (groupContext) {
-    groupContext.changeEvent(isChecked.value, props.value)
+    groupContext.changeEvent(isChecked.value, props.value);
   } else {
     // 未值定value默认以boolean类型
-    if (typeof model.value === 'boolean' && !props.value) model.value = !model.value
+    if (typeof model.value === "boolean" && !props.value) model.value = !model.value;
     // 则
-    else model.value = isChecked.value ? void 0 : props.value
+    else model.value = isChecked.value ? void 0 : props.value;
   }
-  emit('change', model.value)
-}
+  emit("change", model.value);
+};
 </script>
 <style lang="scss" scoped>
-@import 'index.scss';
+@import "index.scss";
 </style>

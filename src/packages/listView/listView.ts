@@ -1,34 +1,34 @@
-import { IconTypes } from '../icon/icon'
+import { IconTypes } from "../icon/icon";
 
 export type ListDataType = {
-  id: number
+  id: number;
   // 是否禁用
-  disabled?: boolean
+  disabled?: boolean;
   // title
-  title?: string
+  title?: string;
   // subtitle
-  subtitle?: string
+  subtitle?: string;
   // 自定义图表图形
-  icon?: IconTypes
-}
+  icon?: IconTypes;
+};
 //
 /**
  * @description: 组件props类型
  */
 export interface PropsType {
   // 高度
-  height?: number
+  height?: number;
   // 是否虚拟列表
-  isVirtualized?: boolean
+  isVirtualized?: boolean;
   // 数组
-  listData?: ListDataType[]
+  listData?: ListDataType[];
   // 列表方向:row横向，row竖向(默认)
-  direction?: 'row' | 'column'
+  direction?: "row" | "column";
 }
 /**
  * @description: 组件emit类型
  */
 export interface EmitsType {
   // 切换事件
-  (e: 'change'): void
+  (e: "change"): void;
 }

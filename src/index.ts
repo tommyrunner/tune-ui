@@ -1,6 +1,6 @@
 // 导出组件
-export * from './packages'
+export * from "./packages";
 // 导出hooks
-export * from './hooks'
+export * from "./hooks";
 // 导出icons
-import './icons/index.css'
+import "./icons/index.css";

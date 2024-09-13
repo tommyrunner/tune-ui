@@ -18,22 +18,22 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { PropsType } from './card'
-import { TIcon } from '../icon'
-import { computed, useSlots } from 'vue'
-defineOptions({ name: 'TCard' })
-const slot = useSlots()
+import type { PropsType } from "./card";
+import { TIcon } from "../icon";
+import { computed, useSlots } from "vue";
+defineOptions({ name: "TCard" });
+const slot = useSlots();
 const props = withDefaults(defineProps<PropsType>(), {
-  shadow: 'always'
-})
+  shadow: "always"
+});
 const getClass = computed(() => {
-  const { shadow } = props
-  return ['t-card', `t-card-shadow-${shadow}`]
-})
+  const { shadow } = props;
+  return ["t-card", `t-card-shadow-${shadow}`];
+});
 const isHead = computed(() => {
-  return props.title || slot.headLeft
-})
+  return props.title || slot.headLeft;
+});
 </script>
 <style lang="scss" scoped>
-@import 'index.scss';
+@import "index.scss";
 </style>

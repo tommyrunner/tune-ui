@@ -1,4 +1,4 @@
-@import '@/styles/index.scss';
+@import "@/styles/index.scss";
 
 $title-margin-left: 16px;
 
@@ -11,5 +11,16 @@ $title-margin-left: 16px;
     box-sizing: border-box;
     position: sticky;
     top: 0px;
+  }
+  &.t-listView-item-animation {
+    animation: test 0.3s ease;
+  }
+}
+@keyframes test {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

@@ -34,26 +34,26 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { PropsType, EmitsType } from './carousel-group'
-import { type StyleValue, ref, reactive, onMounted, computed, onDeactivated, watch } from 'vue'
-import { AnimationFrame } from '@/utils'
-import { TIcon } from '../icon'
-defineOptions({ name: 'TCheckboxGroup' })
+import type { PropsType, EmitsType } from "./carousel-group";
+import { type StyleValue, ref, reactive, onMounted, computed, onDeactivated, watch } from "vue";
+import { AnimationFrame } from "@/utils";
+import { TIcon } from "../icon";
+defineOptions({ name: "TCheckboxGroup" });
 const props = withDefaults(defineProps<PropsType>(), {
   width: 300,
   height: 200,
   delay: 2200,
   initIndex: 0,
   pauseOnHover: true,
-  direction: 'horizontal',
-  trigger: 'hover',
-  arrow: 'hover',
-  toggle: 'vision'
-})
-const emit = defineEmits<EmitsType>()
-const groupContent = ref<HTMLElement>()
-const childEls = ref<HTMLDivElement[]>([])
-const animationFrame = ref<AnimationFrame>()
+  direction: "horizontal",
+  trigger: "hover",
+  arrow: "hover",
+  toggle: "vision"
+});
+const emit = defineEmits<EmitsType>();
+const groupContent = ref<HTMLElement>();
+const childEls = ref<HTMLDivElement[]>([]);
+const animationFrame = ref<AnimationFrame>();
 const initData = {
   // 防止抖动动画
   debounce: true,
@@ -62,151 +62,151 @@ const initData = {
   // 控制repeatedly反复 方向
   isRepeatedly: false,
   contentObserver: void 0 as undefined | MutationObserver
-}
-const state = reactive({ ...initData })
+};
+const state = reactive({ ...initData });
 
 onDeactivated(() => {
   // 初始化状态
-  Object.assign(state, initData)
+  Object.assign(state, initData);
   // 清空循环事件
-  if (animationFrame.value) animationFrame.value.clear()
+  if (animationFrame.value) animationFrame.value.clear();
   // 删除绑定事件
   if (groupContent.value) {
-    groupContent.value.removeEventListener('scroll', updatePageIndex)
-    groupContent.value.removeEventListener('scrollend', clearBindDebounce)
-    if (state.contentObserver) state.contentObserver.disconnect()
+    groupContent.value.removeEventListener("scroll", updatePageIndex);
+    groupContent.value.removeEventListener("scrollend", clearBindDebounce);
+    if (state.contentObserver) state.contentObserver.disconnect();
   }
-})
+});
 onMounted(() => {
-  updateChildEls()
+  updateChildEls();
   // 初始化
   if (childEls.value.length && groupContent.value) {
     // 监听滚动回调
-    groupContent.value.addEventListener('scroll', updatePageIndex)
+    groupContent.value.addEventListener("scroll", updatePageIndex);
     // 监听滚动结束回调
-    groupContent.value.addEventListener('scrollend', clearBindDebounce)
+    groupContent.value.addEventListener("scrollend", clearBindDebounce);
     // 如果子节点变化,需要更新子节点
-    state.contentObserver = new MutationObserver(updateChildEls)
+    state.contentObserver = new MutationObserver(updateChildEls);
     // 监听容器子节点变化
-    state.contentObserver.observe(groupContent.value, { childList: true })
+    state.contentObserver.observe(groupContent.value, { childList: true });
     // vision模式克隆视觉组件
-    if (props.toggle === 'vision') {
-      groupContent.value.append(childEls.value[0].cloneNode(true))
+    if (props.toggle === "vision") {
+      groupContent.value.append(childEls.value[0].cloneNode(true));
     }
     // 初始定位
-    setPageIndex(props.initIndex, props.trigger)
+    setPageIndex(props.initIndex, props.trigger);
     // 开启播放
     if (props.autoplay) {
-      animationFrame.value = new AnimationFrame(props.delay)
-      runAutoplay(animationFrame.value)
+      animationFrame.value = new AnimationFrame(props.delay);
+      runAutoplay(animationFrame.value);
     }
     // 初步更新子节点样式
-    updateElClass()
+    updateElClass();
   }
-})
+});
 // 动态控制轮播状态
 watch(
   () => props.autoplay,
   val => {
-    if (val) runAutoplay(animationFrame.value)
-    else animationFrame.value.clear()
+    if (val) runAutoplay(animationFrame.value);
+    else animationFrame.value.clear();
   }
-)
+);
 /**
  * 动态获取子元素length
  */
 const getChildElsLength = computed(() => {
-  if (props.toggle === 'vision') {
-    return childEls.value.length - 1
+  if (props.toggle === "vision") {
+    return childEls.value.length - 1;
   }
-  return childEls.value.length
-})
+  return childEls.value.length;
+});
 /**
  * 动态更新子元素
  */
 const updateChildEls = () => {
-  childEls.value = Array.from(groupContent.value?.querySelectorAll('#_t-carousel'))
-}
+  childEls.value = Array.from(groupContent.value?.querySelectorAll("#_t-carousel"));
+};
 /**
  * 清空防抖处理
  */
 const clearBindDebounce = () => {
-  state.debounce = true
-}
+  state.debounce = true;
+};
 /**
  * 更新当前活动元素
  */
 const updatePageIndex = () => {
-  const { toggle, trigger, autoplay } = props
-  if (trigger === 'none' && autoplay) return
-  const el = groupContent.value
-  const box = props[getBoxContent.value.box]
-  const scrollDirection = el[getBoxContent.value.scrollDirection]
-  const scrollBox = el[getBoxContent.value.scrollBox]
+  const { toggle, trigger, autoplay } = props;
+  if (trigger === "none" && autoplay) return;
+  const el = groupContent.value;
+  const box = props[getBoxContent.value.box];
+  const scrollDirection = el[getBoxContent.value.scrollDirection];
+  const scrollBox = el[getBoxContent.value.scrollBox];
   // 使用四舍五入让指示标提前显示
-  state.triggerActive = Math.round(scrollDirection / box)
+  state.triggerActive = Math.round(scrollDirection / box);
   // 处理克隆多出的page
-  if (toggle === 'vision' && scrollDirection >= scrollBox - box) {
-    state.triggerActive = 0
+  if (toggle === "vision" && scrollDirection >= scrollBox - box) {
+    state.triggerActive = 0;
   }
-  updateElClass()
-}
+  updateElClass();
+};
 /**
  * 设置当前指示标位置
  * @param index 下标
  */
-const setPageIndex = (index: number, val: typeof props.trigger, behavior: ScrollBehavior = 'smooth') => {
+const setPageIndex = (index: number, val: typeof props.trigger, behavior: ScrollBehavior = "smooth") => {
   if (props.trigger === val)
     groupContent.value?.scrollTo({
       [getBoxContent.value.direction]: props[getBoxContent.value.box] * index,
       behavior: behavior
-    })
-}
+    });
+};
 /**
  * 轮播
  */
 const runAutoplay = (animationFrame?: AnimationFrame) => {
   if (animationFrame)
     animationFrame.call(() => {
-      toIndex(!props.autoplayBack)
-      emit('autoplay', state.triggerActive)
-    })
-}
+      toIndex(!props.autoplayBack);
+      emit("autoplay", state.triggerActive);
+    });
+};
 /**
  * 根据不同 toggle 值切换
  * @param is true: 前进 false:退后
  */
 const toIndex = (is: boolean) => {
-  const { toggle } = props
-  const el = groupContent.value
-  const direction = getBoxContent.value.direction
-  const box = props[getBoxContent.value.box]
-  const isNone = toggle === 'none'
-  const isVision = toggle === 'vision'
-  const isRepeat = toggle === 'repeat'
-  const isRepeatedly = toggle === 'repeatedly'
+  const { toggle } = props;
+  const el = groupContent.value;
+  const direction = getBoxContent.value.direction;
+  const box = props[getBoxContent.value.box];
+  const isNone = toggle === "none";
+  const isVision = toggle === "vision";
+  const isRepeat = toggle === "repeat";
+  const isRepeatedly = toggle === "repeatedly";
   // 鼠标进入暂停轮播（点击箭头时除外）
-  if ((state.isHoverContent && state.debounce) || !el) return
-  const scrollDirection = el[getBoxContent.value.scrollDirection]
-  const scrollBox = el[getBoxContent.value.scrollBox]
+  if ((state.isHoverContent && state.debounce) || !el) return;
+  const scrollDirection = el[getBoxContent.value.scrollDirection];
+  const scrollBox = el[getBoxContent.value.scrollBox];
   // 当前处于最后一个
-  const lastBox = scrollDirection >= scrollBox - box
+  const lastBox = scrollDirection >= scrollBox - box;
   // 最后一个下标的滚动值
-  const lastDirection = childEls.value.length * box
+  const lastDirection = childEls.value.length * box;
   // 当前处于第一个
-  const firstBox = scrollDirection <= 0
-  if (isNone && ((firstBox && !is) || (lastBox && is))) return clearBindDebounce()
+  const firstBox = scrollDirection <= 0;
+  if (isNone && ((firstBox && !is) || (lastBox && is))) return clearBindDebounce();
   // vision 需要提前 映射 克隆下标
   // vision 需要提前 映射 克隆下标
   if (isVision) {
     if (firstBox && !is) {
       el.scrollTo({
         [direction]: lastDirection
-      })
+      });
     } else if (lastBox && is) {
       el.scrollTo({
         [direction]: 0
-      })
+      });
     }
   }
   // repeat 边缘值时处理
@@ -214,45 +214,45 @@ const toIndex = (is: boolean) => {
     if (firstBox && !is) {
       el.scrollTo({
         [direction]: lastDirection,
-        behavior: 'smooth'
-      })
+        behavior: "smooth"
+      });
     } else if (lastBox && is) {
       el.scrollTo({
         [direction]: 0,
-        behavior: 'smooth'
-      })
+        behavior: "smooth"
+      });
     } else {
       el.scrollBy({
         [direction]: is ? box : -box,
-        behavior: 'smooth'
-      })
+        behavior: "smooth"
+      });
     }
   }
   // 反复(相反方向)
   else if (isRepeatedly) {
-    if (lastBox) state.isRepeatedly = false
-    else if (firstBox) state.isRepeatedly = true
+    if (lastBox) state.isRepeatedly = false;
+    else if (firstBox) state.isRepeatedly = true;
     el.scrollBy({
       [direction]: state.isRepeatedly ? box : -box,
-      behavior: 'smooth'
-    })
+      behavior: "smooth"
+    });
   } else {
     el.scrollBy({
       [direction]: is ? box : -box,
-      behavior: 'smooth'
-    })
+      behavior: "smooth"
+    });
   }
-}
+};
 /**
  * 根据 toggle 类型切换下标
  * @param is true: 下一个 ,false: 上一个
  */
 const incrementedIndex = (is: boolean) => {
-  if (!state.debounce) return
-  state.debounce = false
-  toIndex(is)
-  emit('change', state.triggerActive)
-}
+  if (!state.debounce) return;
+  state.debounce = false;
+  toIndex(is);
+  emit("change", state.triggerActive);
+};
 /**
  * 根据 direction 方向获取对应宽高值
  * @param direction 方向key(props)
@@ -262,57 +262,57 @@ const incrementedIndex = (is: boolean) => {
  */
 const getBoxContent = computed(() => {
   let params = {
-    direction: 'left',
-    scrollDirection: 'scrollLeft',
-    box: 'width',
-    scrollBox: 'scrollWidth'
-  }
-  if (props.direction === 'vertical')
+    direction: "left",
+    scrollDirection: "scrollLeft",
+    box: "width",
+    scrollBox: "scrollWidth"
+  };
+  if (props.direction === "vertical")
     params = {
-      direction: 'top',
-      scrollDirection: 'scrollTop',
-      box: 'height',
-      scrollBox: 'scrollHeight'
-    }
-  return params
-})
+      direction: "top",
+      scrollDirection: "scrollTop",
+      box: "height",
+      scrollBox: "scrollHeight"
+    };
+  return params;
+});
 const getStyle = computed((): StyleValue => {
-  const { width, height } = props
+  const { width, height } = props;
   return {
     height: `${height}px`,
     width: `${width}px`
-  }
-})
+  };
+});
 const getTriggerClass = computed(() => {
-  return ['_trigger']
-})
+  return ["_trigger"];
+});
 const getContentClass = computed(() => {
-  return ['_content']
-})
+  return ["_content"];
+});
 const updateElClass = () => {
   if (!props.animation) {
     // 清空动画class
     childEls.value.forEach(ch => {
-      ch.classList.add('_active')
-      ch.classList.remove('_def')
-    })
-    return
+      ch.classList.add("_active");
+      ch.classList.remove("_def");
+    });
+    return;
   }
-  const { toggle } = props
+  const { toggle } = props;
   // 修改子元素样式
   childEls.value.forEach((ch, index) => {
-    let active = state.triggerActive
+    let active = state.triggerActive;
     // 如果是克隆元素特殊处理
-    const isClone = toggle === 'vision' && index === childEls.value.length - 1 && active === 0
+    const isClone = toggle === "vision" && index === childEls.value.length - 1 && active === 0;
     if (active === index || isClone) {
-      ch.classList.add('_active')
-      ch.classList.remove('_def')
+      ch.classList.add("_active");
+      ch.classList.remove("_def");
     } else {
-      ch.classList.add('_def')
-      ch.classList.remove('_active')
+      ch.classList.add("_def");
+      ch.classList.remove("_active");
     }
-  })
-}
+  });
+};
 
 defineExpose({
   /**
@@ -321,12 +321,12 @@ defineExpose({
    * @param behavior 是否动画
    */
   setIndex: (index: number, behavior: ScrollBehavior) => {
-    if (index < 0) return
-    setPageIndex(index, props.trigger, behavior)
+    if (index < 0) return;
+    setPageIndex(index, props.trigger, behavior);
   },
   incrementedIndex
-})
+});
 </script>
 <style lang="scss" scoped>
-@import './group.scss';
+@import "./group.scss";
 </style>

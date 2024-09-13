@@ -8,13 +8,13 @@ module.exports = {
   // 使用制表符而不是空格缩进行 (true：制表符，false：空格)
   useTabs: false,
   // 结尾不用分号 (true：有，false：没有)
-  semi: false,
+  semi: true,
   // 使用单引号 (true：单引号，false：双引号)
-  singleQuote: true,
+  singleQuote: false,
   // 在对象字面量中决定是否将属性名用引号括起来 可选值 "<as-needed|consistent|preserve>"
   quoteProps: "as-needed",
   // 在JSX中使用单引号而不是双引号 (true：单引号，false：双引号)
-  jsxSingleQuote: true,
+  jsxSingleQuote: false,
   // 多行时尽可能打印尾随逗号 可选值"<none|es5|all>"
   trailingComma: "none",
   // 在对象，数组括号与文字之间加空格 "{ foo: bar }" (true：有，false：没有)

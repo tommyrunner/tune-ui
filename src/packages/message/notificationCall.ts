@@ -1,11 +1,11 @@
-import type { PropsType } from './types'
-import { createMessage, initProps } from './method'
+import type { PropsType } from "./types";
+import { createMessage, initProps } from "./method";
 
-export const notificationClass = `t-notification`
+export const notificationClass = `t-notification`;
 
 /***************  快捷操作 ********************/
 // 快捷message触发
-function message(title: string, content: string, type?: PropsType['type'], config?: PropsType) {
+function message(title: string, content: string, type?: PropsType["type"], config?: PropsType) {
   return createMessage(
     initProps(
       Object.assign(
@@ -15,15 +15,15 @@ function message(title: string, content: string, type?: PropsType['type'], confi
           type
         },
         config,
-        { messageType: 'notice' }
+        { messageType: "notice" }
       )
     )
-  )
+  );
 }
 export default {
   message,
-  info: (title: string, content: string) => message(title, content, 'info'),
-  success: (title: string, content: string) => message(title, content, 'success'),
-  warning: (title: string, content: string) => message(title, content, 'warning'),
-  danger: (title: string, content: string) => message(title, content, 'danger')
-}
+  info: (title: string, content: string) => message(title, content, "info"),
+  success: (title: string, content: string) => message(title, content, "success"),
+  warning: (title: string, content: string) => message(title, content, "warning"),
+  danger: (title: string, content: string) => message(title, content, "danger")
+};

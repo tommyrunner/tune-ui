@@ -1,4 +1,4 @@
-@import '@/styles/index.scss';
+@import "@/styles/index.scss";
 
 .t-message {
   position: fixed;
@@ -38,10 +38,10 @@
     color: $bgColor;
   }
 }
-@include message-type('info', $theme-color-info, white);
-@include message-type('success', $theme-color-success, white);
-@include message-type('warning', $theme-color-warning, white);
-@include message-type('danger', $theme-color-danger, white);
+@include message-type("info", $theme-color-info, white);
+@include message-type("success", $theme-color-success, white);
+@include message-type("warning", $theme-color-warning, white);
+@include message-type("danger", $theme-color-danger, white);
 
 @keyframes animation-message-in {
   0% {
