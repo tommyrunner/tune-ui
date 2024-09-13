@@ -1,141 +1,141 @@
 @import '@/styles/index.scss';
 
 .t-input {
-    border: $border-color-default 1px solid;
-    padding: 4px 8px;
-    box-sizing: border-box;
-    border-radius: 4px;
+  border: $border-color-default 1px solid;
+  padding: 4px 8px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  transition: 0.22s;
+  cursor: text;
+  position: relative;
+  width: 164px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  &:not(.t-disabled):focus-within {
+    border: $theme-color-primary 1px solid;
+  }
+
+  ._tip {
+    position: absolute;
+    color: rgba(128, 128, 128, 0.747);
+    font-size: 10px;
     transition: 0.22s;
-    cursor: text;
-    position: relative;
-    width: 164px;
-    height: 28px;
+    left: 8px;
+    top: -10px;
+    z-index: $z-index-up;
+    background-color: white;
+    user-select: none;
+    animation: anima-tip ease 0.11s;
+  }
+
+  &.t-input-clearable {
+    padding-right: 24px;
+  }
+
+  &.t-input-password {
+    padding-right: 24px;
+  }
+
+  &.t-input-clearable.t-input-password {
+    padding-right: 44px;
+  }
+
+  // icon 处理
+
+  ._prefix {
+    margin-right: 4px;
+    font-size: 14px;
+    flex-shrink: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(128, 128, 128, 0.63);
+    font-weight: bold;
+  }
+
+  ._right-icon {
+    cursor: pointer;
+    position: absolute;
+    right: 6px;
     display: inline-flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    gap: 4px;
+  }
 
-    &:not(.t-disabled):focus-within {
-        border: $theme-color-primary 1px solid;
-    }
+  .right-icon-enter-active {
+    animation: anima-in-right_icon ease 0.11s;
+  }
+
+  .right-icon-leave-active {
+    animation: anima-out-right_icon ease 0.11s;
+  }
+
+  &.t-disabled {
+    background-color: $border-color-default;
 
     ._tip {
-        position: absolute;
-        color: rgba(128, 128, 128, 0.747);
-        font-size: 10px;
-        transition: 0.22s;
-        left: 8px;
-        top: -10px;
-        z-index: $z-index-up;
-        background-color: white;
-        user-select: none;
-        animation: anima-tip ease 0.11s;
+      background-color: transparent;
     }
 
-    &.t-input-clearable {
-        padding-right: 24px;
+    > input {
+      cursor: not-allowed;
     }
-
-    &.t-input-password {
-        padding-right: 24px;
-    }
-
-    &.t-input-clearable.t-input-password {
-        padding-right: 44px;
-    }
-
-    // icon 处理
-
-    ._prefix {
-        margin-right: 4px;
-        font-size: 14px;
-        flex-shrink: 0;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: rgba(128, 128, 128, 0.63);
-        font-weight: bold;
-    }
-
-    ._right-icon {
-        cursor: pointer;
-        position: absolute;
-        right: 6px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-    }
-
-    .right-icon-enter-active {
-        animation: anima-in-right_icon ease 0.11s;
-    }
-
-    .right-icon-leave-active {
-        animation: anima-out-right_icon ease 0.11s;
-    }
-
-    &.t-disabled {
-        background-color: $border-color-default;
-
-        ._tip {
-            background-color: transparent;
-        }
-
-        >input {
-            cursor: not-allowed;
-        }
-    }
+  }
 }
 
 // 处理size
 .t-input-size-default {
-    height: 28px;
-    font-size: $font-size-default;
+  height: 28px;
+  font-size: $font-size-default;
 }
 
 .t-input-size-small {
-    height: 24px;
-    font-size: $font-size-small;
+  height: 24px;
+  font-size: $font-size-small;
 }
 
 .t-input-size-large {
-    height: 36px;
-    font-size: $font-size-large;
+  height: 36px;
+  font-size: $font-size-large;
 }
 
 @keyframes anima-tip {
-    0% {
-        opacity: 0.5;
-        top: 25%;
-    }
+  0% {
+    opacity: 0.5;
+    top: 25%;
+  }
 
-    100% {
-        opacity: 1;
-        top: -10px;
-    }
+  100% {
+    opacity: 1;
+    top: -10px;
+  }
 }
 
 @keyframes anima-in-right_icon {
-    0% {
-        opacity: 0.5;
-        right: 0px;
-    }
+  0% {
+    opacity: 0.5;
+    right: 0px;
+  }
 
-    100% {
-        opacity: 1;
-        right: 6px;
-    }
+  100% {
+    opacity: 1;
+    right: 6px;
+  }
 }
 
 @keyframes anima-out-right_icon {
-    0% {
-        opacity: 1;
-        right: 6px;
-    }
+  0% {
+    opacity: 1;
+    right: 6px;
+  }
 
-    100% {
-        opacity: 0;
-        right: 0px;
-    }
+  100% {
+    opacity: 0;
+    right: 0px;
+  }
 }

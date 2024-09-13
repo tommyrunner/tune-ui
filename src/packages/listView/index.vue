@@ -8,19 +8,7 @@
 </template>
 <script lang="ts" setup>
 import type { PropsType } from './listView'
-import {
-  reactive,
-  computed,
-  onMounted,
-  ref,
-  createVNode,
-  render,
-  StyleValue,
-  Fragment,
-  useSlots,
-  nextTick,
-  watch
-} from 'vue'
+import { reactive, computed, onMounted, ref, createVNode, render, StyleValue, Fragment, useSlots, nextTick, watch } from 'vue'
 import listViewItem from './listView-item.vue'
 import Scrollbar from '../scrollbar/index.vue'
 defineOptions({ name: 'TListView' })

@@ -30,7 +30,7 @@ function getLastMessage(messageType: PropsType['messageType']): {
   let lastMessageEl: HTMLElement | undefined = void 0
   const className = isNotification(messageType) ? notificationClass : messageClass
   const messageAllEl: HTMLElement[] = Array.from(document.querySelectorAll(`.${className}[${MESSAGE_TAG}]`))
-  messageAllEl.forEach((el) => {
+  messageAllEl.forEach(el => {
     if (el.offsetTop >= max) {
       max = el.offsetTop
       lastMessageEl = el

@@ -1,26 +1,26 @@
 @import '@/styles/index.scss';
 
 .t-icon {
-    vertical-align: middle;
+  vertical-align: middle;
 
-    /* 或者使用其他合适的值 */
-    &.t-icon-color-primary {
-        color: $theme-color-primary !important;
-    }
+  /* 或者使用其他合适的值 */
+  &.t-icon-color-primary {
+    color: $theme-color-primary !important;
+  }
 
-    &.t-icon-color-success {
-        color: $theme-color-success !important;
-    }
+  &.t-icon-color-success {
+    color: $theme-color-success !important;
+  }
 
-    &.t-icon-color-info {
-        color: $theme-color-info !important;
-    }
+  &.t-icon-color-info {
+    color: $theme-color-info !important;
+  }
 
-    &.t-icon-color-warning {
-        color: $theme-color-warning !important;
-    }
+  &.t-icon-color-warning {
+    color: $theme-color-warning !important;
+  }
 
-    &.t-icon-color-danger {
-        color: $theme-color-danger !important;
-    }
+  &.t-icon-color-danger {
+    color: $theme-color-danger !important;
+  }
 }

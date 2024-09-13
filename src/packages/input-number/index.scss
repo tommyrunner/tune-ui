@@ -1,147 +1,145 @@
 @import '@/styles/index.scss';
 
 .t-input-number {
-    border: $border-color-default 1px solid;
-    box-sizing: border-box;
-    border-radius: 4px;
+  border: $border-color-default 1px solid;
+  box-sizing: border-box;
+  border-radius: 4px;
+  transition: 0.22s;
+  cursor: text;
+  position: relative;
+  width: 164px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  &:not(.t-disabled):focus-within {
+    border: $theme-color-primary 1px solid;
+  }
+
+  // 范围无需控制组件
+  &:not(.t-input-number-range).t-input-number-controls .t-input-number-range {
+    padding-right: 24px;
+  }
+
+  &.t-input-number-range.t-input-number-controls .t-input-number-range {
+    > input {
+      text-align: center;
+    }
+  }
+
+  ._range-item {
+    height: 100%;
     transition: 0.22s;
-    cursor: text;
     position: relative;
-    width: 164px;
-    height: 28px;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: flex-start;
+    padding: 4px 8px;
 
-    &:not(.t-disabled):focus-within {
-        border: $theme-color-primary 1px solid;
+    ._tip {
+      position: absolute;
+      color: rgba(128, 128, 128, 0.747);
+      font-size: 10px;
+      transition: 0.22s;
+      left: 8px;
+      top: -10px;
+      z-index: $z-index-up;
+      background-color: white;
+      user-select: none;
+      animation: anima-tip ease 0.11s;
     }
 
-    // 范围无需控制组件
-    &:not(.t-input-number-range).t-input-number-controls .t-input-number-range {
-        padding-right: 24px;
-    }
+    ._right-icon {
+      cursor: pointer;
+      position: absolute;
+      right: 6px;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-    &.t-input-number-range.t-input-number-controls .t-input-number-range {
-        >input {
-            text-align: center;
-        }
-    }
-
-    ._range-item {
-        height: 100%;
+      .t-icon:hover {
         transition: 0.22s;
-        position: relative;
-        display: flex;
-        align-items: center;
-        padding: 4px 8px;
-
-        ._tip {
-            position: absolute;
-            color: rgba(128, 128, 128, 0.747);
-            font-size: 10px;
-            transition: 0.22s;
-            left: 8px;
-            top: -10px;
-            z-index: $z-index-up;
-            background-color: white;
-            user-select: none;
-            animation: anima-tip ease 0.11s;
-        }
-
-        ._right-icon {
-            cursor: pointer;
-            position: absolute;
-            right: 6px;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-
-            .t-icon:hover {
-                transition: 0.22s;
-                color: $theme-color-primary !important;
-
-            }
-        }
-
-        ._spe {
-            margin: 0px 4px;
-            color: $text-color-default;
-            font-size: 12px;
-        }
+        color: $theme-color-primary !important;
+      }
     }
 
+    ._spe {
+      margin: 0px 4px;
+      color: $text-color-default;
+      font-size: 12px;
+    }
+  }
 
-    .right-icon-enter-active {
-        animation: anima-in-right_icon ease 0.11s;
+  .right-icon-enter-active {
+    animation: anima-in-right_icon ease 0.11s;
+  }
+
+  .right-icon-leave-active {
+    animation: anima-out-right_icon ease 0.11s;
+  }
+
+  &.t-disabled {
+    background-color: $border-color-default;
+
+    ._tip {
+      background-color: transparent;
     }
 
-    .right-icon-leave-active {
-        animation: anima-out-right_icon ease 0.11s;
+    > input {
+      cursor: not-allowed;
     }
-
-    &.t-disabled {
-        background-color: $border-color-default;
-
-        ._tip {
-            background-color: transparent;
-        }
-
-        >input {
-            cursor: not-allowed;
-        }
-    }
+  }
 }
 
 // 处理size
 .t-input-number-size-default {
-    height: 28px;
-    font-size: $font-size-default;
+  height: 28px;
+  font-size: $font-size-default;
 }
 
 .t-input-number-size-small {
-    height: 24px;
-    font-size: $font-size-small;
+  height: 24px;
+  font-size: $font-size-small;
 }
 
 .t-input-number-size-large {
-    height: 36px;
-    font-size: $font-size-large;
+  height: 36px;
+  font-size: $font-size-large;
 }
 
 @keyframes anima-tip {
-    0% {
-        opacity: 0.5;
-        top: 25%;
-    }
+  0% {
+    opacity: 0.5;
+    top: 25%;
+  }
 
-    100% {
-        opacity: 1;
-        top: -10px;
-    }
+  100% {
+    opacity: 1;
+    top: -10px;
+  }
 }
 
 @keyframes anima-in-right_icon {
-    0% {
-        opacity: 0.5;
-        right: 0px;
-    }
+  0% {
+    opacity: 0.5;
+    right: 0px;
+  }
 
-    100% {
-        opacity: 1;
-        right: 6px;
-    }
+  100% {
+    opacity: 1;
+    right: 6px;
+  }
 }
 
 @keyframes anima-out-right_icon {
-    0% {
-        opacity: 1;
-        right: 6px;
-    }
+  0% {
+    opacity: 1;
+    right: 6px;
+  }
 
-    100% {
-        opacity: 0;
-        right: 0px;
-    }
+  100% {
+    opacity: 0;
+    right: 0px;
+  }
 }

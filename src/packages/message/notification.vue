@@ -1,12 +1,6 @@
 <template>
   <Teleport :to="props.appendTo">
-    <div
-      :class="getMessageClass"
-      v-bind="{ [MESSAGE_TAG]: MESSAGE_TAG }"
-      :style="getMessageStyle"
-      :id="id"
-      ref="messageRef"
-    >
+    <div :class="getMessageClass" v-bind="{ [MESSAGE_TAG]: MESSAGE_TAG }" :style="getMessageStyle" :id="id" ref="messageRef">
       <div class="_head">
         <span class="_title">
           <TIcon v-if="props.type !== 'info'" :icon="getIcon" :size="18" />

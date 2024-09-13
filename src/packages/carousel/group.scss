@@ -2,151 +2,148 @@
 
 // 横向(默认)
 .t-carousel-group {
+  display: flex;
+  position: relative;
+  overflow: hidden;
+
+  // 容器
+  ._content {
     display: flex;
-    position: relative;
     overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
 
-    // 容器
-    ._content {
-        display: flex;
-        overflow: hidden;
-        position: absolute;
-        width: 100%;
-        height: 100%;
+  // 指示器
+  ._trigger {
+    position: absolute;
+    z-index: $z-index-show;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 4px;
+    bottom: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    ._trigger-item {
+      cursor: pointer;
+      width: 12px;
+      height: 8px;
+      border-radius: 4px;
+      background-color: rgba(220, 220, 220, 0.253);
+      border: 1px solid rgba(109, 109, 109, 0.671);
+      transition: 0.5s;
+      transform: scale(0.8);
     }
 
-    // 指示器
-    ._trigger {
-        position: absolute;
-        z-index: $z-index-show;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-        gap: 4px;
-        bottom: 6%;
-        left: 50%;
-        transform: translateX(-50%);
-
-        ._trigger-item {
-            cursor: pointer;
-            width: 12px;
-            height: 8px;
-            border-radius: 4px;
-            background-color: rgba(220, 220, 220, 0.253);
-            border: 1px solid rgba(109, 109, 109, 0.671);
-            transition: 0.5s;
-            transform: scale(0.8);
-        }
-
-        ._trigger-item-active {
-            background-color: rgba(255, 255, 255, 0.719);
-            transform: scale(1);
-        }
-
+    ._trigger-item-active {
+      background-color: rgba(255, 255, 255, 0.719);
+      transform: scale(1);
     }
+  }
 
-    // 箭头
-    ._arrow {
-        position: absolute;
-        z-index: $z-index-show;
-        cursor: pointer;
-        color: rgba(255, 255, 255, 0.61);
-        opacity: 0.8;
-        transition: 0.22s;
-    }
+  // 箭头
+  ._arrow {
+    position: absolute;
+    z-index: $z-index-show;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.61);
+    opacity: 0.8;
+    transition: 0.22s;
+  }
 
-    ._arrow-icon1 {
-        left: -50%;
-        top: 50%;
-        transform: translateY(-50%);
+  ._arrow-icon1 {
+    left: -50%;
+    top: 50%;
+    transform: translateY(-50%);
 
-        &:hover {
-            color: white;
-        }
-    }
-
-    ._arrow-icon2 {
-        right: -50%;
-        top: 50%;
-        transform: translateY(-50%);
-
-        &:hover {
-            color: white;
-        }
-    }
-
-
-    // 处理 always 属性
-    ._arrow-always._arrow-icon1 {
-        left: 4%;
-    }
-
-    ._arrow-always._arrow-icon2 {
-        right: 4%;
-    }
-
-    // 处理 none 属性
-    ._arrow-none {
-        display: none;
-    }
-
-    // 处理 always 属性
     &:hover {
-        ._arrow-hover._arrow-icon1 {
-            left: 4%;
-        }
-
-        ._arrow-hover._arrow-icon2 {
-            right: 4%;
-        }
+      color: white;
     }
+  }
+
+  ._arrow-icon2 {
+    right: -50%;
+    top: 50%;
+    transform: translateY(-50%);
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  // 处理 always 属性
+  ._arrow-always._arrow-icon1 {
+    left: 4%;
+  }
+
+  ._arrow-always._arrow-icon2 {
+    right: 4%;
+  }
+
+  // 处理 none 属性
+  ._arrow-none {
+    display: none;
+  }
+
+  // 处理 always 属性
+  &:hover {
+    ._arrow-hover._arrow-icon1 {
+      left: 4%;
+    }
+
+    ._arrow-hover._arrow-icon2 {
+      right: 4%;
+    }
+  }
 }
 
 // 竖向样式
 .t-carousel-group-vertical {
-    ._arrow-icon1 {
-        left: 50% !important;
-        top: -50%;
-        transform: translateX(-50%) rotate(90deg);
+  ._arrow-icon1 {
+    left: 50% !important;
+    top: -50%;
+    transform: translateX(-50%) rotate(90deg);
+  }
+
+  // 容器
+  ._content {
+    flex-direction: column;
+  }
+
+  // 指示器
+  ._trigger {
+    flex-direction: column;
+    left: 96% !important;
+    top: 50%;
+    bottom: 0px !important;
+    transform: translate(-100%, -50%);
+
+    ._trigger-item {
+      width: 8px;
+      height: 12px;
+    }
+  }
+
+  // 箭头
+  ._arrow-icon2 {
+    right: 50% !important;
+    top: 150% !important;
+    transform: translate(50%, -100%) rotate(90deg) !important;
+  }
+
+  // 处理 always 属性
+  &:hover {
+    ._arrow-hover._arrow-icon1 {
+      top: 4%;
     }
 
-    // 容器
-    ._content {
-        flex-direction: column;
+    ._arrow-hover._arrow-icon2 {
+      top: 96% !important;
     }
-
-
-    // 指示器
-    ._trigger {
-        flex-direction: column;
-        left: 96% !important;
-        top: 50%;
-        bottom: 0px !important;
-        transform: translate(-100%, -50%);
-
-        ._trigger-item {
-            width: 8px;
-            height: 12px;
-        }
-    }
-
-    // 箭头
-    ._arrow-icon2 {
-        right: 50% !important;
-        top: 150% !important;
-        transform: translate(50%, -100%) rotate(90deg) !important;
-    }
-
-    // 处理 always 属性
-    &:hover {
-        ._arrow-hover._arrow-icon1 {
-            top: 4%;
-        }
-
-        ._arrow-hover._arrow-icon2 {
-            top: 96% !important;
-        }
-    }
+  }
 }

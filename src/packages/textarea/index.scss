@@ -1,87 +1,85 @@
 @import '@/styles/index.scss';
 
 .t-textarea {
-    border: $border-color-default 1px solid;
-    box-sizing: border-box;
-    border-radius: 4px;
-    transition: 0.22s;
-    width: 164px;
-    cursor: text;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: $font-size-default;
+  border: $border-color-default 1px solid;
+  box-sizing: border-box;
+  border-radius: 4px;
+  transition: 0.22s;
+  width: 164px;
+  cursor: text;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: $font-size-default;
 
-    &:not(.t-disabled):focus-within {
-        border: $theme-color-primary 1px solid;
-    }
+  &:not(.t-disabled):focus-within {
+    border: $theme-color-primary 1px solid;
+  }
 
-    &.t-disabled {
-        background-color: $border-color-default;
-
-        ._tip {
-            background-color: transparent;
-        }
-
-        >textarea {
-            cursor: not-allowed;
-        }
-    }
-
-    >textarea {
-        width: 164px !important;
-        min-height: 28px;
-        padding: 4px 8px;
-        resize: none;
-    }
+  &.t-disabled {
+    background-color: $border-color-default;
 
     ._tip {
-        position: absolute;
-        color: rgba(128, 128, 128, 0.747);
-        font-size: 10px;
-        transition: 0.22s;
-        left: 8px;
-        top: -10px;
-        z-index: $z-index-up;
-        background-color: white;
-        user-select: none;
-        animation: anima-tip ease 0.11s;
+      background-color: transparent;
     }
 
-
-
-    ._point {
-        cursor: pointer;
-        position: absolute;
-        right: 8px;
-        bottom: 1px;
-        transform: translateX(-50%);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        font-size: 12px;
-        transform: scale(0.8);
-        color: rgba(128, 128, 128, 0.644);
-        user-select: none;
+    > textarea {
+      cursor: not-allowed;
     }
+  }
+
+  > textarea {
+    width: 164px !important;
+    min-height: 28px;
+    padding: 4px 8px;
+    resize: none;
+  }
+
+  ._tip {
+    position: absolute;
+    color: rgba(128, 128, 128, 0.747);
+    font-size: 10px;
+    transition: 0.22s;
+    left: 8px;
+    top: -10px;
+    z-index: $z-index-up;
+    background-color: white;
+    user-select: none;
+    animation: anima-tip ease 0.11s;
+  }
+
+  ._point {
+    cursor: pointer;
+    position: absolute;
+    right: 8px;
+    bottom: 1px;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 12px;
+    transform: scale(0.8);
+    color: rgba(128, 128, 128, 0.644);
+    user-select: none;
+  }
 }
 
 .t-textarea-resize {
-    >textarea {
-        resize: vertical;
-    }
+  > textarea {
+    resize: vertical;
+  }
 }
 
 @keyframes anima-tip {
-    0% {
-        opacity: 0.5;
-        top: 25%;
-    }
+  0% {
+    opacity: 0.5;
+    top: 25%;
+  }
 
-    100% {
-        opacity: 1;
-        top: -10px;
-    }
+  100% {
+    opacity: 1;
+    top: -10px;
+  }
 }

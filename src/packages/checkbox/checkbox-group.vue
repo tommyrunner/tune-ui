@@ -35,12 +35,12 @@ const changeEvent = (isChecked?: boolean, item?: ValueType) => {
   if (isChecked) {
     // 获取当前是否已经选中(基础值/对象值)
     const isCheckedItem = props.objKey
-      ? model.value.some((v) => getItemByObjKey(v, item, true))
+      ? model.value.some(v => getItemByObjKey(v, item, true))
       : model.value.includes(item as any)
         ? item
         : false
     if (isCheckedItem) {
-      model.value = model.value.filter((v) => (props.objKey ? getItemByObjKey(v, item, false) : v !== item))
+      model.value = model.value.filter(v => (props.objKey ? getItemByObjKey(v, item, false) : v !== item))
     }
   } else model.value.push(item)
   nextTick(() => emit('change', model.value))

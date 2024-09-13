@@ -1,156 +1,154 @@
 @import '@/styles/index.scss';
 
 .t-button {
-    color: $text-color-default;
-    background-color: $bg-color-default;
-    border: 1px solid $border-color-default;
-    font-size: $font-size-default;
-    outline: none;
-    cursor: pointer;
-    white-space: nowrap;
-    min-height: 24px;
-    border-radius: 4px;
-    overflow: hidden;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    vertical-align: middle;
-    box-sizing: border-box;
-    padding: 2px 16px;
-    transition: 0.22s;
+  color: $text-color-default;
+  background-color: $bg-color-default;
+  border: 1px solid $border-color-default;
+  font-size: $font-size-default;
+  outline: none;
+  cursor: pointer;
+  white-space: nowrap;
+  min-height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  vertical-align: middle;
+  box-sizing: border-box;
+  padding: 2px 16px;
+  transition: 0.22s;
 
-    // 处理缩放
-    &.t-button-scale:not(.t-disabled):active {
-        transform: scale(0.88);
-    }
+  // 处理缩放
+  &.t-button-scale:not(.t-disabled):active {
+    transform: scale(0.88);
+  }
 
-    &:not(.t-button-scale):not(.t-disabled):active {
-        filter: brightness(0.95);
-        opacity: 1 !important;
-    }
+  &:not(.t-button-scale):not(.t-disabled):active {
+    filter: brightness(0.95);
+    opacity: 1 !important;
+  }
 
+  // 处理闪动效果
+  &:not(.t-disabled).t-button-type-default:hover {
+    color: $theme-color-primary;
+    border-color: $theme-color-primary;
+  }
 
-    // 处理闪动效果
-    &:not(.t-disabled).t-button-type-default:hover {
-        color: $theme-color-primary;
-        border-color: $theme-color-primary;
-    }
+  // 单独处理text闪动效果
+  &:not(.t-disabled).t-button-type-text:hover {
+    opacity: $opacity-disabled;
+  }
 
-    // 单独处理text闪动效果
-    &:not(.t-disabled).t-button-type-text:hover {
-        opacity: $opacity-disabled;
-    }
+  &:hover {
+    filter: brightness(1.06);
+  }
 
-    &:hover {
-        filter: brightness(1.06);
-    }
+  ._prefixIcon {
+    margin-right: 4px;
+  }
 
-    ._prefixIcon {
-        margin-right: 4px;
-    }
-
-    ._suffixIcon {
-        margin-left: 4px;
-    }
+  ._suffixIcon {
+    margin-left: 4px;
+  }
 }
 
 // 主题色
 .t-button-type-default {
-    color: $text-color-default;
-    background-color: $bg-color-default;
-    border: 1px solid $border-color-default;
+  color: $text-color-default;
+  background-color: $bg-color-default;
+  border: 1px solid $border-color-default;
 }
 
 .t-button-type-primary {
-    color: $color-white;
-    background-color: $theme-color-primary;
-    border: 1px solid $theme-color-primary;
+  color: $color-white;
+  background-color: $theme-color-primary;
+  border: 1px solid $theme-color-primary;
 }
 
 .t-button-type-success {
-    color: $color-white;
-    background-color: $theme-color-success;
-    border: 1px solid $theme-color-success;
+  color: $color-white;
+  background-color: $theme-color-success;
+  border: 1px solid $theme-color-success;
 }
 
 .t-button-type-info {
-    color: $color-white;
-    background-color: $theme-color-info;
-    border: 1px solid $theme-color-info;
+  color: $color-white;
+  background-color: $theme-color-info;
+  border: 1px solid $theme-color-info;
 }
 
 .t-button-type-warning {
-    color: $color-white;
-    background-color: $theme-color-warning;
-    border: 1px solid $theme-color-warning;
+  color: $color-white;
+  background-color: $theme-color-warning;
+  border: 1px solid $theme-color-warning;
 }
 
 .t-button-type-danger {
-    color: $color-white;
-    background-color: $theme-color-danger;
-    border: 1px solid $theme-color-danger;
+  color: $color-white;
+  background-color: $theme-color-danger;
+  border: 1px solid $theme-color-danger;
 }
 
 .t-button-type-text {
-    color: $theme-color-primary;
-    background-color: transparent;
-    border: none;
+  color: $theme-color-primary;
+  background-color: transparent;
+  border: none;
 }
 
 // 主题大小
 .t-button-size-default {
-    font-size: $font-size-default;
-    min-height: 24px;
-    line-height: 24px;
-    padding: 2px 16px;
+  font-size: $font-size-default;
+  min-height: 24px;
+  line-height: 24px;
+  padding: 2px 16px;
 
-    ._prefixIcon,
-    ._suffixIcon {
-        font-size: 14px;
-    }
+  ._prefixIcon,
+  ._suffixIcon {
+    font-size: 14px;
+  }
 }
 
 .t-button-size-small {
-    font-size: $font-size-small;
-    min-height: 16px;
-    line-height: 16px;
-    padding: 2px 8px;
+  font-size: $font-size-small;
+  min-height: 16px;
+  line-height: 16px;
+  padding: 2px 8px;
 
-    ._prefixIcon,
-    ._suffixIcon {
-        font-size: 12px;
-    }
+  ._prefixIcon,
+  ._suffixIcon {
+    font-size: 12px;
+  }
 }
 
 .t-button-size-large {
-    font-size: $font-size-large;
-    min-height: 28px;
-    line-height: 28px;
-    padding: 6px 18px;
+  font-size: $font-size-large;
+  min-height: 28px;
+  line-height: 28px;
+  padding: 6px 18px;
 
-
-    ._prefixIcon,
-    ._suffixIcon {
-        font-size: 16px;
-    }
+  ._prefixIcon,
+  ._suffixIcon {
+    font-size: 16px;
+  }
 }
 
 //  radius圆角
 .t-button-radius-default {
-    border-radius: 4px;
+  border-radius: 4px;
 }
 
 .t-button-radius-round {
-    border-radius: 32px;
+  border-radius: 32px;
 }
 
 .t-button-radius-circle {
-    border-radius: 50%;
-    padding: 8px;
+  border-radius: 50%;
+  padding: 8px;
 
-    ._prefixIcon,
-    ._suffixIcon {
-        margin: 0px;
-    }
+  ._prefixIcon,
+  ._suffixIcon {
+    margin: 0px;
+  }
 }

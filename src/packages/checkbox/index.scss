@@ -3,233 +3,226 @@
 $title-margin-left: 16px;
 
 .t-checkbox {
-    position: relative;
-    font-size: $font-size-default;
+  position: relative;
+  font-size: $font-size-default;
+  transition: 0.22s;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  > ._icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  > ._span {
+    border: 1px solid #dcdfe6;
+    width: 14px;
+    height: 14px;
+    background-color: #fff;
+    display: inline-block;
+    box-sizing: border-box;
     transition: 0.22s;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 
-    >._icon {
-        width: 14px;
-        height: 14px;
+    > i {
+      font-size: 80% !important;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  > ._span-default {
+    border-radius: 100%;
+  }
+
+  > ._span-square {
+    border-radius: 0px;
+  }
+
+  > input {
+    opacity: 0;
+    outline: none;
+    position: absolute;
+    z-index: $z-index-dow;
+    margin-left: 14px;
+  }
+
+  ._title {
+    transition: 0.22s;
+    margin-left: $title-margin-left;
+    user-select: none;
+    text-wrap: nowrap;
+    color: $text-color-default;
+  }
+
+  // 如果span被自定义后调整left样式
+  ._custom-span {
+    margin-left: 4px !important;
+  }
+
+  &[checked='true'] {
+    ._span {
+      background-color: $theme-color-primary;
     }
 
-    >._span {
-        border: 1px solid #dcdfe6;
-        width: 14px;
-        height: 14px;
-        background-color: #fff;
-        display: inline-block;
-        box-sizing: border-box;
-        transition: 0.22s;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-
-        >i {
-            font-size: 80% !important;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+    ._icon {
+      color: $theme-color-primary;
     }
-
-    >._span-default {
-        border-radius: 100%;
-    }
-
-    >._span-square {
-        border-radius: 0px;
-    }
-
-
-    >input {
-        opacity: 0;
-        outline: none;
-        position: absolute;
-        z-index: $z-index-dow;
-        margin-left: 14px;
-    }
-
 
     ._title {
-        transition: 0.22s;
-        margin-left: $title-margin-left;
-        user-select: none;
-        text-wrap: nowrap;
-        color: $text-color-default;
+      color: $theme-color-primary;
+    }
+  }
+
+  &:not(.t-disabled):hover {
+    ._title {
+      color: $theme-color-primary;
     }
 
-    // 如果span被自定义后调整left样式
-    ._custom-span {
-        margin-left: 4px !important;
+    ._span {
+      border-color: $theme-color-primary;
     }
-
-
-    &[checked="true"] {
-        ._span {
-            background-color: $theme-color-primary;
-        }
-
-        ._icon {
-            color: $theme-color-primary;
-        }
-
-        ._title {
-            color: $theme-color-primary;
-        }
-    }
-
-    &:not(.t-disabled):hover {
-        ._title {
-            color: $theme-color-primary;
-        }
-
-        ._span {
-            border-color: $theme-color-primary;
-        }
-
-    }
+  }
 }
 
 // 处理size
 .t-checkbox-size-default {
-    font-size: $font-size-default;
+  font-size: $font-size-default;
 }
 
 .t-checkbox-size-small {
-    font-size: $font-size-small;
+  font-size: $font-size-small;
 
-    >.checkbox-span {
-        width: 12px;
-        height: 12px;
-    }
+  > .checkbox-span {
+    width: 12px;
+    height: 12px;
+  }
 }
 
 .t-checkbox-size-large {
-    font-size: $font-size-large;
+  font-size: $font-size-large;
 }
 
 // 处理group样式
 ._type-button,
 ._type-border {
-    background-color: white;
-    padding: 6px;
-    box-sizing: border-box;
-    text-align: center;
+  background-color: white;
+  padding: 6px;
+  box-sizing: border-box;
+  text-align: center;
+
+  ._title {
+    margin-left: 0px;
+  }
+
+  ._span {
+    display: none;
+  }
+
+  &[checked='true'] {
+    background-color: $theme-color-primary;
+
+    &:hover ._title {
+      color: white;
+    }
 
     ._title {
-        margin-left: 0px;
+      color: white;
+    }
+  }
+
+  // 处理边框
+  &._direction-row {
+    border-left: 1px solid $border-color-default;
+    border-top: 1px solid $border-color-default;
+    border-bottom: 1px solid $border-color-default;
+
+    &:first-child {
+      border-top-left-radius: 6px;
+      border-bottom-left-radius: 6px;
     }
 
-    ._span {
-        display: none;
+    &:last-child {
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+      border-right: 1px solid $border-color-default;
+    }
+  }
+
+  &._direction-column {
+    border-top: 1px solid $border-color-default;
+    border-left: 1px solid $border-color-default;
+    border-right: 1px solid $border-color-default;
+
+    &:first-child {
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
     }
 
-    &[checked="true"] {
-        background-color: $theme-color-primary;
-
-        &:hover ._title {
-            color: white;
-        }
-
-        ._title {
-            color: white;
-        }
-
+    &:last-child {
+      border-bottom: 1px solid $border-color-default;
+      border-bottom-left-radius: 6px;
+      border-bottom-right-radius: 6px;
     }
-
-    // 处理边框
-    &._direction-row {
-        border-left: 1px solid $border-color-default;
-        border-top: 1px solid $border-color-default;
-        border-bottom: 1px solid $border-color-default;
-
-        &:first-child {
-            border-top-left-radius: 6px;
-            border-bottom-left-radius: 6px;
-        }
-
-        &:last-child {
-            border-top-right-radius: 6px;
-            border-bottom-right-radius: 6px;
-            border-right: 1px solid $border-color-default;
-        }
-    }
-
-    &._direction-column {
-        border-top: 1px solid $border-color-default;
-        border-left: 1px solid $border-color-default;
-        border-right: 1px solid $border-color-default;
-
-        &:first-child {
-            border-top-left-radius: 6px;
-            border-top-right-radius: 6px;
-        }
-
-        &:last-child {
-            border-bottom: 1px solid $border-color-default;
-            border-bottom-left-radius: 6px;
-            border-bottom-right-radius: 6px;
-        }
-    }
+  }
 }
 
 ._type-border {
-    ._span {
-        display: inline-block;
+  ._span {
+    display: inline-block;
+  }
+
+  ._title {
+    margin-left: $title-margin-left;
+  }
+
+  &[checked='true'] {
+    background-color: white;
+
+    &:hover ._title {
+      color: $theme-color-primary;
     }
 
     ._title {
-        margin-left: $title-margin-left;
+      color: $theme-color-primary;
     }
-
-    &[checked="true"] {
-        background-color: white;
-
-        &:hover ._title {
-            color: $theme-color-primary;
-        }
-
-        ._title {
-            color: $theme-color-primary;
-        }
-    }
+  }
 }
 
 ._type-text {
-    ._span {
-        display: none;
-    }
+  ._span {
+    display: none;
+  }
 
+  ._title {
+    margin-left: 2px;
+  }
 
+  &[checked='true'] {
     ._title {
-        margin-left: 2px;
+      color: $theme-color-primary;
     }
-
-    &[checked="true"] {
-        ._title {
-            color: $theme-color-primary;
-        }
-    }
+  }
 }
 
 ._type-default {
+  ._title {
+    margin-left: $title-margin-left;
+  }
+
+  ._span {
+    display: inline-block;
+  }
+
+  &[checked='true'] {
     ._title {
-        margin-left: $title-margin-left;
+      color: $theme-color-primary;
     }
-
-    ._span {
-        display: inline-block;
-    }
-
-    &[checked="true"] {
-        ._title {
-            color: $theme-color-primary;
-        }
-
-    }
+  }
 }

@@ -86,7 +86,7 @@ onMounted(() => {
     y: window.innerHeight / 2 + offset.y
   }
 })
-const handlerSubmit = (isConfirm) => {
+const handlerSubmit = isConfirm => {
   if (isConfirm) emit('confirm')
   else emit('cancel')
   visible.value = false

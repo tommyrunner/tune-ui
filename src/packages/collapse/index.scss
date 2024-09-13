@@ -3,49 +3,46 @@
 $transition-delay: 0.55s;
 
 .t-collapse {
-    border-bottom: 1px solid border-color(0.3);
-    min-width: 100px;
-    box-sizing: border-box;
-    transition: 0.22s;
+  border-bottom: 1px solid border-color(0.3);
+  min-width: 100px;
+  box-sizing: border-box;
+  transition: 0.22s;
+
+  .t-icon {
+    display: flex;
+    transition: $transition-delay;
+    color: border-color(0.6);
+  }
+
+  ._icon-active {
+    transform: rotate(90deg);
+  }
+
+  &:hover {
+    border-bottom: 1px solid border-color(0.8);
 
     .t-icon {
-        display: flex;
-        transition: $transition-delay;
-        color: border-color(0.6);
+      color: border-color(0.9);
     }
+  }
 
-    ._icon-active {
-        transform: rotate(90deg);
+  ._head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding-bottom: 6px;
+    font-size: 14px;
+    min-height: 24px;
+
+    ._head-right {
+      display: flex;
+      align-items: center;
     }
+  }
 
-    &:hover {
-        border-bottom: 1px solid border-color(0.8);
-
-        .t-icon {
-            color: border-color(0.9);
-        }
-    }
-
-    ._head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-        padding-bottom: 6px;
-        font-size: 14px;
-        min-height: 24px;
-
-
-        ._head-right {
-            display: flex;
-            align-items: center;
-        }
-    }
-
-    ._body {
-        overflow: hidden;
-        transition: height $transition-delay;
-    }
-
-
+  ._body {
+    overflow: hidden;
+    transition: height $transition-delay;
+  }
 }

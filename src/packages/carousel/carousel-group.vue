@@ -107,7 +107,7 @@ onMounted(() => {
 // 动态控制轮播状态
 watch(
   () => props.autoplay,
-  (val) => {
+  val => {
     if (val) runAutoplay(animationFrame.value)
     else animationFrame.value.clear()
   }
@@ -261,9 +261,19 @@ const incrementedIndex = (is: boolean) => {
  * @param scrollBox 滚动方向值(el)
  */
 const getBoxContent = computed(() => {
-  let params = { direction: 'left', scrollDirection: 'scrollLeft', box: 'width', scrollBox: 'scrollWidth' }
+  let params = {
+    direction: 'left',
+    scrollDirection: 'scrollLeft',
+    box: 'width',
+    scrollBox: 'scrollWidth'
+  }
   if (props.direction === 'vertical')
-    params = { direction: 'top', scrollDirection: 'scrollTop', box: 'height', scrollBox: 'scrollHeight' }
+    params = {
+      direction: 'top',
+      scrollDirection: 'scrollTop',
+      box: 'height',
+      scrollBox: 'scrollHeight'
+    }
   return params
 })
 const getStyle = computed((): StyleValue => {
@@ -282,7 +292,7 @@ const getContentClass = computed(() => {
 const updateElClass = () => {
   if (!props.animation) {
     // 清空动画class
-    childEls.value.forEach((ch) => {
+    childEls.value.forEach(ch => {
       ch.classList.add('_active')
       ch.classList.remove('_def')
     })

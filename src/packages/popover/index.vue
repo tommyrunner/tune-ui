@@ -1,17 +1,7 @@
 <template>
-  <div
-    class="t-popover"
-    ref="contentRef"
-    @mouseenter="state.isHoverOther = true"
-    @mouseleave="state.isHoverOther = false"
-  >
+  <div class="t-popover" ref="contentRef" @mouseenter="state.isHoverOther = true" @mouseleave="state.isHoverOther = false">
     <Teleport :to="props.appendTo">
-      <Transition
-        :name="getTransitionName"
-        @after-enter="animationAfterEnter"
-        @enter="animationEnter"
-        @leave="animationLeave"
-      >
+      <Transition :name="getTransitionName" @after-enter="animationAfterEnter" @enter="animationEnter" @leave="animationLeave">
         <div
           @mouseenter="onPopoverHoverEnter"
           @mouseleave="onPopoverHoverOut"
@@ -223,7 +213,7 @@ const handlerEventListener = (remove = false) => {
   window[method]('keydown', keydownHandler)
   window[method]('mousedown', mousedownHandler)
   if (contentRef.value) {
-    Array.from(contentRef.value.children).forEach((child) => {
+    Array.from(contentRef.value.children).forEach(child => {
       child[method]('click', childClickHandler)
       child[method]('mouseenter', childMouseenterHandler)
       child[method]('mouseleave', childMouseleaveHandler)
@@ -375,7 +365,10 @@ const getTriangleStyle = computed((): StyleValue => {
       top: contrast.height
     }
   // visibility 不满足显示三角条件(隐藏)
-  return { visibility: valW < 0 || valH < 0 || !showArrow ? 'hidden' : 'visible', ...point }
+  return {
+    visibility: valW < 0 || valH < 0 || !showArrow ? 'hidden' : 'visible',
+    ...point
+  }
 })
 defineExpose({
   popoverRef,

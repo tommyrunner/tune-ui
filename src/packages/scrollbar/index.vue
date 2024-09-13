@@ -104,7 +104,12 @@ const handlerEventListener = (remove = false) => {
     element.parentElement[method]('mouseenter', handlerElementEnter)
     element.parentElement[method]('mouseleave', handlerElementLeave)
     // 节点发生变化，更新拖块大小
-    elementObserver.observe(element, { childList: true, attributes: true, attributeFilter: ['style'], subtree: true })
+    elementObserver.observe(element, {
+      childList: true,
+      attributes: true,
+      attributeFilter: ['style'],
+      subtree: true
+    })
   }
   if (remove) {
     elementObserver.disconnect()

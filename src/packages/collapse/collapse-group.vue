@@ -22,7 +22,7 @@ const changeEvent = (isChecked?: boolean, item?: ValueType) => {
   if (!item || !model.value) return
   // 如果选中，则取消选中
   if (isChecked && model.value.includes(item)) {
-    model.value = model.value.filter((v) => v !== item)
+    model.value = model.value.filter(v => v !== item)
   } else {
     if (props.accordion) model.value = [item]
     else model.value.push(item)

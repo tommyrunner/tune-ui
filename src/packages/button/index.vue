@@ -2,11 +2,7 @@
   <button :class="getClass" :style="getStyle" autofocus @click="hanlderClick">
     <TIcon v-if="props.prefixIcon" :icon="prefixIcon" class="_prefixIcon" />
     <slot />
-    <TIcon
-      v-if="props.suffixIcon || props.loading"
-      :icon="suffixIcon"
-      :class="['_suffixIcon', props.loading && 't-loading']"
-    />
+    <TIcon v-if="props.suffixIcon || props.loading" :icon="suffixIcon" :class="['_suffixIcon', props.loading && 't-loading']" />
   </button>
 </template>
 <script lang="ts" setup>

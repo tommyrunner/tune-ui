@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   closeOnPressOther: false
 })
 const visible = defineModel<boolean>()
-const handlerSubmit = (isConfirm) => {
+const handlerSubmit = isConfirm => {
   if (isConfirm) emit('confirm')
   else emit('cancel')
   visible.value = false

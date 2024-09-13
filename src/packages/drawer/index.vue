@@ -85,7 +85,7 @@ const isSide = computed(() => {
   return ['left', 'right'].includes(props.position)
 })
 
-const handlerSubmit = (isConfirm) => {
+const handlerSubmit = isConfirm => {
   if (isConfirm) emit('confirm')
   else emit('cancel')
   visible.value = false

@@ -112,7 +112,7 @@ export function getMaxZIndex(selectors: string) {
   // 控制遮罩层层级
   const modelChild: HTMLElement[] = Array.from(document.querySelectorAll(selectors))
   let maxZIndex = 0
-  modelChild.forEach((m) => {
+  modelChild.forEach(m => {
     const elZIndex = parseInt(m.style.zIndex)
     if (elZIndex >= maxZIndex) maxZIndex = elZIndex
   })
@@ -124,13 +124,13 @@ export function getMaxZIndex(selectors: string) {
  */
 export function fromCssVal(array: (number | string)[]) {
   return array
-    .filter((item) => isNumber(item) || isString(item)) // 只保留数字和字符串
-    .map((item) => {
+    .filter(item => isNumber(item) || isString(item)) // 只保留数字和字符串
+    .map(item => {
       if (isString(item)) return item
       // 对数字进行处理，如果不是数字则默认为0
       const number = isNumber(item) ? item : 0
       return `${number}px` // 转换为字符串并添加'px'
     })
-    .filter((str) => str) // 过滤掉空字符串
+    .filter(str => str) // 过滤掉空字符串
     .join(' ') // 连接成单个字符串
 }
