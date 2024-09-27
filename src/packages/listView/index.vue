@@ -1,13 +1,13 @@
 <template>
   <div :class="getGroupClass" :style="getGroupStyle">
-    <Scrollbar :total-height="getInnerHeight" @scroll-y="handleScroll" :list-direction="props.direction">
+    <Scrollbar :total-height="getInnerHeight" @scroll-y="handleScroll" :list-direction="props.direction" ref="scrollbarRef">
       <slot v-if="!isVirtualized" />
       <div v-else class="_inner" ref="innerRef" :style="getInnerStyle"></div>
     </Scrollbar>
   </div>
 </template>
 <script lang="ts" setup>
-import type { PropsType } from "./listView";
+import type { ListSlotParamsType, PropsType } from "./listView";
 import { reactive, computed, onMounted, ref, createVNode, render, StyleValue, Fragment, useSlots, nextTick, watch } from "vue";
 import listViewItem from "./listView-item.vue";
 import Scrollbar from "../scrollbar/index.vue";
@@ -35,6 +35,7 @@ const state = reactive({
 });
 const slot = useSlots();
 const innerRef = ref<HTMLDivElement>();
+const scrollbarRef = ref<InstanceType<typeof Scrollbar>>();
 watch(
   () => props.listData,
   () => {
@@ -45,7 +46,9 @@ watch(
 onMounted(async () => {
   // 虚拟列表中测量单个元素的高度
   if (props.isVirtualized) {
-    const firstItem = createVNode(listViewItem, props.listData[0], () => [...slot.default(props.listData[0])]);
+    const firstItem = createVNode(listViewItem, props.listData[0], () => [
+      ...slot.default({ row: props.listData[0], index: 0 } as ListSlotParamsType)
+    ]);
     await nextTick();
     render(firstItem, innerRef.value);
     const itemRect = firstItem.el.getBoundingClientRect();
@@ -66,14 +69,14 @@ const renderList = () => {
   const itemHeight = state.inner.itemNum * state.inner.firstItemHeight - props.height;
   state.inner.itemNum = 0;
   const firstItemHeight = state.inner.firstItemHeight;
-  const VNodes = itemsToRender.map((item, index) => {
+  const VNodes = itemsToRender.map((row, index) => {
     state.inner.itemNum++;
     // props 参数
     const propsParams = {
       isVirtualized: props.isVirtualized,
       top: index * firstItemHeight - Math.max(0, Math.min(state.scrollTop, itemHeight))
     };
-    return createVNode(listViewItem, propsParams, () => [...slot.default(item)]);
+    return createVNode(listViewItem, propsParams, () => [...slot.default({ row, index } as ListSlotParamsType)]);
   });
   render(createVNode(Fragment, null, VNodes), innerRef.value);
 };

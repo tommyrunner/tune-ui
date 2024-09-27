@@ -1,5 +1,13 @@
 import { IconTypes } from "../icon/icon";
 
+/**
+ * 插槽参数
+ */
+export type ListSlotParamsType<T = any> = {
+  row?: T;
+  index?: number;
+};
+
 export type ListDataType = {
   id: number;
   // 是否禁用

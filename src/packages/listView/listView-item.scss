@@ -4,23 +4,12 @@ $title-margin-left: 16px;
 
 .t-listView-item {
   padding: 4px;
-  border: 1px solid gainsboro;
+  transition: 0.33s;
   &.t-listView-item-inner {
     width: 100%;
     height: auto;
     box-sizing: border-box;
     position: sticky;
     top: 0px;
-  }
-  &.t-listView-item-animation {
-    animation: test 0.3s ease;
-  }
-}
-@keyframes test {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }
