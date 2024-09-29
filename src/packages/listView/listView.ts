@@ -1,5 +1,3 @@
-import { IconTypes } from "../icon/icon";
-
 /**
  * 插槽参数
  */
@@ -8,18 +6,12 @@ export type ListSlotParamsType<T = any> = {
   index?: number;
 };
 
-export type ListDataType = {
-  id: number;
-  // 是否禁用
-  disabled?: boolean;
-  // title
-  title?: string;
-  // subtitle
-  subtitle?: string;
-  // 自定义图表图形
-  icon?: IconTypes;
-};
-//
+export interface VirtualConfigType {
+  // 固定item下标
+  fixedIndex?: number;
+  // 固定item中top位置值
+  fixedTopValue?: number;
+}
 /**
  * @description: 组件props类型
  */
@@ -29,9 +21,11 @@ export interface PropsType {
   // 是否虚拟列表
   isVirtualized?: boolean;
   // 数组
-  listData?: ListDataType[];
+  listData?: any[];
   // 列表方向:row横向，row竖向(默认)
   direction?: "row" | "column";
+  // 虚拟列表自定义参数(一般用来处理请求头)
+  virtualConfig?: VirtualConfigType;
 }
 /**
  * @description: 组件emit类型

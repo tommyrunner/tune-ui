@@ -19,7 +19,8 @@ const getListViewItemClass = computed(() => {
 });
 const getListViewItemStyle = computed((): StyleValue => {
   return {
-    top: `${props.top}px`
+    top: `${props.top}px`,
+    zIndex: props.zIndex
   };
 });
 </script>

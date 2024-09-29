@@ -10,6 +10,7 @@ export interface PropsType {
   id?: number;
   top?: number;
   isVirtualized?: boolean;
+  zIndex?: number;
   // 是否禁用
   disabled?: boolean;
   // title

@@ -1,6 +1,6 @@
 <template>
   <div :class="getRowClass">
-    <div class="_table-col" v-for="(col, index) in groupContext?.columns" :key="col.prop" :style="getColStyle(col)">
+    <div class="_table-col" v-for="(col, index) in getColumns" :key="col.prop" :style="getColStyle(col)">
       <!-- 表头自定义 -->
       <component v-if="col.renderHead && props.isHead" :is="col.renderHead(renderParams(index, col))" />
       <!-- 单元格自定义 -->
@@ -27,6 +27,9 @@ const getColStyle = computed(() => {
       width: `${col.width}px`
     };
   };
+});
+const getColumns = computed(() => {
+  return props.columns || groupContext?.columns;
 });
 const renderParams = (index: number, col: TableColumnsType): SearchRenderScope => {
   const { rowIndex, row } = props;

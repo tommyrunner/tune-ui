@@ -8,7 +8,21 @@
 </template>
 <script lang="ts" setup>
 import type { ListSlotParamsType, PropsType } from "./listView";
-import { reactive, computed, onMounted, ref, createVNode, render, StyleValue, Fragment, useSlots, nextTick, watch } from "vue";
+import type { PropsType as ListViewItemPropsType } from "./listView-item";
+import {
+  reactive,
+  computed,
+  onMounted,
+  ref,
+  createVNode,
+  render,
+  StyleValue,
+  Fragment,
+  useSlots,
+  nextTick,
+  watch,
+  VNodeProps
+} from "vue";
 import listViewItem from "./listView-item.vue";
 import Scrollbar from "../scrollbar/index.vue";
 defineOptions({ name: "TListView" });
@@ -16,8 +30,13 @@ const props = withDefaults(defineProps<PropsType>(), {
   direction: "column",
   isVirtualized: false,
   height: 420,
-  listData: () => []
+  listData: () => [],
+  virtualConfig: () => ({
+    fixedIndex: void 0,
+    fixedTopValue: 0
+  })
 });
+
 const state = reactive({
   // 滚动element值
   scrollTop: 0,
@@ -31,7 +50,9 @@ const state = reactive({
     startIndex: 0,
     // 虚拟列表的元素高度
     firstItemHeight: 0
-  }
+  },
+  // 记录固定item
+  fixedRows: null
 });
 const slot = useSlots();
 const innerRef = ref<HTMLDivElement>();
@@ -63,20 +84,35 @@ const getInnerHeight = computed(() => {
 
 // 根据当前滚动位置动态渲染列表项
 const renderList = () => {
-  if (!props.isVirtualized) return;
+  const { isVirtualized, height, virtualConfig } = props;
+  if (!isVirtualized) return;
   const itemsToRender = calculateItemsToRender();
   // 渲染的item总个数高度
-  const itemHeight = state.inner.itemNum * state.inner.firstItemHeight - props.height;
+  const itemHeight = state.inner.itemNum * state.inner.firstItemHeight - height;
   state.inner.itemNum = 0;
   const firstItemHeight = state.inner.firstItemHeight;
   const VNodes = itemsToRender.map((row, index) => {
     state.inner.itemNum++;
-    // props 参数
-    const propsParams = {
-      isVirtualized: props.isVirtualized,
-      top: index * firstItemHeight - Math.max(0, Math.min(state.scrollTop, itemHeight))
+    // 记录需要固定的值
+    if (!state.fixedRows && virtualConfig?.fixedIndex === index) state.fixedRows = row;
+    // item 的 props 参数
+    let zIndex = 0;
+    let top = index * firstItemHeight - Math.max(0, Math.min(state.scrollTop, itemHeight));
+    let rowValue = row;
+    // 如果有固定的item，需要设置特殊值
+    if (index === virtualConfig?.fixedIndex && state.fixedRows) {
+      zIndex = 1;
+      top = virtualConfig?.fixedTopValue;
+      rowValue = state.fixedRows;
+    }
+    const propsParams: ListViewItemPropsType = {
+      isVirtualized: isVirtualized,
+      zIndex: zIndex,
+      top: top
     };
-    return createVNode(listViewItem, propsParams, () => [...slot.default({ row, index } as ListSlotParamsType)]);
+    return createVNode(listViewItem, propsParams as VNodeProps, () => [
+      ...slot.default({ row: rowValue, index } as ListSlotParamsType)
+    ]);
   });
   render(createVNode(Fragment, null, VNodes), innerRef.value);
 };
