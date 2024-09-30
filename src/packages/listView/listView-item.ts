@@ -1,4 +1,3 @@
-import { IconTypes } from "../icon/icon";
 /**
  * value 类型
  */
@@ -11,15 +10,8 @@ export interface PropsType {
   top?: number;
   isVirtualized?: boolean;
   zIndex?: number;
-  // 是否禁用
-  disabled?: boolean;
-  // title
-  title?: string;
-  // subtitle
-  subtitle?: string;
-  // 状态值
-  value?: ValueType;
-  // 自定义图表图形
-  icon?: IconTypes;
   row?: any;
+  defBgColor?: string;
+  isHoverBg?: boolean;
+  hoverBgColor?: string;
 }

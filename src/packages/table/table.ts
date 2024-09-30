@@ -38,6 +38,10 @@ export interface PropsType {
   data?: any[];
   // 列表方向:row横向，row竖向(默认)
   direction?: "row" | "column";
+  // 默认slot列表时的表头
+  isDefSlotListHead?: boolean;
+  headBgColor?: string;
+  hoverBgColor?: string;
 }
 /**
  * @description: 组件emit类型
