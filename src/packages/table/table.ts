@@ -18,9 +18,10 @@ export interface SearchRenderScope<T = any> {
 export type TableColumnsType<T = any> = {
   // 是否是表头
   _Head?: boolean;
-  prop: string | symbol;
+  prop: string;
   label: string;
   width?: number;
+  fixed?: "left" | "right";
   renderHead?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
   render?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
 };
@@ -42,6 +43,9 @@ export interface PropsType {
   isDefSlotListHead?: boolean;
   headBgColor?: string;
   hoverBgColor?: string;
+  border?: string;
+  stripe?: string; // 斑马纹
+  dbClickAutoWidth?: boolean; // 双击自动适配宽度
 }
 /**
  * @description: 组件emit类型

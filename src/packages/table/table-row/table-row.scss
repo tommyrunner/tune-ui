@@ -1,0 +1,13 @@
+@import "@/styles/index.scss";
+
+.t-table-row {
+  display: flex;
+  box-sizing: border-box;
+  width: fit-content;
+}
+.t-table-row-head {
+  font-weight: bold;
+  position: sticky;
+  top: 0px;
+  z-index: $z-index-up;
+}

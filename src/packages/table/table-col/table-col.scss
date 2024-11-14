@@ -1,0 +1,20 @@
+@import "@/styles/index.scss";
+._table-col {
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  padding: 6px;
+  min-width: 33px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  ._cell-width-set {
+    height: 100%;
+    position: absolute;
+    width: 4px;
+    right: 0px;
+    top: 0px;
+    cursor: col-resize;
+  }
+}

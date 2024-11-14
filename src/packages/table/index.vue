@@ -1,7 +1,9 @@
 <template>
   <TListView
     class="t-table"
+    ref="tTableRef"
     v-bind="getBind"
+    :style="getTableStyle"
     :height="props.height"
     :virtualConfig="{
       fixedTopValue: 0,
@@ -52,18 +54,21 @@
 <script lang="ts" setup>
 import type { PropsType, TableColumnsType } from "./table";
 import type { PropsType as ListPropsType, ListSlotParamsType } from "../listView/listView";
-import { computed, provide, reactive, useSlots } from "vue";
+import { computed, provide, reactive, ref, StyleValue, useSlots } from "vue";
 import { TListView } from "../listView/index";
-import TTableRow from "./table-row.vue";
+import TTableRow from "./table-row/table-row.vue";
 import { type GroupContextType, tableGroupKey } from "./constants";
 defineOptions({ name: "TTable" });
 const props = withDefaults(defineProps<PropsType>(), {
   headBgColor: "#f5f7fa",
+  border: "#dcdcdc68",
   isDefSlotListHead: true,
+  dbClickAutoWidth: true,
   columns: () => [],
   data: () => []
 });
 const slot = useSlots();
+const tTableRef = ref();
 const getBind = computed(() => {
   const binds: ListPropsType = {};
   if (props.isVirtualized) {
@@ -80,12 +85,43 @@ const getData = computed((): TableColumnsType[] => {
   });
   return [head, ...props.data];
 });
+const getTableStyle = computed((): StyleValue => {
+  const { border } = props;
+  return {
+    borderTop: `1px solid ${border}`,
+    borderBottom: `1px solid ${border}`,
+    borderRight: `1px solid ${border}`
+  };
+});
+/**
+ * 适配并更新列宽度
+ */
+// const autoColWidth = (prop: string) => {
+//   const { isHead } = tableRowGroupContext;
+//   const { dbClickAutoWidth } = groupContext;
+//   const { columns } = props;
+//   let maxWidth = 0;
+//   if (isHead && col.prop && dbClickAutoWidth) {
+//     // 获取当前prop的el元素
+//     const cells = groupContext.tTableRef.$el.querySelectorAll(`#${colTag} .cell`) as HTMLElement[];
+//     // 得出最大宽度
+//     cells.forEach(cell => {
+//       if (cell.offsetWidth > maxWidth) {
+//         maxWidth = cell.offsetWidth;
+//       }
+//     });
+//     // 适配最大宽度
+//     col.width = maxWidth;
+//   }
+// };
 
 // 抛出操作api，与子组件交互
 provide<GroupContextType>(
   tableGroupKey,
   reactive({
-    ...props
+    ...props,
+    tTableRef
+    // autoColWidth
   })
 );
 </script>
