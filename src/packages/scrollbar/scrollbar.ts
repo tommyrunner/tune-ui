@@ -16,6 +16,5 @@ export interface PropsType {
  */
 export interface EmitsType {
   // 切换事件
-  (e: "scrollX", listElement: HTMLElement): void;
-  (e: "scrollY", listElement: HTMLElement): void;
+  (e: "scrollX" | "scrollY", listElement: HTMLElement): void;
 }

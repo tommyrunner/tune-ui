@@ -204,10 +204,16 @@ const handlerElementLeave = () => {
  */
 const handlerElementScrollbar = () => {
   const element = scrollbarRef.value;
+  let direction: DirectionType = "left";
+  // 通过值改变来判断当前是哪个滚动轴
+  if (state.scrollTop != element.scrollTop) {
+    direction = "top";
+  } else if (state.scrollLeft != element.scrollLeft) {
+    direction = "left";
+  }
   state.scrollTop = element.scrollTop;
   state.scrollLeft = element.scrollLeft;
-  if (state.scrollbar.direction === "left") emit("scrollX", element);
-  else emit("scrollY", element);
+  emit(direction === "left" ? "scrollX" : "scrollY", element);
 };
 /**
  * 通过计算得到的拖动值,更新element滚动值
