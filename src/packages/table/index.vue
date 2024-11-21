@@ -17,7 +17,7 @@
         :row="scope.row"
         :rowIndex="scope.index"
         :isHead="scope.row._Head"
-        :columns="props.columns"
+        :columns="props?.columns"
         :is-hover-bg="!scope.row._Head"
         :def-bg-color="scope.row._Head && headBgColor"
         :_virtual-config="{ isVirtualized: props.isVirtualized }"
@@ -121,7 +121,6 @@ provide<GroupContextType>(
   reactive({
     ...props,
     tTableRef
-    // autoColWidth
   })
 );
 </script>

@@ -20,7 +20,8 @@ const getListViewItemClass = computed(() => {
 const getListViewItemStyle = computed((): StyleValue => {
   return {
     top: `${props.top}px`,
-    zIndex: props.zIndex
+    zIndex: props.zIndex,
+    width: `${listViewItemRef.value?.scrollWidth}px`
   };
 });
 </script>

@@ -10,6 +10,7 @@ export interface PropsType {
   top?: number;
   isVirtualized?: boolean;
   zIndex?: number;
+  height?: number;
   row?: any;
   defBgColor?: string;
   isHoverBg?: boolean;

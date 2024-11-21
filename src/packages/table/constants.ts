@@ -1,10 +1,10 @@
 import type { InjectionKey } from "vue";
-import { TTableType } from "./index";
 import { PropsType, TableColumnsType } from "./table";
 import { PropsType as TableRowPropsType } from "./table-row/table-row";
+import { TListView } from "../listView";
 
 export interface GroupContextType extends PropsType {
-  tTableRef: TTableType;
+  tTableRef: InstanceType<typeof TListView>;
   // autoColWidth: () => void;
 }
 export interface GroupContextTableRowType extends TableRowPropsType {

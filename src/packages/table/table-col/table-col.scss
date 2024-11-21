@@ -1,8 +1,8 @@
 @import "@/styles/index.scss";
 ._table-col {
   flex-shrink: 0;
-  flex-wrap: wrap;
   padding: 6px;
+  width: 100%;
   min-width: 33px;
   overflow: hidden;
   display: flex;

@@ -6,11 +6,13 @@ export type ListSlotParamsType<T = any> = {
   index?: number;
 };
 
-export interface VirtualConfigType {
+export interface VirtualConfigType<T = any> {
   // 固定item下标
   fixedIndex?: number;
   // 固定item中top位置值
   fixedTopValue?: number;
+  // 额外传输值
+  extra?: T;
 }
 /**
  * @description: 组件props类型
@@ -33,4 +35,6 @@ export interface PropsType {
 export interface EmitsType {
   // 切换事件
   (e: "change"): void;
+  // 视图变化监听
+  (e: "resize"): void;
 }

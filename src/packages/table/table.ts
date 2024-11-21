@@ -44,7 +44,7 @@ export interface PropsType {
   headBgColor?: string;
   hoverBgColor?: string;
   border?: string;
-  stripe?: string; // 斑马纹
+  stripe?: string | boolean; // 斑马纹
   dbClickAutoWidth?: boolean; // 双击自动适配宽度
 }
 /**

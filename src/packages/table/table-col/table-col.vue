@@ -2,11 +2,11 @@
   <div :class="getColClass" :style="getColStyle" :id="colTag">
     <span class="_cell">
       <!-- 表头自定义 -->
-      <component v-if="col.renderHead && tableRowGroupContext.isHead" :is="col.renderHead(renderParams())" />
+      <component v-if="tableRowGroupContext?.isHead && col.renderHead" :is="col.renderHead(renderParams())" />
       <!-- 单元格自定义 -->
-      <component v-else-if="col.render && !tableRowGroupContext.isHead" :is="col.render(renderParams())" />
+      <component v-if="!tableRowGroupContext?.isHead && col.render" :is="col.render(renderParams())" />
       <!-- 默认渲染 -->
-      <span v-else>{{ tableRowGroupContext.row[col.prop] }}</span>
+      <span v-if="!col.renderHead">{{ tableRowGroupContext?.row[col.prop] }}</span>
     </span>
     <!-- 控制列宽 -->
     <div class="_cell-width-set" v-if="tableRowGroupContext.isHead" @dblclick="handlerColDbClick"></div>
@@ -26,23 +26,9 @@ const tableRowGroupContext = inject<GroupContextTableRowType | undefined>(tableR
  * 双击处理适配宽度
  */
 const handlerColDbClick = () => {
-  const { isHead } = tableRowGroupContext;
-  const { dbClickAutoWidth } = groupContext;
-  const { col } = props;
-  let maxWidth = 0;
-  if (isHead && col.prop && dbClickAutoWidth) {
-    // 获取当前prop的el元素
-    const cells = groupContext.tTableRef.$el.querySelectorAll(`#${colTag} ._cell`) as HTMLElement[];
-    // 得出最大宽度
-    cells.forEach(cell => {
-      if (cell.offsetWidth > maxWidth) {
-        maxWidth = cell.offsetWidth;
-      }
-    });
-    console.log("maxWidth", maxWidth);
-    // 适配最大宽度
-    col.width = maxWidth;
-  }
+  // const { isHead, updateColWidth } = tableRowGroupContext;
+  // const { col } = props;
+  // if (col.prop && isHead) updateColWidth(col.prop);
 };
 /**
  * 渲染单元格内容
@@ -66,7 +52,7 @@ const renderParams = (): SearchRenderScope => {
  */
 const getColStyle = computed(() => {
   // 配置表格边框
-  const { border } = groupContext;
+  const border = groupContext?.border;
   const { col } = props;
   let borderStyle: StyleValue = {};
   if (border) {
@@ -77,7 +63,7 @@ const getColStyle = computed(() => {
   }
   return {
     // 单独设置宽度
-    flex: col.width ? "none" : `1`,
+    flex: col.width ? "none" : `1 0`,
     width: `${col.width}px !important`,
     ...borderStyle
   };

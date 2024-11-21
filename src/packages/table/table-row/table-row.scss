@@ -3,7 +3,8 @@
 .t-table-row {
   display: flex;
   box-sizing: border-box;
-  width: fit-content;
+  height: 100%;
+  // width: fit-content;
 }
 .t-table-row-head {
   font-weight: bold;
