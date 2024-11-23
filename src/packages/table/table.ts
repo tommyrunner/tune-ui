@@ -34,6 +34,7 @@ export interface PropsType {
   height?: number;
   // 是否虚拟列表
   isVirtualized?: boolean;
+  virtualizedItemHeight?: number;
   // 数组
   columns?: TableColumnsType[];
   data?: any[];

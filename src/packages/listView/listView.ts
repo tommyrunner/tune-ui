@@ -6,13 +6,13 @@ export type ListSlotParamsType<T = any> = {
   index?: number;
 };
 
-export interface VirtualConfigType<T = any> {
+export interface VirtualConfigType {
   // 固定item下标
   fixedIndex?: number;
   // 固定item中top位置值
   fixedTopValue?: number;
-  // 额外传输值
-  extra?: T;
+  // 虚拟列表的item需要固定高度 (TODO: 暂时使用固定高度实现虚拟列表)
+  itemHeight?: number;
 }
 /**
  * @description: 组件props类型
@@ -20,6 +20,8 @@ export interface VirtualConfigType<T = any> {
 export interface PropsType {
   // 高度
   height?: number;
+  // item高度
+  itemMinHeight?: number;
   // 是否虚拟列表
   isVirtualized?: boolean;
   // 数组

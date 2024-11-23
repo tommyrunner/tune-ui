@@ -21,7 +21,7 @@ import { isBoolean } from "@/utils/is";
 defineOptions({ name: "TTableRow" });
 const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
 const props = withDefaults(defineProps<PropsType>(), {
-  hoverBgColor: "#f9fafc",
+  hoverBgColor: "#f5f7fa80",
   defBgColor: "#fff",
   isHoverBg: true
 });
@@ -48,7 +48,6 @@ const getRowStyle = computed(() => {
   const { stripe } = groupContext;
   let bgColor = state.rowBgColor;
   // 设置斑马纹
-  console.log(stripe);
   if (stripe && (rowIndex + 1) % 2 === 0) bgColor = isBoolean(stripe) && stripe ? hoverBgColor : stripe.toString();
   return {
     backgroundColor: bgColor

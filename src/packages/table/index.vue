@@ -7,7 +7,8 @@
     :height="props.height"
     :virtualConfig="{
       fixedTopValue: 0,
-      fixedIndex: 0
+      fixedIndex: 0,
+      itemHeight: virtualizedItemHeight
     }"
   >
     <template #default="scope: ListSlotParamsType">
@@ -64,6 +65,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   border: "#dcdcdc68",
   isDefSlotListHead: true,
   dbClickAutoWidth: true,
+  virtualizedItemHeight: 36,
   columns: () => [],
   data: () => []
 });

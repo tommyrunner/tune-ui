@@ -7,7 +7,7 @@
           经测试不能使用render动态渲染，会导致provide/inject失效
           而provide/inject对于我们是比较重要的，所以使用vue默认渲染实现
         -->
-        <listViewItem v-for="iv in state.itemEls" :key="iv.index" v-bind="iv.params">
+        <listViewItem v-for="iv in state.itemViews" :key="iv.index" v-bind="iv.bind">
           <slot :index="iv.index" :row="iv.row" />
         </listViewItem>
       </div>
@@ -28,12 +28,13 @@ const props = withDefaults(defineProps<PropsType>(), {
   listData: () => [],
   virtualConfig: () => ({
     fixedIndex: void 0,
-    fixedTopValue: 0
+    fixedTopValue: 0,
+    itemHeight: 0
   })
 });
 
 const state = reactive({
-  itemEls: [],
+  itemViews: [],
   // 滚动element值
   scrollTop: 0,
   // 虚拟列表
@@ -43,9 +44,7 @@ const state = reactive({
     // 虚拟列表渲染的元素个数
     itemNum: 0,
     // 虚拟列表渲染的元素起始位置
-    startIndex: 0,
-    // 虚拟列表的元素高度
-    firstItemHeight: 57
+    startIndex: 0
   },
   // 记录固定item
   fixedRows: null
@@ -61,24 +60,10 @@ watch(
 );
 // 测量单个元素的高度并计算总高度
 onMounted(async () => {
-  // 虚拟列表中测量单个元素的高度
-  // if (props.isVirtualized) {
-  //   const firstItem = createVNode(listViewItem, props.listData[0], () => [
-  //     ...slot.default({ row: props.listData[0], index: 0 } as ListSlotParamsType)
-  //   ]);
-  // await nextTick();
-  //   render(firstItem, innerRef.value);
-  //   const itemRect = firstItem.el.getBoundingClientRect();
-  //   console.log(itemRect);
-  //   console.dir(firstItem);
-  //   // if (itemRect) state.inner.firstItemHeight = itemRect.height;
-  //   firstItem.el.remove();
-  //   // 渲染列表项
   renderList();
-  // }
 });
 const getInnerHeight = computed(() => {
-  return state.inner.height || props.listData.length * state.inner.firstItemHeight;
+  return state.inner.height || props.listData.length * props.virtualConfig.itemHeight;
 });
 
 // 根据当前滚动位置动态渲染列表项
@@ -86,11 +71,8 @@ const renderList = () => {
   const { isVirtualized, virtualConfig } = props;
   if (!isVirtualized) return;
   const itemsToRender = calculateItemsToRender();
-  // 渲染的item总个数高度
-  // const itemHeight = state.inner.itemNum * state.inner.firstItemHeight - height;
-  // state.inner.itemNum = 0;
-  const firstItemHeight = state.inner.firstItemHeight;
-  state.itemEls.length = 0;
+  const firstItemHeight = props.virtualConfig.itemHeight;
+  state.itemViews.length = 0;
   itemsToRender.map((row, index) => {
     // state.inner.itemNum++;
     // 记录需要固定的值
@@ -112,15 +94,15 @@ const renderList = () => {
       isVirtualized: isVirtualized,
       zIndex: zIndex,
       top: top,
-      height: state.inner.firstItemHeight
+      height: props.virtualConfig.itemHeight
     };
-    state.itemEls.push({ params: propsParams, index, row: rowValue });
+    state.itemViews.push({ bind: propsParams, index, row: rowValue });
   });
 };
 
 // 计算当前需要渲染的元素范围
 const calculateItemsToRender = () => {
-  const firstItemHeight = state.inner.firstItemHeight;
+  const firstItemHeight = props.virtualConfig.itemHeight;
   const startIndex = Math.floor(state.scrollTop / firstItemHeight);
   const endIndex = startIndex + Math.ceil(props.height / firstItemHeight);
   state.inner.itemNum = endIndex - startIndex;
