@@ -34,6 +34,7 @@ export interface PropsType {
   height?: number;
   // 是否虚拟列表
   isVirtualized?: boolean;
+  // 虚拟列表item高度 36
   virtualizedItemHeight?: number;
   // 数组
   columns?: TableColumnsType[];

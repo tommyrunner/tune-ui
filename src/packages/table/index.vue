@@ -23,19 +23,6 @@
         :def-bg-color="scope.row._Head && headBgColor"
         :_virtual-config="{ isVirtualized: props.isVirtualized }"
       ></TTableRow>
-      <!-- 插槽列表 -->
-      <template v-else-if="slot.default">
-        <!-- 默认表头 -->
-        <TTableRow
-          v-if="props.isDefSlotListHead"
-          :rowIndex="0"
-          :row="getData[0]"
-          :isHead="true"
-          :is-hover-bg="false"
-          :def-bg-color="headBgColor"
-        ></TTableRow>
-        <slot />
-      </template>
       <!-- json列表 -->
       <template v-else>
         <!-- 表头 -->

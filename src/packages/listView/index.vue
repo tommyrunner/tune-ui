@@ -1,5 +1,5 @@
 <template>
-  <div :class="getGroupClass" :style="getGroupStyle">
+  <div class="t-listView" :style="{ height: height + 'px' }">
     <Scrollbar :total-height="getInnerHeight" @scroll-y="handleScroll" :list-direction="props.direction" ref="scrollbarRef">
       <slot v-if="!isVirtualized" />
       <div v-else class="_inner" ref="innerRef" :style="getInnerStyle">
@@ -49,7 +49,6 @@ const state = reactive({
   // 记录固定item
   fixedRows: null
 });
-// const slot = useSlots();
 const innerRef = ref<HTMLDivElement>();
 const scrollbarRef = ref<InstanceType<typeof Scrollbar>>();
 watch(
@@ -58,10 +57,7 @@ watch(
     renderList();
   }
 );
-// 测量单个元素的高度并计算总高度
-onMounted(async () => {
-  renderList();
-});
+onMounted(() => renderList);
 const getInnerHeight = computed(() => {
   return state.inner.height || props.listData.length * props.virtualConfig.itemHeight;
 });
@@ -71,18 +67,17 @@ const renderList = () => {
   const { isVirtualized, virtualConfig } = props;
   if (!isVirtualized) return;
   const itemsToRender = calculateItemsToRender();
-  const firstItemHeight = props.virtualConfig.itemHeight;
+  const itemHeight = props.virtualConfig.itemHeight;
   state.itemViews.length = 0;
   itemsToRender.map((row, index) => {
-    // state.inner.itemNum++;
     // 记录需要固定的值
     if (!state.fixedRows && virtualConfig?.fixedIndex === index) state.fixedRows = row;
     // item 的 props 参数
     let zIndex = 0;
     // 计算item超出部分
-    const beyond = firstItemHeight * state.inner.itemNum - props.height;
+    const beyond = itemHeight * state.inner.itemNum - props.height;
     // 计算每个item需要浮动的top位置
-    let top = index * firstItemHeight - beyond;
+    let top = index * itemHeight - beyond;
     let rowValue = row;
     // 如果有固定的item，需要设置特殊值
     if (index === virtualConfig?.fixedIndex && state.fixedRows) {
@@ -102,9 +97,9 @@ const renderList = () => {
 
 // 计算当前需要渲染的元素范围
 const calculateItemsToRender = () => {
-  const firstItemHeight = props.virtualConfig.itemHeight;
-  const startIndex = Math.floor(state.scrollTop / firstItemHeight);
-  const endIndex = startIndex + Math.ceil(props.height / firstItemHeight);
+  const itemHeight = props.virtualConfig.itemHeight;
+  const startIndex = Math.floor(state.scrollTop / itemHeight);
+  const endIndex = startIndex + Math.ceil(props.height / itemHeight);
   state.inner.itemNum = endIndex - startIndex;
   return props.listData.slice(startIndex, endIndex);
 };
@@ -115,15 +110,9 @@ const handleScroll = (listElement: HTMLElement) => {
   renderList();
 };
 
-const getGroupClass = computed(() => {
-  return ["t-listView"];
-});
-const getGroupStyle = computed((): StyleValue => {
-  const { height } = props;
-  return {
-    height: `${height}px`
-  };
-});
+/**
+ * 滚动高度
+ */
 const getInnerStyle = computed(
   (): StyleValue => {
     return {

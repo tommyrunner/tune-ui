@@ -5,7 +5,7 @@ import { TableColumnsType } from "../table";
  */
 export interface PropsType {
   row: any;
-  rowIndex?: number;
+  // rowIndex?: number;
   isHead?: boolean;
 
   // 主要处理虚拟列表问题
