@@ -1,5 +1,5 @@
 <template>
-  <div :class="getColClass" :style="getColStyle" :id="colTag">
+  <div :class="getColClass" :style="getColStyle" :id="getTableColTag(col.prop)">
     <span class="_cell">
       <!-- 表头自定义 -->
       <component v-if="tableRowGroupContext?.isHead && col.renderHead" :is="col.renderHead(renderParams())" />
@@ -14,21 +14,21 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, StyleValue } from "vue";
-import { tableRowGroupKey, tableGroupKey, GroupContextType, GroupContextTableRowType, tableColTag } from "../constants";
+import { tableRowGroupKey, tableGroupKey, GroupContextType, GroupContextTableRowType, getTableColTag } from "../constants";
 import { PropsType } from "./table-col";
 import { SearchRenderScope } from "../table";
 defineOptions({ name: "TTableCol" });
 const props = withDefaults(defineProps<PropsType>(), {});
-const colTag = `${tableColTag}-${props.col.prop}`;
 const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
 const tableRowGroupContext = inject<GroupContextTableRowType | undefined>(tableRowGroupKey, void 0);
 /**
  * 双击处理适配宽度
  */
 const handlerColDbClick = () => {
-  // const { isHead, updateColWidth } = tableRowGroupContext;
-  // const { col } = props;
-  // if (col.prop && isHead) updateColWidth(col.prop);
+  const { isHead } = tableRowGroupContext;
+  const { autoColWidth } = groupContext;
+  const { col } = props;
+  if (col.prop && isHead) autoColWidth(col.prop);
 };
 /**
  * 渲染单元格内容

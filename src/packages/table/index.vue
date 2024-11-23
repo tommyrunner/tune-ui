@@ -58,7 +58,7 @@ import type { PropsType as ListPropsType, ListSlotParamsType } from "../listView
 import { computed, provide, reactive, ref, StyleValue, useSlots } from "vue";
 import { TListView } from "../listView/index";
 import TTableRow from "./table-row/table-row.vue";
-import { type GroupContextType, tableGroupKey } from "./constants";
+import { getTableColTag, type GroupContextType, tableGroupKey } from "./constants";
 defineOptions({ name: "TTable" });
 const props = withDefaults(defineProps<PropsType>(), {
   headBgColor: "#f5f7fa",
@@ -98,33 +98,33 @@ const getTableStyle = computed((): StyleValue => {
 /**
  * 适配并更新列宽度
  */
-// const autoColWidth = (prop: string) => {
-//   const { isHead } = tableRowGroupContext;
-//   const { dbClickAutoWidth } = groupContext;
-//   const { columns } = props;
-//   let maxWidth = 0;
-//   if (isHead && col.prop && dbClickAutoWidth) {
-//     // 获取当前prop的el元素
-//     const cells = groupContext.tTableRef.$el.querySelectorAll(`#${colTag} .cell`) as HTMLElement[];
-//     // 得出最大宽度
-//     cells.forEach(cell => {
-//       if (cell.offsetWidth > maxWidth) {
-//         maxWidth = cell.offsetWidth;
-//       }
-//     });
-//     // 适配最大宽度
-//     col.width = maxWidth;
-//   }
-// };
+const autoColWidth = (prop: string) => {
+  const findCol = props.columns.find(c => c.prop === prop);
+  if (!findCol) return;
+  let maxWidth = 0;
+  // 获取当前prop的el元素
+  const cells = tTableRef.value.$el.querySelectorAll(`#${getTableColTag(findCol.prop)} ._cell`) as HTMLElement[];
+  // 得出最大宽度
+  cells.forEach(cell => {
+    if (cell.offsetWidth > maxWidth) {
+      maxWidth = cell.offsetWidth;
+    }
+  });
+  // 适配最大宽度
+  findCol.width = maxWidth;
+};
 
 // 抛出操作api，与子组件交互
 provide<GroupContextType>(
   tableGroupKey,
   reactive({
     ...props,
-    tTableRef
+    autoColWidth
   })
 );
+defineExpose({
+  autoColWidth
+});
 </script>
 <style lang="scss" scoped>
 @import "./index.scss";
