@@ -31,12 +31,15 @@ export interface PropsType {
   // 虚拟列表自定义参数(一般用来处理请求头)
   virtualConfig?: VirtualConfigType;
 }
+// emit事件类型
+export type EmitScrollParamsType = {
+  scrollTop: number;
+  scrollLeft: number;
+};
 /**
  * @description: 组件emit类型
  */
 export interface EmitsType {
   // 切换事件
-  (e: "change"): void;
-  // 视图变化监听
-  (e: "resize"): void;
+  (e: "scroll", params: EmitScrollParamsType): void;
 }

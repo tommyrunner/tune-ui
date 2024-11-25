@@ -1,5 +1,10 @@
-import { VNode } from "vue";
-
+import { StyleValue, VNode } from "vue";
+/**
+ * 状态类型
+ */
+export interface StateType {
+  isFixed: boolean;
+}
 export interface SearchRenderScope<T = any> {
   // 行index
   rowIndex: number;
@@ -45,6 +50,8 @@ export interface PropsType {
   isDefSlotListHead?: boolean;
   headBgColor?: string;
   hoverBgColor?: string;
+  // 自定义行样式
+  rowStyle?: (row: any) => StyleValue;
   border?: string;
   stripe?: string | boolean; // 斑马纹
   dbClickAutoWidth?: boolean; // 双击自动适配宽度

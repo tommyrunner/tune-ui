@@ -1,6 +1,12 @@
 <template>
   <div class="t-listView" :style="{ height: height + 'px' }">
-    <Scrollbar :total-height="getInnerHeight" @scroll-y="handleScroll" :list-direction="props.direction" ref="scrollbarRef">
+    <Scrollbar
+      :total-height="getInnerHeight"
+      @scroll-y="listElement => handleScroll(listElement, 'y')"
+      @scroll-x="listElement => handleScroll(listElement, 'x')"
+      :list-direction="props.direction"
+      ref="scrollbarRef"
+    >
       <slot v-if="!isVirtualized" />
       <div v-else class="_inner" ref="innerRef" :style="getInnerStyle">
         <!-- 
@@ -15,7 +21,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { PropsType } from "./listView";
+import type { EmitsType, PropsType } from "./listView";
 import type { PropsType as ListViewItemPropsType } from "./listView-item";
 import { reactive, computed, onMounted, ref, StyleValue, nextTick, watch } from "vue";
 import listViewItem from "./listView-item.vue";
@@ -32,11 +38,12 @@ const props = withDefaults(defineProps<PropsType>(), {
     itemHeight: 0
   })
 });
-
+const emit = defineEmits<EmitsType>();
 const state = reactive({
   itemViews: [],
   // 滚动element值
   scrollTop: 0,
+  scrollLeft: 0,
   // 虚拟列表
   inner: {
     // 标记高度
@@ -57,7 +64,7 @@ watch(
     renderList();
   }
 );
-onMounted(() => renderList);
+onMounted(() => renderList());
 const getInnerHeight = computed(() => {
   return state.inner.height || props.listData.length * props.virtualConfig.itemHeight;
 });
@@ -105,9 +112,19 @@ const calculateItemsToRender = () => {
 };
 
 // 滚动事件处理函数
-const handleScroll = (listElement: HTMLElement) => {
-  state.scrollTop = listElement.scrollTop;
-  renderList();
+const handleScroll = (listElement: HTMLElement, type: "y" | "x") => {
+  if (type === "y") {
+    state.scrollTop = listElement.scrollTop;
+    // 渲染列表
+    renderList();
+  } else {
+    state.scrollLeft = listElement.scrollLeft;
+  }
+  // 触发滚动
+  emit("scroll", {
+    scrollLeft: state.scrollLeft,
+    scrollTop: state.scrollTop
+  });
 };
 
 /**

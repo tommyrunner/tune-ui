@@ -1,9 +1,10 @@
 import type { InjectionKey } from "vue";
-import { PropsType, TableColumnsType } from "./table";
+import { PropsType, StateType, TableColumnsType } from "./table";
 import { PropsType as TableRowPropsType } from "./table-row/table-row";
 
 export interface GroupContextType extends PropsType {
   autoColWidth: (props: string) => void;
+  state: StateType;
 }
 export interface GroupContextTableRowType extends TableRowPropsType {
   columns: TableColumnsType[];

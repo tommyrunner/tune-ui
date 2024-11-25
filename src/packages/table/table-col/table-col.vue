@@ -2,14 +2,14 @@
   <div :class="getColClass" :style="getColStyle" :id="getTableColTag(col.prop)">
     <span class="_cell">
       <!-- 表头自定义 -->
-      <component v-if="tableRowGroupContext?.isHead && col.renderHead" :is="col.renderHead(renderParams())" />
+      <component v-if="rowGroupContext?.isHead && col.renderHead" :is="col.renderHead(renderParams())" />
       <!-- 单元格自定义 -->
-      <component v-if="!tableRowGroupContext?.isHead && col.render" :is="col.render(renderParams())" />
+      <component v-if="!rowGroupContext?.isHead && col.render" :is="col.render(renderParams())" />
       <!-- 默认渲染 -->
-      <span v-if="!col.renderHead">{{ tableRowGroupContext?.row[col.prop] }}</span>
+      <span v-if="!col.renderHead">{{ rowGroupContext?.row[col.prop] }}</span>
     </span>
     <!-- 控制列宽 -->
-    <div class="_cell-width-set" v-if="tableRowGroupContext.isHead" @dblclick="handlerColDbClick"></div>
+    <div class="_cell-width-set" v-if="rowGroupContext.isHead" @dblclick="handlerColDbClick"></div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -20,12 +20,12 @@ import { SearchRenderScope } from "../table";
 defineOptions({ name: "TTableCol" });
 const props = withDefaults(defineProps<PropsType>(), {});
 const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
-const tableRowGroupContext = inject<GroupContextTableRowType | undefined>(tableRowGroupKey, void 0);
+const rowGroupContext = inject<GroupContextTableRowType | undefined>(tableRowGroupKey, void 0);
 /**
  * 双击处理适配宽度
  */
 const handlerColDbClick = () => {
-  const { isHead } = tableRowGroupContext;
+  const { isHead } = rowGroupContext;
   const { autoColWidth } = groupContext;
   const { col } = props;
   if (col.prop && isHead) autoColWidth(col.prop);
@@ -37,7 +37,7 @@ const handlerColDbClick = () => {
  */
 const renderParams = (): SearchRenderScope => {
   const { col, colIndex } = props;
-  const { rowIndex, row } = tableRowGroupContext;
+  const { rowIndex, row } = rowGroupContext;
   return {
     rowIndex: rowIndex,
     colIndex: colIndex,
@@ -69,8 +69,10 @@ const getColStyle = computed(() => {
   };
 });
 const getColClass = computed(() => {
-  const { isHead } = tableRowGroupContext;
-  return ["_table-col", isHead && "_table-col-head"];
+  const { col } = props;
+  const { isHead } = rowGroupContext;
+  const { state } = groupContext;
+  return ["_col", isHead && "_col-head", state.isFixed && col.fixed && `_col-fixed-${col.fixed}`];
 });
 </script>
 <style lang="scss" scoped>

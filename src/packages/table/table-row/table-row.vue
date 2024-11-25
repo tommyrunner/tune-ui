@@ -11,7 +11,7 @@
   </component>
 </template>
 <script lang="ts" setup>
-import { computed, inject, provide, ref } from "vue";
+import { computed, inject, provide, ref, StyleValue } from "vue";
 import { tableRowGroupKey, tableGroupKey, type GroupContextTableRowType, type GroupContextType } from "../constants";
 import { PropsType } from "./table-row";
 import { TListViewItem } from "../../listView";
@@ -43,15 +43,15 @@ const handlerMouseOut = () => {
 /**
  * 动态样式
  */
-const getRowStyle = computed(() => {
-  const { rowIndex, hoverBgColor } = props;
+const getRowStyle = computed((): StyleValue => {
+  const { rowIndex, hoverBgColor, isHead } = props;
   const { stripe } = groupContext;
   let bgColor = state.rowBgColor;
+  // 表头样式固定
+  if (isHead) return Object.assign({ backgroundColor: bgColor });
   // 设置斑马纹
-  if (stripe && (rowIndex + 1) % 2 === 0) bgColor = isBoolean(stripe) && stripe ? hoverBgColor : stripe.toString();
-  return {
-    backgroundColor: bgColor
-  };
+  if (stripe && rowIndex % 2 === 0) bgColor = isBoolean(stripe) && stripe ? hoverBgColor : stripe.toString();
+  return Object.assign({ backgroundColor: bgColor }, groupContext.rowStyle ? groupContext.rowStyle(props.row) : {});
 });
 const getRowClass = computed(() => {
   return ["t-table-row", props.isHead && "t-table-row-head"];

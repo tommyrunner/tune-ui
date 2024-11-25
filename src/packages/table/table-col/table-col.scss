@@ -1,5 +1,5 @@
 @import "@/styles/index.scss";
-._table-col {
+._col {
   flex-shrink: 0;
   padding: 6px;
   width: 100%;
@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  background: inherit;
   ._cell-width-set {
     height: 100%;
     position: absolute;
@@ -17,4 +18,10 @@
     top: 0px;
     cursor: col-resize;
   }
+}
+._col-fixed-left {
+  position: sticky !important;
+  left: 0px;
+  z-index: $z-index-up;
+  box-shadow: 5px 0px 3px 0px rgba(0, 0, 0, 0.1);
 }

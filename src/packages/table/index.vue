@@ -10,6 +10,7 @@
       fixedIndex: 0,
       itemHeight: virtualizedItemHeight
     }"
+    @scroll="handlerScroll"
   >
     <template #default="scope: ListSlotParamsType">
       <!-- 虚拟列表 -->
@@ -41,8 +42,8 @@
 </template>
 <script lang="ts" setup>
 import type { PropsType, TableColumnsType } from "./table";
-import type { PropsType as ListPropsType, ListSlotParamsType } from "../listView/listView";
-import { computed, provide, reactive, ref, StyleValue, useSlots } from "vue";
+import type { PropsType as ListPropsType, ListSlotParamsType, EmitScrollParamsType } from "../listView/listView";
+import { computed, provide, reactive, ref, StyleValue } from "vue";
 import { TListView } from "../listView/index";
 import TTableRow from "./table-row/table-row.vue";
 import { getTableColTag, type GroupContextType, tableGroupKey } from "./constants";
@@ -56,8 +57,11 @@ const props = withDefaults(defineProps<PropsType>(), {
   columns: () => [],
   data: () => []
 });
-const slot = useSlots();
 const tTableRef = ref();
+const state = reactive({
+  // 是否浮动列
+  isFixed: false
+});
 const getBind = computed(() => {
   const binds: ListPropsType = {};
   if (props.isVirtualized) {
@@ -82,6 +86,10 @@ const getTableStyle = computed((): StyleValue => {
     borderRight: `1px solid ${border}`
   };
 });
+const handlerScroll = (params: EmitScrollParamsType) => {
+  // 横向轴超出0视为可浮动列
+  state.isFixed = params.scrollLeft > 0;
+};
 /**
  * 适配并更新列宽度
  */
@@ -106,7 +114,8 @@ provide<GroupContextType>(
   tableGroupKey,
   reactive({
     ...props,
-    autoColWidth
+    autoColWidth,
+    state
   })
 );
 defineExpose({
