@@ -112,19 +112,16 @@ const calculateItemsToRender = () => {
 };
 
 // 滚动事件处理函数
-const handleScroll = (listElement: HTMLElement, type: "y" | "x") => {
+const handleScroll = (content: HTMLElement, type: "y" | "x") => {
   if (type === "y") {
-    state.scrollTop = listElement.scrollTop;
+    state.scrollTop = content.scrollTop;
     // 渲染列表
     renderList();
   } else {
-    state.scrollLeft = listElement.scrollLeft;
+    state.scrollLeft = content.scrollLeft;
   }
   // 触发滚动
-  emit("scroll", {
-    scrollLeft: state.scrollLeft,
-    scrollTop: state.scrollTop
-  });
+  emit("scroll", content);
 };
 
 /**

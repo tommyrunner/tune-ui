@@ -3,7 +3,8 @@ import { StyleValue, VNode } from "vue";
  * 状态类型
  */
 export interface StateType {
-  isFixed: boolean;
+  isFixedLeft: boolean;
+  isFixedRight: boolean;
 }
 export interface SearchRenderScope<T = any> {
   // 行index
@@ -27,6 +28,9 @@ export type TableColumnsType<T = any> = {
   label: string;
   width?: number;
   fixed?: "left" | "right";
+  _fixedValue?: number;
+  // 排序值
+  sort?: number;
   renderHead?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
   render?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
 };

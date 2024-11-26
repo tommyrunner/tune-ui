@@ -61,18 +61,31 @@ const getColStyle = computed(() => {
       borderBottom: `1px solid ${border}`
     };
   }
+  const { state } = groupContext;
+  let fixedStyle: StyleValue = {};
+  if (col.fixed) {
+    fixedStyle = {
+      [col.fixed]: "0px"
+    };
+    if (state.isFixedRight && col.fixed === "right") {
+      fixedStyle["boxShadow"] = "-5px 0px 3px 0px rgba(0, 0, 0, 0.1)";
+    }
+    if (state.isFixedLeft && col.fixed === "left") {
+      fixedStyle["boxShadow"] = "5px 0px 3px 0px rgba(0, 0, 0, 0.1)";
+    }
+  }
   return {
     // 单独设置宽度
     flex: col.width ? "none" : `1 0`,
     width: `${col.width}px !important`,
+    ...fixedStyle,
     ...borderStyle
   };
 });
 const getColClass = computed(() => {
   const { col } = props;
   const { isHead } = rowGroupContext;
-  const { state } = groupContext;
-  return ["_col", isHead && "_col-head", state.isFixed && col.fixed && `_col-fixed-${col.fixed}`];
+  return ["_col", isHead && "_col-head", col.fixed && "_col-fixed"];
 });
 </script>
 <style lang="scss" scoped>

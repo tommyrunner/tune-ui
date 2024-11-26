@@ -19,9 +19,7 @@
     cursor: col-resize;
   }
 }
-._col-fixed-left {
+._col-fixed {
   position: sticky !important;
-  left: 0px;
   z-index: $z-index-up;
-  box-shadow: 5px 0px 3px 0px rgba(0, 0, 0, 0.1);
 }
