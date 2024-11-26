@@ -15,6 +15,7 @@
     <template #default="scope: ListSlotParamsType">
       <!-- 虚拟列表 -->
       <TTableRow
+        ref="testRef"
         v-if="props.isVirtualized"
         :row="scope.row"
         :rowIndex="scope.index"
@@ -56,7 +57,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   columns: () => [],
   data: () => []
 });
-const tTableRef = ref();
+const tTableRef = ref<InstanceType<typeof TListView>>();
+const testRef = ref();
 const state = reactive({
   // 是否浮动列
   isFixedLeft: false,
@@ -86,13 +88,9 @@ const getTableStyle = computed((): StyleValue => {
     borderRight: `1px solid ${border}`
   };
 });
+
 const filterColumns = computed((): TableColumnsType[] => {
   const columnsCopy = [...props.columns];
-  // 临时标记浮动值
-  // let temFixedValue = {
-  //   left: 0,
-  //   right: 0
-  // };
   // 悬浮字段默认靠边
   columnsCopy.forEach(col => {
     if (col.fixed === "left") {
@@ -105,10 +103,29 @@ const filterColumns = computed((): TableColumnsType[] => {
     return (a.sort || 0) - (b.sort || 0);
   });
 });
+/**
+ * 滚动监听
+ * @param content 滚动容器
+ */
 const handlerScroll = (content: HTMLElement) => {
   // 横向轴超出0视为可浮动列
   state.isFixedLeft = content.scrollLeft > 0;
   state.isFixedRight = content.offsetWidth + content.scrollLeft < content.scrollWidth;
+  // 多个浮动字段时,需要动态设置浮动值
+  // 临时标记浮动值
+  let temFixedValue = {
+    left: 0,
+    right: 0
+  };
+  filterColumns.value.forEach(col => {
+    if (col.fixed) {
+      const colEl = content.querySelector(`#${getTableColTag(col.prop)}`) as HTMLElement;
+      col._fixedValue = temFixedValue[col.fixed];
+      if (temFixedValue[col.fixed] === 0) temFixedValue[col.fixed] = colEl.offsetWidth;
+      else temFixedValue[col.fixed] += colEl.offsetWidth;
+    }
+    console.log(temFixedValue);
+  });
 };
 /**
  * 适配并更新列宽度

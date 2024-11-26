@@ -65,13 +65,13 @@ const getColStyle = computed(() => {
   let fixedStyle: StyleValue = {};
   if (col.fixed) {
     fixedStyle = {
-      [col.fixed]: "0px"
+      [col.fixed]: `${col._fixedValue || 0}px`
     };
     if (state.isFixedRight && col.fixed === "right") {
-      fixedStyle["boxShadow"] = "-5px 0px 3px 0px rgba(0, 0, 0, 0.1)";
+      fixedStyle["boxShadow"] = "-5px 0px 3px 0px rgba(0, 0, 0, 0.05)";
     }
     if (state.isFixedLeft && col.fixed === "left") {
-      fixedStyle["boxShadow"] = "5px 0px 3px 0px rgba(0, 0, 0, 0.1)";
+      fixedStyle["boxShadow"] = "5px 0px 3px 0px rgba(0, 0, 0, 0.05)";
     }
   }
   return {
