@@ -64,13 +64,16 @@ watch(
     renderList();
   }
 );
-onMounted(() => renderList());
+onMounted(() => {
+  emit("updateView", innerRef.value);
+  renderList();
+});
 const getInnerHeight = computed(() => {
   return state.inner.height || props.listData.length * props.virtualConfig.itemHeight;
 });
 
 // 根据当前滚动位置动态渲染列表项
-const renderList = () => {
+const renderList = async () => {
   const { isVirtualized, virtualConfig } = props;
   if (!isVirtualized) return;
   const itemsToRender = calculateItemsToRender();
@@ -100,6 +103,8 @@ const renderList = () => {
     };
     state.itemViews.push({ bind: propsParams, index, row: rowValue });
   });
+  await nextTick();
+  emit("updateView", innerRef.value);
 };
 
 // 计算当前需要渲染的元素范围

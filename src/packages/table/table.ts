@@ -29,6 +29,7 @@ export type TableColumnsType<T = any> = {
   width?: number;
   fixed?: "left" | "right";
   _fixedValue?: number;
+  _fixedLast?: boolean;
   // 排序值
   sort?: number;
   renderHead?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）

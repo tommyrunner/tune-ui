@@ -11,6 +11,7 @@
       itemHeight: virtualizedItemHeight
     }"
     @scroll="handlerScroll"
+    @update-view="handlerUpdateView"
   >
     <template #default="scope: ListSlotParamsType">
       <!-- 虚拟列表 -->
@@ -90,19 +91,29 @@ const getTableStyle = computed((): StyleValue => {
 });
 
 const filterColumns = computed((): TableColumnsType[] => {
-  const columnsCopy = [...props.columns];
+  const columnsCopy = {
+    left: [] as TableColumnsType[],
+    right: [] as TableColumnsType[],
+    cols: [] as TableColumnsType[]
+  };
   // 悬浮字段默认靠边
-  columnsCopy.forEach(col => {
+  props.columns.forEach(col => {
     if (col.fixed === "left") {
-      col.sort = Number.MAX_VALUE * -1;
+      columnsCopy.left.push(col);
     } else if (col.fixed === "right") {
-      col.sort = Number.MAX_VALUE;
-    }
+      columnsCopy.right.push(col);
+    } else columnsCopy.cols.push(col);
   });
-  return columnsCopy.sort((a, b) => {
+  // 设置边缘标记
+  if (columnsCopy.left.length) columnsCopy.left[columnsCopy.left.length - 1]._fixedLast = true;
+  if (columnsCopy.right.length) columnsCopy.right[0]._fixedLast = true;
+  return [...columnsCopy.left, ...columnsCopy.cols, ...columnsCopy.right].sort((a, b) => {
     return (a.sort || 0) - (b.sort || 0);
   });
 });
+const handlerUpdateView = (content: HTMLElement) => {
+  autoFixedPosition(content);
+};
 /**
  * 滚动监听
  * @param content 滚动容器
@@ -111,21 +122,44 @@ const handlerScroll = (content: HTMLElement) => {
   // 横向轴超出0视为可浮动列
   state.isFixedLeft = content.scrollLeft > 0;
   state.isFixedRight = content.offsetWidth + content.scrollLeft < content.scrollWidth;
-  // 多个浮动字段时,需要动态设置浮动值
-  // 临时标记浮动值
-  let temFixedValue = {
+  autoFixedPosition(content);
+};
+const processFixedColumns = (
+  columns: TableColumnsType[],
+  fixedDirection: TableColumnsType["fixed"],
+  content: HTMLElement,
+  fixedValues: { [key in TableColumnsType["fixed"]]: number }
+) => {
+  // 不同方向浮动位置取值不同
+  const loopDirection = fixedDirection === "left" ? columns : columns.slice().reverse();
+  // left顺排序,right反方向排序取值
+  loopDirection.forEach(col => {
+    if (col.fixed && col.fixed === fixedDirection) {
+      const colEl = content.querySelector(`#${getTableColTag(col.prop)}`) as HTMLElement;
+      if (!colEl) return;
+      col._fixedValue = fixedValues[fixedDirection];
+      if (fixedValues[fixedDirection] === 0) {
+        fixedValues[fixedDirection] = colEl.offsetWidth;
+      } else {
+        fixedValues[fixedDirection] += colEl.offsetWidth;
+      }
+    }
+  });
+};
+/**
+ * 多个浮动字段时,需要动态设置浮动值
+ * @param content
+ */
+const autoFixedPosition = (content: HTMLElement) => {
+  // 用于存储左右方向固定列的宽度累计值，初始化为0
+  const fixedWidthValues: { [key in TableColumnsType["fixed"]]: number } = {
     left: 0,
     right: 0
   };
-  filterColumns.value.forEach(col => {
-    if (col.fixed) {
-      const colEl = content.querySelector(`#${getTableColTag(col.prop)}`) as HTMLElement;
-      col._fixedValue = temFixedValue[col.fixed];
-      if (temFixedValue[col.fixed] === 0) temFixedValue[col.fixed] = colEl.offsetWidth;
-      else temFixedValue[col.fixed] += colEl.offsetWidth;
-    }
-    console.log(temFixedValue);
-  });
+  // 处理左侧固定列，累加宽度并设置对应列的宽度值属性
+  processFixedColumns(filterColumns.value, "left", content, fixedWidthValues);
+  // 处理右侧固定列，累加宽度并设置对应列的宽度值属性
+  processFixedColumns(filterColumns.value, "right", content, fixedWidthValues);
 };
 /**
  * 适配并更新列宽度

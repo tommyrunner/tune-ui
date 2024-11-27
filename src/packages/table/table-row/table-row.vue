@@ -21,7 +21,7 @@ import { isBoolean } from "@/utils/is";
 defineOptions({ name: "TTableRow" });
 const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
 const props = withDefaults(defineProps<PropsType>(), {
-  hoverBgColor: "#f5f7fa80",
+  hoverBgColor: "#f5f7fa",
   defBgColor: "#fff"
 });
 const tableRowRef = ref();

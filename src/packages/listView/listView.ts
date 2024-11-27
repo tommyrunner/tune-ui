@@ -37,4 +37,6 @@ export interface PropsType {
 export interface EmitsType {
   // 切换事件
   (e: "scroll", params: HTMLElement): void;
+  // 更新视图
+  (e: "updateView", listElement: HTMLElement): void;
 }

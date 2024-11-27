@@ -67,10 +67,10 @@ const getColStyle = computed(() => {
     fixedStyle = {
       [col.fixed]: `${col._fixedValue || 0}px`
     };
-    if (state.isFixedRight && col.fixed === "right") {
+    if (state.isFixedRight && col.fixed === "right" && col._fixedLast) {
       fixedStyle["boxShadow"] = "-5px 0px 3px 0px rgba(0, 0, 0, 0.05)";
     }
-    if (state.isFixedLeft && col.fixed === "left") {
+    if (state.isFixedLeft && col.fixed === "left" && col._fixedLast) {
       fixedStyle["boxShadow"] = "5px 0px 3px 0px rgba(0, 0, 0, 0.05)";
     }
   }
