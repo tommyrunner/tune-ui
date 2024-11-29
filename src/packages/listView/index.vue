@@ -83,7 +83,7 @@ const renderList = async () => {
     // 记录需要固定的值
     if (!state.fixedRows && virtualConfig?.fixedIndex === index) state.fixedRows = row;
     // item 的 props 参数
-    let zIndex = 0;
+    let isFixed = false;
     // 计算item超出部分
     const beyond = itemHeight * state.inner.itemNum - props.height;
     // 计算每个item需要浮动的top位置
@@ -91,15 +91,15 @@ const renderList = async () => {
     let rowValue = row;
     // 如果有固定的item，需要设置特殊值
     if (index === virtualConfig?.fixedIndex && state.fixedRows) {
-      zIndex = 1;
+      isFixed = true;
       top = virtualConfig?.fixedTopValue;
       rowValue = state.fixedRows;
     }
     const propsParams: ListViewItemPropsType = {
       isVirtualized: isVirtualized,
-      zIndex: zIndex,
+      isFixed: isFixed,
       top: top,
-      height: props.virtualConfig.itemHeight
+      height: isFixed ? void 0 : itemHeight
     };
     state.itemViews.push({ bind: propsParams, index, row: rowValue });
   });

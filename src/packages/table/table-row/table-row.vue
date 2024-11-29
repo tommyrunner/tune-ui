@@ -1,19 +1,19 @@
 <template>
-  <component
+  <TListViewItem
     :class="getRowClass"
     :style="getRowStyle"
     ref="tableRowRef"
-    :is="props._virtualConfig?.isVirtualized ? 'div' : TListViewItem"
+    @click="handlerClick"
     @mouseenter.capture="handlerMouseEnter(true)"
     @mouseout.capture="handlerMouseOut(false)"
   >
     <TTableCol v-for="(col, index) in groupContext.columns" :key="col.prop" :col="col" :colIndex="index" />
-  </component>
+  </TListViewItem>
 </template>
 <script lang="ts" setup>
 import { computed, inject, provide, ref, StyleValue } from "vue";
 import { tableRowGroupKey, tableGroupKey, type GroupContextTableRowType, type GroupContextType } from "../constants";
-import { PropsType } from "./table-row";
+import { EmitsType, PropsType } from "./table-row";
 import { TListViewItem } from "../../listView";
 import TTableCol from "../table-col/table-col.vue";
 import { reactive } from "vue";
@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   hoverBgColor: "#f5f7fa",
   defBgColor: "#fff"
 });
+const emit = defineEmits<EmitsType>();
 const tableRowRef = ref();
 const state = reactive({
   isHover: false
@@ -38,6 +39,29 @@ const handlerMouseEnter = (is: boolean) => {
 const handlerMouseOut = (is: boolean) => {
   state.isHover = is;
 };
+/**
+ * 处理change事件
+ */
+const handlerClick = () => {
+  if (groupContext.changeRow === "none") return;
+  // 已经选中取消选择
+  if (isChange.value) {
+    groupContext.state.changeRows = groupContext.state.changeRows.filter(changeRow => changeRow !== props.row);
+  }
+  // 判断单选多选
+  else if (groupContext.changeRow === "single") {
+    groupContext.state.changeRows = [props.row];
+  } else if (groupContext.changeRow === "multiple") {
+    groupContext.state.changeRows.push(props.row);
+  }
+  if (isChange.value) emit("change", groupContext.state.changeRows);
+};
+/**
+ * 当前change状态
+ */
+const isChange = computed(() => {
+  return groupContext.state.changeRows.some(changeRow => changeRow === props.row);
+});
 
 /**
  * 动态样式
@@ -51,7 +75,9 @@ const getRowStyle = computed((): StyleValue => {
   // 设置斑马纹(默认取hover颜色)
   if (stripe && rowIndex % 2 === 0) bgColor = isBoolean(stripe) && stripe ? hoverBgColor : stripe.toString();
   return Object.assign(
-    { backgroundColor: state.isHover ? hoverBgColor : bgColor },
+    {
+      backgroundColor: state.isHover || isChange.value ? hoverBgColor : bgColor
+    },
     groupContext.rowStyle ? groupContext.rowStyle(props.row) : {}
   );
 });

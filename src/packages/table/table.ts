@@ -5,6 +5,7 @@ import { StyleValue, VNode } from "vue";
 export interface StateType {
   isFixedLeft: boolean;
   isFixedRight: boolean;
+  changeRows: any[];
 }
 export interface SearchRenderScope<T = any> {
   // 行index
@@ -28,6 +29,8 @@ export type TableColumnsType<T = any> = {
   label: string;
   width?: number;
   fixed?: "left" | "right";
+  children?: TableColumnsType[];
+  _group?: boolean;
   _fixedValue?: number;
   _fixedLast?: boolean;
   // 排序值
@@ -60,11 +63,12 @@ export interface PropsType {
   border?: string;
   stripe?: string | boolean; // 斑马纹
   dbClickAutoWidth?: boolean; // 双击自动适配宽度
+  changeRow?: "single" | "multiple" | "none"; // 是否开启选择行
 }
 /**
  * @description: 组件emit类型
  */
 export interface EmitsType {
   // 切换事件
-  (e: "change"): void;
+  (e: "change", params: any): void;
 }

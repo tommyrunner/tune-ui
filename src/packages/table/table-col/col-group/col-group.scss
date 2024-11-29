@@ -1,0 +1,12 @@
+@import "@/styles/index.scss";
+._col-group {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  ._col-group-children {
+    height: 100%;
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+}

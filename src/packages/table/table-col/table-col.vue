@@ -1,93 +1,16 @@
 <template>
-  <div :class="getColClass" :style="getColStyle" :id="getTableColTag(col.prop)">
-    <span class="_cell">
-      <!-- 表头自定义 -->
-      <component v-if="rowGroupContext?.isHead && col.renderHead" :is="col.renderHead(renderParams())" />
-      <!-- 单元格自定义 -->
-      <component v-if="!rowGroupContext?.isHead && col.render" :is="col.render(renderParams())" />
-      <!-- 默认渲染 -->
-      <span v-if="!col.renderHead">{{ rowGroupContext?.row[col.prop] }}</span>
-    </span>
-    <!-- 控制列宽 -->
-    <div class="_cell-width-set" v-if="rowGroupContext.isHead" @dblclick="handlerColDbClick"></div>
-  </div>
+  <!-- 组合 -->
+  <TableGroup v-if="col.children && col.children.length" :group-col="col" />
+  <!-- 单元格 -->
+  <TableCell v-else :col="col" />
 </template>
 <script lang="ts" setup>
-import { computed, inject, StyleValue } from "vue";
-import { tableRowGroupKey, tableGroupKey, GroupContextType, GroupContextTableRowType, getTableColTag } from "../constants";
+import { provide } from "vue";
 import { PropsType } from "./table-col";
-import { SearchRenderScope } from "../table";
+import TableGroup from "./col-group/col-group.vue";
+import TableCell from "./col-cell/col-cell.vue";
+import { type GroupContextTableColType, tableColGroupKey } from "../constants";
 defineOptions({ name: "TTableCol" });
 const props = withDefaults(defineProps<PropsType>(), {});
-const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
-const rowGroupContext = inject<GroupContextTableRowType | undefined>(tableRowGroupKey, void 0);
-/**
- * 双击处理适配宽度
- */
-const handlerColDbClick = () => {
-  const { isHead } = rowGroupContext;
-  const { autoColWidth } = groupContext;
-  const { col } = props;
-  if (col.prop && isHead) autoColWidth(col.prop);
-};
-/**
- * 渲染单元格内容
- * @param index 单元格下标
- * @param col 单元格配置
- */
-const renderParams = (): SearchRenderScope => {
-  const { col, colIndex } = props;
-  const { rowIndex, row } = rowGroupContext;
-  return {
-    rowIndex: rowIndex,
-    colIndex: colIndex,
-    columns: groupContext?.columns,
-    value: row[col.prop],
-    rowCol: col,
-    data: row
-  };
-};
-/**
- * 动态样式
- */
-const getColStyle = computed(() => {
-  // 配置表格边框
-  const border = groupContext?.border;
-  const { col } = props;
-  let borderStyle: StyleValue = {};
-  if (border) {
-    borderStyle = {
-      borderLeft: `1px solid ${border}`,
-      borderBottom: `1px solid ${border}`
-    };
-  }
-  const { state } = groupContext;
-  let fixedStyle: StyleValue = {};
-  if (col.fixed) {
-    fixedStyle = {
-      [col.fixed]: `${col._fixedValue || 0}px`
-    };
-    if (state.isFixedRight && col.fixed === "right" && col._fixedLast) {
-      fixedStyle["boxShadow"] = "-5px 0px 3px 0px rgba(0, 0, 0, 0.05)";
-    }
-    if (state.isFixedLeft && col.fixed === "left" && col._fixedLast) {
-      fixedStyle["boxShadow"] = "5px 0px 3px 0px rgba(0, 0, 0, 0.05)";
-    }
-  }
-  return {
-    // 单独设置宽度
-    flex: col.width ? "none" : `1 0`,
-    width: `${col.width}px !important`,
-    ...fixedStyle,
-    ...borderStyle
-  };
-});
-const getColClass = computed(() => {
-  const { col } = props;
-  const { isHead } = rowGroupContext;
-  return ["_col", isHead && "_col-head", col.fixed && "_col-fixed"];
-});
+provide<GroupContextTableColType>(tableColGroupKey, props);
 </script>
-<style lang="scss" scoped>
-@import "./table-col.scss";
-</style>

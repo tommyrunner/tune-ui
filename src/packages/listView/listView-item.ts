@@ -9,7 +9,8 @@ export interface PropsType {
   id?: number;
   top?: number;
   isVirtualized?: boolean;
-  zIndex?: number;
+  // 是否固定行
+  isFixed?: boolean;
   height?: number;
   row?: any;
   defBgColor?: string;

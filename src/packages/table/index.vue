@@ -24,10 +24,10 @@
         :is-hover-bg="!scope.row._Head"
         :def-bg-color="scope.row._Head && headBgColor"
         :_virtual-config="{ isVirtualized: props.isVirtualized }"
+        @change="(params: any) => emit('change', params)"
       ></TTableRow>
       <!-- json列表 -->
       <template v-else>
-        <!-- 表头 -->
         <TTableRow
           v-for="(row, index) in getData"
           :key="index"
@@ -36,13 +36,14 @@
           :isHead="row._Head"
           :is-hover-bg="!row._Head"
           :def-bg-color="row._Head && headBgColor"
+          @change="(params: any) => emit('change', params)"
         ></TTableRow>
       </template>
     </template>
   </TListView>
 </template>
 <script lang="ts" setup>
-import type { PropsType, TableColumnsType } from "./table";
+import type { EmitsType, PropsType, TableColumnsType } from "./table";
 import type { PropsType as ListPropsType, ListSlotParamsType } from "../listView/listView";
 import { computed, provide, reactive, ref, StyleValue } from "vue";
 import { TListView } from "../listView/index";
@@ -55,15 +56,19 @@ const props = withDefaults(defineProps<PropsType>(), {
   isDefSlotListHead: true,
   dbClickAutoWidth: true,
   virtualizedItemHeight: 36,
+  changeRow: "none",
   columns: () => [],
   data: () => []
 });
+const emit = defineEmits<EmitsType>();
 const tTableRef = ref<InstanceType<typeof TListView>>();
 const testRef = ref();
 const state = reactive({
   // 是否浮动列
   isFixedLeft: false,
-  isFixedRight: true
+  isFixedRight: true,
+  // 记录选择行
+  changeRows: [] as any[]
 });
 const getBind = computed(() => {
   const binds: ListPropsType = {};
@@ -76,11 +81,24 @@ const getBind = computed(() => {
 const getData = computed((): TableColumnsType[] => {
   // 处理请求头
   let head = { _Head: true };
-  filterColumns.value.forEach(col => {
-    head[col.prop] = col.label;
-  });
+  // 通过模拟数据初始化表头数据
+  initHeadData(filterColumns.value, head);
   return [head, ...props.data];
 });
+/**
+ * 平铺并初始化表头
+ * @param columns 列配置
+ * @param head 初始化表头数据
+ */
+const initHeadData = (columns: TableColumnsType[], head: any) => {
+  columns.forEach(col => {
+    head[col.prop] = col.label;
+    if (col.children && col.children.length) {
+      col._group = true;
+      initHeadData(col.children, head);
+    }
+  });
+};
 const getTableStyle = computed((): StyleValue => {
   const { border } = props;
   return {
@@ -130,6 +148,7 @@ const processFixedColumns = (
   content: HTMLElement,
   fixedValues: { [key in TableColumnsType["fixed"]]: number }
 ) => {
+  if (!content) return;
   // 不同方向浮动位置取值不同
   const loopDirection = fixedDirection === "left" ? columns : columns.slice().reverse();
   // left顺排序,right反方向排序取值

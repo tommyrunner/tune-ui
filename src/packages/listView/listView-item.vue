@@ -18,11 +18,12 @@ const getListViewItemClass = computed(() => {
   return ["t-listView-item", isVirtualized && "t-listView-item-inner"];
 });
 const getListViewItemStyle = computed((): StyleValue => {
+  const { isFixed, top, height } = props;
   return {
-    top: `${props.top}px`,
-    zIndex: props.zIndex,
+    top: `${top}px`,
+    zIndex: isFixed ? 1 : void 0,
     width: `${listViewItemRef.value?.scrollWidth}px`,
-    height: `${props.height}px`
+    height: `${height}px`
   };
 });
 </script>

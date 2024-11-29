@@ -1,7 +1,8 @@
 @import "@/styles/index.scss";
-._col {
+._col-cell {
   flex-shrink: 0;
-  padding: 6px;
+  padding: 4px;
+  box-sizing: border-box;
   width: 100%;
   min-width: 33px;
   overflow: hidden;
@@ -10,8 +11,7 @@
   justify-content: center;
   position: relative;
   background: inherit;
-  transition: 0.22s;
-  ._cell-width-set {
+  ._cell-width-line {
     height: 100%;
     position: absolute;
     width: 4px;
