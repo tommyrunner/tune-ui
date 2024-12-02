@@ -1,4 +1,8 @@
 import { StyleValue, VNode } from "vue";
+export interface StateSortType {
+  sort: "none" | "asc" | "desc";
+  prop: string;
+}
 /**
  * 状态类型
  */
@@ -6,6 +10,7 @@ export interface StateType {
   isFixedLeft: boolean;
   isFixedRight: boolean;
   changeRows: any[];
+  sortColProps: StateSortType[];
 }
 export interface SearchRenderScope<T = any> {
   // 行index
@@ -35,6 +40,7 @@ export type TableColumnsType<T = any> = {
   _fixedLast?: boolean;
   // 排序值
   sort?: number;
+  sortable?: boolean; // 当前页排序
   renderHead?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
   render?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
 };
@@ -64,6 +70,7 @@ export interface PropsType {
   stripe?: string | boolean; // 斑马纹
   dbClickAutoWidth?: boolean; // 双击自动适配宽度
   changeRow?: "single" | "multiple" | "none"; // 是否开启选择行
+  sortMethod?: (data: { a: any; b: any }, config: StateSortType[]) => number; // 自定义当前页排序
 }
 /**
  * @description: 组件emit类型

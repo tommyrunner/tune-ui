@@ -11,6 +11,37 @@
   justify-content: center;
   position: relative;
   background: inherit;
+  ._cell {
+    display: flex;
+    align-items: center;
+    ._head-fun {
+      margin-left: 4px;
+      ._sort {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        .t-icon {
+          position: absolute;
+          top: 50%;
+          cursor: pointer;
+          color: $theme-color-info;
+          &:first-child {
+            transform: translateY(-80%);
+          }
+          &:last-child {
+            transform: translateY(-10%);
+          }
+        }
+        ._icon-active {
+          color: $theme-color-primary;
+        }
+      }
+    }
+  }
+  ._cell-pointer {
+    cursor: pointer;
+    user-select: none;
+  }
   ._cell-width-line {
     height: 100%;
     position: absolute;

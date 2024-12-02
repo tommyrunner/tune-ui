@@ -68,7 +68,9 @@ const state = reactive({
   isFixedLeft: false,
   isFixedRight: true,
   // 记录选择行
-  changeRows: [] as any[]
+  changeRows: [] as any[],
+  // 排序字段
+  sortColProps: []
 });
 const getBind = computed(() => {
   const binds: ListPropsType = {};
@@ -83,7 +85,25 @@ const getData = computed((): TableColumnsType[] => {
   let head = { _Head: true };
   // 通过模拟数据初始化表头数据
   initHeadData(filterColumns.value, head);
-  return [head, ...props.data];
+  const temData = [...props.data];
+  // 排序
+  temData.sort((a, b) => {
+    // 自定义排序
+    if (props.sortMethod) return props.sortMethod({ a, b }, state.sortColProps);
+    // 默认排序
+    for (const config of state.sortColProps) {
+      const { sort, prop } = config;
+      const valA = a[prop];
+      const valB = b[prop];
+      if (sort === "asc") {
+        return valA - valB;
+      } else if (sort === "desc") {
+        return valB - valA;
+      }
+    }
+    return 0;
+  });
+  return [head, ...temData];
 });
 /**
  * 平铺并初始化表头
