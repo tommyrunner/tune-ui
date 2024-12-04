@@ -65,7 +65,8 @@ watch(
   }
 );
 onMounted(() => {
-  emit("updateView", innerRef.value);
+  // 非虚拟列表渲染初始化事件抛出
+  emit("updateView", scrollbarRef.value.listViewRef);
   renderList();
 });
 const getInnerHeight = computed(() => {

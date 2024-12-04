@@ -12,7 +12,7 @@
   </component>
 </template>
 <script lang="ts" setup>
-import { computed, inject, provide, ref, StyleValue } from "vue";
+import { computed, inject, provide, ref, StyleValue, toRefs } from "vue";
 import { tableRowGroupKey, tableGroupKey, type GroupContextTableRowType, type GroupContextType } from "../constants";
 import { EmitsType, PropsType } from "./table-row";
 import { TListViewItem } from "../../listView";
@@ -91,7 +91,12 @@ const getRowClass = computed(() => {
 });
 
 // 抛出操作api，与子组件交互
-provide<GroupContextTableRowType>(tableRowGroupKey, props);
+provide<GroupContextTableRowType>(
+  tableRowGroupKey,
+  reactive({
+    ...toRefs(props)
+  })
+);
 </script>
 <style lang="scss" scoped>
 @import "./table-row.scss";

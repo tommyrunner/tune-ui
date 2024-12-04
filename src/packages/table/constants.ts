@@ -9,14 +9,13 @@ import { PropsType as TableColPropsType } from "./table-col/table-col";
 export interface GroupContextType extends PropsType {
   autoColWidth: (props: string) => void;
   state: StateType;
+  columns: TableColumnsType[];
 }
 /**
  * table-row 共享 provide 数据
  */
 
-export interface GroupContextTableRowType extends TableRowPropsType {
-  columns: TableColumnsType[];
-}
+export interface GroupContextTableRowType extends TableRowPropsType {}
 /**
  * table-col 共享 provide 数据
  */

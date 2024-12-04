@@ -45,7 +45,7 @@
 <script lang="ts" setup>
 import type { EmitsType, PropsType, StateFilterType, TableColumnsType, TableRowType } from "./table";
 import type { PropsType as ListPropsType, ListSlotParamsType } from "../listView/listView";
-import { computed, provide, reactive, ref, StyleValue } from "vue";
+import { computed, provide, reactive, ref, StyleValue, toRefs } from "vue";
 import { TListView } from "../listView/index";
 import TTableRow from "./table-row/table-row.vue";
 import { getTableColTag, type GroupContextType, tableGroupKey } from "./constants";
@@ -66,7 +66,7 @@ const testRef = ref();
 const state = reactive({
   // 是否浮动列
   isFixedLeft: false,
-  isFixedRight: false,
+  isFixedRight: true,
   // 记录选择行
   changeRows: [] as TableRowType[],
   // 排序字段
@@ -199,9 +199,6 @@ const handlerUpdateView = (content: HTMLElement) => {
  * @param content 滚动容器
  */
 const handlerScroll = (content: HTMLElement) => {
-  // 横向轴超出0视为可浮动列
-  state.isFixedLeft = content.scrollLeft > 0;
-  state.isFixedRight = content.offsetWidth + content.scrollLeft < content.scrollWidth;
   autoFixedPosition(content);
 };
 const processFixedColumns = (
@@ -232,6 +229,10 @@ const processFixedColumns = (
  * @param content
  */
 const autoFixedPosition = (content: HTMLElement) => {
+  if (!content) return;
+  // 横向轴超出0视为可浮动列
+  state.isFixedLeft = content.scrollLeft > 0;
+  state.isFixedRight = content.offsetWidth + content.scrollLeft < content.scrollWidth;
   // 用于存储左右方向固定列的宽度累计值，初始化为0
   const fixedWidthValues: { [key in TableColumnsType["fixed"]]: number } = {
     left: 0,
@@ -262,15 +263,7 @@ const autoColWidth = (prop: string) => {
 };
 
 // 抛出操作api，与子组件交互
-provide<GroupContextType>(
-  tableGroupKey,
-  reactive({
-    ...props,
-    autoColWidth,
-    state,
-    columns: filterColumns
-  })
-);
+provide<GroupContextType>(tableGroupKey, reactive({ ...toRefs(props), autoColWidth, state, columns: filterColumns.value }));
 defineExpose({
   autoColWidth
 });
