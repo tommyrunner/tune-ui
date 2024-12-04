@@ -1,14 +1,15 @@
 <template>
-  <TListViewItem
+  <component
     :class="getRowClass"
     :style="getRowStyle"
     ref="tableRowRef"
+    :is="props._virtualConfig?.isVirtualized ? 'div' : TListViewItem"
     @click="handlerClick"
     @mouseenter.capture="handlerMouseEnter(true)"
     @mouseout.capture="handlerMouseOut(false)"
   >
     <TTableCol v-for="(col, index) in groupContext.columns" :key="col.prop" :col="col" :colIndex="index" />
-  </TListViewItem>
+  </component>
 </template>
 <script lang="ts" setup>
 import { computed, inject, provide, ref, StyleValue } from "vue";
@@ -78,7 +79,11 @@ const getRowStyle = computed((): StyleValue => {
     {
       backgroundColor: state.isHover || isChange.value ? hoverBgColor : bgColor
     },
-    groupContext.rowStyle ? groupContext.rowStyle(props.row) : {}
+    groupContext.rowStyle ? groupContext.rowStyle(props.row) : {},
+    {
+      // 虚拟列表需要填充高度
+      height: props?._virtualConfig?.isVirtualized ? "100%" : void 0
+    }
   );
 });
 const getRowClass = computed(() => {

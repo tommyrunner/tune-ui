@@ -2,26 +2,24 @@
   <!-- 单元格 -->
   <div :class="getColClass" :style="getColStyle" :id="getTableColTag(col.prop)">
     <span :class="getCellClass" @click="handleSort">
+      <!-- 数据过滤 -->
+      <CellFilter :filters="col.filters" v-if="rowGroupContext?.isHead && col.filters" />
       <!-- 表头自定义 -->
       <component v-if="rowGroupContext?.isHead && col.renderHead" :is="col.renderHead(renderParams())" />
       <!-- 单元格自定义 -->
       <component v-if="!rowGroupContext?.isHead && col.render" :is="col.render(renderParams())" />
       <!-- 默认渲染 -->
       <span v-if="!col.renderHead">{{ rowGroupContext?.row[col.prop] }}</span>
-      <!-- 头部功能 -->
-      <div class="_head-fun" v-if="rowGroupContext?.isHead && col.sortable">
-        <div class="_sort">
-          <TIcon icon="caret-up" :size="12" :class="state.sort === 'asc' ? '_icon-active' : ''" />
-          <TIcon icon="caret-down" :size="12" :class="state.sort === 'desc' ? '_icon-active' : ''" />
-        </div>
-      </div>
+      <!-- 排序功能 -->
+      <CellSort v-if="rowGroupContext?.isHead && col.sortable" :sort="state.sort" />
     </span>
     <!-- 控制列宽 -->
-    <div class="_cell-width-line" v-if="rowGroupContext.isHead && !col._group" @dblclick="handlerColDbClick"></div>
+    <div class="_cell-width-line" v-if="rowGroupContext.isHead && !col._group" @dblclick="handlerDbCol"></div>
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, inject, reactive, StyleValue } from "vue";
+import type { SearchRenderScope, StateSortType } from "@/packages/table/table";
+import type { PropsType } from "./col-cell";
 import {
   type GroupContextType,
   type GroupContextTableRowType,
@@ -30,24 +28,23 @@ import {
   tableGroupKey,
   tableColGroupKey,
   getTableColTag
-} from "../../constants";
-import { PropsType } from "./col-cell";
-import { SearchRenderScope, type StateSortType } from "../../table";
-import { TIcon } from "../../../icon";
+} from "@/packages/table/constants";
+import { computed, inject, reactive, StyleValue } from "vue";
+import CellFilter from "./cell-filter/cell-filter.vue";
+import CellSort from "./cell-sort/cell-sort.vue";
+
 defineOptions({ name: "TTableColCell" });
 const props = withDefaults(defineProps<PropsType>(), {});
 const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
 const rowGroupContext = inject<GroupContextTableRowType | undefined>(tableRowGroupKey, void 0);
 const colGroupContext = inject<GroupContextTableColType | undefined>(tableColGroupKey, void 0);
-
 const state = reactive({
   sort: "none" as StateSortType["sort"]
 });
-
 /**
  * 双击处理适配宽度
  */
-const handlerColDbClick = () => {
+const handlerDbCol = () => {
   const { isHead } = rowGroupContext;
   const { autoColWidth } = groupContext;
   const { col } = props;

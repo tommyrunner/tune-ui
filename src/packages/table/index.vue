@@ -24,7 +24,7 @@
         :is-hover-bg="!scope.row._Head"
         :def-bg-color="scope.row._Head && headBgColor"
         :_virtual-config="{ isVirtualized: props.isVirtualized }"
-        @change="(params: any) => emit('change', params)"
+        @change="(params: TableRowType) => emit('change', params)"
       ></TTableRow>
       <!-- json列表 -->
       <template v-else>
@@ -36,14 +36,14 @@
           :isHead="row._Head"
           :is-hover-bg="!row._Head"
           :def-bg-color="row._Head && headBgColor"
-          @change="(params: any) => emit('change', params)"
+          @change="(params: TableRowType) => emit('change', params)"
         ></TTableRow>
       </template>
     </template>
   </TListView>
 </template>
 <script lang="ts" setup>
-import type { EmitsType, PropsType, TableColumnsType } from "./table";
+import type { EmitsType, PropsType, StateFilterType, TableColumnsType, TableRowType } from "./table";
 import type { PropsType as ListPropsType, ListSlotParamsType } from "../listView/listView";
 import { computed, provide, reactive, ref, StyleValue } from "vue";
 import { TListView } from "../listView/index";
@@ -66,9 +66,9 @@ const testRef = ref();
 const state = reactive({
   // 是否浮动列
   isFixedLeft: false,
-  isFixedRight: true,
+  isFixedRight: false,
   // 记录选择行
-  changeRows: [] as any[],
+  changeRows: [] as TableRowType[],
   // 排序字段
   sortColProps: []
 });
@@ -85,16 +85,23 @@ const getData = computed((): TableColumnsType[] => {
   let head = { _Head: true };
   // 通过模拟数据初始化表头数据
   initHeadData(filterColumns.value, head);
-  const temData = [...props.data];
+  // 得出过滤条件
+  let filterConditions = {} as { [key in string]: StateFilterType[] };
+  props.columns.forEach(col => {
+    if (col.filters && col.filters.length) {
+      filterConditions[col.prop] = col.filters.filter(f => f.checked);
+    }
+  });
+  const temData = filterDataByConditions([...props.data], filterConditions);
   // 排序
-  temData.sort((a, b) => {
+  temData.sort((rowA, rowB) => {
     // 自定义排序
-    if (props.sortMethod) return props.sortMethod({ a, b }, state.sortColProps);
+    if (props.sortMethod) return props.sortMethod({ rowA, rowB }, state.sortColProps);
     // 默认排序
     for (const config of state.sortColProps) {
       const { sort, prop } = config;
-      const valA = a[prop];
-      const valB = b[prop];
+      const valA = rowA[prop];
+      const valB = rowB[prop];
       if (sort === "asc") {
         return valA - valB;
       } else if (sort === "desc") {
@@ -103,14 +110,49 @@ const getData = computed((): TableColumnsType[] => {
     }
     return 0;
   });
+  // 过滤
   return [head, ...temData];
 });
+// 根据过滤条件过滤temData的函数
+function filterDataByConditions(data: TableRowType, conditions: { [key in string]: StateFilterType[] }) {
+  return data.filter(item => {
+    for (const key in conditions) {
+      const conditionArr = conditions[key];
+      let isMatch = true;
+      for (const condition of conditionArr) {
+        const value = item[key];
+        switch (condition.type) {
+          case "gt":
+            isMatch = isMatch && value > condition.value;
+            break;
+          case "lt":
+            isMatch = isMatch && value < condition.value;
+            break;
+          case "eq":
+            isMatch = isMatch && value === condition.value;
+            break;
+          // 可以根据实际需要扩展更多的比较类型逻辑，比如 "gte"（大于等于）、"lte"（小于等于）等
+          default:
+            break;
+        }
+        if (!isMatch) {
+          break;
+        }
+      }
+      if (!isMatch) {
+        return false;
+      }
+    }
+    return true;
+  });
+}
+
 /**
  * 平铺并初始化表头
  * @param columns 列配置
  * @param head 初始化表头数据
  */
-const initHeadData = (columns: TableColumnsType[], head: any) => {
+const initHeadData = (columns: TableColumnsType[], head: TableRowType) => {
   columns.forEach(col => {
     head[col.prop] = col.label;
     if (col.children && col.children.length) {

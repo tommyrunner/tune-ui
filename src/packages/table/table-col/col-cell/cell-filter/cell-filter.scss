@@ -1,0 +1,30 @@
+@import "@/styles/index.scss";
+
+._filter {
+  height: 100%;
+  width: 12px;
+  margin-right: 4px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .t-icon {
+    font-size: 12px !important;
+    color: $theme-color-info;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  ._icon-active {
+    color: $theme-color-primary;
+  }
+}
+._filter-list {
+  display: flex;
+  flex-direction: column;
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}

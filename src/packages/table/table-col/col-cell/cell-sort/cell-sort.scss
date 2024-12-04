@@ -1,0 +1,25 @@
+@import "@/styles/index.scss";
+._sort {
+  height: 100%;
+  width: 12px;
+  margin-left: 4px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  .t-icon {
+    font-size: 12px !important;
+    color: $theme-color-info;
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    &:first-child {
+      transform: translateY(-80%);
+    }
+    &:last-child {
+      transform: translateY(-10%);
+    }
+  }
+  ._icon-active {
+    color: $theme-color-primary;
+  }
+}

@@ -2,41 +2,18 @@
 ._col-cell {
   flex-shrink: 0;
   padding: 4px;
-  box-sizing: border-box;
+  // box-sizing: border-box;
   width: 100%;
   min-width: 33px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   background: inherit;
+  position: relative;
   ._cell {
     display: flex;
     align-items: center;
-    ._head-fun {
-      margin-left: 4px;
-      ._sort {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        .t-icon {
-          position: absolute;
-          top: 50%;
-          cursor: pointer;
-          color: $theme-color-info;
-          &:first-child {
-            transform: translateY(-80%);
-          }
-          &:last-child {
-            transform: translateY(-10%);
-          }
-        }
-        ._icon-active {
-          color: $theme-color-primary;
-        }
-      }
-    }
   }
   ._cell-pointer {
     cursor: pointer;

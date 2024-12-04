@@ -1,10 +1,10 @@
-import { TableColumnsType } from "../table";
+import { TableColumnsType, TableRowType } from "../table";
 
 /**
  * @description: 组件props类型
  */
 export interface PropsType {
-  row: any;
+  row: TableRowType;
   rowIndex?: number;
   isHead?: boolean;
 
@@ -23,5 +23,5 @@ export interface PropsType {
  */
 export interface EmitsType {
   // 切换事件
-  (e: "change", params: any[]): void;
+  (e: "change", params: TableRowType[]): void;
 }

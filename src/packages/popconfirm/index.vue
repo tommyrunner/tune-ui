@@ -18,8 +18,8 @@
           </div>
         </slot>
         <div class="_btn">
-          <TButton :type="props.cancelType" size="small" @click="handlerSubmit(true)">{{ props.cancelText }}</TButton>
-          <TButton :type="props.confirmType" size="small" @click="handlerSubmit(false)">
+          <TButton :type="props.cancelType" size="small" @click="handlerSubmit(false)">{{ props.cancelText }}</TButton>
+          <TButton :type="props.confirmType" size="small" @click="handlerSubmit(true)">
             {{ props.confirmText }}
           </TButton>
         </div>

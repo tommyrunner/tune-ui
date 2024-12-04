@@ -17,6 +17,7 @@ import { type GroupContextType, checkboxGroupKey } from "./constants";
 import { TIcon } from "../icon";
 import { computed, inject, useSlots } from "vue";
 import { configOptions } from "@/hooks/useOptions";
+import { isUnDef } from "@/utils/is";
 defineOptions({ name: "TCheckbox" });
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
@@ -80,8 +81,10 @@ const handChecked = () => {
   if (groupContext) {
     groupContext.changeEvent(isChecked.value, props.value);
   } else {
+    // 初始值
+    if (isUnDef(model.value)) model.value = true;
     // 未值定value默认以boolean类型
-    if (typeof model.value === "boolean" && !props.value) model.value = !model.value;
+    else if (typeof model.value === "boolean" && !props.value) model.value = !model.value;
     // 则
     else model.value = isChecked.value ? void 0 : props.value;
   }
