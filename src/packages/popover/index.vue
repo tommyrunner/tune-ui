@@ -266,11 +266,14 @@ const getModelStyle = computed((): StyleValue => {
  * @param domRect 元素信息
  * @param position 指定位置
  */
-const getPoint = (domRect: DOMRect, position?: typeof props.position) => {
+const getPoint = (domRect: DOMRect, position?: typeof props.position): typeof state.point => {
   const { x, y, width, height } = domRect;
   const { gap, custom } = props;
   const { offsetHeight = 0, offsetWidth = 0 } = popoverRef.value || {};
   let point = { left: 0, top: 0 };
+  // 处理window溢出
+  const documentScrollY = document.documentElement.scrollTop;
+  const documentScrollX = document.documentElement.scrollLeft;
   // 处理自定义xy轴
   if (custom) {
     return (point = {
@@ -301,7 +304,10 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position) => {
       top: y + height / 2 - offsetHeight / 2
     };
   }
-  return point;
+  return {
+    left: point.left + documentScrollX,
+    top: point.top + documentScrollY
+  };
 };
 const getPopoverClass = computed(() => {
   const { dialogAnimation, drawerAnimation } = props;
