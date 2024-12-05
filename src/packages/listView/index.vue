@@ -56,6 +56,7 @@ const state = reactive({
   // 记录固定item
   fixedRows: null
 });
+// 虚拟列表容器
 const innerRef = ref<HTMLDivElement>();
 const scrollbarRef = ref<InstanceType<typeof Scrollbar>>();
 watch(
@@ -69,11 +70,16 @@ onMounted(() => {
   emit("updateView", scrollbarRef.value.listViewRef);
   renderList();
 });
+/**
+ * 获取容器真实高度
+ */
 const getInnerHeight = computed(() => {
   return state.inner.height || props.listData.length * props.virtualConfig.itemHeight;
 });
 
-// 根据当前滚动位置动态渲染列表项
+/**
+ * 根据当前滚动位置动态渲染列表项
+ */
 const renderList = async () => {
   const { isVirtualized, virtualConfig } = props;
   if (!isVirtualized) return;
@@ -108,7 +114,9 @@ const renderList = async () => {
   emit("updateView", innerRef.value);
 };
 
-// 计算当前需要渲染的元素范围
+/**
+ * 计算当前需要渲染的元素范围
+ */
 const calculateItemsToRender = () => {
   const itemHeight = props.virtualConfig.itemHeight;
   const startIndex = Math.floor(state.scrollTop / itemHeight);
@@ -117,7 +125,11 @@ const calculateItemsToRender = () => {
   return props.listData.slice(startIndex, endIndex);
 };
 
-// 滚动事件处理函数
+/**
+ * 滚动事件处理函数
+ * @param content 容器
+ * @param type 滚动方向
+ */
 const handleScroll = (content: HTMLElement, type: "y" | "x") => {
   if (type === "y") {
     state.scrollTop = content.scrollTop;

@@ -76,12 +76,18 @@ export interface PropsType {
   direction?: "row" | "column";
   // 默认slot列表时的表头
   isDefSlotListHead?: boolean;
+  // 头部背景色
   headBgColor?: string;
+  // 鼠标悬浮背景色
   hoverBgColor?: string;
+  // 边框
   border?: string;
-  stripe?: string | boolean; // 斑马纹
-  dbClickAutoWidth?: boolean; // 双击自动适配宽度
-  changeRow?: "single" | "multiple" | "none"; // 是否开启选择行
+  // 斑马纹
+  stripe?: string | boolean;
+  // 双击自动适配宽度
+  dbClickAutoWidth?: boolean;
+  // 是否开启选择行 single: 单选，multiple: 多选，none: 无
+  changeRow?: "single" | "multiple" | "none";
   // 自定义行样式
   rowStyle?: <T = TableRowType>(row: T) => StyleValue;
   // 自定义当前页排序

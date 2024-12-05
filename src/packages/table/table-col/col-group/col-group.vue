@@ -12,6 +12,7 @@ import TableCol from "../table-col.vue";
 import ColCell from "../col-cell/col-cell.vue";
 import { PropsType } from "./col-group";
 import { type GroupContextTableRowType, tableRowGroupKey } from "../../constants";
+// 控制多级表头组合单元格
 defineOptions({ name: "TTableColGroup" });
 const rowGroupContext = inject<GroupContextTableRowType | undefined>(tableRowGroupKey, void 0);
 const props = withDefaults(defineProps<PropsType>(), {});

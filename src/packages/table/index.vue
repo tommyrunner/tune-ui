@@ -169,7 +169,10 @@ const getTableStyle = computed((): StyleValue => {
     borderRight: `1px solid ${border}`
   };
 });
-
+/**
+ * 过滤列
+ * @returns 列配置
+ */
 const filterColumns = computed((): TableColumnsType[] => {
   const columnsCopy = {
     left: [] as TableColumnsType[],
@@ -191,6 +194,10 @@ const filterColumns = computed((): TableColumnsType[] => {
     return (a.sort || 0) - (b.sort || 0);
   });
 });
+/**
+ * 列表渲染初始化
+ * @param content
+ */
 const handlerUpdateView = (content: HTMLElement) => {
   autoFixedPosition(content);
 };
@@ -201,6 +208,13 @@ const handlerUpdateView = (content: HTMLElement) => {
 const handlerScroll = (content: HTMLElement) => {
   autoFixedPosition(content);
 };
+/**
+ * 固定列位置处理
+ * @param columns 列配置
+ * @param fixedDirection 浮动方向
+ * @param content 滚动容器
+ * @param fixedValues 浮动值
+ */
 const processFixedColumns = (
   columns: TableColumnsType[],
   fixedDirection: TableColumnsType["fixed"],
@@ -264,6 +278,9 @@ const autoColWidth = (prop: string) => {
 
 // 抛出操作api，与子组件交互
 provide<GroupContextType>(tableGroupKey, reactive({ ...toRefs(props), autoColWidth, state, columns: filterColumns.value }));
+/**
+ * 抛出操作api
+ */
 defineExpose({
   autoColWidth
 });

@@ -20,6 +20,7 @@ import TTableCol from "../table-col/table-col.vue";
 import { reactive } from "vue";
 import { isBoolean } from "@/utils/is";
 defineOptions({ name: "TTableRow" });
+// 共享数据
 const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
 const props = withDefaults(defineProps<PropsType>(), {
   hoverBgColor: "#f5f7fa",
@@ -90,7 +91,6 @@ const getRowClass = computed(() => {
   return ["t-table-row", props.isHead && "t-table-row-head"];
 });
 
-// 抛出操作api，与子组件交互
 provide<GroupContextTableRowType>(
   tableRowGroupKey,
   reactive({

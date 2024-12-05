@@ -35,6 +35,7 @@ import CellSort from "./cell-sort/cell-sort.vue";
 
 defineOptions({ name: "TTableColCell" });
 const props = withDefaults(defineProps<PropsType>(), {});
+// 共享状态值
 const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
 const rowGroupContext = inject<GroupContextTableRowType | undefined>(tableRowGroupKey, void 0);
 const colGroupContext = inject<GroupContextTableColType | undefined>(tableColGroupKey, void 0);
