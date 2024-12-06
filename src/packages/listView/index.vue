@@ -7,15 +7,20 @@
       :list-direction="props.direction"
       ref="scrollbarRef"
     >
-      <slot v-if="!isVirtualized" />
-      <div v-else class="_inner" ref="innerRef" :style="getInnerStyle">
-        <!-- 
-          经测试不能使用render动态渲染，会导致provide/inject失效
-          而provide/inject对于我们是比较重要的，所以使用vue默认渲染实现
-        -->
-        <listViewItem v-for="iv in state.itemViews" :key="iv.index" v-bind="iv.bind">
-          <slot :index="iv.index" :row="iv.row" />
-        </listViewItem>
+      <slot name="head" v-if="!isVirtualized" />
+      <!-- 虚拟列表渲染 -->
+      <div class="_inner" ref="innerRef" :style="getInnerStyle">
+        <slot name="head" v-if="isVirtualized" />
+        <slot v-if="!isVirtualized" />
+        <template v-else>
+          <!-- 
+            经测试不能使用render动态渲染，会导致provide/inject失效
+            而provide/inject对于我们是比较重要的，所以使用vue默认渲染实现
+          -->
+          <listViewItem v-for="iv in state.itemViews" :key="iv.index" v-bind="iv.bind">
+            <slot :index="iv.index" :row="iv.row" />
+          </listViewItem>
+        </template>
       </div>
     </Scrollbar>
   </div>
@@ -75,7 +80,7 @@ onMounted(() => {
  * 获取容器真实高度
  */
 const getInnerHeight = computed(() => {
-  return state.inner.height || props.listData.length * props.itemHeight;
+  return !props.isVirtualized ? state.inner.height : props.listData.length * props.itemHeight;
 });
 
 /**

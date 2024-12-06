@@ -2,7 +2,7 @@
   <component
     :class="getRowClass"
     :style="getRowStyle"
-    :is="props._virtualConfig?.isVirtualized ? 'div' : TListViewItem"
+    :is="groupContext?.isVirtualized ? 'div' : TListViewItem"
     :fixed="props.rowIndex === groupContext.fixedIndexRow"
     ref="tableRowRef"
     @click="handlerClick"

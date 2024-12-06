@@ -1,7 +1,5 @@
 <template>
   <div class="t-table" ref="tTableRef" :style="getTableStyle">
-    <!-- 表头 -->
-    <TTableRow :row="headData" :rowIndex="0" :isHead="true" :is-hover-bg="false" :def-bg-color="headBgColor"></TTableRow>
     <!-- 列表数据 -->
     <TListView
       :list-data="listData"
@@ -11,6 +9,10 @@
       @scroll="handlerScroll"
       @update-view="handlerUpdateView"
     >
+      <template #head>
+        <!-- 表头 -->
+        <TTableRow :row="headData" :rowIndex="0" :isHead="true" :is-hover-bg="false" :def-bg-color="headBgColor"></TTableRow>
+      </template>
       <template #default="scope: ListSlotParamsType">
         <!-- 虚拟列表 -->
         <component v-if="props.isVirtualized" :is="RenderTableRow(scope)" />

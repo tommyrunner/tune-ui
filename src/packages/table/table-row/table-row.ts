@@ -16,11 +16,6 @@ export interface PropsType {
   defBgColor?: string;
   // 鼠标浮动背景色
   hoverBgColor?: string;
-  // 内部虚拟列表配置
-  _virtualConfig?: {
-    // 是否虚拟列表
-    isVirtualized?: boolean;
-  };
 }
 /**
  * @description: 组件emit类型
