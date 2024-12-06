@@ -1,5 +1,5 @@
 import type { InjectionKey } from "vue";
-import { PropsType, StateType, TableColumnsType } from "./table";
+import { PropsType, StateType, TableColumnsType, TableRowType } from "./table";
 import { PropsType as TableRowPropsType } from "./table-row/table-row";
 import { PropsType as TableColPropsType } from "./table-col/table-col";
 
@@ -10,7 +10,13 @@ export interface GroupContextType extends PropsType {
   autoColWidth: (props: string) => void;
   state: StateType;
   columns: TableColumnsType[];
+  headData: TableRowType;
 }
+/**
+ * 行数据唯一key
+ */
+export const ROW_DATA_EXTEND_KEY = Symbol("_row_extend"); // 是否扩展
+export const ROW_DATA_ID_KEY = Symbol("_row_ID"); // 唯一id
 /**
  * table-row 共享 provide 数据
  */

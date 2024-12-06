@@ -23,9 +23,10 @@
 <script lang="ts" setup>
 import type { EmitsType, PropsType } from "./listView";
 import type { PropsType as ListViewItemPropsType } from "./listView-item";
-import { reactive, computed, onMounted, ref, StyleValue, nextTick, watch } from "vue";
+import { reactive, computed, onMounted, ref, StyleValue, nextTick, watch, toRefs, provide } from "vue";
 import listViewItem from "./listView-item.vue";
 import Scrollbar from "../scrollbar/index.vue";
+import { GroupContextType, listViewGroupKey } from "./constants";
 defineOptions({ name: "TListView" });
 const props = withDefaults(defineProps<PropsType>(), {
   direction: "column",
@@ -74,39 +75,28 @@ onMounted(() => {
  * 获取容器真实高度
  */
 const getInnerHeight = computed(() => {
-  return state.inner.height || props.listData.length * props.virtualConfig.itemHeight;
+  return state.inner.height || props.listData.length * props.itemHeight;
 });
 
 /**
  * 根据当前滚动位置动态渲染列表项
  */
 const renderList = async () => {
-  const { isVirtualized, virtualConfig } = props;
+  const { isVirtualized } = props;
   if (!isVirtualized) return;
   const itemsToRender = calculateItemsToRender();
-  const itemHeight = props.virtualConfig.itemHeight;
+  const { itemHeight } = props;
   state.itemViews.length = 0;
   itemsToRender.map((row, index) => {
-    // 记录需要固定的值
-    if (!state.fixedRows && virtualConfig?.fixedIndex === index) state.fixedRows = row;
-    // item 的 props 参数
-    let isFixed = false;
     // 计算item超出部分
     const beyond = itemHeight * state.inner.itemNum - props.height;
     // 计算每个item需要浮动的top位置
     let top = index * itemHeight - beyond;
     let rowValue = row;
     // 如果有固定的item，需要设置特殊值
-    if (index === virtualConfig?.fixedIndex && state.fixedRows) {
-      isFixed = true;
-      top = virtualConfig?.fixedTopValue;
-      rowValue = state.fixedRows;
-    }
     const propsParams: ListViewItemPropsType = {
-      isVirtualized: isVirtualized,
-      isFixed: isFixed,
-      top: top,
-      height: isFixed ? void 0 : itemHeight
+      top,
+      height: itemHeight
     };
     state.itemViews.push({ bind: propsParams, index, row: rowValue });
   });
@@ -118,7 +108,7 @@ const renderList = async () => {
  * 计算当前需要渲染的元素范围
  */
 const calculateItemsToRender = () => {
-  const itemHeight = props.virtualConfig.itemHeight;
+  const itemHeight = props.itemHeight;
   const startIndex = Math.floor(state.scrollTop / itemHeight);
   const endIndex = startIndex + Math.ceil(props.height / itemHeight);
   state.inner.itemNum = endIndex - startIndex;
@@ -162,6 +152,8 @@ const getInnerStyle = computed(
     }
   }
 );
+// 抛出操作api，与子组件交互
+provide<GroupContextType>(listViewGroupKey, reactive({ ...toRefs(props) }));
 </script>
 <style lang="scss" scoped>
 @import "./index.scss";

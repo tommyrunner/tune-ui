@@ -1,54 +1,35 @@
 <template>
-  <TListView
-    class="t-table"
-    ref="tTableRef"
-    v-bind="getBind"
-    :style="getTableStyle"
-    :height="props.height"
-    :virtualConfig="{
-      fixedTopValue: 0,
-      fixedIndex: 0,
-      itemHeight: virtualizedItemHeight
-    }"
-    @scroll="handlerScroll"
-    @update-view="handlerUpdateView"
-  >
-    <template #default="scope: ListSlotParamsType">
-      <!-- 虚拟列表 -->
-      <TTableRow
-        ref="testRef"
-        v-if="props.isVirtualized"
-        :row="scope.row"
-        :rowIndex="scope.index"
-        :isHead="scope.row._Head"
-        :is-hover-bg="!scope.row._Head"
-        :def-bg-color="scope.row._Head && headBgColor"
-        :_virtual-config="{ isVirtualized: props.isVirtualized }"
-        @change="(params: TableRowType) => emit('change', params)"
-      ></TTableRow>
-      <!-- json列表 -->
-      <template v-else>
-        <TTableRow
-          v-for="(row, index) in getData"
-          :key="index"
-          :rowIndex="index"
-          :row="row"
-          :isHead="row._Head"
-          :is-hover-bg="!row._Head"
-          :def-bg-color="row._Head && headBgColor"
-          @change="(params: TableRowType) => emit('change', params)"
-        ></TTableRow>
+  <div class="t-table" ref="tTableRef" :style="getTableStyle">
+    <!-- 表头 -->
+    <TTableRow :row="headData" :rowIndex="0" :isHead="true" :is-hover-bg="false" :def-bg-color="headBgColor"></TTableRow>
+    <!-- 列表数据 -->
+    <TListView
+      :list-data="listData"
+      :is-virtualized="isVirtualized"
+      :height="props.height"
+      :item-height="virtualizedItemHeight"
+      @scroll="handlerScroll"
+      @update-view="handlerUpdateView"
+    >
+      <template #default="scope: ListSlotParamsType">
+        <!-- 虚拟列表 -->
+        <component v-if="props.isVirtualized" :is="RenderTableRow(scope)" />
+        <!-- json列表 -->
+        <template v-else>
+          <component v-for="(row, index) in listData" :key="index" :is="RenderTableRow({ row, index })" />
+        </template>
       </template>
-    </template>
-  </TListView>
+    </TListView>
+  </div>
 </template>
-<script lang="ts" setup>
+<script lang="tsx" setup>
 import type { EmitsType, PropsType, StateFilterType, TableColumnsType, TableRowType } from "./table";
-import type { PropsType as ListPropsType, ListSlotParamsType } from "../listView/listView";
-import { computed, provide, reactive, ref, StyleValue, toRefs } from "vue";
+import type { ListSlotParamsType } from "../listView/listView";
+import { computed, provide, reactive, ref, StyleValue, toRefs, VNode } from "vue";
 import { TListView } from "../listView/index";
 import TTableRow from "./table-row/table-row.vue";
-import { getTableColTag, type GroupContextType, tableGroupKey } from "./constants";
+import { getTableColTag, type GroupContextType, ROW_DATA_ID_KEY, tableGroupKey } from "./constants";
+import { generateId } from "@/utils";
 defineOptions({ name: "TTable" });
 const props = withDefaults(defineProps<PropsType>(), {
   headBgColor: "#f5f7fa",
@@ -61,30 +42,49 @@ const props = withDefaults(defineProps<PropsType>(), {
   data: () => []
 });
 const emit = defineEmits<EmitsType>();
-const tTableRef = ref<InstanceType<typeof TListView>>();
-const testRef = ref();
+const tTableRef = ref<HTMLDivElement>();
 const state = reactive({
   // 是否浮动列
   isFixedLeft: false,
   isFixedRight: true,
+  // 是否悬浮行
+  isFixedTop: false,
   // 记录选择行
   changeRows: [] as TableRowType[],
   // 排序字段
   sortColProps: []
 });
-const getBind = computed(() => {
-  const binds: ListPropsType = {};
-  if (props.isVirtualized) {
-    binds.isVirtualized = true;
-    binds.listData = getData.value;
-  }
-  return binds;
-});
-const getData = computed((): TableColumnsType[] => {
+/**
+ * 渲染row组件
+ * @param scope ListSlotParamsType
+ */
+const RenderTableRow = (scope: ListSlotParamsType): VNode => {
+  return (
+    <TTableRow
+      key={scope.index}
+      rowIndex={scope.index}
+      row={scope.row}
+      isHead={scope.row._Head}
+      is-hover-bg={!scope.row._Head}
+      def-bg-color={scope.row._Head && props.headBgColor}
+      _virtual-config={{ isVirtualized: props.isVirtualized }}
+      onChange={(params: TableRowType) => emit("change", params)}
+    ></TTableRow>
+  );
+};
+/**
+ * 处理头部数据
+ */
+const headData = computed(() => {
   // 处理请求头
   let head = { _Head: true };
-  // 通过模拟数据初始化表头数据
   initHeadData(filterColumns.value, head);
+  return head;
+});
+/**
+ * 处理表格数据
+ */
+const listData = computed((): TableColumnsType[] => {
   // 得出过滤条件
   let filterConditions = {} as { [key in string]: StateFilterType[] };
   props.columns.forEach(col => {
@@ -94,7 +94,7 @@ const getData = computed((): TableColumnsType[] => {
   });
   const temData = filterDataByConditions([...props.data], filterConditions);
   // 排序
-  temData.sort((rowA, rowB) => {
+  temData.sort((rowA: TableRowType, rowB: TableRowType) => {
     // 自定义排序
     if (props.sortMethod) return props.sortMethod({ rowA, rowB }, state.sortColProps);
     // 默认排序
@@ -111,11 +111,13 @@ const getData = computed((): TableColumnsType[] => {
     return 0;
   });
   // 过滤
-  return [head, ...temData];
+  return temData;
 });
 // 根据过滤条件过滤temData的函数
 function filterDataByConditions(data: TableRowType, conditions: { [key in string]: StateFilterType[] }) {
-  return data.filter(item => {
+  return data.filter((item: TableRowType) => {
+    // 添加唯一id
+    if (!item[ROW_DATA_ID_KEY]) item[ROW_DATA_ID_KEY] = generateId();
     for (const key in conditions) {
       const conditionArr = conditions[key];
       let isMatch = true;
@@ -190,6 +192,7 @@ const filterColumns = computed((): TableColumnsType[] => {
   // 设置边缘标记
   if (columnsCopy.left.length) columnsCopy.left[columnsCopy.left.length - 1]._fixedLast = true;
   if (columnsCopy.right.length) columnsCopy.right[0]._fixedLast = true;
+  // 排序功能
   return [...columnsCopy.left, ...columnsCopy.cols, ...columnsCopy.right].sort((a, b) => {
     return (a.sort || 0) - (b.sort || 0);
   });
@@ -247,6 +250,7 @@ const autoFixedPosition = (content: HTMLElement) => {
   // 横向轴超出0视为可浮动列
   state.isFixedLeft = content.scrollLeft > 0;
   state.isFixedRight = content.offsetWidth + content.scrollLeft < content.scrollWidth;
+  state.isFixedTop = content.scrollTop > 0;
   // 用于存储左右方向固定列的宽度累计值，初始化为0
   const fixedWidthValues: { [key in TableColumnsType["fixed"]]: number } = {
     left: 0,
@@ -265,7 +269,7 @@ const autoColWidth = (prop: string) => {
   if (!findCol) return;
   let maxWidth = 0;
   // 获取当前prop的el元素
-  const cells = tTableRef.value.$el.querySelectorAll(`#${getTableColTag(findCol.prop)} ._cell`) as HTMLElement[];
+  const cells = [...tTableRef.value.querySelectorAll(`#${getTableColTag(findCol.prop)} ._cell`)] as HTMLElement[];
   // 得出最大宽度
   cells.forEach(cell => {
     if (cell.offsetWidth > maxWidth) {
@@ -277,7 +281,10 @@ const autoColWidth = (prop: string) => {
 };
 
 // 抛出操作api，与子组件交互
-provide<GroupContextType>(tableGroupKey, reactive({ ...toRefs(props), autoColWidth, state, columns: filterColumns.value }));
+provide<GroupContextType>(
+  tableGroupKey,
+  reactive({ ...toRefs(props), autoColWidth, state, columns: filterColumns.value, headData })
+);
 /**
  * 抛出操作api
  */

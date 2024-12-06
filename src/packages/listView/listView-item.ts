@@ -6,14 +6,10 @@ export type ValueType = string | number;
  * @description: 组件props类型
  */
 export interface PropsType {
-  id?: number;
-  top?: number;
-  isVirtualized?: boolean;
-  // 是否固定行
-  isFixed?: boolean;
+  // 固定高度
   height?: number;
-  row?: any;
-  defBgColor?: string;
-  isHoverBg?: boolean;
-  hoverBgColor?: string;
+  // 固定列-虚拟列表不支持
+  fixed?: boolean;
+  // 虚拟列表固定top
+  top?: number;
 }

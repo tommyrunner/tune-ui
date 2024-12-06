@@ -22,6 +22,7 @@ export type TableRowType = any;
 export interface StateType {
   isFixedLeft: boolean;
   isFixedRight: boolean;
+  isFixedTop: boolean;
   changeRows: TableRowType[];
   sortColProps: StateSortType[];
 }
@@ -88,10 +89,14 @@ export interface PropsType {
   dbClickAutoWidth?: boolean;
   // 是否开启选择行 single: 单选，multiple: 多选，none: 无
   changeRow?: "single" | "multiple" | "none";
+  // 固定行
+  fixedIndexRow?: number;
   // 自定义行样式
-  rowStyle?: <T = TableRowType>(row: T) => StyleValue;
+  rowStyle?: <T = TableRowType>(row: T, isFixed: boolean) => StyleValue;
   // 自定义当前页排序
   sortMethod?: <T = TableRowType>(data: { rowA: T; rowB: T }, config: StateSortType[]) => number;
+  // 行内容扩展
+  renderExtend?: <T = TableRowType>(row: T) => VNode | string;
 }
 /**
  * @description: 组件emit类型

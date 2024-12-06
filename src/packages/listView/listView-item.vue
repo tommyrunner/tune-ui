@@ -4,26 +4,23 @@
   </li>
 </template>
 <script lang="ts" setup>
+import { GroupContextType, listViewGroupKey } from "./constants";
 import type { PropsType } from "./listView-item";
-import { computed, ref, StyleValue } from "vue";
+import { computed, inject, ref, StyleValue } from "vue";
 defineOptions({ name: "TListViewItem" });
-const props = withDefaults(defineProps<PropsType>(), {
-  isVirtualized: false,
-  disabled: false
-});
+const groupContext = inject<GroupContextType | undefined>(listViewGroupKey, void 0);
+const props = withDefaults(defineProps<PropsType>(), {});
 const listViewItemRef = ref<HTMLElement>();
 
 const getListViewItemClass = computed(() => {
-  const { isVirtualized } = props;
-  return ["t-listView-item", isVirtualized && "t-listView-item-inner"];
+  return ["t-listView-item", groupContext?.isVirtualized && "t-listView-item-inner", props.fixed && "t-listView-item-fixed"];
 });
 const getListViewItemStyle = computed((): StyleValue => {
-  const { isFixed, top, height } = props;
+  const { height, top } = props;
   return {
-    top: `${top}px`,
-    zIndex: isFixed ? 1 : void 0,
     width: `${listViewItemRef.value?.scrollWidth}px`,
-    height: `${height}px`
+    height: `${height}px`,
+    top: `${top}px`
   };
 });
 </script>

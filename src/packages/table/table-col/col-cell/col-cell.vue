@@ -5,11 +5,15 @@
       <!-- 数据过滤 -->
       <CellFilter :filters="col.filters" v-if="rowGroupContext?.isHead && col.filters" />
       <!-- 表头自定义 -->
-      <component v-if="rowGroupContext?.isHead && col.renderHead" :is="col.renderHead(renderParams())" />
+      <template v-if="rowGroupContext?.isHead">
+        <component v-if="col.renderHead" :is="col.renderHead(renderParams())" />
+        <span v-else>{{ groupContext?.headData[col.prop] }}</span>
+      </template>
       <!-- 单元格自定义 -->
-      <component v-if="!rowGroupContext?.isHead && col.render" :is="col.render(renderParams())" />
-      <!-- 默认渲染 -->
-      <span v-if="!col.renderHead">{{ rowGroupContext?.row[col.prop] }}</span>
+      <template v-else>
+        <component v-if="!rowGroupContext?.isHead && col.render" :is="col.render(renderParams())" />
+        <span v-else>{{ rowGroupContext?.row[col.prop] }}</span>
+      </template>
       <!-- 排序功能 -->
       <CellSort v-if="rowGroupContext?.isHead && col.sortable" :sort="state.sort" />
     </span>

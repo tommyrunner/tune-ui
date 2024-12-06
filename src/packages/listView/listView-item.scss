@@ -12,3 +12,8 @@ $title-margin-left: 16px;
     top: 0px;
   }
 }
+.t-listView-item-fixed {
+  position: sticky;
+  top: 0px !important;
+  z-index: $z-index-show;
+}
