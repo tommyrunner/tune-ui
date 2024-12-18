@@ -158,13 +158,17 @@ const updateView = async (el: Element) => {
 const autoPosition = (elRect: DOMRect, contentEl: HTMLDivElement) => {
   const { gap, autoPosition } = props;
   if (!autoPosition) return;
+  // 处理window溢出
+  const documentScrollY = document.documentElement.scrollTop;
+  const documentScrollX = document.documentElement.scrollLeft;
+  // 获取元素信息
   const { offsetWidth = 0, offsetHeight = 0 } = contentEl || {};
   const { innerWidth, innerHeight } = window;
   let { point } = state;
   let newPosition = props.position;
-  if (point.left - gap < 0) {
+  if (point.left - gap - documentScrollX < 0) {
     newPosition = "right";
-  } else if (point.top - gap < 0) {
+  } else if (point.top - gap - documentScrollY < 0) {
     newPosition = "bottom";
   } else if (point.left > innerWidth - gap - offsetWidth) {
     newPosition = "left";
