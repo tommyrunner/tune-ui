@@ -11,6 +11,7 @@
       <!-- 虚拟列表渲染 -->
       <div class="_inner" ref="innerRef" :style="getInnerStyle">
         <slot name="head" v-if="isVirtualized" />
+        <!-- 列表体 -->
         <slot v-if="!isVirtualized" />
         <template v-else>
           <!-- 

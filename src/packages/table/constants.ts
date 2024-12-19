@@ -13,11 +13,6 @@ export interface GroupContextType extends PropsType {
   headData: TableRowType;
 }
 /**
- * 行数据唯一key
- */
-export const ROW_DATA_EXTEND_KEY = Symbol("_row_extend"); // 是否扩展
-export const ROW_DATA_ID_KEY = Symbol("_row_ID"); // 唯一id
-/**
  * table-row 共享 provide 数据
  */
 

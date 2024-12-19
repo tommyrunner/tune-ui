@@ -15,7 +15,7 @@
 import type { PropsType, EmitsType, ValueType } from "./checkbox";
 import { type GroupContextType, checkboxGroupKey } from "./constants";
 import { TIcon } from "../icon";
-import { computed, inject, useSlots } from "vue";
+import { computed, inject, onMounted, useSlots } from "vue";
 import { configOptions } from "@/hooks/useOptions";
 import { isUnDef } from "@/utils/is";
 defineOptions({ name: "TCheckbox" });
@@ -29,6 +29,8 @@ const props = withDefaults(defineProps<PropsType>(), {
 const slot = useSlots();
 const model = defineModel<ValueType>();
 const groupContext = inject<GroupContextType | undefined>(checkboxGroupKey, void 0);
+// 默认赋值
+onMounted(() => (model.value = props.value));
 /**
    span的class配置
    custom-span 代表有自定义组件代替了span，需要修复样式

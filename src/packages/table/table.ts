@@ -23,7 +23,6 @@ export interface StateType {
   isFixedLeft: boolean;
   isFixedRight: boolean;
   isFixedTop: boolean;
-  changeRows: TableRowType[];
   sortColProps: StateSortType[];
 }
 export interface SearchRenderScope<T = TableRowType> {
@@ -88,7 +87,9 @@ export interface PropsType {
   // 双击自动适配宽度
   dbClickAutoWidth?: boolean;
   // 是否开启选择行 single: 单选，multiple: 多选，none: 无
-  changeRow?: "single" | "multiple" | "none";
+  changeType?: "single" | "multiple" | "none";
+  // 选中行key
+  changeKey?: string;
   // 固定行
   fixedIndexRow?: number;
   // 自定义行样式
@@ -103,5 +104,6 @@ export interface PropsType {
  */
 export interface EmitsType {
   // 切换事件
-  (e: "change", params: any): void;
+  (e: "checked", { row, data }: { row: TableRowType; data: TableRowType[] }): void;
+  (e: "clickRow", row: TableRowType): void;
 }

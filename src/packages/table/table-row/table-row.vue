@@ -46,32 +46,14 @@ const handlerMouseOut = (is: boolean) => {
  * 处理change事件
  */
 const handlerClick = () => {
-  const { changeRow, state: groupState } = groupContext;
-  if (changeRow === "none") return;
-  // 已经选中取消选择
-  if (isChange.value) {
-    groupState.changeRows = groupState.changeRows.filter(changeRow => changeRow !== props.row);
-  }
-  // 判断单选多选
-  else if (changeRow === "single") {
-    groupState.changeRows = [props.row];
-  } else if (changeRow === "multiple") {
-    groupState.changeRows.push(props.row);
-  }
-  if (isChange.value) emit("change", groupState.changeRows);
+  emit("clickRow", props.row);
 };
-/**
- * 当前change状态
- */
-const isChange = computed(() => {
-  return groupContext.state.changeRows.some(changeRow => changeRow === props.row);
-});
 
 /**
  * 动态样式
  */
 const getRowStyle = computed((): StyleValue => {
-  const { rowIndex, hoverBgColor, isHead, defBgColor } = props;
+  const { rowIndex, hoverBgColor, isHead, defBgColor, row } = props;
   const { stripe, fixedIndexRow, state: groupState, rowStyle, isVirtualized } = groupContext;
   let bgColor = defBgColor;
   const isFixed = rowIndex === fixedIndexRow && groupState.isFixedTop;
@@ -81,9 +63,10 @@ const getRowStyle = computed((): StyleValue => {
   if (stripe && rowIndex % 2 === 0) bgColor = isBoolean(stripe) && stripe ? hoverBgColor : stripe.toString();
   // 固定行样式
   if (isFixed) bgColor = groupContext.headBgColor;
+  // row[groupContext.changeKey] 是否选中
   return Object.assign(
     {
-      backgroundColor: state.isHover || isChange.value ? hoverBgColor : bgColor
+      backgroundColor: state.isHover || row[groupContext.changeKey] ? hoverBgColor : bgColor
     },
     rowStyle ? rowStyle(props.row, isFixed) : {},
     {

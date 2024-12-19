@@ -30,8 +30,8 @@ import type { ListSlotParamsType } from "../listView/listView";
 import { computed, provide, reactive, ref, StyleValue, toRefs, VNode } from "vue";
 import { TListView } from "../listView/index";
 import TTableRow from "./table-row/table-row.vue";
-import { getTableColTag, type GroupContextType, ROW_DATA_ID_KEY, tableGroupKey } from "./constants";
-import { generateId } from "@/utils";
+import { getTableColTag, type GroupContextType, tableGroupKey } from "./constants";
+import { useTable } from "./hooks";
 defineOptions({ name: "TTable" });
 const props = withDefaults(defineProps<PropsType>(), {
   headBgColor: "#f5f7fa",
@@ -39,7 +39,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   isDefSlotListHead: true,
   dbClickAutoWidth: true,
   virtualizedItemHeight: 36,
-  changeRow: "none",
+  changeType: "none",
+  changeKey: "_checked",
   columns: () => [],
   data: () => []
 });
@@ -51,11 +52,10 @@ const state = reactive({
   isFixedRight: true,
   // 是否悬浮行
   isFixedTop: false,
-  // 记录选择行
-  changeRows: [] as TableRowType[],
   // 排序字段
   sortColProps: []
 });
+const { filterColumns } = useTable(props, emit);
 /**
  * 渲染row组件
  * @param scope ListSlotParamsType
@@ -70,7 +70,7 @@ const RenderTableRow = (scope: ListSlotParamsType): VNode => {
       is-hover-bg={!scope.row._Head}
       def-bg-color={scope.row._Head && props.headBgColor}
       _virtual-config={{ isVirtualized: props.isVirtualized }}
-      onChange={(params: TableRowType) => emit("change", params)}
+      onClickRow={(params: TableRowType) => emit("clickRow", params)}
     ></TTableRow>
   );
 };
@@ -118,8 +118,6 @@ const listData = computed((): TableColumnsType[] => {
 // 根据过滤条件过滤temData的函数
 function filterDataByConditions(data: TableRowType, conditions: { [key in string]: StateFilterType[] }) {
   return data.filter((item: TableRowType) => {
-    // 添加唯一id
-    if (!item[ROW_DATA_ID_KEY]) item[ROW_DATA_ID_KEY] = generateId();
     for (const key in conditions) {
       const conditionArr = conditions[key];
       let isMatch = true;
@@ -172,32 +170,6 @@ const getTableStyle = computed((): StyleValue => {
     borderBottom: `1px solid ${border}`,
     borderRight: `1px solid ${border}`
   };
-});
-/**
- * 过滤列
- * @returns 列配置
- */
-const filterColumns = computed((): TableColumnsType[] => {
-  const columnsCopy = {
-    left: [] as TableColumnsType[],
-    right: [] as TableColumnsType[],
-    cols: [] as TableColumnsType[]
-  };
-  // 悬浮字段默认靠边
-  props.columns.forEach(col => {
-    if (col.fixed === "left") {
-      columnsCopy.left.push(col);
-    } else if (col.fixed === "right") {
-      columnsCopy.right.push(col);
-    } else columnsCopy.cols.push(col);
-  });
-  // 设置边缘标记
-  if (columnsCopy.left.length) columnsCopy.left[columnsCopy.left.length - 1]._fixedLast = true;
-  if (columnsCopy.right.length) columnsCopy.right[0]._fixedLast = true;
-  // 排序功能
-  return [...columnsCopy.left, ...columnsCopy.cols, ...columnsCopy.right].sort((a, b) => {
-    return (a.sort || 0) - (b.sort || 0);
-  });
 });
 /**
  * 列表渲染初始化
@@ -283,10 +255,7 @@ const autoColWidth = (prop: string) => {
 };
 
 // 抛出操作api，与子组件交互
-provide<GroupContextType>(
-  tableGroupKey,
-  reactive({ ...toRefs(props), autoColWidth, state, columns: filterColumns.value, headData })
-);
+provide<GroupContextType>(tableGroupKey, reactive({ ...toRefs(props), autoColWidth, state, columns: filterColumns, headData }));
 /**
  * 抛出操作api
  */

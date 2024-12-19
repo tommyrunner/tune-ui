@@ -22,5 +22,5 @@ export interface PropsType {
  */
 export interface EmitsType {
   // 切换事件
-  (e: "change", params: TableRowType[]): void;
+  (e: "clickRow", params: TableRowType): void;
 }
