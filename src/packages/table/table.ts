@@ -55,6 +55,7 @@ export type TableColumnsType<T = TableRowType> = {
   sort?: number;
   sortable?: boolean; // 当前页排序
   filters?: StateFilterType[]; // 当前页筛选
+  summary?: ((summaryValue: string | number, scope: SearchRenderScope<T>) => VNode | string) | boolean;
   renderHead?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
   render?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
 };
@@ -94,6 +95,8 @@ export interface PropsType {
   changeKey?: string;
   // 固定行(仅非虚拟列表)
   fixedIndexRow?: number;
+  // 是否合计
+  summary?: boolean;
   // 自定义行样式
   rowStyle?: <T = TableRowType>(row: T, isFixed: boolean) => StyleValue;
   // 自定义当前页排序

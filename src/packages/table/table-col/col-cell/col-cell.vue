@@ -4,14 +4,22 @@
     <span :class="getCellClass" @click="handleSort">
       <!-- 数据过滤 -->
       <CellFilter :filters="col.filters" v-if="rowGroupContext?.isHead && col.filters" />
-      <!-- 表头自定义 -->
+      <!-- 表头 -->
       <template v-if="rowGroupContext?.isHead">
+        <!-- 自定义 -->
         <component v-if="col.renderHead" :is="col.renderHead(renderParams())" />
+        <!-- 默认 -->
         <span v-else>{{ groupContext?.headData[col.prop] }}</span>
       </template>
-      <!-- 单元格自定义 -->
+      <!-- 单元格 -->
       <template v-else>
-        <component v-if="!rowGroupContext?.isHead && col.render" :is="col.render(renderParams())" />
+        <!-- 默认合计 -->
+        <template v-if="rowGroupContext.isFoot">
+          <span>{{ getSummary() }}</span>
+        </template>
+        <!-- 自定义 -->
+        <component v-else-if="!rowGroupContext?.isHead && col.render" :is="col.render(renderParams())" />
+        <!-- 默认 -->
         <span v-else>{{ rowGroupContext?.row[col.prop] }}</span>
       </template>
       <!-- 排序功能 -->
@@ -36,6 +44,8 @@ import {
 import { computed, inject, reactive, StyleValue } from "vue";
 import CellFilter from "./cell-filter/cell-filter.vue";
 import CellSort from "./cell-sort/cell-sort.vue";
+import { dataSummary } from "@/utils";
+import { isBoolean } from "@/utils/is";
 
 defineOptions({ name: "TTableColCell" });
 const props = withDefaults(defineProps<PropsType>(), {});
@@ -96,6 +106,15 @@ const renderParams = (): SearchRenderScope => {
     rowCol: col,
     data: row
   };
+};
+/**
+ * 计算合计值
+ */
+const getSummary = () => {
+  const { col } = props;
+  if (!col.summary) return "--";
+  if (isBoolean(col.summary)) return dataSummary(groupContext.data, col.prop) || "--";
+  else return col.summary(dataSummary(groupContext.data, col.prop), renderParams());
 };
 /**
  * 动态样式

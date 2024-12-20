@@ -9,20 +9,17 @@
       @scroll="handlerScroll"
       @update-view="handlerUpdateView"
     >
+      <!-- 表头 -->
       <template #head="scope">
-        <!-- 表头 -->
-        <TTableRow
-          :row="headData"
-          :rowIndex="0"
-          :isHead="true"
-          :is-hover-bg="false"
-          :def-bg-color="headBgColor"
-          :list-item-bind="scope.itemBind"
-        ></TTableRow>
+        <component :is="RenderTableRow({ ...scope, index: 0, row: headData }, true, false)" />
       </template>
+      <!-- 虚拟列表 -->
       <template #default="scope: ListSlotParamsType">
-        <!-- 虚拟列表 -->
-        <component :is="RenderTableRow(scope)" />
+        <component :is="RenderTableRow(scope, false, false)" />
+      </template>
+      <!-- 合计 -->
+      <template #foot="scope">
+        <component :is="RenderTableRow({ ...scope, index: 0, row: headData }, false, true)" />
       </template>
     </TListView>
   </div>
@@ -64,14 +61,14 @@ const { filterColumns } = useTable(props, emit);
  * 渲染row组件
  * @param scope ListSlotParamsType
  */
-const RenderTableRow = (scope: ListSlotParamsType): VNode => {
+const RenderTableRow = (scope: ListSlotParamsType, isHead: boolean, isFoot: boolean): VNode => {
   return (
     <TTableRow
       key={scope.index}
       rowIndex={scope.index}
       row={scope.row}
-      isHead={false}
-      is-hover-bg={true}
+      isHead={isHead}
+      isFoot={isFoot}
       list-item-bind={scope.itemBind}
       onClickRow={(params: TableRowType) => emit("clickRow", params)}
     ></TTableRow>

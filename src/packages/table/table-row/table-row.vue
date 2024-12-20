@@ -53,12 +53,12 @@ const handlerClick = () => {
  * 动态样式
  */
 const getRowStyle = computed((): StyleValue => {
-  const { rowIndex, hoverBgColor, isHead, defBgColor, row } = props;
+  const { rowIndex, hoverBgColor, isHead, isFoot, defBgColor, row } = props;
   const { stripe, fixedIndexRow, isVirtualized, rowStyle } = groupContext;
   let bgColor = defBgColor;
   const isFixedRow = rowIndex === fixedIndexRow;
   // 表头样式固定
-  if (isHead) return Object.assign({ backgroundColor: bgColor });
+  if (isHead || isFoot) return Object.assign({ backgroundColor: hoverBgColor });
   // 设置斑马纹(默认取hover颜色)
   if (stripe && rowIndex % 2 === 0) bgColor = isBoolean(stripe) && stripe ? hoverBgColor : stripe.toString();
   return Object.assign(
@@ -72,7 +72,8 @@ const getRowStyle = computed((): StyleValue => {
   );
 });
 const getRowClass = computed(() => {
-  return ["t-table-row", props.isHead && "t-table-row-head"];
+  const { isHead, isFoot } = props;
+  return ["_table-row", isHead && "_table-row-head", isFoot && "_table-row-foot"];
 });
 
 provide<GroupContextTableRowType>(

@@ -134,3 +134,21 @@ export function fromCssVal(array: (number | string)[]) {
     .filter(str => str) // 过滤掉空字符串
     .join(" "); // 连接成单个字符串
 }
+
+/**
+ * 计算对象数组合计
+ * @param data 对象数组
+ * @param key 计算的key
+ */
+export const dataSummary = (data: any[], key: string) => {
+  if (!data || !key) {
+    return null; // 如果数据或属性名不存在，直接返回null
+  }
+  return data.reduce((acc, current) => {
+    const value = current[key];
+    if (typeof value === "number") {
+      return acc + value;
+    }
+    return null; // 遇到非数字类型，返回null，表示无法计算总和
+  }, 0);
+};

@@ -1,7 +1,7 @@
 <template>
   <div class="t-listView" :style="{ height: height + 'px' }">
     <!-- 列表头 -->
-    <slot name="head" class="headRef" :itemBind="{ height: itemHeight }" />
+    <slot name="head" :itemBind="{ height: itemHeight }" />
     <Scrollbar
       :total-height="getInnerHeight"
       @scroll-y="listElement => handleScroll(listElement, 'y')"
@@ -14,6 +14,8 @@
         <slot v-for="iv in getListData" :key="iv.index" :index="iv.index" :row="iv.row" :itemBind="iv.bind" />
       </div>
     </Scrollbar>
+    <!-- 列表头 -->
+    <slot name="foot" :itemBind="{ height: itemHeight }" />
   </div>
 </template>
 <script lang="ts" setup>

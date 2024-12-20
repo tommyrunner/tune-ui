@@ -11,6 +11,8 @@ export interface PropsType {
   rowIndex?: number;
   // 是否头部数据
   isHead?: boolean;
+  // 是否尾部合计数据
+  isFoot?: boolean;
   // 主要处理虚拟列表问题
   columns?: TableColumnsType[];
   // 默认背景色
