@@ -1,5 +1,7 @@
 <template>
   <div class="t-listView" :style="{ height: height + 'px' }">
+    <!-- 列表头 -->
+    <slot name="head" class="headRef" :itemBind="{ height: itemHeight }" />
     <Scrollbar
       :total-height="getInnerHeight"
       @scroll-y="listElement => handleScroll(listElement, 'y')"
@@ -7,21 +9,9 @@
       :list-direction="props.direction"
       ref="scrollbarRef"
     >
-      <slot name="head" v-if="!isVirtualized" />
-      <!-- 虚拟列表渲染 -->
+      <!-- 列表体渲染 -->
       <div class="_inner" ref="innerRef" :style="getInnerStyle">
-        <slot name="head" v-if="isVirtualized" />
-        <!-- 列表体 -->
-        <slot v-if="!isVirtualized" />
-        <template v-else>
-          <!-- 
-            经测试不能使用render动态渲染，会导致provide/inject失效
-            而provide/inject对于我们是比较重要的，所以使用vue默认渲染实现
-          -->
-          <listViewItem v-for="iv in state.itemViews" :key="iv.index" v-bind="iv.bind">
-            <slot :index="iv.index" :row="iv.row" />
-          </listViewItem>
-        </template>
+        <slot v-for="iv in getListData" :key="iv.index" :index="iv.index" :row="iv.row" :itemBind="iv.bind" />
       </div>
     </Scrollbar>
   </div>
@@ -30,7 +20,6 @@
 import type { EmitsType, PropsType } from "./listView";
 import type { PropsType as ListViewItemPropsType } from "./listView-item";
 import { reactive, computed, onMounted, ref, StyleValue, nextTick, watch, toRefs, provide } from "vue";
-import listViewItem from "./listView-item.vue";
 import Scrollbar from "../scrollbar/index.vue";
 import { GroupContextType, listViewGroupKey } from "./constants";
 defineOptions({ name: "TListView" });
@@ -78,10 +67,16 @@ onMounted(() => {
   renderList();
 });
 /**
- * 获取容器真实高度
+ * 获取容器真实高度 (如果是虚拟列表高度需要计算并渲染滚动条,则直接渲染数据高度)
  */
 const getInnerHeight = computed(() => {
-  return !props.isVirtualized ? state.inner.height : props.listData.length * props.itemHeight;
+  return props.isVirtualized ? (props.listData.length - 1) * props.itemHeight : state.inner.height;
+});
+/**
+ * 获取当前列表数据 (如果是虚拟列表返回计算后数据含有top值,则直接返回数据无需bind绑定数据)
+ */
+const getListData = computed(() => {
+  return props.isVirtualized ? state.itemViews : props.listData.map((l, index) => ({ row: l, index }));
 });
 
 /**
@@ -94,10 +89,10 @@ const renderList = async () => {
   const { itemHeight } = props;
   state.itemViews.length = 0;
   itemsToRender.map((row, index) => {
-    // 计算item超出部分
+    // 计算item总高度超出部分
     const beyond = itemHeight * state.inner.itemNum - props.height;
-    // 计算每个item需要浮动的top位置
-    let top = index * itemHeight - beyond;
+    // 计算每个item需要浮动的top位置 - 超出部分 - 向上多滚动一个元素
+    let top = index * itemHeight - beyond - itemHeight;
     let rowValue = row;
     // 如果有固定的item，需要设置特殊值
     const propsParams: ListViewItemPropsType = {
@@ -144,7 +139,7 @@ const handleScroll = (content: HTMLElement, type: "y" | "x") => {
 const getInnerStyle = computed(
   (): StyleValue => {
     return {
-      height: `${getInnerHeight.value}px`
+      height: props.isVirtualized ? `${getInnerHeight.value}px` : "auto"
     };
   },
   {

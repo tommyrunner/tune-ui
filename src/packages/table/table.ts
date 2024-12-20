@@ -80,6 +80,8 @@ export interface PropsType {
   headBgColor?: string;
   // 鼠标悬浮背景色
   hoverBgColor?: string;
+  // 浮动行背景色
+  fixedRowBgColor?: string;
   // 边框
   border?: string;
   // 斑马纹
@@ -90,7 +92,7 @@ export interface PropsType {
   changeType?: "single" | "multiple" | "none";
   // 选中行key
   changeKey?: string;
-  // 固定行
+  // 固定行(仅非虚拟列表)
   fixedIndexRow?: number;
   // 自定义行样式
   rowStyle?: <T = TableRowType>(row: T, isFixed: boolean) => StyleValue;

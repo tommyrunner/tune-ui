@@ -1,16 +1,16 @@
 <template>
-  <component
+  <TListViewItem
     :class="getRowClass"
     :style="getRowStyle"
-    :is="groupContext?.isVirtualized ? 'div' : TListViewItem"
     :fixed="props.rowIndex === groupContext.fixedIndexRow"
+    v-bind="props.listItemBind"
     ref="tableRowRef"
     @click="handlerClick"
     @mouseenter.capture="handlerMouseEnter(true)"
     @mouseout.capture="handlerMouseOut(false)"
   >
     <TTableCol v-for="(col, index) in groupContext.columns" :key="col.prop" :col="col" :colIndex="index" />
-  </component>
+  </TListViewItem>
 </template>
 <script lang="ts" setup>
 import { computed, inject, provide, ref, StyleValue, toRefs } from "vue";
@@ -54,25 +54,21 @@ const handlerClick = () => {
  */
 const getRowStyle = computed((): StyleValue => {
   const { rowIndex, hoverBgColor, isHead, defBgColor, row } = props;
-  const { stripe, fixedIndexRow, state: groupState, rowStyle, isVirtualized } = groupContext;
+  const { stripe, fixedIndexRow, isVirtualized, rowStyle } = groupContext;
   let bgColor = defBgColor;
-  const isFixed = rowIndex === fixedIndexRow && groupState.isFixedTop;
+  const isFixedRow = rowIndex === fixedIndexRow;
   // 表头样式固定
   if (isHead) return Object.assign({ backgroundColor: bgColor });
   // 设置斑马纹(默认取hover颜色)
   if (stripe && rowIndex % 2 === 0) bgColor = isBoolean(stripe) && stripe ? hoverBgColor : stripe.toString();
-  // 固定行样式
-  if (isFixed) bgColor = groupContext.headBgColor;
-  // row[groupContext.changeKey] 是否选中
   return Object.assign(
     {
-      backgroundColor: state.isHover || row[groupContext.changeKey] ? hoverBgColor : bgColor
+      // row[groupContext.changeKey] 是否选中
+      backgroundColor: state.isHover || row[groupContext.changeKey] ? hoverBgColor : bgColor,
+      // 固定行样式(虚拟列表不支持)
+      border: !isFixedRow || isVirtualized ? "auto" : `1px dashed ${groupContext.fixedRowBgColor}`
     },
-    rowStyle ? rowStyle(props.row, isFixed) : {},
-    {
-      // 虚拟列表需要填充高度
-      height: isVirtualized ? "100%" : void 0
-    }
+    rowStyle ? rowStyle(props.row, isFixedRow) : {}
   );
 });
 const getRowClass = computed(() => {

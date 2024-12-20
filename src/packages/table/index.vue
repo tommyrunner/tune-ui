@@ -9,17 +9,20 @@
       @scroll="handlerScroll"
       @update-view="handlerUpdateView"
     >
-      <template #head>
+      <template #head="scope">
         <!-- 表头 -->
-        <TTableRow :row="headData" :rowIndex="0" :isHead="true" :is-hover-bg="false" :def-bg-color="headBgColor"></TTableRow>
+        <TTableRow
+          :row="headData"
+          :rowIndex="0"
+          :isHead="true"
+          :is-hover-bg="false"
+          :def-bg-color="headBgColor"
+          :list-item-bind="scope.itemBind"
+        ></TTableRow>
       </template>
       <template #default="scope: ListSlotParamsType">
         <!-- 虚拟列表 -->
-        <component v-if="props.isVirtualized" :is="RenderTableRow(scope)" />
-        <!-- json列表 -->
-        <template v-else>
-          <component v-for="(row, index) in listData" :key="index" :is="RenderTableRow({ row, index })" />
-        </template>
+        <component :is="RenderTableRow(scope)" />
       </template>
     </TListView>
   </div>
@@ -36,6 +39,7 @@ defineOptions({ name: "TTable" });
 const props = withDefaults(defineProps<PropsType>(), {
   headBgColor: "#f5f7fa",
   border: "#dcdcdc68",
+  fixedRowBgColor: "#eeb406",
   isDefSlotListHead: true,
   dbClickAutoWidth: true,
   virtualizedItemHeight: 36,
@@ -66,10 +70,9 @@ const RenderTableRow = (scope: ListSlotParamsType): VNode => {
       key={scope.index}
       rowIndex={scope.index}
       row={scope.row}
-      isHead={scope.row._Head}
-      is-hover-bg={!scope.row._Head}
-      def-bg-color={scope.row._Head && props.headBgColor}
-      _virtual-config={{ isVirtualized: props.isVirtualized }}
+      isHead={false}
+      is-hover-bg={true}
+      list-item-bind={scope.itemBind}
       onClickRow={(params: TableRowType) => emit("clickRow", params)}
     ></TTableRow>
   );

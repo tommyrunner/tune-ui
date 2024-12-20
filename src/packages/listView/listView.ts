@@ -1,9 +1,14 @@
+import { PropsType as ListViewItemPropsType } from "./listView-item";
 /**
  * 插槽参数
  */
 export type ListSlotParamsType<T = any> = {
+  // 行数据
   row?: T;
+  // 行下标
   index?: number;
+  // 传递bind属性
+  itemBind?: ListViewItemPropsType;
 };
 
 /**

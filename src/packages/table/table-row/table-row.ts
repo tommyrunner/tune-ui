@@ -1,4 +1,5 @@
 import { TableColumnsType, TableRowType } from "../table";
+import { PropsType as ListViewItemPropsType } from "@/packages/listView/listView-item";
 
 /**
  * @description: 组件props类型
@@ -16,6 +17,7 @@ export interface PropsType {
   defBgColor?: string;
   // 鼠标浮动背景色
   hoverBgColor?: string;
+  listItemBind?: ListViewItemPropsType;
 }
 /**
  * @description: 组件emit类型
