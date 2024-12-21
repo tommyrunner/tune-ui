@@ -41,6 +41,16 @@ $z-index-dow: -1;
   opacity: $opacity-disabled !important;
   user-select: none;
 }
+// 隐藏默认滚动条
+.t-hide-scrollbar {
+  overflow: auto;
+  // 隐藏滚动条 全面兼容
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+}
 
 // -loading
 .t-loading {
@@ -118,6 +128,7 @@ input::-webkit-inner-spin-button {
 }
 
 // 去除默认样式
+ul,
 li {
   margin: 0;
   padding: 0;

@@ -13,15 +13,17 @@ const props = withDefaults(defineProps<PropsType>(), {});
 const listViewItemRef = ref<HTMLElement>();
 
 const getListViewItemClass = computed(() => {
+  const { fixed } = props;
   return [
     "t-listView-item",
     groupContext?.isVirtualized && "t-listView-item-inner",
-    props.fixed && !groupContext.isVirtualized && "t-listView-item-fixed"
+    fixed && !groupContext.isVirtualized && "t-listView-item-fixed"
   ];
 });
 const getListViewItemStyle = computed((): StyleValue => {
   const { height, top } = props;
   return {
+    width: `${listViewItemRef.value?.scrollWidth}px`,
     height: `${height}px`,
     top: `${top}px`
   };

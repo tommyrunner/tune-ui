@@ -14,7 +14,7 @@
         :style="getScrollbarThumbHStyle"
       ></div>
     </div>
-    <div class="_content" ref="scrollbarRef" :style="getContentStyle">
+    <div class="_content t-hide-scrollbar" ref="scrollbarRef" :style="getContentStyle">
       <slot />
     </div>
   </div>

@@ -18,6 +18,8 @@ export function useTable(props: PropsType, emit: EmitsType) {
       columnsCopy.left.push({
         label: "选择",
         prop: "select",
+        width: 60,
+        fixed: "left",
         render: params => {
           return (
             <TCheckbox
