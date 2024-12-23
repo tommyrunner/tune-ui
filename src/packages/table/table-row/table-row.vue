@@ -21,7 +21,6 @@ import { reactive } from "vue";
 import { isBoolean } from "@/utils/is";
 import TListViewItem from "@/packages/listView/listView-item.vue";
 defineOptions({ name: "TTableRow" });
-// 共享数据
 const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
 const props = withDefaults(defineProps<PropsType>(), {
   hoverBgColor: "#f5f7fa",

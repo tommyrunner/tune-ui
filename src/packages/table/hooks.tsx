@@ -1,7 +1,16 @@
+import type { EmitsType, PropsType, TableColumnsType, TableRowType } from "./table";
+import type { ListSlotParamsType } from "@/packages/listView/listView";
 import { TCheckbox } from "../checkbox";
-import type { EmitsType, PropsType, TableColumnsType } from "./table";
-import { computed } from "vue";
+import { TABLE_COL_FIXED_LAST } from "./constants";
+import TTableRow from "./table-row/table-row.vue";
+import { computed, VNode } from "vue";
 
+/**
+ * 处理table功能列hooks
+ * @param props 参数
+ * @param emit 事件
+ * @returns
+ */
 export function useTable(props: PropsType, emit: EmitsType) {
   /**
    * 过滤列
@@ -50,12 +59,30 @@ export function useTable(props: PropsType, emit: EmitsType) {
       } else columnsCopy.cols.push(col);
     });
     // 设置边缘标记
-    if (columnsCopy.left.length) columnsCopy.left[columnsCopy.left.length - 1]._fixedLast = true;
-    if (columnsCopy.right.length) columnsCopy.right[0]._fixedLast = true;
+    if (columnsCopy.left.length) columnsCopy.left[columnsCopy.left.length - 1][TABLE_COL_FIXED_LAST] = true;
+    if (columnsCopy.right.length) columnsCopy.right[0][TABLE_COL_FIXED_LAST] = true;
     // 排序功能
     return [...columnsCopy.left, ...columnsCopy.cols, ...columnsCopy.right].sort((a, b) => {
       return (a.sort || 0) - (b.sort || 0);
     });
   });
-  return { filterColumns };
+
+  /**
+   * 渲染row组件
+   * @param scope ListSlotParamsType
+   */
+  const renderTableRow = (scope: ListSlotParamsType, isHead: boolean, isFoot: boolean): VNode => {
+    return (
+      <TTableRow
+        key={scope.index}
+        rowIndex={scope.index}
+        row={scope.row}
+        isHead={isHead}
+        isFoot={isFoot}
+        list-item-bind={scope.itemBind}
+        onClickRow={(params: TableRowType) => emit("clickRow", params)}
+      ></TTableRow>
+    );
+  };
+  return { filterColumns, renderTableRow };
 }

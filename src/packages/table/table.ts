@@ -1,5 +1,8 @@
 import { StyleValue, VNode } from "vue";
-// 筛选
+import { TABLE_COL_GROUP, TABLE_COL_FIXED_VALUE, TABLE_COL_FIXED_LAST } from "./constants";
+/**
+ * 筛选配置类型
+ */
 export interface StateFilterType {
   label: string;
   value: any;
@@ -7,7 +10,9 @@ export interface StateFilterType {
   // 类型 eq等于 lt小于 gt大于
   type: "eq" | "lt" | "gt";
 }
-// 排序
+/**
+ * 排序配置类型
+ */
 export interface StateSortType {
   sort: "none" | "asc" | "desc";
   prop: string;
@@ -17,12 +22,16 @@ export interface StateSortType {
  */
 export type TableRowType = any;
 /**
- * 状态类型
+ *  组件 state状态 类型
  */
 export interface StateType {
+  // 是否左固定列
   isFixedLeft: boolean;
+  // 是否右固定列
   isFixedRight: boolean;
+  // 是否上固定列
   isFixedTop: boolean;
+  // 排序配置
   sortColProps: StateSortType[];
 }
 export interface SearchRenderScope<T = TableRowType> {
@@ -41,23 +50,32 @@ export interface SearchRenderScope<T = TableRowType> {
 }
 
 export type TableColumnsType<T = TableRowType> = {
-  // 是否是表头
-  _Head?: boolean;
+  // 列唯一key
   prop: string;
+  // 列标题
   label: string;
+  // 列宽度
   width?: number;
+  // 固定列
   fixed?: "left" | "right";
+  // 列子级(仅表头使用)
   children?: TableColumnsType<T>[];
-  _group?: boolean;
-  _fixedValue?: number;
-  _fixedLast?: boolean;
   // 排序值
   sort?: number;
-  sortable?: boolean; // 当前页排序
-  filters?: StateFilterType[]; // 当前页筛选
+  // 当前页排序
+  sortable?: boolean;
+  // 当前页筛选
+  filters?: StateFilterType[];
+  // 列合计
   summary?: ((summaryValue: string | number, scope: SearchRenderScope<T>) => VNode | string) | boolean;
-  renderHead?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
-  render?: (scope: SearchRenderScope<T>) => VNode | string; // 自定义单元格内容渲染（tsx语法）
+  // 自定义单元格内容渲染（tsx语法）
+  renderHead?: (scope: SearchRenderScope<T>) => VNode | string;
+  // 自定义单元格内容渲染（tsx语法）
+  render?: (scope: SearchRenderScope<T>) => VNode | string;
+  // 内部状态值
+  [TABLE_COL_GROUP]?: boolean;
+  [TABLE_COL_FIXED_VALUE]?: number;
+  [TABLE_COL_FIXED_LAST]?: boolean;
 };
 //
 /**
@@ -110,5 +128,6 @@ export interface PropsType {
 export interface EmitsType {
   // 切换事件
   (e: "checked", { row, data }: { row: TableRowType; data: TableRowType[] }): void;
+  // 行点击事件
   (e: "clickRow", row: TableRowType): void;
 }

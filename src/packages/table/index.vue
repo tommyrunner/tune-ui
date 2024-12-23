@@ -11,15 +11,15 @@
     >
       <!-- 表头 -->
       <template #head="scope">
-        <component :is="RenderTableRow({ ...scope, index: 0, row: headData }, true, false)" />
+        <component :is="renderTableRow({ ...scope, index: 0, row: headData }, true, false)" />
       </template>
       <!-- 虚拟列表 -->
       <template #default="scope: ListSlotParamsType">
-        <component :is="RenderTableRow(scope, false, false)" />
+        <component :is="renderTableRow(scope, false, false)" />
       </template>
       <!-- 合计 -->
       <template #foot="scope">
-        <component :is="RenderTableRow({ ...scope, index: 0, row: headData }, false, true)" />
+        <component :is="renderTableRow({ ...scope, index: 0, row: headData }, false, true)" />
       </template>
     </TListView>
   </div>
@@ -27,10 +27,9 @@
 <script lang="tsx" setup>
 import type { EmitsType, PropsType, StateFilterType, TableColumnsType, TableRowType } from "./table";
 import type { ListSlotParamsType } from "../listView/listView";
-import { computed, provide, reactive, ref, StyleValue, toRefs, VNode } from "vue";
+import { computed, provide, reactive, ref, StyleValue, toRefs } from "vue";
 import { TListView } from "../listView/index";
-import TTableRow from "./table-row/table-row.vue";
-import { getTableColTag, type GroupContextType, tableGroupKey } from "./constants";
+import { getTableColTag, type GroupContextType, TABLE_COL_FIXED_VALUE, TABLE_COL_GROUP, tableGroupKey } from "./constants";
 import { useTable } from "./hooks";
 defineOptions({ name: "TTable" });
 const props = withDefaults(defineProps<PropsType>(), {
@@ -56,30 +55,14 @@ const state = reactive({
   // 排序字段
   sortColProps: []
 });
-const { filterColumns } = useTable(props, emit);
-/**
- * 渲染row组件
- * @param scope ListSlotParamsType
- */
-const RenderTableRow = (scope: ListSlotParamsType, isHead: boolean, isFoot: boolean): VNode => {
-  return (
-    <TTableRow
-      key={scope.index}
-      rowIndex={scope.index}
-      row={scope.row}
-      isHead={isHead}
-      isFoot={isFoot}
-      list-item-bind={scope.itemBind}
-      onClickRow={(params: TableRowType) => emit("clickRow", params)}
-    ></TTableRow>
-  );
-};
+const { filterColumns, renderTableRow } = useTable(props, emit);
+
 /**
  * 处理头部数据
  */
 const headData = computed(() => {
   // 处理请求头
-  let head = { _Head: true };
+  let head = {};
   initHeadData(filterColumns.value, head);
   return head;
 });
@@ -158,7 +141,7 @@ const initHeadData = (columns: TableColumnsType[], head: TableRowType) => {
   columns.forEach(col => {
     head[col.prop] = col.label;
     if (col.children && col.children.length) {
-      col._group = true;
+      col[TABLE_COL_GROUP] = true;
       initHeadData(col.children, head);
     }
   });
@@ -206,7 +189,7 @@ const processFixedColumns = (
     if (col.fixed && col.fixed === fixedDirection) {
       const colEl = content.querySelector(`#${getTableColTag(col.prop)}`) as HTMLElement;
       if (!colEl) return;
-      col._fixedValue = fixedValues[fixedDirection];
+      col[TABLE_COL_FIXED_VALUE] = fixedValues[fixedDirection];
       if (fixedValues[fixedDirection] === 0) {
         fixedValues[fixedDirection] = colEl.offsetWidth;
       } else {

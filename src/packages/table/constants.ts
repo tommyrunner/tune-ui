@@ -4,6 +4,13 @@ import { PropsType as TableRowPropsType } from "./table-row/table-row";
 import { PropsType as TableColPropsType } from "./table-col/table-col";
 
 /**
+ * 内部行状态值
+ */
+export const TABLE_COL_GROUP = Symbol("_group"); // 是否表头分组
+export const TABLE_COL_FIXED_VALUE = Symbol("_fixedValue"); // 列固定值
+export const TABLE_COL_FIXED_LAST = Symbol("_fixedLast"); // 是否最后一行
+
+/**
  * table 共享 provide 数据
  */
 export interface GroupContextType extends PropsType {

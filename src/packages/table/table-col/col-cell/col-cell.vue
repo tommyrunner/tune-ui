@@ -2,16 +2,16 @@
   <!-- 单元格 -->
   <div :class="getColClass" :style="getColStyle" :id="getTableColTag(col.prop)">
     <span :class="getCellClass" @click="handleSort">
-      <!-- 数据过滤 -->
+      <!-- [数据过滤] -->
       <CellFilter :filters="col.filters" v-if="rowGroupContext?.isHead && col.filters" />
-      <!-- 表头 -->
+      <!-- [表头] -->
       <template v-if="rowGroupContext?.isHead">
         <!-- 自定义 -->
         <component v-if="col.renderHead" :is="col.renderHead(renderParams())" />
         <!-- 默认 -->
         <span v-else>{{ groupContext?.headData[col.prop] }}</span>
       </template>
-      <!-- 单元格 -->
+      <!-- [单元格] -->
       <template v-else>
         <!-- 默认合计 -->
         <template v-if="rowGroupContext.isFoot">
@@ -22,11 +22,11 @@
         <!-- 默认 -->
         <span v-else>{{ rowGroupContext?.row[col.prop] }}</span>
       </template>
-      <!-- 排序功能 -->
+      <!-- [排序功能] -->
       <CellSort v-if="rowGroupContext?.isHead && col.sortable" :sort="state.sort" />
     </span>
     <!-- 控制列宽 -->
-    <div class="_cell-width-line" v-if="rowGroupContext.isHead && !col._group" @dblclick="handlerDbCol"></div>
+    <div class="_cell-width-line" v-if="rowGroupContext.isHead && !col[TABLE_COL_GROUP]" @dblclick="handlerDbCol"></div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -39,7 +39,10 @@ import {
   tableRowGroupKey,
   tableGroupKey,
   tableColGroupKey,
-  getTableColTag
+  getTableColTag,
+  TABLE_COL_GROUP,
+  TABLE_COL_FIXED_LAST,
+  TABLE_COL_FIXED_VALUE
 } from "@/packages/table/constants";
 import { computed, inject, reactive, StyleValue } from "vue";
 import CellFilter from "./cell-filter/cell-filter.vue";
@@ -134,12 +137,12 @@ const getColStyle = computed(() => {
   let fixedStyle: StyleValue = {};
   if (col.fixed) {
     fixedStyle = {
-      [col.fixed]: `${col._fixedValue || 0}px`
+      [col.fixed]: `${col[TABLE_COL_FIXED_VALUE] || 0}px`
     };
-    if (state.isFixedRight && col.fixed === "right" && col._fixedLast) {
+    if (state.isFixedRight && col.fixed === "right" && col[TABLE_COL_FIXED_LAST]) {
       fixedStyle["boxShadow"] = "-5px 0px 3px 0px rgba(0, 0, 0, 0.05)";
     }
-    if (state.isFixedLeft && col.fixed === "left" && col._fixedLast) {
+    if (state.isFixedLeft && col.fixed === "left" && col[TABLE_COL_FIXED_LAST]) {
       fixedStyle["boxShadow"] = "5px 0px 3px 0px rgba(0, 0, 0, 0.05)";
     }
   }
