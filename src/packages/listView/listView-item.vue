@@ -4,6 +4,7 @@
   </li>
 </template>
 <script lang="ts" setup>
+import { isString } from "@/utils/is";
 import { GroupContextType, listViewGroupKey } from "./constants";
 import type { PropsType } from "./listView-item";
 import { computed, inject, ref, StyleValue } from "vue";
@@ -24,7 +25,7 @@ const getListViewItemStyle = computed((): StyleValue => {
   const { height, top } = props;
   return {
     width: `${listViewItemRef.value?.scrollWidth}px`,
-    height: `${height}px`,
+    height: isString(height) ? height : `${height}px`,
     top: `${top}px`
   };
 });

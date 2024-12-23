@@ -8,13 +8,8 @@
 ._table-row-head {
   font-weight: bold;
   position: sticky;
-  top: 0px;
   z-index: $z-index-up;
-  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.06);
 }
 ._table-row-foot {
-  position: sticky;
-  top: 0px;
   z-index: $z-index-up;
-  box-shadow: 0px -2px 6px 0px rgba(0, 0, 0, 0.06);
 }

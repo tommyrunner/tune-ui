@@ -2,7 +2,7 @@
   <ul class="t-listView" :style="{ height: height + 'px' }">
     <!-- 列表头 -->
     <div class="_head t-hide-scrollbar" :ref="(el: HTMLElement) => getExtItemRefList(el, 0)">
-      <slot name="head" />
+      <slot name="head" :itemBind="{ height: '100%' }" />
     </div>
     <Scrollbar
       :total-height="getInnerHeight"
@@ -18,7 +18,7 @@
     </Scrollbar>
     <!-- 列表尾 -->
     <div class="_foot t-hide-scrollbar" :ref="(el: HTMLElement) => getExtItemRefList(el, 1)">
-      <slot name="foot" />
+      <slot name="foot" :itemBind="{ height: '100%' }" />
     </div>
   </ul>
 </template>
