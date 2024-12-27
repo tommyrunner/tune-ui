@@ -18,8 +18,8 @@
         <component :is="renderTableRow(scope, false, false)" />
       </template>
       <!-- 合计 -->
-      <template #foot="scope">
-        <component :is="renderTableRow({ ...scope, index: 0, row: headData }, false, true)" />
+      <template #foot="scope" v-if="summary">
+        <component :is="renderTableRow({ ...scope, index: 0 }, false, true)" />
       </template>
     </TListView>
   </div>

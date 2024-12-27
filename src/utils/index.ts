@@ -144,7 +144,7 @@ export const dataSummary = (data: any[], key: string) => {
   if (!data || !key) {
     return null; // 如果数据或属性名不存在，直接返回null
   }
-  return data.reduce((acc, current) => {
+  return data.reduce((acc, current = {}) => {
     const value = current[key];
     if (typeof value === "number") {
       return acc + value;

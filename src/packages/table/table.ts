@@ -22,6 +22,10 @@ export interface StateSortType {
  */
 export type TableRowType = any;
 /**
+ * Node 元素
+ */
+export type TableRowVNode = VNode | string | number;
+/**
  *  组件 state状态 类型
  */
 export interface StateType {
@@ -34,7 +38,7 @@ export interface StateType {
   // 排序配置
   sortColProps: StateSortType[];
 }
-export interface SearchRenderScope<T = TableRowType> {
+export interface ColumnRenderScope<T = TableRowType> {
   // 行index
   rowIndex: number;
   // 列index
@@ -66,12 +70,10 @@ export type TableColumnsType<T = TableRowType> = {
   sortable?: boolean;
   // 当前页筛选
   filters?: StateFilterType[];
-  // 列合计
-  summary?: ((summaryValue: string | number, scope: SearchRenderScope<T>) => VNode | string) | boolean;
   // 自定义单元格内容渲染（tsx语法）
-  renderHead?: (scope: SearchRenderScope<T>) => VNode | string;
+  renderHead?: (scope: ColumnRenderScope<T>) => TableRowVNode;
   // 自定义单元格内容渲染（tsx语法）
-  render?: (scope: SearchRenderScope<T>) => VNode | string;
+  render?: (scope: ColumnRenderScope<T>) => TableRowVNode;
   // 内部状态值
   [TABLE_COL_GROUP]?: boolean;
   [TABLE_COL_FIXED_VALUE]?: number;
@@ -113,14 +115,14 @@ export interface PropsType {
   changeKey?: string;
   // 固定行(仅非虚拟列表)
   fixedIndexRow?: number;
-  // 是否合计
-  summary?: boolean;
+  // 列合计
+  summary?: boolean | ((summaryValue: number, scope: ColumnRenderScope) => TableRowVNode);
   // 自定义行样式
   rowStyle?: <T = TableRowType>(row: T, isFixed: boolean) => StyleValue;
   // 自定义当前页排序
   sortMethod?: <T = TableRowType>(data: { rowA: T; rowB: T }, config: StateSortType[]) => number;
   // 行内容扩展
-  renderExtend?: <T = TableRowType>(row: T) => VNode | string;
+  renderExtend?: <T = TableRowType>(row: T) => TableRowVNode;
 }
 /**
  * @description: 组件emit类型

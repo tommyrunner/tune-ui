@@ -30,7 +30,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { SearchRenderScope, StateSortType } from "@/packages/table/table";
+import type { ColumnRenderScope, StateSortType } from "@/packages/table/table";
 import type { PropsType } from "./col-cell";
 import {
   type GroupContextType,
@@ -97,9 +97,9 @@ const handleSort = () => {
  * @param index 单元格下标
  * @param col 单元格配置
  */
-const renderParams = (): SearchRenderScope => {
+const renderParams = (): ColumnRenderScope => {
   const { col } = props;
-  const { rowIndex, row } = rowGroupContext;
+  const { rowIndex, row = {} } = rowGroupContext;
   const { colIndex } = colGroupContext;
   return {
     rowIndex: rowIndex,
@@ -114,10 +114,19 @@ const renderParams = (): SearchRenderScope => {
  * 计算合计值
  */
 const getSummary = () => {
-  const { col } = props;
-  if (!col.summary) return "--";
-  if (isBoolean(col.summary)) return dataSummary(groupContext.data, col.prop) || "--";
-  else return col.summary(dataSummary(groupContext.data, col.prop), renderParams());
+  try {
+    const { col } = props;
+    const { summary } = groupContext;
+    // 默认排序
+    if (isBoolean(summary)) {
+      return dataSummary(groupContext?.data, col.prop);
+    } else {
+      // 自定义
+      return summary(dataSummary(groupContext?.data, col.prop), renderParams());
+    }
+  } catch {
+    return "--";
+  }
 };
 /**
  * 动态样式
