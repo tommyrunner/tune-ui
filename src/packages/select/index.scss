@@ -65,6 +65,12 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
+    > * {
+      transition: 0.22s;
+    }
+    ._icon-active {
+      transform: rotate(180deg);
+    }
   }
 
   .right-icon-enter-active {
