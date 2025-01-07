@@ -8,7 +8,6 @@ export function isKeyboard(event: KeyboardEvent, key: string | number) {
  * 处理绑定防抖事件
  * @param fun 事件触发
  * @param delay 延迟
- * @param params 参数
  */
 export function bindDebounce<T>(fun: (data?: T) => void | Function, delay: number) {
   let timeout: undefined | NodeJS.Timeout = void 0;
@@ -25,7 +24,6 @@ export function bindDebounce<T>(fun: (data?: T) => void | Function, delay: numbe
  * 处理绑定节流事件
  * @param fun 事件触发
  * @param delay 延迟
- * @param params 参数
  */
 export function bindThrottle<T>(fun: (data?: T) => void, delay: number) {
   let isThrottled = false;

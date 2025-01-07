@@ -36,7 +36,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   isCursor: true,
   debounceDelay: 1000
 });
-const model = defineModel<string>();
+const model = defineModel<string>("");
 const cursor = ref(0);
 
 const getClass = computed(() => {
@@ -71,6 +71,8 @@ const updateCursor = () => {
   let startText = model.value.slice(0, index);
   cursor.value = startText.split("\n").length;
 };
+// 防抖事件
+const debounce = bindDebounce(props.debounce, props.debounceDelay);
 // 输入处理
 const handleInput = () => {
   const value = model.value;
@@ -86,7 +88,7 @@ const handleInput = () => {
   // 优化处理:如果没绑定防抖事件直接返回
   if (!props.debounce) return;
   // 防抖处理
-  bindDebounce(props.debounce, props.debounceDelay, model.value);
+  debounce(model.value);
 };
 </script>
 <style lang="scss" scoped>

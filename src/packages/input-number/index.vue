@@ -76,6 +76,7 @@ const handlerStep = (is: boolean) => {
   if (is) (model.value as number) += props.step;
   else (model.value as number) -= props.step;
 };
+const debounce = bindDebounce(props.debounce, props.debounceDelay);
 // 输入处理
 const handleInput = (target: HTMLInputElement, index: number) => {
   const value = Number(target.value);
@@ -86,7 +87,7 @@ const handleInput = (target: HTMLInputElement, index: number) => {
   // 优化处理:如果没绑定防抖事件直接返回
   if (!props.debounce) return;
   // 防抖处理
-  bindDebounce(props.debounce, props.debounceDelay, value);
+  debounce(value);
 };
 </script>
 <style lang="scss" scoped>

@@ -92,6 +92,7 @@ export interface PropsType {
   virtualizedItemHeight?: number;
   // 数组
   columns?: TableColumnsType[];
+  // 数据
   data?: TableRowType[];
   // 列表方向:row横向，row竖向(默认)
   direction?: "row" | "column";

@@ -6,6 +6,7 @@ import { TRadio, TRadioGroup } from "./radio";
 import { TCheckbox, TCheckboxGroup } from "./checkbox";
 import { TSwitch } from "./switch";
 import { TInput } from "./input";
+import { TSelect } from "./select";
 import { TInputNumber } from "./input-number";
 import { TTextarea } from "./textarea";
 import { TRate } from "./rate";
@@ -36,6 +37,7 @@ const components = {
   TCheckboxGroup,
   TSwitch,
   TInput,
+  TSelect,
   TInputNumber,
   TTextarea,
   TRate,
@@ -79,6 +81,7 @@ export * from "./radio";
 export * from "./checkbox";
 export * from "./switch";
 export * from "./input";
+export * from "./select";
 export * from "./input-number";
 export * from "./textarea";
 export * from "./rate";

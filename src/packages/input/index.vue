@@ -10,7 +10,7 @@
       :type="getInputType"
       :placeholder="props.placeholder"
       :disabled="props.disabled"
-      :maxlength="props.maxlength"
+      :maxlength="props.maxLength"
       @focus="emit('focus', model)"
       @blur="emit('blur', model)"
       @keyup.enter="emit('enter', model)"
@@ -42,13 +42,13 @@ const inputRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   debounce: undefined,
-  isTipe: true,
+  isTip: true,
   clearable: true,
   size: configOptions.value.elSize,
   disabled: false,
   debounceDelay: 1000
 });
-const model = defineModel<string>();
+const model = defineModel<string>("");
 const isPreview = ref(false);
 
 const getClass = computed(() => {
@@ -62,17 +62,17 @@ const getClass = computed(() => {
   ];
 });
 const getTip = computed(() => {
-  return props.isTipe && model.value && (props.placeholder || props.tip);
+  return props.isTip && model.value && (props.placeholder || props.tip);
 });
 const getInputType = computed((): InputTypeHTMLAttribute => {
   return props.password && !isPreview.value ? "password" : "text";
 });
 const sizes: { [key in ElSizeType]: number } = {
-  default: 16,
+  default: 14,
   small: 14,
   large: 18
 };
-const defIconColor = "#656a6e88";
+const defIconColor = "#656a6e56";
 const getIconSize = computed(() => {
   return sizes[props.size];
 });
@@ -84,13 +84,15 @@ const handleClear = () => {
   model.value = "";
   emit("clear");
 };
+// 防抖事件
+const debounce = bindDebounce(props.debounce, props.debounceDelay);
 // 输入处理
 const handleInput = () => {
   emit("input", model.value);
   // 优化处理:如果没绑定防抖事件直接返回
   if (!props.debounce) return;
   // 防抖处理
-  bindDebounce(props.debounce, props.debounceDelay, model.value);
+  debounce(model.value);
 };
 </script>
 <style lang="scss" scoped>
