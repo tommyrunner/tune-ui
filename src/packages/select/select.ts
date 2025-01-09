@@ -3,6 +3,10 @@ import { type BaseProps } from "@/types";
  * @description: 组件props类型
  */
 export interface PropsType extends BaseProps {
+  // 选择显示类型
+  type?: "input" | "text";
+  // 显示文本提示文字
+  textLabel?: string;
   // 占位符
   placeholder?: string;
   // 是否展示输入提示

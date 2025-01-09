@@ -14,8 +14,8 @@
             <span>{{ props.content }}</span>
           </slot>
           <div class="_triangle" :style="getTriangleStyle">
-            <div></div>
-            <div></div>
+            <div :style="{ borderWidth: `${triangleWidth}px` }"></div>
+            <div :style="{ borderWidth: `${triangleWidth}px` }"></div>
           </div>
         </div>
       </Transition>
@@ -33,8 +33,9 @@
 <script lang="ts" setup>
 import type { EmitsType, PropsType } from "./popover";
 import { bindDebounce, fromCssVal, generateId, getMaxZIndex, isDownKeyboard } from "@/utils";
-import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, toRefs, watch } from "vue";
+import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, watch } from "vue";
 defineOptions({ name: "TPopover" });
+const triangleWidth = 8;
 const props = withDefaults(defineProps<PropsType>(), {
   gap: 12,
   type: "hover",
@@ -43,7 +44,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   hideAfter: 150,
   radius: () => [8, 8, 8, 8],
   padding: () => [8, 12, 8, 12],
-  boxShadow: () => [0, 0, 4, "rgba(0, 0, 0, 0.5)"],
+  boxShadow: () => [0, 0, 4, "rgba(0, 0, 0, 0.2)"],
   showArrow: true,
   autoPosition: true,
   custom: void 0,
@@ -124,11 +125,17 @@ const hidePopover = (hide?: boolean) => {
   }
 };
 /**
+ * 显示popover
+ */
+const showPopover = () => {
+  model.value = true;
+};
+/**
  * 标记离开popover上
  */
 const onPopoverHoverEnter = (event: MouseEvent) => {
   state.isHoverOther = state.isHoverPopover = true;
-  emit("hoverEnter", event.target as HTMLElement);
+  emit("hoverEnter", event.currentTarget as HTMLElement);
 };
 /**
  * 标记是否hover在popover上
@@ -136,7 +143,7 @@ const onPopoverHoverEnter = (event: MouseEvent) => {
 const onPopoverHoverOut = (event: MouseEvent) => {
   state.isHoverOther = state.isHoverPopover = false;
   hidePopover();
-  emit("hoverOut", event.target as HTMLElement);
+  emit("hoverOut", event.currentTarget as HTMLElement);
 };
 /**
  * 更新元素位置
@@ -194,21 +201,6 @@ const mousedownHandler = () => {
 };
 
 /**
- * 处理子元素初始化事件
- * @param event
- */
-const childClickHandler = (event: MouseEvent) => {
-  bindPopover(event.target as Element, "click");
-};
-
-const childMouseenterHandler = (event: MouseEvent) => {
-  bindPopover(event.target as Element, "hover");
-};
-
-const childMouseleaveHandler = () => {
-  hidePopover();
-};
-/**
  * 处理元素事件
  * @param remove 是否移出事件
  */
@@ -218,6 +210,7 @@ const handlerEventListener = (remove = false) => {
   window[method]("mousedown", mousedownHandler);
   if (contentRef.value) {
     Array.from(contentRef.value.children).forEach(child => {
+      // 禁止冒泡(防止子元素触发)
       child[method]("click", childClickHandler);
       child[method]("mouseenter", childMouseenterHandler);
       child[method]("mouseleave", childMouseleaveHandler);
@@ -225,6 +218,21 @@ const handlerEventListener = (remove = false) => {
       if (!remove) updateView(child);
     });
   }
+};
+/**
+ * 处理子元素初始化事件
+ * @param event
+ */
+const childClickHandler = (event: MouseEvent) => {
+  bindPopover(event.currentTarget as Element, "click");
+};
+
+const childMouseenterHandler = (event: MouseEvent) => {
+  bindPopover(event.currentTarget as Element, "hover");
+};
+
+const childMouseleaveHandler = () => {
+  hidePopover();
 };
 onDeactivated(() => {
   handlerEventListener(true);
@@ -345,8 +353,8 @@ const getTriangleStyle = computed((): StyleValue => {
   const valW = width / 2;
   const valH = height / 2;
   const contrast: any = {
-    width: width < offsetWidth ? `${valW}px` : "50%",
-    height: height < offsetHeight ? `${valH}px` : "50%"
+    width: width < offsetWidth ? `${valW}px` : `calc(50% - ${triangleWidth}px)`,
+    height: height < offsetHeight ? `${valH}px` : `calc(50% - ${triangleWidth}px)`
   };
   let point: any = {
     left: "initial",
@@ -382,7 +390,8 @@ const getTriangleStyle = computed((): StyleValue => {
 });
 defineExpose({
   popoverRef,
-  ...toRefs(state)
+  showPopover,
+  hidePopover
 });
 </script>
 <style lang="scss" scoped>
