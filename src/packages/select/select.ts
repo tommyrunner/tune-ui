@@ -1,4 +1,8 @@
 import { type BaseProps } from "@/types";
+
+// 组件默认容器圆角
+export const contentRadius = 6;
+
 /**
  * @description: 组件props类型
  */
@@ -15,16 +19,8 @@ export interface PropsType extends BaseProps {
   tip?: string;
   // 是否清空
   clearable?: boolean;
-  // 是否是密码框
-  password?: boolean;
-  // 最大长度
-  maxLength?: number;
   // 是否禁用
   disabled?: boolean;
-  // 防抖事件
-  debounce?: (data?: string) => void | Function;
-  // 防抖延迟时间
-  debounceDelay?: number;
 }
 /**
  * @description: 组件emit类型

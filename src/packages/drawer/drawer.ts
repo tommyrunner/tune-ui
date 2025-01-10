@@ -6,7 +6,7 @@ import { PropsType as ButtonPropsType } from "../button/button";
  */
 export interface PropsType {
   // 内间距
-  padding?: [number, number, number, number];
+  padding?: [number, number, number, number] | number;
   // 阴影
   boxShadow?: [number, number, number, string];
   // 大小

@@ -120,8 +120,12 @@ export function getMaxZIndex(selectors: string) {
  * 格式化css四位值
  * @param array
  */
-export function fromCssVal(array: (number | string)[]) {
-  return array
+export function fromCssVal(params: (number | string)[] | (string | number)): string {
+  // 单项值
+  if (isNumber(params)) return `${params}px`;
+  if (isString(params)) return params;
+  // 多项值
+  return params
     .filter(item => isNumber(item) || isString(item)) // 只保留数字和字符串
     .map(item => {
       if (isString(item)) return item;

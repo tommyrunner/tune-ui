@@ -24,9 +24,9 @@ export interface PropsType {
   // 	显示时间, 单位为毫秒。 值为 0 则不会自动关闭
   duration?: number;
   // 圆角
-  radius?: [number, number, number, number];
+  radius?: [number, number, number, number] | number;
   // 内间距
-  padding?: [number, number, number, number];
+  padding?: [number, number, number, number] | number;
   // 悬浮元素渲染位置
   appendTo?: string | RendererElement;
   // 自定义xy轴

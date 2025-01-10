@@ -31,11 +31,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import type { EmitsType, PropsType } from "./popover";
+import { triangleWidth, type EmitsType, type PropsType } from "./popover";
 import { bindDebounce, fromCssVal, generateId, getMaxZIndex, isDownKeyboard } from "@/utils";
 import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, watch } from "vue";
 defineOptions({ name: "TPopover" });
-const triangleWidth = 8;
 const props = withDefaults(defineProps<PropsType>(), {
   gap: 12,
   type: "hover",

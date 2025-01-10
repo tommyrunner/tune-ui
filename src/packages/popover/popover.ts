@@ -1,4 +1,6 @@
 import { RendererElement } from "vue";
+// 全局三角箭头宽度(半径)
+export const triangleWidth = 8;
 
 /**
  * @description: 组件props类型
@@ -13,9 +15,9 @@ export interface PropsType {
   // 内容
   content?: string;
   // 圆角
-  radius?: [number, number, number, number];
+  radius?: [number, number, number, number] | number;
   // 内间距
-  padding?: [number, number, number, number];
+  padding?: [number, number, number, number] | number;
   // 阴影
   boxShadow?: [number, number, number, string];
   // 间隙
