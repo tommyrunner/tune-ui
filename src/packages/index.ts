@@ -67,12 +67,12 @@ const components = {
 export default {
   version: "1.0.0",
   install: (Vue: App) => {
-    Object.entries(components).forEach(([name, component]) => {
+    Object.entries(components).forEach(([_, component]) => {
       if (component.name) {
         Vue.component(component.name, component);
       }
     });
-    
+
     // 添加全局方法
     Vue.config.globalProperties.$message = Message;
     Vue.config.globalProperties.$notification = Notification;
