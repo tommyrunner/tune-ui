@@ -16,7 +16,7 @@ export type ListSlotParamsType<T = any> = {
  */
 export interface PropsType {
   // 高度
-  height?: number;
+  height?: number | string;
   // item高度
   itemMinHeight?: number;
   // 是否虚拟列表

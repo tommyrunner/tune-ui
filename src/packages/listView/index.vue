@@ -1,5 +1,5 @@
 <template>
-  <ul class="t-listView" :style="{ height: height + 'px' }">
+  <ul class="t-listView" :style="{ height: fromCssVal(height) }" ref="listViewRef">
     <!-- 列表头 -->
     <div class="_head t-hide-scrollbar" :ref="(el: HTMLElement) => getExtItemRefList(el, 0)">
       <slot name="head" :itemBind="{ height: '100%' }" />
@@ -28,11 +28,12 @@ import type { PropsType as ListViewItemPropsType } from "./listView-item";
 import { reactive, computed, onMounted, ref, StyleValue, nextTick, watch, toRefs, provide, useSlots } from "vue";
 import Scrollbar from "../scrollbar/index.vue";
 import { GroupContextType, listViewGroupKey } from "./constants";
+import { fromCssVal } from "@/utils";
 defineOptions({ name: "TListView" });
 const props = withDefaults(defineProps<PropsType>(), {
   direction: "column",
   isVirtualized: false,
-  height: 420,
+  height: "auto",
   listData: () => [],
   virtualConfig: () => ({
     fixedIndex: void 0,
@@ -67,6 +68,7 @@ const state = reactive({
 });
 // 虚拟列表容器
 const innerRef = ref<HTMLDivElement>();
+const listViewRef = ref<HTMLDivElement>();
 const scrollbarRef = ref<InstanceType<typeof Scrollbar>>();
 watch(
   () => props.listData,
@@ -76,22 +78,21 @@ watch(
 );
 onMounted(() => {
   // 非虚拟列表渲染初始化事件抛出
-  emit("updateView", scrollbarRef.value.listViewRef);
+  emit("updateView", scrollbarRef.value.contentRef);
   renderList();
 });
 /**
  * 获取当前列表总高度(虚拟列表容器需要减去外置行)
  */
 const getHeight = computed(() => {
-  const { height } = props;
-  let value = height;
+  let height = listViewRef.value.offsetHeight;
   if (slot.head && extItemRefList.value[0]) {
-    value -= extItemRefList.value[0].offsetHeight;
+    height -= extItemRefList.value[0].offsetHeight;
   }
   if (slot.foot && extItemRefList.value[1]) {
-    value -= extItemRefList.value[1].offsetHeight;
+    height -= extItemRefList.value[1].offsetHeight;
   }
-  return value < 0 ? 0 : value;
+  return height < 0 ? 0 : height;
 });
 /**
  * 获取容器真实高度 (如果是虚拟列表高度需要计算并渲染滚动条,则直接渲染数据高度)
@@ -170,7 +171,8 @@ const handleScroll = (content: HTMLElement, type: "y" | "x") => {
 const getInnerStyle = computed(
   (): StyleValue => {
     return {
-      height: props.isVirtualized ? `${getInnerHeight.value}px` : "auto"
+      height: props.isVirtualized ? `${getInnerHeight.value}px` : "auto",
+      position: props.isVirtualized ? `absolute` : "initial"
     };
   },
   {

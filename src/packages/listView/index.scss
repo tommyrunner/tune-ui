@@ -5,11 +5,19 @@
   flex-direction: column;
   position: relative;
   ._inner {
-    position: absolute;
+    // position: absolute;
     width: 100%;
     padding: 0px;
     margin: 0px;
     display: flex;
     flex-direction: column;
+  }
+  ._head,
+  ._foot {
+    flex-shrink: 0;
+  }
+  .t-scrollbar {
+    flex: 1;
+    overflow: hidden;
   }
 }

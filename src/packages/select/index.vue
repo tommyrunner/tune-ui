@@ -2,11 +2,15 @@
   <div class="t-select">
     <TPopover v-model="state.popoverActive" type="click" position="bottom" :padding="0" :radius="contentRadius">
       <template #content>
-        <div class="_options" :style="getOptionsStyle">
-          <Option v-for="i in 10" :value="i" :label="i" :key="i" />
-        </div>
+        <TListView :list-data="options" class="_options" :style="getOptionsStyle" height="auto">
+          <template #default="{ row }: ListSlotParamsType<OptionsItemType>">
+            <TListViewItem>
+              <Option :label="row.label" :value="row.value" />
+            </TListViewItem>
+          </template>
+        </TListView>
       </template>
-      <div class="_text-content" v-if="type !== 'text'" @click="handlerActive(!state.active)">
+      <div class="_text-content" v-if="type === 'text'" @click="handlerActive(!state.active)">
         {{ textLabel }}
         <TIcon :size="getIconSize" icon="caret-down" :color="defIconColor" />
       </div>
@@ -16,6 +20,7 @@
         </div>
         <span class="_tip" v-if="getTip">{{ getTip }}</span>
         <input
+          readonly
           ref="inputRef"
           v-model="model"
           :placeholder="props.placeholder"
@@ -40,18 +45,21 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { contentRadius, type EmitsType, type PropsType } from "./select";
+import { type EmitsType, OptionsItemType, type PropsType, contentRadius } from "./select";
+import type { ListSlotParamsType } from "@/packages/listView/listView";
 import type { ElSizeType } from "@/types";
 import { configOptions } from "@/hooks/useOptions";
 import { TPopover } from "@/packages/popover";
 import { computed, reactive, ref, StyleValue } from "vue";
 import { TIcon } from "../icon";
 import Option from "./option.vue";
-import { bindDebounce, fromCssVal } from "@/utils";
+import { TListView, TListViewItem } from "@/packages/listView";
+import { fromCssVal } from "@/utils";
 defineOptions({ name: "TSelect" });
 const inputRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
+  options: () => [],
   textLabel: "请选择",
   debounce: undefined,
   isTip: true,
@@ -98,15 +106,9 @@ const getOptionsStyle = computed((): StyleValue => {
     borderRadius: fromCssVal(contentRadius)
   };
 });
-// 防抖事件
-const debounce = bindDebounce(props.debounce, props.debounceDelay);
 // 输入处理
 const handleInput = () => {
   emit("input", model.value);
-  // 优化处理:如果没绑定防抖事件直接返回
-  if (!props.debounce) return;
-  // 防抖处理
-  debounce(model.value);
 };
 </script>
 <style lang="scss" scoped>

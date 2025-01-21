@@ -273,7 +273,7 @@ const getContentStyle = computed((): StyleValue => {
 defineExpose({
   updateScrollbar,
   setScrollbar,
-  listViewRef: scrollbarRef
+  contentRef: scrollbarRef
 });
 </script>
 <style lang="scss" scoped>

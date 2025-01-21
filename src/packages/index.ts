@@ -67,10 +67,15 @@ const components = {
 export default {
   version: "1.0.0",
   install: (Vue: App) => {
-    // 全部注册
-    for (const comp of Object.values(components)) {
-      comp.name && Vue.component(comp.name, comp);
-    }
+    Object.entries(components).forEach(([name, component]) => {
+      if (component.name) {
+        Vue.component(component.name, component);
+      }
+    });
+    
+    // 添加全局方法
+    Vue.config.globalProperties.$message = Message;
+    Vue.config.globalProperties.$notification = Notification;
   }
 };
 // 导出所有组件类型

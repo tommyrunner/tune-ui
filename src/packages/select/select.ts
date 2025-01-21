@@ -1,7 +1,9 @@
 import { type BaseProps } from "@/types";
+import { PropsType as OptionsItem } from "./option";
 
 // 组件默认容器圆角
 export const contentRadius = 6;
+export type OptionsItemType = OptionsItem;
 
 /**
  * @description: 组件props类型
@@ -21,6 +23,8 @@ export interface PropsType extends BaseProps {
   clearable?: boolean;
   // 是否禁用
   disabled?: boolean;
+  // 列表值
+  options: OptionsItemType[];
 }
 /**
  * @description: 组件emit类型

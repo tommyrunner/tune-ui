@@ -79,16 +79,16 @@
   }
 }
 // top动画
-@include popover-animation("top", "translateY", 0%, 30%);
+@include popover-animation("top", "translateY", 0%, 15%);
 
 // right动画
-@include popover-animation("right", "translateX", 0%, -30%);
+@include popover-animation("right", "translateX", 0%, -15%);
 
 // bottom动画
-@include popover-animation("bottom", "translateY", 0%, -30%);
+@include popover-animation("bottom", "translateY", 0%, -15%);
 
 // left动画
-@include popover-animation("left", "translateX", 0%, 30%);
+@include popover-animation("left", "translateX", 0%, 15%);
 
 // 处理遮罩层
 ._t-model {
