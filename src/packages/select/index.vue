@@ -60,6 +60,7 @@ const inputRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   options: () => [],
+  type: "input",
   textLabel: "请选择",
   debounce: undefined,
   isTip: true,
@@ -68,7 +69,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabled: false,
   debounceDelay: 1000
 });
-const model = defineModel<string>("");
+const model = defineModel<string>({ default: "" });
 const state = reactive({
   popoverActive: false,
   active: false

@@ -159,28 +159,55 @@ const updateView = async (el: Element) => {
 };
 /**
  * 自动调整 position
- * @param rect 元素信息
+ * @param elRect 元素信息
  */
 const autoPosition = (elRect: DOMRect, contentEl: HTMLDivElement) => {
   const { gap, autoPosition } = props;
   if (!autoPosition) return;
-  // 处理window溢出
+
+  // 获取视窗和滚动信息
   const documentScrollY = document.documentElement.scrollTop;
   const documentScrollX = document.documentElement.scrollLeft;
-  // 获取元素信息
-  const { offsetWidth = 0, offsetHeight = 0 } = contentEl || {};
   const { innerWidth, innerHeight } = window;
-  let { point } = state;
+
+  // 获取元素尺寸
+  const { offsetWidth = 0, offsetHeight = 0 } = contentEl || {};
+  const { point } = state;
+  const { height: triggerHeight } = elRect;
+
+  // 计算可用空间（考虑 popover 的实际尺寸）
+  const topSpace = point.top - documentScrollY; // 上方总空间
+  const bottomSpace = innerHeight - (point.top - documentScrollY + triggerHeight); // 下方总空间
+  const leftSpace = point.left - documentScrollX; // 左侧总空间
+  const rightSpace = innerWidth - (point.left + elRect.width - documentScrollX); // 右侧总空间
+
+  // 计算实际需要的空间
+  const spaces = {
+    top: topSpace >= offsetHeight + gap, // 上方是否足够放置 popover
+    bottom: bottomSpace >= offsetHeight + gap, // 下方是否足够放置 popover
+    left: leftSpace >= offsetWidth + gap, // 左侧是否足够放置 popover
+    right: rightSpace >= offsetWidth + gap // 右侧是否足够放置 popover
+  };
+
   let newPosition = props.position;
-  if (point.left - gap - documentScrollX < 0) {
-    newPosition = "right";
-  } else if (point.top - gap - documentScrollY < 0) {
-    newPosition = "bottom";
-  } else if (point.left > innerWidth - gap - offsetWidth) {
-    newPosition = "left";
-  } else if (point.top > innerHeight - gap - offsetHeight) {
-    newPosition = "top";
+
+  // 如果当前方向空间不足，选择其他有足够空间的方向
+  if (!spaces[newPosition]) {
+    // 优先选择对立方向
+    const oppositeMap = { top: "bottom", bottom: "top", left: "right", right: "left" };
+    const oppositePosition = oppositeMap[newPosition] as typeof props.position;
+
+    if (spaces[oppositePosition]) {
+      newPosition = oppositePosition;
+    } else {
+      // 如果对立方向也不行，选择任一个有足够空间的方向
+      const availablePosition = Object.entries(spaces).find(([_, hasSpace]) => hasSpace)?.[0] as typeof props.position;
+      if (availablePosition) {
+        newPosition = availablePosition;
+      }
+    }
   }
+
   // 调整位置
   state.point = getPoint(elRect, newPosition);
   // 调整三角指向
@@ -340,51 +367,58 @@ const getTransitionName = computed(() => {
   return name;
 });
 /**
- * 根据元素动态三角的指向以及样式
+ * 根据元素动态调整三角的位置
  */
 const getTriangleStyle = computed((): StyleValue => {
-  const { gap, showArrow } = props;
-  // 元素
-  const { height = gap, width = gap } = state.popoverRect || {};
-  // popover
-  const { offsetHeight = 0, offsetWidth = 0 } = popoverRef.value || {};
-  // 通过popover与元素对比取最小宽高(优先于元素大小)
-  const valW = width / 2;
-  const valH = height / 2;
-  const contrast: any = {
-    width: width < offsetWidth ? `${valW}px` : `calc(50% - ${triangleWidth}px)`,
-    height: height < offsetHeight ? `${valH}px` : `calc(50% - ${triangleWidth}px)`
-  };
-  let point: any = {
+  const { showArrow } = props;
+  if (!showArrow || !state.popoverRect) return { visibility: "hidden" };
+
+  const { width: triggerWidth, height: triggerHeight, x: triggerX, y: triggerY } = state.popoverRect;
+  const { offsetWidth = 0, offsetHeight = 0 } = popoverRef.value || {};
+
+  // 计算触发元素的中心点
+  const triggerCenterX = triggerX + triggerWidth / 2;
+  const triggerCenterY = triggerY + triggerHeight / 2;
+
+  // 计算 popover 的位置范围
+  const popoverLeft = state.point.left;
+  const popoverTop = state.point.top;
+
+  let position = {
     left: "initial",
     top: "initial",
     right: "initial",
     bottom: "initial"
   };
-  if (state.dyPosition === "top")
-    point = {
-      bottom: "0px",
-      left: contrast.width
-    };
-  else if (state.dyPosition === "right")
-    point = {
-      left: "0px",
-      top: contrast.height
-    };
-  else if (state.dyPosition === "bottom")
-    point = {
-      top: "0px",
-      left: contrast.width
-    };
-  else if (state.dyPosition === "left")
-    point = {
-      right: "0px",
-      top: contrast.height
-    };
-  // visibility 不满足显示三角条件(隐藏)
+
+  switch (state.dyPosition) {
+    case "top":
+    case "bottom": {
+      // 计算三角形的水平位置，确保指向触发元素中心
+      const triangleLeft = triggerCenterX - popoverLeft;
+      position = {
+        ...position,
+        left: `${Math.min(Math.max(triangleWidth, triangleLeft), offsetWidth - triangleWidth)}px`,
+        [state.dyPosition === "top" ? "bottom" : "top"]: "0"
+      };
+      break;
+    }
+    case "left":
+    case "right": {
+      // 计算三角形的垂直位置，确保指向触发元素中心
+      const triangleTop = triggerCenterY - popoverTop;
+      position = {
+        ...position,
+        top: `${Math.min(Math.max(triangleWidth, triangleTop), offsetHeight - triangleWidth)}px`,
+        [state.dyPosition === "left" ? "right" : "left"]: "0"
+      };
+      break;
+    }
+  }
+
   return {
-    visibility: valW < 0 || valH < 0 || !showArrow ? "hidden" : "visible",
-    ...point
+    visibility: "visible",
+    ...position
   };
 });
 defineExpose({
