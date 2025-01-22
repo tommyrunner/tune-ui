@@ -5,7 +5,6 @@
 </template>
 <script lang="ts" setup>
 import { EmitsType, PropsType } from "./option";
-
 defineOptions({ name: "TSelectOption" });
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {});

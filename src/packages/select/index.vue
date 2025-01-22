@@ -51,7 +51,7 @@ import type { ElSizeType } from "@/types";
 import { configOptions } from "@/hooks/useOptions";
 import { TPopover } from "@/packages/popover";
 import { computed, reactive, ref, StyleValue } from "vue";
-import { TIcon } from "../icon";
+import { TIcon } from "@/packages/icon";
 import Option from "./option.vue";
 import { TListView, TListViewItem } from "@/packages/listView";
 import { fromCssVal } from "@/utils";
