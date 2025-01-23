@@ -191,6 +191,7 @@ const handlerOpenMove = (event: MouseEvent, direction: DirectionType) => {
   if (direction === "top") state.scrollbar.isMoveV = true;
 };
 const handlerElementEnter = () => {
+  if (!scrollbarRef.value) return;
   const { offsetHeight, offsetWidth, scrollHeight, scrollWidth } = scrollbarRef.value;
   // 通过滚动宽高与实际宽高判断是否显示滚动条
   state.scrollbar.isShowH = scrollWidth > offsetWidth;

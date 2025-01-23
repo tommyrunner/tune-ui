@@ -1,17 +1,12 @@
+import type { TipProps } from "@/hooks/useTip";
 import { type BaseProps } from "@/types";
 /**
  * @description: 组件props类型
  */
 export type ModelType = number | number[];
-export interface PropsType extends BaseProps {
-  // 占位符
-  placeholder?: string;
+export interface PropsType extends BaseProps, TipProps {
   // 是否范围
   isRange?: boolean;
-  // 是否展示输入提示
-  isTipe?: boolean;
-  // 自定义提示
-  tip?: string;
   // 计数器步长
   step?: number;
   // 是否使用控制按钮

@@ -85,6 +85,19 @@ textarea {
   color: $text-color-default;
   font-size: inherit;
 }
+// 表单组件提示tip
+.t-tip {
+  position: absolute;
+  color: rgba(128, 128, 128, 0.747);
+  font-size: 10px;
+  transition: 0.22s;
+  left: 8px;
+  top: -10px;
+  z-index: $z-index-up;
+  background-color: white;
+  user-select: none;
+  animation: anima-tip ease 0.11s;
+}
 
 input::placeholder,
 textarea::placeholder {

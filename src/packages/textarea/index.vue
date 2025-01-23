@@ -1,18 +1,18 @@
 <template>
   <div :class="getClass" @click="updateCursor">
-    <span class="_tip" v-if="getTip">{{ getTip }}</span>
+    <component :is="TipComponent" />
     <textarea
       ref="textareaRef"
       v-model="model"
       :placeholder="props.placeholder"
       :disabled="props.disabled"
-      :maxlength="props.maxlength"
+      :maxlength="props.maxLength"
       @focus="emit('focus', model)"
       @blur="handleBlur"
       @keyup="handleKeyup"
       @input="handleInput"
     />
-    <div class="_point" v-if="props.maxlength">
+    <div class="_point" v-if="props.maxLength">
       <span>{{ getPointText }}</span>
     </div>
   </div>
@@ -23,12 +23,13 @@ import { configOptions } from "@/hooks/useOptions";
 import { computed, ref } from "vue";
 import { isKeyboard } from "@/utils";
 import { bindDebounce } from "@/utils";
+import { useTip } from "@/hooks";
 defineOptions({ name: "TTextarea" });
 const textareaRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   debounce: undefined,
-  isTipe: true,
+  isTip: true,
   size: configOptions.value.elSize,
   isEnter: true,
   disabled: false,
@@ -36,18 +37,16 @@ const props = withDefaults(defineProps<PropsType>(), {
   isCursor: true,
   debounceDelay: 1000
 });
-const model = defineModel<string>("");
+const model = defineModel<string>();
+const TipComponent = useTip(props, model);
 const cursor = ref(0);
 
 const getClass = computed(() => {
   const { isResize, disabled } = props;
   return ["t-textarea", !disabled && isResize && "t-textarea-resize", disabled && "t-disabled"];
 });
-const getTip = computed(() => {
-  return props.isTipe && model.value && (props.placeholder || props.tip);
-});
 const getPointText = computed(() => {
-  return (props.isCursor ? `[${cursor.value}]` : "") + (model.value?.length + "/" + props.maxlength);
+  return (props.isCursor ? `[${cursor.value}]` : "") + (model.value?.length + "/" + props.maxLength);
 });
 /**
  * 处理键盘事件
@@ -81,8 +80,8 @@ const handleInput = () => {
     return (model.value = value.replace("\n", ""));
   }
   // 限制长度
-  if (value && props.maxlength && value.length > props.maxlength) {
-    return (model.value = value.slice(0, props.maxlength));
+  if (value && props.maxLength && value.length > props.maxLength) {
+    return (model.value = value.slice(0, props.maxLength));
   }
   emit("input", value);
   // 优化处理:如果没绑定防抖事件直接返回
@@ -94,3 +93,4 @@ const handleInput = () => {
 <style lang="scss" scoped>
 @import "index.scss";
 </style>
+@/hooks/useOptions/useOptions@/hooks/useOptions

@@ -1,9 +1,7 @@
 <template>
   <div :class="getClass">
     <div class="_range-item" v-for="index in props.isRange ? 2 : 1" :key="index">
-      <span class="_tip" v-if="props.isTipe && isValue(props.isRange ? model[index - 1] : model)">
-        {{ getTip }}
-      </span>
+      <component :is="TipComponent" />
       <input
         :value="props.isRange ? model[index - 1] : model"
         type="number"
@@ -37,18 +35,19 @@ import type { ElSizeType } from "@/types";
 import { configOptions } from "@/hooks/useOptions";
 import { computed } from "vue";
 import { TIcon } from "../icon";
-import { isValue } from "@/utils/is";
 import { bindDebounce } from "@/utils";
+import { useTip } from "@/hooks";
 defineOptions({ name: "TInputNumber" });
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
-  isTipe: true,
+  isTip: true,
   isControls: true,
   size: configOptions.value.elSize,
   step: 1,
   debounceDelay: 1000
 });
 const model = defineModel<ModelType>();
+const TipComponent = useTip(props, model);
 const getClass = computed(() => {
   const { size, disabled, isRange, isControls } = props;
   return [
@@ -58,9 +57,6 @@ const getClass = computed(() => {
     isControls && "t-input-number-controls",
     disabled && "t-disabled"
   ];
-});
-const getTip = computed(() => {
-  return props.placeholder || props.tip;
 });
 const defIconColor = "#656a6e88";
 const sizes: { [key in ElSizeType]: number } = {
@@ -93,3 +89,4 @@ const handleInput = (target: HTMLInputElement, index: number) => {
 <style lang="scss" scoped>
 @import "index.scss";
 </style>
+@/hooks/useOptions/useOptions@/hooks/useOptions

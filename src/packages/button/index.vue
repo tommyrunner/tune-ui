@@ -1,6 +1,6 @@
 <template>
   <button :class="getClass" :style="getStyle" @click="hanlderClick">
-    <TIcon v-if="props.prefixIcon" :icon="prefixIcon" class="_prefixIcon" />
+    <TIcon v-if="props.prefixIcon" :icon="props.prefixIcon" class="_prefixIcon" />
     <slot />
     <TIcon v-if="props.suffixIcon || props.loading" :icon="suffixIcon" :class="['_suffixIcon', props.loading && 't-loading']" />
   </button>

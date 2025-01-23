@@ -100,3 +100,4 @@ const getStyle = computed((): StyleValue => {
 <style lang="scss" scoped>
 @import "index.scss";
 </style>
+@/hooks/useOptions/useOptions@/hooks/useOptions

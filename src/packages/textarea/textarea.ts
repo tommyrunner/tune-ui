@@ -1,15 +1,11 @@
+import { TipProps } from "@/hooks/useTip";
+
 /**
  * @description: 组件props类型
  */
-export interface PropsType {
-  // 占位符
-  placeholder?: string;
-  // 是否展示输入提示
-  isTipe?: boolean;
-  // 自定义提示
-  tip?: string;
+export interface PropsType extends TipProps {
   // 最大长度
-  maxlength?: number;
+  maxLength?: number;
   // 是否展示当前光标行
   isCursor?: boolean;
   // 是否开启拖动

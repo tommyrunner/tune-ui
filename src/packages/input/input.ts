@@ -1,14 +1,9 @@
+import type { TipProps } from "@/hooks/useTip";
 import { type BaseProps } from "@/types";
 /**
  * @description: 组件props类型
  */
-export interface PropsType extends BaseProps {
-  // 占位符
-  placeholder?: string;
-  // 是否展示输入提示
-  isTip?: boolean;
-  // 自定义提示
-  tip?: string;
+export interface PropsType extends BaseProps, TipProps {
   // 是否清空
   clearable?: boolean;
   // 是否是密码框

@@ -3,7 +3,7 @@
     <div class="_prefix">
       <slot name="prefix" />
     </div>
-    <span class="_tip" v-if="getTip">{{ getTip }}</span>
+    <component :is="TipComponent" />
     <input
       ref="inputRef"
       v-model="model"
@@ -37,6 +37,7 @@ import { configOptions } from "@/hooks/useOptions";
 import { InputTypeHTMLAttribute, computed, ref } from "vue";
 import { TIcon } from "../icon";
 import { bindDebounce } from "@/utils";
+import { useTip } from "@/hooks";
 defineOptions({ name: "TInput" });
 const inputRef = ref();
 const emit = defineEmits<EmitsType>();
@@ -48,7 +49,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabled: false,
   debounceDelay: 1000
 });
-const model = defineModel<string>("");
+const model = defineModel<string>();
+const TipComponent = useTip(props, model);
 const isPreview = ref(false);
 
 const getClass = computed(() => {
@@ -60,9 +62,6 @@ const getClass = computed(() => {
     clearable && "t-input-clearable",
     disabled && "t-disabled"
   ];
-});
-const getTip = computed(() => {
-  return props.isTip && model.value && (props.placeholder || props.tip);
 });
 const getInputType = computed((): InputTypeHTMLAttribute => {
   return props.password && !isPreview.value ? "password" : "text";
@@ -98,3 +97,4 @@ const handleInput = () => {
 <style lang="scss" scoped>
 @import "index.scss";
 </style>
+@/hooks/useOptions/useOptions@/hooks/useOptions

@@ -20,10 +20,6 @@
   &.t-disabled {
     background-color: $border-color-default;
 
-    ._tip {
-      background-color: transparent;
-    }
-
     > textarea {
       cursor: not-allowed;
     }
@@ -35,20 +31,6 @@
     padding: 4px 8px;
     resize: none;
   }
-
-  ._tip {
-    position: absolute;
-    color: rgba(128, 128, 128, 0.747);
-    font-size: 10px;
-    transition: 0.22s;
-    left: 8px;
-    top: -10px;
-    z-index: $z-index-up;
-    background-color: white;
-    user-select: none;
-    animation: anima-tip ease 0.11s;
-  }
-
   ._point {
     cursor: pointer;
     position: absolute;

@@ -128,6 +128,7 @@ export function isNullOrUnDef(val: unknown): val is null | undefined {
  * @returns
  */
 export function isValue(val: unknown): val is object | any[] | string | number {
+  if (isNumber(val)) return val !== 0;
   if (isArray(val) || isString(val)) return val.length > 0;
   if (isObject(val)) return Object.keys(val).length > 0;
   return !isUnDef(val) && !isNull(val);
