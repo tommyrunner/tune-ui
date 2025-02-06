@@ -139,3 +139,51 @@ export function isValue(val: unknown): val is object | any[] | string | number {
 export const isHexColor = (str: string) => {
   return /^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(str);
 };
+
+/**
+ * 判断两个值是否相等（支持深层对比）
+ * @param source 源值
+ * @param target 目标值
+ * @returns boolean
+ */
+export function isEqual(source: unknown, target: unknown): boolean {
+  // 基础类型或引用相同直接返回true
+  if (source === target) return true;
+
+  // 如果其中一个是null或undefined，返回false
+  if (isNullOrUnDef(source) || isNullOrUnDef(target)) return false;
+
+  // 如果类型不同，直接返回false
+  if (Object.prototype.toString.call(source) !== Object.prototype.toString.call(target)) return false;
+
+  // 处理日期对象
+  if (isDate(source) && isDate(target)) {
+    return source.getTime() === target.getTime();
+  }
+
+  // 处理正则表达式
+  if (is(source, "RegExp") && is(target, "RegExp")) {
+    return source.toString() === target.toString();
+  }
+
+  // 对象类型比较（包括普通对象、数组等）
+  if (isObject(source) || isArray(source)) {
+    // 如果长度不同，直接返回false
+    const sourceKeys = Object.keys(source as object);
+    const targetKeys = Object.keys(target as object);
+
+    if (sourceKeys.length !== targetKeys.length) return false;
+
+    // 递归比较每个属性
+    return sourceKeys.every(key => {
+      const sourceValue = (source as Record<string, unknown>)[key];
+      const targetValue = (target as Record<string, unknown>)[key];
+
+      // 递归比较
+      return isEqual(sourceValue, targetValue);
+    });
+  }
+
+  // 其他类型（如函数）直接返回false
+  return false;
+}

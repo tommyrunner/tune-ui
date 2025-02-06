@@ -1,58 +1,82 @@
 <template>
   <div class="t-select">
-    <TPopover v-model="state.popoverActive" type="click" position="bottom" :padding="0" :radius="contentRadius">
+    <TPopover v-model="selectState.isDropdownVisible" type="click" position="bottom" :padding="0" :radius="DROPDOWN_RADIUS">
+      <!-- 下拉选项列表 -->
       <template #content>
-        <TListView :list-data="options" class="_options" :style="getOptionsStyle" height="auto">
+        <TListView :list-data="options" class="_options" :style="dropdownStyles" height="auto">
           <template #default="{ row }: ListSlotParamsType<OptionsItemType>">
             <TListViewItem>
-              <Option :label="row.label" :value="row.value" @change="handlerOption(row)" />
+              <Option :label="row.label" :value="row.value" @change="handleOptionSelect(row)" />
             </TListViewItem>
           </template>
         </TListView>
       </template>
+
+      <!-- 文本模式显示 -->
       <div class="_text-content" v-if="type === 'text'">
         {{ textLabel }}
-        <TIcon :size="getIconSize" icon="caret-down" :color="defIconColor" />
+        <TIcon :size="iconSize" icon="caret-down" :color="ICON_COLOR" />
       </div>
-      <div :class="getClass" v-else>
+
+      <!-- 输入框模式显示 -->
+      <div :class="selectClassNames" v-else>
+        <!-- 前缀插槽 -->
         <div class="_prefix">
           <slot name="prefix" />
         </div>
+
+        <!-- 提示组件 -->
         <component :is="TipComponent" />
-        <input readonly ref="inputRef" :value="state.row.label" :placeholder="props.placeholder" :disabled="props.disabled" />
+
+        <!-- 输入框 -->
+        <input readonly ref="inputRef" :value="selectedLabel" :placeholder="placeholder" :disabled="disabled" />
+
+        <!-- 右侧图标 -->
         <div class="_right-icon">
-          <TIcon v-if="closeIconShow" icon="close-to" :size="getIconSize" :color="defIconColor" @click.stop="handleClear" />
+          <TIcon v-if="showClearIcon" icon="close-to" :size="iconSize" :color="ICON_COLOR" @click.stop="handleClear" />
           <TIcon
             v-else
-            :class="state.popoverActive ? '_icon-active' : ''"
-            :size="getIconSize"
+            :class="{ '_icon-active': selectState.isDropdownVisible }"
+            :size="iconSize"
             icon="caret-down"
-            :color="defIconColor"
+            :color="ICON_COLOR"
           />
         </div>
       </div>
     </TPopover>
   </div>
 </template>
+
 <script lang="ts" setup>
 import { type EmitsType, type ValueType, OptionsItemType, type PropsType, contentRadius } from "./select";
 import type { ListSlotParamsType } from "@/packages/listView/listView";
 import type { ElSizeType } from "@/types";
 import { configOptions } from "@/hooks/useOptions";
 import { TPopover } from "@/packages/popover";
-import { type StyleValue, computed, reactive, ref, watch } from "vue";
+import { type StyleValue, computed, reactive, ref, watch, provide, toRefs } from "vue";
 import { TIcon } from "@/packages/icon";
 import Option from "./option.vue";
 import { TListView, TListViewItem } from "@/packages/listView";
 import { fromCssVal } from "@/utils";
 import { useTip } from "@/hooks";
-import { provide } from "vue";
 import { GroupContextType } from "./constants";
 import { selectKey } from "element-plus";
-import { toRefs } from "vue";
+import { isEqual } from "@/utils/is";
 
+// 组件名称定义
 defineOptions({ name: "TSelect" });
-const inputRef = ref();
+
+// 常量定义
+const ICON_COLOR = "#656a6e56";
+const DROPDOWN_RADIUS = contentRadius;
+const ICON_SIZES: Record<ElSizeType, number> = {
+  default: 14,
+  small: 14,
+  large: 18
+};
+const EMPTY_OPTION: OptionsItemType = { label: "", value: "" };
+
+// Props 和 Emits 定义
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   options: () => [],
@@ -65,73 +89,93 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabled: false,
   debounceDelay: 1000
 });
+
+// v-model 定义
 const model = defineModel<ValueType>();
-const initRow: OptionsItemType = { label: "", value: "" };
-const state = reactive({
-  row: { ...initRow },
-  popoverActive: false
+
+// refs
+const inputRef = ref();
+
+// 组件状态
+const selectState = reactive({
+  selectedOption: { ...EMPTY_OPTION },
+  isDropdownVisible: false
 });
 
-const getClass = computed(() => {
+// 计算属性
+const selectClassNames = computed(() => {
   const { size, clearable, disabled } = props;
-  return ["_select-content ", `t-select-size-${size}`, clearable && "t-select-clearable", disabled && "t-disabled"];
+  return ["_select-content", `t-select-size-${size}`, clearable && "t-select-clearable", disabled && "t-disabled"];
 });
+
+const showClearIcon = computed(() => props.clearable && model.value);
+
+const iconSize = computed(() => ICON_SIZES[props.size]);
+
+const selectedLabel = computed(() => {
+  const selectedOption = props.options.find(option => isEqual(option.value, model.value));
+  return selectedOption?.label;
+});
+
+const dropdownStyles = computed(
+  (): StyleValue => ({
+    borderRadius: fromCssVal(DROPDOWN_RADIUS)
+  })
+);
+
+// 提示组件
 const TipComponent = useTip(props, model);
-const closeIconShow = computed((): boolean => {
-  return props.clearable && model.value ? true : false;
-});
-const sizes: { [key in ElSizeType]: number } = {
-  default: 14,
-  small: 14,
-  large: 18
-};
-const defIconColor = "#656a6e56";
-const getIconSize = computed(() => {
-  return sizes[props.size];
-});
+
+// 方法定义
+/**
+ * 清空选择
+ * @param event 事件对象
+ */
 const handleClear = (event: Event) => {
-  // 阻止事件冒泡，防止触发 popover
   event.stopPropagation();
   if (!props.clearable) return;
-  modelCall();
+  updateModelValue();
   emit("clear");
 };
+
 /**
- * 点击option
+ * 处理选项选择
+ * @param option 选中的选项
  */
-const handlerOption = (row: OptionsItemType) => {
-  modelCall(row);
+const handleOptionSelect = (option: OptionsItemType) => {
+  updateModelValue(option);
 };
+
 /**
- * 根据option处理model值
- * @param row
+ * 更新组件值
+ * @param option 选中的选项，不传则清空
  */
-const modelCall = (row?: OptionsItemType) => {
-  if (!row) {
-    state.row = { ...initRow };
+const updateModelValue = (option?: OptionsItemType) => {
+  if (!option) {
+    selectState.selectedOption = { ...EMPTY_OPTION };
     model.value = "";
     return;
   }
-  state.row = row;
-  state.popoverActive = false;
-  model.value = row.value;
+  selectState.selectedOption = option;
+  selectState.isDropdownVisible = false;
+  model.value = option.value;
 };
+
+// 监听器
 watch(
-  () => [model.value],
+  () => model.value,
   () => {
-    const find = props.options.find(o => o.value === model.value);
-    if (find) return find.label;
-    else modelCall();
+    const selectedOption = props.options.find(option => isEqual(option.value, model.value));
+    if (!selectedOption) {
+      updateModelValue();
+    }
   }
 );
-const getOptionsStyle = computed((): StyleValue => {
-  return {
-    borderRadius: fromCssVal(contentRadius)
-  };
-});
-// 抛出操作api，与子组件交互
+
+// Provide 注入
 provide<GroupContextType>(selectKey, reactive({ ...toRefs(props), model }));
 </script>
+
 <style lang="scss" scoped>
 @import "index.scss";
 </style>
