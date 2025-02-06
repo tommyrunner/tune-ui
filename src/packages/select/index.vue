@@ -1,6 +1,6 @@
 <template>
   <div class="t-select">
-    <TPopover v-model="selectState.isDropdownVisible" type="click" position="bottom" :padding="0" :radius="DROPDOWN_RADIUS">
+    <TPopover v-model="state.isDropdownVisible" type="click" position="bottom" :padding="0" :radius="DROPDOWN_RADIUS">
       <!-- 下拉选项列表 -->
       <template #content>
         <TListView :list-data="options" class="_options" :style="dropdownStyles" height="auto">
@@ -36,7 +36,7 @@
           <TIcon v-if="showClearIcon" icon="close-to" :size="iconSize" :color="ICON_COLOR" @click.stop="handleClear" />
           <TIcon
             v-else
-            :class="{ '_icon-active': selectState.isDropdownVisible }"
+            :class="{ '_icon-active': state.isDropdownVisible }"
             :size="iconSize"
             icon="caret-down"
             :color="ICON_COLOR"
@@ -86,8 +86,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   isTip: true,
   clearable: true,
   size: configOptions.value.elSize,
-  disabled: false,
-  debounceDelay: 1000
+  disabled: false
 });
 
 // v-model 定义
@@ -97,7 +96,7 @@ const model = defineModel<ValueType>();
 const inputRef = ref();
 
 // 组件状态
-const selectState = reactive({
+const state = reactive({
   selectedOption: { ...EMPTY_OPTION },
   isDropdownVisible: false
 });
@@ -152,12 +151,12 @@ const handleOptionSelect = (option: OptionsItemType) => {
  */
 const updateModelValue = (option?: OptionsItemType) => {
   if (!option) {
-    selectState.selectedOption = { ...EMPTY_OPTION };
+    state.selectedOption = { ...EMPTY_OPTION };
     model.value = "";
     return;
   }
-  selectState.selectedOption = option;
-  selectState.isDropdownVisible = false;
+  state.selectedOption = option;
+  state.isDropdownVisible = false;
   model.value = option.value;
 };
 
