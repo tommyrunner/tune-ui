@@ -40,7 +40,8 @@ import {
   TCardTest,
   TCarouselTest,
   TCheckboxTest,
-  TCollapseTest
+  TCollapseTest,
+  TDialogTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -62,11 +63,12 @@ const componentList: ComponentItem[] = [
   { name: "TCardTest", label: "Card 卡片", component: TCardTest },
   { name: "TCarouselTest", label: "Carousel 轮播", component: TCarouselTest },
   { name: "TCheckboxTest", label: "Checkbox 复选框", component: TCheckboxTest },
-  { name: "TCollapseTest", label: "Collapse 折叠面板", component: TCollapseTest }
+  { name: "TCollapseTest", label: "Collapse 折叠面板", component: TCollapseTest },
+  { name: "TDialogTest", label: "Dialog 对话框", component: TDialogTest }
 ];
 
-// 当前选中的组件
-const currentComponent = ref<ComponentItem | null>(null);
+// 当前选中的组件(默认最后一个)
+const currentComponent = ref<ComponentItem>(componentList[componentList.length - 1]);
 
 /**
  * 处理组件切换

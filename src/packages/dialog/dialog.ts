@@ -1,42 +1,45 @@
 import type { IconTypes } from "@/packages/icon/icon";
-import { PropsType as ButtonPropsType } from "../button/button";
+import type { PropsType as ButtonPropsType } from "@/packages/button/button";
 
 /**
  * @description: 组件props类型
  */
 export interface PropsType {
-  // 内间距
+  /** 内间距 [上, 右, 下, 左] */
   padding?: [number, number, number, number];
-  // 阴影
+  /** 阴影 [x偏移, y偏移, 模糊度, 颜色] */
   boxShadow?: [number, number, number, string];
-  // 宽
+  /** 宽度 */
   width?: string;
-  // 是否禁用(显示)
+  /** 是否禁用 */
   disabled?: boolean;
-  // 标题
+  /** 标题文本 */
   title?: string;
-  // icon
+  /** 标题图标 */
   icon?: IconTypes;
-  // 是否又遮罩
+  /** 是否显示遮罩层 */
   isModal?: boolean;
-  // 按钮文字
+  /** 确认按钮文本 */
   confirmText?: string;
+  /** 取消按钮文本 */
   cancelText?: string;
+  /** 确认按钮类型 */
   confirmType?: ButtonPropsType["type"];
+  /** 取消按钮类型 */
   cancelType?: ButtonPropsType["type"];
-  // 按钮对齐
+  /** 按钮对齐方式 */
   btnAlign?: "flex-start" | "center" | "flex-end";
-  // 是否按下esc关闭
+  /** 是否可以按ESC关闭 */
   closeOnPressEscape?: boolean;
-  // 是否点击遮罩层关闭
+  /** 是否可以点击遮罩层关闭 */
   closeOnPressModel?: boolean;
-  // 是否显示默认按钮组
+  /** 是否显示底部按钮组 */
   isFoot?: boolean;
-  // 是否显示关闭icon
+  /** 是否显示关闭图标 */
   isCloseIcon?: boolean;
-  // 是否可以拖动
+  /** 是否可拖动 */
   draggable?: boolean;
-  // 偏移xy轴
+  /** 偏移位置 */
   offset?: {
     x: number;
     y: number;
@@ -47,11 +50,12 @@ export interface PropsType {
  * @description: 组件emit类型
  */
 export interface EmitsType {
-  // 提交
+  /** 确认事件 */
   (e: "confirm"): void;
-  // 取消
+  /** 取消事件 */
   (e: "cancel"): void;
-  // 打开关闭回调
+  /** 打开事件 */
   (e: "open"): void;
+  /** 关闭事件 */
   (e: "close"): void;
 }
