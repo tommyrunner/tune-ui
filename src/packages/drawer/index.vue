@@ -4,7 +4,6 @@
     :position="props.position"
     :width="isSide ? props.size : '100%'"
     v-model="visible"
-    :disabled="props.disabled"
     :close-on-press-escape="props.closeOnPressEscape"
     :close-on-press-other="!props.isModal && props.closeOnPressModel"
     :padding="props.padding"
@@ -15,12 +14,12 @@
     :is-modal="props.isModal"
     :is-modal-nest="true"
     :radius="[0, 0, 0, 0]"
-    @click-model="handlerClickModel"
+    @click-model="handleClickModel"
     @open="emit('open')"
     @close="emit('close')"
   >
     <template #content>
-      <div class="t-drawer" :style="getDrawerStyle">
+      <div class="t-drawer" :style="drawerStyle">
         <div class="_head">
           <slot name="title">
             <div class="_title">
@@ -28,16 +27,16 @@
               <span class="_title">{{ props.title }}</span>
             </div>
           </slot>
-          <TIcon icon="close" :size="28" @click="handlerSubmit(false)" v-if="props.isCloseIcon" />
+          <TIcon icon="close" :size="14" @click="handleSubmit(false)" v-if="props.isCloseIcon" />
         </div>
         <div class="content">
           <slot />
         </div>
-        <div class="_foot" :style="getFootStyle" v-if="props.isFoot">
+        <div class="_foot" :style="footStyle" v-if="props.isFoot">
           <slot name="foot">
             <div class="_btn">
-              <TButton :type="props.cancelType" @click="handlerSubmit(true)">{{ props.cancelText }}</TButton>
-              <TButton :type="props.confirmType" @click="handlerSubmit(false)">
+              <TButton :type="props.cancelType" @click="handleSubmit(true)">{{ props.cancelText }}</TButton>
+              <TButton :type="props.confirmType" @click="handleSubmit(false)">
                 {{ props.confirmText }}
               </TButton>
             </div>
@@ -48,11 +47,12 @@
   </TPopover>
 </template>
 <script lang="ts" setup>
+import type { StyleValue } from "vue";
 import type { PropsType, EmitsType } from "./drawer";
 import { TPopover } from "../popover";
 import { TButton } from "../button";
 import { TIcon } from "../icon";
-import { computed, reactive, StyleValue } from "vue";
+import { computed, reactive } from "vue";
 defineOptions({ name: "TDrawer" });
 const emit = defineEmits<EmitsType>();
 const GAP = 4;
@@ -64,7 +64,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   size: "600px",
   icon: "inspiration",
   confirmText: "确认",
-  confirmType: "success",
+  confirmType: "primary",
   cancelText: "取消",
   cancelType: "default",
   btnAlign: "flex-end",
@@ -85,15 +85,20 @@ const isSide = computed(() => {
   return ["left", "right"].includes(props.position);
 });
 
-const handlerSubmit = isConfirm => {
-  if (isConfirm) emit("confirm");
-  else emit("cancel");
+const handleSubmit = (isConfirm: boolean) => {
+  if (isConfirm) {
+    emit("confirm");
+  } else {
+    emit("cancel");
+  }
   visible.value = false;
 };
-const handlerClickModel = () => {
-  if (props.closeOnPressModel) handlerSubmit(false);
+const handleClickModel = () => {
+  if (props.closeOnPressModel) {
+    handleSubmit(false);
+  }
 };
-const getDrawerStyle = computed((): StyleValue => {
+const drawerStyle = computed((): StyleValue => {
   const { size, isSetMaxHeight } = props;
   let sizeKey = "width";
   let maxKey = "height";
@@ -113,7 +118,7 @@ const getDrawerStyle = computed((): StyleValue => {
     [maxKey]: isSetMaxHeight ? maxScreen : "auto"
   };
 });
-const getFootStyle = computed((): StyleValue => {
+const footStyle = computed((): StyleValue => {
   return {
     justifyContent: props.btnAlign
   };

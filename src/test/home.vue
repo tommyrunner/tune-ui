@@ -41,7 +41,10 @@ import {
   TCarouselTest,
   TCheckboxTest,
   TCollapseTest,
-  TDialogTest
+  TDialogTest,
+  TDrawerTest,
+  TFlexTest,
+  TIconTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -64,7 +67,10 @@ const componentList: ComponentItem[] = [
   { name: "TCarouselTest", label: "Carousel 轮播", component: TCarouselTest },
   { name: "TCheckboxTest", label: "Checkbox 复选框", component: TCheckboxTest },
   { name: "TCollapseTest", label: "Collapse 折叠面板", component: TCollapseTest },
-  { name: "TDialogTest", label: "Dialog 对话框", component: TDialogTest }
+  { name: "TDialogTest", label: "Dialog 对话框", component: TDialogTest },
+  { name: "TDrawerTest", label: "Drawer 抽屉", component: TDrawerTest },
+  { name: "TFlexTest", label: "Flex 布局", component: TFlexTest },
+  { name: "TIconTest", label: "Icon 图标", component: TIconTest }
 ];
 
 // 当前选中的组件(默认最后一个)
@@ -127,7 +133,7 @@ const handleComponentChange = (item: ComponentItem) => {
   .test-content {
     flex: 1;
     padding: 20px;
-    overflow-y: auto;
+    overflow: auto;
   }
 
   .welcome-content {

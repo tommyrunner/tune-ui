@@ -1,27 +1,41 @@
 <template>
-  <i :style="getStyle" :class="getClass">
+  <i :style="iconStyle" :class="iconClass">
     <slot />
   </i>
 </template>
+
 <script lang="ts" setup>
+import type { StyleValue } from "vue";
 import type { PropsType } from "./icon";
-import { type StyleValue, computed } from "vue";
+import { computed } from "vue";
+
 defineOptions({ name: "TIcon" });
+
 const props = withDefaults(defineProps<PropsType>(), {
   size: 16,
   icon: "success-to"
 });
-const getStyle = computed((): StyleValue => {
+
+/**
+ * 计算图标样式
+ */
+const iconStyle = computed((): StyleValue => {
+  const { size, color } = props;
   return {
-    fontSize: `${props.size}px`,
-    color: props.color
+    fontSize: `${size}px`,
+    color
   };
 });
-const getClass = computed(() => {
+
+/**
+ * 计算图标类名
+ */
+const iconClass = computed(() => {
   const { customIcon, icon, type } = props;
   return ["t-icon", "iconfont", `icon-${customIcon || icon}`, type && `t-icon-color-${type}`];
 });
 </script>
+
 <style lang="scss" scoped>
 @import "index.scss";
 </style>

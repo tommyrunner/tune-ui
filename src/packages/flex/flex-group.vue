@@ -1,17 +1,25 @@
 <template>
-  <div :class="['t-flex-group']" :style="getStyle">
+  <div :class="['t-flex-group']" :style="groupStyle">
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
+import type { StyleValue } from "vue";
 import type { PropsType } from "./flex-group";
-import { type StyleValue, computed } from "vue";
+import { computed } from "vue";
+
 defineOptions({ name: "TFlexGroup" });
+
 const props = withDefaults(defineProps<PropsType>(), {
   gap: 12,
   justify: "start"
 });
-const getStyle = computed((): StyleValue => {
+
+/**
+ * 计算FlexGroup样式
+ */
+const groupStyle = computed((): StyleValue => {
   const { gap, align, justify } = props;
   return {
     gap: `${gap}px`,
@@ -20,6 +28,7 @@ const getStyle = computed((): StyleValue => {
   };
 });
 </script>
+
 <style lang="scss" scoped>
 @import "index.scss";
 </style>

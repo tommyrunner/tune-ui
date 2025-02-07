@@ -4,93 +4,106 @@
 
     <!-- 基础用法 -->
     <test-section title="基础用法">
-      <t-back-top target=".test-container" :visibilityHeight="100" />
+      <t-back-top :visible-height="200" />
       <div class="scroll-content">
-        <div v-for="i in 50" :key="i" class="scroll-item">滚动内容 {{ i }}</div>
+        <p v-for="i in 40" :key="i">这是第 {{ i }} 行内容</p>
       </div>
     </test-section>
 
-    <!-- 自定义图标 -->
-    <test-section title="自定义图标">
-      <t-back-top target=".test-container" :visibilityHeight="100" icon="arrow-up" :iconSize="24" />
+    <!-- 位置和尺寸 -->
+    <test-section title="位置和尺寸">
+      <t-back-top right="100px" bottom="100px" :size="50" :radius="8" />
       <div class="scroll-content">
-        <div v-for="i in 50" :key="i" class="scroll-item">滚动内容 {{ i }}</div>
+        <p>配置说明：</p>
+        <ul>
+          <li>right: 100px - 距离右侧100px</li>
+          <li>bottom: 100px - 距离底部100px</li>
+          <li>size: 50 - 按钮尺寸50px</li>
+          <li>radius: 8 - 圆角大小8px</li>
+        </ul>
+        <p v-for="i in 40" :key="i">这是第 {{ i }} 行内容</p>
       </div>
     </test-section>
 
-    <!-- 自定义位置 -->
-    <test-section title="自定义位置">
-      <t-back-top target=".test-container" :visibilityHeight="100" right="100px" bottom="100px" />
+    <!-- 图标配置 -->
+    <test-section title="图标配置">
+      <t-back-top icon="afferent" :icon-size="24" background="#1f2937" color="#ffffff" />
       <div class="scroll-content">
-        <div v-for="i in 50" :key="i" class="scroll-item">滚动内容 {{ i }}</div>
+        <p>配置说明：</p>
+        <ul>
+          <li>icon: arrow-up - 使用向上箭头图标</li>
+          <li>icon-size: 24 - 图标大小24px</li>
+          <li>background: #1f2937 - 背景颜色</li>
+          <li>color: #ffffff - 图标颜色</li>
+        </ul>
+        <p v-for="i in 40" :key="i">这是第 {{ i }} 行内容</p>
       </div>
     </test-section>
 
-    <!-- 朴素样式 -->
-    <test-section title="朴素样式">
-      <t-back-top target=".test-container" :visibilityHeight="100" plain />
+    <!-- 滚动配置 -->
+    <test-section title="滚动配置">
+      <t-back-top :visible-height="300" :duration="800" :throttle-delay="500" @click="handleClick" />
       <div class="scroll-content">
-        <div v-for="i in 50" :key="i" class="scroll-item">滚动内容 {{ i }}</div>
+        <p>配置说明：</p>
+        <ul>
+          <li>visible-height: 300 - 滚动超过300px显示</li>
+          <li>duration: 800 - 回到顶部动画持续800ms</li>
+          <li>throttle-delay: 500 - 节流延迟500ms</li>
+        </ul>
+        <p v-for="i in 40" :key="i">这是第 {{ i }} 行内容</p>
       </div>
     </test-section>
 
-    <!-- 自定义内容 -->
-    <test-section title="自定义内容">
-      <t-back-top target=".test-container" :visibilityHeight="100">
-        <div class="custom-content">
-          <t-icon name="arrow-up" />
-          <span>顶部</span>
-        </div>
-      </t-back-top>
-      <div class="scroll-content">
-        <div v-for="i in 50" :key="i" class="scroll-item">滚动内容 {{ i }}</div>
+    <!-- 指定容器 -->
+    <test-section title="指定容器">
+      <div class="custom-container" ref="containerRef">
+        <t-back-top :target="containerRef">
+          <template #default>
+            <t-button type="primary" size="small">TOP</t-button>
+          </template>
+        </t-back-top>
+        <p>配置说明：</p>
+        <ul>
+          <li>target: containerRef - 指定滚动容器</li>
+          <li>default slot - 自定义按钮内容</li>
+        </ul>
+        <p v-for="i in 40" :key="i">这是第 {{ i }} 行内容</p>
       </div>
     </test-section>
 
-    <!-- 事件测试 -->
-    <test-section title="事件测试">
-      <t-back-top target=".test-container" :visibilityHeight="100" @click="handleClick" />
-      <div class="scroll-content">
-        <div v-for="i in 50" :key="i" class="scroll-item">滚动内容 {{ i }}</div>
+    <!-- 事件记录 -->
+    <div class="event-log" v-if="logs.length">
+      <div class="event-title">事件记录：</div>
+      <div v-for="(log, index) in logs" :key="index" class="event-item">
+        {{ log }}
       </div>
-      <div class="event-log">
-        <div class="event-title">事件记录:</div>
-        <div v-for="(event, index) in eventLogs" :key="index" class="event-item">
-          {{ event }}
-        </div>
-      </div>
-    </test-section>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TBackTop } from "@/packages/back-top";
-import { TIcon } from "@/packages/icon";
+import { TButton } from "@/packages/button";
 import TestSection from "./components/test-section.vue";
 
 defineOptions({ name: "BackTopTest" });
 
-// 事件记录
-const eventLogs = ref<string[]>([]);
+// 指定容器
+const containerRef = ref<HTMLElement>();
 
-/**
- * 处理点击事件
- */
+// 事件日志
+const logs = ref<string[]>([]);
+
+// 点击事件
 const handleClick = () => {
-  eventLogs.value.unshift("点击回到顶部按钮");
-  // 只保留最近5条记录
-  if (eventLogs.value.length > 5) {
-    eventLogs.value.pop();
-  }
+  logs.value.push(`触发 click 事件: ${new Date().toLocaleTimeString()}`);
 };
 </script>
 
 <style lang="scss" scoped>
 .test-container {
   padding: 20px;
-  height: 600px;
-  overflow: auto;
 
   h2 {
     margin-bottom: 20px;
@@ -99,28 +112,50 @@ const handleClick = () => {
   }
 
   .scroll-content {
-    height: 200px;
+    height: 300px;
+    padding: 20px;
     overflow: auto;
-    border: 1px solid #eee;
+    background-color: #f9fafb;
     border-radius: 4px;
 
-    .scroll-item {
-      padding: 10px;
-      border-bottom: 1px solid #eee;
+    p {
+      margin: 8px 0;
+      color: #666;
+    }
 
-      &:last-child {
-        border-bottom: none;
+    ul {
+      margin: 12px 0;
+      padding-left: 20px;
+      color: #666;
+
+      li {
+        margin: 8px 0;
       }
     }
   }
 
-  .custom-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    color: #666;
-    font-size: 12px;
+  .custom-container {
+    position: relative;
+    height: 300px;
+    padding: 20px;
+    overflow: auto;
+    background-color: #f9fafb;
+    border-radius: 4px;
+
+    p {
+      margin: 8px 0;
+      color: #666;
+    }
+
+    ul {
+      margin: 12px 0;
+      padding-left: 20px;
+      color: #666;
+
+      li {
+        margin: 8px 0;
+      }
+    }
   }
 
   .event-log {

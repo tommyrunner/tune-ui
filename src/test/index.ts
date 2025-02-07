@@ -11,6 +11,9 @@ import CheckboxTest from "./checkbox.vue";
 import TestHome from "./home.vue";
 import CollapseTest from "./collapse.vue";
 import DialogTest from "./dialog.vue";
+import DrawerTest from "./drawer.vue";
+import FlexTest from "./flex.vue";
+import IconTest from "./icon.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -25,7 +28,10 @@ export const testComponents = {
   CheckboxTest,
   TestHome,
   CollapseTest,
-  DialogTest
+  DialogTest,
+  DrawerTest,
+  FlexTest,
+  IconTest
 };
 
 /** 测试组件安装器 */
@@ -48,5 +54,8 @@ export const TCheckboxTest = CheckboxTest;
 export const TTestHome = TestHome;
 export const TCollapseTest = CollapseTest;
 export const TDialogTest = DialogTest;
+export const TDrawerTest = DrawerTest;
+export const TFlexTest = FlexTest;
+export const TIconTest = IconTest;
 // 默认导出安装器
 export default installTestComponents;
