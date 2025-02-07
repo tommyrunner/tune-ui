@@ -3,47 +3,58 @@
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
 import type { ValueType } from "./collapse";
 import type { PropsType, EmitsType } from "./collapse-group";
-import { type GroupContextType, collapseGroupKey } from "./constants";
+import type { GroupContextType } from "./constants";
 import { ref, provide, reactive, toRefs, nextTick } from "vue";
-defineOptions({ name: "TCheckboxGroup" });
+import { collapseGroupKey } from "./constants";
+
+defineOptions({ name: "TCollapseGroup" });
+
 const props = withDefaults(defineProps<PropsType>(), {});
 const emit = defineEmits<EmitsType>();
-const groupRef = ref<HTMLElement>();
 const model = defineModel<ValueType[]>();
+
+const groupRef = ref<HTMLElement>();
+
 /**
- * 子组件状态更新函数
- * @param isChecked 当前是否选中
- * @param item 子组件绑定value值
+ * 处理状态更新
  */
-const changeEvent = (isChecked?: boolean, item?: ValueType) => {
+const handleChange = (isChecked?: boolean, item?: ValueType) => {
   if (!item || !model.value) return;
-  // 如果选中，则取消选中
+
   if (isChecked && model.value.includes(item)) {
     model.value = model.value.filter(v => v !== item);
   } else {
-    if (props.accordion) model.value = [item];
-    else model.value.push(item);
+    if (props.accordion) {
+      model.value = [item];
+    } else {
+      model.value.push(item);
+    }
   }
+
   nextTick(() => emit("change", model.value));
 };
-// 抛出操作api，与子组件交互
+
+/**
+ * 提供上下文
+ */
 provide<GroupContextType>(
   collapseGroupKey,
   reactive({
     ...toRefs(props),
     model,
-    changeEvent
+    changeEvent: handleChange
   })
 );
 </script>
+
 <style lang="scss" scoped>
-.t-checkbox-group {
+.t-collapse-group {
   display: flex;
-  justify-content: start;
-  align-items: start;
-  cursor: pointer;
+  flex-direction: column;
+  width: 100%;
 }
 </style>

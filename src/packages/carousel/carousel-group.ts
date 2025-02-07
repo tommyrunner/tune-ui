@@ -1,30 +1,39 @@
 /**
- * @description: 组件props类型
+ * 轮播组属性类型定义
  */
 export interface PropsType {
+  /** 容器高度 */
   height?: number;
+  /** 容器宽度 */
   width?: number;
+  /** 轮播间隔时间(ms) */
   delay?: number;
-  initIndex?: number; // 初始化值
+  /** 初始化下标 */
+  initIndex?: number;
+  /** 是否自动播放 */
   autoplay?: boolean;
-  autoplayBack?: boolean; // 轮播后退: true前进,默认 flase
-  pauseOnHover?: boolean; // 鼠标悬停是否暂停
-  animation?: boolean; // 切换动画
-  // 指示器: hover 悬停 , click 点击 none 不显示
+  /** 轮播方向(true:前进,false:后退) */
+  autoplayBack?: boolean;
+  /** 鼠标悬停是否暂停 */
+  pauseOnHover?: boolean;
+  /** 是否开启切换动画 */
+  animation?: boolean;
+  /** 指示器触发方式 */
   trigger?: "hover" | "click" | "none";
-  // 箭头: always 总是显示 , hover 悬停 none 不显示
+  /** 切换箭头显示时机 */
   arrow?: "always" | "hover" | "none";
-  // 方向: horizontal 横向 , vertical 竖向
+  /** 轮播方向 */
   direction?: "horizontal" | "vertical";
-  // 内容轮播方式: vision:视觉差,repeat:重复,repeatedly:反复,none:不循环
+  /** 内容轮播方式 */
   toggle?: "vision" | "repeat" | "repeatedly" | "none";
 }
+
 /**
- * @description: 组件emit类型
+ * 轮播组事件类型定义
  */
 export interface EmitsType {
-  // 切换事件
+  /** 切换事件 */
   (e: "change", index?: number): void;
-  // 轮播监听
+  /** 轮播监听 */
   (e: "autoplay", index?: number): void;
 }

@@ -6,6 +6,10 @@ import BackTopTest from "./back-top.vue";
 import BadgeTest from "./badge.vue";
 import BreadcrumbTest from "./breadcrumb.vue";
 import CardTest from "./card.vue";
+import CarouselTest from "./carousel.vue";
+import CheckboxTest from "./checkbox.vue";
+import TestHome from "./home.vue";
+import CollapseTest from "./collapse.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -15,7 +19,11 @@ export const testComponents = {
   BackTopTest,
   BadgeTest,
   BreadcrumbTest,
-  CardTest
+  CardTest,
+  CarouselTest,
+  CheckboxTest,
+  TestHome,
+  CollapseTest
 };
 
 /** 测试组件安装器 */
@@ -33,5 +41,9 @@ export const TBackTopTest = BackTopTest;
 export const TBadgeTest = BadgeTest;
 export const TBreadcrumbTest = BreadcrumbTest;
 export const TCardTest = CardTest;
+export const TCarouselTest = CarouselTest;
+export const TCheckboxTest = CheckboxTest;
+export const TTestHome = TestHome;
+export const TCollapseTest = CollapseTest;
 // 默认导出安装器
 export default installTestComponents;

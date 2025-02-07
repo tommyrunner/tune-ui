@@ -14,6 +14,8 @@ $title-margin-left: 18px;
   > ._icon {
     width: 14px;
     height: 14px;
+    color: $text-color-default;
+    transition: 0.22s;
   }
 
   > ._span {
@@ -87,6 +89,10 @@ $title-margin-left: 18px;
 
     ._span {
       border-color: $theme-color-primary;
+    }
+
+    ._icon {
+      color: $theme-color-primary;
     }
   }
 }

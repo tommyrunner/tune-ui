@@ -11,6 +11,7 @@
 7. 如果 import 引入其他组件，别使用 ../ 方式使用 @/packages 方式会跟明了
 8. 如果class 有命名不合适的也可以优化，但一定需要同步scss文件（css命名规则，在外蹭的使用t-xxx，内嵌入的使用\_xxx）
 9. index.ts导出文件只需要优化注释即可
+10. 组件如果class使用复杂可以抽离出来
 
 
 基本模板参考 /packages/button/*

@@ -1,15 +1,18 @@
 import type { IconTypes } from "@/packages/icon/icon";
+
 /**
- * @description: 组件props类型
+ * 轮播项组件属性类型定义
  */
 export interface PropsType {
-  // 标题
+  /** 标题 */
   title?: string;
-  // icon
+  /** 右侧图标 */
   rightIcon?: IconTypes;
+  /** 是否禁用 */
   disabled?: boolean;
 }
+
 /**
- * @description: 组件emit类型
+ * 轮播项组件事件类型定义
  */
 export interface EmitsType {}

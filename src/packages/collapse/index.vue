@@ -1,75 +1,98 @@
 <template>
   <div class="t-collapse">
-    <div class="_head" @click="updateModel">
+    <div class="_head" @click="handleClick">
       <slot name="title" :value="model">
-        <div>{{ props.title }}</div>
+        <div>{{ title }}</div>
       </slot>
       <div class="_head-right">
         <slot name="headRight" :value="model">
-          <TIcon :class="isChecked && '_icon-active'" :icon="props.rightIcon" :size="14" />
+          <t-icon :class="isChecked && '_icon-active'" :icon="rightIcon" :size="14" />
         </slot>
       </div>
     </div>
-    <div class="_body" ref="bodyRef" :style="getBodyStyle">
+    <div class="_body" ref="bodyRef" :style="bodyStyle">
       <slot />
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import type { StyleValue } from "vue";
 import type { PropsType, ValueType, EmitsType } from "./collapse";
-import { type GroupContextType, collapseGroupKey } from "./constants";
-import { TIcon } from "../icon";
+import type { GroupContextType } from "./constants";
 import { computed, inject, onMounted, ref } from "vue";
+import { collapseGroupKey } from "./constants";
+import { TIcon } from "@/packages/icon";
+
 defineOptions({ name: "TCollapse" });
-const emit = defineEmits<EmitsType>();
+
 const props = withDefaults(defineProps<PropsType>(), {
   value: false,
   rightIcon: "caret-right"
 });
+
+const emit = defineEmits<EmitsType>();
 const model = defineModel<ValueType>();
 const groupContext = inject<GroupContextType | undefined>(collapseGroupKey, void 0);
-// 记录原始高度
+
+/**
+ * DOM引用
+ */
+const bodyRef = ref<HTMLDivElement>();
 const bodyHeight = ref(0);
-const bodyRef = ref<InstanceType<typeof HTMLDivElement>>();
+
+/**
+ * 生命周期
+ */
 onMounted(() => {
-  // 进入记录body原始高度
-  bodyHeight.value = bodyRef.value?.clientHeight;
+  bodyHeight.value = bodyRef.value?.clientHeight || 0;
 });
-// 判断是否选中
+
+/**
+ * 计算是否选中
+ */
 const isChecked = computed(() => {
-  // 如果是组合组件
-  if (groupContext && groupContext.model) {
+  if (groupContext?.model) {
     return groupContext.model.includes(props.value);
-  } else {
-    // 未值定value默认以boolean类型
-    if (typeof model.value === "boolean" && !props.value) return model.value;
-    else return model.value === props.value;
   }
+
+  if (typeof model.value === "boolean" && !props.value) {
+    return model.value;
+  }
+
+  return model.value === props.value;
 });
-const getBodyStyle = computed((): StyleValue => {
-  // 默认样式
-  if (!bodyHeight.value)
-    return {
-      height: "auto"
-    };
-  return {
-    height: `${isChecked.value ? bodyHeight.value : 0}px`
-  };
+
+/**
+ * 计算内容区样式
+ */
+const bodyStyle = computed((): StyleValue => {
+  if (!bodyHeight.value) {
+    return { height: "auto" };
+  }
+  return { height: `${isChecked.value ? bodyHeight.value : 0}px` };
 });
-const updateModel = () => {
+
+/**
+ * 处理点击事件
+ */
+const handleClick = () => {
   if (props.disabled) return;
+
   if (groupContext) {
     groupContext.changeEvent(isChecked.value, props.value);
   } else {
-    // 未值定value默认以boolean类型
-    if (typeof model.value === "boolean" && !props.value) model.value = !model.value;
-    // 则
-    else model.value = isChecked.value ? void 0 : props.value;
+    if (typeof model.value === "boolean" && !props.value) {
+      model.value = !model.value;
+    } else {
+      model.value = isChecked.value ? void 0 : props.value;
+    }
   }
-  emit("change", model.value);
+
+  emit("change", props.value);
 };
 </script>
+
 <style lang="scss" scoped>
 @import "index.scss";
 </style>
