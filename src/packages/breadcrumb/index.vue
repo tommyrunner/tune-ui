@@ -1,41 +1,63 @@
 <template>
   <div class="t-breadcrumb">
-    <div v-for="(model, index) in models" :key="model.value || index" class="_item">
-      <div class="_separated" v-if="index !== 0" :style="{ margin: `0px ${gap}px` }">
-        <TIcon :icon="props.separatedIcon" v-if="props.separatedIcon" :size="18" />
+    <div v-for="(item, index) in options" :key="item.value || index" class="_breadcrumb-item">
+      <div v-if="index !== 0" class="_separator" :style="{ margin: `0px ${gap}px` }">
+        <t-icon v-if="separatedIcon" :icon="separatedIcon" :size="18" />
         <b v-else>/</b>
       </div>
-      <div :class="['_label', model.disabled && 't-disabled']" @click="handlerPush(model)">
-        <TIcon :icon="model.icon" v-if="model.icon" :size="18" />
-        <span v-html="model.label"></span>
+      <div :class="['_content', item.disabled && 't-disabled', model === item.value && 't-active']" @click="handleClick(item)">
+        <t-icon v-if="item.icon" :icon="item.icon" :size="18" />
+        <span v-html="item.label"></span>
       </div>
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
-import { TIcon } from "../icon";
 import type { EmitsType, PropsType, ValueType } from "./breadcrumb";
 import { useRouter } from "vue-router";
+import { TIcon } from "@/packages/icon";
+
 defineOptions({ name: "TBreadcrumb" });
+
 const props = withDefaults(defineProps<PropsType>(), {
   isRouter: true,
-  gap: 6
+  gap: 6,
+  options: () => []
 });
+
+const model = defineModel<string>();
 const emit = defineEmits<EmitsType>();
-const models = defineModel<ValueType[]>();
 const router = useRouter();
-if (!router) console.warn("router not injected!");
+
+// 路由检查
+if (!router) {
+  console.warn("路由实例未注入!");
+}
+
 /**
- * 处理点击路由跳转事件
+ * 处理面包屑项点击
  */
-const handlerPush = (model: ValueType) => {
-  emit("change", model);
+const handleClick = (item: ValueType) => {
+  if (item.disabled) return;
+
+  // 更新选中值
+  model.value = item.value;
+  emit("change", item);
+
+  // 处理路由跳转
   const { isRouter, isReplace } = props;
-  if (!isRouter || !router || model.disabled) return;
-  if (!model.to) console.warn("to parameter not filled in");
-  isReplace ? router.replace(model.to) : router.push(model.to);
+  if (!isRouter || !router) return;
+
+  if (!item.to) {
+    console.warn("未设置跳转路由!");
+    return;
+  }
+
+  isReplace ? router.replace(item.to) : router.push(item.to);
 };
 </script>
+
 <style lang="scss" scoped>
 @import "index.scss";
 </style>

@@ -1,4 +1,4 @@
-import type { IconTypes } from "../icon/icon";
+import type { IconTypes } from "@/packages/icon/icon";
 import type { RendererElement } from "vue";
 
 /**

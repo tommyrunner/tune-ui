@@ -1,18 +1,19 @@
 /**
- * @description: 组件props类型
+ * 徽章组件属性类型定义
  */
 export interface PropsType {
-  // 是否显示圆点
+  /** 是否显示小圆点 */
   isDot?: boolean;
-  // 自定义值
+  /** 显示的数值 */
   value?: number;
-  // 偏移值
+  /** X轴偏移量 */
   offsetX?: number;
+  /** Y轴偏移量 */
   offsetY?: number;
-  // 最大值超过显示+
+  /** 最大显示数值 */
   max?: number;
-  // 自定义背景色
+  /** 自定义背景色 */
   color?: string;
-  // 隐藏值
+  /** 隐藏时的数值 */
   hiddenValue?: number;
 }

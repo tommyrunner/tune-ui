@@ -14,7 +14,7 @@
 </template>
 <script lang="ts" setup>
 import type { PropsType } from "./types";
-import type { IconTypes } from "../icon/icon";
+import type { IconTypes } from "@/packages/icon/icon";
 import { computed, ref, StyleValue } from "vue";
 import { MESSAGE_GAP, MESSAGE_TAG } from "./method";
 import { notificationClass } from "./notificationCall";

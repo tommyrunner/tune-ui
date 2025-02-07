@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import type { StyleValue } from "vue";
 import type { EmitsType, PropsType } from "./button";
-import type { IconTypes } from "../icon/icon";
+import type { IconTypes } from "@/packages/icon/icon";
 
 import { computed } from "vue";
 import { configOptions } from "@/hooks/useOptions";

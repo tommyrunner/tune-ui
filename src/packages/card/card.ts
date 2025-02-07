@@ -1,13 +1,13 @@
-import type { IconTypes } from "../icon/icon";
+import type { IconTypes } from "@/packages/icon/icon";
 
 /**
- * @description: 组件props类型
+ * 卡片组件属性类型定义
  */
 export interface PropsType {
-  // 阴影触发
+  /** 阴影显示时机 */
   shadow?: "always" | "hover" | "never";
-  // 标题
+  /** 卡片标题 */
   title?: string;
-  // icon
+  /** 标题图标 */
   titleIcon?: IconTypes;
 }

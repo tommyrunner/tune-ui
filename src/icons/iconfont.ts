@@ -6,6 +6,13 @@ export default {
   description: "tui 组件库 icon",
   glyphs: [
     {
+      icon_id: "5835481",
+      name: "详情",
+      font_class: "info",
+      unicode: "e611",
+      unicode_decimal: 58897
+    },
+    {
       icon_id: "749276",
       name: "关闭",
       font_class: "close",

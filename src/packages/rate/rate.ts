@@ -1,5 +1,5 @@
 import { type BaseProps } from "@/types";
-import { IconTypes } from "../icon/icon";
+import { IconTypes } from "@/packages/icon/icon";
 /**
  * @description: 组件props类型
  */

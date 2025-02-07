@@ -1,36 +1,42 @@
-import { RouteRecordRaw } from "vue-router";
-import { IconTypes } from "../icon/icon";
+import type { RouteRecordRaw } from "vue-router";
+import type { IconTypes } from "@/packages/icon/icon";
 
 /**
- * value 类型
+ * 面包屑项类型定义
  */
 export type ValueType = {
+  /** 显示文本 */
   label?: string;
+  /** 唯一标识 */
   value?: string;
-  // 图标
+  /** 图标类型 */
   icon?: IconTypes;
-  // 跳转路径
+  /** 跳转路由 */
   to?: RouteRecordRaw;
-  // 进制跳转
+  /** 是否禁用 */
   disabled?: boolean;
 };
+
 /**
- * @description: 组件props类型
+ * 面包屑组件属性类型定义
  */
 export interface PropsType {
-  // 是否router跳转
+  /** 选项数据 */
+  options: ValueType[];
+  /** 是否使用路由跳转 */
   isRouter?: boolean;
-  // 如果设置该属性为 true, 导航将不会留下历史记录
+  /** 是否使用replace模式跳转 */
   isReplace?: boolean;
-  // 分隔icon
+  /** 分隔符图标 */
   separatedIcon?: IconTypes;
-  // 间距
+  /** 分隔符间距 */
   gap?: number;
 }
+
 /**
- * @description: 组件emit类型
+ * 面包屑组件事件类型定义
  */
 export interface EmitsType {
-  // 选择事件
-  (e: "change", data?: ValueType): void;
+  /** 选择事件 */
+  (e: "change", data: ValueType): void;
 }

@@ -7,11 +7,11 @@
   width: fit-content;
   font-size: 12px;
 
-  ._num {
+  ._badge-num {
     color: white;
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
     background-color: red;
     border: 1px solid white;
     z-index: $z-index-show;
@@ -25,10 +25,10 @@
     animation: anima-badge ease 0.22s;
   }
 
-  ._num-dot {
+  ._badge-dot {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
     width: 8px;
     height: 8px;
     z-index: $z-index-show;

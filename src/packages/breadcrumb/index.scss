@@ -5,21 +5,34 @@
   align-items: center;
   width: fit-content;
   color: $text-color-default;
-  ._item {
+
+  ._breadcrumb-item {
     display: flex;
     align-items: center;
-    ._separated {
+
+    ._separator {
       font-weight: bold;
       color: gainsboro;
     }
-    ._label {
+
+    ._content {
       cursor: pointer;
       transition: 0.22s;
       display: flex;
       align-items: center;
       gap: 4px;
+
       &:not(.t-disabled):hover {
         color: $theme-color-primary;
+      }
+
+      &.t-active {
+        color: $theme-color-primary;
+      }
+
+      &.t-disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
       }
     }
   }

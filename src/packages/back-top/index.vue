@@ -1,19 +1,21 @@
 <template>
-  <Transition name="t-backTop">
-    <div :class="getBackTopClass" v-if="isShow" @click="handlerClick" :style="getBackTopStyle">
+  <Transition name="t-back-top">
+    <div v-if="isShow" :class="backTopClasses" :style="backTopStyles" @click="handleClick">
       <slot>
-        <TIcon :icon="props.icon" :size="props.iconSize" />
+        <t-icon :icon="props.icon" :size="props.iconSize" />
       </slot>
     </div>
   </Transition>
 </template>
+
 <script lang="ts" setup>
-import type { EmitsType, PropsType } from "./backTop";
-import { computed, onMounted, ref } from "vue";
-import { TIcon } from "../icon";
+import type { EmitsType, PropsType } from "./back-top";
+import { computed, onMounted, onDeactivated, ref } from "vue";
+import { TIcon } from "@/packages/icon";
 import { isString } from "@/utils/is";
-import { onDeactivated } from "vue";
+
 defineOptions({ name: "TBackTop" });
+
 const props = withDefaults(defineProps<PropsType>(), {
   icon: "caret-up",
   bottom: "32px",
@@ -21,61 +23,76 @@ const props = withDefaults(defineProps<PropsType>(), {
   iconSize: 32,
   visibilityHeight: 200
 });
+
 const emit = defineEmits<EmitsType>();
 const isShow = ref(false);
 
 /**
- * 获取target元素
+ * 获取目标元素
  */
 const getTarget = (): HTMLElement | null => {
   return isString(props.target) ? document.querySelector(props.target) : props.target;
 };
+
 /**
- * 获取滚动元素（如果为空使用window代替）
+ * 获取滚动元素
  */
-const getScrollingElement = computed(() => {
+const scrollElement = computed(() => {
   const target = getTarget();
   return target || window;
 });
-onMounted(() => getScrollingElement.value.addEventListener("scroll", handleScroll));
-onDeactivated(() => getScrollingElement.value.removeEventListener("scroll", handleScroll));
+
 /**
  * 处理滚动事件
  */
-function handleScroll() {
+const handleScroll = () => {
   const { visibilityHeight } = props;
   const target = getTarget();
+
   // 默认使用 window
   let scrollTop = window.scrollY || document.documentElement.scrollTop;
   let scrollHeight = document.documentElement.scrollHeight;
   let clientHeight = window.innerHeight;
-  // 如果是元素
+
+  // 如果是指定元素
   if (target) {
     scrollTop = target.scrollTop;
     scrollHeight = target.scrollHeight;
     clientHeight = target.clientHeight;
   }
-  // 判断是否滚动到底部
+
+  // 判断是否显示按钮
   isShow.value = scrollTop + clientHeight >= scrollHeight - visibilityHeight;
-}
+};
+
 /**
- * 处理点击路由跳转事件
+ * 处理点击事件
  */
-const handlerClick = () => {
-  getScrollingElement.value.scrollTo({ top: 0, behavior: "smooth" });
+const handleClick = () => {
+  scrollElement.value.scrollTo({ top: 0, behavior: "smooth" });
   emit("click");
 };
-const getBackTopClass = computed(() => {
-  return ["t-backTop", props.plain && "t-backTop-plain"];
+
+/**
+ * 计算组件类名
+ */
+const backTopClasses = computed(() => {
+  return ["t-back-top", props.plain && "t-back-top-plain"];
 });
-const getBackTopStyle = computed(() => {
+
+/**
+ * 计算组件样式
+ */
+const backTopStyles = computed(() => {
   const { bottom, right } = props;
-  return {
-    bottom,
-    right
-  };
+  return { bottom, right };
 });
+
+// 生命周期钩子
+onMounted(() => scrollElement.value.addEventListener("scroll", handleScroll));
+onDeactivated(() => scrollElement.value.removeEventListener("scroll", handleScroll));
 </script>
+
 <style lang="scss" scoped>
 @import "index.scss";
 </style>

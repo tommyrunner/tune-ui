@@ -1,39 +1,51 @@
 <template>
-  <div :class="getClass">
-    <div class="_head" v-if="isHead">
+  <div :class="cardClasses">
+    <div v-if="showHeader" class="_card-header">
       <slot name="headLeft">
         <div>
-          <TIcon :icon="props.titleIcon" v-if="props.titleIcon" />
-          {{ props.title }}
+          <t-icon v-if="titleIcon" :icon="titleIcon" />
+          {{ title }}
         </div>
       </slot>
       <slot name="headRight" />
     </div>
-    <div class="_body">
+    <div class="_card-body">
       <slot />
     </div>
-    <div class="_foot" v-if="slot.foot">
+    <div v-if="slots.foot" class="_card-footer">
       <slot name="foot" />
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import type { PropsType } from "./card";
-import { TIcon } from "../icon";
 import { computed, useSlots } from "vue";
+import { TIcon } from "@/packages/icon";
+
 defineOptions({ name: "TCard" });
-const slot = useSlots();
+
+const slots = useSlots();
 const props = withDefaults(defineProps<PropsType>(), {
   shadow: "always"
 });
-const getClass = computed(() => {
+
+/**
+ * 计算卡片类名
+ */
+const cardClasses = computed(() => {
   const { shadow } = props;
   return ["t-card", `t-card-shadow-${shadow}`];
 });
-const isHead = computed(() => {
-  return props.title || slot.headLeft;
+
+/**
+ * 判断是否显示头部
+ */
+const showHeader = computed(() => {
+  return props.title || slots.headLeft;
 });
 </script>
+
 <style lang="scss" scoped>
 @import "index.scss";
 </style>
