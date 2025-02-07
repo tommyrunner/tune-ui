@@ -4,27 +4,27 @@ import type { IconTypes } from "../icon/icon";
  * @description: 组件props类型
  */
 export interface PropsType extends BaseProps {
-  // 按钮类型
+  /** 按钮类型 */
   type?: "default" | "primary" | "success" | "info" | "warning" | "danger" | "text";
-  // 开始icon
+  /** 前缀图标 */
   prefixIcon?: IconTypes;
-  // 结束icon
+  /** 后缀图标 */
   suffixIcon?: IconTypes;
-  // 加载按钮状态
+  /** 加载状态 */
   loading?: boolean;
-  // 按钮圆角
+  /** 按钮圆角类型 */
   radius?: "default" | "round" | "circle";
-  // 按钮自定义颜色
+  /** 自定义按钮颜色 */
   color?: string;
-  // 是否禁用
+  /** 是否禁用 */
   disabled?: boolean;
-  // 是否缩放
+  /** 是否启用缩放效果 */
   scale?: boolean;
 }
 /**
  * @description: 组件emit类型
  */
 export interface EmitsType {
-  // 点击事件
+  /** 点击事件 */
   (e: "click", data: MouseEvent): void;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass" @click="updateCursor">
+  <div :class="textareaClasses" @click="updateCursor">
     <component :is="TipComponent" />
     <textarea
       ref="textareaRef"
@@ -12,19 +12,22 @@
       @keyup="handleKeyup"
       @input="handleInput"
     />
-    <div class="_point" v-if="props.maxLength">
-      <span>{{ getPointText }}</span>
+    <div class="_counter" v-if="props.maxLength">
+      <span>{{ counterText }}</span>
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import type { EmitsType, PropsType } from "./textarea";
-import { configOptions } from "@/hooks/useOptions";
+
 import { computed, ref } from "vue";
-import { isKeyboard } from "@/utils";
-import { bindDebounce } from "@/utils";
+import { configOptions } from "@/hooks/useOptions";
+import { isKeyboard, bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
+
 defineOptions({ name: "TTextarea" });
+
 const textareaRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
@@ -37,25 +40,36 @@ const props = withDefaults(defineProps<PropsType>(), {
   isCursor: true,
   debounceDelay: 1000
 });
+
 const model = defineModel<string>();
 const TipComponent = useTip(props, model);
 const cursor = ref(0);
 
-const getClass = computed(() => {
+/**
+ * 计算文本域类名
+ */
+const textareaClasses = computed(() => {
   const { isResize, disabled } = props;
   return ["t-textarea", !disabled && isResize && "t-textarea-resize", disabled && "t-disabled"];
 });
-const getPointText = computed(() => {
+
+/**
+ * 计算计数器文本
+ */
+const counterText = computed(() => {
   return (props.isCursor ? `[${cursor.value}]` : "") + (model.value?.length + "/" + props.maxLength);
 });
+
 /**
  * 处理键盘事件
- * @param event 事件值
  */
 const handleKeyup = (event: KeyboardEvent) => {
-  if (isKeyboard(event, "enter")) emit("enter", model.value);
+  if (isKeyboard(event, "enter")) {
+    emit("enter", model.value);
+  }
   updateCursor();
 };
+
 /**
  * 处理失去焦点
  */
@@ -63,34 +77,44 @@ const handleBlur = () => {
   cursor.value = 0;
   emit("blur", model.value);
 };
-// 计算光标行数
+
+/**
+ * 更新光标位置
+ */
 const updateCursor = () => {
   if (!model.value) return;
-  let index = textareaRef.value.selectionStart;
-  let startText = model.value.slice(0, index);
+  const index = textareaRef.value.selectionStart;
+  const startText = model.value.slice(0, index);
   cursor.value = startText.split("\n").length;
 };
-// 防抖事件
+
+// 绑定防抖处理
 const debounce = bindDebounce(props.debounce, props.debounceDelay);
-// 输入处理
+
+/**
+ * 处理输入事件
+ */
 const handleInput = () => {
   const value = model.value;
-  // 限制回车
+
+  // 限制换行
   if (!props.isEnter && value && value.includes("\n")) {
-    return (model.value = value.replace("\n", ""));
+    model.value = value.replace("\n", "");
+    return;
   }
+
   // 限制长度
   if (value && props.maxLength && value.length > props.maxLength) {
-    return (model.value = value.slice(0, props.maxLength));
+    model.value = value.slice(0, props.maxLength);
+    return;
   }
+
   emit("input", value);
-  // 优化处理:如果没绑定防抖事件直接返回
   if (!props.debounce) return;
-  // 防抖处理
   debounce(model.value);
 };
 </script>
+
 <style lang="scss" scoped>
 @import "index.scss";
 </style>
-@/hooks/useOptions/useOptions@/hooks/useOptions

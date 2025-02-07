@@ -26,17 +26,21 @@
   }
 
   > textarea {
-    width: 164px !important;
+    width: 100% !important;
     min-height: 28px;
     padding: 4px 8px;
     resize: none;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: inherit;
   }
-  ._point {
+
+  ._counter {
     cursor: pointer;
     position: absolute;
     right: 8px;
     bottom: 1px;
-    transform: translateX(-50%);
     display: inline-flex;
     align-items: center;
     justify-content: center;
