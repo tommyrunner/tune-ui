@@ -168,7 +168,7 @@ import { ref } from "vue";
 import { TButton } from "@/packages/button";
 import { TIcon } from "@/packages/icon";
 import { TDrawer } from "@/packages/drawer";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "DrawerTest" });
 

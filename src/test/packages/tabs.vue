@@ -114,7 +114,7 @@
 import { ref } from "vue";
 import { TTabs, TTabsGroup } from "@/packages/tabs";
 import { TButton } from "@/packages/button";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "TabsTest" });
 

@@ -81,7 +81,7 @@ import { ref, defineComponent } from "vue";
 import type { RouteRecordRaw } from "vue-router";
 import type { ValueType } from "@/packages/breadcrumb/breadcrumb";
 import { TBreadcrumb } from "@/packages/breadcrumb";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "BreadcrumbTest" });
 

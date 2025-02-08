@@ -130,7 +130,7 @@
 import { ref } from "vue";
 import { TPopover } from "@/packages/popover";
 import { TButton } from "@/packages/button";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "PopoverTest" });
 

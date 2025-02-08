@@ -100,7 +100,7 @@
 import { ref } from "vue";
 import { TPopConfirm } from "@/packages/popConfirm";
 import { TButton } from "@/packages/button";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "PopConfirmTest" });
 

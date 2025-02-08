@@ -211,7 +211,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TCarousel, TCarouselGroup } from "@/packages/carousel";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "CarouselTest" });
 

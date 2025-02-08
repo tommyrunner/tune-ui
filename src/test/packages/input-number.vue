@@ -108,7 +108,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TInputNumber } from "@/packages/input-number";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "InputNumberTest" });
 

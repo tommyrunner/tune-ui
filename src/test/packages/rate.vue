@@ -87,7 +87,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TRate } from "@/packages/rate";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "RateTest" });
 

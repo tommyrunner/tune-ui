@@ -157,7 +157,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TCheckbox, TCheckboxGroup } from "@/packages/checkbox";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "CheckboxTest" });
 

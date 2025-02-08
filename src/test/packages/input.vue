@@ -93,7 +93,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TInput } from "@/packages/input";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "InputTest" });
 

@@ -3,16 +3,25 @@
     <!-- 侧边栏 -->
     <div class="test-sidebar">
       <div class="sidebar-header">
-        <h1>TUI 组件库</h1>
+        <div class="header-content">
+          <h1>TUI 组件库</h1>
+          <span class="total-count">{{ componentList.length }}个组件</span>
+        </div>
       </div>
       <div class="sidebar-content">
-        <div
-          v-for="item in componentList"
-          :key="item.name"
-          :class="['sidebar-item', currentComponent?.name === item.name && 'active']"
-          @click="handleComponentChange(item)"
-        >
-          {{ item.label }}
+        <div v-for="category in categories" :key="category" class="category-group">
+          <div class="category-title">
+            <span>{{ category }}</span>
+            <span class="count">({{ getComponentsByCategory(category).length }})</span>
+          </div>
+          <div
+            v-for="item in getComponentsByCategory(category)"
+            :key="item.name"
+            :class="['sidebar-item', currentComponent?.name === item.name && 'active']"
+            @click="handleComponentChange(item)"
+          >
+            {{ item.label }}
+          </div>
         </div>
       </div>
     </div>
@@ -29,12 +38,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { ComponentCategory, type ComponentConfig } from "./constants";
 import {
-  TBackTopTest,
   TButtonTest,
   TInputTest,
   TTextareaTest,
+  TBackTopTest,
   TBadgeTest,
   TBreadcrumbTest,
   TCardTest,
@@ -57,47 +67,61 @@ import {
 
 defineOptions({ name: "TestHome" });
 
-interface ComponentItem {
-  name: string;
-  label: string;
-  component: typeof TButtonTest;
-}
+// 组件列表配置
+const componentList: ComponentConfig[] = [
+  // 基础组件
+  { name: "TButtonTest", label: "Button 按钮", category: ComponentCategory.Basic, component: TButtonTest },
+  { name: "TIconTest", label: "Icon 图标", category: ComponentCategory.Basic, component: TIconTest },
 
-// 组件列表
-const componentList: ComponentItem[] = [
-  { name: "TButtonTest", label: "Button 按钮", component: TButtonTest },
-  { name: "TInputTest", label: "Input 输入框", component: TInputTest },
-  { name: "TTextareaTest", label: "Textarea 文本域", component: TTextareaTest },
-  { name: "TBackTopTest", label: "BackTop 回到顶部", component: TBackTopTest },
-  { name: "TBadgeTest", label: "Badge 徽标", component: TBadgeTest },
-  { name: "TBreadcrumbTest", label: "Breadcrumb 面包屑", component: TBreadcrumbTest },
-  { name: "TCardTest", label: "Card 卡片", component: TCardTest },
-  { name: "TCarouselTest", label: "Carousel 轮播", component: TCarouselTest },
-  { name: "TCheckboxTest", label: "Checkbox 复选框", component: TCheckboxTest },
-  { name: "TCollapseTest", label: "Collapse 折叠面板", component: TCollapseTest },
-  { name: "TDialogTest", label: "Dialog 对话框", component: TDialogTest },
-  { name: "TDrawerTest", label: "Drawer 抽屉", component: TDrawerTest },
-  { name: "TFlexTest", label: "Flex 布局", component: TFlexTest },
-  { name: "TIconTest", label: "Icon 图标", component: TIconTest },
-  { name: "TInputNumberTest", label: "InputNumber 数值输入框", component: TInputNumberTest },
-  { name: "TMessageTest", label: "Message 消息提示", component: TMessageTest },
-  { name: "TPopoverTest", label: "Popover 弹出框", component: TPopoverTest },
-  { name: "TPopConfirmTest", label: "PopConfirm 气泡确认框", component: TPopConfirmTest },
-  { name: "TRadioTest", label: "Radio 单选框", component: TRadioTest },
-  { name: "TRateTest", label: "Rate 评分", component: TRateTest },
-  { name: "TSwitchTest", label: "Switch 开关", component: TSwitchTest },
-  { name: "TTabsTest", label: "Tabs 标签页", component: TTabsTest }
+  // 表单组件
+  { name: "TInputTest", label: "Input 输入框", category: ComponentCategory.Form, component: TInputTest },
+  { name: "TInputNumberTest", label: "InputNumber 数值输入框", category: ComponentCategory.Form, component: TInputNumberTest },
+  { name: "TTextareaTest", label: "Textarea 文本域", category: ComponentCategory.Form, component: TTextareaTest },
+  { name: "TRadioTest", label: "Radio 单选框", category: ComponentCategory.Form, component: TRadioTest },
+  { name: "TCheckboxTest", label: "Checkbox 复选框", category: ComponentCategory.Form, component: TCheckboxTest },
+  { name: "TSwitchTest", label: "Switch 开关", category: ComponentCategory.Form, component: TSwitchTest },
+  { name: "TRateTest", label: "Rate 评分", category: ComponentCategory.Form, component: TRateTest },
+
+  // 数据展示
+  { name: "TBadgeTest", label: "Badge 徽标", category: ComponentCategory.Data, component: TBadgeTest },
+  { name: "TCardTest", label: "Card 卡片", category: ComponentCategory.Data, component: TCardTest },
+  { name: "TCarouselTest", label: "Carousel 轮播", category: ComponentCategory.Data, component: TCarouselTest },
+  { name: "TCollapseTest", label: "Collapse 折叠面板", category: ComponentCategory.Data, component: TCollapseTest },
+
+  // 反馈组件
+  { name: "TMessageTest", label: "Message 消息提示", category: ComponentCategory.Feedback, component: TMessageTest },
+  { name: "TDialogTest", label: "Dialog 对话框", category: ComponentCategory.Feedback, component: TDialogTest },
+  { name: "TDrawerTest", label: "Drawer 抽屉", category: ComponentCategory.Feedback, component: TDrawerTest },
+  { name: "TPopoverTest", label: "Popover 弹出框", category: ComponentCategory.Feedback, component: TPopoverTest },
+  { name: "TPopConfirmTest", label: "PopConfirm 气泡确认框", category: ComponentCategory.Feedback, component: TPopConfirmTest },
+
+  // 导航组件
+  { name: "TBreadcrumbTest", label: "Breadcrumb 面包屑", category: ComponentCategory.Navigation, component: TBreadcrumbTest },
+  { name: "TBackTopTest", label: "BackTop 回到顶部", category: ComponentCategory.Navigation, component: TBackTopTest },
+  { name: "TTabsTest", label: "Tabs 标签页", category: ComponentCategory.Navigation, component: TTabsTest },
+
+  // 布局组件
+  { name: "TFlexTest", label: "Flex 布局", category: ComponentCategory.Layout, component: TFlexTest }
 ];
 
-// 当前选中的组件(默认最后一个)
-const currentComponent = ref<ComponentItem>(componentList[componentList.length - 1]);
+// 根据分类获取组件
+const getComponentsByCategory = (category: ComponentCategory) => {
+  return componentList.filter(item => item.category === category);
+};
 
-/**
- * 处理组件切换
- */
-const handleComponentChange = (item: ComponentItem) => {
+// 当前选中的组件(默认第一个)
+const currentComponent = ref<ComponentConfig>(componentList[0]);
+
+// 处理组件切换
+const handleComponentChange = (item: ComponentConfig) => {
   currentComponent.value = item;
 };
+
+// 获取所有分类
+const categories = computed(() => {
+  const categorySet = new Set(componentList.map(item => item.category));
+  return Array.from(categorySet);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -107,41 +131,93 @@ const handleComponentChange = (item: ComponentItem) => {
   background-color: #f3f4f6;
 
   .test-sidebar {
-    width: 240px;
+    position: relative;
+    width: 260px;
     background-color: #fff;
     border-right: 1px solid #e5e7eb;
 
     .sidebar-header {
+      display: flex;
+      align-items: center;
       padding: 20px;
       border-bottom: 1px solid #e5e7eb;
 
-      h1 {
-        margin: 0;
-        font-size: 24px;
-        font-weight: 600;
-        color: #111827;
+      .header-content {
+        flex: 1;
+
+        h1 {
+          margin: 0;
+          font-size: 24px;
+          font-weight: 600;
+          color: #111827;
+        }
+
+        .total-count {
+          font-size: 12px;
+          color: #6b7280;
+        }
       }
     }
 
     .sidebar-content {
       padding: 12px 0;
-    }
+      height: calc(100vh - 73px);
+      overflow-y: auto;
 
-    .sidebar-item {
-      padding: 12px 20px;
-      color: #374151;
-      cursor: pointer;
-      transition: all 0.2s;
-
-      &:hover {
-        background-color: #f9fafb;
-        color: #3b82f6;
+      &::-webkit-scrollbar {
+        width: 6px;
       }
 
-      &.active {
-        background-color: #eff6ff;
-        color: #3b82f6;
-        font-weight: 500;
+      &::-webkit-scrollbar-thumb {
+        background-color: #d1d5db;
+        border-radius: 3px;
+      }
+
+      .category-group {
+        margin-bottom: 16px;
+
+        .category-title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 20px;
+          font-size: 14px;
+          font-weight: 500;
+          color: #6b7280;
+          background-color: #f3f4f6;
+          transition: all 0.2s;
+
+          span {
+            transition: opacity 0.2s;
+          }
+
+          .count {
+            font-size: 12px;
+            color: #9ca3af;
+          }
+        }
+
+        .sidebar-item {
+          padding: 12px 20px;
+          color: #374151;
+          cursor: pointer;
+          transition: all 0.2s;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          &:hover {
+            background-color: #f9fafb;
+            color: #3b82f6;
+          }
+
+          &.active {
+            background-color: #eff6ff;
+            color: #3b82f6;
+            font-weight: 500;
+            border-right: 2px solid #3b82f6;
+          }
+        }
       }
     }
   }

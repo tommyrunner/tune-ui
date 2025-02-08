@@ -92,7 +92,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TTextarea } from "@/packages/textarea";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "TextareaTest" });
 

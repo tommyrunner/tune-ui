@@ -104,7 +104,7 @@
 
 <script lang="ts" setup>
 import { TIcon } from "@/packages/icon";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "IconTest" });
 </script>

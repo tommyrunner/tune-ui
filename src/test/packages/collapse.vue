@@ -67,7 +67,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TCollapse, TCollapseGroup } from "@/packages/collapse";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "CollapseTest" });
 

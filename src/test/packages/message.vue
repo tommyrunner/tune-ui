@@ -71,7 +71,7 @@ import { ref } from "vue";
 import type { PropsType } from "@/packages/message/types";
 import { TMessage, TNotification } from "@/packages/message";
 import { TButton } from "@/packages/button";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "MessageTest" });
 

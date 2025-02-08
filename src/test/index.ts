@@ -1,27 +1,26 @@
 import type { App } from "vue";
-import ButtonTest from "./button.vue";
-import InputTest from "./input.vue";
-import TextareaTest from "./textarea.vue";
-import BackTopTest from "./back-top.vue";
-import BadgeTest from "./badge.vue";
-import BreadcrumbTest from "./breadcrumb.vue";
-import CardTest from "./card.vue";
-import CarouselTest from "./carousel.vue";
-import CheckboxTest from "./checkbox.vue";
-import TestHome from "./home.vue";
-import CollapseTest from "./collapse.vue";
-import DialogTest from "./dialog.vue";
-import DrawerTest from "./drawer.vue";
-import FlexTest from "./flex.vue";
-import IconTest from "./icon.vue";
-import InputNumberTest from "./input-number.vue";
-import MessageTest from "./message.vue";
-import PopoverTest from "./popover.vue";
-import PopConfirmTest from "./pop-confirm.vue";
-import RadioTest from "./radio.vue";
-import RateTest from "./rate.vue";
-import SwitchTest from "./switch.vue";
-import TabsTest from "./tabs.vue";
+import ButtonTest from "./packages/button.vue";
+import InputTest from "./packages/input.vue";
+import TextareaTest from "./packages/textarea.vue";
+import BackTopTest from "./packages/back-top.vue";
+import BadgeTest from "./packages/badge.vue";
+import BreadcrumbTest from "./packages/breadcrumb.vue";
+import CardTest from "./packages/card.vue";
+import CarouselTest from "./packages/carousel.vue";
+import CheckboxTest from "./packages/checkbox.vue";
+import CollapseTest from "./packages/collapse.vue";
+import DialogTest from "./packages/dialog.vue";
+import DrawerTest from "./packages/drawer.vue";
+import FlexTest from "./packages/flex.vue";
+import IconTest from "./packages/icon.vue";
+import InputNumberTest from "./packages/input-number.vue";
+import MessageTest from "./packages/message.vue";
+import PopoverTest from "./packages/popover.vue";
+import PopConfirmTest from "./packages/pop-confirm.vue";
+import RadioTest from "./packages/radio.vue";
+import RateTest from "./packages/rate.vue";
+import SwitchTest from "./packages/switch.vue";
+import TabsTest from "./packages/tabs.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -34,7 +33,6 @@ export const testComponents = {
   CardTest,
   CarouselTest,
   CheckboxTest,
-  TestHome,
   CollapseTest,
   DialogTest,
   DrawerTest,
@@ -67,7 +65,6 @@ export const TBreadcrumbTest = BreadcrumbTest;
 export const TCardTest = CardTest;
 export const TCarouselTest = CarouselTest;
 export const TCheckboxTest = CheckboxTest;
-export const TTestHome = TestHome;
 export const TCollapseTest = CollapseTest;
 export const TDialogTest = DialogTest;
 export const TDrawerTest = DrawerTest;

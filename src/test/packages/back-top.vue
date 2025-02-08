@@ -85,7 +85,7 @@
 import { ref } from "vue";
 import { TBackTop } from "@/packages/back-top";
 import { TButton } from "@/packages/button";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "BackTopTest" });
 

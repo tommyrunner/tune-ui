@@ -69,7 +69,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TButton } from "@/packages/button";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "ButtonTest" });
 

@@ -122,7 +122,7 @@
 
 <script lang="ts" setup>
 import { TFlex, TFlexGroup } from "@/packages/flex";
-import TestSection from "./components/test-section.vue";
+import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "FlexTest" });
 </script>
