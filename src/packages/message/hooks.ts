@@ -1,5 +1,6 @@
-import { onDeactivated, onMounted, reactive, Ref, toRefs } from "vue";
 import type { PropsType } from "./types";
+import type { Ref } from "vue";
+import { onDeactivated, onMounted, reactive, toRefs } from "vue";
 import { messageClass } from "./messageCall";
 import { notificationClass } from "./notificationCall";
 import { generateId, isDownKeyboard } from "@/utils";
@@ -7,8 +8,9 @@ import { messageVNodeAll, isNotification } from "./method";
 import { isFunction } from "@/utils/is";
 /**
  * 统一处理message基础事件hooks
- * @param props props参数
- * @param messageRef message节点
+ * @param props - Message组件的props参数
+ * @param messageRef - Message组件的DOM节点引用
+ * @returns 返回message相关的状态和方法
  */
 export function useMessage(props: PropsType, messageRef: Ref<HTMLElement>) {
   const { messageType, closeOnPressEscape } = props;

@@ -10,6 +10,9 @@ $gap: 24px;
   color: $text-color-default;
   font-size: $font-size-default;
   transform-origin: left;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   ._head {
     display: flex;
     align-items: center;

@@ -3,7 +3,7 @@
     <div :class="getMessageClass" v-bind="{ [MESSAGE_TAG]: MESSAGE_TAG }" :style="getMessageStyle" :id="id" ref="messageRef">
       <TIcon :icon="getIcon" :size="18" />
       <span v-html="props.content"></span>
-      <TIcon v-if="props.isClose" icon="close" class="_icon-close" :size="18" @click="closeMessage" />
+      <TIcon v-if="props.isClose" icon="close" class="_icon-close" :size="12" @click="closeMessage" />
     </div>
   </Teleport>
 </template>
@@ -14,9 +14,12 @@ import { computed, ref } from "vue";
 import { MESSAGE_GAP, MESSAGE_TAG } from "./method";
 import { messageClass } from "./messageCall";
 import { fromCssVal } from "@/utils";
-import { TIcon } from "../icon";
+import { TIcon } from "@/packages/icon";
 import { useMessage } from "./hooks";
+
 defineOptions({ name: "TMessage" });
+
+// Props定义
 const props = withDefaults(defineProps<PropsType>(), {
   type: "info",
   messageType: "default",
@@ -30,6 +33,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   padding: () => [8, 12, 8, 12],
   boxShadow: () => [0, 0, 4, "rgba(0, 0, 0, 0.5)"]
 });
+
 // 节点
 const messageRef = ref();
 // 处理基础事件

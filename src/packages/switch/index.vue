@@ -1,5 +1,5 @@
 <template>
-  <div :class="getClass" @click="handleClick">
+  <div :class="switchClasses" @click="handleClick">
     <div class="_bg _bg1" :style="{ backgroundColor: props.offBgColor }">
       <slot name="offContent" />
     </div>
@@ -7,24 +7,34 @@
       <slot name="onContent" />
     </div>
     <div class="_action">
-      <TIcon v-if="props.loading" icon="loading" :class="`${props.loading && 't-loading'}`" />
+      <t-icon v-if="props.loading" icon="loading" :class="`${props.loading && 't-loading'}`" />
     </div>
   </div>
 </template>
+
 <script lang="ts" setup>
 import type { EmitsType, PropsType } from "./switch";
-import { configOptions } from "@/hooks/useOptions";
 import { computed } from "vue";
-import { TIcon } from "..";
+import { configOptions } from "@/hooks/useOptions";
+import { TIcon } from "@/packages/icon";
+
 defineOptions({ name: "TSwitch" });
-const emit = defineEmits<EmitsType>();
-const model = defineModel<boolean>();
+
+/** Props定义 */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   loading: false,
   disabled: false
 });
-const getClass = computed(() => {
+
+/** Emits定义 */
+const emit = defineEmits<EmitsType>();
+
+/** 双向绑定 */
+const model = defineModel<boolean>();
+
+/** 计算开关样式 */
+const switchClasses = computed(() => {
   const { size, radius, disabled, loading } = props;
   return [
     "t-switch",
@@ -34,6 +44,8 @@ const getClass = computed(() => {
     (disabled || loading) && "t-disabled"
   ];
 });
+
+/** 处理点击事件 */
 const handleClick = () => {
   if (!props.disabled && !props.loading) {
     model.value = !model.value;
@@ -41,7 +53,7 @@ const handleClick = () => {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 @import "index.scss";
 </style>
-@/hooks/useOptions/useOptions@/hooks/useOptions

@@ -31,9 +31,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { triangleWidth, type EmitsType, type PropsType } from "./popover";
+import type { EmitsType, PropsType } from "./popover";
+import type { StyleValue } from "vue";
+import { triangleWidth } from "./popover";
 import { bindDebounce, fromCssVal, generateId, getMaxZIndex, isDownKeyboard } from "@/utils";
-import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, watch } from "vue";
+import { computed, nextTick, onDeactivated, onMounted, reactive, ref, watch } from "vue";
 defineOptions({ name: "TPopover" });
 const props = withDefaults(defineProps<PropsType>(), {
   gap: 12,
@@ -350,9 +352,9 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position): typeof st
 const getPopoverClass = computed(() => {
   const { dialogAnimation, drawerAnimation } = props;
   let animationClass = `_t-popover-${state.dyPosition}`;
-  // 切换dialog动画
+  // 切换dialog动画（耦合操作）
   if (dialogAnimation) animationClass = `_t-popover-dialog`;
-  // 切换drawer动画
+  // 切换drawer动画（耦合操作）
   if (drawerAnimation) animationClass = `_t-popover-drawer-${props.position}`;
   // 因为抛出使用特殊格式
   return ["_t-popover", animationClass];

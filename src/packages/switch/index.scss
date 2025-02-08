@@ -55,15 +55,16 @@
   }
 }
 
+/** 方形样式 */
 .t-switch-radius-square {
   border-radius: 0px;
+
+  ._action {
+    border-radius: 0px;
+  }
 }
 
-.t-switch-radius-square ._action {
-  border-radius: 0px;
-}
-
-// 处理状态样式
+/** 开关状态样式 */
 .t-switch-off {
   ._action {
     left: 2px;
@@ -92,7 +93,7 @@
   }
 }
 
-// 处理size
+/** 尺寸样式 */
 .t-switch-size-default {
   height: 22px;
   width: 46px;

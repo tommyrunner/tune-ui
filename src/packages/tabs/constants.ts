@@ -1,22 +1,27 @@
 import type { InjectionKey } from "vue";
 import type { ValueType } from "./tabs";
-import { PropsType } from "./tabs-group";
+import type { PropsType } from "./tabs-group";
 
+/** TabsGroup上下文类型定义 */
 export interface GroupContextType extends PropsType {
+  /** 当前选中值 */
   model?: ValueType;
-  /**
-   * 修改action状态
-   * @param el 更改组件
-   * @param params 当前value参数
-   * @param isChange 标记是否选中
-   * @param isEmit 标记是否抛出
+
+  /** 
+   * 修改选中状态
+   * @param el 目标元素
+   * @param value 选中值
+   * @param isChange 是否选中
+   * @param isEmit 是否触发事件
    */
   changeEvent: (el: HTMLElement, value?: ValueType, isChange?: boolean, isEmit?: boolean) => void;
-  /**
-   * 关闭事件
-   * @param params 当前value参数
+
+  /** 
+   * 处理关闭事件
+   * @param value 关闭项的值
    */
-  handlerClose: (params?: ValueType) => void;
+  handleClose: (value?: ValueType) => void;
 }
 
+/** TabsGroup注入的key */
 export const tabsGroupKey: InjectionKey<GroupContextType> = Symbol("tabsGroupKey");

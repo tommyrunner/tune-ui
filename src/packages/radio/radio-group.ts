@@ -1,22 +1,22 @@
-import { type BaseProps } from "@/types";
-import { ValueType } from "./radio";
+import type { BaseProps } from "@/types";
+import type { ValueType } from "./radio";
 /**
- * @description: 组件props类型
+ * RadioGroup组件的Props类型定义
  */
 export interface PropsType extends BaseProps {
-  // 绑定对象标记key
+  /** 绑定对象标记key */
   objKey?: string;
-  // group类型
+  /** 单选框组类型 */
   type?: "default" | "text" | "border" | "button";
-  // group方向
+  /** 排列方向 */
   direction?: "column" | "row";
-  // 是否立即出发change
+  /** 是否立即触发change事件 */
   immediateChange?: boolean;
 }
 /**
- * @description: 组件emit类型
+ * RadioGroup组件的事件类型定义
  */
 export interface EmitsType {
-  // 切换事件
+  /** 选择改变事件 */
   (e: "change", data?: ValueType): void;
 }

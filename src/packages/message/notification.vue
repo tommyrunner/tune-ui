@@ -6,7 +6,7 @@
           <TIcon v-if="props.type !== 'info'" :icon="getIcon" :size="18" />
           {{ props.title }}
         </span>
-        <TIcon v-if="props.isClose" icon="close" class="_icon-close" :size="24" @click="closeMessage" />
+        <TIcon v-if="props.isClose" icon="close" class="_icon-close" :size="14" @click="closeMessage" />
       </div>
       <div class="_content" v-html="props.content"></div>
     </div>

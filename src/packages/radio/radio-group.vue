@@ -9,37 +9,53 @@
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
 import type { PropsType, EmitsType } from "./radio-group";
 import type { ValueType } from "./radio";
-import { type GroupContextType, radioGroupKey } from "./constants";
-import { configOptions } from "@/hooks/useOptions";
+import type { GroupContextType } from "./constants";
 import { ref, provide, reactive, toRefs, nextTick, onMounted } from "vue";
+import { radioGroupKey } from "./constants";
+import { configOptions } from "@/hooks/useOptions";
+
 defineOptions({ name: "TRadioGroup" });
+
+/** Props定义 */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   type: "button",
   direction: "row"
 });
 
+/** Emits定义 */
 const emit = defineEmits<EmitsType>();
+
+/** 组件引用 */
 const groupRef = ref<HTMLElement>();
+
+/** 双向绑定 */
 const model = defineModel<ValueType>();
-const changeEvent = (value?: ValueType) => {
+
+/** 处理值改变事件 */
+const handleChange = (value?: ValueType) => {
   model.value = value;
   nextTick(() => emit("change", model.value));
 };
-onMounted(() => props.immediateChange && changeEvent(model.value));
-// 抛出操作api，与子组件交互
+
+/** 初始化立即触发 */
+onMounted(() => props.immediateChange && handleChange(model.value));
+
+/** 提供上下文 */
 provide<GroupContextType>(
   radioGroupKey,
   reactive({
     ...toRefs(props),
     model,
-    changeEvent
+    changeEvent: handleChange
   })
 );
 </script>
+
 <style lang="scss" scoped>
 .t-radio-group {
   display: flex;
@@ -48,4 +64,3 @@ provide<GroupContextType>(
   cursor: pointer;
 }
 </style>
-@/hooks/useOptions/useOptions@/hooks/useOptions

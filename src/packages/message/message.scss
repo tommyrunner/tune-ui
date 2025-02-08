@@ -13,6 +13,9 @@
   font-size: $font-size-default;
   transform-origin: left;
   animation: animation-message-in forwards 0.44s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 .t-message-close {
   animation: animation-message-out forwards 0.28s;

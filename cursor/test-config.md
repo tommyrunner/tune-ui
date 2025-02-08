@@ -8,4 +8,6 @@
 基本模板参考 /test/button.vue
 
 还需要修改 index.ts文件，添加当前组件的导出
+如果使用了icon图标，一定需要使用/icons/iconfont.json里有的图标
+
 并添加到home组件中

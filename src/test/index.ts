@@ -15,6 +15,13 @@ import DrawerTest from "./drawer.vue";
 import FlexTest from "./flex.vue";
 import IconTest from "./icon.vue";
 import InputNumberTest from "./input-number.vue";
+import MessageTest from "./message.vue";
+import PopoverTest from "./popover.vue";
+import PopConfirmTest from "./pop-confirm.vue";
+import RadioTest from "./radio.vue";
+import RateTest from "./rate.vue";
+import SwitchTest from "./switch.vue";
+import TabsTest from "./tabs.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -33,7 +40,14 @@ export const testComponents = {
   DrawerTest,
   FlexTest,
   IconTest,
-  InputNumberTest
+  InputNumberTest,
+  MessageTest,
+  PopoverTest,
+  PopConfirmTest,
+  RadioTest,
+  RateTest,
+  SwitchTest,
+  TabsTest
 };
 
 /** 测试组件安装器 */
@@ -60,5 +74,12 @@ export const TDrawerTest = DrawerTest;
 export const TFlexTest = FlexTest;
 export const TIconTest = IconTest;
 export const TInputNumberTest = InputNumberTest;
+export const TMessageTest = MessageTest;
+export const TPopoverTest = PopoverTest;
+export const TPopConfirmTest = PopConfirmTest;
+export const TRadioTest = RadioTest;
+export const TRateTest = RateTest;
+export const TSwitchTest = SwitchTest;
+export const TTabsTest = TabsTest;
 // 默认导出安装器
 export default installTestComponents;

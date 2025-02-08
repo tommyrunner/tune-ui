@@ -45,7 +45,14 @@ import {
   TDrawerTest,
   TFlexTest,
   TIconTest,
-  TInputNumberTest
+  TInputNumberTest,
+  TMessageTest,
+  TPopoverTest,
+  TPopConfirmTest,
+  TRadioTest,
+  TRateTest,
+  TSwitchTest,
+  TTabsTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -72,7 +79,14 @@ const componentList: ComponentItem[] = [
   { name: "TDrawerTest", label: "Drawer 抽屉", component: TDrawerTest },
   { name: "TFlexTest", label: "Flex 布局", component: TFlexTest },
   { name: "TIconTest", label: "Icon 图标", component: TIconTest },
-  { name: "TInputNumberTest", label: "InputNumber 数值输入框", component: TInputNumberTest }
+  { name: "TInputNumberTest", label: "InputNumber 数值输入框", component: TInputNumberTest },
+  { name: "TMessageTest", label: "Message 消息提示", component: TMessageTest },
+  { name: "TPopoverTest", label: "Popover 弹出框", component: TPopoverTest },
+  { name: "TPopConfirmTest", label: "PopConfirm 气泡确认框", component: TPopConfirmTest },
+  { name: "TRadioTest", label: "Radio 单选框", component: TRadioTest },
+  { name: "TRateTest", label: "Rate 评分", component: TRateTest },
+  { name: "TSwitchTest", label: "Switch 开关", component: TSwitchTest },
+  { name: "TTabsTest", label: "Tabs 标签页", component: TTabsTest }
 ];
 
 // 当前选中的组件(默认最后一个)

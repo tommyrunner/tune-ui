@@ -1,25 +1,31 @@
-import { ValueType } from "./tabs";
+import type { ValueType } from "./tabs";
 
 /**
- * @description: 组件props类型
+ * TabsGroup组件的Props类型定义
  */
 export interface PropsType {
-  // 类型
+  /** 标签页类型 */
   type?: "line" | "block" | "border";
-  // 高度
+
+  /** 标签页高度 */
   height?: string;
-  // 间距(为0充满父元素)
+
+  /** 标签页间距(为0充满父元素) */
   gap?: number;
-  // 是否开启关闭
+
+  /** 是否显示关闭按钮 */
   isClose?: boolean;
-  // action动画时间(毫秒)
+
+  /** 切换动画时长(毫秒) */
   actionDuration?: number;
 }
+
 /**
- * @description: 组件emit类型
+ * TabsGroup组件的事件类型定义
  */
 export interface EmitsType {
-  // 切换事件
+  /** 切换事件 */
   (e: "change", data?: ValueType): void;
+  /** 关闭事件 */
   (e: "close", data?: ValueType): void;
 }

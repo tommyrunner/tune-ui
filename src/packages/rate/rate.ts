@@ -1,29 +1,33 @@
-import { type BaseProps } from "@/types";
-import { IconTypes } from "@/packages/icon/icon";
+import type { BaseProps } from "@/types";
+import type { IconTypes } from "@/packages/icon/icon";
 /**
  * @description: 组件props类型
  */
 export interface PropsType extends BaseProps {
-  // 值定颜色 <= n
+  /** 评分颜色配置 key为分值 */
   color?: { [key in number]?: string };
-  // 自定义icon
+  /** 自定义图标配置 */
   icon?: {
+    /** 未选中图标 */
     empty?: IconTypes;
+    /** 半选图标 */
     half?: IconTypes;
+    /** 选中图标 */
     show?: IconTypes;
   };
-  // 间隔
+  /** 图标间距 */
   gap?: number;
-  // 最大评分
+  /** 最大评分值 */
   max?: number;
-  // 支持半选
+  /** 是否支持半选 */
   isHalf?: boolean;
-  // 是否禁用
+  /** 是否禁用 */
   disabled?: boolean;
 }
 /**
  * @description: 组件emit类型
  */
 export interface EmitsType {
+  /** 评分改变事件 */
   (e: "change", data?: number): void;
 }

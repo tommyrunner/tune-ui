@@ -1,7 +1,12 @@
 import Tabs from "./index.vue";
 import TabsGroup from "./tabs-group.vue";
+
+/** 导出Tabs组件 */
 export const TTabs = Tabs;
-export type TTabsType = InstanceType<typeof TTabs>;
-// 组合
+/** 导出Tabs组件类型 */
+export type TTabsType = InstanceType<typeof Tabs>;
+
+/** 导出TabsGroup组件 */
 export const TTabsGroup = TabsGroup;
-export type TTabsGroupType = InstanceType<typeof TTabsGroup>;
+/** 导出TabsGroup组件类型 */
+export type TTabsGroupType = InstanceType<typeof TabsGroup>;
