@@ -14,6 +14,7 @@ import DialogTest from "./dialog.vue";
 import DrawerTest from "./drawer.vue";
 import FlexTest from "./flex.vue";
 import IconTest from "./icon.vue";
+import InputNumberTest from "./input-number.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -31,7 +32,8 @@ export const testComponents = {
   DialogTest,
   DrawerTest,
   FlexTest,
-  IconTest
+  IconTest,
+  InputNumberTest
 };
 
 /** 测试组件安装器 */
@@ -57,5 +59,6 @@ export const TDialogTest = DialogTest;
 export const TDrawerTest = DrawerTest;
 export const TFlexTest = FlexTest;
 export const TIconTest = IconTest;
+export const TInputNumberTest = InputNumberTest;
 // 默认导出安装器
 export default installTestComponents;

@@ -44,7 +44,8 @@ import {
   TDialogTest,
   TDrawerTest,
   TFlexTest,
-  TIconTest
+  TIconTest,
+  TInputNumberTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -70,7 +71,8 @@ const componentList: ComponentItem[] = [
   { name: "TDialogTest", label: "Dialog 对话框", component: TDialogTest },
   { name: "TDrawerTest", label: "Drawer 抽屉", component: TDrawerTest },
   { name: "TFlexTest", label: "Flex 布局", component: TFlexTest },
-  { name: "TIconTest", label: "Icon 图标", component: TIconTest }
+  { name: "TIconTest", label: "Icon 图标", component: TIconTest },
+  { name: "TInputNumberTest", label: "InputNumber 数值输入框", component: TInputNumberTest }
 ];
 
 // 当前选中的组件(默认最后一个)
