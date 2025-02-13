@@ -118,13 +118,17 @@ export function getMaxZIndex(selectors: string) {
 }
 /**
  * 格式化css四位值
- * @param array
+ * @param params 可以是数字、字符串或者它们的数组
  */
-export function fromCssVal(params: (number | string)[] | (string | number)): string {
-  // 单项值
+export function fromCssVal(params: (number | string)[] | string | number): string {
+  // 处理单个值
   if (isNumber(params)) return `${params}px`;
   if (isString(params)) return params;
-  // 多项值
+
+  // 确保是数组
+  if (!Array.isArray(params)) return "";
+
+  // 处理数组值
   return params
     .filter(item => isNumber(item) || isString(item)) // 只保留数字和字符串
     .map(item => {

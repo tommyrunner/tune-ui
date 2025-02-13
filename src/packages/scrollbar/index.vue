@@ -1,36 +1,34 @@
 <template>
-  <div class="t-scrollbar">
-    <div :class="[...getScrollbarClass, '_scrollbar-v']" @mousedown="handlerScrollbarClick" ref="thumbVRef">
+  <div class="t-scrollbar" :style="scrollbarStyle">
+    <div :class="[...scrollbarClasses, '_scrollbar-v']" @mousedown="handleScrollbarClick" ref="thumbVRef">
       <div
         class="_scrollbar-thumb"
-        @mousedown="(event: MouseEvent) => handlerOpenMove(event, 'top')"
-        :style="getScrollbarThumbVStyle"
+        @mousedown="(event: MouseEvent) => handleOpenMove(event, 'top')"
+        :style="scrollbarThumbVStyle"
       ></div>
     </div>
-    <div :class="[...getScrollbarClass, '_scrollbar-h']" @mousedown="handlerScrollbarClick" ref="thumbHRef">
+    <div :class="[...scrollbarClasses, '_scrollbar-h']" @mousedown="handleScrollbarClick" ref="thumbHRef">
       <div
         class="_scrollbar-thumb"
-        @mousedown="(event: MouseEvent) => handlerOpenMove(event, 'left')"
-        :style="getScrollbarThumbHStyle"
+        @mousedown="(event: MouseEvent) => handleOpenMove(event, 'left')"
+        :style="scrollbarThumbHStyle"
       ></div>
     </div>
-    <div class="_content t-hide-scrollbar" ref="scrollbarRef" :style="getContentStyle">
+    <div class="_content t-hide-scrollbar" ref="scrollbarRef">
       <slot />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import type { PropsType, DirectionType, EmitsType } from "./scrollbar";
-import { computed, nextTick, onDeactivated, reactive, ref, StyleValue, watch } from "vue";
+import { computed, nextTick, onDeactivated, reactive, ref, StyleValue } from "vue";
 
 defineOptions({ name: "TScrollbar" });
 const emit = defineEmits<EmitsType>();
 const scrollbarRef = ref<HTMLDivElement>();
 const thumbVRef = ref<HTMLDivElement>();
 const thumbHRef = ref<HTMLDivElement>();
-const props = withDefaults(defineProps<PropsType>(), {
-  listDirection: "column"
-});
+const props = withDefaults(defineProps<PropsType>(), {});
 // 最小thumb尺寸 比例
 const THUMB_MIN_SIZE = 0.046;
 let elementObserver: null | MutationObserver = null;
@@ -69,15 +67,6 @@ const state = reactive({
     isShowV: false
   }
 });
-/**
- * 总高度可指定
- */
-watch(
-  () => props.totalHeight,
-  () => {
-    updateScrollbar();
-  }
-);
 nextTick(() => {
   // 监听节点变化
   elementObserver = new MutationObserver(updateScrollbar);
@@ -126,8 +115,6 @@ const updateScrollbar = () => {
   state.elementWidth = offsetWidth;
   state.totalHeight = scrollHeight;
   state.totalWidth = scrollWidth;
-  // 指定高度
-  if (props.totalHeight) state.totalHeight = props.totalHeight;
   // 计算滚动条高度（总高度 * (比例) - 间距）:取最小尺寸(高度*比例)
   state.scrollbar.height = Math.max(
     state.elementHeight * (state.elementHeight / state.totalHeight),
@@ -141,7 +128,7 @@ const updateScrollbar = () => {
  * @param event 事件
  * @param direction 方向
  */
-const handlerScrollbarClick = (event: MouseEvent) => {
+const handleScrollbarClick = (event: MouseEvent) => {
   //   计算当前位置
   const rect = scrollbarRef.value.getBoundingClientRect();
   // 每次点击的时候获取element当前屏幕位置(*用于计算全屏拉动)
@@ -177,7 +164,7 @@ const handlerCloseMove = () => {
   state.scrollbar.isMoveH = false;
   state.scrollbar.isMoveV = false;
 };
-const handlerOpenMove = (event: MouseEvent, direction: DirectionType) => {
+const handleOpenMove = (event: MouseEvent, direction: DirectionType) => {
   // 更新当前触发滚动条方向
   state.scrollbar.direction = direction;
   // 拖动时不能选中文本
@@ -236,7 +223,7 @@ const setScrollbar = (mobile: number, direction: DirectionType) => {
 /**
  * 处理class 以及 style 动态样式
  */
-const getScrollbarClass = computed(() => {
+const scrollbarClasses = computed(() => {
   const { isMoveH, isMoveV, isShowH, isShowV } = state.scrollbar;
   return [
     "_scrollbar",
@@ -245,7 +232,7 @@ const getScrollbarClass = computed(() => {
     (isShowV || isMoveV) && "_scrollbar-hover-v"
   ];
 });
-const getScrollbarThumbVStyle = computed((): StyleValue => {
+const scrollbarThumbVStyle = computed((): StyleValue => {
   const { scrollbar, totalHeight, scrollTop, elementHeight } = state;
   // 得出位置率: 滚动位置/(滚动高度 - 组件高度)
   const ratio = scrollTop / (totalHeight - elementHeight);
@@ -257,7 +244,7 @@ const getScrollbarThumbVStyle = computed((): StyleValue => {
     height: `${scrollbar.height}px`
   };
 });
-const getScrollbarThumbHStyle = computed((): StyleValue => {
+const scrollbarThumbHStyle = computed((): StyleValue => {
   const { scrollbar, totalWidth, scrollLeft, elementWidth } = state;
   const ratio = scrollLeft / (totalWidth - elementWidth);
   const width = elementWidth - scrollbar.width - 4;
@@ -266,9 +253,9 @@ const getScrollbarThumbHStyle = computed((): StyleValue => {
     width: `${scrollbar.width}px`
   };
 });
-const getContentStyle = computed((): StyleValue => {
+const scrollbarStyle = computed((): StyleValue => {
   return {
-    flexDirection: props.listDirection
+    height: props.height
   };
 });
 defineExpose({

@@ -62,7 +62,9 @@ import {
   TRadioTest,
   TRateTest,
   TSwitchTest,
-  TTabsTest
+  TTabsTest,
+  TListViewTest,
+  TScrollbarTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -87,6 +89,8 @@ const componentList: ComponentConfig[] = [
   { name: "TCardTest", label: "Card 卡片", category: ComponentCategory.Data, component: TCardTest },
   { name: "TCarouselTest", label: "Carousel 轮播", category: ComponentCategory.Data, component: TCarouselTest },
   { name: "TCollapseTest", label: "Collapse 折叠面板", category: ComponentCategory.Data, component: TCollapseTest },
+  { name: "TListViewTest", label: "ListView 列表视图", category: ComponentCategory.Data, component: TListViewTest },
+  { name: "TScrollbarTest", label: "Scrollbar 滚动条", category: ComponentCategory.Data, component: TScrollbarTest },
 
   // 反馈组件
   { name: "TMessageTest", label: "Message 消息提示", category: ComponentCategory.Feedback, component: TMessageTest },
@@ -110,7 +114,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList[0]);
+const currentComponent = ref<ComponentConfig>(componentList[13]);
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {

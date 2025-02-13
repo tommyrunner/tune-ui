@@ -21,6 +21,8 @@ import RadioTest from "./packages/radio.vue";
 import RateTest from "./packages/rate.vue";
 import SwitchTest from "./packages/switch.vue";
 import TabsTest from "./packages/tabs.vue";
+import ListViewTest from "./packages/listView.vue";
+import ScrollbarTest from "./packages/scrollbar.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -45,7 +47,9 @@ export const testComponents = {
   RadioTest,
   RateTest,
   SwitchTest,
-  TabsTest
+  TabsTest,
+  ListViewTest,
+  ScrollbarTest
 };
 
 /** 测试组件安装器 */
@@ -78,5 +82,7 @@ export const TRadioTest = RadioTest;
 export const TRateTest = RateTest;
 export const TSwitchTest = SwitchTest;
 export const TTabsTest = TabsTest;
+export const TListViewTest = ListViewTest;
+export const TScrollbarTest = ScrollbarTest;
 // 默认导出安装器
 export default installTestComponents;

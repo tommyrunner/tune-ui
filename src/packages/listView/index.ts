@@ -1,4 +1,4 @@
-import ListView from "./index.vue";
+import ListView from "./test.vue";
 import ListViewItem from "./listView-item.vue";
 export const TListView = ListView;
 export type TListViewType = InstanceType<typeof TListView>;
