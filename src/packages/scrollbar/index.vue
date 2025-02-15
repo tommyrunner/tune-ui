@@ -1,13 +1,13 @@
 <template>
   <div class="t-scrollbar" :style="scrollbarStyle">
-    <div :class="[...scrollbarClasses, '_scrollbar-v']" @mousedown="handleScrollbarClick" ref="thumbVRef">
+    <div :class="[...scrollbarClasses, '_scrollbar-v']" @mousedown="handleScrollbarClick($event, 'top')" ref="thumbVRef">
       <div
         class="_scrollbar-thumb"
         @mousedown="(event: MouseEvent) => handleOpenMove(event, 'top')"
         :style="scrollbarThumbVStyle"
       ></div>
     </div>
-    <div :class="[...scrollbarClasses, '_scrollbar-h']" @mousedown="handleScrollbarClick" ref="thumbHRef">
+    <div :class="[...scrollbarClasses, '_scrollbar-h']" @mousedown="handleScrollbarClick($event, 'left')" ref="thumbHRef">
       <div
         class="_scrollbar-thumb"
         @mousedown="(event: MouseEvent) => handleOpenMove(event, 'left')"
@@ -20,6 +20,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { fromCssVal } from "@/utils";
 import type { PropsType, DirectionType, EmitsType } from "./scrollbar";
 import { computed, nextTick, onDeactivated, reactive, ref, StyleValue } from "vue";
 
@@ -28,7 +29,9 @@ const emit = defineEmits<EmitsType>();
 const scrollbarRef = ref<HTMLDivElement>();
 const thumbVRef = ref<HTMLDivElement>();
 const thumbHRef = ref<HTMLDivElement>();
-const props = withDefaults(defineProps<PropsType>(), {});
+const props = withDefaults(defineProps<PropsType>(), {
+  height: 300
+});
 // 最小thumb尺寸 比例
 const THUMB_MIN_SIZE = 0.046;
 let elementObserver: null | MutationObserver = null;
@@ -128,7 +131,7 @@ const updateScrollbar = () => {
  * @param event 事件
  * @param direction 方向
  */
-const handleScrollbarClick = (event: MouseEvent) => {
+const handleScrollbarClick = (event: MouseEvent, direction: DirectionType) => {
   //   计算当前位置
   const rect = scrollbarRef.value.getBoundingClientRect();
   // 每次点击的时候获取element当前屏幕位置(*用于计算全屏拉动)
@@ -136,10 +139,11 @@ const handleScrollbarClick = (event: MouseEvent) => {
     x: rect.left,
     y: rect.top
   };
-  const mobile = state.scrollbar.direction === "left" ? event.layerX : event.layerY;
+  const mobile = direction === "left" ? event.layerX : event.layerY;
   // 点击滑块无需快捷跳转
   if (event.target === thumbVRef.value.firstChild || event.target === thumbHRef.value.firstChild) return;
-  setScrollbar(mobile - state.scrollbar.height / 2, state.scrollbar.direction);
+  setScrollbar(mobile - state.scrollbar.height / 2, direction);
+  emit("click-track", scrollbarRef.value);
 };
 /**
  * 处理拖动事件(这里是全屏拖动，尽量模拟window)
@@ -201,7 +205,7 @@ const handlerElementScrollbar = () => {
   }
   state.scrollTop = element.scrollTop;
   state.scrollLeft = element.scrollLeft;
-  emit(direction === "left" ? "scrollX" : "scrollY", element);
+  emit(direction === "left" ? "scroll-x" : "scroll-y", element);
 };
 /**
  * 通过计算得到的拖动值,更新element滚动值
@@ -255,7 +259,7 @@ const scrollbarThumbHStyle = computed((): StyleValue => {
 });
 const scrollbarStyle = computed((): StyleValue => {
   return {
-    height: props.height
+    height: fromCssVal(props.height)
   };
 });
 defineExpose({

@@ -1,190 +1,232 @@
 <template>
-  <div class="list-view-test">
-    <h3>ListView 列表视图</h3>
+  <div class="test-container">
+    <h2>ListView 列表视图组件</h2>
 
-    <TScrollbar style="height: 300px">
-      <div class="box"></div>
-    </TScrollbar>
-
-    <!-- 基础用法 -->
-    <div class="test-block">
-      <h4>基础用法</h4>
-      <TListView :height="400" :listData="basicListData">
-        <template #default="{ row, index }">
-          <TListViewItem>
-            <div class="list-item">{{ index + 1 }}. {{ row.content }}</div>
-          </TListViewItem>
-        </template>
-      </TListView>
-    </div>
+    <!-- 基础列表 -->
+    <test-section title="基础列表">
+      <div class="list-row">
+        <t-list-view :listData="basicData" :height="300">
+          <template #default="{ row, index }">
+            <div class="list-item">{{ index + 1 }}. {{ row.label }}</div>
+          </template>
+        </t-list-view>
+      </div>
+    </test-section>
 
     <!-- 虚拟列表 -->
-    <div class="test-block">
-      <h4>虚拟列表</h4>
-      <TListView height="300px" :isVirtualized="true" :listData="virtualListData">
-        <template #default="{ index }">
-          <TListViewItem>
-            <!-- 根据index计算高度 -->
-            <div :style="{ height: `${(index + 1) * 20}px`, borderBottom: '1px solid #000' }">{{ index + 1 }}</div>
-          </TListViewItem>
-        </template>
-      </TListView>
-    </div>
-
-    <!-- 列表方向 -->
-    <!-- <div class="test-block">
-      <h4>列表方向</h4>
-      <TListView height="200px" direction="row" :listData="directionListData">
-        <template #default="{ row }">
-          <TListViewItem>
-            <div class="list-item-row">{{ row.content }}</div>
-          </TListViewItem>
-        </template>
-      </TListView>
-    </div> -->
-
-    <!-- 固定项 -->
-    <!-- <div class="test-block">
-      <h4>固定项</h4>
-      <TListView height="300px" :listData="fixedListData">
-        <template #head="{ itemBind }">
-          <div class="list-header" :style="{ height: itemBind.height }">列表头部</div>
-        </template>
-        <template #default="{ row, index }">
-          <TListViewItem :fixed="index === 0">
-            <div class="list-item" :class="{ 'is-fixed': index === 0 }">
-              {{ row.content }}
+    <test-section title="虚拟列表">
+      <div class="list-row">
+        <t-list-view
+          :listData="largeData"
+          :height="300"
+          :itemHeight="50"
+          :isVirtualized="true"
+          @scroll="handleScroll"
+          @update-view="handleUpdateView"
+        >
+          <template #default="{ row, index }">
+            <div class="list-item">{{ index + 1 }}. {{ row.label }}</div>
+          </template>
+        </t-list-view>
+        <div class="control-panel">
+          <div class="value-display">数据总数: {{ largeData.length }} 条</div>
+          <div class="event-log">
+            <div class="event-title">事件记录:</div>
+            <div v-for="(event, index) in eventLogs" :key="index" class="event-item">
+              {{ event }}
             </div>
-          </TListViewItem>
-        </template>
-        <template #foot="{ itemBind }">
-          <div class="list-footer" :style="{ height: itemBind.height }">列表底部</div>
-        </template>
-      </TListView>
-    </div> -->
-
-    <!-- 事件测试 -->
-    <!-- <div class="test-block">
-      <h4>事件测试</h4>
-      <TListView height="200px" :listData="eventListData" @scroll="handleScroll" @updateView="handleUpdateView">
-        <template #default="{ row }">
-          <TListViewItem>
-            <div class="list-item">{{ row.content }}</div>
-          </TListViewItem>
-        </template>
-      </TListView>
-      <div class="event-log">
-        <p>滚动事件：{{ scrollInfo }}</p>
-        <p>视图更新：{{ updateInfo }}</p>
+          </div>
+        </div>
       </div>
-    </div> -->
+    </test-section>
+
+    <!-- 固定项列表 -->
+    <test-section title="固定项列表">
+      <div class="list-row">
+        <t-list-view :listData="basicData" :height="300" :itemFixed="handleItemFixed">
+          <template #default="{ row, index }">
+            <div class="list-item" :class="{ 'is-fixed': index % 5 === 0 }">
+              {{ index + 1 }}. {{ row.label }}
+              <span v-if="index % 5 === 0" class="fixed-tag">固定</span>
+            </div>
+          </template>
+        </t-list-view>
+      </div>
+    </test-section>
+
+    <!-- 列表插槽 -->
+    <test-section title="列表插槽">
+      <div class="list-row">
+        <t-list-view :listData="basicData" :height="300">
+          <template #head>
+            <div class="list-header">列表头部</div>
+          </template>
+          <template #default="{ row, index }">
+            <div class="list-item">{{ index + 1 }}. {{ row.label }}</div>
+          </template>
+          <template #foot>
+            <div class="list-footer">列表底部</div>
+          </template>
+        </t-list-view>
+      </div>
+    </test-section>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { TListView, TListViewItem } from "@/packages/listView";
-import { TScrollbar } from "@/packages/scrollbar";
+import { TListView } from "@/packages/listView";
+import TestSection from "../components/test-section.vue";
 
-interface ListItem {
-  id: number;
-  content: string;
-}
+defineOptions({ name: "ListViewTest" });
 
-// 生成测试数据
-const createListData = (count: number, prefix = ""): ListItem[] => {
-  return Array.from({ length: count }, (_, i) => ({
-    id: i,
-    content: `${prefix}列表项 ${i + 1}`
-  }));
-};
+/** 基础数据列表 */
+const basicData = ref(
+  Array.from({ length: 50 }, (_, index) => ({
+    id: index,
+    label: `列表项 ${index + 1}`
+  }))
+);
 
-// 基础列表数据
-const basicListData = ref<ListItem[]>(createListData(10, "基础"));
+/** 大数据列表 - 用于测试虚拟滚动 */
+const largeData = ref(
+  Array.from({ length: 10000 }, (_, index) => ({
+    id: index,
+    label: `列表项 ${index + 1}`
+  }))
+);
 
-// 虚拟列表数据
-const virtualListData = ref<ListItem[]>(createListData(1000, "虚拟"));
+/** 事件记录列表 */
+const eventLogs = ref<string[]>([]);
 
-// 方向列表数据
-const directionListData = ref<ListItem[]>(createListData(10, "横向"));
-
-// 固定项列表数据
-const fixedListData = ref<ListItem[]>(createListData(20, "固定"));
-
-// 事件测试列表数据
-const eventListData = ref<ListItem[]>(createListData(50, "事件"));
-
-// 事件记录
-const scrollInfo = ref("未触发");
-const updateInfo = ref("未触发");
-
-// 事件处理
+/**
+ * 处理列表滚动事件
+ * @param element 滚动容器元素
+ */
 const handleScroll = (element: HTMLElement) => {
-  scrollInfo.value = `位置: ${element.scrollTop}px`;
+  eventLogs.value.unshift(`滚动事件: { scrollTop: ${element.scrollTop} }`);
+  if (eventLogs.value.length > 5) {
+    eventLogs.value.pop();
+  }
 };
 
+/**
+ * 处理视图更新事件
+ * @param element 列表容器元素
+ */
 const handleUpdateView = (element: HTMLElement) => {
-  updateInfo.value = `更新时间: ${new Date().toLocaleTimeString()}`;
+  eventLogs.value.unshift(`视图更新: ${element.children.length} 个元素`);
+  if (eventLogs.value.length > 5) {
+    eventLogs.value.pop();
+  }
+};
+
+/**
+ * 处理固定项判断
+ * @param index 项目索引
+ */
+const handleItemFixed = (index: number) => {
+  return index % 5 === 0;
 };
 </script>
 
 <style lang="scss" scoped>
-.list-view-test {
-  padding: 20px;
+.test-container {
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 8px;
 
-  .test-block {
-    margin-bottom: 30px;
+  h2 {
+    margin-bottom: 24px;
+    font-weight: 600;
+    font-size: 28px;
+    color: #1f2937;
+  }
 
-    h4 {
-      margin: 10px 0;
-      color: #666;
+  .list-row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 16px;
+
+    .t-listView {
+      width: 100%;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      overflow: hidden;
     }
   }
 
   .list-item {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.2s;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
 
     &:hover {
-      background-color: #f5f7fa;
+      background-color: #f3f4f6;
     }
 
     &.is-fixed {
-      background-color: #e6f7ff;
-      font-weight: bold;
+      background-color: #ebf5ff;
+      font-weight: 500;
     }
-  }
 
-  .list-item-row {
-    padding: 12px;
-    border-right: 1px solid #eee;
-    display: inline-block;
+    .fixed-tag {
+      float: right;
+      padding: 3px 8px;
+      background: #2563eb;
+      color: #fff;
+      border-radius: 4px;
+      font-size: 12px;
+    }
   }
 
   .list-header,
   .list-footer {
-    padding: 12px;
-    background: #fafafa;
+    padding: 14px 16px;
+    background: #f8fafc;
+    font-weight: 500;
     text-align: center;
-    font-weight: bold;
+    color: #4b5563;
+    border-bottom: 1px solid #e5e7eb;
   }
 
-  .event-log {
-    margin-top: 10px;
-    padding: 10px;
-    background: #f5f7fa;
-    border-radius: 4px;
+  .control-panel {
+    width: 300px;
 
-    p {
-      margin: 5px 0;
-      color: #666;
+    .value-display {
+      margin-bottom: 16px;
+      padding: 8px 12px;
+      background-color: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      color: #4b5563;
+    }
+
+    .event-log {
+      padding: 16px;
+      background-color: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+
+      .event-title {
+        margin-bottom: 12px;
+        font-weight: 600;
+        color: #374151;
+      }
+
+      .event-item {
+        padding: 6px 8px;
+        margin-bottom: 4px;
+        background-color: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 4px;
+        font-family: ui-monospace, monospace;
+        font-size: 13px;
+        color: #4b5563;
+      }
     }
   }
-}
-.box {
-  width: 100%;
-  height: 10000px;
-  border: 1px solid #000;
 }
 </style>

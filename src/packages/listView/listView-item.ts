@@ -3,13 +3,13 @@
  */
 export type ValueType = string | number;
 /**
- * @description: 组件props类型
+ * @description 列表项属性类型定义
  */
 export interface PropsType {
-  // 固定高度
-  height?: number | string;
-  // 固定列-虚拟列表不支持
+  /** 项目高度 */
+  height?: number;
+  /** 是否固定项 */
   fixed?: boolean;
-  // 虚拟列表固定top
+  /** 虚拟列表定位位置 */
   top?: number;
 }

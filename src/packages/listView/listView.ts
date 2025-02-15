@@ -1,39 +1,49 @@
-import { PropsType as ListViewItemPropsType } from "./listView-item";
 /**
- * 插槽参数
+ * @description 列表项插槽参数类型
  */
 export type ListSlotParamsType<T = any> = {
-  // 行数据
+  /** 行数据 */
   row?: T;
-  // 行下标
+  /** 行下标 */
   index?: number;
-  // 传递bind属性
-  itemBind?: ListViewItemPropsType;
 };
 
 /**
- * @description: 组件props类型
+ * @description 列表项数据类型
+ */
+export type ListItemType<T = any> = {
+  /** 行数据 */
+  row?: T;
+  /** 行下标 */
+  index?: number;
+  /** 项目高度 */
+  height?: number;
+  /** 定位位置 */
+  top?: number;
+};
+
+/**
+ * @description 组件属性类型定义
  */
 export interface PropsType {
-  // 高度
-  height?: number | string;
-  // item高度
-  itemMinHeight?: number;
-  // 是否虚拟列表
+  /** 列表容器高度 */
+  height?: number;
+  /** 是否启用虚拟滚动 */
   isVirtualized?: boolean;
-  // 数组
+  /** 列表数据源 */
   listData?: any[];
-  // 列表方向:row横向，row竖向(默认)
-  direction?: "row" | "column";
-  // 虚拟列表的item需要固定高度 (TODO: 暂时使用固定高度实现虚拟列表)
+  /** 虚拟列表项固定高度 */
   itemHeight?: number;
+  /** 固定项判断函数 */
+  itemFixed?: (index: number, row: any) => boolean;
 }
+
 /**
- * @description: 组件emit类型
+ * @description 组件事件类型定义
  */
 export interface EmitsType {
-  // 切换事件
-  (e: "scroll", params: HTMLElement): void;
-  // 更新视图
-  (e: "updateView", listElement: HTMLElement): void;
+  /** 滚动事件 */
+  (e: "scroll", element: HTMLElement): void;
+  /** 视图更新事件 */
+  (e: "update-view", element: HTMLElement): void;
 }

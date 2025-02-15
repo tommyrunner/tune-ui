@@ -4,7 +4,7 @@
   </li>
 </template>
 <script lang="ts" setup>
-import { isString } from "@/utils/is";
+import { fromCssVal } from "@/utils";
 import { GroupContextType, listViewGroupKey } from "./constants";
 import type { PropsType } from "./listView-item";
 import { computed, inject, ref, StyleValue } from "vue";
@@ -15,17 +15,13 @@ const listViewItemRef = ref<HTMLElement>();
 
 const getListViewItemClass = computed(() => {
   const { fixed } = props;
-  return [
-    "t-listView-item",
-    groupContext?.isVirtualized && "t-listView-item-inner",
-    fixed && !groupContext.isVirtualized && "t-listView-item-fixed"
-  ];
+  return ["t-listView-item", groupContext?.isVirtualized && "t-listView-item-inner", fixed && "t-listView-item-fixed"];
 });
 const getListViewItemStyle = computed((): StyleValue => {
   const { height, top } = props;
   return {
     width: `${listViewItemRef.value?.scrollWidth}px`,
-    height: isString(height) ? height : `${height}px`,
+    height: fromCssVal(height ?? groupContext?.itemHeight),
     top: `${top}px`
   };
 });

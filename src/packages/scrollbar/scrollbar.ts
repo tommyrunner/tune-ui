@@ -18,5 +18,7 @@ export interface PropsType {
  */
 export interface EmitsType {
   /** 滚动事件 */
-  (e: "scrollX" | "scrollY", listElement: HTMLElement): void;
+  (e: "scroll-x" | "scroll-y", listElement: HTMLElement): void;
+  /** 滚动条轨道点击事件 */
+  (e: "click-track", listElement: HTMLElement): void;
 }
