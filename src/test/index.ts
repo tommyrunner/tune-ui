@@ -23,6 +23,7 @@ import SwitchTest from "./packages/switch.vue";
 import TabsTest from "./packages/tabs.vue";
 import ListViewTest from "./packages/listView.vue";
 import ScrollbarTest from "./packages/scrollbar.vue";
+import TableTest from "./packages/table.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -49,7 +50,8 @@ export const testComponents = {
   SwitchTest,
   TabsTest,
   ListViewTest,
-  ScrollbarTest
+  ScrollbarTest,
+  TableTest
 };
 
 /** 测试组件安装器 */
@@ -84,5 +86,6 @@ export const TSwitchTest = SwitchTest;
 export const TTabsTest = TabsTest;
 export const TListViewTest = ListViewTest;
 export const TScrollbarTest = ScrollbarTest;
+export const TTableTest = TableTest;
 // 默认导出安装器
 export default installTestComponents;

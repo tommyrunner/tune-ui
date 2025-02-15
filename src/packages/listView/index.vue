@@ -2,9 +2,14 @@
   <ul class="t-listView" :style="{ height: fromCssVal(props.height) }" ref="listViewRef">
     <!-- 列表头 -->
     <div class="_head t-hide-scrollbar" :ref="(el: HTMLElement) => handleExtItemRef(el, 0)">
-      <slot name="head" :itemBind="{ height: '100%' }" />
+      <t-list-view-item><slot name="head" /></t-list-view-item>
     </div>
-    <Scrollbar :height="props.height" @scroll-y="listElement => handleScroll(listElement, 'y')" ref="scrollbarRef">
+    <Scrollbar
+      :height="props.height"
+      @scroll-y="listElement => handleScroll(listElement, 'y')"
+      @scroll-x="listElement => handleScroll(listElement, 'x')"
+      ref="scrollbarRef"
+    >
       <!-- 列表体渲染 -->
       <div class="_inner" ref="innerRef" :style="getInnerStyle">
         <t-list-view-item
@@ -20,7 +25,7 @@
     </Scrollbar>
     <!-- 列表尾 -->
     <div class="_foot t-hide-scrollbar" :ref="(el: HTMLElement) => handleExtItemRef(el, 1)">
-      <slot name="foot" :itemBind="{ height: '100%' }" />
+      <t-list-view-item><slot name="foot" /></t-list-view-item>
     </div>
   </ul>
 </template>
@@ -48,7 +53,7 @@ const emit = defineEmits<EmitsType>();
 /** 组件外部插槽引用列表，用于同步头尾部分的滚动 */
 const extItemRefList = ref<HTMLElement[]>([]);
 
-/** 
+/**
  * 获取外部插槽引用的处理函数
  * @param el 插槽DOM元素
  * @param index 插槽索引（0:头部, 1:尾部）
@@ -61,7 +66,7 @@ const handleExtItemRef = (el: HTMLElement, index: number) => {
 
 const slots = useSlots();
 
-/** 
+/**
  * 列表状态管理对象
  * @property itemViews - 当前渲染的列表项数组
  * @property scrollTop - 垂直滚动位置

@@ -1,25 +1,21 @@
 <template>
-  <TListViewItem
+  <div
     :class="getRowClass"
     :style="getRowStyle"
-    :fixed="props.rowIndex === groupContext.fixedIndexRow"
-    v-bind="props.listItemBind"
-    ref="tableRowRef"
     @click="handlerClick"
     @mouseenter.capture="handlerMouseEnter(true)"
     @mouseout.capture="handlerMouseOut(false)"
   >
     <TTableCol v-for="(col, index) in groupContext.columns" :key="col.prop" :col="col" :colIndex="index" />
-  </TListViewItem>
+  </div>
 </template>
 <script lang="ts" setup>
-import { computed, inject, provide, ref, StyleValue, toRefs } from "vue";
+import { computed, inject, provide, StyleValue, toRefs } from "vue";
 import { tableRowGroupKey, tableGroupKey, type GroupContextTableRowType, type GroupContextType } from "../constants";
 import { EmitsType, PropsType } from "./table-row";
 import TTableCol from "../table-col/table-col.vue";
 import { reactive } from "vue";
 import { isBoolean } from "@/utils/is";
-import TListViewItem from "@/packages/listView/listView-item.vue";
 defineOptions({ name: "TTableRow" });
 const groupContext = inject<GroupContextType | undefined>(tableGroupKey, void 0);
 const props = withDefaults(defineProps<PropsType>(), {
@@ -27,7 +23,6 @@ const props = withDefaults(defineProps<PropsType>(), {
   defBgColor: "#fff"
 });
 const emit = defineEmits<EmitsType>();
-const tableRowRef = ref();
 const state = reactive({
   isHover: false
 });
@@ -65,7 +60,8 @@ const getRowStyle = computed((): StyleValue => {
       // row[groupContext.changeKey] 是否选中
       backgroundColor: state.isHover || row[groupContext.changeKey] ? hoverBgColor : bgColor,
       // 固定行样式(虚拟列表不支持)
-      border: !isFixedRow || isVirtualized ? "auto" : `1px dashed ${groupContext.fixedRowBgColor}`
+      border: !isFixedRow || isVirtualized ? "auto" : `1px dashed ${groupContext.fixedRowBgColor}`,
+      height: isVirtualized ? "100%" : "auto"
     },
     rowStyle ? rowStyle(props.row, isFixedRow) : {}
   );

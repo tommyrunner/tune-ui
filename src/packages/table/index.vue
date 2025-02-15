@@ -5,7 +5,7 @@
       :list-data="listData"
       :is-virtualized="isVirtualized"
       :height="props.height"
-      :item-height="virtualizedItemHeight"
+      :item-height="props.isVirtualized ? virtualizedItemHeight : undefined"
       @scroll="handlerScroll"
       @update-view="handlerUpdateView"
     >
@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   fixedRowBgColor: "#eeb406",
   isDefSlotListHead: true,
   dbClickAutoWidth: true,
-  virtualizedItemHeight: 36,
+  virtualizedItemHeight: 50,
   changeType: "none",
   changeKey: "_checked",
   columns: () => [],

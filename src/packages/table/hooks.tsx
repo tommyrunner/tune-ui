@@ -79,7 +79,6 @@ export function useTable(props: PropsType, emit: EmitsType) {
         row={scope.row}
         isHead={isHead}
         isFoot={isFoot}
-        list-item-bind={scope.itemBind}
         onClickRow={(params: TableRowType) => emit("clickRow", params)}
       ></TTableRow>
     );
