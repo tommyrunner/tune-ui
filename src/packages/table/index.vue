@@ -6,8 +6,9 @@
       :is-virtualized="isVirtualized"
       :height="props.height"
       :item-height="props.isVirtualized ? virtualizedItemHeight : undefined"
-      @scroll="handlerScroll"
-      @update-view="handlerUpdateView"
+      :item-fixed="props.fixedRow"
+      @scroll="handleScroll"
+      @update-view="handleUpdateView"
     >
       <!-- 表头 -->
       <template #head="scope">
@@ -18,7 +19,7 @@
         <component :is="renderTableRow(scope, false, false)" />
       </template>
       <!-- 合计 -->
-      <template #foot="scope" v-if="summary">
+      <template #foot="scope" v-if="props.summary">
         <component :is="renderTableRow({ ...scope, index: 0 }, false, true)" />
       </template>
     </TListView>
@@ -26,16 +27,15 @@
 </template>
 <script lang="tsx" setup>
 import type { EmitsType, PropsType, StateFilterType, TableColumnsType, TableRowType } from "./table";
-import type { ListSlotParamsType } from "../listView/listView";
+import type { ListSlotParamsType } from "@/packages/listView/listView";
 import { computed, provide, reactive, ref, StyleValue, toRefs } from "vue";
-import { TListView } from "../listView/index";
+import { TListView } from "@/packages/listView";
 import { getTableColTag, type GroupContextType, TABLE_COL_FIXED_VALUE, TABLE_COL_GROUP, tableGroupKey } from "./constants";
 import { useTable } from "./hooks";
 defineOptions({ name: "TTable" });
 const props = withDefaults(defineProps<PropsType>(), {
   headBgColor: "#f5f7fa",
   border: "#dcdcdc68",
-  fixedRowBgColor: "#eeb406",
   isDefSlotListHead: true,
   dbClickAutoWidth: true,
   virtualizedItemHeight: 50,
@@ -158,14 +158,14 @@ const getTableStyle = computed((): StyleValue => {
  * 列表渲染初始化
  * @param content
  */
-const handlerUpdateView = (content: HTMLElement) => {
+const handleUpdateView = (content: HTMLElement) => {
   autoFixedPosition(content);
 };
 /**
  * 滚动监听
  * @param content 滚动容器
  */
-const handlerScroll = (content: HTMLElement) => {
+const handleScroll = (content: HTMLElement) => {
   autoFixedPosition(content);
 };
 /**

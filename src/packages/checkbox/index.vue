@@ -110,7 +110,6 @@ const handleChecked = () => {
       model.value = isChecked.value ? void 0 : props.value;
     }
   }
-
   emit("change", model.value);
 };
 </script>

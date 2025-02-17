@@ -1,7 +1,7 @@
 import type { InjectionKey } from "vue";
-import { PropsType, StateType, TableColumnsType, TableRowType } from "./table";
-import { PropsType as TableRowPropsType } from "./table-row/table-row";
-import { PropsType as TableColPropsType } from "./table-col/table-col";
+import type { PropsType, StateType, TableColumnsType, TableRowType } from "./table";
+import type { PropsType as TableRowPropsType } from "./table-row/table-row";
+import type { PropsType as TableColPropsType } from "./table-col/table-col";
 
 /**
  * 内部行状态值
@@ -14,7 +14,7 @@ export const TABLE_COL_FIXED_LAST = Symbol("_fixedLast"); // 是否最后一行
  * table 共享 provide 数据
  */
 export interface GroupContextType extends PropsType {
-  autoColWidth: (props: string) => void;
+  autoColWidth: (prop: string) => void;
   state: StateType;
   columns: TableColumnsType[];
   headData: TableRowType;

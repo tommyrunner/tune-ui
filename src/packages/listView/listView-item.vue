@@ -20,7 +20,7 @@ const getListViewItemClass = computed(() => {
 const getListViewItemStyle = computed((): StyleValue => {
   const { height, top } = props;
   return {
-    width: `${listViewItemRef.value?.scrollWidth}px`,
+    // width: `${listViewItemRef.value?.scrollWidth}px`,
     height: fromCssVal(height ?? groupContext?.itemHeight),
     top: `${top}px`
   };

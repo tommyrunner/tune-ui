@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<PropsType>(), {
 const tabsRef = ref<HTMLElement>();
 
 /** 注入group上下文 */
-const groupContext = inject<GroupContextType | undefined>(tabsGroupKey, void 0);
+const groupContext = inject<GroupContextType | undefined>(tabsGroupKey, {});
 
 /** 计算标签样式 */
 const labelClasses = computed(() => {

@@ -1,5 +1,5 @@
-import { TableColumnsType, TableRowType } from "../table";
-import { PropsType as ListViewItemPropsType } from "@/packages/listView/listView-item";
+import type { TableColumnsType, TableRowType } from "../table";
+import type { PropsType as ListViewItemPropsType } from "@/packages/listView/listView-item";
 
 /**
  * @description: 组件props类型
@@ -26,5 +26,5 @@ export interface PropsType {
  */
 export interface EmitsType {
   // 切换事件
-  (e: "clickRow", params: TableRowType): void;
+  (e: "click-row", params: TableRowType): void;
 }

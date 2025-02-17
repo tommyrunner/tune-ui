@@ -24,7 +24,7 @@ import { TBackTop } from "./back-top";
 import { TTabs, TTabsGroup } from "./tabs";
 import { TListView, TListViewItem } from "./listView";
 import { TScrollbar } from "./scrollbar";
-import { TTable, TTableItem } from "./table";
+import { TTable, TTableRow } from "./table";
 
 const components = {
   TButton,
@@ -61,7 +61,7 @@ const components = {
   TListViewItem,
   TScrollbar,
   TTable,
-  TTableItem
+  TTableRow
 };
 // 全局组件注册
 export default {

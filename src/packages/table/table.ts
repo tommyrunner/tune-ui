@@ -1,26 +1,31 @@
-import { StyleValue, VNode } from "vue";
-import { TABLE_COL_GROUP, TABLE_COL_FIXED_VALUE, TABLE_COL_FIXED_LAST } from "./constants";
+import type { StyleValue, VNode } from "vue";
+import type { TABLE_COL_GROUP, TABLE_COL_FIXED_VALUE, TABLE_COL_FIXED_LAST } from "./constants";
 /**
  * 筛选配置类型
  */
 export interface StateFilterType {
+  /** 筛选项标签 */
   label: string;
+  /** 筛选值 */
   value: any;
+  /** 是否选中 */
   checked?: boolean;
-  // 类型 eq等于 lt小于 gt大于
+  /** 筛选类型 */
   type: "eq" | "lt" | "gt";
 }
 /**
  * 排序配置类型
  */
 export interface StateSortType {
+  /** 排序方向 */
   sort: "none" | "asc" | "desc";
+  /** 排序字段 */
   prop: string;
 }
 /**
  * row数据类型
  */
-export type TableRowType = any;
+export type TableRowType = Record<string, any>;
 /**
  * Node 元素
  */
@@ -29,52 +34,52 @@ export type TableRowVNode = VNode | string | number;
  *  组件 state状态 类型
  */
 export interface StateType {
-  // 是否左固定列
+  /** 是否有左固定列 */
   isFixedLeft: boolean;
-  // 是否右固定列
+  /** 是否有右固定列 */
   isFixedRight: boolean;
-  // 是否上固定列
+  /** 是否有顶部固定行 */
   isFixedTop: boolean;
-  // 排序配置
+  /** 排序配置列表 */
   sortColProps: StateSortType[];
 }
 export interface ColumnRenderScope<T = TableRowType> {
-  // 行index
+  /** 行索引 */
   rowIndex: number;
-  // 列index
+  /** 列索引 */
   colIndex: number;
-  // 全列配置
+  /** 列配置列表 */
   columns: TableColumnsType<T>[];
-  // 当前值
+  /** 单元格值 */
   value: T;
-  // 当前配置
-  rowCol: TableColumnsType;
-  // 当前对象
+  /** 当前列配置 */
+  rowCol: TableColumnsType<T>;
+  /** 行数据 */
   data: T;
 }
 
 export type TableColumnsType<T = TableRowType> = {
-  // 列唯一key
+  /** 列标识 */
   prop: string;
-  // 列标题
+  /** 列标题 */
   label: string;
-  // 列宽度
+  /** 列宽度 */
   width?: number;
-  // 固定列
+  /** 固定列位置 */
   fixed?: "left" | "right";
-  // 列子级(仅表头使用)
+  /** 子列配置 */
   children?: TableColumnsType<T>[];
-  // 排序值
+  /** 排序值 */
   sort?: number;
-  // 当前页排序
+  /** 是否可排序 */
   sortable?: boolean;
-  // 当前页筛选
+  /** 筛选配置 */
   filters?: StateFilterType[];
-  // 自定义单元格内容渲染（tsx语法）
+  /** 自定义表头渲染 */
   renderHead?: (scope: ColumnRenderScope<T>) => TableRowVNode;
-  // 自定义单元格内容渲染（tsx语法）
+  /** 自定义单元格渲染 */
   render?: (scope: ColumnRenderScope<T>) => TableRowVNode;
-  // 内部状态值
+  /** 内部状态标记 */
   [TABLE_COL_GROUP]?: boolean;
   [TABLE_COL_FIXED_VALUE]?: number;
   [TABLE_COL_FIXED_LAST]?: boolean;
@@ -84,53 +89,49 @@ export type TableColumnsType<T = TableRowType> = {
  * @description: 组件props类型
  */
 export interface PropsType {
-  // 高度
+  /** 表格高度 */
   height?: number;
-  // 是否虚拟列表
+  /** 是否开启虚拟滚动 */
   isVirtualized?: boolean;
-  // 虚拟列表item高度 36
+  /** 虚拟滚动行高 */
   virtualizedItemHeight?: number;
-  // 数组
+  /** 列配置 */
   columns?: TableColumnsType[];
-  // 数据
+  /** 表格数据 */
   data?: TableRowType[];
-  // 列表方向:row横向，row竖向(默认)
-  direction?: "row" | "column";
-  // 默认slot列表时的表头
+  /** 是否使用默认插槽表头 */
   isDefSlotListHead?: boolean;
-  // 头部背景色
+  /** 表头背景色 */
   headBgColor?: string;
-  // 鼠标悬浮背景色
+  /** 鼠标悬浮背景色 */
   hoverBgColor?: string;
-  // 浮动行背景色
-  fixedRowBgColor?: string;
-  // 边框
+  /** 表格边框 */
   border?: string;
-  // 斑马纹
+  /** 斑马纹 */
   stripe?: string | boolean;
-  // 双击自动适配宽度
+  /** 是否支持双击自适应列宽 */
   dbClickAutoWidth?: boolean;
-  // 是否开启选择行 single: 单选，multiple: 多选，none: 无
+  /** 选择模式 */
   changeType?: "single" | "multiple" | "none";
-  // 选中行key
+  /** 选中标识字段 */
   changeKey?: string;
-  // 固定行(仅非虚拟列表)
-  fixedIndexRow?: number;
-  // 列合计
-  summary?: boolean | ((summaryValue: number, scope: ColumnRenderScope) => TableRowVNode);
-  // 自定义行样式
-  rowStyle?: <T = TableRowType>(row: T, isFixed: boolean) => StyleValue;
-  // 自定义当前页排序
-  sortMethod?: <T = TableRowType>(data: { rowA: T; rowB: T }, config: StateSortType[]) => number;
-  // 行内容扩展
-  renderExtend?: <T = TableRowType>(row: T) => TableRowVNode;
+  /** 固定行方法 */
+  fixedRow?: (index: number, row: TableRowType) => boolean;
+  /** 合计行配置 */
+  summary?: ((summaryValue: number, scope: ColumnRenderScope) => TableRowVNode) | boolean;
+  /** 自定义行样式 */
+  rowStyle?: (index: number, row: TableRowType) => StyleValue;
+  /** 自定义排序方法 */
+  sortMethod?: (data: { rowA: TableRowType; rowB: TableRowType }, config: StateSortType[]) => number;
+  /** 行扩展内容 */
+  renderExtend?: (row: TableRowType) => TableRowVNode;
 }
 /**
  * @description: 组件emit类型
  */
 export interface EmitsType {
-  // 切换事件
+  /** 选中事件 */
   (e: "checked", { row, data }: { row: TableRowType; data: TableRowType[] }): void;
-  // 行点击事件
-  (e: "clickRow", row: TableRowType): void;
+  /** 行点击事件 */
+  (e: "click-row", row: TableRowType): void;
 }

@@ -1,7 +1,7 @@
 <template>
   <ul class="t-listView" :style="{ height: fromCssVal(props.height) }" ref="listViewRef">
     <!-- 列表头 -->
-    <div class="_head t-hide-scrollbar" :ref="(el: HTMLElement) => handleExtItemRef(el, 0)">
+    <div class="_head t-hide-scrollbar" :ref="(el: HTMLElement) => handleExtItemRef(el, 0)" v-if="slots.head">
       <t-list-view-item><slot name="head" /></t-list-view-item>
     </div>
     <Scrollbar
@@ -24,7 +24,7 @@
       </div>
     </Scrollbar>
     <!-- 列表尾 -->
-    <div class="_foot t-hide-scrollbar" :ref="(el: HTMLElement) => handleExtItemRef(el, 1)">
+    <div class="_foot t-hide-scrollbar" :ref="(el: HTMLElement) => handleExtItemRef(el, 1)" v-if="slots.foot">
       <t-list-view-item><slot name="foot" /></t-list-view-item>
     </div>
   </ul>

@@ -1,7 +1,10 @@
 import Table from "./index.vue";
 import TableRow from "./table-row/table-row.vue";
+
+/** 导出组件 */
 export const TTable = Table;
 export type TTableType = InstanceType<typeof Table>;
-// 组合
-export const TTableItem = TableRow;
-export type TTableItemType = InstanceType<typeof TTableItem>;
+
+/** 导出行组件 */
+export const TTableRow = TableRow;
+export type TTableRowType = InstanceType<typeof TableRow>;

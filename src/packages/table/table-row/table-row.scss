@@ -1,16 +1,18 @@
 @import "@/styles/index.scss";
 
-._table-row {
+.t-table-row {
   display: flex;
   box-sizing: border-box;
   transition: 0.15s;
   height: 100%;
 }
-._table-row-head {
+
+.t-table-row-head {
   font-weight: bold;
   position: sticky;
   z-index: $z-index-up;
 }
-._table-row-foot {
+
+.t-table-row-foot {
   z-index: $z-index-up;
 }
