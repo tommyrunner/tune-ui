@@ -1,7 +1,7 @@
 <template>
   <div class="t-popover" ref="contentRef" @mouseenter="state.isHoverOther = true" @mouseleave="state.isHoverOther = false">
-    <Teleport :to="props.appendTo">
-      <Transition :name="getTransitionName" @after-enter="animationAfterEnter" @enter="animationEnter" @leave="animationLeave">
+    <teleport :to="props.appendTo">
+      <transition :name="getTransitionName" @after-enter="animationAfterEnter" @enter="animationEnter" @leave="animationLeave">
         <div
           @mouseenter="onPopoverHoverEnter"
           @mouseleave="onPopoverHoverOut"
@@ -18,12 +18,12 @@
             <div :style="{ borderWidth: `${triangleWidth}px` }"></div>
           </div>
         </div>
-      </Transition>
+      </transition>
       <!-- 遮罩 -->
       <Transition name="t-model">
         <div class="_t-model" v-if="props.isModal && model" :style="getModelStyle" @click="emit('clickModel')"></div>
       </Transition>
-    </Teleport>
+    </teleport>
 
     <slot>
       <div></div>
@@ -53,6 +53,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   closeOnPressOther: true
 });
 const state = reactive({
+  // 当前弹出元素
+  currentEl: void 0 as Element,
   // popover标记id
   popoverId: "t-popover-0",
   // 需要popover的元素
@@ -104,6 +106,9 @@ const bindPopover = (el: Element, type: typeof props.type) => {
 const maxZIndex = () => {
   return getMaxZIndex("._t-popover");
 };
+/**
+ * 监听model变化
+ */
 watch(model, () => {
   if (model.value && props.isModalNest) {
     const max = maxZIndex();
@@ -150,11 +155,12 @@ const onPopoverHoverOut = (event: MouseEvent) => {
  * 更新元素位置
  * @param el 更新元素
  */
-const updateView = async (el: Element) => {
+const updateView = async (el?: Element) => {
+  if (el) state.currentEl = el;
   await nextTick();
   const { position } = props;
   popoverRef.value = document.body.querySelector(`#${state.popoverId}`);
-  state.popoverRect = el.getBoundingClientRect();
+  state.popoverRect = state.currentEl.getBoundingClientRect();
   state.point = getPoint(state.popoverRect, position);
   // 自动检测如果超出调整 position
   autoPosition(state.popoverRect, popoverRef.value);
@@ -243,7 +249,10 @@ const handlerEventListener = (remove = false) => {
       child[method]("mouseenter", childMouseenterHandler);
       child[method]("mouseleave", childMouseleaveHandler);
       // 初始化样式
-      if (!remove) updateView(child);
+      if (!remove) {
+        state.currentEl = child;
+        updateView();
+      }
     });
   }
 };
@@ -425,6 +434,7 @@ const getTriangleStyle = computed((): StyleValue => {
 });
 defineExpose({
   popoverRef,
+  updateView,
   showPopover,
   hidePopover
 });

@@ -36,6 +36,8 @@ export interface PropsType {
   itemHeight?: number;
   /** 固定项判断函数 */
   itemFixed?: (index: number, row: any) => boolean;
+  /** 空数据提示文本 */
+  emptyText?: string;
 }
 
 /**

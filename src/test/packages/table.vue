@@ -111,7 +111,7 @@
             { prop: 'amount', label: '金额' }
           ]"
           :data="summaryData"
-          :summary="value => `合计: ${value}`"
+          :summary="handleSummary"
         />
       </div>
     </test-section>
@@ -357,6 +357,15 @@ const summaryData = ref<SummaryDataType[]>(
     amount: Math.floor(Math.random() * 10000)
   }))
 );
+
+/**
+ * 处理列合计
+ */
+const handleSummary = (value: number, scope: ColumnRenderScope) => {
+  if (scope.rowCol.prop === "name") return "-";
+  else if (scope.rowCol.prop === "amount") return `总金额: ${value}`;
+  return value;
+};
 </script>
 
 <style lang="scss" scoped>

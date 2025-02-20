@@ -1,6 +1,6 @@
 <template>
   <div :class="getClass" @click="emit('change', props)">
-    {{ props.label }}
+    <slot>{{ props.label }}</slot>
   </div>
 </template>
 <script lang="ts" setup>
@@ -15,8 +15,9 @@ const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {});
 const groupContext = inject<GroupContextType | undefined>(selectKey, void 0);
 const getClass = computed(() => {
-  const isActive = isEqual(groupContext.model, props.value);
-  return ["t-option", isActive && "_active"];
+  const { disabled, value } = props;
+  const isActive = isEqual(groupContext.model || groupContext.temModel, value);
+  return ["t-option", isActive && "_active", disabled && "t-disabled"];
 });
 </script>
 <style lang="scss" scoped>

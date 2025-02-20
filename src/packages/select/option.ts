@@ -7,9 +7,11 @@ export interface PropsType {
   // 值
   value: ValueType;
   // 标签
-  label?: string | number;
+  label?: string;
   // 子标签
-  subLabel?: string | number;
+  subLabel?: string;
+  // 是否禁用
+  disabled?: boolean;
 }
 /**
  * @description: 组件emit类型

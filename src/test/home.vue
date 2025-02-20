@@ -65,7 +65,8 @@ import {
   TTabsTest,
   TListViewTest,
   TScrollbarTest,
-  TTableTest
+  TTableTest,
+  TSelectTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -84,6 +85,7 @@ const componentList: ComponentConfig[] = [
   { name: "TCheckboxTest", label: "Checkbox 复选框", category: ComponentCategory.Form, component: TCheckboxTest },
   { name: "TSwitchTest", label: "Switch 开关", category: ComponentCategory.Form, component: TSwitchTest },
   { name: "TRateTest", label: "Rate 评分", category: ComponentCategory.Form, component: TRateTest },
+  { name: "TSelectTest", label: "Select 选择器", category: ComponentCategory.Form, component: TSelectTest },
 
   // 数据展示
   { name: "TBadgeTest", label: "Badge 徽标", category: ComponentCategory.Data, component: TBadgeTest },
@@ -116,7 +118,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList[15]);
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TSelectTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {

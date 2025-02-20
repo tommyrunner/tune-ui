@@ -11,6 +11,14 @@
     margin: 0px;
     display: flex;
     flex-direction: column;
+    ._empty {
+      text-align: center;
+      color: #9ca3af;
+      font-size: 14px;
+      width: 100%;
+      padding: 4px 2px;
+      box-sizing: border-box;
+    }
   }
   ._head,
   ._foot {

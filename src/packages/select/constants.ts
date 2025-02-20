@@ -3,6 +3,7 @@ import type { ValueType, PropsType } from "./select";
 
 export interface GroupContextType extends PropsType {
   model?: ValueType;
+  temModel?: ValueType;
 }
 
 export const tabsGroupKey: InjectionKey<GroupContextType> = Symbol("selectKey");

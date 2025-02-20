@@ -3,6 +3,13 @@
 ._options {
   min-width: 160px;
   overflow: hidden;
+
+  ._empty-text {
+    padding: 8px 12px;
+    color: #9ca3af;
+    font-size: 14px;
+    text-align: center;
+  }
 }
 
 .t-select {

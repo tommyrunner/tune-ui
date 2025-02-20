@@ -12,15 +12,27 @@
     >
       <!-- 列表体渲染 -->
       <div class="_inner" ref="innerRef" :style="getInnerStyle">
-        <t-list-view-item
-          v-for="iv in getListData"
-          :fixed="!props.isVirtualized ? props.itemFixed?.(iv.index, iv.row) : false"
-          :key="iv.index"
-          :height="iv.height"
-          :top="iv.top"
-        >
-          <slot :index="iv.index" :row="iv.row" />
-        </t-list-view-item>
+        <!-- 空数据展示 -->
+        <template v-if="!props.listData.length">
+          <div class="_empty" v-if="slots.empty">
+            <slot name="empty" />
+          </div>
+          <div class="_empty" v-else>
+            <div>{{ props.emptyText }}</div>
+          </div>
+        </template>
+        <!-- 数据列表 -->
+        <template v-else>
+          <t-list-view-item
+            v-for="iv in getListData"
+            :fixed="!props.isVirtualized ? props.itemFixed?.(iv.index, iv.row) : false"
+            :key="iv.index"
+            :height="iv.height"
+            :top="iv.top"
+          >
+            <slot :index="iv.index" :row="iv.row" />
+          </t-list-view-item>
+        </template>
       </div>
     </Scrollbar>
     <!-- 列表尾 -->
@@ -45,7 +57,8 @@ defineOptions({ name: "TListView" });
 
 const props = withDefaults(defineProps<PropsType>(), {
   isVirtualized: false,
-  listData: () => []
+  listData: () => [],
+  emptyText: "暂无数据"
 });
 
 const emit = defineEmits<EmitsType>();
