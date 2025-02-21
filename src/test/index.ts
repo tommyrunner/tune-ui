@@ -25,6 +25,7 @@ import ListViewTest from "./packages/listView.vue";
 import ScrollbarTest from "./packages/scrollbar.vue";
 import TableTest from "./packages/table.vue";
 import SelectTest from "./packages/select.vue";
+import TagTest from "./packages/tag.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -53,7 +54,8 @@ export const testComponents = {
   ListViewTest,
   ScrollbarTest,
   TableTest,
-  SelectTest
+  SelectTest,
+  TagTest
 };
 
 /** 测试组件安装器 */
@@ -90,5 +92,6 @@ export const TListViewTest = ListViewTest;
 export const TScrollbarTest = ScrollbarTest;
 export const TTableTest = TableTest;
 export const TSelectTest = SelectTest;
+export const TTagTest = TagTest;
 // 默认导出安装器
 export default installTestComponents;

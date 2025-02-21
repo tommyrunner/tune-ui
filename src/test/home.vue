@@ -66,7 +66,8 @@ import {
   TListViewTest,
   TScrollbarTest,
   TTableTest,
-  TSelectTest
+  TSelectTest,
+  TTagTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -76,7 +77,7 @@ const componentList: ComponentConfig[] = [
   // 基础组件
   { name: "TButtonTest", label: "Button 按钮", category: ComponentCategory.Basic, component: TButtonTest },
   { name: "TIconTest", label: "Icon 图标", category: ComponentCategory.Basic, component: TIconTest },
-
+  { name: "TTagTest", label: "Tag 标签", category: ComponentCategory.Basic, component: TTagTest },
   // 表单组件
   { name: "TInputTest", label: "Input 输入框", category: ComponentCategory.Form, component: TInputTest },
   { name: "TInputNumberTest", label: "InputNumber 数值输入框", category: ComponentCategory.Form, component: TInputNumberTest },

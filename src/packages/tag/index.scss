@@ -1,0 +1,125 @@
+@import "@/styles/index.scss";
+
+.t-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  border-radius: 4px;
+  font-size: $font-size-default;
+  line-height: 1.5;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  animation: tag-zoom-in 0.3s ease-in-out;
+
+  ._prefix-icon {
+    margin-right: 4px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  ._suffix-icon {
+    margin-left: 4px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &.t-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    ._prefix-icon,
+    ._suffix-icon {
+      cursor: not-allowed;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// 主题色
+.t-tag-type-default {
+  color: $text-color-default;
+  background-color: $bg-color-default;
+  border-color: $border-color-default;
+}
+
+.t-tag-type-primary {
+  color: $color-white;
+  background-color: $theme-color-primary;
+  border-color: $theme-color-primary;
+}
+
+.t-tag-type-success {
+  color: $color-white;
+  background-color: $theme-color-success;
+  border-color: $theme-color-success;
+}
+
+.t-tag-type-info {
+  color: $color-white;
+  background-color: $theme-color-info;
+  border-color: $theme-color-info;
+}
+
+.t-tag-type-warning {
+  color: $color-white;
+  background-color: $theme-color-warning;
+  border-color: $theme-color-warning;
+}
+
+.t-tag-type-danger {
+  color: $color-white;
+  background-color: $theme-color-danger;
+  border-color: $theme-color-danger;
+}
+
+// 尺寸
+.t-tag-size-default {
+  height: 24px;
+  font-size: $font-size-default;
+  padding: 0 10px;
+}
+
+.t-tag-size-small {
+  height: 20px;
+  padding: 0 8px;
+  font-size: $font-size-small;
+}
+
+.t-tag-size-large {
+  height: 28px;
+  padding: 0 14px;
+  font-size: $font-size-large;
+}
+
+// 圆角
+.t-tag-round {
+  border-radius: 100px;
+  &.t-tag-size-default {
+    padding: 0 12px;
+  }
+  &.t-tag-size-small {
+    padding: 0 10px;
+  }
+  &.t-tag-size-large {
+    padding: 0 16px;
+  }
+}
+
+// 缩放动画
+@keyframes tag-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+} 

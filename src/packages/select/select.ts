@@ -1,4 +1,4 @@
-import { type BaseProps } from "@/types";
+import { ElSizeType, type BaseProps } from "@/types";
 import { PropsType as OptionsItem } from "./option";
 import { TipProps } from "@/hooks/useTip";
 /**
@@ -42,3 +42,13 @@ export interface EmitsType {
   // 清空事件
   (e: "clear"): void;
 }
+
+// 常量定义
+export const ICON_COLOR = "#656a6e56";
+export const DROPDOWN_RADIUS = contentRadius;
+export const ICON_SIZES: Record<ElSizeType, number> = {
+  default: 14,
+  small: 14,
+  large: 16
+};
+export const EMPTY_OPTION: OptionsItemType = { label: "", value: "" };

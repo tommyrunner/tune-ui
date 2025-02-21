@@ -68,13 +68,12 @@
 </template>
 
 <script lang="ts" setup>
-import { type EmitsType, type ValueType, OptionsItemType, type PropsType, contentRadius } from "./select";
+import { type EmitsType, type ValueType, OptionsItemType, type PropsType } from "./select";
 import type { ListSlotParamsType } from "@/packages/listView/listView";
-import type { ElSizeType } from "@/types";
-import { configOptions } from "@/hooks/useOptions";
 import type { TPopoverType } from "@/packages/popover";
-import { TPopover } from "@/packages/popover";
 import { type StyleValue, computed, reactive, ref, watch, provide, toRefs } from "vue";
+import { configOptions } from "@/hooks/useOptions";
+import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
 import Option from "./option.vue";
 import { TListView } from "@/packages/listView";
@@ -84,19 +83,10 @@ import { GroupContextType } from "./constants";
 import { selectKey } from "element-plus";
 import { isEqual } from "@/utils/is";
 import { bindDebounce } from "@/utils";
+import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
 
 // 组件名称定义
 defineOptions({ name: "TSelect" });
-
-// 常量定义
-const ICON_COLOR = "#656a6e56";
-const DROPDOWN_RADIUS = contentRadius;
-const ICON_SIZES: Record<ElSizeType, number> = {
-  default: 14,
-  small: 14,
-  large: 16
-};
-const EMPTY_OPTION: OptionsItemType = { label: "", value: "" };
 
 // Props 和 Emits 定义
 const emit = defineEmits<EmitsType>();
