@@ -17,7 +17,8 @@ export type OptionsItemType = OptionsItem;
 /**
  * value 类型
  */
-export type ValueType = string | number | object | (string | number | object)[];
+export type SingleValueType = string | number | object;
+export type ValueType = SingleValueType | SingleValueType[];
 /**
  * @description: 组件props类型
  */
@@ -34,6 +35,8 @@ export interface PropsType extends TipProps, BaseProps {
   emptyText?: string;
   // 是否过滤
   filterable?: boolean;
+  // 是否多选
+  multiple?: boolean;
 }
 /**
  * @description: 组件emit类型

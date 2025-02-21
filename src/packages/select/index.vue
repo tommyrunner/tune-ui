@@ -1,5 +1,6 @@
 <template>
   <div class="t-select">
+    {{ state.temModel }}
     <TPopover
       v-model="state.isDropdownVisible"
       type="click"
@@ -39,6 +40,22 @@
         <!-- 提示组件 -->
         <component :is="TipComponent" />
 
+        <!-- 多选显示 -->
+        <div class="_multiple-display" v-if="props.multiple && isValue(model)">
+          <TPopover type="hover" position="top" :radius="DROPDOWN_RADIUS" :disabled="disabled">
+            <template #content>
+              <div class="_multiple-content">
+                <TTag v-for="(item, index) in model" :key="index" size="small" closable @close="deleteOption(item)">
+                  {{ renderLabel(item) }}
+                </TTag>
+              </div>
+            </template>
+            <TTag size="small" type="info"
+              ><TIcon icon="horizontal-more" /> &nbsp;(+ {{ (model as SingleValueType[]).length }})
+            </TTag>
+          </TPopover>
+        </div>
+
         <!-- 输入框 -->
         <input
           ref="inputRef"
@@ -68,7 +85,7 @@
 </template>
 
 <script lang="ts" setup>
-import { type EmitsType, type ValueType, OptionsItemType, type PropsType } from "./select";
+import type { EmitsType, ValueType, OptionsItemType, PropsType, SingleValueType } from "./select";
 import type { ListSlotParamsType } from "@/packages/listView/listView";
 import type { TPopoverType } from "@/packages/popover";
 import { type StyleValue, computed, reactive, ref, watch, provide, toRefs } from "vue";
@@ -79,11 +96,11 @@ import Option from "./option.vue";
 import { TListView } from "@/packages/listView";
 import { fromCssVal } from "@/utils";
 import { useTip } from "@/hooks";
-import { GroupContextType } from "./constants";
-import { selectKey } from "element-plus";
-import { isEqual } from "@/utils/is";
+import { GroupContextType, selectGroupKey } from "./constants";
+import { isEqual, isValue } from "@/utils/is";
 import { bindDebounce } from "@/utils";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
+import { TTag } from "@/packages/tag";
 
 // 组件名称定义
 defineOptions({ name: "TSelect" });
@@ -95,16 +112,18 @@ const props = withDefaults(defineProps<PropsType>(), {
   type: "input",
   placeholder: "请选择",
   emptyText: "暂无数据",
-  debounce: undefined,
   isTip: true,
   clearable: true,
   size: configOptions.value.elSize,
   disabled: false,
-  filterable: false
+  filterable: false,
+  multiple: false
 });
 
 // v-model 定义
-const model = defineModel<ValueType>();
+const model = defineModel<ValueType>({
+  default: props => (props.multiple ? [] : "")
+});
 
 // refs
 const inputRef = ref();
@@ -165,9 +184,30 @@ const filteredOptions = computed(() => {
 });
 
 /**
+ * 渲染标签
+ * @param item 选项
+ * @returns 标签
+ */
+const renderLabel = (item: SingleValueType) => {
+  const selectedOption = props.options.find(option => isEqual(option.value, item));
+  return selectedOption?.label;
+};
+
+/**
+ * 删除选项
+ * @param item 选项
+ */
+const deleteOption = (item: SingleValueType) => {
+  const values = (model.value as SingleValueType[]) || [];
+  model.value = values.filter(value => value !== item);
+};
+
+/**
  * 输入框显示值
  */
 const inputDisplayValue = computed(() => {
+  // 控制多选时，输入框显示值
+  if (props.multiple && isValue(model.value)) return " ";
   if (state.isFocused) {
     return state.filterText;
   }
@@ -210,7 +250,7 @@ const handleFocus = () => {
   state.isFocused = true;
   state.filterText = "";
   state.temModel = model.value;
-  model.value = "";
+  model.value = props.multiple ? [] : "";
 };
 
 /**
@@ -235,27 +275,26 @@ const handleClose = () => {
  */
 const updateModelValue = (option?: OptionsItemType) => {
   if (!option) {
+    model.value = props.multiple ? [] : "";
     state.selectedOption = { ...EMPTY_OPTION };
-    model.value = "";
-    state.filterText = "";
-    state.temModel = null;
     return;
-  }
-  state.selectedOption = option;
-  state.isDropdownVisible = false;
-  model.value = option.value;
-};
+  } else {
+    if (props.multiple) {
+      const values = (model.value as SingleValueType[]) || [];
+      const index = values.indexOf(option.value);
 
-// 监听器
-watch(
-  () => model.value,
-  () => {
-    const selectedOption = props.options.find(option => isEqual(option.value, model.value));
-    if (!selectedOption) {
-      updateModelValue();
+      if (index > -1) {
+        values.splice(index, 1);
+      } else {
+        values.push(option.value);
+      }
+    } else {
+      model.value = option.value;
+      state.selectedOption = option;
     }
   }
-);
+};
+
 /**
  * 监听过滤选项, 更新下拉框位置
  */
@@ -264,7 +303,7 @@ watch(filteredOptions, () => {
 });
 
 // Provide 注入
-provide<GroupContextType>(selectKey, reactive({ ...toRefs(props), model, ...toRefs(state) }));
+provide<GroupContextType>(selectGroupKey, reactive({ ...toRefs(props), model, ...toRefs(state) }));
 </script>
 
 <style lang="scss" scoped>

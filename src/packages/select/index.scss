@@ -38,6 +38,21 @@
       border: $theme-color-primary 1px solid;
     }
 
+    ._multiple-display {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      z-index: $z-index-show;
+      padding: 0 6px;
+    }
+
     &.t-select-clearable {
       padding-right: 24px;
     }
@@ -86,10 +101,16 @@
     }
   }
 }
+// 多选内容
+._multiple-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
 
 // 处理size
 .t-select-size-default {
-  height: 28px;
+  height: 30px;
   font-size: $font-size-default;
 }
 
@@ -99,7 +120,7 @@
 }
 
 .t-select-size-large {
-  height: 32px;
+  height: 34px;
   font-size: $font-size-large;
 }
 

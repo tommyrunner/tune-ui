@@ -59,8 +59,12 @@
           :options="basicOptions"
           :rules="[{ required: true, message: '请选择一个选项' }]"
           placeholder="必选项"
+          filterable
         />
-        <t-select v-model="state.tipValue" :options="basicOptions" placeholder="测试" filterable empty-text="暂无数据2">
+        <t-select v-model="state.tipValue" :options="basicOptions" placeholder="测试" empty-text="暂无数据2" multiple filterable>
+          <template #prefix>
+            <t-icon icon="search" />
+          </template>
           <template #default="{ row }: SelectSlotParamsType<OptionsItemType>">
             <div class="custom-slot">
               <span>{{ row.label }}</span>
@@ -68,6 +72,7 @@
             </div>
           </template>
         </t-select>
+        {{ state.tipValue }}
       </div>
     </test-section>
   </div>
@@ -101,7 +106,7 @@ const state = reactive({
   disabledValue: "",
   clearValue: "",
   prefixValue: "",
-  tipValue: ""
+  tipValue: []
 });
 
 /**

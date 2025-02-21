@@ -2,6 +2,7 @@
 .t-option {
   cursor: pointer;
   padding: 5px 10px;
+  user-select: none;
   &:not(.t-disabled):hover {
     background-color: $bg-color-hover;
   }

@@ -6,17 +6,25 @@
 <script lang="ts" setup>
 import { inject } from "vue";
 import { EmitsType, PropsType } from "./option";
-import { GroupContextType } from "./constants";
-import { selectKey } from "element-plus";
+import { GroupContextType, selectGroupKey } from "./constants";
 import { computed } from "vue";
-import { isEqual } from "@/utils/is";
+import { isEqual, isValue } from "@/utils/is";
+import { SingleValueType } from "./select";
 defineOptions({ name: "TSelectOption" });
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {});
-const groupContext = inject<GroupContextType | undefined>(selectKey, void 0);
+const groupContext = inject<GroupContextType | undefined>(selectGroupKey, void 0);
 const getClass = computed(() => {
   const { disabled, value } = props;
-  const isActive = isEqual(groupContext.model || groupContext.temModel, value);
+  const { model, temModel, multiple } = groupContext;
+  const groupValue = isValue(model) ? model : temModel;
+  console.log(groupValue);
+  let isActive = false;
+  if (multiple) {
+    isActive = (groupValue as SingleValueType[]).includes(value);
+  } else {
+    isActive = isEqual(groupValue, value);
+  }
   return ["t-option", isActive && "_active", disabled && "t-disabled"];
 });
 </script>

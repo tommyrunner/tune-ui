@@ -6,4 +6,4 @@ export interface GroupContextType extends PropsType {
   temModel?: ValueType;
 }
 
-export const tabsGroupKey: InjectionKey<GroupContextType> = Symbol("selectKey");
+export const selectGroupKey: InjectionKey<GroupContextType> = Symbol("selectKey");

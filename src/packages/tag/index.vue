@@ -1,20 +1,7 @@
 <template>
   <div :class="tagClasses">
-    <t-icon
-      v-if="props.prefixIcon"
-      :icon="props.prefixIcon"
-      :size="iconSize"
-      class="_prefix-icon"
-      @click.stop="handleClickPrefix"
-    />
     <slot />
-    <t-icon
-      v-if="props.suffixIcon"
-      :icon="props.suffixIcon"
-      :size="iconSize"
-      class="_suffix-icon"
-      @click.stop="handleClickSuffix"
-    />
+    <t-icon v-if="props.closable" icon="close" :size="iconSize" class="_suffix-icon" @click.stop="handleClickSuffix" />
   </div>
 </template>
 
@@ -39,20 +26,11 @@ const props = withDefaults(defineProps<PropsType>(), {
 const emit = defineEmits<EmitsType>();
 
 /**
- * 处理前缀图标点击
- */
-const handleClickPrefix = () => {
-  if (!props.disabled) {
-    emit("click-prefix");
-  }
-};
-
-/**
- * 处理后缀图标点击
+ * 处理关闭事件
  */
 const handleClickSuffix = () => {
   if (!props.disabled) {
-    emit("click-suffix");
+    emit("close");
   }
 };
 
