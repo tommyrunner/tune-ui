@@ -43,7 +43,7 @@
         <input
           ref="inputRef"
           :readonly="!filterable"
-          :value="state.filterText || selectedLabel"
+          :value="inputDisplayValue"
           :placeholder="selectPlaceholder"
           :disabled="disabled"
           @input="handleFilter"
@@ -94,7 +94,7 @@ const DROPDOWN_RADIUS = contentRadius;
 const ICON_SIZES: Record<ElSizeType, number> = {
   default: 14,
   small: 14,
-  large: 18
+  large: 16
 };
 const EMPTY_OPTION: OptionsItemType = { label: "", value: "" };
 
@@ -151,6 +151,7 @@ const selectedLabel = computed((): string => {
 });
 
 const selectPlaceholder = computed((): string => {
+  if (!state.temModel) return props.placeholder;
   const selectedOption = props.options.find(option => isEqual(option.value, state.temModel));
   return selectedOption?.label;
 });
@@ -173,7 +174,16 @@ const filteredOptions = computed(() => {
   });
 });
 
-// 方法定义
+/**
+ * 输入框显示值
+ */
+const inputDisplayValue = computed(() => {
+  if (state.isFocused) {
+    return state.filterText;
+  }
+  return selectedLabel.value;
+});
+
 /**
  * 清空选择
  * @param event 事件对象
@@ -222,8 +232,11 @@ const handleBlur = () => {
   state.filterText = "";
   model.value = state.temModel;
 };
+/**
+ * 关闭下拉框
+ */
 const handleClose = () => {
-  inputRef.value.blur();
+  inputRef.value?.blur();
 };
 
 /**
@@ -235,12 +248,12 @@ const updateModelValue = (option?: OptionsItemType) => {
     state.selectedOption = { ...EMPTY_OPTION };
     model.value = "";
     state.filterText = "";
+    state.temModel = null;
     return;
   }
   state.selectedOption = option;
   state.isDropdownVisible = false;
   model.value = option.value;
-  state.filterText = "";
 };
 
 // 监听器

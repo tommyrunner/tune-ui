@@ -17,7 +17,7 @@ export type OptionsItemType = OptionsItem;
 /**
  * value 类型
  */
-export type ValueType = string | number | object;
+export type ValueType = string | number | object | (string | number | object)[];
 /**
  * @description: 组件props类型
  */

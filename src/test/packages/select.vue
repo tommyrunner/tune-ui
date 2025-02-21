@@ -101,7 +101,7 @@ const state = reactive({
   disabledValue: "",
   clearValue: "",
   prefixValue: "",
-  tipValue: "5"
+  tipValue: ""
 });
 
 /**

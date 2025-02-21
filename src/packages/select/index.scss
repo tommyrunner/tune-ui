@@ -30,7 +30,6 @@
     cursor: text;
     position: relative;
     width: 164px;
-    height: 28px;
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
@@ -100,7 +99,7 @@
 }
 
 .t-select-size-large {
-  height: 36px;
+  height: 32px;
   font-size: $font-size-large;
 }
 
