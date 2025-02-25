@@ -16,8 +16,8 @@ tui/
 │   ├── styles/        # 全局样式
 │   ├── icons/         # 图标资源
 │   ├── hooks/         # 可复用的组合式函数
-│   ├── types/         # 全局类型定义
-│   └── test/          # 测试用例
+│   ├── types/         # 全局类型定义       
+├── test/               # 测试用例
 ```
 
 ## 3. 代码规范
@@ -42,8 +42,83 @@ tui/
 - 使用 CSS 变量实现主题定制
 - 样式文件统一使用 .scss 后缀
 - 组件样式使用 scoped 作用域
+- 必须使用 @/styles/index.scss 中定义的变量
 
-### 3.4 注释规范
+#### 3.3.1 样式变量使用示例
+```scss
+// 主题色系列
+.primary { color: $theme-color-primary; }    // #007bff
+.success { color: $theme-color-success; }    // #28a745
+.info { color: $theme-color-info; }          // #b9b9b9
+.warning { color: $theme-color-warning; }    // #eeb406
+.danger { color: $theme-color-danger; }      // #dc3545
+
+// 基础颜色
+.text { 
+  color: $text-color-default;                // #606266
+  background-color: $bg-color-default;       // #ffffff
+}
+.border {
+  border: 1px solid $border-color-default;   // #dcdfe6
+}
+.hover {
+  background-color: $bg-color-hover;         // #f5f7fa
+}
+
+// 字体大小
+.text-sm { font-size: $font-size-small; }    // 12px
+.text-base { font-size: $font-size-default; } // 14px
+.text-lg { font-size: $font-size-large; }    // 16px
+
+// z-index 使用
+.modal { z-index: $z-index-up; }             // 2001
+.below { z-index: $z-index-dow; }            // -1
+```
+
+### 3.4 图标使用规范
+- 只能使用 iconfont.json 中定义的图标
+- 使用 class 方式引用图标
+- 图标类名格式为: icon-{name}
+
+#### 3.4.1 图标使用示例
+```vue
+<!-- 基础图标 -->
+<i class="iconfont icon-close"></i>          <!-- 关闭图标 -->
+<i class="iconfont icon-info"></i>           <!-- 信息图标 -->
+<i class="iconfont icon-search"></i>         <!-- 搜索图标 -->
+<i class="iconfont icon-edit"></i>           <!-- 编辑图标 -->
+<i class="iconfont icon-delete"></i>         <!-- 删除图标 -->
+
+<!-- 方向图标 -->
+<i class="iconfont icon-left"></i>           <!-- 左箭头 -->
+<i class="iconfont icon-right"></i>          <!-- 右箭头 -->
+<i class="iconfont icon-up"></i>             <!-- 向上箭头 -->
+<i class="iconfont icon-down"></i>           <!-- 向下箭头 -->
+
+<!-- 状态图标 -->
+<i class="iconfont icon-success"></i>        <!-- 成功图标 -->
+<i class="iconfont icon-loading"></i>        <!-- 加载图标 -->
+<i class="iconfont icon-lock"></i>           <!-- 锁定图标 -->
+<i class="iconfont icon-unlock"></i>         <!-- 解锁图标 -->
+
+<!-- 文件相关图标 -->
+<i class="iconfont icon-file"></i>           <!-- 文件图标 -->
+<i class="iconfont icon-folder"></i>         <!-- 文件夹图标 -->
+<i class="iconfont icon-file-add"></i>       <!-- 新增文件 -->
+<i class="iconfont icon-file-remove"></i>    <!-- 删除文件 -->
+
+<!-- 用户相关图标 -->
+<i class="iconfont icon-user"></i>           <!-- 用户图标 -->
+<i class="iconfont icon-add-user"></i>       <!-- 新增用户 -->
+<i class="iconfont icon-multiple-user"></i>  <!-- 多个用户 -->
+
+<!-- 社交媒体图标 -->
+<i class="iconfont icon-wechat"></i>         <!-- 微信图标 -->
+<i class="iconfont icon-alipay"></i>         <!-- 支付宝图标 -->
+<i class="iconfont icon-github"></i>         <!-- GitHub图标 -->
+```
+
+### 3.5 注释规范
 - 使用 JSDoc 注释格式
 - 组件必须包含功能说明
 - Props 必须注明类型和用途

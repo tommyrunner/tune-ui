@@ -26,6 +26,7 @@ import ScrollbarTest from "./packages/scrollbar.vue";
 import TableTest from "./packages/table.vue";
 import SelectTest from "./packages/select.vue";
 import TagTest from "./packages/tag.vue";
+import CalendarTest from "./packages/calendar.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -55,7 +56,8 @@ export const testComponents = {
   ScrollbarTest,
   TableTest,
   SelectTest,
-  TagTest
+  TagTest,
+  CalendarTest
 };
 
 /** 测试组件安装器 */
@@ -93,5 +95,6 @@ export const TScrollbarTest = ScrollbarTest;
 export const TTableTest = TableTest;
 export const TSelectTest = SelectTest;
 export const TTagTest = TagTest;
+export const TCalendarTest = CalendarTest;
 // 默认导出安装器
 export default installTestComponents;

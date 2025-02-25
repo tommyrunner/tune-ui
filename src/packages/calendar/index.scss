@@ -1,0 +1,104 @@
+@import "@/styles/index.scss";
+
+.t-calendar {
+  width: 280px;
+  background: $bg-color-default;
+  border: 1px solid $border-color-default;
+  border-radius: 4px;
+  font-size: $font-size-default;
+  user-select: none;
+
+  ._header {
+    padding: 8px;
+    border-bottom: 1px solid $border-color-default;
+
+    ._nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+
+      ._title {
+        min-width: 100px;
+        text-align: center;
+        font-weight: 500;
+        color: $text-color-default;
+      }
+
+      ._nav-btn {
+        padding: 4px;
+        cursor: pointer;
+        color: $text-color-default;
+        border-radius: 4px;
+        transition: 0.22s;
+
+        &:hover {
+          background-color: $bg-color-hover;
+          color: $theme-color-primary;
+        }
+
+        &.t-disabled {
+          cursor: not-allowed;
+          opacity: $opacity-disabled;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
+  ._body {
+    padding: 8px;
+
+    ._weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      color: $text-color-default;
+      font-size: $font-size-small;
+      margin-bottom: 4px;
+    }
+
+    ._days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+
+      ._day {
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.22s;
+        color: $text-color-default;
+
+        &:hover {
+          background-color: $bg-color-hover;
+        }
+
+        &._today {
+          color: $theme-color-primary;
+          font-weight: 500;
+        }
+
+        &._selected {
+          background-color: $theme-color-primary;
+          color: $color-white;
+
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+
+        &.t-disabled:hover {
+          background-color: transparent;
+        }
+
+        &._other-month {
+          opacity: $opacity-disabled;
+        }
+      }
+    }
+  }
+}

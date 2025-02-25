@@ -67,7 +67,8 @@ import {
   TScrollbarTest,
   TTableTest,
   TSelectTest,
-  TTagTest
+  TTagTest,
+  TCalendarTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -110,7 +111,8 @@ const componentList: ComponentConfig[] = [
   { name: "TTabsTest", label: "Tabs 标签页", category: ComponentCategory.Navigation, component: TTabsTest },
 
   // 布局组件
-  { name: "TFlexTest", label: "Flex 布局", category: ComponentCategory.Layout, component: TFlexTest }
+  { name: "TFlexTest", label: "Flex 布局", category: ComponentCategory.Layout, component: TFlexTest },
+  { name: "TCalendarTest", label: "Calendar 日历", category: ComponentCategory.Layout, component: TCalendarTest }
 ];
 
 // 根据分类获取组件
@@ -119,7 +121,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TSelectTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TCalendarTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {
