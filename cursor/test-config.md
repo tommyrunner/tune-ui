@@ -10,6 +10,6 @@
 8. 并需要同步配置，index.ts导出，home.vue引入使用
 9. 测试以test-section分组
 
-基本模板参考 /test/button.vue
+基本模板参考 tui/test/button.vue
 
 并添加到home组件中

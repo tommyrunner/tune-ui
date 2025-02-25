@@ -1,6 +1,6 @@
 <template>
   <div class="t-select">
-    <TPopover
+    <t-popover
       v-model="state.isDropdownVisible"
       type="click"
       position="bottom"
@@ -12,7 +12,7 @@
     >
       <!-- 下拉选项列表 -->
       <template #content>
-        <TListView :list-data="filteredOptions" class="_options" :style="dropdownStyles" :empty-text="getEmptyText">
+        <t-list-view :list-data="filteredOptions" class="_options" :style="dropdownStyles" :empty-text="emptyText">
           <!-- 选项列表 -->
           <template #default="{ row }: ListSlotParamsType<OptionsItemType>">
             <!-- 自定义插槽 -->
@@ -20,13 +20,13 @@
               <slot :row="row" />
             </Option>
           </template>
-        </TListView>
+        </t-list-view>
       </template>
 
       <!-- 文本模式显示 -->
       <div class="_text-content" v-if="type === 'text'">
         {{ selectedLabel }}
-        <TIcon :size="iconSize" icon="caret-down" :color="ICON_COLOR" />
+        <t-icon :size="iconSize" icon="caret-down" :color="ICON_COLOR" />
       </div>
 
       <!-- 输入框模式显示 -->
@@ -41,20 +41,18 @@
 
         <!-- 多选显示 -->
         <div class="_multiple-display" v-if="props.multiple && isValue(model)">
-          <TPopover type="hover" position="top" :radius="DROPDOWN_RADIUS" :disabled="disabled">
+          <t-popover type="hover" position="top" :radius="DROPDOWN_RADIUS" :disabled="disabled">
             <template #content>
               <div class="_multiple-content">
-                <TTag v-for="(item, index) in model" :key="index" size="small" closable @close="deleteOption(item)">
+                <t-tag v-for="(item, index) in model" :key="index" size="small" closable @close="handleDeleteOption(item)">
                   {{ renderLabel(item) }}
-                </TTag>
+                </t-tag>
               </div>
             </template>
             <slot name="multiple-view" :model="model">
-              <TTag size="small" type="info"
-                ><TIcon icon="horizontal-more" /> &nbsp;(+ {{ (model as SingleValueType[]).length }})
-              </TTag>
+              <t-tag size="small" type="primary"> 选择 {{ (model as SingleValueType[]).length }} 项 </t-tag>
             </slot>
-          </TPopover>
+          </t-popover>
         </div>
 
         <!-- 输入框 -->
@@ -71,8 +69,8 @@
 
         <!-- 右侧图标 -->
         <div class="_right-icon">
-          <TIcon v-if="showClearIcon" icon="close-to" :size="iconSize" :color="ICON_COLOR" @click.stop="handleClear" />
-          <TIcon
+          <t-icon v-if="showClearIcon" icon="close-to" :size="iconSize" :color="ICON_COLOR" @click.stop="handleClear" />
+          <t-icon
             v-else
             :class="{ '_icon-active': !props.disabled && state.isDropdownVisible }"
             :size="iconSize"
@@ -81,7 +79,7 @@
           />
         </div>
       </div>
-    </TPopover>
+    </t-popover>
   </div>
 </template>
 
@@ -89,19 +87,20 @@
 import type { EmitsType, ValueType, OptionsItemType, PropsType, SingleValueType } from "./select";
 import type { ListSlotParamsType } from "@/packages/listView/listView";
 import type { TPopoverType } from "@/packages/popover";
-import { type StyleValue, computed, reactive, ref, watch, provide, toRefs } from "vue";
+import type { StyleValue } from "vue";
+import { computed, reactive, ref, watch, provide, toRefs } from "vue";
 import { configOptions } from "@/hooks/useOptions";
-import { TPopover } from "@/packages/popover";
-import { TIcon } from "@/packages/icon";
-import Option from "./option.vue";
-import { TListView } from "@/packages/listView";
 import { fromCssVal } from "@/utils";
 import { useTip } from "@/hooks";
-import { GroupContextType, selectGroupKey } from "./constants";
 import { isEqual, isValue } from "@/utils/is";
 import { bindDebounce } from "@/utils";
-import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
+import { TPopover } from "@/packages/popover";
+import { TIcon } from "@/packages/icon";
+import { TListView } from "@/packages/listView";
 import { TTag } from "@/packages/tag";
+import Option from "./option.vue";
+import { GroupContextType, selectGroupKey } from "./constants";
+import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
 
 // 组件名称定义
 defineOptions({ name: "TSelect" });
@@ -145,7 +144,7 @@ const state = reactive({
   // 是否聚焦
   isFocused: false,
   // 临时模型值
-  temModel: null
+  temModel: props.multiple ? [] : ("" as ValueType)
 });
 
 // 计算属性
@@ -165,7 +164,7 @@ const selectedLabel = computed((): string => {
 });
 
 const selectPlaceholder = computed((): string => {
-  if (!state.temModel) return props.placeholder;
+  if (!isValue(state.temModel)) return props.placeholder;
   const selectedOption = props.options.find(option => isEqual(option.value, state.temModel));
   return selectedOption?.label;
 });
@@ -207,7 +206,7 @@ const renderLabel = (item: SingleValueType) => {
  * 删除选项
  * @param item 选项
  */
-const deleteOption = (item: SingleValueType) => {
+const handleDeleteOption = (item: SingleValueType) => {
   const values = (model.value as SingleValueType[]) || [];
   model.value = values.filter(value => value !== item);
 };
@@ -227,7 +226,7 @@ const inputDisplayValue = computed(() => {
 /**
  * 获取空文本
  */
-const getEmptyText = computed(() => {
+const emptyText = computed(() => {
   return loading.value ? "加载中..." : props.emptyText;
 });
 
@@ -318,7 +317,7 @@ const updateModelValue = (option?: OptionsItemType) => {
 /**
  * 监听过滤选项, 更新下拉框位置
  */
-watch([props.options, filteredOptions], () => {
+watch([() => props.options, () => filteredOptions], () => {
   popoverRef.value?.updateView();
 });
 

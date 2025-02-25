@@ -1,3 +1,6 @@
+/**
+ * @description Select 选择器组件
+ */
 import Select from "./index.vue";
 // 导出组件
 export const TSelect = Select;

@@ -1,22 +1,23 @@
-import { ValueType } from "./select";
+import type { ValueType } from "./select";
 
 /**
- * @description: 组件props类型
+ * @description 选项组件属性类型
  */
 export interface PropsType {
-  // 值
+  /** 选项值 */
   value: ValueType;
-  // 标签
+  /** 选项标签 */
   label?: string;
-  // 子标签
+  /** 选项子标签 */
   subLabel?: string;
-  // 是否禁用
+  /** 是否禁用 */
   disabled?: boolean;
 }
+
 /**
- * @description: 组件emit类型
+ * @description 选项组件事件类型
  */
 export interface EmitsType {
-  // 选择option
+  /** 选项变更事件 */
   (e: "change", params: PropsType): void;
 }

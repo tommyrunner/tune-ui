@@ -1,6 +1,6 @@
-import { ElSizeType, type BaseProps } from "@/types";
-import { PropsType as OptionsItem } from "./option";
-import { TipProps } from "@/hooks/useTip";
+import type { ElSizeType, BaseProps } from "@/types";
+import type { PropsType as OptionsItem } from "./option";
+import type { TipProps } from "@/hooks/useTip";
 /**
  * @description 列表项插槽参数类型
  */
@@ -11,51 +11,59 @@ export type SelectSlotParamsType<T = any> = {
   index?: number;
 };
 
-// 组件默认容器圆角
-export const contentRadius = 6;
-export type OptionsItemType = OptionsItem;
 /**
- * value 类型
+ * @description 选项类型
+ */
+export type OptionsItemType = OptionsItem;
+
+/**
+ * @description 值类型定义
  */
 export type SingleValueType = string | number | object;
 export type ValueType = SingleValueType | SingleValueType[];
+
 /**
- * @description: 组件props类型
+ * @description 组件属性类型
  */
 export interface PropsType extends TipProps, BaseProps {
-  // 列表值
+  /** 选项列表 */
   options: OptionsItemType[];
-  // 选择显示类型
+  /** 选择器类型 */
   type?: "input" | "text";
-  // 是否清空
+  /** 是否可清空 */
   clearable?: boolean;
-  // 是否禁用
+  /** 是否禁用 */
   disabled?: boolean;
-  // 空值
+  /** 空状态文本 */
   emptyText?: string;
-  // 是否过滤
+  /** 是否可过滤 */
   filterable?: boolean;
-  // 是否多选
+  /** 是否多选 */
   multiple?: boolean;
-  // 远程方法
+  /** 远程搜索方法(必须开启filterable) */
   remoteMethod?: (query: string) => void;
-  // 过滤方法
+  /** 自定义过滤方法 */
   filterMethod?: (option: OptionsItemType, query: string) => boolean;
 }
+
 /**
- * @description: 组件emit类型
+ * @description 组件事件类型
  */
 export interface EmitsType {
-  // 清空事件
+  /** 清空事件 */
   (e: "clear"): void;
 }
 
 // 常量定义
+/** 图标颜色 */
 export const ICON_COLOR = "#656a6e56";
-export const DROPDOWN_RADIUS = contentRadius;
+/** 下拉框圆角 */
+export const DROPDOWN_RADIUS = 6;
+/** 图标尺寸映射 */
 export const ICON_SIZES: Record<ElSizeType, number> = {
   default: 14,
   small: 14,
   large: 16
 };
+/** 空选项 */
 export const EMPTY_OPTION: OptionsItemType = { label: "", value: "" };

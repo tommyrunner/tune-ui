@@ -28,8 +28,12 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
     "paths": {
-      "@": ["src"],
-      "@/*": ["src/*"]
+      "@": [
+        "src"
+      ],
+      "@/*": [
+        "src/*"
+      ]
     }
   },
   "include": [
@@ -37,6 +41,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "test/**/*.vue",
     "build/**/*.ts",
     "build/**/*.d.ts",
     "vite.config.ts"
