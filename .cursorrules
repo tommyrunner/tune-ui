@@ -1,0 +1,245 @@
+# TUI Component Library Development Rules
+
+## 1. 项目背景
+- 基于 Vue 3 + TypeScript 的现代化 UI 组件库
+- 使用组合式 API (Composition API) 开发
+- 支持按需引入和完整引入
+- 提供完整的 TypeScript 类型支持
+- 遵循前端工程化最佳实践
+
+## 2. 目录结构规范
+```
+tui/
+├── src/
+│   ├── packages/       # 组件目录
+│   ├── utils/         # 全局工具函数
+│   ├── styles/        # 全局样式
+│   ├── icons/         # 图标资源
+│   ├── hooks/         # 可复用的组合式函数
+│   ├── types/         # 全局类型定义
+│   └── test/          # 测试用例
+```
+
+## 3. 代码规范
+
+### 3.1 TypeScript 规范
+- 严格遵循 TypeScript 类型定义
+- 所有组件必须定义 Props 和 Emits 类型
+- 使用 interface 而不是 type 定义对象类型
+- 导出类型时使用 export type
+- 合理使用泛型增加代码复用性
+
+### 3.2 Vue3 规范
+- 使用 `<script setup lang="ts">` 语法
+- 使用 `defineProps` 和 `defineEmits` 定义属性和事件
+- 使用 `defineOptions` 定义组件选项
+- 优先使用组合式 API
+- 合理使用 provide/inject 共享状态
+
+### 3.3 样式规范
+- 使用 SCSS 预处理器
+- 遵循 BEM 命名规范
+- 使用 CSS 变量实现主题定制
+- 样式文件统一使用 .scss 后缀
+- 组件样式使用 scoped 作用域
+
+### 3.4 注释规范
+- 使用 JSDoc 注释格式
+- 组件必须包含功能说明
+- Props 必须注明类型和用途
+- 复杂逻辑必须添加注释
+- 示例:
+```typescript
+/**
+ * @description 按钮组件
+ * @param {string} type - 按钮类型
+ * @param {boolean} disabled - 是否禁用
+ * @emits {click} 点击事件
+ */
+```
+
+## 4. 全局资源使用规范
+
+### 4.1 工具函数 (utils)
+- 存放在 src/utils 目录
+- 按功能模块划分文件
+- 必须添加类型定义和注释
+- 优先使用纯函数
+- 导出时使用具名导出
+
+### 4.2 全局样式 (styles)
+- 存放在 src/styles 目录
+- 包含变量、混入、函数等
+- 使用 index.scss 统一导出
+- 避免直接修改全局样式
+- 合理使用样式继承
+
+### 4.3 图标组件 (icons)
+- 统一使用 SVG 图标
+- 封装为 Vue 组件
+- 支持颜色和大小定制
+- 按需引入减小体积
+- 提供类型声明文件
+
+### 4.4 Hooks (hooks)
+- 存放在 src/hooks 目录
+- 职责单一，便于复用
+- 必须添加类型定义
+- 遵循 use 前缀命名
+- 详细的使用示例
+
+## 5. 组件开发规范
+
+### 5.1 目录结构
+```
+component/
+├── index.ts          # 入口文件
+├── index.vue         # 组件主文件
+├── index.scss        # 样式文件
+├── types.ts          # 类型定义
+```
+
+### 5.2 命名规范
+- 组件文件使用 PascalCase
+- Props 使用 camelCase
+- 事件使用 kebab-case
+- 常量使用 UPPER_CASE
+- 类型以 Type 结尾
+
+### 5.3 Props 定义
+- 必须指定类型
+- 提供默认值
+- 添加验证函数
+- 使用只读属性
+- 详细的属性说明
+
+### 5.4 事件处理
+- 统一使用 handle 前缀
+- 明确事件参数类型
+- 处理事件冒泡
+- 添加防抖/节流
+- 错误处理
+
+## 6. 性能优化规范
+- 合理使用计算属性
+- 避免不必要的响应式
+- 及时销毁事件监听
+- 使用异步组件
+- 代码分割
+
+## 7. 测试规范
+
+### 7.1 测试目录结构
+```
+test/
+├── components/        # 测试公共组件
+│   └── test-section.vue   # 测试区块组件
+└── packages/         # 组件测试用例
+    ├── button.vue    # 按钮组件测试
+    ├── input.vue     # 输入框组件测试
+    └── ...
+```
+
+### 7.2 测试用例编写规范
+- 使用 `test-section` 组件划分测试场景
+- 每个场景需要包含:
+  - 场景标题(title属性)
+  - 相关属性测试
+  - 不同状态展示
+  - 交互事件测试
+- 示例:
+```vue
+<test-section title="基础类型按钮">
+  <t-button>默认按钮</t-button>
+  <t-button type="primary">主要按钮</t-button>
+</test-section>
+```
+
+### 7.3 测试场景覆盖
+- 基础功能测试
+  - 组件基础渲染
+  - 不同类型展示
+  - 尺寸变化
+  - 状态切换(禁用、加载等)
+- 属性测试
+  - 必传属性验证
+  - 可选属性效果
+  - 属性组合测试
+- 事件测试
+  - 点击事件
+  - 状态变更事件
+  - 异步操作测试
+- 样式测试
+  - 主题样式
+  - 自定义样式
+  - 动画效果
+
+### 7.4 测试代码规范
+- 使用 TypeScript 编写测试用例
+- 使用 setup 语法糖
+- 事件处理函数添加注释
+- 异步操作需要处理加载状态
+- 合理组织测试数据
+
+### 7.5 测试用例组织
+```vue
+<template>
+  <div class="test-container">
+    <!-- 组件标题 -->
+    <h2>组件名称</h2>
+
+    <!-- 基础功能测试 -->
+    <test-section title="基础功能">
+      <!-- 测试用例 -->
+    </test-section>
+
+    <!-- 属性测试 -->
+    <test-section title="属性测试">
+      <!-- 测试用例 -->
+    </test-section>
+
+    <!-- 事件测试 -->
+    <test-section title="事件测试">
+      <!-- 测试用例 -->
+    </test-section>
+
+    <!-- 样式测试 -->
+    <test-section title="样式测试">
+      <!-- 测试用例 -->
+    </test-section>
+  </div>
+</template>
+
+<script lang="ts" setup>
+// 组件引入
+import { 组件 } from "@/packages/组件";
+import TestSection from "../components/test-section.vue";
+
+// 定义组件名称
+defineOptions({ name: "组件Test" });
+
+// 测试数据和方法
+...
+</script>
+```
+
+### 7.6 测试样式规范
+- 测试容器使用 test-container 类
+- 标题使用 h2 标签
+- 合理使用间距和布局
+- 保持测试界面整洁
+- 突出测试重点
+
+### 7.7 测试注意事项
+- 保持测试用例独立性
+- 避免测试用例间相互影响
+- 合理使用 ref 和 reactive
+- 处理异常情况
+- 保持测试代码可维护性
+
+## 8. 文档规范
+- 组件使用说明
+- 属性和事件列表
+- 使用示例代码
+- 注意事项说明
+- 更新日志维护

@@ -61,7 +61,16 @@
           placeholder="必选项"
           filterable
         />
-        <t-select v-model="state.tipValue" :options="basicOptions" placeholder="测试" empty-text="暂无数据2" multiple filterable>
+        <t-select
+          v-model="state.tipValue"
+          :options="basicOptions"
+          placeholder="测试"
+          empty-text="暂无数据"
+          multiple
+          filterable
+          :loading="remoteLoading"
+          :filter-method="handleFilterMethod"
+        >
           <template #prefix>
             <t-icon icon="search" />
           </template>
@@ -84,6 +93,7 @@ import { TSelect } from "@/packages/select";
 import { TIcon } from "@/packages/icon";
 import TestSection from "../components/test-section.vue";
 import type { OptionsItemType, SelectSlotParamsType } from "@/packages/select/select";
+import { ref } from "vue";
 
 defineOptions({ name: "SelectTest" });
 const item5 = { name: "选项5" };
@@ -95,8 +105,23 @@ const basicOptions = reactive<OptionsItemType[]>([
   { label: "选项3", value: "3" },
   { label: "选项4", value: "4" },
   { label: "选项4-4(禁用)", value: "4-4", disabled: true },
-  { label: "选项5", value: "5" }
+  { label: "选项5", value: item5 },
+  { label: "选项六", value: "6" }
 ]);
+let remoteOptions = reactive<OptionsItemType[]>([]);
+const remoteLoading = ref(false);
+const handleRemoteMethod = (query: string) => {
+  remoteLoading.value = true;
+  setTimeout(() => {
+    remoteOptions = basicOptions.filter(item => item.label.includes(query));
+    remoteLoading.value = false;
+    console.log(remoteOptions);
+  }, 1000);
+};
+
+const handleFilterMethod = (option: OptionsItemType, query: string) => {
+  return String(option.value).includes(query);
+};
 
 // 组件状态
 const state = reactive({

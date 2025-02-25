@@ -37,6 +37,10 @@ export interface PropsType extends TipProps, BaseProps {
   filterable?: boolean;
   // 是否多选
   multiple?: boolean;
+  // 远程方法
+  remoteMethod?: (query: string) => void;
+  // 过滤方法
+  filterMethod?: (option: OptionsItemType, query: string) => boolean;
 }
 /**
  * @description: 组件emit类型

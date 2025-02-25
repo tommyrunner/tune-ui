@@ -18,7 +18,6 @@ const getClass = computed(() => {
   const { disabled, value } = props;
   const { model, temModel, multiple } = groupContext;
   const groupValue = isValue(model) ? model : temModel;
-  console.log(groupValue);
   let isActive = false;
   if (multiple) {
     isActive = (groupValue as SingleValueType[]).includes(value);

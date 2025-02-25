@@ -1,6 +1,5 @@
 <template>
   <div class="t-select">
-    {{ state.temModel }}
     <TPopover
       v-model="state.isDropdownVisible"
       type="click"
@@ -13,7 +12,7 @@
     >
       <!-- 下拉选项列表 -->
       <template #content>
-        <TListView :list-data="filteredOptions" class="_options" :style="dropdownStyles" :empty-text="props.emptyText">
+        <TListView :list-data="filteredOptions" class="_options" :style="dropdownStyles" :empty-text="getEmptyText">
           <!-- 选项列表 -->
           <template #default="{ row }: ListSlotParamsType<OptionsItemType>">
             <!-- 自定义插槽 -->
@@ -50,9 +49,11 @@
                 </TTag>
               </div>
             </template>
-            <TTag size="small" type="info"
-              ><TIcon icon="horizontal-more" /> &nbsp;(+ {{ (model as SingleValueType[]).length }})
-            </TTag>
+            <slot name="multiple-view" :model="model">
+              <TTag size="small" type="info"
+                ><TIcon icon="horizontal-more" /> &nbsp;(+ {{ (model as SingleValueType[]).length }})
+              </TTag>
+            </slot>
           </TPopover>
         </div>
 
@@ -124,6 +125,10 @@ const props = withDefaults(defineProps<PropsType>(), {
 const model = defineModel<ValueType>({
   default: props => (props.multiple ? [] : "")
 });
+// 动态 loading 定义
+const loading = defineModel<boolean>("loading", {
+  default: false
+});
 
 // refs
 const inputRef = ref();
@@ -149,7 +154,7 @@ const selectClassNames = computed(() => {
   return ["_select-content", `t-select-size-${size}`, clearable && "t-select-clearable", disabled && "t-disabled"];
 });
 
-const showClearIcon = computed(() => props.clearable && model.value);
+const showClearIcon = computed(() => props.clearable && isValue(model.value));
 
 const iconSize = computed(() => ICON_SIZES[props.size]);
 
@@ -176,6 +181,11 @@ const TipComponent = useTip(props, model);
 
 const filteredOptions = computed(() => {
   if (!props.filterable || !state.filterText) return props.options;
+  // 自定义过滤方法
+  if (props.filterMethod) {
+    return props.options.filter(option => props.filterMethod(option, state.filterText));
+  }
+  // 默认过滤方法
   return props.options.filter(option => {
     const label = String(option.label || "").toLowerCase();
     const filterText = state.filterText.toLowerCase();
@@ -215,6 +225,13 @@ const inputDisplayValue = computed(() => {
 });
 
 /**
+ * 获取空文本
+ */
+const getEmptyText = computed(() => {
+  return loading.value ? "加载中..." : props.emptyText;
+});
+
+/**
  * 清空选择
  * @param event 事件对象
  */
@@ -240,6 +257,9 @@ const handleOptionSelect = (option: OptionsItemType) => {
 const handleFilter = bindDebounce((event: Event) => {
   const target = event.target as HTMLInputElement;
   state.filterText = target.value;
+  if (props.remoteMethod) {
+    props.remoteMethod(target.value);
+  }
 }, 200);
 
 /**
@@ -298,7 +318,7 @@ const updateModelValue = (option?: OptionsItemType) => {
 /**
  * 监听过滤选项, 更新下拉框位置
  */
-watch(filteredOptions, () => {
+watch([props.options, filteredOptions], () => {
   popoverRef.value?.updateView();
 });
 
