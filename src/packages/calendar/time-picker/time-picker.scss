@@ -19,6 +19,15 @@
     &:hover {
       color: $theme-color-primary;
     }
+    
+    &._view-only {
+      cursor: default;
+      background-color: transparent;
+      
+      &:hover {
+        color: $text-color-default;
+      }
+    }
   }
 }
 

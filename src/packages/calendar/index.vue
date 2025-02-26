@@ -13,7 +13,12 @@
       @month-title-click="handleMonthTitleClick"
     >
       <template #time-picker v-if="props.showTime && tempMode === 'date'">
-        <calendar-time-picker :model-value="currentDate" :disabled="disabled" @change="handleTimeChange" />
+        <calendar-time-picker
+          :model-value="currentDate"
+          :disabled="disabled"
+          :disabled-time-view="props.disabledTimeView"
+          @change="handleTimeChange"
+        />
       </template>
     </calendar-header>
 
@@ -83,7 +88,8 @@ defineOptions({ name: "TCalendar" });
 const props = withDefaults(defineProps<PropsType>(), {
   mode: "date",
   disabled: false,
-  showTime: false
+  showTime: false,
+  disabledTimeView: true
 });
 
 const model = defineModel<DateType>();

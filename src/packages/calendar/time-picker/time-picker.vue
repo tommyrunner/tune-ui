@@ -6,14 +6,14 @@
       position="bottom"
       :padding="8"
       :radius="4"
-      :disabled="disabled"
+      :disabled="disabled || disabledTimeView"
       width="280px"
       @open="handleTimePopoverOpen"
     >
       <!-- 时间显示触发区域 -->
-      <div class="_time-display">
+      <div class="_time-display" :class="{ '_view-only': disabledTimeView }">
         <span>{{ formatTime }}</span>
-        <t-icon icon="caret-down" :size="14" />
+        <t-icon v-if="!disabledTimeView" icon="caret-down" :size="14" />
       </div>
 
       <!-- 时间选择面板 -->
@@ -86,10 +86,13 @@ interface PropsType {
   modelValue: Date;
   /** 是否禁用 */
   disabled?: boolean;
+  /** 是否禁用时间选择视图（只显示时间，不可点击） */
+  disabledTimeView?: boolean;
 }
 
 const props = withDefaults(defineProps<PropsType>(), {
-  disabled: false
+  disabled: false,
+  disabledTimeView: false
 });
 
 /**

@@ -1,6 +1,6 @@
 <template>
   <div class="t-collapse">
-    <div class="_head" @click="handleClick">
+    <div :class="['_head', props.disabled && 't-disabled']" @click="handleClick">
       <slot name="title" :value="model">
         <div>{{ title }}</div>
       </slot>

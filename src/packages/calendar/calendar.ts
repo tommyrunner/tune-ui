@@ -27,6 +27,8 @@ export interface PropsType extends BaseProps {
   disabledDate?: (date: Date) => boolean;
   /** 是否显示时间选择器 */
   showTime?: boolean;
+  /** 是否禁用时间选择器 */
+  disabledTimeView?: boolean;
   /** 值的格式化，例如 YYYY-MM-DD */
   valueFormat?: string;
 }
