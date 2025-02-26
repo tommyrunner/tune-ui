@@ -4,8 +4,23 @@
 
     <test-section title="基础用法">
       <div class="calendar-wrapper">
-        <t-calendar v-model="state.date" />
-        <div class="value-display">当前值：{{ state.date?.toLocaleDateString() }}</div>
+        <t-calendar v-model="state.date" show-time />
+        <t-calendar v-model="state.formattedDate" show-time value-format="YYYY-MM-DD" />
+        <div class="value-display">
+          <div>日期对象：{{ state.date?.toLocaleDateString() }}</div>
+          <div>格式化日期：{{ state.formattedDate }}</div>
+        </div>
+      </div>
+    </test-section>
+
+    <test-section title="格式化输出">
+      <div class="calendar-wrapper">
+        <t-calendar v-model="state.formattedDate" value-format="YYYY-MM-DD" />
+        <t-calendar v-model="state.formattedDateTime" show-time value-format="YYYY-MM-DD HH:mm:ss" />
+        <div class="value-display">
+          <div>日期格式化：{{ state.formattedDate }}</div>
+          <div>日期时间格式化：{{ state.formattedDateTime }}</div>
+        </div>
       </div>
     </test-section>
 
@@ -97,12 +112,15 @@ import { TCalendar } from "@/packages/calendar";
 import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
 import type { ModeType } from "@/packages/calendar/calendar";
+import { formatDate } from "@/utils/dateFormat";
 
 defineOptions({ name: "CalendarTest" });
 
 // 组件状态
 const state = reactive({
   date: new Date(),
+  formattedDate: formatDate(new Date(), "YYYY-MM-DD"),
+  formattedDateTime: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
   disabledDate: new Date(),
   customDate: new Date(),
   footerDate: new Date(),

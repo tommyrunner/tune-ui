@@ -158,3 +158,5 @@ export const dataSummary = (data: any[], key: string) => {
     return null; // 遇到非数字类型，返回null，表示无法计算总和
   }, 0);
 };
+
+export * from "./dateFormat";

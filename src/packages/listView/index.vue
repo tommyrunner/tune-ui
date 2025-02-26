@@ -238,6 +238,24 @@ const getInnerStyle = computed(
 
 /** 向子组件提供上下文数据 */
 provide<GroupContextType>(listViewGroupKey, reactive({ ...toRefs(props) }));
+
+/**
+ * 滚动到指定项目
+ * @param top 项目top值
+ */
+const scrollToItem = (top: number, behavior: ScrollBehavior = "smooth") => {
+  if (!scrollbarRef.value) return;
+  // 使用scrollbar组件的scrollTo方法
+  scrollbarRef.value.scrollTo({
+    top,
+    behavior
+  });
+};
+
+// 暴露方法给父组件
+defineExpose({
+  scrollToItem
+});
 </script>
 <style lang="scss" scoped>
 @import "./index.scss";

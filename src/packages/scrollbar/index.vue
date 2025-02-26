@@ -262,10 +262,21 @@ const scrollbarStyle = computed((): StyleValue => {
     height: fromCssVal(props.height)
   };
 });
+/**
+ * 滚动到指定位置
+ * @param options 滚动选项
+ */
+const scrollTo = (options: ScrollToOptions) => {
+  if (scrollbarRef.value) {
+    console.log(options);
+    scrollbarRef.value.scrollTo(options);
+  }
+};
 defineExpose({
   updateScrollbar,
   setScrollbar,
-  contentRef: scrollbarRef
+  contentRef: scrollbarRef,
+  scrollTo
 });
 </script>
 <style lang="scss" scoped>
