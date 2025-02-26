@@ -1,0 +1,64 @@
+@import "@/styles/index.scss";
+
+// 日期模式
+._dates {
+  width: 100%;
+}
+
+._weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  color: $text-color-default;
+  font-size: $font-size-small;
+  margin-bottom: 4px;
+}
+
+._days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+
+  ._day {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.22s;
+    color: $text-color-default;
+
+    &:hover {
+      background-color: $bg-color-hover;
+    }
+
+    &._today {
+      color: $theme-color-primary;
+      font-weight: 500;
+    }
+
+    &._selected {
+      background-color: $theme-color-primary;
+      color: $color-white;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    &.t-disabled {
+      cursor: not-allowed;
+      opacity: $opacity-disabled;
+      background-color: transparent;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    &._other-month {
+      opacity: $opacity-disabled;
+    }
+  }
+} 

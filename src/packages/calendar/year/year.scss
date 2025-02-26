@@ -1,0 +1,42 @@
+@import "@/styles/index.scss";
+
+// 年份模式
+._years {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+
+  ._year {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.22s;
+    color: $text-color-default;
+
+    &:hover {
+      background-color: $bg-color-hover;
+    }
+
+    &._selected {
+      background-color: $theme-color-primary;
+      color: $color-white;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    &.t-disabled {
+      cursor: not-allowed;
+      opacity: $opacity-disabled;
+      background-color: transparent;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+} 

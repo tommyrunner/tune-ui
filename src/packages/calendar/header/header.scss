@@ -1,0 +1,72 @@
+@import "@/styles/index.scss";
+
+// 日历头部样式
+._header {
+  padding: 8px;
+  border-bottom: 1px solid $border-color-default;
+
+  ._nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    &._with-time {
+      justify-content: space-between;
+    }
+
+    ._date-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      
+      &._centered {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    ._title {
+      min-width: 100px;
+      text-align: center;
+      font-weight: 500;
+      color: $text-color-default;
+
+      .year-text,
+      .month-text {
+        padding: 2px 4px;
+        border-radius: 4px;
+        transition: 0.22s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $bg-color-hover;
+          color: $theme-color-primary;
+        }
+
+        &.active {
+          color: $theme-color-primary;
+        }
+      }
+    }
+
+    ._nav-btn {
+      padding: 4px;
+      cursor: pointer;
+      color: $text-color-default;
+      border-radius: 4px;
+      transition: 0.22s;
+
+      &:hover {
+        background-color: $bg-color-hover;
+        color: $theme-color-primary;
+      }
+
+      &.t-disabled {
+        cursor: not-allowed;
+        opacity: $opacity-disabled;
+        background-color: transparent;
+      }
+    }
+  }
+} 
