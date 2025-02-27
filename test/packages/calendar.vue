@@ -7,7 +7,57 @@
       <div class="calendar-wrapper">
         <t-calendar v-model="state.date" />
         <div class="value-display">
-          <div>默认日期对象：{{ state.date?.toLocaleDateString() }}</div>
+          <div>默认日期对象：{{ formatDisplayDate(state.date) }}</div>
+          <div>类型：{{ typeof state.date }}</div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 格式化输出测试 -->
+    <test-section title="格式化输出测试">
+      <div class="calendar-wrapper">
+        <div class="calendar-item">
+          <div class="calendar-label">日期格式化 (YYYY-MM-DD)：</div>
+          <t-calendar v-model="state.formattedDate" value-format="YYYY-MM-DD" />
+        </div>
+        <div class="calendar-item">
+          <div class="calendar-label">日期时间格式化 (YYYY-MM-DD HH:mm:ss)：</div>
+          <t-calendar v-model="state.formattedDateTime" show-time value-format="YYYY-MM-DD HH:mm:ss" />
+        </div>
+        <div class="calendar-item">
+          <div class="calendar-label">中文格式化 (YYYY年MM月DD日)：</div>
+          <t-calendar v-model="state.formattedChinese" value-format="YYYY年MM月DD日" />
+        </div>
+        <div class="value-display">
+          <div>日期格式化：{{ state.formattedDate }} (类型: {{ typeof state.formattedDate }})</div>
+          <div>日期时间格式化：{{ state.formattedDateTime }} (类型: {{ typeof state.formattedDateTime }})</div>
+          <div>中文格式化：{{ state.formattedChinese }} (类型: {{ typeof state.formattedChinese }})</div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 不同输入类型测试 -->
+    <test-section title="不同输入类型测试">
+      <div class="calendar-wrapper">
+        <div class="calendar-item">
+          <div class="calendar-label">字符串输入 + 格式化输出：</div>
+          <t-calendar v-model="state.stringInput" value-format="YYYY-MM-DD" />
+        </div>
+        <div class="calendar-item">
+          <div class="calendar-label">Date对象输入 + 格式化输出：</div>
+          <t-calendar v-model="state.dateInput" value-format="YYYY-MM-DD" />
+        </div>
+        <div class="calendar-item">
+          <div class="calendar-label">时间戳输入 + 格式化输出：</div>
+          <t-calendar v-model="state.timestampInput" value-format="YYYY-MM-DD" />
+        </div>
+        <div class="value-display">
+          <div>字符串输入：{{ state.stringInput }} (类型: {{ typeof state.stringInput }})</div>
+          <div>Date对象输入：{{ state.dateInput }} (类型: {{ typeof state.dateInput }})</div>
+          <div>时间戳输入：{{ state.timestampInput }} (类型: {{ typeof state.timestampInput }})</div>
+          <div class="buttons">
+            <t-button size="small" @click="resetInputs">重置输入</t-button>
+          </div>
         </div>
       </div>
     </test-section>
@@ -16,16 +66,21 @@
     <test-section title="不同模式">
       <div class="calendar-wrapper">
         <div class="calendar-item">
-          <div class="calendar-label">日期模式：</div>
-          <t-calendar v-model="state.modeDate" mode="date" />
+          <div class="calendar-label">日期模式 + 格式化：</div>
+          <t-calendar v-model="state.modeDateFormatted" mode="date" value-format="YYYY-MM-DD" />
         </div>
         <div class="calendar-item">
-          <div class="calendar-label">月份模式：</div>
-          <t-calendar v-model="state.modeMonth" mode="month" />
+          <div class="calendar-label">月份模式 + 格式化：</div>
+          <t-calendar v-model="state.modeMonthFormatted" mode="month" value-format="YYYY-MM" />
         </div>
         <div class="calendar-item">
-          <div class="calendar-label">年份模式：</div>
-          <t-calendar v-model="state.modeYear" mode="year" />
+          <div class="calendar-label">年份模式 + 格式化：</div>
+          <t-calendar v-model="state.modeYearFormatted" mode="year" value-format="YYYY" />
+        </div>
+        <div class="value-display">
+          <div>日期模式：{{ state.modeDateFormatted }}</div>
+          <div>月份模式：{{ state.modeMonthFormatted }}</div>
+          <div>年份模式：{{ state.modeYearFormatted }}</div>
         </div>
       </div>
     </test-section>
@@ -34,118 +89,30 @@
     <test-section title="时间选择器">
       <div class="calendar-wrapper">
         <div class="calendar-item">
-          <div class="calendar-label">带时间选择（可修改）：</div>
-          <t-calendar v-model="state.timeDate" show-time />
-        </div>
-        <div class="calendar-item">
-          <div class="calendar-label">带时间选择（禁用）：</div>
-          <t-calendar v-model="state.timeDisabledDate" show-time disabled />
+          <div class="calendar-label">带时间选择 + 格式化：</div>
+          <t-calendar v-model="state.timeFormatted" show-time value-format="YYYY-MM-DD HH:mm:ss" />
         </div>
         <div class="value-display">
-          <div>可修改时间值：{{ formatDisplayDate(state.timeDate) }}</div>
-          <div>禁用时间值：{{ formatDisplayDate(state.timeDisabledDate) }}</div>
-          <div class="time-tip">点击时间可打开时分秒选择面板</div>
+          <div>时间值：{{ state.timeFormatted }}</div>
+          <div>类型：{{ typeof state.timeFormatted }}</div>
         </div>
       </div>
     </test-section>
-
-    <!-- 时间选择器视图模式 -->
-    <test-section title="时间选择器视图模式">
+    <!-- 时间选择器(修改) -->
+    <test-section title="时间选择器(修改)">
       <div class="calendar-wrapper">
         <div class="calendar-item">
-          <div class="calendar-label">可编辑时间：</div>
-          <t-calendar v-model="state.timeEditableDate" show-time :disabled-time-view="false" />
-        </div>
-        <div class="calendar-item">
-          <div class="calendar-label">只读时间（实时更新）：</div>
-          <t-calendar v-model="state.timeReadonlyDate" show-time :disabled-time-view="true" />
-        </div>
-        <div class="value-display">
-          <div>可编辑时间值：{{ formatDisplayDate(state.timeEditableDate) }}</div>
-          <div>只读时间值：{{ formatDisplayDate(state.timeReadonlyDate) }}</div>
-          <div class="time-tip">只读模式下时间显示会每秒自动更新</div>
-        </div>
-      </div>
-    </test-section>
-
-    <!-- 格式化输出 -->
-    <test-section title="格式化输出">
-      <div class="calendar-wrapper">
-        <div class="calendar-item">
-          <div class="calendar-label">日期格式化：</div>
-          <t-calendar v-model="state.formattedDate" value-format="YYYY-MM-DD" />
-        </div>
-        <div class="calendar-item">
-          <div class="calendar-label">日期时间格式化：</div>
-          <t-calendar v-model="state.formattedDateTime" show-time value-format="YYYY-MM-DD HH:mm:ss" />
+          <div class="calendar-label">带时间选择 + 格式化：</div>
+          <t-calendar
+            v-model="state.timeFormattedTime"
+            :disabled-time-view="false"
+            show-time
+            value-format="YYYY-MM-DD HH:mm:ss"
+          />
         </div>
         <div class="value-display">
-          <div>日期格式化：{{ state.formattedDate }}</div>
-          <div>日期时间格式化：{{ state.formattedDateTime }}</div>
-        </div>
-      </div>
-    </test-section>
-
-    <!-- 禁用状态 -->
-    <test-section title="禁用状态">
-      <div class="calendar-wrapper">
-        <div class="calendar-item">
-          <div class="calendar-label">完全禁用：</div>
-          <t-calendar v-model="state.disabledAll" disabled />
-        </div>
-        <div class="calendar-item">
-          <div class="calendar-label">禁用特定日期：</div>
-          <t-calendar v-model="state.disabledDate" :disabled-date="handleDisabledDate" />
-        </div>
-        <div class="value-display">
-          <div>禁用规则：不可选择过去的日期</div>
-          <div>当前值：{{ formatDisplayDate(state.disabledDate) }}</div>
-        </div>
-      </div>
-    </test-section>
-
-    <!-- 自定义日期内容 -->
-    <test-section title="自定义日期内容">
-      <div class="calendar-wrapper">
-        <t-calendar v-model="state.customDate">
-          <template #date="{ date }">
-            <div class="custom-date" :class="{ 'is-special': isSpecialDay(date) }">
-              <template v-if="isFirstOrLastDay(date)">
-                {{ isFirstDay(date) ? "开始" : "结束" }}
-              </template>
-              <template v-else-if="isToday(date)"> 今天 </template>
-              <template v-else>
-                {{ date.getDate() }}
-              </template>
-            </div>
-          </template>
-        </t-calendar>
-        <div class="value-display">
-          <div>自定义规则：</div>
-          <div>- 每月第一天显示"开始"</div>
-          <div>- 每月最后一天显示"结束"</div>
-          <div>- 今天显示"今天"</div>
-          <div>- 周末日期显示特殊样式</div>
-        </div>
-      </div>
-    </test-section>
-
-    <!-- 自定义底部 -->
-    <test-section title="自定义底部">
-      <div class="calendar-wrapper">
-        <t-calendar v-model="state.footerDate" ref="calendarRef">
-          <template #footer>
-            <div class="calendar-footer">
-              <t-button size="small" @click="handleJumpToYesterday">昨天</t-button>
-              <t-button size="small" @click="handleJumpToToday">今天</t-button>
-              <t-button size="small" @click="handleJumpToTomorrow">明天</t-button>
-              <t-button size="small" @click="handleJumpToNextWeek">下周</t-button>
-            </div>
-          </template>
-        </t-calendar>
-        <div class="value-display">
-          <div>点击按钮可快速跳转日期</div>
-          <div>当前值：{{ formatDisplayDate(state.footerDate) }}</div>
+          <div>时间值：{{ state.timeFormattedTime }}</div>
+          <div>类型：{{ typeof state.timeFormattedTime }}</div>
         </div>
       </div>
     </test-section>
@@ -156,6 +123,7 @@
         <t-calendar
           v-model="state.eventDate"
           show-time
+          value-format="YYYY-MM-DD HH:mm:ss"
           @change="handleChange"
           @panel-change="handlePanelChange"
           @jump-to-date="handleJumpToDate"
@@ -170,6 +138,7 @@
           </template>
         </t-calendar>
         <div class="value-display">
+          <div>当前值：{{ state.eventDate }}</div>
           <div class="event-log">
             <div class="event-title">事件记录:</div>
             <div v-for="(event, index) in state.eventLogs" :key="index" class="event-item">{{ event }}</div>
@@ -195,41 +164,32 @@ const state = reactive({
   // 基础用法
   date: new Date(),
 
-  // 不同模式
-  modeDate: new Date(),
-  modeMonth: new Date(),
-  modeYear: new Date(),
-
-  // 时间选择器
-  timeDate: new Date(),
-  timeDisabledDate: new Date(),
-  timeEditableDate: new Date(),
-  timeReadonlyDate: new Date(),
-  time24Format: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
-  timeCustomFormat: formatDate(new Date(), "YYYY年MM月DD日 HH时mm分ss秒"),
-  timeEventDate: new Date(),
-  timeChangeLogs: [] as string[],
-
-  // 格式化输出
+  // 格式化输出测试
   formattedDate: formatDate(new Date(), "YYYY-MM-DD"),
   formattedDateTime: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
+  formattedChinese: formatDate(new Date(), "YYYY年MM月DD日"),
 
-  // 禁用状态
-  disabledAll: new Date(),
-  disabledDate: new Date(),
+  // 不同输入类型测试
+  stringInput: "2023-05-15",
+  dateInput: new Date(),
+  timestampInput: Date.now(),
 
-  // 自定义内容
-  customDate: new Date(),
-  footerDate: new Date(),
+  // 不同模式
+  modeDateFormatted: formatDate(new Date(), "YYYY-MM-DD"),
+  modeMonthFormatted: formatDate(new Date(), "YYYY-MM"),
+  modeYearFormatted: formatDate(new Date(), "YYYY"),
+
+  // 时间选择器
+  timeFormatted: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
+  timeFormattedTime: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
 
   // 事件测试
-  eventDate: new Date(),
+  eventDate: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
   eventLogs: [] as string[],
   currentMode: "date" as ModeType
 });
 
 // 日历组件引用
-const calendarRef = ref();
 const eventCalendarRef = ref();
 
 /**
@@ -243,242 +203,147 @@ const formatDisplayDate = (date: Date | string | number | null) => {
 };
 
 /**
- * 处理禁用日期
+ * 重置输入
  */
-const handleDisabledDate = (date: Date) => {
-  return date < new Date(new Date().setHours(0, 0, 0, 0));
+const resetInputs = () => {
+  state.stringInput = "2023-05-15";
+  state.dateInput = new Date();
+  state.timestampInput = Date.now();
 };
 
 /**
- * 判断是否是今天
+ * 处理日期变化事件
  */
-const isToday = (date: Date) => {
-  const today = new Date();
-  return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
+const handleChange = (value: any) => {
+  state.eventLogs.unshift(`change: ${formatDisplayDate(value)}`);
+  if (state.eventLogs.length > 5) state.eventLogs.pop();
 };
 
 /**
- * 判断是否是周末
+ * 处理面板变化事件
  */
-const isWeekend = (date: Date) => {
-  const day = date.getDay();
-  return day === 0 || day === 6;
+const handlePanelChange = (mode: ModeType) => {
+  state.currentMode = mode;
+  state.eventLogs.unshift(`panel-change: ${mode}`);
+  if (state.eventLogs.length > 5) state.eventLogs.pop();
 };
 
 /**
- * 判断是否是特殊日期
+ * 处理跳转到指定日期事件
  */
-const isSpecialDay = (date: Date) => {
-  return isWeekend(date);
+const handleJumpToDate = (date: Date) => {
+  state.eventLogs.unshift(`jump-to-date: ${formatDisplayDate(date)}`);
+  if (state.eventLogs.length > 5) state.eventLogs.pop();
 };
 
 /**
- * 判断是否是每月第一天
+ * 处理时间变化事件
  */
-const isFirstDay = (date: Date) => {
-  return date.getDate() === 1;
+const handleTimeChange = (date: Date) => {
+  state.eventLogs.unshift(`time-change: ${formatDisplayDate(date)}`);
+  if (state.eventLogs.length > 5) state.eventLogs.pop();
 };
 
 /**
- * 判断是否是每月最后一天
- */
-const isLastDay = (date: Date) => {
-  const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-  return date.getDate() === lastDay.getDate();
-};
-
-/**
- * 判断是否是每月第一天或最后一天
- */
-const isFirstOrLastDay = (date: Date) => {
-  return isFirstDay(date) || isLastDay(date);
-};
-
-/**
- * 处理跳转到昨天
- */
-const handleJumpToYesterday = () => {
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  calendarRef.value?.jumpToDate(yesterday);
-};
-
-/**
- * 处理跳转到今天
- */
-const handleJumpToToday = () => {
-  const calendar = calendarRef.value || eventCalendarRef.value;
-  calendar?.jumpToDate(new Date());
-};
-
-/**
- * 处理跳转到明天
- */
-const handleJumpToTomorrow = () => {
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  calendarRef.value?.jumpToDate(tomorrow);
-};
-
-/**
- * 处理跳转到下周
- */
-const handleJumpToNextWeek = () => {
-  const nextWeek = new Date();
-  nextWeek.setDate(nextWeek.getDate() + 7);
-  calendarRef.value?.jumpToDate(nextWeek);
-};
-
-/**
- * 处理跳转到随机日期
+ * 跳转到随机日期
  */
 const handleJumpToRandomDate = () => {
-  const randomDays = Math.floor(Math.random() * 365) - 182; // -182 到 182 之间的随机数
+  if (!eventCalendarRef.value) return;
+  const randomDays = Math.floor(Math.random() * 365) - 182; // -182 to 182 days
   const randomDate = new Date();
   randomDate.setDate(randomDate.getDate() + randomDays);
-  eventCalendarRef.value?.jumpToDate(randomDate);
+  eventCalendarRef.value.jumpToDate(randomDate);
 };
 
 /**
- * 处理切换面板
+ * 切换面板
  */
 const handleSwitchPanel = () => {
   const modes: ModeType[] = ["date", "month", "year"];
   const currentIndex = modes.indexOf(state.currentMode);
   const nextIndex = (currentIndex + 1) % modes.length;
   state.currentMode = modes[nextIndex];
-
-  // 记录事件
-  addEventLog(`手动切换面板到: ${state.currentMode}`);
-};
-
-/**
- * 添加事件日志
- */
-const addEventLog = (message: string) => {
-  state.eventLogs.unshift(message);
-  if (state.eventLogs.length > 5) {
-    state.eventLogs.pop();
-  }
-};
-
-/**
- * 处理日期变化
- */
-const handleChange = (date: Date | string | number) => {
-  addEventLog(`change事件: ${formatDisplayDate(date)}`);
-};
-
-/**
- * 处理面板变化
- */
-const handlePanelChange = (mode: ModeType) => {
-  state.currentMode = mode;
-  addEventLog(`panel-change事件: ${mode}`);
-};
-
-/**
- * 处理日期跳转
- */
-const handleJumpToDate = (date: Date) => {
-  addEventLog(`jump-to-date事件: ${formatDisplayDate(date)}`);
-};
-
-/**
- * 处理时间变化
- */
-const handleTimeChange = (date: Date) => {
-  addEventLog(`time-change事件: ${formatDisplayDate(date)}`);
+  state.eventLogs.unshift(`手动切换面板: ${state.currentMode}`);
+  if (state.eventLogs.length > 5) state.eventLogs.pop();
 };
 </script>
 
 <style lang="scss" scoped>
 .test-container {
-  padding: 32px;
+  padding: 20px;
+}
+
+.calendar-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.calendar-item {
+  flex: 1;
+  min-width: 300px;
+}
+
+.calendar-label {
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.value-display {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #f5f7fa;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.calendar-footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  border-top: 1px solid #ebeef5;
+}
+
+.event-log {
+  margin-top: 8px;
+}
+
+.event-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.event-item {
+  padding: 4px 0;
+  border-bottom: 1px dashed #ebeef5;
+  font-size: 13px;
+}
+
+.custom-date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  background-color: #fff;
-  border-radius: 8px;
-  box-sizing: border-box;
+  height: 100%;
+  border-radius: 50%;
 
-  h2 {
-    margin-bottom: 24px;
-    font-weight: 600;
-    font-size: 28px;
-    color: #1f2937;
+  &.is-special {
+    background-color: rgba(64, 158, 255, 0.1);
+    color: #409eff;
   }
+}
 
-  .calendar-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    align-items: flex-start;
-    margin-bottom: 16px;
+.buttons {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
 
-    .calendar-item {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-
-      .calendar-label {
-        font-weight: 500;
-        color: #4b5563;
-      }
-    }
-
-    .value-display {
-      padding: 12px;
-      background-color: #f8fafc;
-      border: 1px solid #e5e7eb;
-      border-radius: 4px;
-      color: #4b5563;
-      font-size: 14px;
-      min-width: 200px;
-    }
-
-    .calendar-footer {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      padding: 8px;
-      border-top: 1px solid #e5e7eb;
-    }
-  }
-
-  .custom-date {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &.is-special {
-      color: #ef4444;
-      font-weight: 500;
-    }
-  }
-
-  .event-log {
-    width: 100%;
-
-    .event-title {
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: #374151;
-    }
-
-    .event-item {
-      padding: 4px 0;
-      color: #666;
-      font-size: 14px;
-      font-family: monospace;
-      border-bottom: 1px dashed #e5e7eb;
-    }
-  }
-
-  .time-tip {
-    margin-top: 8px;
-    font-size: 12px;
-    color: #666;
-  }
+.time-tip {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #909399;
 }
 </style>

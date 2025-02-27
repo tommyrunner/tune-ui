@@ -21,6 +21,7 @@
             :disabled-date="props.disabledDate"
             :show-time="props.showTime"
             :disabled-time-view="false"
+            :value-format="props.valueFormat"
             @change="handleDateChange"
             @panel-change="handlePanelChange"
             @jump-to-date="handleJumpToDate"
@@ -75,7 +76,7 @@ import type { TPopoverType } from "@/packages/popover";
 import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
 import { TCalendar } from "@/packages/calendar";
-import { formatDate } from "@/utils/dateFormat";
+import { formatDate, parseDate } from "@/utils/dateFormat";
 import { isValue } from "@/utils/is";
 import { configOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES } from "./date-picker";
@@ -105,7 +106,30 @@ const calendarRef = ref();
 
 // 组件状态
 const isDropdownVisible = ref(false);
-const tempDate = ref<Date>(model.value ? new Date(model.value) : new Date());
+const tempDate = ref<DateType>(model.value || new Date());
+
+/**
+ * @description 将任意日期类型转换为Date对象
+ * @param value 日期值（可以是Date对象、时间戳或日期字符串）
+ * @returns Date对象
+ */
+const toDateObject = (value: DateType | null | undefined): Date => {
+  if (!value) return new Date();
+  if (value instanceof Date) {
+    return value;
+  }
+  // 如果是字符串且设置了valueFormat，尝试按照指定格式解析
+  if (typeof value === "string" && props.valueFormat) {
+    try {
+      return parseDate(value, props.valueFormat);
+    } catch (e) {
+      console.warn("日期格式解析失败，使用默认解析", e);
+      return new Date(value);
+    }
+  }
+  // 其他情况直接创建Date对象
+  return new Date(value);
+};
 
 // 计算属性
 const datePickerClassNames = computed(() => {
@@ -136,21 +160,10 @@ const displayValue = computed(() => {
   if (!model.value) return "";
   // 如果有显示格式化要求，使用显示格式化
   if (props.format) {
-    return formatDate(new Date(model.value), props.format);
-  }
-  // 如果有值格式化要求，使用值格式化
-  if (props.valueFormat) {
-    // 对于不同模式，确保显示合适的格式
-    const date = new Date(model.value);
-    if (typeof model.value === "string") {
-      // 如果是字符串格式，需要根据模式显示合适的格式
-      return formatDate(date, getDefaultFormat());
-    }
-    return formatDate(date, props.valueFormat);
+    return formatDate(toDateObject(model.value), props.format);
   }
   // 默认格式化 - 根据模式选择合适的格式
-  const date = new Date(model.value);
-  return formatDate(date, getDefaultFormat());
+  return formatDate(toDateObject(model.value), getDefaultFormat());
 });
 
 /**
@@ -158,7 +171,8 @@ const displayValue = computed(() => {
  * @param date 选择的日期
  */
 const handleDateChange = (date: DateType) => {
-  model.value = props.valueFormat ? formatDate(date, props.valueFormat) : date;
+  // 日历组件已经处理了valueFormat，直接使用其返回值
+  model.value = date;
   emit("change", model.value);
 
   // 如果不显示时间，选择日期后自动关闭下拉框
@@ -180,7 +194,7 @@ const handlePanelChange = (mode: ModeType) => {
  * @param date 日期对象
  */
 const handleJumpToDate = (date: Date) => {
-  model.value = props.valueFormat ? formatDate(date, props.valueFormat) : date;
+  model.value = date;
   emit("change", model.value);
 };
 
@@ -189,7 +203,7 @@ const handleJumpToDate = (date: Date) => {
  * @param date 日期对象
  */
 const handleTimeChange = (date: Date) => {
-  model.value = props.valueFormat ? formatDate(date, props.valueFormat) : date;
+  model.value = date;
   emit("change", model.value);
 };
 
@@ -207,11 +221,7 @@ const handleClear = (event: Event) => {
  */
 const handleClose = () => {
   // 如果没有选择，重置临时日期为当前选中值或当前日期
-  if (!model.value) {
-    tempDate.value = new Date();
-  } else {
-    tempDate.value = new Date(model.value);
-  }
+  tempDate.value = model.value || new Date();
 };
 
 /**
@@ -246,10 +256,9 @@ watch(
   () => model.value,
   newVal => {
     if (newVal) {
-      tempDate.value = new Date(newVal);
+      tempDate.value = newVal;
     }
-  },
-  { immediate: true }
+  }
 );
 
 // 暴露方法给父组件
