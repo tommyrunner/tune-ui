@@ -27,6 +27,7 @@ import TableTest from "./packages/table.vue";
 import SelectTest from "./packages/select.vue";
 import TagTest from "./packages/tag.vue";
 import CalendarTest from "./packages/calendar.vue";
+import DatePickerTest from "./packages/date-picker.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -57,7 +58,8 @@ export const testComponents = {
   TableTest,
   SelectTest,
   TagTest,
-  CalendarTest
+  CalendarTest,
+  DatePickerTest
 };
 
 /** 测试组件安装器 */
@@ -96,5 +98,6 @@ export const TTableTest = TableTest;
 export const TSelectTest = SelectTest;
 export const TTagTest = TagTest;
 export const TCalendarTest = CalendarTest;
+export const TDatePickerTest = DatePickerTest;
 // 默认导出安装器
 export default installTestComponents;

@@ -49,6 +49,9 @@ tui/
 - Style files should uniformly use .scss extension
 - Component styles should use scoped attribute
 - Must use variables defined in @/styles/index.scss
+- All SCSS style variables must be already defined in @/styles/index.scss
+- Do not create or use custom variables that are not defined in index.scss
+- Always check if a variable exists in index.scss before using it
 
 #### 3.3.1 Style Variable Usage Examples
 ```scss
@@ -201,6 +204,13 @@ component/
 - Add debounce/throttle
 - Error handling
 
+### 5.5 Component Structure Guidelines
+- Create a simple and flat component structure when possible
+- Only create constants.ts or enums.ts files when necessary
+- If a component doesn't have parent-child structure, do not create constants file
+- Keep component files minimal and focused on their specific functionality
+- Avoid unnecessary files that don't contribute to component functionality
+
 ## 6. Performance Optimization Specification
 - Properly use computed properties
 - Avoid unnecessary reactivity
@@ -332,6 +342,8 @@ defineOptions({ name: "ComponentTest" });
 - Ensure to only use variables defined in @/styles/index.scss
 - Do not use custom color values, must use predefined variables
 - Check if the variable exists in the current knowledge base
+- Never create new SCSS variables that are not in index.scss
+- If a needed variable doesn't exist, use the closest existing variable instead
 
 ### 8.3 Icon Usage Check
 - Ensure to only use icons defined in @/icons/iconfont.json
@@ -342,3 +354,5 @@ defineOptions({ name: "ComponentTest" });
 - Ensure newly generated code conforms to the project directory structure
 - Check if reference paths are correct
 - Ensure components are placed in the correct directory
+- Do not create constants.ts files for components without parent-child structure
+- Keep component file structure minimal and focused

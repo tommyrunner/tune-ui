@@ -333,24 +333,23 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position): typeof st
   // 根据指定显示的位置调整样式
   if (position === "top") {
     point = {
-      left: x,
+      left: x + width / 2 - offsetWidth / 2, // 水平居中
       top: !popoverRef.value ? y - gap : y - offsetHeight - gap
     };
   } else if (position === "right") {
     point = {
       left: x + width + gap,
-      // 元素的y轴减去元素的高度，以为箭头是局中的需要减去本身的一半
-      top: y + height / 2 - offsetHeight / 2
+      top: y + height / 2 - offsetHeight / 2 // 垂直居中
     };
   } else if (position === "bottom") {
     point = {
-      left: x,
+      left: x + width / 2 - offsetWidth / 2, // 水平居中
       top: y + height + gap
     };
   } else if (position === "left") {
     point = {
-      left: -(offsetWidth - x + gap),
-      top: y + height / 2 - offsetHeight / 2
+      left: x - offsetWidth - gap,
+      top: y + height / 2 - offsetHeight / 2 // 垂直居中
     };
   }
   return {
@@ -384,16 +383,7 @@ const getTriangleStyle = computed((): StyleValue => {
   const { showArrow } = props;
   if (!showArrow || !state.popoverRect) return { visibility: "hidden" };
 
-  const { width: triggerWidth, height: triggerHeight, x: triggerX, y: triggerY } = state.popoverRect;
   const { offsetWidth = 0, offsetHeight = 0 } = popoverRef.value || {};
-
-  // 计算触发元素的中心点
-  const triggerCenterX = triggerX + triggerWidth / 2;
-  const triggerCenterY = triggerY + triggerHeight / 2;
-
-  // 计算 popover 的位置范围
-  const popoverLeft = state.point.left;
-  const popoverTop = state.point.top;
 
   let position = {
     left: "initial",
@@ -405,22 +395,20 @@ const getTriangleStyle = computed((): StyleValue => {
   switch (state.dyPosition) {
     case "top":
     case "bottom": {
-      // 计算三角形的水平位置，确保指向触发元素中心
-      const triangleLeft = triggerCenterX - popoverLeft;
+      // 对于上下方向，三角形应该水平居中
       position = {
         ...position,
-        left: `${Math.min(Math.max(triangleWidth, triangleLeft), offsetWidth - triangleWidth)}px`,
+        left: `${offsetWidth / 2 - triangleWidth}px`,
         [state.dyPosition === "top" ? "bottom" : "top"]: "0"
       };
       break;
     }
     case "left":
     case "right": {
-      // 计算三角形的垂直位置，确保指向触发元素中心
-      const triangleTop = triggerCenterY - popoverTop;
+      // 对于左右方向，三角形应该垂直居中
       position = {
         ...position,
-        top: `${Math.min(Math.max(triangleWidth, triangleTop), offsetHeight - triangleWidth)}px`,
+        top: `${offsetHeight / 2 - triangleWidth}px`,
         [state.dyPosition === "left" ? "right" : "left"]: "0"
       };
       break;
