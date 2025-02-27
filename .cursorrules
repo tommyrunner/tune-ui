@@ -1,59 +1,65 @@
+# IMPORTANT: Before generating code, please check if the knowledge base information is effective for you. If it is, please answer which knowledge base information you used, and then modify your code accordingly.
+
 # TUI Component Library Development Rules
 
-## 1. 项目背景
-- 基于 Vue 3 + TypeScript 的现代化 UI 组件库
-- 使用组合式 API (Composition API) 开发
-- 支持按需引入和完整引入
-- 提供完整的 TypeScript 类型支持
-- 遵循前端工程化最佳实践
+## 1. Project Background
+- Modern UI component library based on Vue 3 + TypeScript
+- Developed using Composition API
+- Supports both on-demand import and full import
+- Provides complete TypeScript type support
+- Follows front-end engineering best practices
 
-## 2. 目录结构规范
+## 2. Directory Structure Specification
 ```
 tui/
 ├── src/
-│   ├── packages/       # 组件目录
-│   ├── utils/         # 全局工具函数
-│   ├── styles/        # 全局样式
-│   ├── icons/         # 图标资源
-│   ├── hooks/         # 可复用的组合式函数
-│   ├── types/         # 全局类型定义       
-├── test/               # 测试用例
+│   ├── packages/       # Component directory
+│   ├── utils/         # Global utility functions
+│   ├── styles/        # Global styles
+│   ├── icons/         # Icon resources
+│   ├── hooks/         # Reusable composition functions
+│   ├── types/         # Global type definitions
+│   └── enum/          # Enum type definitions
+├── test/              # Test cases
+├── docs/              # Documentation
+├── dist/              # Build output
+└── build/             # Build scripts
 ```
 
-## 3. 代码规范
+## 3. Code Specification
 
-### 3.1 TypeScript 规范
-- 严格遵循 TypeScript 类型定义
-- 所有组件必须定义 Props 和 Emits 类型
-- 使用 interface 而不是 type 定义对象类型
-- 导出类型时使用 export type
-- 合理使用泛型增加代码复用性
+### 3.1 TypeScript Specification
+- Strictly follow TypeScript type definitions
+- All components must define Props and Emits types
+- Use interface instead of type to define object types
+- Use export type when exporting types
+- Properly use generics to increase code reusability
 
-### 3.2 Vue3 规范
-- 使用 `<script setup lang="ts">` 语法
-- 使用 `defineProps` 和 `defineEmits` 定义属性和事件
-- 使用 `defineOptions` 定义组件选项
-- 优先使用组合式 API
-- 合理使用 provide/inject 共享状态
+### 3.2 Vue3 Specification
+- Use `<script setup lang="ts">` syntax
+- Use `defineProps` and `defineEmits` to define properties and events
+- Use `defineOptions` to define component options
+- Prioritize Composition API
+- Properly use provide/inject to share state
 
-### 3.3 样式规范
-- 使用 SCSS 预处理器
-- 遵循 BEM 命名规范
-- 使用 CSS 变量实现主题定制
-- 样式文件统一使用 .scss 后缀
-- 组件样式使用 scoped 作用域
-- 必须使用 @/styles/index.scss 中定义的变量
+### 3.3 Style Specification
+- Use SCSS preprocessor
+- Follow BEM naming convention
+- Use CSS variables for theme customization
+- Style files should uniformly use .scss extension
+- Component styles should use scoped attribute
+- Must use variables defined in @/styles/index.scss
 
-#### 3.3.1 样式变量使用示例
+#### 3.3.1 Style Variable Usage Examples
 ```scss
-// 主题色系列
+// Theme colors
 .primary { color: $theme-color-primary; }    // #007bff
 .success { color: $theme-color-success; }    // #28a745
 .info { color: $theme-color-info; }          // #b9b9b9
 .warning { color: $theme-color-warning; }    // #eeb406
 .danger { color: $theme-color-danger; }      // #dc3545
 
-// 基础颜色
+// Basic colors
 .text { 
   color: $text-color-default;                // #606266
   background-color: $bg-color-default;       // #ffffff
@@ -65,256 +71,274 @@ tui/
   background-color: $bg-color-hover;         // #f5f7fa
 }
 
-// 字体大小
+// Font sizes
 .text-sm { font-size: $font-size-small; }    // 12px
 .text-base { font-size: $font-size-default; } // 14px
 .text-lg { font-size: $font-size-large; }    // 16px
 
-// z-index 使用
+// z-index usage
 .modal { z-index: $z-index-up; }             // 2001
 .below { z-index: $z-index-dow; }            // -1
 ```
 
-### 3.4 图标使用规范
-- 只能使用 iconfont.json 中定义的图标
-- 使用 class 方式引用图标
-- 图标类名格式为: icon-{name}
+### 3.4 Icon Usage Specification
+- Only use icons defined in iconfont.json
+- Use class method to reference icons
+- Icon class name format: icon-{name}
 
-#### 3.4.1 图标使用示例
+#### 3.4.1 Icon Usage Examples
 ```vue
-<!-- 基础图标 -->
-<i class="iconfont icon-close"></i>          <!-- 关闭图标 -->
-<i class="iconfont icon-info"></i>           <!-- 信息图标 -->
-<i class="iconfont icon-search"></i>         <!-- 搜索图标 -->
-<i class="iconfont icon-edit"></i>           <!-- 编辑图标 -->
-<i class="iconfont icon-delete"></i>         <!-- 删除图标 -->
+<!-- Basic icons -->
+<i class="iconfont icon-close"></i>          <!-- Close icon -->
+<i class="iconfont icon-info"></i>           <!-- Info icon -->
+<i class="iconfont icon-search"></i>         <!-- Search icon -->
+<i class="iconfont icon-edit"></i>           <!-- Edit icon -->
+<i class="iconfont icon-delete"></i>         <!-- Delete icon -->
 
-<!-- 方向图标 -->
-<i class="iconfont icon-left"></i>           <!-- 左箭头 -->
-<i class="iconfont icon-right"></i>          <!-- 右箭头 -->
-<i class="iconfont icon-up"></i>             <!-- 向上箭头 -->
-<i class="iconfont icon-down"></i>           <!-- 向下箭头 -->
+<!-- Direction icons -->
+<i class="iconfont icon-left"></i>           <!-- Left arrow -->
+<i class="iconfont icon-right"></i>          <!-- Right arrow -->
+<i class="iconfont icon-up"></i>             <!-- Up arrow -->
+<i class="iconfont icon-down"></i>           <!-- Down arrow -->
 
-<!-- 状态图标 -->
-<i class="iconfont icon-success"></i>        <!-- 成功图标 -->
-<i class="iconfont icon-loading"></i>        <!-- 加载图标 -->
-<i class="iconfont icon-lock"></i>           <!-- 锁定图标 -->
-<i class="iconfont icon-unlock"></i>         <!-- 解锁图标 -->
+<!-- Status icons -->
+<i class="iconfont icon-success"></i>        <!-- Success icon -->
+<i class="iconfont icon-loading"></i>        <!-- Loading icon -->
+<i class="iconfont icon-lock"></i>           <!-- Lock icon -->
+<i class="iconfont icon-unlock"></i>         <!-- Unlock icon -->
 
-<!-- 文件相关图标 -->
-<i class="iconfont icon-file"></i>           <!-- 文件图标 -->
-<i class="iconfont icon-folder"></i>         <!-- 文件夹图标 -->
-<i class="iconfont icon-file-add"></i>       <!-- 新增文件 -->
-<i class="iconfont icon-file-remove"></i>    <!-- 删除文件 -->
+<!-- File-related icons -->
+<i class="iconfont icon-file"></i>           <!-- File icon -->
+<i class="iconfont icon-folder"></i>         <!-- Folder icon -->
+<i class="iconfont icon-file-add"></i>       <!-- Add file -->
+<i class="iconfont icon-file-remove"></i>    <!-- Remove file -->
 
-<!-- 用户相关图标 -->
-<i class="iconfont icon-user"></i>           <!-- 用户图标 -->
-<i class="iconfont icon-add-user"></i>       <!-- 新增用户 -->
-<i class="iconfont icon-multiple-user"></i>  <!-- 多个用户 -->
+<!-- User-related icons -->
+<i class="iconfont icon-user"></i>           <!-- User icon -->
+<i class="iconfont icon-add-user"></i>       <!-- Add user -->
+<i class="iconfont icon-multiple-user"></i>  <!-- Multiple users -->
 
-<!-- 社交媒体图标 -->
-<i class="iconfont icon-wechat"></i>         <!-- 微信图标 -->
-<i class="iconfont icon-alipay"></i>         <!-- 支付宝图标 -->
-<i class="iconfont icon-github"></i>         <!-- GitHub图标 -->
+<!-- Social media icons -->
+<i class="iconfont icon-wechat"></i>         <!-- WeChat icon -->
+<i class="iconfont icon-alipay"></i>         <!-- Alipay icon -->
+<i class="iconfont icon-github"></i>         <!-- GitHub icon -->
 ```
 
-### 3.5 注释规范
-- 使用 JSDoc 注释格式
-- 组件必须包含功能说明
-- Props 必须注明类型和用途
-- 复杂逻辑必须添加注释
-- 示例:
+### 3.5 Comment Specification
+- Use JSDoc comment format
+- Components must include functional description
+- Props must specify type and purpose
+- Complex logic must include comments
+- Example:
 ```typescript
 /**
- * @description 按钮组件
- * @param {string} type - 按钮类型
- * @param {boolean} disabled - 是否禁用
- * @emits {click} 点击事件
+ * @description Button component
+ * @param {string} type - Button type
+ * @param {boolean} disabled - Whether disabled
+ * @emits {click} Click event
  */
 ```
 
-## 4. 全局资源使用规范
+## 4. Global Resource Usage Specification
 
-### 4.1 工具函数 (utils)
-- 存放在 src/utils 目录
-- 按功能模块划分文件
-- 必须添加类型定义和注释
-- 优先使用纯函数
-- 导出时使用具名导出
+### 4.1 Utility Functions (utils)
+- Stored in src/utils directory
+- Files divided by functional modules
+- Must include type definitions and comments
+- Prioritize pure functions
+- Use named exports when exporting
 
-### 4.2 全局样式 (styles)
-- 存放在 src/styles 目录
-- 包含变量、混入、函数等
-- 使用 index.scss 统一导出
-- 避免直接修改全局样式
-- 合理使用样式继承
+### 4.2 Global Styles (styles)
+- Stored in src/styles directory
+- Includes variables, mixins, functions, etc.
+- Use index.scss for unified export
+- Avoid directly modifying global styles
+- Properly use style inheritance
 
-### 4.3 图标组件 (icons)
-- 统一使用 SVG 图标
-- 封装为 Vue 组件
-- 支持颜色和大小定制
-- 按需引入减小体积
-- 提供类型声明文件
+### 4.3 Icon Components (icons)
+- Uniformly use SVG icons
+- Encapsulated as Vue components
+- Support color and size customization
+- Import on demand to reduce size
+- Provide type declaration files
 
 ### 4.4 Hooks (hooks)
-- 存放在 src/hooks 目录
-- 职责单一，便于复用
-- 必须添加类型定义
-- 遵循 use 前缀命名
-- 详细的使用示例
+- Stored in src/hooks directory
+- Single responsibility, easy to reuse
+- Must include type definitions
+- Follow use prefix naming convention
+- Detailed usage examples
 
-## 5. 组件开发规范
+## 5. Component Development Specification
 
-### 5.1 目录结构
+### 5.1 Directory Structure
 ```
 component/
-├── index.ts          # 入口文件
-├── index.vue         # 组件主文件
-├── index.scss        # 样式文件
-├── types.ts          # 类型定义
+├── index.ts          # Entry file
+├── index.vue         # Main component file
+├── index.scss        # Style file
+├── types.ts          # Type definitions
 ```
 
-### 5.2 命名规范
-- 组件文件使用 PascalCase
-- Props 使用 camelCase
-- 事件使用 kebab-case
-- 常量使用 UPPER_CASE
-- 类型以 Type 结尾
+### 5.2 Naming Convention
+- Component files use PascalCase
+- Props use camelCase
+- Events use kebab-case
+- Constants use UPPER_CASE
+- Types end with Type
 
-### 5.3 Props 定义
-- 必须指定类型
-- 提供默认值
-- 添加验证函数
-- 使用只读属性
-- 详细的属性说明
+### 5.3 Props Definition
+- Must specify type
+- Provide default values
+- Add validation functions
+- Use readonly properties
+- Detailed property descriptions
 
-### 5.4 事件处理
-- 统一使用 handle 前缀
-- 明确事件参数类型
-- 处理事件冒泡
-- 添加防抖/节流
-- 错误处理
+### 5.4 Event Handling
+- Uniformly use handle prefix
+- Clearly specify event parameter types
+- Handle event bubbling
+- Add debounce/throttle
+- Error handling
 
-## 6. 性能优化规范
-- 合理使用计算属性
-- 避免不必要的响应式
-- 及时销毁事件监听
-- 使用异步组件
-- 代码分割
+## 6. Performance Optimization Specification
+- Properly use computed properties
+- Avoid unnecessary reactivity
+- Timely destroy event listeners
+- Use async components
+- Code splitting
 
-## 7. 测试规范
+## 7. Testing Specification
 
-### 7.1 测试目录结构
+### 7.1 Test Directory Structure
 ```
 test/
-├── components/        # 测试公共组件
-│   └── test-section.vue   # 测试区块组件
-└── packages/         # 组件测试用例
-    ├── button.vue    # 按钮组件测试
-    ├── input.vue     # 输入框组件测试
-    └── ...
+├── components/        # Test common components
+│   └── test-section.vue   # Test section component
+├── packages/         # Component test cases
+│   ├── button.vue    # Button component test
+│   ├── input.vue     # Input component test
+│   └── ...
+├── index.ts          # Test entry file
+├── home.vue          # Test home page
+└── constants.ts      # Test constants
 ```
 
-### 7.2 测试用例编写规范
-- 使用 `test-section` 组件划分测试场景
-- 每个场景需要包含:
-  - 场景标题(title属性)
-  - 相关属性测试
-  - 不同状态展示
-  - 交互事件测试
-- 示例:
+### 7.2 Test Case Writing Specification
+- Use `test-section` component to divide test scenarios
+- Each scenario should include:
+  - Scenario title (title attribute)
+  - Related property tests
+  - Different state displays
+  - Interaction event tests
+- Example:
 ```vue
-<test-section title="基础类型按钮">
-  <t-button>默认按钮</t-button>
-  <t-button type="primary">主要按钮</t-button>
+<test-section title="Basic Type Buttons">
+  <t-button>Default Button</t-button>
+  <t-button type="primary">Primary Button</t-button>
 </test-section>
 ```
 
-### 7.3 测试场景覆盖
-- 基础功能测试
-  - 组件基础渲染
-  - 不同类型展示
-  - 尺寸变化
-  - 状态切换(禁用、加载等)
-- 属性测试
-  - 必传属性验证
-  - 可选属性效果
-  - 属性组合测试
-- 事件测试
-  - 点击事件
-  - 状态变更事件
-  - 异步操作测试
-- 样式测试
-  - 主题样式
-  - 自定义样式
-  - 动画效果
+### 7.3 Test Scenario Coverage
+- Basic functionality testing
+  - Component basic rendering
+  - Different type displays
+  - Size changes
+  - State switching (disabled, loading, etc.)
+- Property testing
+  - Required property validation
+  - Optional property effects
+  - Property combination testing
+- Event testing
+  - Click events
+  - State change events
+  - Async operation testing
+- Style testing
+  - Theme styles
+  - Custom styles
+  - Animation effects
 
-### 7.4 测试代码规范
-- 使用 TypeScript 编写测试用例
-- 使用 setup 语法糖
-- 事件处理函数添加注释
-- 异步操作需要处理加载状态
-- 合理组织测试数据
+### 7.4 Test Code Specification
+- Use TypeScript to write test cases
+- Use setup syntax sugar
+- Add comments to event handling functions
+- Handle loading states for async operations
+- Properly organize test data
 
-### 7.5 测试用例组织
+### 7.5 Test Case Organization
 ```vue
 <template>
   <div class="test-container">
-    <!-- 组件标题 -->
-    <h2>组件名称</h2>
+    <!-- Component title -->
+    <h2>Component Name</h2>
 
-    <!-- 基础功能测试 -->
-    <test-section title="基础功能">
-      <!-- 测试用例 -->
+    <!-- Basic functionality testing -->
+    <test-section title="Basic Functionality">
+      <!-- Test cases -->
     </test-section>
 
-    <!-- 属性测试 -->
-    <test-section title="属性测试">
-      <!-- 测试用例 -->
+    <!-- Property testing -->
+    <test-section title="Property Testing">
+      <!-- Test cases -->
     </test-section>
 
-    <!-- 事件测试 -->
-    <test-section title="事件测试">
-      <!-- 测试用例 -->
+    <!-- Event testing -->
+    <test-section title="Event Testing">
+      <!-- Test cases -->
     </test-section>
 
-    <!-- 样式测试 -->
-    <test-section title="样式测试">
-      <!-- 测试用例 -->
+    <!-- Style testing -->
+    <test-section title="Style Testing">
+      <!-- Test cases -->
     </test-section>
   </div>
 </template>
 
 <script lang="ts" setup>
-// 组件引入
-import { 组件 } from "@/packages/组件";
+// Component import
+import { Component } from "@/src/packages/Component";
 import TestSection from "../components/test-section.vue";
 
-// 定义组件名称
-defineOptions({ name: "组件Test" });
+// Define component name
+defineOptions({ name: "ComponentTest" });
 
-// 测试数据和方法
+// Test data and methods
 ...
 </script>
 ```
 
-### 7.6 测试样式规范
-- 测试容器使用 test-container 类
-- 标题使用 h2 标签
-- 合理使用间距和布局
-- 保持测试界面整洁
-- 突出测试重点
+### 7.6 Test Style Specification
+- Test container uses test-container class
+- Titles use h2 tag
+- Properly use spacing and layout
+- Keep test interface clean
+- Highlight test focus points
 
-### 7.7 测试注意事项
-- 保持测试用例独立性
-- 避免测试用例间相互影响
-- 合理使用 ref 和 reactive
-- 处理异常情况
-- 保持测试代码可维护性
+### 7.7 Test Notes
+- Maintain test case independence
+- Avoid mutual influence between test cases
+- Properly use ref and reactive
+- Handle exception cases
+- Maintain test code maintainability
 
-## 8. 文档规范
-- 组件使用说明
-- 属性和事件列表
-- 使用示例代码
-- 注意事项说明
-- 更新日志维护
+## 8. Knowledge Base Usage Guidelines
+
+### 8.1 Pre-Code Generation Check
+- Before generating code, please check if the knowledge base information is effective for you
+- If it is effective, please answer which knowledge base information you used
+- Then modify your code according to the knowledge base information
+
+### 8.2 Style Variable Check
+- Ensure to only use variables defined in @/styles/index.scss
+- Do not use custom color values, must use predefined variables
+- Check if the variable exists in the current knowledge base
+
+### 8.3 Icon Usage Check
+- Ensure to only use icons defined in @/icons/iconfont.json
+- Check if the icon name exists in the current knowledge base
+- Confirm the actual purpose and appearance of the icon before using it
+
+### 8.4 Directory Structure Check
+- Ensure newly generated code conforms to the project directory structure
+- Check if reference paths are correct
+- Ensure components are placed in the correct directory

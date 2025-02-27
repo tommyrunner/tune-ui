@@ -12,7 +12,7 @@
     >
       <!-- 时间显示触发区域 -->
       <div class="_time-display" :class="{ '_view-only': disabledTimeView }">
-        <span>{{ formatTime }}</span>
+        <span>{{ disabledTimeView ? realTimeDisplay : formatTime }}</span>
         <t-icon v-if="!disabledTimeView" icon="caret-down" :size="14" />
       </div>
 
@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, nextTick } from "vue";
+import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
 import type { TListViewType } from "@/packages/listView";
 import { TIcon } from "@/packages/icon";
 import { TPopover } from "@/packages/popover";
@@ -106,6 +106,8 @@ const emit = defineEmits<{
 // 时间选择相关状态
 const timeSelectVisible = ref(false);
 const tempTime = ref<Date | null>(null);
+const currentRealTime = ref(new Date());
+let timerInterval: number | null = null;
 
 // 当前小时
 const currentHour = computed(() => props.modelValue.getHours());
@@ -131,6 +133,14 @@ const formatTime = computed(() => {
   const hours = props.modelValue.getHours().toString().padStart(2, "0");
   const minutes = props.modelValue.getMinutes().toString().padStart(2, "0");
   const seconds = props.modelValue.getSeconds().toString().padStart(2, "0");
+  return `${hours}:${minutes}:${seconds}`;
+});
+
+// 实时时间显示
+const realTimeDisplay = computed(() => {
+  const hours = currentRealTime.value.getHours().toString().padStart(2, "0");
+  const minutes = currentRealTime.value.getMinutes().toString().padStart(2, "0");
+  const seconds = currentRealTime.value.getSeconds().toString().padStart(2, "0");
   return `${hours}:${minutes}:${seconds}`;
 });
 
@@ -218,12 +228,63 @@ const handleTimePopoverOpen = () => {
   });
 };
 
+/**
+ * @description 更新实时时间
+ */
+const updateRealTime = () => {
+  currentRealTime.value = new Date();
+};
+
+/**
+ * @description 启动实时时间更新定时器
+ */
+const startRealTimeTimer = () => {
+  if (timerInterval) return;
+  updateRealTime(); // 立即更新一次
+  timerInterval = window.setInterval(updateRealTime, 1000);
+};
+
+/**
+ * @description 停止实时时间更新定时器
+ */
+const stopRealTimeTimer = () => {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+};
+
 // 监听时间选择器显示状态变化
 watch(timeSelectVisible, visible => {
   if (visible) {
     // 打开时初始化临时时间
     tempTime.value = new Date(props.modelValue);
   }
+});
+
+// 监听disabledTimeView属性变化
+watch(
+  () => props.disabledTimeView,
+  newVal => {
+    if (newVal) {
+      startRealTimeTimer();
+    } else {
+      stopRealTimeTimer();
+    }
+  },
+  { immediate: true }
+);
+
+// 组件挂载时
+onMounted(() => {
+  if (props.disabledTimeView) {
+    startRealTimeTimer();
+  }
+});
+
+// 组件卸载前
+onBeforeUnmount(() => {
+  stopRealTimeTimer();
 });
 </script>
 

@@ -57,13 +57,13 @@
           <t-calendar v-model="state.timeEditableDate" show-time :disabled-time-view="false" />
         </div>
         <div class="calendar-item">
-          <div class="calendar-label">只读时间：</div>
+          <div class="calendar-label">只读时间（实时更新）：</div>
           <t-calendar v-model="state.timeReadonlyDate" show-time :disabled-time-view="true" />
         </div>
         <div class="value-display">
           <div>可编辑时间值：{{ formatDisplayDate(state.timeEditableDate) }}</div>
           <div>只读时间值：{{ formatDisplayDate(state.timeReadonlyDate) }}</div>
-          <div class="time-tip">只读模式下时间显示但不可点击修改</div>
+          <div class="time-tip">只读模式下时间显示会每秒自动更新</div>
         </div>
       </div>
     </test-section>
@@ -113,9 +113,7 @@
               <template v-if="isFirstOrLastDay(date)">
                 {{ isFirstDay(date) ? "开始" : "结束" }}
               </template>
-              <template v-else-if="isToday(date)">
-                今天
-              </template>
+              <template v-else-if="isToday(date)"> 今天 </template>
               <template v-else>
                 {{ date.getDate() }}
               </template>
@@ -196,12 +194,12 @@ defineOptions({ name: "CalendarTest" });
 const state = reactive({
   // 基础用法
   date: new Date(),
-  
+
   // 不同模式
   modeDate: new Date(),
   modeMonth: new Date(),
   modeYear: new Date(),
-  
+
   // 时间选择器
   timeDate: new Date(),
   timeDisabledDate: new Date(),
@@ -211,19 +209,19 @@ const state = reactive({
   timeCustomFormat: formatDate(new Date(), "YYYY年MM月DD日 HH时mm分ss秒"),
   timeEventDate: new Date(),
   timeChangeLogs: [] as string[],
-  
+
   // 格式化输出
   formattedDate: formatDate(new Date(), "YYYY-MM-DD"),
   formattedDateTime: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
-  
+
   // 禁用状态
   disabledAll: new Date(),
   disabledDate: new Date(),
-  
+
   // 自定义内容
   customDate: new Date(),
   footerDate: new Date(),
-  
+
   // 事件测试
   eventDate: new Date(),
   eventLogs: [] as string[],
@@ -256,9 +254,7 @@ const handleDisabledDate = (date: Date) => {
  */
 const isToday = (date: Date) => {
   const today = new Date();
-  return date.getDate() === today.getDate() && 
-         date.getMonth() === today.getMonth() && 
-         date.getFullYear() === today.getFullYear();
+  return date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear();
 };
 
 /**
@@ -351,7 +347,7 @@ const handleSwitchPanel = () => {
   const currentIndex = modes.indexOf(state.currentMode);
   const nextIndex = (currentIndex + 1) % modes.length;
   state.currentMode = modes[nextIndex];
-  
+
   // 记录事件
   addEventLog(`手动切换面板到: ${state.currentMode}`);
 };

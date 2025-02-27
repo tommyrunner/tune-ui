@@ -27,7 +27,36 @@
       &:hover {
         color: $text-color-default;
       }
+      
+      span {
+        position: relative;
+        
+        &::after {
+          content: '';
+          position: absolute;
+          right: -4px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: $theme-color-primary;
+          animation: pulse 1s infinite;
+        }
+      }
     }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
