@@ -1,10 +1,10 @@
 <template>
-  <section class="test-section">
-    <h3 class="test-section-title">{{ title }}</h3>
+  <div class="test-section">
+    <div class="test-section-title">{{ title }}</div>
     <div class="test-section-content">
-      <slot />
+      <slot></slot>
     </div>
-  </section>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -15,26 +15,24 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/index.scss";
+
 .test-section {
-  margin-bottom: 24px;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  border: 1px solid $border-color-default;
+  border-radius: 4px;
+  overflow: hidden;
+}
 
-  .test-section-title {
-    margin: 0 0 16px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #1f2937;
-  }
+.test-section-title {
+  padding: 12px 16px;
+  font-size: $font-size-large;
+  font-weight: 500;
+  background-color: $bg-color-hover;
+  border-bottom: 1px solid $border-color-default;
+}
 
-  .test-section-content {
-    min-height: 32px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
+.test-section-content {
+  padding: 16px;
 }
 </style>

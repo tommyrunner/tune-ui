@@ -25,6 +25,8 @@ import { TTabs, TTabsGroup } from "./tabs";
 import { TListView, TListViewItem } from "./listView";
 import { TScrollbar } from "./scrollbar";
 import { TTable, TTableRow } from "./table";
+import { TDatePicker } from "./date-picker";
+import { TDatePickerRange } from "./date-picker-range";
 
 const components = {
   TButton,
@@ -61,7 +63,9 @@ const components = {
   TListViewItem,
   TScrollbar,
   TTable,
-  TTableRow
+  TTableRow,
+  TDatePicker,
+  TDatePickerRange
 };
 // 全局组件注册
 export default {
@@ -105,3 +109,5 @@ export * from "./tabs";
 export * from "./listView";
 export * from "./scrollbar";
 export * from "./table";
+export * from "./date-picker";
+export * from "./date-picker-range";
