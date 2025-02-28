@@ -268,7 +268,6 @@ const scrollbarStyle = computed((): StyleValue => {
  */
 const scrollTo = (options: ScrollToOptions) => {
   if (scrollbarRef.value) {
-    console.log(options);
     scrollbarRef.value.scrollTo(options);
   }
 };

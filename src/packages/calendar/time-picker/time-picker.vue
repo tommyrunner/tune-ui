@@ -9,6 +9,7 @@
       :disabled="disabled || disabledTimeView"
       width="280px"
       @open="handleTimePopoverOpen"
+      @close="handleTimePopoverClose"
     >
       <!-- 时间显示触发区域 -->
       <div class="_time-display" :class="{ '_view-only': disabledTimeView }">
@@ -101,6 +102,10 @@ const props = withDefaults(defineProps<PropsType>(), {
 const emit = defineEmits<{
   /** 时间变化 */
   (e: "change", date: Date): void;
+  /** 时间对话框打开 */
+  (e: "dialog-open"): void;
+  /** 时间对话框关闭 */
+  (e: "dialog-close"): void;
 }>();
 
 // 时间选择相关状态
@@ -188,44 +193,36 @@ const handleSecondSelect = (second: number) => {
 };
 
 /**
- * @description 确认时间选择
- */
-const confirmTimeSelect = () => {
-  if (tempTime.value) {
-    emit("change", tempTime.value);
-  }
-  timeSelectVisible.value = false;
-};
-
-/**
- * @description 取消时间选择
- */
-const cancelTimeSelect = () => {
-  timeSelectVisible.value = false;
-};
-
-/**
  * @description 处理时间选择弹出框打开事件
  * 初始化临时时间并滚动到当前时间位置
  */
 const handleTimePopoverOpen = () => {
   // 初始化临时时间为当前选中时间
   tempTime.value = new Date(props.modelValue);
+  // 触发对话框打开事件
+  emit("dialog-open");
   // 使用nextTick确保DOM已更新
   nextTick(() => {
     // 计算每个时间项的高度为36px
     const itemHeight = 36;
     // 滚动到对应位置
     if (hourListViewRef.value) {
-      hourListViewRef.value.scrollToItem(currentHour.value * itemHeight);
+      hourListViewRef.value.scrollToItem(currentHour.value * itemHeight, "instant");
     }
     if (minuteListViewRef.value) {
-      minuteListViewRef.value.scrollToItem(currentMinute.value * itemHeight);
+      minuteListViewRef.value.scrollToItem(currentMinute.value * itemHeight, "instant");
     }
     if (secondListViewRef.value) {
-      secondListViewRef.value.scrollToItem(currentSecond.value * itemHeight);
+      secondListViewRef.value.scrollToItem(currentSecond.value * itemHeight, "instant");
     }
   });
+};
+
+/**
+ * @description 处理时间选择弹出框关闭事件
+ */
+const handleTimePopoverClose = () => {
+  emit("dialog-close");
 };
 
 /**
@@ -252,6 +249,23 @@ const stopRealTimeTimer = () => {
     clearInterval(timerInterval);
     timerInterval = null;
   }
+};
+
+/**
+ * @description 确认时间选择
+ */
+const confirmTimeSelect = () => {
+  if (tempTime.value) {
+    emit("change", tempTime.value);
+  }
+  timeSelectVisible.value = false;
+};
+
+/**
+ * @description 取消时间选择
+ */
+const cancelTimeSelect = () => {
+  timeSelectVisible.value = false;
 };
 
 // 监听时间选择器显示状态变化

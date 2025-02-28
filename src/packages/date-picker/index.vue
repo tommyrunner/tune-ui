@@ -2,12 +2,14 @@
   <div class="t-date-picker">
     <t-popover
       v-model="isDropdownVisible"
+      :close-on-press-other="!isTimeDialogOpen"
       type="click"
       :position="props.position"
       :padding="0"
       :radius="DROPDOWN_RADIUS"
       :disabled="disabled"
       @close="handleClose"
+      @open="handleOpen"
       ref="popoverRef"
     >
       <!-- 下拉日历面板 -->
@@ -15,7 +17,7 @@
         <div class="_date-picker-dropdown">
           <!-- 日历组件 -->
           <t-calendar
-            v-model="tempDate"
+            v-model="model"
             :mode="props.mode"
             :disabled="props.disabled"
             :disabled-date="props.disabledDate"
@@ -26,6 +28,8 @@
             @panel-change="handlePanelChange"
             @jump-to-date="handleJumpToDate"
             @time-change="handleTimeChange"
+            @time-dialog-open="handleTimeDialogOpen"
+            @time-dialog-close="handleTimeDialogClose"
             ref="calendarRef"
           >
             <!-- 传递日期单元格插槽 -->
@@ -69,7 +73,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref, onMounted } from "vue";
 import type { EmitsType, PropsType } from "./date-picker";
 import type { DateType, ModeType } from "../calendar/calendar";
 import type { TPopoverType } from "@/packages/popover";
@@ -106,7 +110,14 @@ const calendarRef = ref();
 
 // 组件状态
 const isDropdownVisible = ref(false);
-const tempDate = ref<DateType>(model.value || new Date());
+const isTimeDialogOpen = ref(false);
+
+// 在组件初始化时对model值进行格式化
+onMounted(() => {
+  if (model.value) {
+    model.value = formatModelValue(model.value);
+  }
+});
 
 /**
  * @description 将任意日期类型转换为Date对象
@@ -156,6 +167,9 @@ const getDefaultFormat = () => {
   }
 };
 
+/**
+ * @description 格式化显示值
+ */
 const displayValue = computed(() => {
   if (!model.value) return "";
   // 如果有显示格式化要求，使用显示格式化
@@ -167,13 +181,32 @@ const displayValue = computed(() => {
 });
 
 /**
+ * @description 格式化模型值
+ * @param date 日期对象或其他日期类型
+ * @returns 格式化后的值
+ */
+const formatModelValue = (date: DateType): DateType => {
+  if (!date) return date;
+
+  // 先确保是Date对象
+  const dateObj = date instanceof Date ? date : toDateObject(date);
+
+  // 如果设置了valueFormat，则返回格式化后的字符串
+  if (props.valueFormat) {
+    return formatDate(dateObj, props.valueFormat);
+  }
+
+  // 否则返回Date对象
+  return dateObj;
+};
+
+/**
  * @description 处理日期变化
  * @param date 选择的日期
  */
 const handleDateChange = (date: DateType) => {
-  // 日历组件已经处理了valueFormat，直接使用其返回值
-  model.value = date;
-  emit("change", model.value);
+  // 确保按照valueFormat格式化
+  emit("change", date);
 
   // 如果不显示时间，选择日期后自动关闭下拉框
   if (!props.showTime) {
@@ -203,8 +236,23 @@ const handleJumpToDate = (date: Date) => {
  * @param date 日期对象
  */
 const handleTimeChange = (date: Date) => {
-  model.value = date;
-  emit("change", model.value);
+  emit("change", date);
+};
+
+/**
+ * @description 处理时间对话框打开
+ */
+const handleTimeDialogOpen = () => {
+  isTimeDialogOpen.value = true;
+  emit("time-dialog-open");
+};
+
+/**
+ * @description 处理时间对话框关闭
+ */
+const handleTimeDialogClose = () => {
+  isTimeDialogOpen.value = false;
+  emit("time-dialog-close");
 };
 
 /**
@@ -214,14 +262,8 @@ const handleClear = (event: Event) => {
   event.stopPropagation();
   model.value = undefined;
   emit("clear");
-};
-
-/**
- * @description 处理关闭
- */
-const handleClose = () => {
-  // 如果没有选择，重置临时日期为当前选中值或当前日期
-  tempDate.value = model.value || new Date();
+  // 关闭下拉框
+  isDropdownVisible.value = false;
 };
 
 /**
@@ -251,15 +293,19 @@ const jumpToDate = (date: Date) => {
   }
 };
 
-// 监听模型值变化，更新临时日期
-watch(
-  () => model.value,
-  newVal => {
-    if (newVal) {
-      tempDate.value = newVal;
-    }
-  }
-);
+/**
+ * @description 处理关闭
+ */
+const handleClose = () => {
+  emit("date-dialog-close");
+};
+
+/**
+ * @description 处理打开
+ */
+const handleOpen = () => {
+  emit("date-dialog-open");
+};
 
 // 暴露方法给父组件
 defineExpose({

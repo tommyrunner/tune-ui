@@ -165,9 +165,9 @@ const state = reactive({
   date: new Date(),
 
   // 格式化输出测试
-  formattedDate: formatDate(new Date(), "YYYY-MM-DD"),
-  formattedDateTime: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
-  formattedChinese: formatDate(new Date(), "YYYY年MM月DD日"),
+  formattedDate: new Date(),
+  formattedDateTime: new Date(),
+  formattedChinese: new Date(),
 
   // 不同输入类型测试
   stringInput: "2023-05-15",
@@ -175,16 +175,16 @@ const state = reactive({
   timestampInput: Date.now(),
 
   // 不同模式
-  modeDateFormatted: formatDate(new Date(), "YYYY-MM-DD"),
-  modeMonthFormatted: formatDate(new Date(), "YYYY-MM"),
-  modeYearFormatted: formatDate(new Date(), "YYYY"),
+  modeDateFormatted: new Date(),
+  modeMonthFormatted: new Date(),
+  modeYearFormatted: new Date(),
 
   // 时间选择器
-  timeFormatted: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
-  timeFormattedTime: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
+  timeFormatted: new Date(),
+  timeFormattedTime: new Date(),
 
   // 事件测试
-  eventDate: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss"),
+  eventDate: new Date(),
   eventLogs: [] as string[],
   currentMode: "date" as ModeType
 });

@@ -311,6 +311,7 @@ const updateModelValue = (option?: OptionsItemType) => {
       model.value = option.value;
       state.selectedOption = option;
     }
+    state.isDropdownVisible = false;
   }
 };
 

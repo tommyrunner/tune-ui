@@ -18,6 +18,8 @@
           :disabled="disabled"
           :disabled-time-view="props.disabledTimeView"
           @change="handleTimeChange"
+          @dialog-open="handleTimeDialogOpen"
+          @dialog-close="handleTimeDialogClose"
         />
       </template>
     </calendar-header>
@@ -316,7 +318,7 @@ const handleMonthSelect = (month: number) => {
   } else {
     // 如果原始模式是月份或年份，则直接更新值
     updateModelValue(currentDate.value);
-    emit("change", model.value);
+    emit("change", currentDate.value);
   }
 };
 
@@ -326,7 +328,8 @@ const handleMonthSelect = (month: number) => {
 const handleSelectDate = (date: Date) => {
   currentDate.value = date;
   updateModelValue(date);
-  emit("change", model.value);
+  console.log("handleSelectDate", model.value);
+  emit("change", currentDate.value);
 };
 
 /**
@@ -336,7 +339,7 @@ const handleTimeChange = (date: Date) => {
   currentDate.value = date;
   updateModelValue(date);
   emit("time-change", new Date(date));
-  emit("change", model.value);
+  emit("change", currentDate.value);
 };
 
 /**
@@ -347,7 +350,21 @@ const jumpToDate = (date: Date) => {
   currentDate.value = new Date(date);
   updateModelValue(currentDate.value);
   emit("jump-to-date", new Date(date));
-  emit("change", model.value);
+  emit("change", currentDate.value);
+};
+
+/**
+ * @description 处理时间对话框打开
+ */
+const handleTimeDialogOpen = () => {
+  emit("time-dialog-open");
+};
+
+/**
+ * @description 处理时间对话框关闭
+ */
+const handleTimeDialogClose = () => {
+  emit("time-dialog-close");
 };
 
 // 暴露方法给父组件

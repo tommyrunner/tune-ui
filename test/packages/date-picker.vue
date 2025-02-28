@@ -178,12 +178,40 @@
             @clear="handleClear"
             @focus="handleFocus"
             @blur="handleBlur"
+            @time-dialog-open="handleTimeDialogOpen"
+            @time-dialog-close="handleTimeDialogClose"
+            @date-dialog-open="handleDateDialogOpen"
+            @date-dialog-close="handleDateDialogClose"
           />
           <div class="value-display">
             <div>当前值：{{ state.eventDate }}</div>
             <div class="event-log">
               <div class="event-title">事件记录:</div>
               <div v-for="(event, index) in state.eventLogs" :key="index" class="event-item">{{ event }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 时间对话框事件测试 -->
+    <test-section title="时间对话框事件测试">
+      <div class="date-picker-section">
+        <div class="date-picker-block">
+          <div class="date-picker-label">时间对话框事件测试：</div>
+          <t-date-picker
+            v-model="state.timeDialogDate"
+            value-format="YYYY-MM-DD HH:mm:ss"
+            show-time
+            @time-dialog-open="handleTimeDialogOpen"
+            @time-dialog-close="handleTimeDialogClose"
+          />
+          <div class="value-display">
+            <div>当前值：{{ state.timeDialogDate }}</div>
+            <div>时间对话框状态：{{ state.timeDialogOpen ? "打开" : "关闭" }}</div>
+            <div class="event-log">
+              <div class="event-title">时间对话框事件记录:</div>
+              <div v-for="(event, index) in state.timeDialogLogs" :key="index" class="event-item">{{ event }}</div>
             </div>
           </div>
         </div>
@@ -199,6 +227,7 @@ import { TIcon } from "@/packages/icon";
 import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
 import type { ModeType } from "@/packages/calendar/calendar";
+import { formatDate } from "@/utils";
 
 defineOptions({ name: "DatePickerTest" });
 
@@ -209,39 +238,44 @@ const state = reactive({
   dateWithPrefix: new Date(),
 
   // 格式化输出测试
-  formattedDate: "2023-05-15",
-  formattedDateTime: "2023-05-15 12:30:45",
-  formattedChinese: "2023年05月15日",
+  formattedDate: new Date(),
+  formattedDateTime: new Date(),
+  formattedChinese: new Date(),
 
   // 不同输入类型测试
-  stringInput: "2023-05-15",
-  dateInput: "2023-05-16",
-  timestampInput: "2023-05-17",
+  stringInput: new Date(),
+  dateInput: new Date(),
+  timestampInput: formatDate(new Date("2023-05-17"), "YYYY-MM-DD"),
 
   // 显示格式与值格式分离
   formatSeparation: "2023/05/15",
 
   // 不同模式
-  modeDateFormatted: "2023-05-15",
-  modeMonthFormatted: "2023-05",
-  modeYearFormatted: "2023",
+  modeDateFormatted: new Date(),
+  modeMonthFormatted: new Date(),
+  modeYearFormatted: new Date(),
 
   // 时间选择器
-  timeFormatted: "2023-05-15 12:30:45",
+  timeFormatted: new Date(),
 
   // 事件测试
-  eventDate: "2023-05-15 12:30:45",
+  eventDate: new Date(),
   eventLogs: [] as string[],
-  currentMode: "date" as ModeType
+  currentMode: "date" as ModeType,
+
+  // 时间对话框事件测试
+  timeDialogDate: new Date(),
+  timeDialogOpen: false,
+  timeDialogLogs: [] as string[]
 });
 
 /**
  * 重置输入
  */
 const resetInputs = () => {
-  state.stringInput = "2023-05-15";
-  state.dateInput = "2023-05-16";
-  state.timestampInput = "2023-05-17";
+  state.stringInput = new Date();
+  state.dateInput = new Date();
+  state.timestampInput = formatDate(new Date("2023-05-17"), "YYYY-MM-DD");
 };
 
 /**
@@ -282,6 +316,44 @@ const handleFocus = () => {
  */
 const handleBlur = () => {
   state.eventLogs.unshift("blur: 失去焦点");
+  if (state.eventLogs.length > 5) state.eventLogs.pop();
+};
+
+/**
+ * 处理时间对话框打开事件
+ */
+const handleTimeDialogOpen = () => {
+  state.timeDialogOpen = true;
+  state.eventLogs.unshift("time-dialog-open: 时间对话框已打开");
+  state.timeDialogLogs.unshift("time-dialog-open: 时间对话框已打开");
+  if (state.eventLogs.length > 5) state.eventLogs.pop();
+  if (state.timeDialogLogs.length > 5) state.timeDialogLogs.pop();
+};
+
+/**
+ * 处理时间对话框关闭事件
+ */
+const handleTimeDialogClose = () => {
+  state.timeDialogOpen = false;
+  state.eventLogs.unshift("time-dialog-close: 时间对话框已关闭");
+  state.timeDialogLogs.unshift("time-dialog-close: 时间对话框已关闭");
+  if (state.eventLogs.length > 5) state.eventLogs.pop();
+  if (state.timeDialogLogs.length > 5) state.timeDialogLogs.pop();
+};
+
+/**
+ * 处理日期对话框打开事件
+ */
+const handleDateDialogOpen = () => {
+  state.eventLogs.unshift("date-dialog-open: 日期对话框已打开");
+  if (state.eventLogs.length > 5) state.eventLogs.pop();
+};
+
+/**
+ * 处理日期对话框关闭事件
+ */
+const handleDateDialogClose = () => {
+  state.eventLogs.unshift("date-dialog-close: 日期对话框已关闭");
   if (state.eventLogs.length > 5) state.eventLogs.pop();
 };
 </script>

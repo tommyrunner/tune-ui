@@ -39,6 +39,14 @@ export interface EmitsType {
   (e: "focus"): void;
   /** 失焦事件 */
   (e: "blur"): void;
+  /** 时间对话框打开事件 */
+  (e: "time-dialog-open"): void;
+  /** 时间对话框关闭事件 */
+  (e: "time-dialog-close"): void;
+  /** 日期对话框打开事件 */
+  (e: "date-dialog-open"): void;
+  /** 日期对话框关闭事件 */
+  (e: "date-dialog-close"): void;
 }
 
 // 常量定义

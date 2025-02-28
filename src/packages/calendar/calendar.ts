@@ -45,6 +45,10 @@ export interface EmitsType {
   (e: "jump-to-date", date: Date): void;
   /** 时间变化 */
   (e: "time-change", date: Date): void;
+  /** 时间对话框打开 */
+  (e: "time-dialog-open"): void;
+  /** 时间对话框关闭 */
+  (e: "time-dialog-close"): void;
 }
 
 // 常量定义
