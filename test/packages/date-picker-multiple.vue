@@ -16,7 +16,6 @@
           />
           <div class="value-display">
             <div>选择的日期范围：{{ formatDisplayDates(state.dateRange) }}</div>
-            <div>类型：{{ typeof state.dateRange }}</div>
           </div>
         </div>
 
@@ -31,42 +30,211 @@
           />
           <div class="value-display">
             <div>选择的多个日期：{{ formatDisplayDates(state.multipleDates) }}</div>
-            <div>类型：{{ typeof state.multipleDates }}</div>
           </div>
         </div>
       </div>
     </test-section>
 
-    <!-- 自定义日期单元格 -->
-    <test-section title="自定义日期单元格">
+    <!-- 不同模式 -->
+    <test-section title="不同模式 (mode)">
+      <div class="date-picker-section">
+        <!-- 日期模式 -->
+        <div class="date-picker-block">
+          <div class="date-picker-label">日期模式 (date)：</div>
+          <t-date-picker-multiple v-model="state.dateModeValues" mode="date" :is-range="true" />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.dateModeValues) }}</div>
+          </div>
+        </div>
+
+        <!-- 月份模式 -->
+        <div class="date-picker-block">
+          <div class="date-picker-label">月份模式 (month)：</div>
+          <t-date-picker-multiple v-model="state.monthModeValues" mode="month" :is-range="true" />
+          <div class="value-display">
+            <div>选择的月份：{{ formatDisplayDates(state.monthModeValues) }}</div>
+          </div>
+        </div>
+
+        <!-- 年份模式 -->
+        <div class="date-picker-block">
+          <div class="date-picker-label">年份模式 (year)：</div>
+          <t-date-picker-multiple v-model="state.yearModeValues" mode="year" :is-range="true" />
+          <div class="value-display">
+            <div>选择的年份：{{ formatDisplayDates(state.yearModeValues) }}</div>
+          </div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 禁用状态 -->
+    <test-section title="禁用状态 (disabled)">
+      <div class="date-picker-section">
+        <!-- 禁用状态 -->
+        <div class="date-picker-block">
+          <div class="date-picker-label">禁用状态：</div>
+          <t-date-picker-multiple v-model="state.disabledDates" disabled :is-range="true" />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.disabledDates) }}</div>
+          </div>
+        </div>
+
+        <!-- 禁用日期 -->
+        <div class="date-picker-block">
+          <div class="date-picker-label">禁用日期 (disabledDate)：</div>
+          <t-date-picker-multiple
+            v-model="state.disabledBeforeTodayDates"
+            :disabled-date="disableDateBeforeToday"
+            :is-range="true"
+          />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.disabledBeforeTodayDates) }}</div>
+            <div class="disabled-info">今天之前的日期已被禁用</div>
+          </div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 时间选择器 -->
+    <test-section title="时间选择器 (showTime)">
       <div class="date-picker-section">
         <div class="date-picker-block">
-          <div class="date-picker-label">自定义日期单元格样式：</div>
-          <t-date-picker-multiple v-model="state.customCellDates" :is-range="true" :cell-class-name="customCellClassName">
-            <template #dateCell="{ date, isSelected }">
-              <div :class="['custom-cell', isSelected && 'is-selected']" style="width: 100%; height: 100%">
-                {{ date.getDate() }}
-                <div v-if="isHoliday(date)" class="holiday-mark">休</div>
-              </div>
-            </template>
-          </t-date-picker-multiple>
+          <div class="date-picker-label">显示时间选择器：</div>
+          <t-date-picker-multiple
+            v-model="state.showTimeDates"
+            :show-time="true"
+            :is-range="true"
+            format="YYYY-MM-DD HH:mm:ss"
+          />
           <div class="value-display">
-            <div>选择的日期：{{ formatDisplayDates(state.customCellDates) }}</div>
-            <div class="cell-info">
-              <div>自定义单元格样式说明：</div>
-              <div>- 周末显示为蓝色</div>
-              <div>- 假日标记为"休"</div>
-              <div>- 选中日期使用自定义背景色</div>
-            </div>
+            <div>选择的日期时间：{{ formatDisplayDates(state.showTimeDates) }}</div>
+          </div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 格式化 -->
+    <test-section title="格式化 (format/valueFormat)">
+      <div class="date-picker-section">
+        <!-- 值格式化 -->
+        <div class="date-picker-block">
+          <div class="date-picker-label">值格式化 (valueFormat: YYYY/MM/DD)：</div>
+          <t-date-picker-multiple v-model="state.formattedValueDates" value-format="YYYY/MM/DD" :is-range="true" />
+          <div class="value-display">
+            <div>格式化后的值：{{ state.formattedValueDates }}</div>
+            <div>类型：{{ typeof state.formattedValueDates[0] }}</div>
+          </div>
+        </div>
+
+        <!-- 显示格式化 -->
+        <div class="date-picker-block">
+          <div class="date-picker-label">显示格式化 (format: YYYY年MM月DD日)：</div>
+          <t-date-picker-multiple v-model="state.formattedDisplayDates" format="YYYY年MM月DD日" :is-range="true" />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.formattedDisplayDates) }}</div>
+          </div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 占位符 -->
+    <test-section title="占位符 (placeholder)">
+      <div class="date-picker-section">
+        <div class="date-picker-block">
+          <div class="date-picker-label">自定义占位符：</div>
+          <t-date-picker-multiple
+            v-model="state.placeholderDates"
+            placeholder="请点击选择日期范围"
+            :is-range="true"
+          />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.placeholderDates) }}</div>
+          </div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 清空功能 -->
+    <test-section title="清空功能 (clearable)">
+      <div class="date-picker-section">
+        <div class="date-picker-block">
+          <div class="date-picker-label">可清空：</div>
+          <t-date-picker-multiple
+            v-model="state.clearableDates"
+            :clearable="true"
+            :is-range="true"
+          />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.clearableDates) }}</div>
+          </div>
+        </div>
+        <div class="date-picker-block">
+          <div class="date-picker-label">不可清空：</div>
+          <t-date-picker-multiple
+            v-model="state.nonClearableDates"
+            :clearable="false"
+            :is-range="true"
+          />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.nonClearableDates) }}</div>
+          </div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 弹出位置 -->
+    <test-section title="弹出位置 (position)">
+      <div class="date-picker-section">
+        <div class="date-picker-block">
+          <div class="date-picker-label">顶部弹出 (top)：</div>
+          <t-date-picker-multiple
+            v-model="state.topPositionDates"
+            position="top"
+            :is-range="true"
+          />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.topPositionDates) }}</div>
+          </div>
+        </div>
+        <div class="date-picker-block">
+          <div class="date-picker-label">底部弹出 (bottom)：</div>
+          <t-date-picker-multiple
+            v-model="state.bottomPositionDates"
+            position="bottom"
+            :is-range="true"
+          />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.bottomPositionDates) }}</div>
+          </div>
+        </div>
+        <div class="date-picker-block">
+          <div class="date-picker-label">左侧弹出 (left)：</div>
+          <t-date-picker-multiple
+            v-model="state.leftPositionDates"
+            position="left"
+            :is-range="true"
+          />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.leftPositionDates) }}</div>
+          </div>
+        </div>
+        <div class="date-picker-block">
+          <div class="date-picker-label">右侧弹出 (right)：</div>
+          <t-date-picker-multiple
+            v-model="state.rightPositionDates"
+            position="right"
+            :is-range="true"
+          />
+          <div class="value-display">
+            <div>选择的日期：{{ formatDisplayDates(state.rightPositionDates) }}</div>
           </div>
         </div>
       </div>
     </test-section>
 
     <!-- 快捷选项 -->
-    <test-section title="快捷选项">
+    <test-section title="快捷选项 (shortcuts)">
       <div class="date-picker-section">
-        <!-- 带快捷选项的范围选择 -->
         <div class="date-picker-block">
           <div class="date-picker-label">带快捷选项的范围选择：</div>
           <t-date-picker-multiple
@@ -87,11 +255,11 @@
     </test-section>
 
     <!-- 不同尺寸 -->
-    <test-section title="不同尺寸">
+    <test-section title="不同尺寸 (size)">
       <div class="date-picker-section">
         <!-- 小尺寸 -->
         <div class="date-picker-block">
-          <div class="date-picker-label">小尺寸：</div>
+          <div class="date-picker-label">小尺寸 (small)：</div>
           <t-date-picker-multiple v-model="state.smallSizeDates" size="small" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.smallSizeDates) }}</div>
@@ -100,7 +268,7 @@
 
         <!-- 默认尺寸 -->
         <div class="date-picker-block">
-          <div class="date-picker-label">默认尺寸：</div>
+          <div class="date-picker-label">默认尺寸 (default)：</div>
           <t-date-picker-multiple v-model="state.defaultSizeDates" size="default" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.defaultSizeDates) }}</div>
@@ -109,141 +277,10 @@
 
         <!-- 大尺寸 -->
         <div class="date-picker-block">
-          <div class="date-picker-label">大尺寸：</div>
+          <div class="date-picker-label">大尺寸 (large)：</div>
           <t-date-picker-multiple v-model="state.largeSizeDates" size="large" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.largeSizeDates) }}</div>
-          </div>
-        </div>
-      </div>
-    </test-section>
-
-    <!-- 不同模式 -->
-    <test-section title="不同模式">
-      <div class="date-picker-section">
-        <!-- 日期模式 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">日期模式：</div>
-          <t-date-picker-multiple v-model="state.dateModeValues" mode="date" :is-range="true" />
-          <div class="value-display">
-            <div>选择的日期：{{ formatDisplayDates(state.dateModeValues) }}</div>
-          </div>
-        </div>
-
-        <!-- 月份模式 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">月份模式：</div>
-          <t-date-picker-multiple v-model="state.monthModeValues" mode="month" :is-range="true" />
-          <div class="value-display">
-            <div>选择的月份：{{ formatDisplayDates(state.monthModeValues) }}</div>
-          </div>
-        </div>
-
-        <!-- 年份模式 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">年份模式：</div>
-          <t-date-picker-multiple v-model="state.yearModeValues" mode="year" :is-range="true" />
-          <div class="value-display">
-            <div>选择的年份：{{ formatDisplayDates(state.yearModeValues) }}</div>
-          </div>
-        </div>
-      </div>
-    </test-section>
-
-    <!-- 月份和年份的多选模式 -->
-    <test-section title="月份和年份的多选模式">
-      <div class="date-picker-section">
-        <!-- 月份多选模式 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">月份多选模式：</div>
-          <t-date-picker-multiple v-model="state.monthMultipleValues" mode="month" :is-range="false" format="YYYY年MM月" />
-          <div class="value-display">
-            <div>选择的月份：{{ formatDisplayDates(state.monthMultipleValues) }}</div>
-          </div>
-        </div>
-
-        <!-- 年份多选模式 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">年份多选模式：</div>
-          <t-date-picker-multiple v-model="state.yearMultipleValues" mode="year" :is-range="false" format="YYYY年" />
-          <div class="value-display">
-            <div>选择的年份：{{ formatDisplayDates(state.yearMultipleValues) }}</div>
-          </div>
-        </div>
-      </div>
-    </test-section>
-
-    <!-- 月份和年份的范围选择 -->
-    <test-section title="月份和年份的范围选择">
-      <div class="date-picker-section">
-        <!-- 月份范围选择 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">月份范围选择：</div>
-          <t-date-picker-multiple v-model="state.monthRangeValues" mode="month" :is-range="true" format="YYYY年MM月" />
-          <div class="value-display">
-            <div>选择的月份范围：{{ formatDisplayDates(state.monthRangeValues) }}</div>
-          </div>
-        </div>
-
-        <!-- 年份范围选择 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">年份范围选择：</div>
-          <t-date-picker-multiple v-model="state.yearRangeValues" mode="year" :is-range="true" format="YYYY年" />
-          <div class="value-display">
-            <div>选择的年份范围：{{ formatDisplayDates(state.yearRangeValues) }}</div>
-          </div>
-        </div>
-      </div>
-    </test-section>
-
-    <!-- 禁用状态 -->
-    <test-section title="禁用状态">
-      <div class="date-picker-section">
-        <!-- 禁用状态 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">禁用状态：</div>
-          <t-date-picker-multiple v-model="state.disabledDates" disabled :is-range="true" />
-          <div class="value-display">
-            <div>选择的日期：{{ formatDisplayDates(state.disabledDates) }}</div>
-          </div>
-        </div>
-
-        <!-- 禁用日期 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">禁用日期（禁用今天之前的日期）：</div>
-          <t-date-picker-multiple
-            v-model="state.disabledBeforeTodayDates"
-            :disabled-date="disableDateBeforeToday"
-            :is-range="true"
-          />
-          <div class="value-display">
-            <div>选择的日期：{{ formatDisplayDates(state.disabledBeforeTodayDates) }}</div>
-            <div class="disabled-info">今天之前的日期已被禁用</div>
-          </div>
-        </div>
-      </div>
-    </test-section>
-
-    <!-- 格式化 -->
-    <test-section title="格式化">
-      <div class="date-picker-section">
-        <!-- 值格式化 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">值格式化 (YYYY/MM/DD)：</div>
-          <t-date-picker-multiple v-model="state.formattedValueDates" value-format="YYYY/MM/DD" :is-range="true" />
-          <div class="value-display">
-            <div>格式化后的值：{{ state.formattedValueDates }}</div>
-            <div>类型：{{ typeof state.formattedValueDates }}</div>
-          </div>
-        </div>
-
-        <!-- 显示格式化 -->
-        <div class="date-picker-block">
-          <div class="date-picker-label">显示格式化 (YYYY年MM月DD日)：</div>
-          <t-date-picker-multiple v-model="state.formattedDisplayDates" format="YYYY年MM月DD日" :is-range="true" />
-          <div class="value-display">
-            <div>选择的日期：{{ formatDisplayDates(state.formattedDisplayDates) }}</div>
-            <div>显示格式：YYYY年MM月DD日</div>
           </div>
         </div>
       </div>
@@ -300,8 +337,34 @@ const state = reactive({
     new Date(new Date().setDate(new Date().getDate() + 7))
   ],
 
-  // 自定义日期单元格
-  customCellDates: [],
+  // 不同模式
+  dateModeValues: [],
+  monthModeValues: [],
+  yearModeValues: [],
+
+  // 禁用状态
+  disabledDates: [],
+  disabledBeforeTodayDates: [],
+
+  // 时间选择器
+  showTimeDates: [],
+
+  // 格式化
+  formattedValueDates: [],
+  formattedDisplayDates: [],
+
+  // 占位符
+  placeholderDates: [],
+
+  // 清空功能
+  clearableDates: [new Date(), new Date(new Date().setDate(new Date().getDate() + 5))],
+  nonClearableDates: [new Date(), new Date(new Date().setDate(new Date().getDate() + 5))],
+
+  // 弹出位置
+  topPositionDates: [],
+  bottomPositionDates: [],
+  leftPositionDates: [],
+  rightPositionDates: [],
 
   // 快捷选项
   dateRangeWithShortcuts: [],
@@ -340,31 +403,6 @@ const state = reactive({
   defaultSizeDates: [],
   largeSizeDates: [],
 
-  // 不同模式
-  dateModeValues: [],
-  monthModeValues: [],
-
-  yearModeValues: [],
-
-  // 月份和年份的多选模式
-  monthMultipleValues: [],
-  yearMultipleValues: [],
-
-  // 月份和年份的范围选择
-  monthRangeValues: [
-    new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-    new Date(new Date().getFullYear(), new Date().getMonth() + 3, 1)
-  ],
-  yearRangeValues: [new Date(new Date().getFullYear(), 0, 1), new Date(new Date().getFullYear() + 2, 0, 1)],
-
-  // 禁用状态
-  disabledDates: [],
-  disabledBeforeTodayDates: [],
-
-  // 格式化
-  formattedValueDates: [],
-  formattedDisplayDates: [],
-
   // 事件测试
   eventTestDates: [],
   eventLogs: []
@@ -396,56 +434,6 @@ const formatDisplayDates = (dates: any[]) => {
       return date;
     })
     .join(", ");
-};
-
-/**
- * 判断日期是否为周末
- * @param date 日期对象
- * @returns 是否为周末
- */
-const isWeekend = (date: Date) => {
-  const day = date.getDay();
-  return day === 0 || day === 6;
-};
-
-/**
- * 判断日期是否为假期（示例）
- * @param date 日期对象
- * @returns 是否为假期
- */
-const isHoliday = (date: Date) => {
-  // 这里只是示例，实际应用中可以根据节假日列表判断
-  const holidays = [
-    "2023-01-01", // 元旦
-    "2023-01-22", // 春节
-    "2023-04-05", // 清明节
-    "2023-05-01", // 劳动节
-    "2023-06-22", // 端午节
-    "2023-09-29", // 中秋节
-    "2023-10-01" // 国庆节
-  ];
-
-  const dateStr = formatDate(date, "YYYY-MM-DD");
-  return holidays.includes(dateStr) || isWeekend(date);
-};
-
-/**
- * 自定义日期单元格类名
- * @param date 日期对象
- * @returns 类名
- */
-const customCellClassName = (date: Date) => {
-  const classes = [];
-
-  if (isWeekend(date)) {
-    classes.push("weekend-cell");
-  }
-
-  if (isHoliday(date)) {
-    classes.push("holiday-cell");
-  }
-
-  return classes.join(" ");
 };
 
 /**
@@ -586,7 +574,6 @@ const handleDialogClose = () => {
   gap: 8px;
 }
 
-.cell-info,
 .shortcuts-info,
 .disabled-info {
   margin-top: 8px;
@@ -594,39 +581,5 @@ const handleDialogClose = () => {
   border-top: 1px dashed #ebeef5;
   font-size: 13px;
   color: #606266;
-}
-
-/* 自定义日期单元格样式 */
-:deep(.custom-cell) {
-  width: 100%;
-  height: 100%;
-  border-radius: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  background-color: #ffffff;
-
-  &.is-selected {
-    background-color: #409eff;
-    color: white;
-  }
-
-  .holiday-mark {
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    font-size: 10px;
-    color: #f56c6c;
-    line-height: 1;
-  }
-}
-
-:deep(.weekend-cell) {
-  color: #409eff;
-}
-
-:deep(.holiday-cell) {
-  color: #f56c6c;
 }
 </style>

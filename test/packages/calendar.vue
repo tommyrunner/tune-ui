@@ -7,8 +7,54 @@
       <div class="calendar-wrapper">
         <t-calendar v-model="state.date" :default-select-today="false" />
         <div class="value-display">
-          <div>默认日期对象：{{ formatDisplayDate(state.date) }}</div>
+          <div>当前选中日期：{{ formatDisplayDate(state.date) }}</div>
           <div>类型：{{ typeof state.date }}</div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 自定义日期单元格 -->
+    <test-section title="自定义日期单元格">
+      <div class="calendar-wrapper">
+        <t-calendar v-model="state.customCellDate">
+          <template #date="{ date }">
+            <div :class="['custom-date', isSelected(date) && 'is-selected']">
+              {{ date.getDate() }}
+              <div v-if="isHoliday(date)" class="holiday-mark">休</div>
+            </div>
+          </template>
+        </t-calendar>
+        <div class="value-display">
+          <div>当前选中日期：{{ formatDisplayDate(state.customCellDate) }}</div>
+          <div class="cell-info">
+            <div>自定义单元格样式说明：</div>
+            <div>- 周末显示为蓝色</div>
+            <div>- 假日标记为"休"</div>
+            <div>- 选中日期使用自定义背景色</div>
+          </div>
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 不同模式 -->
+    <test-section title="不同模式">
+      <div class="calendar-wrapper">
+        <div class="calendar-item">
+          <div class="calendar-label">日期模式：</div>
+          <t-calendar v-model="state.modeDate" mode="date" />
+        </div>
+        <div class="calendar-item">
+          <div class="calendar-label">月份模式：</div>
+          <t-calendar v-model="state.modeMonth" mode="month" />
+        </div>
+        <div class="calendar-item">
+          <div class="calendar-label">年份模式：</div>
+          <t-calendar v-model="state.modeYear" mode="year" />
+        </div>
+        <div class="value-display">
+          <div>日期模式：{{ formatDisplayDate(state.modeDate) }}</div>
+          <div>月份模式：{{ formatDisplayDate(state.modeMonth) }}</div>
+          <div>年份模式：{{ formatDisplayDate(state.modeYear) }}</div>
         </div>
       </div>
     </test-section>
@@ -62,25 +108,25 @@
       </div>
     </test-section>
 
-    <!-- 不同模式 -->
-    <test-section title="不同模式">
+    <!-- 禁用日期 -->
+    <test-section title="禁用日期">
       <div class="calendar-wrapper">
         <div class="calendar-item">
-          <div class="calendar-label">日期模式 + 格式化：</div>
-          <t-calendar v-model="state.modeDateFormatted" mode="date" value-format="YYYY-MM-DD" />
+          <div class="calendar-label">禁用今天之前的日期：</div>
+          <t-calendar v-model="state.disabledBeforeTodayDate" :disabled-date="disableDateBeforeToday" />
         </div>
         <div class="calendar-item">
-          <div class="calendar-label">月份模式 + 格式化：</div>
-          <t-calendar v-model="state.modeMonthFormatted" mode="month" value-format="YYYY-MM" />
-        </div>
-        <div class="calendar-item">
-          <div class="calendar-label">年份模式 + 格式化：</div>
-          <t-calendar v-model="state.modeYearFormatted" mode="year" value-format="YYYY" />
+          <div class="calendar-label">禁用周末：</div>
+          <t-calendar v-model="state.disabledWeekendDate" :disabled-date="disableWeekend" />
         </div>
         <div class="value-display">
-          <div>日期模式：{{ state.modeDateFormatted }}</div>
-          <div>月份模式：{{ state.modeMonthFormatted }}</div>
-          <div>年份模式：{{ state.modeYearFormatted }}</div>
+          <div>禁用今天之前：{{ formatDisplayDate(state.disabledBeforeTodayDate) }}</div>
+          <div>禁用周末：{{ formatDisplayDate(state.disabledWeekendDate) }}</div>
+          <div class="disabled-info">
+            <div>禁用规则说明：</div>
+            <div>- 今天之前的日期已被禁用</div>
+            <div>- 周末（周六和周日）已被禁用</div>
+          </div>
         </div>
       </div>
     </test-section>
@@ -98,21 +144,31 @@
         </div>
       </div>
     </test-section>
-    <!-- 时间选择器(修改) -->
-    <test-section title="时间选择器(修改)">
+
+    <!-- 时间选择器(禁用时间视图) -->
+    <test-section title="时间选择器(禁用时间视图)">
       <div class="calendar-wrapper">
         <div class="calendar-item">
-          <div class="calendar-label">带时间选择 + 格式化：</div>
+          <div class="calendar-label">带时间选择 + 禁用时间视图：</div>
+          <t-calendar v-model="state.timeFormattedTime" :disabled-time-view="true" show-time value-format="YYYY-MM-DD HH:mm:ss" />
+        </div>
+        <div class="calendar-item">
+          <div class="calendar-label">带时间选择 + 启用时间视图：</div>
           <t-calendar
-            v-model="state.timeFormattedTime"
+            v-model="state.timeFormattedTimeEnabled"
             :disabled-time-view="false"
             show-time
             value-format="YYYY-MM-DD HH:mm:ss"
           />
         </div>
         <div class="value-display">
-          <div>时间值：{{ state.timeFormattedTime }}</div>
-          <div>类型：{{ typeof state.timeFormattedTime }}</div>
+          <div>禁用时间视图：{{ state.timeFormattedTime }}</div>
+          <div>启用时间视图：{{ state.timeFormattedTimeEnabled }}</div>
+          <div class="time-tip">
+            <div>说明：</div>
+            <div>- 禁用时间视图：点击日期后不会显示时间选择面板</div>
+            <div>- 启用时间视图：点击日期后会显示时间选择面板</div>
+          </div>
         </div>
       </div>
     </test-section>
@@ -143,6 +199,9 @@
             <div class="event-title">事件记录:</div>
             <div v-for="(event, index) in state.eventLogs" :key="index" class="event-item">{{ event }}</div>
           </div>
+          <div class="buttons">
+            <t-button size="small" @click="clearEventLogs">清空事件记录</t-button>
+          </div>
         </div>
       </div>
     </test-section>
@@ -154,6 +213,7 @@ import { reactive, ref } from "vue";
 import { TCalendar } from "@/packages/calendar";
 import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
+import { formatDate } from "@/utils";
 import type { ModeType } from "@/packages/calendar/calendar";
 
 defineOptions({ name: "CalendarTest" });
@@ -162,6 +222,14 @@ defineOptions({ name: "CalendarTest" });
 const state = reactive({
   // 基础用法
   date: new Date(),
+
+  // 自定义单元格
+  customCellDate: new Date(),
+
+  // 不同模式
+  modeDate: new Date(),
+  modeMonth: new Date(),
+  modeYear: new Date(),
 
   // 格式化输出测试
   formattedDate: new Date(),
@@ -173,14 +241,14 @@ const state = reactive({
   dateInput: new Date(),
   timestampInput: Date.now(),
 
-  // 不同模式
-  modeDateFormatted: new Date(),
-  modeMonthFormatted: new Date(),
-  modeYearFormatted: new Date(),
+  // 禁用日期
+  disabledBeforeTodayDate: new Date(),
+  disabledWeekendDate: new Date(),
 
   // 时间选择器
   timeFormatted: new Date(),
   timeFormattedTime: new Date(),
+  timeFormattedTimeEnabled: new Date(),
 
   // 事件测试
   eventDate: new Date(),
@@ -193,6 +261,8 @@ const eventCalendarRef = ref();
 
 /**
  * 格式化显示日期
+ * @param date 日期值
+ * @returns 格式化后的日期字符串
  */
 const formatDisplayDate = (date: Date | string | number | null) => {
   if (!date) return "未选择";
@@ -211,7 +281,87 @@ const resetInputs = () => {
 };
 
 /**
+ * 清空事件记录
+ */
+const clearEventLogs = () => {
+  state.eventLogs = [];
+};
+
+/**
+ * 判断日期是否为周末
+ * @param date 日期对象
+ * @returns 是否为周末
+ */
+const isWeekend = (date: Date) => {
+  const day = date.getDay();
+  return day === 0 || day === 6;
+};
+
+/**
+ * 判断日期是否为假期（示例）
+ * @param date 日期对象
+ * @returns 是否为假期
+ */
+const isHoliday = (date: Date) => {
+  // 这里只是示例，实际应用中可以根据节假日列表判断
+  const holidays = [
+    "2023-01-01", // 元旦
+    "2023-01-22", // 春节
+    "2023-04-05", // 清明节
+    "2023-05-01", // 劳动节
+    "2023-06-22", // 端午节
+    "2023-09-29", // 中秋节
+    "2023-10-01" // 国庆节
+  ];
+
+  const dateStr = formatDate(date, "YYYY-MM-DD");
+  return holidays.includes(dateStr) || isWeekend(date);
+};
+
+/**
+ * 判断日期是否被选中
+ * @param date 日期对象
+ * @returns 是否被选中
+ */
+const isSelected = (date: Date) => {
+  if (!state.customCellDate) return false;
+  return isSameDay(date, new Date(state.customCellDate));
+};
+
+/**
+ * 判断是否是同一天
+ * @param date1 日期1
+ * @param date2 日期2
+ */
+const isSameDay = (date1: Date, date2: Date) => {
+  return (
+    date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()
+  );
+};
+
+/**
+ * 禁用今天之前的日期
+ * @param date 日期对象
+ * @returns 是否禁用
+ */
+const disableDateBeforeToday = (date: Date) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date < today;
+};
+
+/**
+ * 禁用周末
+ * @param date 日期对象
+ * @returns 是否禁用
+ */
+const disableWeekend = (date: Date) => {
+  return isWeekend(date);
+};
+
+/**
  * 处理日期变化事件
+ * @param value 变化后的值
  */
 const handleChange = (value: any) => {
   state.eventLogs.unshift(`change: ${formatDisplayDate(value)}`);
@@ -220,6 +370,7 @@ const handleChange = (value: any) => {
 
 /**
  * 处理面板变化事件
+ * @param mode 面板模式
  */
 const handlePanelChange = (mode: ModeType) => {
   state.currentMode = mode;
@@ -229,6 +380,7 @@ const handlePanelChange = (mode: ModeType) => {
 
 /**
  * 处理跳转到指定日期事件
+ * @param date 日期对象
  */
 const handleJumpToDate = (date: Date) => {
   state.eventLogs.unshift(`jump-to-date: ${formatDisplayDate(date)}`);
@@ -237,6 +389,7 @@ const handleJumpToDate = (date: Date) => {
 
 /**
  * 处理时间变化事件
+ * @param date 日期对象
  */
 const handleTimeChange = (date: Date) => {
   state.eventLogs.unshift(`time-change: ${formatDisplayDate(date)}`);
@@ -320,29 +473,50 @@ const handleSwitchPanel = () => {
   font-size: 13px;
 }
 
-.custom-date {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-
-  &.is-special {
-    background-color: rgba(64, 158, 255, 0.1);
-    color: #409eff;
-  }
-}
-
 .buttons {
   margin-top: 8px;
   display: flex;
   gap: 8px;
 }
 
-.time-tip {
+.time-tip,
+.cell-info,
+.disabled-info {
   margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed #ebeef5;
   font-size: 12px;
   color: #909399;
+}
+
+/* 自定义日期单元格样式 */
+:deep(.custom-date) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  &.is-selected {
+    color: white;
+  }
+
+  .holiday-mark {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    font-size: 10px;
+    color: #f56c6c;
+    line-height: 1;
+  }
+}
+
+:deep(.weekend-cell) {
+  color: #409eff;
+}
+
+:deep(.holiday-cell) {
+  color: #f56c6c;
 }
 </style>
