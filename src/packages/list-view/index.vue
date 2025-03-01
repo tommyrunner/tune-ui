@@ -46,7 +46,7 @@
  * ListView 列表视图组件
  * 支持虚拟滚动、固定项、头尾插槽等功能的列表组件
  */
-import type { EmitsType, PropsType, ListItemType } from "./listView";
+import type { EmitsType, PropsType, ListItemType } from "./list-view";
 import { reactive, computed, onMounted, ref, StyleValue, nextTick, watch, toRefs, provide, useSlots } from "vue";
 import Scrollbar from "../scrollbar/index.vue";
 import { GroupContextType, listViewGroupKey } from "./constants";

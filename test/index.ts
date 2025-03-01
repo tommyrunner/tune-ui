@@ -21,7 +21,7 @@ import RadioTest from "./packages/radio.vue";
 import RateTest from "./packages/rate.vue";
 import SwitchTest from "./packages/switch.vue";
 import TabsTest from "./packages/tabs.vue";
-import ListViewTest from "./packages/listView.vue";
+import ListViewTest from "./packages/list-view.vue";
 import ScrollbarTest from "./packages/scrollbar.vue";
 import TableTest from "./packages/table.vue";
 import SelectTest from "./packages/select.vue";

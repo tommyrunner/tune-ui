@@ -85,7 +85,7 @@
 
 <script lang="ts" setup>
 import type { EmitsType, ValueType, OptionsItemType, PropsType, SingleValueType } from "./select";
-import type { ListSlotParamsType } from "@/packages/listView/listView";
+import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import type { TPopoverType } from "@/packages/popover";
 import type { StyleValue } from "vue";
 import { computed, reactive, ref, watch, provide, toRefs } from "vue";
@@ -96,7 +96,7 @@ import { isEqual, isValue } from "@/utils/is";
 import { bindDebounce } from "@/utils";
 import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
-import { TListView } from "@/packages/listView";
+import { TListView } from "@/packages/list-view";
 import { TTag } from "@/packages/tag";
 import Option from "./option.vue";
 import { GroupContextType, selectGroupKey } from "./constants";

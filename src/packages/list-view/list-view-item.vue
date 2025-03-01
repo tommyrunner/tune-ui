@@ -6,7 +6,7 @@
 <script lang="ts" setup>
 import { fromCssVal } from "@/utils";
 import { GroupContextType, listViewGroupKey } from "./constants";
-import type { PropsType } from "./listView-item";
+import type { PropsType } from "./list-view-item";
 import { computed, inject, ref, StyleValue } from "vue";
 defineOptions({ name: "TListViewItem" });
 const groupContext = inject<GroupContextType | undefined>(listViewGroupKey, void 0);
@@ -27,5 +27,5 @@ const getListViewItemStyle = computed((): StyleValue => {
 });
 </script>
 <style lang="scss" scoped>
-@import "./listView-item.scss";
+@import "./list-view-item.scss";
 </style>

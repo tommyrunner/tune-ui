@@ -1,5 +1,5 @@
 import type { EmitsType, PropsType, TableColumnsType, TableRowType } from "./table";
-import type { ListSlotParamsType } from "@/packages/listView/listView";
+import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import { TCheckbox } from "@/packages/checkbox";
 import { TABLE_COL_FIXED_LAST } from "./constants";
 import TTableRow from "./table-row/table-row.vue";

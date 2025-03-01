@@ -98,7 +98,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { TPopConfirm } from "@/packages/popConfirm";
+import { TPopConfirm } from "@/packages/pop-confirm";
 import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
 

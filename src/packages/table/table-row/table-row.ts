@@ -1,5 +1,5 @@
 import type { TableColumnsType, TableRowType } from "../table";
-import type { PropsType as ListViewItemPropsType } from "@/packages/listView/listView-item";
+import type { PropsType as ListViewItemPropsType } from "@/packages/list-view/list-view-item";
 
 /**
  * @description: 组件props类型

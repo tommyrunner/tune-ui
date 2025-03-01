@@ -71,10 +71,10 @@
 
 <script lang="ts" setup>
 import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
-import type { TListViewType } from "@/packages/listView";
+import type { TListViewType } from "@/packages/list-view";
 import { TIcon } from "@/packages/icon";
 import { TPopover } from "@/packages/popover";
-import { TListView } from "@/packages/listView";
+import { TListView } from "@/packages/list-view";
 import { HOURS, MINUTES, SECONDS } from "../calendar";
 
 defineOptions({ name: "TCalendarTimePicker" });

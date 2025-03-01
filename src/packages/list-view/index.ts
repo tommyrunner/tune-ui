@@ -1,5 +1,5 @@
 import ListView from "./index.vue";
-import ListViewItem from "./listView-item.vue";
+import ListViewItem from "./list-view-item.vue";
 
 /** 列表视图组件 */
 export const TListView = ListView;

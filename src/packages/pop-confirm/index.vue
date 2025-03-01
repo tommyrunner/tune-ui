@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropsType, EmitsType } from "./popConfirm";
+import type { PropsType, EmitsType } from "./pop-confirm";
 import type { StyleValue } from "vue";
 import { computed } from "vue";
 import { TPopover } from "@/packages/popover";

@@ -27,9 +27,9 @@
 </template>
 <script lang="tsx" setup>
 import type { EmitsType, PropsType, StateFilterType, TableColumnsType, TableRowType } from "./table";
-import type { ListSlotParamsType } from "@/packages/listView/listView";
+import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import { computed, provide, reactive, ref, StyleValue, toRefs } from "vue";
-import { TListView } from "@/packages/listView";
+import { TListView } from "@/packages/list-view";
 import { getTableColTag, type GroupContextType, TABLE_COL_FIXED_VALUE, TABLE_COL_GROUP, tableGroupKey } from "./constants";
 import { useTable } from "./hooks";
 defineOptions({ name: "TTable" });
