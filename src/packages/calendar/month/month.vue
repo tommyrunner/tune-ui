@@ -10,7 +10,9 @@
       }"
       @click="handleMonthSelect(index)"
     >
-      {{ month }}
+      <slot name="month" :month="month" :index="index">
+        {{ month }}
+      </slot>
     </div>
   </div>
 </template>

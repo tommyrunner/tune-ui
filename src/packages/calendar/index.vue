@@ -36,7 +36,11 @@
           :disabled-date="props.disabledDate"
           :model-value="internalValue"
           @select="handleYearSelect"
-        />
+        >
+          <template #year="slotProps" v-if="$slots.year">
+            <slot name="year" :year="slotProps.year"></slot>
+          </template>
+        </calendar-year>
 
         <!-- 月份模式 -->
         <calendar-month
@@ -47,7 +51,11 @@
           :disabled-date="props.disabledDate"
           :model-value="internalValue"
           @select="handleMonthSelect"
-        />
+        >
+          <template #month="slotProps" v-if="$slots.month">
+            <slot name="month" :month="slotProps.month" :index="slotProps.index"></slot>
+          </template>
+        </calendar-month>
 
         <!-- 日期模式 -->
         <calendar-date
@@ -369,7 +377,9 @@ const handleTimeDialogClose = () => {
 
 // 暴露方法给父组件
 defineExpose({
-  jumpToDate
+  jumpToDate,
+  currentYear,
+  currentMonth
 });
 </script>
 

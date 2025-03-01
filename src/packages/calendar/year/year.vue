@@ -10,7 +10,9 @@
       }"
       @click="handleYearSelect(year)"
     >
-      {{ year }}
+      <slot name="year" :year="year">
+        {{ year }}
+      </slot>
     </div>
   </div>
 </template>
