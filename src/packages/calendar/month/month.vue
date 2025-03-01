@@ -5,8 +5,8 @@
       :key="month"
       class="_month"
       :class="{
-        _selected: isSelectedMonth(index),
-        't-disabled': isDisabled(new Date(currentYear, index, 1))
+        _selected: isSelected(index),
+        't-disabled': isDisabled(index)
       }"
       @click="handleMonthSelect(index)"
     >
@@ -18,7 +18,8 @@
 </template>
 
 <script lang="ts" setup>
-import { MONTH_NAMES } from "../calendar";
+import { inject } from "vue";
+import { MONTH_NAMES, calendarKey } from "../constants";
 
 defineOptions({ name: "TCalendarMonth" });
 
@@ -28,54 +29,52 @@ defineOptions({ name: "TCalendarMonth" });
 interface PropsType {
   /** 当前年份 */
   currentYear: number;
-  /** 是否禁用 */
-  disabled?: boolean;
-  /** 不可选择的日期 */
-  disabledDate?: (date: Date) => boolean;
-  /** 当前选中的日期 */
-  modelValue?: Date | string | number | null;
 }
 
-const props = withDefaults(defineProps<PropsType>(), {
-  disabled: false,
-  modelValue: null
-});
+const props = defineProps<PropsType>();
+
+// 注入日历上下文
+const calendarContext = inject(calendarKey);
 
 /**
- * @description 组件事件
+ * @description 判断月份是否被选中
+ * @param month 月份索引（0-11）
  */
-const emit = defineEmits<{
-  /** 选择月份 */
-  (e: "select", month: number): void;
-}>();
-
-/**
- * @description 判断是否是选中的月份
- * @param month 月份索引
- */
-const isSelectedMonth = (month: number) => {
-  if (!props.modelValue) return false;
-  const date = new Date(props.modelValue);
-  return date.getFullYear() === props.currentYear && date.getMonth() === month;
+const isSelected = (month: number) => {
+  if (calendarContext?.internalValue && calendarContext.isSelect) {
+    const date = calendarContext.internalValue;
+    return date.getFullYear() === props.currentYear && date.getMonth() === month;
+  }
+  return false;
 };
 
 /**
- * @description 判断是否禁用
- * @param date 日期
+ * @description 判断月份是否禁用
+ * @param month 月份索引（0-11）
  */
-const isDisabled = (date: Date) => {
-  if (props.disabled) return true;
-  if (props.disabledDate) return props.disabledDate(date);
+const isDisabled = (month: number) => {
+  if (calendarContext?.disabled) return true;
+
+  if (calendarContext?.disabledDate) {
+    // 使用月份的第一天来判断是否禁用
+    const date = new Date(props.currentYear, month, 1);
+    return calendarContext.disabledDate(date);
+  }
+
   return false;
 };
 
 /**
  * @description 处理月份选择
- * @param month 月份索引
+ * @param month 月份索引（0-11）
  */
 const handleMonthSelect = (month: number) => {
-  if (isDisabled(new Date(props.currentYear, month, 1))) return;
-  emit("select", month);
+  if (isDisabled(month) || calendarContext?.isSelect === false) return;
+
+  // 使用上下文中的处理函数
+  if (calendarContext?.handleMonthSelect) {
+    calendarContext.handleMonthSelect(month);
+  }
 };
 </script>
 

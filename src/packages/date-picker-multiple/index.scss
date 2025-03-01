@@ -1,0 +1,197 @@
+@import "@/styles/index.scss";
+
+.t-date-picker-multiple {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  ._date-picker-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid $border-color-default;
+    border-radius: 4px;
+    transition: 0.22s;
+    background-color: $bg-color-default;
+    box-sizing: border-box;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+      border-color: $theme-color-primary;
+    }
+
+    &.t-disabled {
+      background-color: $border-color-default;
+      border-color: $border-color-default;
+      color: $text-color-default;
+      cursor: not-allowed;
+
+      input {
+        cursor: not-allowed;
+        color: $text-color-default;
+      }
+    }
+
+    ._prefix {
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+    }
+
+    ._input-wrapper {
+      flex: 1;
+      position: relative;
+
+      input {
+        width: 100%;
+        border: none;
+        outline: none;
+        background: transparent;
+        padding: 0 8px;
+        padding-right: 28px;
+        cursor: pointer;
+        color: $text-color-default;
+        font-size: $font-size-default;
+        box-sizing: border-box;
+
+        &::placeholder {
+          color: rgba($text-color-default, 0.5);
+        }
+      }
+    }
+
+    ._right-icon {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      z-index: 1;
+    }
+  }
+
+  // 尺寸变体
+  .t-date-picker-size-small {
+    height: 24px;
+
+    input {
+      height: 22px;
+      font-size: $font-size-small;
+    }
+  }
+
+  .t-date-picker-size-default {
+    height: 30px;
+
+    input {
+      height: 28px;
+      font-size: $font-size-default;
+    }
+  }
+
+  .t-date-picker-size-large {
+    height: 34px;
+
+    input {
+      height: 32px;
+      font-size: $font-size-large;
+    }
+  }
+}
+
+// 下拉面板样式
+._date-picker-multiple-dropdown {
+  background-color: $bg-color-default;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 0;
+  margin: 0;
+  display: flex;
+
+  ._shortcuts-wrapper {
+    width: 120px;
+    border-right: 1px solid $border-color-default;
+    padding: 10px 0;
+    overflow-y: auto;
+    max-height: 300px;
+
+    ._shortcut-item {
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: $font-size-small;
+      transition: 0.22s;
+
+      &:hover {
+        background-color: $bg-color-hover;
+        color: $theme-color-primary;
+      }
+
+      &.active {
+        background-color: rgba($theme-color-primary, 0.1);
+        color: $theme-color-primary;
+      }
+    }
+  }
+
+  ._calendar-wrapper {
+    flex: 1;
+  }
+
+  ._footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 8px 12px;
+    border-top: 1px solid $border-color-default;
+    gap: 8px;
+  }
+}
+
+// 日期单元格自定义样式
+.t-calendar {
+  ._date-cell {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $color-white;
+    
+    &.selected {
+      background-color: $theme-color-primary;
+      color: $color-white;
+      border-radius: 4px;
+    }
+
+    &.range-start {
+      background-color: $theme-color-primary;
+      color: $color-white;
+      border-radius: 4px 0 0 4px;
+    }
+
+    &.range-end {
+      background-color: $theme-color-danger;
+      color: $color-white;
+      border-radius: 0 4px 4px 0;
+    }
+
+    &.in-range {
+      background-color: $bg-color-hover;
+    }
+  }
+  
+  // 确保月份和年份单元格也有正确的样式
+  ._month, ._year {
+    cursor: pointer;
+    
+    &._selected {
+      background-color: $theme-color-primary;
+      color: $color-white;
+    }
+  }
+}

@@ -5,7 +5,7 @@
     <!-- 基础用法 -->
     <test-section title="基础用法">
       <div class="calendar-wrapper">
-        <t-calendar v-model="state.date" />
+        <t-calendar v-model="state.date" :default-select-today="false" />
         <div class="value-display">
           <div>默认日期对象：{{ formatDisplayDate(state.date) }}</div>
           <div>类型：{{ typeof state.date }}</div>
@@ -155,7 +155,6 @@ import { TCalendar } from "@/packages/calendar";
 import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
 import type { ModeType } from "@/packages/calendar/calendar";
-import { formatDate } from "@/utils/dateFormat";
 
 defineOptions({ name: "CalendarTest" });
 

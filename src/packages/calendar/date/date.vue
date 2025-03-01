@@ -28,8 +28,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
-import { WEEK_DAYS } from "../calendar";
+import { computed, inject } from "vue";
+import { WEEK_DAYS, calendarKey } from "../constants";
 
 defineOptions({ name: "TCalendarDate" });
 
@@ -39,29 +39,12 @@ defineOptions({ name: "TCalendarDate" });
 interface PropsType {
   /** 当前日期 */
   currentDate: Date;
-  /** 是否禁用 */
-  disabled?: boolean;
-  /** 不可选择的日期 */
-  disabledDate?: (date: Date) => boolean;
-  /** 当前选中的日期 */
-  modelValue?: Date | string | number | null;
-  /** 是否显示时间选择器 */
-  showTime?: boolean;
 }
 
-const props = withDefaults(defineProps<PropsType>(), {
-  disabled: false,
-  modelValue: null,
-  showTime: false
-});
+const props = defineProps<PropsType>();
 
-/**
- * @description 组件事件
- */
-const emit = defineEmits<{
-  /** 选择日期 */
-  (e: "select", date: Date): void;
-}>();
+// 注入日历上下文
+const calendarContext = inject(calendarKey);
 
 /**
  * @description 获取当月的所有日期（包括上月和下月的部分日期）
@@ -113,8 +96,10 @@ const isToday = (date: Date) => {
  * @param date 日期
  */
 const isSelected = (date: Date) => {
-  if (!props.modelValue) return false;
-  return isSameDay(date, new Date(props.modelValue));
+  if (calendarContext?.internalValue && calendarContext.isSelect) {
+    return isSameDay(date, calendarContext.internalValue);
+  }
+  return false;
 };
 
 /**
@@ -122,8 +107,8 @@ const isSelected = (date: Date) => {
  * @param date 日期
  */
 const isDisabled = (date: Date) => {
-  if (props.disabled) return true;
-  if (props.disabledDate) return props.disabledDate(date);
+  if (calendarContext?.disabled) return true;
+  if (calendarContext?.disabledDate) return calendarContext.disabledDate(date);
   return false;
 };
 
@@ -152,17 +137,20 @@ const isSameMonth = (date1: Date, date2: Date) => {
  * @param date 日期
  */
 const handleSelectDate = (date: Date) => {
-  if (isDisabled(date)) return;
+  if (isDisabled(date) || calendarContext?.isSelect === false) return;
 
   // 保留原时间部分
-  if (props.showTime && props.modelValue) {
+  if (calendarContext?.showTime && calendarContext?.internalValue) {
     const selectedDate = new Date(date);
-    const currentTime = new Date(props.modelValue);
+    const currentTime = new Date(calendarContext.internalValue);
     selectedDate.setHours(currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds());
     date = selectedDate;
   }
 
-  emit("select", date);
+  // 使用上下文中的处理函数
+  if (calendarContext?.handleSelectDate) {
+    calendarContext.handleSelectDate(date);
+  }
 };
 </script>
 

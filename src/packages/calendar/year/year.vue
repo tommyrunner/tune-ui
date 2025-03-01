@@ -1,12 +1,12 @@
 <template>
   <div class="_years">
     <div
-      v-for="year in yearList"
+      v-for="year in yearRange"
       :key="year"
       class="_year"
       :class="{
-        _selected: isSelectedYear(year),
-        't-disabled': isDisabled(new Date(year, 0, 1))
+        _selected: isSelected(year),
+        't-disabled': isDisabled(year)
       }"
       @click="handleYearSelect(year)"
     >
@@ -18,7 +18,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue";
+import { computed, inject } from "vue";
+import { calendarKey } from "../constants";
 
 defineOptions({ name: "TCalendarYear" });
 
@@ -28,52 +29,50 @@ defineOptions({ name: "TCalendarYear" });
 interface PropsType {
   /** 当前年份 */
   currentYear: number;
-  /** 是否禁用 */
-  disabled?: boolean;
-  /** 不可选择的日期 */
-  disabledDate?: (date: Date) => boolean;
-  /** 当前选中的日期 */
-  modelValue?: Date | string | number | null;
 }
 
-const props = withDefaults(defineProps<PropsType>(), {
-  disabled: false,
-  modelValue: null
+const props = defineProps<PropsType>();
+
+// 注入日历上下文
+const calendarContext = inject(calendarKey);
+
+/**
+ * @description 获取年份范围
+ * 显示当前年份所在的10年范围，例如2020年显示2020-2029年
+ */
+const yearRange = computed(() => {
+  const startYear = Math.floor(props.currentYear / 10) * 10;
+  const years = [];
+  for (let i = 0; i < 12; i++) {
+    years.push(startYear + i);
+  }
+  return years;
 });
 
 /**
- * @description 组件事件
- */
-const emit = defineEmits<{
-  /** 选择年份 */
-  (e: "select", year: number): void;
-}>();
-
-/**
- * @description 年份列表
- */
-const yearList = computed(() => {
-  const year = props.currentYear;
-  const startYear = Math.floor(year / 10) * 10;
-  return Array.from({ length: 12 }, (_, i) => startYear + i);
-});
-
-/**
- * @description 判断是否是选中的年份
+ * @description 判断年份是否被选中
  * @param year 年份
  */
-const isSelectedYear = (year: number) => {
-  if (!props.modelValue) return false;
-  return new Date(props.modelValue).getFullYear() === year;
+const isSelected = (year: number) => {
+  if (calendarContext?.internalValue && calendarContext.isSelect) {
+    return calendarContext.internalValue.getFullYear() === year;
+  }
+  return false;
 };
 
 /**
- * @description 判断是否禁用
- * @param date 日期
+ * @description 判断年份是否禁用
+ * @param year 年份
  */
-const isDisabled = (date: Date) => {
-  if (props.disabled) return true;
-  if (props.disabledDate) return props.disabledDate(date);
+const isDisabled = (year: number) => {
+  if (calendarContext?.disabled) return true;
+
+  if (calendarContext?.disabledDate) {
+    // 使用年份的第一天来判断是否禁用
+    const date = new Date(year, 0, 1);
+    return calendarContext.disabledDate(date);
+  }
+
   return false;
 };
 
@@ -82,8 +81,12 @@ const isDisabled = (date: Date) => {
  * @param year 年份
  */
 const handleYearSelect = (year: number) => {
-  if (isDisabled(new Date(year, 0, 1))) return;
-  emit("select", year);
+  if (isDisabled(year) || calendarContext?.isSelect === false) return;
+
+  // 使用上下文中的处理函数
+  if (calendarContext?.handleYearSelect) {
+    calendarContext.handleYearSelect(year);
+  }
 };
 </script>
 

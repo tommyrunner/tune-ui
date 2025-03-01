@@ -31,6 +31,8 @@ export interface PropsType extends BaseProps {
   disabledTimeView?: boolean;
   /** 值的格式化，例如 YYYY-MM-DD */
   valueFormat?: string;
+  /** 是否可以选择日期 */
+  isSelect?: boolean;
 }
 
 /**

@@ -28,46 +28,21 @@
     <div class="_body">
       <transition-group name="fade-mode" tag="div" class="mode-container">
         <!-- 年份模式 -->
-        <calendar-year
-          v-if="tempMode === 'year'"
-          key="year-mode"
-          :current-year="currentYear"
-          :disabled="disabled"
-          :disabled-date="props.disabledDate"
-          :model-value="internalValue"
-          @select="handleYearSelect"
-        >
+        <calendar-year v-if="tempMode === 'year'" key="year-mode" :current-year="currentYear">
           <template #year="slotProps" v-if="$slots.year">
             <slot name="year" :year="slotProps.year"></slot>
           </template>
         </calendar-year>
 
         <!-- 月份模式 -->
-        <calendar-month
-          v-else-if="tempMode === 'month'"
-          key="month-mode"
-          :current-year="currentYear"
-          :disabled="disabled"
-          :disabled-date="props.disabledDate"
-          :model-value="internalValue"
-          @select="handleMonthSelect"
-        >
+        <calendar-month v-else-if="tempMode === 'month'" key="month-mode" :current-year="currentYear">
           <template #month="slotProps" v-if="$slots.month">
             <slot name="month" :month="slotProps.month" :index="slotProps.index"></slot>
           </template>
         </calendar-month>
 
         <!-- 日期模式 -->
-        <calendar-date
-          v-else
-          key="date-mode"
-          :current-date="currentDate"
-          :disabled="disabled"
-          :disabled-date="props.disabledDate"
-          :model-value="internalValue"
-          :show-time="props.showTime"
-          @select="handleSelectDate"
-        >
+        <calendar-date v-else key="date-mode" :current-date="currentDate">
           <template #date="slotProps">
             <slot name="date" :date="slotProps.date">
               {{ slotProps.date.getDate() }}
@@ -83,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, onMounted, onBeforeUnmount } from "vue";
+import { computed, ref, watch, onMounted, onBeforeUnmount, provide, reactive, toRefs } from "vue";
 import type { DateType, EmitsType, PropsType, ModeType } from "./calendar";
 import { formatDate, parseDate } from "@/utils/dateFormat";
 import CalendarHeader from "./header/header.vue";
@@ -91,6 +66,7 @@ import CalendarYear from "./year/year.vue";
 import CalendarMonth from "./month/month.vue";
 import CalendarDate from "./date/date.vue";
 import CalendarTimePicker from "./time-picker/time-picker.vue";
+import { calendarKey } from "./constants";
 
 defineOptions({ name: "TCalendar" });
 
@@ -99,7 +75,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   mode: "date",
   disabled: false,
   showTime: false,
-  disabledTimeView: true
+  disabledTimeView: true,
+  isSelect: true
 });
 
 const model = defineModel<DateType>();
@@ -201,11 +178,68 @@ const stopTimeUpdateTimer = () => {
   }
 };
 
+/**
+ * @description 处理日期选择
+ */
+const handleSelectDate = (date: Date) => {
+  currentDate.value = date;
+  updateModelValue(date);
+  emit("change", currentDate.value);
+};
+
+/**
+ * @description 处理年份选择
+ */
+const handleYearSelect = (year: number) => {
+  currentDate.value = new Date(year, currentDate.value.getMonth(), 1);
+
+  // 根据原始模式决定选择年份后的行为
+  if (props.mode === "date" || props.mode === "month") {
+    // 如果原始模式是日期或月份，选择年份后回到月份模式
+    tempMode.value = "month";
+  } else {
+    // 如果原始模式是年份，则直接更新值
+    updateModelValue(currentDate.value);
+    emit("change", model.value);
+  }
+};
+
+/**
+ * @description 处理月份选择
+ */
+const handleMonthSelect = (month: number) => {
+  currentDate.value = new Date(currentYear.value, month, 1);
+
+  // 根据原始模式决定选择月份后的行为
+  if (props.mode === "date") {
+    // 如果原始模式是日期，选择月份后回到日期模式
+    tempMode.value = "date";
+  } else {
+    // 如果原始模式是月份或年份，则直接更新值
+    updateModelValue(currentDate.value);
+    emit("change", currentDate.value);
+  }
+};
+
+// 向子组件提供上下文数据
+provide(
+  calendarKey,
+  reactive({
+    ...toRefs(props),
+    currentDate,
+    internalValue,
+    handleSelectDate,
+    handleYearSelect,
+    handleMonthSelect,
+    tempMode
+  })
+);
+
 // 初始化时确保model值符合valueFormat
 onMounted(() => {
   if (model.value && props.valueFormat) {
     // 确保初始值按照valueFormat格式化
-    updateModelValue(toDateObject(model.value));
+    updateModelValue(internalValue.value);
   }
 
   // 如果开启了showTime且disabledTimeView为true，才启动时间更新定时器
@@ -286,6 +320,7 @@ const handleNext = () => {
 const handleYearTitleClick = () => {
   if (props.disabled) return;
   tempMode.value = "year";
+  emit("panel-change", tempMode.value);
 };
 
 /**
@@ -294,50 +329,7 @@ const handleYearTitleClick = () => {
 const handleMonthTitleClick = () => {
   if (props.disabled) return;
   tempMode.value = "month";
-};
-
-/**
- * @description 处理年份选择
- */
-const handleYearSelect = (year: number) => {
-  currentDate.value = new Date(year, currentDate.value.getMonth(), 1);
-
-  // 根据原始模式决定选择年份后的行为
-  if (props.mode === "date" || props.mode === "month") {
-    // 如果原始模式是日期或月份，选择年份后回到月份模式
-    tempMode.value = "month";
-  } else {
-    // 如果原始模式是年份，则直接更新值
-    updateModelValue(currentDate.value);
-    emit("change", model.value);
-  }
-};
-
-/**
- * @description 处理月份选择
- */
-const handleMonthSelect = (month: number) => {
-  currentDate.value = new Date(currentYear.value, month, 1);
-
-  // 根据原始模式决定选择月份后的行为
-  if (props.mode === "date") {
-    // 如果原始模式是日期，选择月份后回到日期模式
-    tempMode.value = "date";
-  } else {
-    // 如果原始模式是月份或年份，则直接更新值
-    updateModelValue(currentDate.value);
-    emit("change", currentDate.value);
-  }
-};
-
-/**
- * @description 处理日期选择
- */
-const handleSelectDate = (date: Date) => {
-  currentDate.value = date;
-  updateModelValue(date);
-  console.log("handleSelectDate", model.value);
-  emit("change", currentDate.value);
+  emit("panel-change", tempMode.value);
 };
 
 /**
@@ -375,11 +367,23 @@ const handleTimeDialogClose = () => {
   emit("time-dialog-close");
 };
 
+/**
+ * @description 切换面板模式
+ * @param mode 目标模式
+ */
+const switchPanelMode = (mode: ModeType) => {
+  if (props.disabled) return;
+  tempMode.value = mode;
+  emit("panel-change", mode);
+};
+
 // 暴露方法给父组件
 defineExpose({
   jumpToDate,
   currentYear,
-  currentMonth
+  currentMonth,
+  switchPanelMode,
+  tempMode
 });
 </script>
 
