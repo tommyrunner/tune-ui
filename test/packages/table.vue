@@ -370,37 +370,23 @@ const handleSummary = (value: number, scope: ColumnRenderScope) => {
 
 <style lang="scss" scoped>
 .test-container {
-  padding: 32px;
-  width: 100%;
-  min-width: 800px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-sizing: border-box;
+  padding: 24px;
 
   h2 {
     margin-bottom: 24px;
     font-weight: 600;
     font-size: 28px;
     color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
   }
 
-  :deep(.test-section) {
-    margin-bottom: 32px;
-
-    .section-title {
-      margin-bottom: 16px;
-      font-size: 16px;
-      font-weight: 500;
-    }
-  }
-
-  .table-span {
-    width: 100%;
+  .table-container {
     padding: 16px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: #f9fafb;
     border: 1px solid #e5e7eb;
-    border-radius: 8px;
+    border-radius: 6px;
 
     :deep(.t-table) {
       width: 100%;
@@ -412,7 +398,7 @@ const handleSummary = (value: number, scope: ColumnRenderScope) => {
 
     .value-display {
       padding: 8px 12px;
-      background-color: #f8fafc;
+      background-color: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 4px;
       color: #4b5563;
@@ -423,7 +409,7 @@ const handleSummary = (value: number, scope: ColumnRenderScope) => {
   .event-log {
     margin-top: 16px;
     padding: 16px;
-    background-color: #f8fafc;
+    background-color: #f9fafb;
     border: 1px solid #e5e7eb;
     border-radius: 6px;
 

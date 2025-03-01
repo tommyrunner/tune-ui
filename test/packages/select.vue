@@ -177,17 +177,15 @@ const handleRemoteMethod = async (query: string) => {
 
 <style lang="scss" scoped>
 .test-container {
-  padding: 32px;
-  width: 100%;
-  background-color: #fff;
-  border-radius: 8px;
-  box-sizing: border-box;
+  padding: 24px;
 
   h2 {
     margin-bottom: 24px;
     font-weight: 600;
     font-size: 28px;
     color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
   }
 
   .select-wrapper {
@@ -197,7 +195,7 @@ const handleRemoteMethod = async (query: string) => {
 
     .value-display {
       padding: 8px 12px;
-      background-color: #f8fafc;
+      background-color: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 4px;
       color: #4b5563;

@@ -133,14 +133,14 @@ const handleItemFixed = (index: number) => {
 <style lang="scss" scoped>
 .test-container {
   padding: 24px;
-  background-color: #fff;
-  border-radius: 8px;
 
   h2 {
     margin-bottom: 24px;
     font-weight: 600;
     font-size: 28px;
     color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
   }
 
   .list-row {
@@ -164,18 +164,18 @@ const handleItemFixed = (index: number) => {
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: #f3f4f6;
+      background-color: #f9fafb;
     }
 
     &.is-fixed {
-      background-color: #ebf5ff;
+      background-color: #f0f9ff;
       font-weight: 500;
     }
 
     .fixed-tag {
       float: right;
       padding: 3px 8px;
-      background: #2563eb;
+      background: #3b82f6;
       color: #fff;
       border-radius: 4px;
       font-size: 12px;
@@ -185,7 +185,7 @@ const handleItemFixed = (index: number) => {
   .list-header,
   .list-footer {
     padding: 14px 16px;
-    background: #f8fafc;
+    background: #f9fafb;
     font-weight: 500;
     text-align: center;
     color: #4b5563;
@@ -193,12 +193,13 @@ const handleItemFixed = (index: number) => {
   }
 
   .control-panel {
-    width: 300px;
+    width: 100%;
+    max-width: 400px;
 
     .value-display {
       margin-bottom: 16px;
       padding: 8px 12px;
-      background-color: #f8fafc;
+      background-color: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 4px;
       color: #4b5563;
@@ -206,7 +207,7 @@ const handleItemFixed = (index: number) => {
 
     .event-log {
       padding: 16px;
-      background-color: #f8fafc;
+      background-color: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 6px;
 

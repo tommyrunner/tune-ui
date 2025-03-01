@@ -161,47 +161,60 @@ const handleClear = () => {
 
 <style lang="scss" scoped>
 .test-container {
-  padding: 20px;
+  padding: 24px;
 
   h2 {
-    margin-bottom: 20px;
-    font-weight: 500;
+    margin-bottom: 24px;
+    font-weight: 600;
     font-size: 28px;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
   }
 
   .input-row {
     display: flex;
-    align-items: center;
-    gap: 16px;
     flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+    align-items: center;
 
     .t-input {
-      min-width: 200px;
+      width: 240px;
     }
   }
 
   .value-display {
-    color: #666;
+    padding: 8px 12px;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    color: #4b5563;
     font-size: 14px;
   }
 
   .event-log {
     margin-top: 16px;
-    padding: 12px;
+    padding: 16px;
     background-color: #f9fafb;
-    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
 
     .event-title {
-      margin-bottom: 8px;
-      font-weight: 500;
+      margin-bottom: 12px;
+      font-weight: 600;
       color: #374151;
     }
 
     .event-item {
-      padding: 4px 0;
-      color: #666;
-      font-size: 14px;
-      font-family: monospace;
+      padding: 6px 8px;
+      margin-bottom: 4px;
+      background-color: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      font-family: ui-monospace, monospace;
+      font-size: 13px;
+      color: #4b5563;
     }
   }
 }

@@ -23,22 +23,10 @@
       </div>
     </test-section>
 
-    <!-- prefixIcon 前缀图标 -->
-    <test-section title="prefixIcon 前缀图标">
-      <div class="tag-wrapper">
-        <t-tag prefix-icon="search">search</t-tag>
-        <t-tag prefix-icon="add">add</t-tag>
-        <t-tag prefix-icon="close-to">close</t-tag>
-        <t-tag prefix-icon="success-to" @click-prefix="handlePrefixClick">可点击</t-tag>
-      </div>
-    </test-section>
-
     <!-- suffixIcon 后缀图标 -->
     <test-section title="suffixIcon 后缀图标">
       <div class="tag-wrapper">
-        <t-tag suffix-icon="close-to">close</t-tag>
-        <t-tag suffix-icon="delete">delete</t-tag>
-        <t-tag suffix-icon="success-to" @click-suffix="handleSuffixClick">可点击</t-tag>
+        <t-tag closable>close</t-tag>
       </div>
     </test-section>
 
@@ -151,4 +139,4 @@ const handleSuffixClick = () => {
     }
   }
 }
-</style> 
+</style>

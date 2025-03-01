@@ -4,28 +4,32 @@
 
     <!-- 基础用法 -->
     <test-section title="基础用法">
-      <t-pop-confirm content="确定要删除这条记录吗？">
-        <t-button type="danger" prefixIcon="delete">删除</t-button>
-      </t-pop-confirm>
-      <t-pop-confirm content="确定要禁用此功能吗？" disabled>
-        <t-button type="info" prefixIcon="close">禁用状态</t-button>
-      </t-pop-confirm>
+      <div class="button-group">
+        <t-pop-confirm content="确定要删除这条记录吗？">
+          <t-button type="danger" prefixIcon="delete">删除</t-button>
+        </t-pop-confirm>
+        <t-pop-confirm content="确定要禁用此功能吗？" disabled>
+          <t-button type="info" prefixIcon="close">禁用状态</t-button>
+        </t-pop-confirm>
+      </div>
     </test-section>
 
     <!-- 自定义图标 -->
     <test-section title="自定义图标">
-      <t-pop-confirm content="确定要删除这条记录吗？" icon="delete" icon-color="#ff4d4f">
-        <t-button type="danger" prefixIcon="delete">删除</t-button>
-      </t-pop-confirm>
-      <t-pop-confirm content="确定要保存修改吗？" icon="success-to" icon-color="#52c41a">
-        <t-button type="success" prefixIcon="success-to">保存</t-button>
-      </t-pop-confirm>
-      <t-pop-confirm content="确定要执行此操作吗？" icon="information" icon-color="#1890ff">
-        <t-button type="primary" prefixIcon="information">提示</t-button>
-      </t-pop-confirm>
-      <t-pop-confirm content="确定要执行此操作吗？" icon="illustrate" icon-color="#faad14">
-        <t-button type="warning" prefixIcon="illustrate">警告</t-button>
-      </t-pop-confirm>
+      <div class="button-group">
+        <t-pop-confirm content="确定要删除这条记录吗？" icon="delete" icon-color="#ff4d4f">
+          <t-button type="danger" prefixIcon="delete">删除</t-button>
+        </t-pop-confirm>
+        <t-pop-confirm content="确定要保存修改吗？" icon="success-to" icon-color="#52c41a">
+          <t-button type="success" prefixIcon="success-to">保存</t-button>
+        </t-pop-confirm>
+        <t-pop-confirm content="确定要执行此操作吗？" icon="information" icon-color="#1890ff">
+          <t-button type="primary" prefixIcon="information">提示</t-button>
+        </t-pop-confirm>
+        <t-pop-confirm content="确定要执行此操作吗？" icon="illustrate" icon-color="#faad14">
+          <t-button type="warning" prefixIcon="illustrate">警告</t-button>
+        </t-pop-confirm>
+      </div>
     </test-section>
 
     <!-- 自定义按钮 -->
@@ -73,12 +77,14 @@
 
     <!-- 触发配置 -->
     <test-section title="触发配置">
-      <t-pop-confirm content="支持ESC关闭" :close-on-press-escape="true">
-        <t-button type="primary" prefixIcon="close">ESC关闭</t-button>
-      </t-pop-confirm>
-      <t-pop-confirm content="点击其他区域关闭" :close-on-press-other="true">
-        <t-button type="primary" prefixIcon="position">点击其他关闭</t-button>
-      </t-pop-confirm>
+      <div class="button-group">
+        <t-pop-confirm content="支持ESC关闭" :close-on-press-escape="true">
+          <t-button type="primary" prefixIcon="close">ESC关闭</t-button>
+        </t-pop-confirm>
+        <t-pop-confirm content="点击其他区域关闭" :close-on-press-other="true">
+          <t-button type="primary" prefixIcon="position">点击其他关闭</t-button>
+        </t-pop-confirm>
+      </div>
     </test-section>
 
     <!-- 事件测试 -->
@@ -127,47 +133,51 @@ const handleCancel = () => {
 
 <style lang="scss" scoped>
 .test-container {
-  padding: 20px;
+  padding: 24px;
 
   h2 {
-    margin-bottom: 20px;
-    font-weight: 500;
+    margin-bottom: 24px;
+    font-weight: 600;
     font-size: 28px;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
   }
 
-  .position-group {
+  .position-group,
+  .button-group {
     display: flex;
     gap: 12px;
+    flex-wrap: wrap;
   }
 
   // 增加测试区域间距
   :deep(.test-section) {
     margin-bottom: 24px;
-
-    .button-group {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
   }
 
   .event-log {
     margin-top: 16px;
-    padding: 12px;
+    padding: 16px;
     background-color: #f9fafb;
-    border-radius: 4px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
 
     .event-title {
-      margin-bottom: 8px;
-      font-weight: 500;
+      margin-bottom: 12px;
+      font-weight: 600;
       color: #374151;
     }
 
     .event-item {
-      padding: 4px 0;
-      color: #666;
-      font-size: 14px;
-      font-family: monospace;
+      padding: 6px 8px;
+      margin-bottom: 4px;
+      background-color: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+      font-family: ui-monospace, monospace;
+      font-size: 13px;
+      color: #4b5563;
     }
   }
 }

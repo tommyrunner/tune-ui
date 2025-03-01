@@ -98,12 +98,23 @@ const handleAsyncClick = async () => {
 
 <style lang="scss" scoped>
 .test-container {
-  padding: 20px;
+  padding: 24px;
 
   h2 {
-    margin-bottom: 20px;
-    font-weight: 500;
+    margin-bottom: 24px;
+    font-weight: 600;
     font-size: 28px;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
+  }
+
+  :deep(.test-section) {
+    .test-section-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
   }
 }
 </style>

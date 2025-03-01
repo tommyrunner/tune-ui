@@ -4,15 +4,17 @@
 
     <!-- 基础用法 -->
     <test-section title="基础用法">
-      <t-popover content="这是一个基础弹出框">
-        <t-button type="primary" prefixIcon="information">hover触发</t-button>
-      </t-popover>
-      <t-popover content="点击触发的弹出框" type="click">
-        <t-button type="success" prefixIcon="position">click触发</t-button>
-      </t-popover>
-      <t-popover content="禁用状态的弹出框" disabled>
-        <t-button type="info" prefixIcon="close">禁用状态</t-button>
-      </t-popover>
+      <div class="popover-wrapper">
+        <t-popover content="这是一个基础弹出框">
+          <t-button type="primary" prefixIcon="information">hover触发</t-button>
+        </t-popover>
+        <t-popover content="点击触发的弹出框" type="click">
+          <t-button type="success" prefixIcon="position">click触发</t-button>
+        </t-popover>
+        <t-popover content="禁用状态的弹出框" disabled>
+          <t-button type="info" prefixIcon="close">禁用状态</t-button>
+        </t-popover>
+      </div>
     </test-section>
     <!-- 分组用法 -->
     <test-section title="分组用法">
@@ -44,21 +46,23 @@
 
     <!-- 自定义样式 -->
     <test-section title="自定义样式">
-      <t-popover
-        content="自定义样式的弹出框"
-        :width="'200px'"
-        :radius="[8, 8, 8, 8]"
-        :padding="[12, 16, 12, 16]"
-        :box-shadow="[0, 4, 12, 'rgba(0, 0, 0, 0.1)']"
-      >
-        <t-button type="warning" prefixIcon="edit">自定义样式</t-button>
-      </t-popover>
-      <t-popover content="无箭头弹出框" :show-arrow="false">
-        <t-button type="info" prefixIcon="close">无箭头</t-button>
-      </t-popover>
-      <t-popover content="自定义间距" :gap="20">
-        <t-button type="success" prefixIcon="position">自定义间距</t-button>
-      </t-popover>
+      <div class="button-group">
+        <t-popover
+          content="自定义样式的弹出框"
+          :width="'200px'"
+          :radius="[8, 8, 8, 8]"
+          :padding="[12, 16, 12, 16]"
+          :box-shadow="[0, 4, 12, 'rgba(0, 0, 0, 0.1)']"
+        >
+          <t-button type="warning" prefixIcon="edit">自定义样式</t-button>
+        </t-popover>
+        <t-popover content="无箭头弹出框" :show-arrow="false">
+          <t-button type="info" prefixIcon="close">无箭头</t-button>
+        </t-popover>
+        <t-popover content="自定义间距" :gap="20">
+          <t-button type="success" prefixIcon="position">自定义间距</t-button>
+        </t-popover>
+      </div>
     </test-section>
 
     <!-- 自定义内容 -->
@@ -77,30 +81,34 @@
 
     <!-- 触发配置 -->
     <test-section title="触发配置">
-      <t-popover content="延迟隐藏" :hide-after="1000">
-        <t-button type="info" prefixIcon="time">延迟隐藏</t-button>
-      </t-popover>
-      <t-popover content="ESC关闭" type="click" :close-on-press-escape="true">
-        <t-button type="danger" prefixIcon="close">ESC关闭</t-button>
-      </t-popover>
-      <t-popover content="点击其他区域关闭" type="click" :close-on-press-other="true">
-        <t-button type="warning" prefixIcon="position">点击其他关闭</t-button>
-      </t-popover>
+      <div class="button-group">
+        <t-popover content="延迟隐藏" :hide-after="1000">
+          <t-button type="info">延迟隐藏</t-button>
+        </t-popover>
+        <t-popover content="ESC关闭" type="click" :close-on-press-escape="true">
+          <t-button type="danger" prefixIcon="close">ESC关闭</t-button>
+        </t-popover>
+        <t-popover content="点击其他区域关闭" type="click" :close-on-press-other="true">
+          <t-button type="warning" prefixIcon="position">点击其他关闭</t-button>
+        </t-popover>
+      </div>
     </test-section>
 
     <!-- 遮罩层 -->
     <test-section title="遮罩层">
-      <t-popover content="带遮罩层" type="click" :is-modal="true">
-        <t-button>遮罩层</t-button>
-      </t-popover>
-      <t-popover content="嵌套遮罩" type="click" :is-modal="true" :is-modal-nest="true">
-        <t-button>嵌套遮罩</t-button>
-      </t-popover>
+      <div class="button-group">
+        <t-popover content="带遮罩层" type="click" :is-modal="true">
+          <t-button>遮罩层</t-button>
+        </t-popover>
+        <t-popover content="嵌套遮罩" type="click" :is-modal="true" :is-modal-nest="true">
+          <t-button>嵌套遮罩</t-button>
+        </t-popover>
+      </div>
     </test-section>
 
     <!-- 自定义位置 -->
     <test-section title="自定义位置">
-      <t-popover content="自定义位置" :custom="{ x: '80%', y: '100px' }">
+      <t-popover content="自定义位置" :custom="{ x: 80, y: 100 }">
         <t-button type="success" prefixIcon="position">自定义位置</t-button>
       </t-popover>
     </test-section>
@@ -146,11 +154,11 @@ const addLog = (message: string) => {
 };
 
 // 事件处理
-const handleHoverEnter = (el: HTMLElement) => {
+const handleHoverEnter = (_: HTMLElement) => {
   addLog("鼠标进入");
 };
 
-const handleHoverOut = (el: HTMLElement) => {
+const handleHoverOut = (_: HTMLElement) => {
   addLog("鼠标离开");
 };
 
@@ -160,29 +168,32 @@ const handleModelChange = () => {
 </script>
 
 <style lang="scss" scoped>
+.popover-wrapper {
+  display: flex;
+  gap: 12px;
+}
 .test-container {
-  padding: 20px;
+  padding: 24px;
 
   h2 {
-    margin-bottom: 20px;
-    font-weight: 500;
+    margin-bottom: 24px;
+    font-weight: 600;
     font-size: 28px;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
   }
 
-  .position-group {
+  .position-group,
+  .button-group {
     display: flex;
     gap: 12px;
+    flex-wrap: wrap;
   }
 
   // 增加测试区域间距
   :deep(.test-section) {
     margin-bottom: 24px;
-
-    .button-group {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
   }
 
   .custom-content {
