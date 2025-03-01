@@ -1,5 +1,5 @@
 import type { BaseProps } from "@/types";
-import type { DateType, ModeType } from "../calendar/calendar";
+import type { DateType, ModeType } from "@/packages/calendar/calendar";
 
 /**
  * @description 快捷选项类型
@@ -69,4 +69,4 @@ export const ICON_SIZES = {
   default: 14,
   small: 14,
   large: 16
-}; 
+};
