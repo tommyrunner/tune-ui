@@ -153,3 +153,10 @@ li {
   color: inherit;
   text-decoration: none;
 }
+// 去除默认样式
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+}
