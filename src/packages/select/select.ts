@@ -1,8 +1,11 @@
 import type { ElSizeType, BaseProps } from "@/types";
 import type { PropsType as OptionsItem } from "./option";
 import type { TipProps } from "@/hooks/useTip";
+
 /**
  * @description 列表项插槽参数类型
+ * @template T 行数据类型
+ * @interface SelectSlotParamsType
  */
 export type SelectSlotParamsType<T = any> = {
   /** 行数据 */
@@ -13,17 +16,27 @@ export type SelectSlotParamsType<T = any> = {
 
 /**
  * @description 选项类型
+ * @typedef {OptionsItem} OptionsItemType
  */
 export type OptionsItemType = OptionsItem;
 
 /**
- * @description 值类型定义
+ * @description 单值类型定义
+ * @typedef {string | number | object} SingleValueType
  */
 export type SingleValueType = string | number | object;
+
+/**
+ * @description 值类型定义，可以是单值或数组
+ * @typedef {SingleValueType | SingleValueType[]} ValueType
+ */
 export type ValueType = SingleValueType | SingleValueType[];
 
 /**
  * @description 组件属性类型
+ * @interface PropsType
+ * @extends {TipProps}
+ * @extends {BaseProps}
  */
 export interface PropsType extends TipProps, BaseProps {
   /** 选项列表 */
@@ -48,22 +61,33 @@ export interface PropsType extends TipProps, BaseProps {
 
 /**
  * @description 组件事件类型
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 清空事件 */
   (e: "clear"): void;
 }
 
-// 常量定义
-/** 图标颜色 */
+/**
+ * @description 图标颜色
+ */
 export const ICON_COLOR = "#656a6e56";
-/** 下拉框圆角 */
+
+/**
+ * @description 下拉框圆角
+ */
 export const DROPDOWN_RADIUS = 6;
-/** 图标尺寸映射 */
+
+/**
+ * @description 图标尺寸映射
+ */
 export const ICON_SIZES: Record<ElSizeType, number> = {
   default: 14,
   small: 14,
   large: 16
 };
-/** 空选项 */
+
+/**
+ * @description 空选项
+ */
 export const EMPTY_OPTION: OptionsItemType = { label: "", value: "" };

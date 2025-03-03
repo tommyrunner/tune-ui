@@ -1,8 +1,17 @@
 /**
  * @description Select 选择器组件
+ * @module Select
  */
 import Select from "./index.vue";
-// 导出组件
+
+/**
+ * @description 导出Select组件
+ * @component TSelect
+ */
 export const TSelect = Select;
-// 导出组件类型
+
+/**
+ * @description 导出Select组件类型
+ * @typedef {InstanceType<typeof TSelect>} TSelectType
+ */
 export type TSelectType = InstanceType<typeof TSelect>;

@@ -3,6 +3,8 @@ import type { ValueType, PropsType } from "./select";
 
 /**
  * @description 选择器组上下文类型
+ * @interface GroupContextType
+ * @extends {PropsType}
  */
 export interface GroupContextType extends PropsType {
   /** 选中值 */
@@ -11,5 +13,8 @@ export interface GroupContextType extends PropsType {
   temModel?: ValueType;
 }
 
-/** 选择器组注入键 */
+/**
+ * @description 选择器组注入键
+ * @type {InjectionKey<GroupContextType>}
+ */
 export const selectGroupKey: InjectionKey<GroupContextType> = Symbol("selectKey");

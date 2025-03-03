@@ -2,6 +2,7 @@ import type { ValueType } from "./select";
 
 /**
  * @description 选项组件属性类型
+ * @interface PropsType
  */
 export interface PropsType {
   /** 选项值 */
@@ -16,6 +17,7 @@ export interface PropsType {
 
 /**
  * @description 选项组件事件类型
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 选项变更事件 */

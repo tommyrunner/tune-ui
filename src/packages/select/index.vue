@@ -30,7 +30,7 @@
       </div>
 
       <!-- 输入框模式显示 -->
-      <div :class="selectClassNames" v-else>
+      <div :class="selectClasses" v-else>
         <!-- 前缀插槽 -->
         <div class="_prefix">
           <slot name="prefix" />
@@ -84,11 +84,16 @@
 </template>
 
 <script lang="ts" setup>
+// Vue相关导入
+import { computed, reactive, ref, watch, provide, toRefs } from "vue";
+
+// 类型导入
+import type { StyleValue } from "vue";
 import type { EmitsType, ValueType, OptionsItemType, PropsType, SingleValueType } from "./select";
 import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import type { TPopoverType } from "@/packages/popover";
-import type { StyleValue } from "vue";
-import { computed, reactive, ref, watch, provide, toRefs } from "vue";
+
+// 项目内导入
 import { configOptions } from "@/hooks/useOptions";
 import { fromCssVal } from "@/utils";
 import { useTip } from "@/hooks";
@@ -102,11 +107,19 @@ import Option from "./option.vue";
 import { GroupContextType, selectGroupKey } from "./constants";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
 
-// 组件名称定义
+/**
+ * @description 选择器组件
+ */
 defineOptions({ name: "TSelect" });
 
-// Props 和 Emits 定义
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
+
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   options: () => [],
   type: "input",
@@ -120,70 +133,110 @@ const props = withDefaults(defineProps<PropsType>(), {
   multiple: false
 });
 
-// v-model 定义
+/**
+ * @description v-model定义
+ */
 const model = defineModel<ValueType>({
   default: props => (props.multiple ? [] : "")
 });
-// 动态 loading 定义
+
+/**
+ * @description 动态loading定义
+ */
 const loading = defineModel<boolean>("loading", {
   default: false
 });
 
-// refs
+/**
+ * @description 组件引用
+ */
 const inputRef = ref();
 const popoverRef = ref<TPopoverType>();
 
-// 组件状态
+/**
+ * @description 组件状态
+ */
 const state = reactive({
-  // 选中值
+  /** 选中值 */
   selectedOption: { ...EMPTY_OPTION },
-  // 下拉框是否显示
+  /** 下拉框是否显示 */
   isDropdownVisible: false,
-  // 过滤文本
+  /** 过滤文本 */
   filterText: null,
-  // 是否聚焦
+  /** 是否聚焦 */
   isFocused: false,
-  // 临时模型值
+  /** 临时模型值 */
   temModel: props.multiple ? [] : ("" as ValueType)
 });
 
-// 计算属性
-const selectClassNames = computed(() => {
+/**
+ * @description 计算选择器类名
+ * @returns {string[]} 类名数组
+ */
+const selectClasses = computed((): string[] => {
   const { size, clearable, disabled } = props;
   return ["_select-content", `t-select-size-${size}`, clearable && "t-select-clearable", disabled && "t-disabled"];
 });
 
-const showClearIcon = computed(() => props.clearable && isValue(model.value));
+/**
+ * @description 是否显示清除图标
+ * @returns {boolean} 是否显示
+ */
+const showClearIcon = computed((): boolean => props.clearable && isValue(model.value));
 
-const iconSize = computed(() => ICON_SIZES[props.size]);
+/**
+ * @description 计算图标尺寸
+ * @returns {number} 图标尺寸
+ */
+const iconSize = computed((): number => ICON_SIZES[props.size]);
 
+/**
+ * @description 计算选中标签
+ * @returns {string} 标签文本
+ */
 const selectedLabel = computed((): string => {
   if (props.type === "text" && !model.value) return props.placeholder;
   const selectedOption = props.options.find(option => isEqual(option.value, model.value));
   return selectedOption?.label;
 });
 
+/**
+ * @description 计算选择框占位符
+ * @returns {string} 占位符文本
+ */
 const selectPlaceholder = computed((): string => {
   if (!isValue(state.temModel)) return props.placeholder;
   const selectedOption = props.options.find(option => isEqual(option.value, state.temModel));
   return selectedOption?.label;
 });
 
-const dropdownStyles = computed(
-  (): StyleValue => ({
+/**
+ * @description 计算下拉框样式
+ * @returns {StyleValue} 样式对象
+ */
+const dropdownStyles = computed((): StyleValue => {
+  return {
     borderRadius: fromCssVal(DROPDOWN_RADIUS)
-  })
-);
+  };
+});
 
-// 提示组件
+/**
+ * @description 提示组件
+ */
 const TipComponent = useTip(props, model);
 
-const filteredOptions = computed(() => {
+/**
+ * @description 计算过滤后的选项
+ * @returns {OptionsItemType[]} 选项列表
+ */
+const filteredOptions = computed((): OptionsItemType[] => {
   if (!props.filterable || !state.filterText) return props.options;
+
   // 自定义过滤方法
   if (props.filterMethod) {
     return props.options.filter(option => props.filterMethod(option, state.filterText));
   }
+
   // 默认过滤方法
   return props.options.filter(option => {
     const label = String(option.label || "").toLowerCase();
@@ -193,48 +246,52 @@ const filteredOptions = computed(() => {
 });
 
 /**
- * 渲染标签
- * @param item 选项
- * @returns 标签
+ * @description 计算空文本
+ * @returns {string} 空文本
  */
-const renderLabel = (item: SingleValueType) => {
-  const selectedOption = props.options.find(option => isEqual(option.value, item));
-  return selectedOption?.label;
-};
+const emptyText = computed((): string => {
+  return loading.value ? "加载中..." : props.emptyText;
+});
 
 /**
- * 删除选项
- * @param item 选项
+ * @description 计算输入框显示值
+ * @returns {string} 显示值
  */
-const handleDeleteOption = (item: SingleValueType) => {
-  const values = (model.value as SingleValueType[]) || [];
-  model.value = values.filter(value => value !== item);
-};
-
-/**
- * 输入框显示值
- */
-const inputDisplayValue = computed(() => {
+const inputDisplayValue = computed((): string => {
   // 控制多选时，输入框显示值
   if (props.multiple && isValue(model.value)) return " ";
-  if (state.isFocused) {
+  if (state.isFocused && props.filterable) {
     return state.filterText;
   }
   return selectedLabel.value;
 });
 
 /**
- * 获取空文本
+ * @description 渲染标签
+ * @param {SingleValueType} item - 选项值
+ * @returns {string} 标签文本
  */
-const emptyText = computed(() => {
-  return loading.value ? "加载中..." : props.emptyText;
-});
+const renderLabel = (item: SingleValueType): string => {
+  const selectedOption = props.options.find(option => isEqual(option.value, item));
+  return selectedOption?.label;
+};
 
 /**
- * 清空选择
- * @param event 事件对象
+ * @description 删除选项
+ * @param {SingleValueType} item - 要删除的选项
+ * @returns {void}
  */
-const handleClear = (event: Event) => {
+const handleDeleteOption = (item: SingleValueType): void => {
+  const values = (model.value as SingleValueType[]) || [];
+  model.value = values.filter(value => value !== item);
+};
+
+/**
+ * @description 清空选择
+ * @param {Event} event - 事件对象
+ * @returns {void}
+ */
+const handleClear = (event: Event): void => {
   event.stopPropagation();
   if (!props.clearable) return;
   updateModelValue();
@@ -242,88 +299,112 @@ const handleClear = (event: Event) => {
 };
 
 /**
- * 处理选项选择
- * @param option 选中的选项
+ * @description 处理选项选择
+ * @param {OptionsItemType} option - 选中的选项
+ * @returns {void}
  */
-const handleOptionSelect = (option: OptionsItemType) => {
+const handleOptionSelect = (option: OptionsItemType): void => {
   if (option.disabled) return;
   updateModelValue(option);
 };
 
 /**
- * 处理输入过滤
+ * @description 更新模型值
+ * @param {OptionsItemType} [option] - 选中的选项
+ * @returns {void}
  */
-const handleFilter = bindDebounce((event: Event) => {
-  const target = event.target as HTMLInputElement;
-  state.filterText = target.value;
-  if (props.remoteMethod) {
-    props.remoteMethod(target.value);
-  }
-}, 200);
+const updateModelValue = (option?: OptionsItemType): void => {
+  // 多选模式，追加选项
+  if (props.multiple && option) {
+    let values = (model.value as SingleValueType[]) || [];
+    const index = values.findIndex(value => isEqual(value, option.value));
 
-/**
- * 处理输入框聚焦
- */
-const handleFocus = () => {
-  if (!props.filterable) return;
-  state.isFocused = true;
-  state.filterText = "";
-  state.temModel = model.value;
-  model.value = props.multiple ? [] : "";
-};
-
-/**
- * 处理输入框失焦
- */
-const handleBlur = () => {
-  if (!props.filterable) return;
-  state.isFocused = false;
-  state.filterText = "";
-  model.value = state.temModel;
-};
-/**
- * 关闭下拉框
- */
-const handleClose = () => {
-  inputRef.value?.blur();
-};
-
-/**
- * 更新组件值
- * @param option 选中的选项，不传则清空
- */
-const updateModelValue = (option?: OptionsItemType) => {
-  if (!option) {
-    model.value = props.multiple ? [] : "";
-    state.selectedOption = { ...EMPTY_OPTION };
-    return;
-  } else {
-    if (props.multiple) {
-      const values = (model.value as SingleValueType[]) || [];
-      const index = values.indexOf(option.value);
-
-      if (index > -1) {
-        values.splice(index, 1);
-      } else {
-        values.push(option.value);
-      }
+    // 如果已经存在，则移除
+    if (index !== -1) {
+      values = values.filter((_, i) => i !== index);
     } else {
-      model.value = option.value;
-      state.selectedOption = option;
+      // 否则，添加
+      values = [...values, option.value];
     }
+
+    model.value = values;
+    return;
+  }
+
+  // 单选模式或清空操作
+  model.value = option ? option.value : props.multiple ? [] : "";
+
+  // 关闭下拉框
+  if (!props.multiple && option) {
     state.isDropdownVisible = false;
   }
 };
 
 /**
- * 监听过滤选项, 更新下拉框位置
+ * @description 处理输入过滤
+ * @param {Event} event - 输入事件
+ * @returns {void}
  */
-watch([() => props.options, () => filteredOptions], () => {
-  popoverRef.value?.updateView();
-});
+const handleFilter = (event: Event): void => {
+  const target = event.target as HTMLInputElement;
+  state.filterText = target.value;
 
-// Provide 注入
-provide<GroupContextType>(selectGroupKey, reactive({ ...toRefs(props), model, ...toRefs(state) }));
+  // 远程搜索方法
+  if (props.remoteMethod) {
+    loading.value = true;
+    bindDebounce(() => {
+      props.remoteMethod(state.filterText);
+      loading.value = false;
+    }, 300)();
+  }
+};
+
+/**
+ * @description 处理输入框聚焦
+ * @returns {void}
+ */
+const handleFocus = (): void => {
+  state.isFocused = true;
+};
+
+/**
+ * @description 处理输入框失焦
+ * @returns {void}
+ */
+const handleBlur = (): void => {
+  setTimeout(() => {
+    state.isFocused = false;
+  }, 100);
+};
+
+/**
+ * @description 处理下拉框关闭
+ * @returns {void}
+ */
+const handleClose = (): void => {
+  state.filterText = null;
+};
+
+// 监听选中值
+watch(
+  () => model.value,
+  newVal => {
+    state.temModel = newVal;
+    const selectedOption = props.options.find(option => isEqual(option.value, newVal)) || { ...EMPTY_OPTION };
+    state.selectedOption = selectedOption;
+  },
+  { immediate: true }
+);
+
+// 提供选择器组上下文
+provide(
+  selectGroupKey,
+  reactive({
+    ...toRefs(props),
+    model,
+    temModel: state.temModel
+  }) as GroupContextType
+);
 </script>
 
 <style lang="scss" scoped>

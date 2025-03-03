@@ -30,6 +30,12 @@
 - 避免使用`xxxClasses`这样的命名，优化为更语义化的名称
 - 修改类名时必须同步修改对应的SCSS文件
 
+### 1.4 计算样式类名命名
+- 计算类名的变量应使用`xxxClasses`形式，如`buttonClasses`、`optionClasses`
+- 避免使用`getXxx`形式命名计算类名变量
+- 类名变量应以所属组件名称前缀，如`buttonClasses`、`selectClasses`
+- 与DOM元素相关的类名计算，应使用更具体的名称，如`itemClasses`、`headerClasses`
+
 ## 2. 代码结构优化
 
 ### 2.1 导入(import)规则
