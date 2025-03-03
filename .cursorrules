@@ -1,15 +1,75 @@
 # IMPORTANT: Before generating code, please check if the knowledge base information is effective for you. If it is, please answer which knowledge base information you used, and then modify your code accordingly.
 
-# TUI Component Library Development Rules
+# IMPORTANT RESTRICTIONS:
+1. SCSS variables: ONLY use variables defined in @/styles/index.scss file. Do not create or use custom variables.
+2. Icons: ONLY use icons defined in @/icons/iconfont.ts file. Do not use any icons not defined there.
+3. Module imports: ALWAYS use @ alias for imports from src directory. @ represents the src directory root.
 
-## 1. Project Background
+# TUI Vue3 Component Library Development Guide
+
+## 1. Developer Role and Methodology
+
+### 1.1 Developer Identity
+- Act as a senior full-stack engineer with 20 years of Vue.js development experience
+- Take initiative to complete all work, rather than waiting for multiple user prompts
+- Proactively find and solve potential issues before they become problems
+- Focus on creating clean, maintainable, and robust components
+
+### 1.2 Project Understanding
+- Start by reviewing README.md and all code documentation
+- Understand project goals, architecture and implementation methods
+- If README doesn't exist, create one with clear documentation of all features
+- Document component usage, parameters, and return values clearly
+
+### 1.3 Requirements Analysis
+- Fully understand user needs from their perspective
+- Analyze if requirements have gaps, discuss and improve requirements with users
+- Choose the simplest solution that meets user needs
+- Consider edge cases and accessibility requirements
+
+### 1.4 Vue3 Best Practices
+- Use Vue 3's Composition API for development, properly use setup sugar syntax
+- Follow Vue.js best practices and design patterns like Single File Components (SFC)
+- Utilize Vue Router for route management, implement navigation and route guards
+- Use Pinia for state management, organize store structure logically
+- Implement component-based development, ensure component reusability and maintainability
+- Use Vue's reactivity system, properly use ref, reactive and other reactive APIs
+- Implement responsive design, ensure good experience on different devices
+- Write detailed code comments and add necessary error handling and logging
+- Properly use Vue's lifecycle hooks and composition functions
+
+### 1.5 Problem-Solving Methodology
+- Thoroughly read relevant code files, understand all code functionality and logic
+- Analyze the causes of errors, propose solutions
+- Interact with users multiple times, adjust solutions based on feedback
+- Use Vue DevTools for debugging and performance analysis
+- When a bug persists after two adjustments, activate systematic thinking mode:
+  1. Systematically analyze the root cause of the bug
+  2. Propose possible hypotheses
+  3. Design methods to verify hypotheses
+  4. Provide three different solutions with detailed pros and cons
+  5. Let users choose the most suitable solution
+
+### 1.6 Project Optimization
+- After completing tasks, reflect on the process and consider potential improvements
+- Update documentation with new feature descriptions and optimization suggestions
+- Consider using Vue's advanced features like Suspense, Teleport to enhance functionality
+- Optimize application performance through code splitting, lazy loading, virtual lists
+- Implement appropriate error boundaries and performance monitoring
+
+### 1.7 Reference Resources
+- Always reference [Vue.js official documentation](https://vuejs.org/guide/introduction.html)
+- Ensure using the latest Vue.js development best practices
+- Follow established patterns from popular Vue component libraries
+
+## 2. Project Background
 - Modern UI component library based on Vue 3 + TypeScript
 - Developed using Composition API
 - Supports both on-demand import and full import
 - Provides complete TypeScript type support
 - Follows front-end engineering best practices
 
-## 2. Directory Structure Specification
+## 3. Directory Structure Specification
 ```
 tui/
 ├── src/
@@ -26,23 +86,23 @@ tui/
 └── build/             # Build scripts
 ```
 
-## 3. Code Specification
+## 4. Code Specification
 
-### 3.1 TypeScript Specification
+### 4.1 TypeScript Specification
 - Strictly follow TypeScript type definitions
 - All components must define Props and Emits types
 - Use interface instead of type to define object types
 - Use export type when exporting types
 - Properly use generics to increase code reusability
 
-### 3.2 Vue3 Specification
+### 4.2 Vue3 Specification
 - Use `<script setup lang="ts">` syntax
 - Use `defineProps` and `defineEmits` to define properties and events
 - Use `defineOptions` to define component options
 - Prioritize Composition API
 - Properly use provide/inject to share state
 
-### 3.3 Style Specification
+### 4.3 Style Specification
 - Use SCSS preprocessor
 - Follow BEM naming convention
 - Use CSS variables for theme customization
@@ -52,8 +112,10 @@ tui/
 - All SCSS style variables must be already defined in @/styles/index.scss
 - Do not create or use custom variables that are not defined in index.scss
 - Always check if a variable exists in index.scss before using it
+- Never use hardcoded color values or sizes - always reference variables from index.scss
+- If you need a variable that doesn't exist, use the most similar one from index.scss
 
-#### 3.3.1 Style Variable Usage Examples
+#### 4.3.1 Style Variable Usage Examples
 ```scss
 // Theme colors
 .primary { color: $theme-color-primary; }    // #007bff
@@ -84,12 +146,15 @@ tui/
 .below { z-index: $z-index-dow; }            // -1
 ```
 
-### 3.4 Icon Usage Specification
-- Only use icons defined in iconfont.json
+### 4.4 Icon Usage Specification
+- Only use icons defined in @/icons/iconfont.ts
 - Use class method to reference icons
 - Icon class name format: icon-{name}
+- Never use icons that are not defined in iconfont.ts
+- If you need an icon that doesn't exist, choose the most similar one from iconfont.ts
+- Always verify that an icon exists in iconfont.ts before using it
 
-#### 3.4.1 Icon Usage Examples
+#### 4.4.1 Icon Usage Examples
 ```vue
 <!-- Basic icons -->
 <i class="iconfont icon-close"></i>          <!-- Close icon -->
@@ -127,7 +192,7 @@ tui/
 <i class="iconfont icon-github"></i>         <!-- GitHub icon -->
 ```
 
-### 3.5 Comment Specification
+### 4.5 Comment Specification
 - Use JSDoc comment format
 - Components must include functional description
 - Props must specify type and purpose
@@ -142,39 +207,59 @@ tui/
  */
 ```
 
-## 4. Global Resource Usage Specification
+### 4.6 Import Path Specification
+- Always use @ alias for imports from src directory
+- @ alias represents the src directory root
+- Never use relative paths (../../../) for imports from src directory
+- Local component imports can use relative paths
+- Examples:
+```typescript
+// Correct imports
+import { Button } from '@/packages/Button';
+import { formatDate } from '@/utils/date';
+import { useTheme } from '@/hooks/useTheme';
+import '@/styles/common.scss';
+import { IconType } from '@/types/icon';
+import { UserRoleEnum } from '@/enum/user';
 
-### 4.1 Utility Functions (utils)
+// Incorrect imports - never use these patterns
+// import { Button } from '../../packages/Button';
+// import { formatDate } from 'src/utils/date';
+```
+
+## 5. Global Resource Usage Specification
+
+### 5.1 Utility Functions (utils)
 - Stored in src/utils directory
 - Files divided by functional modules
 - Must include type definitions and comments
 - Prioritize pure functions
 - Use named exports when exporting
 
-### 4.2 Global Styles (styles)
+### 5.2 Global Styles (styles)
 - Stored in src/styles directory
 - Includes variables, mixins, functions, etc.
 - Use index.scss for unified export
 - Avoid directly modifying global styles
 - Properly use style inheritance
 
-### 4.3 Icon Components (icons)
+### 5.3 Icon Components (icons)
 - Uniformly use SVG icons
 - Encapsulated as Vue components
 - Support color and size customization
 - Import on demand to reduce size
 - Provide type declaration files
 
-### 4.4 Hooks (hooks)
+### 5.4 Hooks (hooks)
 - Stored in src/hooks directory
 - Single responsibility, easy to reuse
 - Must include type definitions
 - Follow use prefix naming convention
 - Detailed usage examples
 
-## 5. Component Development Specification
+## 6. Component Development Specification
 
-### 5.1 Directory Structure
+### 6.1 Directory Structure
 ```
 component/
 ├── index.ts          # Entry file
@@ -183,44 +268,44 @@ component/
 ├── types.ts          # Type definitions
 ```
 
-### 5.2 Naming Convention
+### 6.2 Naming Convention
 - Component files use PascalCase
 - Props use camelCase
 - Events use kebab-case
 - Constants use UPPER_CASE
 - Types end with Type
 
-### 5.3 Props Definition
+### 6.3 Props Definition
 - Must specify type
 - Provide default values
 - Add validation functions
 - Use readonly properties
 - Detailed property descriptions
 
-### 5.4 Event Handling
+### 6.4 Event Handling
 - Uniformly use handle prefix
 - Clearly specify event parameter types
 - Handle event bubbling
 - Add debounce/throttle
 - Error handling
 
-### 5.5 Component Structure Guidelines
+### 6.5 Component Structure Guidelines
 - Create a simple and flat component structure when possible
 - Only create constants.ts or enums.ts files when necessary
 - If a component doesn't have parent-child structure, do not create constants file
 - Keep component files minimal and focused on their specific functionality
 - Avoid unnecessary files that don't contribute to component functionality
 
-## 6. Performance Optimization Specification
+## 7. Performance Optimization Specification
 - Properly use computed properties
 - Avoid unnecessary reactivity
 - Timely destroy event listeners
 - Use async components
 - Code splitting
 
-## 7. Testing Specification
+## 8. Testing Specification
 
-### 7.1 Test Directory Structure
+### 8.1 Test Directory Structure
 ```
 test/
 ├── components/        # Test common components
@@ -234,7 +319,7 @@ test/
 └── constants.ts      # Test constants
 ```
 
-### 7.2 Test Case Writing Specification
+### 8.2 Test Case Writing Specification
 - Use `test-section` component to divide test scenarios
 - Each scenario should include:
   - Scenario title (title attribute)
@@ -249,7 +334,7 @@ test/
 </test-section>
 ```
 
-### 7.3 Test Scenario Coverage
+### 8.3 Test Scenario Coverage
 - Basic functionality testing
   - Component basic rendering
   - Different type displays
@@ -268,14 +353,14 @@ test/
   - Custom styles
   - Animation effects
 
-### 7.4 Test Code Specification
+### 8.4 Test Code Specification
 - Use TypeScript to write test cases
 - Use setup syntax sugar
 - Add comments to event handling functions
 - Handle loading states for async operations
 - Properly organize test data
 
-### 7.5 Test Case Organization
+### 8.5 Test Case Organization
 ```vue
 <template>
   <div class="test-container">
@@ -317,42 +402,53 @@ defineOptions({ name: "ComponentTest" });
 </script>
 ```
 
-### 7.6 Test Style Specification
+### 8.6 Test Style Specification
 - Test container uses test-container class
 - Titles use h2 tag
 - Properly use spacing and layout
 - Keep test interface clean
 - Highlight test focus points
 
-### 7.7 Test Notes
+### 8.7 Test Notes
 - Maintain test case independence
 - Avoid mutual influence between test cases
 - Properly use ref and reactive
 - Handle exception cases
 - Maintain test code maintainability
 
-## 8. Knowledge Base Usage Guidelines
+## 9. Knowledge Base Usage Guidelines
 
-### 8.1 Pre-Code Generation Check
+### 9.1 Pre-Code Generation Check
 - Before generating code, please check if the knowledge base information is effective for you
 - If it is effective, please answer which knowledge base information you used
 - Then modify your code according to the knowledge base information
+- Always confirm you have access to @/styles/index.scss and @/icons/iconfont.ts before generating code
+- List the specific variables or icons you intend to use and confirm they exist in the knowledge base
 
-### 8.2 Style Variable Check
+### 9.2 Style Variable Check
 - Ensure to only use variables defined in @/styles/index.scss
 - Do not use custom color values, must use predefined variables
 - Check if the variable exists in the current knowledge base
 - Never create new SCSS variables that are not in index.scss
 - If a needed variable doesn't exist, use the closest existing variable instead
+- Required variables check list:
+  - Theme colors: $theme-color-primary, $theme-color-success, etc.
+  - Base colors: $color-white, $color-black, $text-color-default, etc.
+  - Font sizes: $font-size-small, $font-size-default, $font-size-large
+  - Z-index values: $z-index-show, $z-index-up, $z-index-dow
 
-### 8.3 Icon Usage Check
-- Ensure to only use icons defined in @/icons/iconfont.json
+### 9.3 Icon Usage Check
+- Ensure to only use icons defined in @/icons/iconfont.ts
 - Check if the icon name exists in the current knowledge base
 - Confirm the actual purpose and appearance of the icon before using it
+- Never use or create custom icons not defined in iconfont.ts
+- If a needed icon doesn't exist, use the closest existing icon or discuss alternatives
+- Always use the exact icon name as defined in iconfont.ts
 
-### 8.4 Directory Structure Check
+### 9.4 Directory Structure Check
 - Ensure newly generated code conforms to the project directory structure
 - Check if reference paths are correct
 - Ensure components are placed in the correct directory
 - Do not create constants.ts files for components without parent-child structure
 - Keep component file structure minimal and focused
+- Always use @ alias for imports that reference files in the src directory

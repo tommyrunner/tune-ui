@@ -1,5 +1,13 @@
 import Button from "./index.vue";
-/** 导出组件 */
+
+/**
+ * @description 导出Button组件
+ * @component TButton
+ */
 export const TButton = Button;
-/** 导出组件类型 */
+
+/**
+ * @description 导出Button组件类型
+ * @typedef {InstanceType<typeof TButton>} TButtonType
+ */
 export type TButtonType = InstanceType<typeof TButton>;

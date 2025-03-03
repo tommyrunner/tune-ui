@@ -1,7 +1,10 @@
-import { ElSizeType, type BaseProps } from "@/types";
+import type { ElSizeType, BaseProps } from "@/types";
 import type { IconTypes } from "@/packages/icon/icon";
+
 /**
- * @description: 组件props类型
+ * @description Button组件Props类型定义
+ * @interface PropsType
+ * @extends {BaseProps}
  */
 export interface PropsType extends BaseProps {
   /** 按钮类型 */
@@ -21,14 +24,19 @@ export interface PropsType extends BaseProps {
   /** 是否启用缩放效果 */
   scale?: boolean;
 }
+
 /**
- * @description: 组件emit类型
+ * @description Button组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 点击事件 */
   (e: "click", data: MouseEvent): void;
 }
-// 不同尺寸对应的图标大小
+
+/**
+ * @description 不同尺寸对应的图标大小映射
+ */
 export const ICON_SIZES: Record<ElSizeType, number> = {
   default: 14,
   small: 8,

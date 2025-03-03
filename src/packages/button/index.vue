@@ -12,17 +12,27 @@
 </template>
 
 <script lang="ts" setup>
+// Vue相关导入
+import { computed } from "vue";
+
+// 类型导入
 import type { StyleValue } from "vue";
 import type { EmitsType, PropsType } from "./button";
 import type { IconTypes } from "@/packages/icon/icon";
+
+// 项目内导入
 import { ICON_SIZES } from "./button";
-import { computed } from "vue";
 import { configOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
 
+/**
+ * @description 按钮组件
+ */
 defineOptions({ name: "TButton" });
 
-// Props 定义
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   type: "default",
@@ -32,27 +42,33 @@ const props = withDefaults(defineProps<PropsType>(), {
   scale: true
 });
 
-// Emits 定义
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
 /**
- * 计算加载状态图标
+ * @description 计算加载状态图标
+ * @returns {IconTypes} 图标类型
  */
 const loadingIcon = computed((): IconTypes => {
   return !props.loading && props.suffixIcon ? props.suffixIcon : "loading";
 });
 
 /**
- * 处理按钮点击事件
+ * @description 处理按钮点击事件
+ * @param {MouseEvent} event - 鼠标事件对象
+ * @returns {void}
  */
-const handleClick = (event: MouseEvent) => {
+const handleClick = (event: MouseEvent): void => {
   if (!props.disabled && !props.loading) {
     emit("click", event);
   }
 };
 
 /**
- * 计算按钮样式
+ * @description 计算按钮样式
+ * @returns {StyleValue | undefined} 按钮样式对象
  */
 const buttonStyles = computed((): StyleValue => {
   if (!props.color) return undefined;
@@ -65,9 +81,10 @@ const buttonStyles = computed((): StyleValue => {
 });
 
 /**
- * 计算按钮类名
+ * @description 计算按钮类名
+ * @returns {string[]} 类名数组
  */
-const buttonClasses = computed(() => {
+const buttonClasses = computed((): string[] => {
   const { color, type, size, radius, scale, disabled, loading } = props;
 
   return [
