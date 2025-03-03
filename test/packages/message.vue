@@ -36,7 +36,7 @@
     <test-section title="关闭配置">
       <div class="button-group">
         <t-button type="info" prefixIcon="close" @click="showCloseMessage">手动关闭</t-button>
-        <t-button type="info" prefixIcon="close" @click="showEscMessage">ESC关闭</t-button>
+        <t-button type="info" prefixIcon="close-to" @click="showEscMessage">ESC关闭</t-button>
         <t-button type="info" prefixIcon="link" @click="showAutoCloseMessage">自动关闭</t-button>
       </div>
     </test-section>

@@ -108,6 +108,7 @@
         <div class="_prefix" v-if="$slots.prefix">
           <slot name="prefix"></slot>
         </div>
+        <component :is="TipComponent" />
         <div class="_input-wrapper">
           <input
             ref="inputRef"
@@ -141,6 +142,7 @@ import { TButton } from "@/packages/button";
 import { configOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS } from "./date-picker-multiple";
 import { useDatePickerMultiple, useMonthSelection, useYearSelection } from "./hooks";
+import { useTip } from "@/hooks";
 
 // 组件名称定义
 defineOptions({ name: "TDatePickerMultiple" });
@@ -152,6 +154,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   placeholder: "请选择日期",
   position: "bottom",
   size: configOptions.value.elSize,
+  isTip: true,
   disabled: false,
   clearable: true,
   showTime: false,
@@ -160,6 +163,9 @@ const props = withDefaults(defineProps<PropsType>(), {
 
 // v-model 定义
 const model = defineModel<DateType[]>({ default: () => [] });
+
+// 提示组件
+const TipComponent = useTip(props, model);
 
 // refs
 const inputRef = ref();

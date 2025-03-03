@@ -1,4 +1,4 @@
-import { type BaseProps } from "@/types";
+import { ElSizeType, type BaseProps } from "@/types";
 import type { IconTypes } from "@/packages/icon/icon";
 /**
  * @description: 组件props类型
@@ -28,3 +28,9 @@ export interface EmitsType {
   /** 点击事件 */
   (e: "click", data: MouseEvent): void;
 }
+// 不同尺寸对应的图标大小
+export const ICON_SIZES: Record<ElSizeType, number> = {
+  default: 14,
+  small: 8,
+  large: 16
+};

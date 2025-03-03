@@ -1,8 +1,13 @@
 <template>
   <button :class="buttonClasses" :style="buttonStyles" @click="handleClick">
-    <t-icon v-if="props.prefixIcon" :icon="props.prefixIcon" class="_prefixIcon" />
+    <t-icon v-if="props.prefixIcon" :icon="props.prefixIcon" :size="ICON_SIZES[props.size]" class="_prefixIcon" />
     <slot />
-    <t-icon v-if="props.suffixIcon || props.loading" :icon="loadingIcon" :class="['_suffixIcon', props.loading && 't-loading']" />
+    <t-icon
+      v-if="props.suffixIcon || props.loading"
+      :icon="loadingIcon"
+      :size="ICON_SIZES[props.size]"
+      :class="['_suffixIcon', props.loading && 't-loading']"
+    />
   </button>
 </template>
 
@@ -10,7 +15,7 @@
 import type { StyleValue } from "vue";
 import type { EmitsType, PropsType } from "./button";
 import type { IconTypes } from "@/packages/icon/icon";
-
+import { ICON_SIZES } from "./button";
 import { computed } from "vue";
 import { configOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";

@@ -7,7 +7,7 @@ import type { TipProps } from "./type";
  * @param modelValue 组件的值
  * @returns Tip 组件
  */
-export const useTip = (props: TipProps, modelValue: Ref): Component => {
+export const useTip = (props: TipProps, modelValue: Ref<any>): Component => {
   return {
     name: "TTip",
     setup() {

@@ -1,10 +1,11 @@
 import type { BaseProps } from "@/types";
+import type { TipProps } from "@/hooks/useTip";
 import type { DateType, ModeType } from "../calendar/calendar";
 
 /**
  * @description 日期选择器组件属性类型
  */
-export interface PropsType extends BaseProps {
+export interface PropsType extends BaseProps, TipProps {
   /** 日期选择器模式 */
   mode?: ModeType;
   /** 是否禁用 */

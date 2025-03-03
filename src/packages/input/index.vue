@@ -35,7 +35,6 @@
 import type { EmitsType, PropsType } from "./input";
 import type { ElSizeType } from "@/types";
 import type { InputTypeHTMLAttribute } from "vue";
-
 import { computed, ref } from "vue";
 import { configOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
