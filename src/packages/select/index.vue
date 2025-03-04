@@ -74,7 +74,7 @@
         <!-- 输入框 -->
         <input
           ref="inputRef"
-          :readonly="!filterable"
+          :readonly="!filterable || state.showCascadePanel"
           :value="inputDisplayValue"
           :placeholder="selectPlaceholder"
           :disabled="disabled"
@@ -385,6 +385,9 @@ const initCascadeView = (option: OptionsItemType): void => {
   // 显示级联面板
   state.showCascadePanel = true;
   state.activeMenuIndex = 1;
+
+  // 清空过滤文本
+  state.filterText = null;
 };
 
 /**
@@ -396,23 +399,27 @@ const initCascadeView = (option: OptionsItemType): void => {
 const handleCascadeItemClick = (option: OptionsItemType, menuIndex: number): void => {
   // 禁用状态下不处理
   if (option.disabled) return;
+
   // 更新激活的菜单索引
   state.activeMenuIndex = menuIndex;
 
-  // 更新级联路径
+  // 更新级联路径 - 保留当前菜单索引之前的路径，替换当前菜单索引的选项
   state.cascadePath = state.cascadePath.slice(0, menuIndex);
   state.cascadePath.push(option);
 
+  // 更新模型值，确保当前选中的选项高亮
+  model.value = option.value;
+
   // 如果选项有子选项，更新级联菜单
   if (Array.isArray(option.children) && option.children.length > 0) {
+    // 保留当前菜单索引之前的菜单，替换后续菜单
     state.cascadePanels = state.cascadePanels.slice(0, menuIndex + 1);
     state.cascadePanels.push(option.children);
     state.activeMenuIndex = menuIndex + 1;
     return;
   }
 
-  // 如果选项没有子选项，更新模型值并关闭级联面板
-  model.value = option.value;
+  // 如果选项没有子选项，关闭级联面板
   state.showCascadePanel = false;
   state.isDropdownVisible = false;
 };
@@ -455,6 +462,9 @@ const updateModelValue = (option?: OptionsItemType): void => {
  * @returns {void}
  */
 const handleFilter = (event: Event): void => {
+  // 级联模式下不进行过滤
+  if (state.showCascadePanel) return;
+
   const target = event.target as HTMLInputElement;
   state.filterText = target.value;
 
@@ -606,6 +616,8 @@ const handleOpen = (): void => {
     buildCascadePathFromValue();
     // 确保选中值被恢复，以便高亮最后一级
     model.value = originalValue;
+    // 在级联模式下清空过滤文本
+    state.filterText = null;
   }
 };
 

@@ -64,6 +64,7 @@
         <t-select
           v-model="state.remoteValue"
           :options="remoteOptions"
+          v-model:loading="state.loading"
           filterable
           :remote-method="handleRemoteMethod"
           placeholder="远程搜索"
@@ -171,19 +172,6 @@
       </div>
     </test-section>
 
-    <test-section title="级联选择可过滤">
-      <div class="select-wrapper">
-        <t-select v-model="state.cascaderFilterValue" :options="cascaderOptions" filterable placeholder="输入过滤级联选项" />
-        <t-select
-          v-model="state.cascaderFilterCustomValue"
-          :options="cascaderOptions"
-          filterable
-          :filter-method="handleCascaderFilterMethod"
-          placeholder="自定义级联过滤"
-        />
-      </div>
-    </test-section>
-
     <test-section title="级联选择自定义插槽">
       <div class="select-wrapper">
         <t-select v-model="state.cascaderCustomValue" :options="cascaderOptions" placeholder="自定义级联选项">
@@ -261,6 +249,10 @@ const cascaderOptions = [
   {
     label: "广州",
     value: "guangzhou"
+  },
+  {
+    label: "深圳",
+    value: "shenzhen"
   }
 ];
 
@@ -354,29 +346,16 @@ const handleFilterMethod = (option: OptionsItemType, query: string) => {
 };
 
 /**
- * 自定义级联过滤方法
- * @param option 选项
- * @param query 查询文本
- */
-const handleCascaderFilterMethod = (option: OptionsItemType, query: string) => {
-  const text = query.toLowerCase();
-  return (
-    option.label.toLowerCase().includes(text) ||
-    (option.subLabel && option.subLabel.toLowerCase().includes(text)) ||
-    String(option.value).toLowerCase().includes(text)
-  );
-};
-
-/**
  * 远程搜索方法
  * @param query 查询文本
  */
 const handleRemoteMethod = async (query: string) => {
   state.loading = true;
   // 模拟远程请求
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  remoteOptions.value = options.filter(item => item.label.toLowerCase().includes(query.toLowerCase()));
-  state.loading = false;
+  setTimeout(() => {
+    state.loading = false;
+    remoteOptions.value = options.filter(item => item.label.toLowerCase().includes(query.toLowerCase()));
+  }, 2000);
 };
 </script>
 

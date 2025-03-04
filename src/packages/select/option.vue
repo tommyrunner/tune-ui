@@ -78,10 +78,33 @@ const optionClasses = computed((): string[] => {
     isActive = isEqual(groupValue, value);
   }
 
-  // 在级联路径中判断是否被选中
-  const isInCascadePath = groupState?.cascadePath?.some(option => isEqual(option.value, value));
+  // 在级联模式下判断高亮状态
+  let isInCascadePath = false;
+  if (groupState?.showCascadePanel && groupState?.cascadePath?.length > 0) {
+    // 获取当前菜单索引和当前选项所在的菜单索引
+    const activeMenuIndex = groupState.activeMenuIndex || 0;
+    // 遍历级联面板，找到当前选项所在的菜单索引
+    let currentOptionMenuIndex = -1;
+    if (groupState.cascadePanels) {
+      for (let i = 0; i < groupState.cascadePanels.length; i++) {
+        const panel = groupState.cascadePanels[i];
+        if (panel.some(opt => isEqual(opt.value, value))) {
+          currentOptionMenuIndex = i;
+          break;
+        }
+      }
+    }
+    // 检查是否在级联路径中
+    const pathIndex = groupState.cascadePath.findIndex(option => isEqual(option.value, value));
+    // 如果在级联路径中，则高亮显示
+    if (pathIndex !== -1) {
+      isInCascadePath = true;
+    } else if (currentOptionMenuIndex === activeMenuIndex) {
+      // 如果是当前激活菜单中的选项，但不在级联路径中，则不高亮
+      isInCascadePath = false;
+    }
+  }
 
-  // 如果是级联路径中的任何一项，都应该高亮
   return ["t-option", (isActive || isInCascadePath) && "_active", disabled && "t-disabled", hasChildren.value && "_has-children"];
 });
 </script>
