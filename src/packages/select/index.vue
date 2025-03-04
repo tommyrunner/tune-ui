@@ -12,7 +12,23 @@
     >
       <!-- 下拉选项列表 -->
       <template #content>
-        <t-list-view :list-data="filteredOptions" class="_options" :style="dropdownStyles" :empty-text="emptyText">
+        <!-- 级联选择面板 -->
+        <div v-if="state.showCascadePanel" class="t-select-cascade">
+          <div v-for="(menuOptions, menuIndex) in state.cascadePanels" :key="menuIndex" class="t-cascade-menu">
+            <t-list-view :list-data="menuOptions" class="_options" :style="dropdownStyles" :empty-text="emptyText">
+              <!-- 选项列表 -->
+              <template #default="{ row }: ListSlotParamsType<OptionsItemType>">
+                <!-- 自定义插槽 -->
+                <Option v-bind="row" @change="option => handleCascadeItemClick(option, menuIndex)">
+                  <slot :row="row" />
+                </Option>
+              </template>
+            </t-list-view>
+          </div>
+        </div>
+
+        <!-- 普通选项列表 -->
+        <t-list-view v-else :list-data="filteredOptions" class="_options" :style="dropdownStyles" :empty-text="emptyText">
           <!-- 选项列表 -->
           <template #default="{ row }: ListSlotParamsType<OptionsItemType>">
             <!-- 自定义插槽 -->
@@ -92,6 +108,7 @@ import type { StyleValue } from "vue";
 import type { EmitsType, ValueType, OptionsItemType, PropsType, SingleValueType } from "./select";
 import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import type { TPopoverType } from "@/packages/popover";
+import type { PropsType as OptionPropsType } from "./option";
 
 // 项目内导入
 import { configOptions } from "@/hooks/useOptions";
@@ -130,7 +147,9 @@ const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   disabled: false,
   filterable: false,
-  multiple: false
+  multiple: false,
+  showAllLevels: true,
+  checkStrictly: true
 });
 
 /**
@@ -166,7 +185,15 @@ const state = reactive({
   /** 是否聚焦 */
   isFocused: false,
   /** 临时模型值 */
-  temModel: props.multiple ? [] : ("" as ValueType)
+  temModel: props.multiple ? [] : ("" as ValueType),
+  /** 级联路径 */
+  cascadePath: [] as OptionPropsType[],
+  /** 级联菜单列表 */
+  cascadePanels: [] as OptionPropsType[][],
+  /** 是否显示级联面板 */
+  showCascadePanel: false,
+  /** 当前激活的级联菜单索引 */
+  activeMenuIndex: 0
 });
 
 /**
@@ -196,6 +223,19 @@ const iconSize = computed((): number => ICON_SIZES[props.size]);
  */
 const selectedLabel = computed((): string => {
   if (props.type === "text" && !model.value) return props.placeholder;
+
+  // 如果有级联路径且路径不为空
+  if (state.cascadePath.length > 0) {
+    if (props.showAllLevels) {
+      // 只显示最后一级
+      return state.cascadePath[state.cascadePath.length - 1].label;
+    } else {
+      // 显示完整路径
+      return state.cascadePath.map(option => option.label).join(" / ");
+    }
+  }
+
+  // 普通选择逻辑
   const selectedOption = props.options.find(option => isEqual(option.value, model.value));
   return selectedOption?.label;
 });
@@ -295,6 +335,9 @@ const handleClear = (event: Event): void => {
   event.stopPropagation();
   if (!props.clearable) return;
   updateModelValue();
+  state.cascadePath = [];
+  state.cascadePanels = [];
+  state.showCascadePanel = false;
   emit("clear");
 };
 
@@ -305,7 +348,73 @@ const handleClear = (event: Event): void => {
  */
 const handleOptionSelect = (option: OptionsItemType): void => {
   if (option.disabled) return;
+
+  // 处理有子选项的情况
+  if (Array.isArray(option.children) && option.children.length > 0) {
+    initCascadeView(option);
+    return;
+  }
+
+  // 普通选择处理
   updateModelValue(option);
+};
+
+/**
+ * @description 初始化级联视图
+ * @param {OptionsItemType} option - 选项
+ * @returns {void}
+ */
+const initCascadeView = (option: OptionsItemType): void => {
+  // 如果选项没有子选项，不处理
+  if (!Array.isArray(option.children) || option.children.length === 0) {
+    return;
+  }
+
+  // 更新级联路径和菜单
+  state.cascadePath = [option];
+  state.cascadePanels = [];
+
+  // 更新模型值，确保选中的父级选项高亮
+  model.value = option.value;
+
+  // 添加子选项到级联菜单
+  if (Array.isArray(option.children) && option.children.length > 0) {
+    state.cascadePanels = [props.options, option.children];
+  }
+
+  // 显示级联面板
+  state.showCascadePanel = true;
+  state.activeMenuIndex = 1;
+};
+
+/**
+ * @description 处理级联菜单项点击
+ * @param {OptionsItemType} option - 选项
+ * @param {number} menuIndex - 菜单索引
+ * @returns {void}
+ */
+const handleCascadeItemClick = (option: OptionsItemType, menuIndex: number): void => {
+  // 禁用状态下不处理
+  if (option.disabled) return;
+  // 更新激活的菜单索引
+  state.activeMenuIndex = menuIndex;
+
+  // 更新级联路径
+  state.cascadePath = state.cascadePath.slice(0, menuIndex);
+  state.cascadePath.push(option);
+
+  // 如果选项有子选项，更新级联菜单
+  if (Array.isArray(option.children) && option.children.length > 0) {
+    state.cascadePanels = state.cascadePanels.slice(0, menuIndex + 1);
+    state.cascadePanels.push(option.children);
+    state.activeMenuIndex = menuIndex + 1;
+    return;
+  }
+
+  // 如果选项没有子选项，更新模型值并关闭级联面板
+  model.value = option.value;
+  state.showCascadePanel = false;
+  state.isDropdownVisible = false;
 };
 
 /**
@@ -383,6 +492,121 @@ const handleBlur = (): void => {
  */
 const handleClose = (): void => {
   state.filterText = null;
+
+  // 如果级联面板处于打开状态且启用严格选择模式
+  if (state.showCascadePanel && props.checkStrictly) {
+    // 检查当前选中值是否为父节点
+    const hasLeafNodeSelected = checkHasSelectedLeafNode();
+
+    // 如果没有选择叶子节点，则清空值
+    if (!hasLeafNodeSelected) {
+      // 使用类型断言而不是修改SingleValueType定义
+      if (props.multiple) {
+        model.value = [] as unknown as SingleValueType[];
+      } else {
+        model.value = "";
+      }
+      state.cascadePath = [];
+    }
+  }
+
+  state.showCascadePanel = false;
+};
+
+/**
+ * @description 检查是否选择了叶子节点
+ * @returns {boolean} 是否选择了叶子节点
+ */
+const checkHasSelectedLeafNode = (): boolean => {
+  // 如果没有级联路径，返回false
+  if (!state.cascadePath.length) return false;
+
+  // 获取最后选择的节点
+  const lastNode = state.cascadePath[state.cascadePath.length - 1];
+
+  // 检查是否为叶子节点（没有子节点或子节点为空数组）
+  return !Array.isArray(lastNode.children) || lastNode.children.length === 0;
+};
+
+/**
+ * @description 根据当前选中值查找级联路径
+ * @returns {void}
+ */
+const buildCascadePathFromValue = (): void => {
+  // 如果没有选中值，不进行处理
+  if (!isValue(model.value)) return;
+
+  // 存储找到的路径和对应的菜单
+  const path: OptionsItemType[] = [];
+  const menus: OptionsItemType[][] = [];
+
+  // 递归查找选中值的路径
+  const findPathRecursive = (options: OptionsItemType[], targetValue: ValueType): boolean => {
+    // 将当前选项列表添加到菜单中
+    if (!menus.includes(options)) {
+      menus.push(options);
+    }
+
+    // 在当前级别查找匹配的选项
+    for (const option of options) {
+      // 检查当前选项是否匹配目标值
+      if (isEqual(option.value, targetValue)) {
+        path.push(option);
+        return true;
+      }
+
+      // 如果当前选项有子选项，递归查找
+      if (Array.isArray(option.children) && option.children.length > 0) {
+        // 先递归查找子选项
+        if (findPathRecursive(option.children, targetValue)) {
+          // 如果在子选项中找到了目标值，将当前选项添加到路径中
+          path.unshift(option);
+          return true;
+        }
+      }
+    }
+
+    // 如果在当前级别没有找到匹配的选项，移除该级别的菜单
+    menus.pop();
+    return false;
+  };
+
+  // 从顶层选项开始查找
+  findPathRecursive(props.options, model.value);
+
+  // 如果找到了路径，设置级联状态
+  if (path.length > 0) {
+    // 确保菜单列表是正确的
+    const correctMenus: OptionsItemType[][] = [props.options];
+    // 根据路径构建正确的菜单列表
+    for (let i = 0; i < path.length - 1; i++) {
+      if (Array.isArray(path[i].children) && path[i].children.length > 0) {
+        correctMenus.push(path[i].children);
+      }
+    }
+
+    // 更新状态
+    state.cascadePath = path;
+    state.cascadePanels = correctMenus;
+    state.showCascadePanel = true;
+    state.activeMenuIndex = path.length - 1;
+  }
+};
+
+/**
+ * @description 处理下拉框打开
+ * @returns {void}
+ */
+const handleOpen = (): void => {
+  // 如果有选中值且是级联选择，自动展开到选中项
+  if (isValue(model.value) && props.options.some(opt => Array.isArray(opt.children) && opt.children.length > 0)) {
+    // 保存原始选中值
+    const originalValue = model.value;
+    // 构建级联路径
+    buildCascadePathFromValue();
+    // 确保选中值被恢复，以便高亮最后一级
+    model.value = originalValue;
+  }
 };
 
 // 监听选中值
@@ -402,8 +626,18 @@ provide(
   reactive({
     ...toRefs(props),
     model,
-    temModel: state.temModel
+    groupState: state
   }) as GroupContextType
+);
+
+// 监听下拉框显示状态变化
+watch(
+  () => state.isDropdownVisible,
+  isVisible => {
+    if (isVisible) {
+      handleOpen();
+    }
+  }
 );
 </script>
 

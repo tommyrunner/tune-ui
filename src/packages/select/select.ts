@@ -53,6 +53,10 @@ export interface PropsType extends TipProps, BaseProps {
   filterable?: boolean;
   /** 是否多选 */
   multiple?: boolean;
+  /** 是否显示完整的级联路径，false则只显示最后一级 */
+  showAllLevels?: boolean;
+  /** 是否启用严格选择模式，开启后只能选择叶子节点 */
+  checkStrictly?: boolean;
   /** 远程搜索方法(必须开启filterable) */
   remoteMethod?: (query: string) => void;
   /** 自定义过滤方法 */
@@ -91,3 +95,28 @@ export const ICON_SIZES: Record<ElSizeType, number> = {
  * @description 空选项
  */
 export const EMPTY_OPTION: OptionsItemType = { label: "", value: "" };
+
+/**
+ * @description 选择器组件状态类型
+ * @interface SelectStateType
+ */
+export interface SelectStateType {
+  /** 选中选项 */
+  selectedOption?: any;
+  /** 下拉框是否显示 */
+  isDropdownVisible?: boolean;
+  /** 过滤文本 */
+  filterText?: string;
+  /** 是否聚焦 */
+  isFocused?: boolean;
+  /** 临时模型值 */
+  temModel?: ValueType;
+  /** 级联路径 */
+  cascadePath?: OptionsItemType[];
+  /** 级联菜单列表 */
+  cascadePanels?: OptionsItemType[][];
+  /** 是否显示级联面板 */
+  showCascadePanel?: boolean;
+  /** 当前激活的级联菜单索引 */
+  activeMenuIndex?: number;
+}

@@ -1,13 +1,61 @@
 @import "@/styles/index.scss";
+
+// 只定义全局样式中不存在的变量
+$option-disabled-color: rgba(0, 0, 0, 0.25);
+$option-disabled-bg: rgba(0, 0, 0, 0.04);
+$option-text-secondary: rgba(128, 128, 128, 0.63);
+
 .t-option {
+  padding: 8px 12px;
   cursor: pointer;
-  padding: 5px 10px;
-  user-select: none;
-  &:not(.t-disabled):hover {
+  font-size: 14px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover {
     background-color: $bg-color-hover;
   }
-}
-._active {
-  color: $theme-color-primary;
-  background-color: $bg-color-hover;
+
+  &._active {
+    color: $theme-color-primary;
+    font-weight: 500;
+  }
+
+  &.t-disabled {
+    cursor: not-allowed;
+    color: $option-disabled-color;
+    background-color: $option-disabled-bg;
+  }
+
+  &._has-children {
+    ._arrow-icon {
+      margin-left: 8px;
+      color: $option-text-secondary;
+      transition: transform 0.2s;
+    }
+
+    &:hover ._arrow-icon {
+      transform: translateX(2px);
+    }
+
+    &._active ._arrow-icon {
+      color: $theme-color-primary;
+    }
+  }
+
+  ._option-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    ._sub-label {
+      color: $option-text-secondary;
+      font-size: 10px;
+    }
+  }
 }

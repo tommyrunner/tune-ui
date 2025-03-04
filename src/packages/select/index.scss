@@ -1,5 +1,8 @@
 @import "@/styles/index.scss";
 
+// 只定义全局样式中不存在的变量
+$option-text-secondary: rgba(128, 128, 128, 0.63);
+
 ._options {
   min-width: 160px;
   overflow: hidden;
@@ -159,3 +162,68 @@
     right: 0px;
   }
 }
+
+// 级联选择器样式
+.t-select-cascade {
+  display: flex;
+  min-height: 180px;
+  max-height: 300px;
+  
+  // 级联菜单
+  .t-cascade-menu {
+    min-width: 160px;
+    border-right: 1px solid $border-color-default;
+    
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+// 级联选项样式
+.t-option {
+  &._has-children {
+    ._arrow-icon {
+      margin-left: 8px;
+      color: $option-text-secondary;
+      opacity: 0.7;
+    }
+  }
+
+  &._active {
+    ._arrow-icon {
+      color: $theme-color-primary;
+    }
+  }
+
+  ._option-content {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* 暂时注释掉级联动画
+@keyframes cascade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+*/

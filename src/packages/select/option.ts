@@ -13,6 +13,8 @@ export interface PropsType {
   subLabel?: string;
   /** 是否禁用 */
   disabled?: boolean;
+  /** 子选项列表，用于级联选择 */
+  children?: PropsType[];
 }
 
 /**

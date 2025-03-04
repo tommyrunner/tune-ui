@@ -1,5 +1,5 @@
 import type { InjectionKey } from "vue";
-import type { ValueType, PropsType } from "./select";
+import type { ValueType, PropsType, SelectStateType } from "./select";
 
 /**
  * @description 选择器组上下文类型
@@ -9,8 +9,8 @@ import type { ValueType, PropsType } from "./select";
 export interface GroupContextType extends PropsType {
   /** 选中值 */
   model?: ValueType;
-  /** 临时值 */
-  temModel?: ValueType;
+  /** 组状态对象 */
+  groupState?: SelectStateType;
 }
 
 /**
