@@ -27,6 +27,7 @@ import { TScrollbar } from "./scrollbar";
 import { TTable, TTableRow } from "./table";
 import { TDatePicker } from "./date-picker";
 import { TDatePickerMultiple } from "./date-picker-multiple";
+import { TSlider } from "./slider";
 
 const components = {
   TButton,
@@ -65,7 +66,8 @@ const components = {
   TTable,
   TTableRow,
   TDatePicker,
-  TDatePickerMultiple
+  TDatePickerMultiple,
+  TSlider
 };
 // 全局组件注册
 export default {
@@ -111,3 +113,4 @@ export * from "./scrollbar";
 export * from "./table";
 export * from "./date-picker";
 export * from "./date-picker-multiple";
+export * from "./slider";

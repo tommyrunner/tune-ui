@@ -102,25 +102,27 @@
 <script lang="ts" setup>
 // Vue相关导入
 import { computed, reactive, ref, watch, provide, toRefs } from "vue";
+import type { StyleValue } from "vue";
 
 // 类型导入
-import type { StyleValue } from "vue";
 import type { EmitsType, ValueType, OptionsItemType, PropsType, SingleValueType } from "./select";
 import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import type { TPopoverType } from "@/packages/popover";
 import type { PropsType as OptionPropsType } from "./option";
 
-// 项目内导入
-import { configOptions } from "@/hooks/useOptions";
-import { fromCssVal } from "@/utils";
-import { useTip } from "@/hooks";
-import { isEqual, isValue } from "@/utils/is";
-import { bindDebounce } from "@/utils";
+// 项目内组件导入
 import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
 import { TListView } from "@/packages/list-view";
 import { TTag } from "@/packages/tag";
 import Option from "./option.vue";
+
+// 工具函数、常量导入
+import { configOptions } from "@/hooks/useOptions";
+import { useTip } from "@/hooks";
+import { fromCssVal } from "@/utils";
+import { isEqual, isValue } from "@/utils/is";
+import { bindDebounce } from "@/utils";
 import { GroupContextType, selectGroupKey } from "./constants";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
 
@@ -195,6 +197,8 @@ const state = reactive({
   /** 当前激活的级联菜单索引 */
   activeMenuIndex: 0
 });
+
+// ================ 计算属性 ================
 
 /**
  * @description 计算选择器类名
@@ -305,6 +309,8 @@ const inputDisplayValue = computed((): string => {
   }
   return selectedLabel.value;
 });
+
+// ================ 方法定义 ================
 
 /**
  * @description 渲染标签
@@ -621,6 +627,8 @@ const handleOpen = (): void => {
   }
 };
 
+// ================ 监听器 ================
+
 // 监听选中值
 watch(
   () => model.value,
@@ -632,16 +640,6 @@ watch(
   { immediate: true }
 );
 
-// 提供选择器组上下文
-provide(
-  selectGroupKey,
-  reactive({
-    ...toRefs(props),
-    model,
-    groupState: state
-  }) as GroupContextType
-);
-
 // 监听下拉框显示状态变化
 watch(
   () => state.isDropdownVisible,
@@ -650,6 +648,16 @@ watch(
       handleOpen();
     }
   }
+);
+
+// 提供选择器组上下文
+provide(
+  selectGroupKey,
+  reactive({
+    ...toRefs(props),
+    model,
+    groupState: state
+  }) as GroupContextType
 );
 </script>
 

@@ -29,6 +29,8 @@ import TagTest from "./packages/tag.vue";
 import CalendarTest from "./packages/calendar.vue";
 import DatePickerTest from "./packages/date-picker.vue";
 import DatePickerMultipleTest from "./packages/date-picker-multiple.vue";
+import ColorPickerTest from "./packages/color-picker.vue";
+import SliderTest from "./packages/slider.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -61,7 +63,9 @@ export const testComponents = {
   TagTest,
   CalendarTest,
   DatePickerTest,
-  DatePickerMultipleTest
+  DatePickerMultipleTest,
+  ColorPickerTest,
+  SliderTest
 };
 
 /** 测试组件安装器 */
@@ -102,5 +106,7 @@ export const TTagTest = TagTest;
 export const TCalendarTest = CalendarTest;
 export const TDatePickerTest = DatePickerTest;
 export const TDatePickerMultipleTest = DatePickerMultipleTest;
+export const TColorPickerTest = ColorPickerTest;
+export const TSliderTest = SliderTest;
 // 默认导出安装器
 export default installTestComponents;

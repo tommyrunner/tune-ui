@@ -13,7 +13,8 @@
    - 遵循测试规范实现组件的测试用例
 
 3. **注册组件**
-   - 在`test/constants.ts`添加组件配置
+   - 在`test/index.ts`添加组件导出
+   - 在`test/home.vue`添加组件配置
    - 确保组件在测试环境中可用
 
 ## 2. 组件文件结构
@@ -35,14 +36,7 @@ src/packages/组件名(kebab-case)/
 ```vue
 <template>
   <div 
-    :class="[
-      't-组件名',  <!-- 组件根元素类名必须以t-前缀 -->
-      {
-        'is-disabled': props.disabled,
-        [`t-组件名--${props.type}`]: props.type,
-        [`t-组件名--${props.size}`]: props.size
-      }
-    ]"
+    :class="buttonClasses"
     v-bind="$attrs"
     @click="handleClick"
   >
@@ -102,7 +96,7 @@ const handleClick = (event: MouseEvent) => {
   }
 };
 
-// 计算样式类
+// 计算样式类 - 必须命名为xxxClasses格式
 const buttonClasses = computed(() => {
   const { size, type, disabled, radius } = props;
   return [
@@ -401,6 +395,7 @@ const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name
 - 事件处理方法: `handle` + 事件名 (如 `handleClick`, `handleChange`)
 - 状态切换方法: `toggle` + 状态名 (如 `toggleVisible`, `toggleActive`)
 - 获取数据方法: `get` + 数据名 (如 `getData`, `getOptions`)
+- 计算样式类方法: 必须命名为 `xxxClasses` (如 `buttonClasses`, `cardClasses`)
 
 ## 7. 样式编写规范
 
@@ -445,3 +440,6 @@ Button组件是一个很好的参考实例，包含了完整的组件结构和�
 5. 组件必须包含完整的类型定义和注释
 6. 简单组件不要创建不必要的文件，保持结构简洁
 7. 测试用例必须覆盖组件的主要功能和状态
+8. 事件处理函数必须命名为`handleXxx`
+9. 样式类计算属性必须命名为`xxxClasses`
+10. emit事件必须使用kebab-case命名（如`click-row`而非`clickRow`）

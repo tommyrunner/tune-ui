@@ -1,0 +1,341 @@
+@import "@/styles/index.scss";
+
+.t-color-picker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  line-height: 32px;
+  outline: none;
+  cursor: pointer;
+  
+  &:hover {
+    .t-color-picker__trigger {
+      border-color: $theme-color-primary;
+    }
+  }
+  
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: $opacity-disabled;
+    
+    .t-color-picker__trigger {
+      cursor: not-allowed;
+    }
+  }
+  
+  // 尺寸变量
+  &--small {
+    height: 24px;
+    line-height: 24px;
+    
+    .t-color-picker__trigger {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  &--default {
+    height: 32px;
+    line-height: 32px;
+    
+    .t-color-picker__trigger {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  
+  &--large {
+    height: 40px;
+    line-height: 40px;
+    
+    .t-color-picker__trigger {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
+  // 颜色触发器
+  &__trigger {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 32px;
+    height: 32px;
+    border: 1px solid $border-color-default;
+    border-radius: 4px;
+    background-color: transparent;
+    transition: border-color 0.3s;
+    
+    &-color {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      right: 2px;
+      bottom: 2px;
+      border-radius: 2px;
+    }
+    
+    &-alpha {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 3px;
+      background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+                        linear-gradient(-45deg, #ccc 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #ccc 75%),
+                        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+      background-size: 8px 8px;
+      background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+    }
+  }
+  
+  // 下拉面板
+  &__dropdown {
+    position: absolute;
+    z-index: 100;
+    box-sizing: border-box;
+    background-color: $bg-color-default;
+    border: 1px solid $border-color-default;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    
+    &-main {
+      padding: 12px;
+    }
+    
+    // 颜色面板
+    &-panel {
+      position: relative;
+      width: 280px;
+      
+      // 颜色选择区域
+      &-saturation {
+        position: relative;
+        width: 100%;
+        height: 180px;
+        border-radius: 4px;
+        overflow: hidden;
+        cursor: pointer;
+        
+        &-white {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+        }
+        
+        &-black {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(to top, #000, rgba(0, 0, 0, 0));
+        }
+        
+        &-cursor {
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          border: 1px solid #fff;
+          box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+        }
+      }
+      
+      // 控制条
+      &-controls {
+        display: flex;
+        margin-top: 12px;
+        
+        &-hue {
+          position: relative;
+          flex: 1;
+          height: 12px;
+          margin-right: 8px;
+          border-radius: 2px;
+          background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+          cursor: pointer;
+          
+          &-cursor {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            border-radius: 1px;
+            background-color: #fff;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+            transform: translateX(-50%);
+            pointer-events: none;
+          }
+        }
+        
+        &-alpha {
+          position: relative;
+          flex: 1;
+          height: 12px;
+          border-radius: 2px;
+          background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+                            linear-gradient(-45deg, #ccc 25%, transparent 25%),
+                            linear-gradient(45deg, transparent 75%, #ccc 75%),
+                            linear-gradient(-45deg, transparent 75%, #ccc 75%);
+          background-size: 8px 8px;
+          background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+          cursor: pointer;
+          
+          &-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 2px;
+          }
+          
+          &-cursor {
+            position: absolute;
+            width: 4px;
+            height: 100%;
+            border-radius: 1px;
+            background-color: #fff;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+            transform: translateX(-50%);
+            pointer-events: none;
+          }
+        }
+      }
+      
+      // 颜色信息
+      &-color {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+        
+        &-block {
+          width: 24px;
+          height: 24px;
+          margin-right: 8px;
+          border-radius: 2px;
+          border: 1px solid $border-color-default;
+          
+          &-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 1px;
+          }
+          
+          &-alpha {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 1px;
+            background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+                              linear-gradient(-45deg, #ccc 25%, transparent 25%),
+                              linear-gradient(45deg, transparent 75%, #ccc 75%),
+                              linear-gradient(-45deg, transparent 75%, #ccc 75%);
+            background-size: 8px 8px;
+            background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+          }
+        }
+        
+        &-value {
+          flex: 1;
+          position: relative;
+          
+          input {
+            width: 100%;
+            height: 24px;
+            padding: 0 8px;
+            border: 1px solid $border-color-default;
+            border-radius: 2px;
+            outline: none;
+            
+            &:focus {
+              border-color: $theme-color-primary;
+            }
+          }
+        }
+      }
+    }
+    
+    // 预定义颜色
+    &-predefine {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid $border-color-default;
+      
+      &-colors {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        
+        &-item {
+          width: 20px;
+          height: 20px;
+          border-radius: 2px;
+          cursor: pointer;
+          
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+    
+    // 操作按钮
+    &-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 8px 12px;
+      border-top: 1px solid $border-color-default;
+      
+      button {
+        margin-left: 8px;
+        padding: 5px 12px;
+        font-size: $font-size-small;
+        border-radius: 2px;
+        cursor: pointer;
+        
+        &.t-color-picker__clear-btn {
+          color: $text-color-default;
+          background-color: $bg-color-default;
+          border: 1px solid $border-color-default;
+          
+          &:hover {
+            color: $theme-color-primary;
+            border-color: $theme-color-primary;
+          }
+        }
+        
+        &.t-color-picker__confirm-btn {
+          color: $color-white;
+          background-color: $theme-color-primary;
+          border: 1px solid $theme-color-primary;
+          
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 动画效果
+.t-color-picker-fade-enter-active,
+.t-color-picker-fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.t-color-picker-fade-enter-from,
+.t-color-picker-fade-leave-to {
+  opacity: 0;
+} 

@@ -70,7 +70,9 @@ import {
   TTagTest,
   TCalendarTest,
   TDatePickerTest,
-  TDatePickerMultipleTest
+  TDatePickerMultipleTest,
+  TColorPickerTest,
+  TSliderTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -97,7 +99,8 @@ const componentList: ComponentConfig[] = [
     category: ComponentCategory.Form,
     component: TDatePickerMultipleTest
   },
-
+  { name: "TColorPickerTest", label: "ColorPicker 颜色选择器", category: ComponentCategory.Form, component: TColorPickerTest },
+  { name: "TSliderTest", label: "Slider 滑块", category: ComponentCategory.Form, component: TSliderTest },
   // 数据展示
   { name: "TBadgeTest", label: "Badge 徽标", category: ComponentCategory.Data, component: TBadgeTest },
   { name: "TCardTest", label: "Card 卡片", category: ComponentCategory.Data, component: TCardTest },
@@ -130,7 +133,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TSelectTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TSliderTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {
