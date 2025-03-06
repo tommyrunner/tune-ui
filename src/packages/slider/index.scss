@@ -10,6 +10,9 @@ $slider-tooltip-shadow: #0000001a; // 替代rgba(0, 0, 0, 0.1)
   position: relative;
   display: flex;
   align-items: center;
+  
+  // 使用CSS变量设置按钮大小
+  --slider-button-size: 16px;
 
   // 禁用状态
   &.t-disabled {
@@ -160,8 +163,8 @@ $slider-tooltip-shadow: #0000001a; // 替代rgba(0, 0, 0, 0.1)
 
   // 滑块按钮
   &__button {
-    width: 16px;
-    height: 16px;
+    width: var(--slider-button-size);
+    height: var(--slider-button-size);
     border: 2px solid $theme-color-primary;
     border-radius: 50%;
     background-color: $color-white;

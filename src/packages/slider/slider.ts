@@ -7,6 +7,48 @@ export interface SliderMark {
 
 export type SliderFormatTooltip = (val: number) => string | number;
 
+/**
+ * 滑块组件状态类型定义
+ */
+export interface SliderStateType {
+  /** 是否为范围选择 */
+  isRange: boolean;
+  /** 是否禁用 */
+  disabled: boolean;
+  /** 是否为垂直模式 */
+  vertical: boolean;
+  /** 最小值 */
+  min: number;
+  /** 最大值 */
+  max: number;
+  /** 步长 */
+  step: number;
+  /** 滑块尺寸 */
+  size: number;
+  /** 按钮尺寸 */
+  buttonSize: number;
+  /** 是否只能拖动到步长位置 */
+  onlySteps: boolean;
+  /** 是否显示间断点 */
+  showStops: boolean;
+  /** 是否显示提示 */
+  showTooltip: boolean;
+  /** 是否正在拖动（单滑块） */
+  dragging: boolean;
+  /** 是否正在拖动最小值滑块 */
+  minDragging: boolean;
+  /** 是否正在拖动最大值滑块 */
+  maxDragging: boolean;
+  /** 当前模型值 */
+  modelValue: number | number[];
+  /** 是否显示单滑块提示 */
+  showSingleTooltip: boolean;
+  /** 是否显示最小值提示 */
+  showMinTooltip: boolean;
+  /** 是否显示最大值提示 */
+  showMaxTooltip: boolean;
+}
+
 export interface PropsType {
   /**
    * 是否禁用
@@ -83,7 +125,4 @@ export interface EmitsType {
   (e: "input", value: number | number[]): void;
 }
 
-export interface ModelValueType {
-  min: number;
-  max: number;
-}
+export type ModelValueType = number | number[];

@@ -27,13 +27,13 @@
         @touchstart="onButtonDown"
       >
         <!-- 使用插槽检测而非customButton属性 -->
-        <slot name="button" :dragging="dragging">
+        <slot name="button" :dragging="state.dragging">
           <!-- 默认按钮 -->
-          <div class="t-slider__button" :class="{ dragging: dragging }"></div>
+          <div class="t-slider__button" :class="{ dragging: state.dragging }"></div>
         </slot>
 
         <!-- 提示框 -->
-        <div v-if="props.showTooltip && !props.disabled" class="t-slider__tooltip" v-show="showTooltip">
+        <div v-if="props.showTooltip && !props.disabled" class="t-slider__tooltip" v-show="state.showSingleTooltip">
           {{ formatValue(model) }}
         </div>
       </div>
@@ -49,13 +49,13 @@
           @touchstart="onMinButtonDown"
         >
           <!-- 使用插槽检测而非customButton属性 -->
-          <slot name="minButton" :dragging="minDragging">
+          <slot name="minButton" :dragging="state.minDragging">
             <!-- 默认最小值按钮 -->
-            <div class="t-slider__button" :class="{ dragging: minDragging }"></div>
+            <div class="t-slider__button" :class="{ dragging: state.minDragging }"></div>
           </slot>
 
           <!-- 提示框 -->
-          <div v-if="props.showTooltip && !props.disabled" class="t-slider__tooltip" v-show="showMinTooltip">
+          <div v-if="props.showTooltip && !props.disabled" class="t-slider__tooltip" v-show="state.showMinTooltip">
             {{ formatValue(Array.isArray(model) ? model[0] : props.min) }}
           </div>
         </div>
@@ -69,13 +69,13 @@
           @touchstart="onMaxButtonDown"
         >
           <!-- 使用插槽检测而非customButton属性 -->
-          <slot name="maxButton" :dragging="maxDragging">
+          <slot name="maxButton" :dragging="state.maxDragging">
             <!-- 默认最大值按钮 -->
-            <div class="t-slider__button" :class="{ dragging: maxDragging }"></div>
+            <div class="t-slider__button" :class="{ dragging: state.maxDragging }"></div>
           </slot>
 
           <!-- 提示框 -->
-          <div v-if="props.showTooltip && !props.disabled" class="t-slider__tooltip" v-show="showMaxTooltip">
+          <div v-if="props.showTooltip && !props.disabled" class="t-slider__tooltip" v-show="state.showMaxTooltip">
             {{ formatValue(Array.isArray(model) ? model[1] : props.max) }}
           </div>
         </div>
@@ -97,8 +97,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { EmitsType, PropsType } from "./slider";
-import { computed, onUnmounted, ref } from "vue";
+import type { EmitsType, PropsType, SliderStateType } from "./slider";
+import { computed, onUnmounted, ref, reactive, onMounted, watch } from "vue";
 import { bindThrottle } from "@/utils";
 
 defineOptions({ name: "TSlider" });
@@ -134,10 +134,42 @@ const buttonWrapper = ref<HTMLElement | null>(null);
 const minButtonWrapper = ref<HTMLElement | null>(null);
 const maxButtonWrapper = ref<HTMLElement | null>(null);
 
-// 拖动状态
-const dragging = ref(false);
-const minDragging = ref(false);
-const maxDragging = ref(false);
+// 使用reactive创建统一的状态对象
+const state = reactive<SliderStateType>({
+  // 基本属性
+  isRange: props.range,
+  disabled: props.disabled,
+  vertical: props.vertical,
+  min: props.min,
+  max: props.max,
+  step: props.step,
+  size: props.size,
+  buttonSize: 14, // 使用固定按钮尺寸，不再根据size变化
+  onlySteps: props.onlySteps,
+  showStops: props.showStops,
+  showTooltip: props.showTooltip,
+  // 拖动状态
+  dragging: false,
+  minDragging: false,
+  maxDragging: false,
+  // 模型值
+  modelValue: model.value,
+  // 提示状态
+  showSingleTooltip: false,
+  showMinTooltip: false,
+  showMaxTooltip: false
+});
+
+// 监听模型值变化
+watch(
+  model,
+  newValue => {
+    state.modelValue = newValue;
+  },
+  { immediate: true }
+);
+
+// 其他不包含在state中的状态
 const startX = ref(0);
 const startY = ref(0);
 const startPosition = ref(0);
@@ -147,11 +179,6 @@ const oldValue = ref<number | number[]>(props.range ? [props.min, props.max] : p
 // 超出范围状态标记
 const minOutOfRange = ref(false);
 const maxOutOfRange = ref(false);
-
-// 提示框状态
-const showTooltip = ref(false);
-const showMinTooltip = ref(false);
-const showMaxTooltip = ref(false);
 
 // 计算滑块容器样式
 const sliderStyle = computed(() => {
@@ -163,10 +190,17 @@ const sliderStyle = computed(() => {
   return {};
 });
 
-// 滑块按钮大小
-const buttonSize = computed(() => {
-  // 按钮大小默认为轨道尺寸的2倍+2px
-  return props.size ? props.size * 2 + 2 : 14;
+// 动态设置按钮尺寸的CSS变量
+const setButtonSizeVar = () => {
+  const sliderEl = document.querySelector(".t-slider") as HTMLElement;
+  if (sliderEl) {
+    sliderEl.style.setProperty("--slider-button-size", `${state.buttonSize}px`);
+  }
+};
+
+// 在组件挂载后设置CSS变量
+onMounted(() => {
+  setButtonSizeVar();
 });
 
 // 轨道样式计算
@@ -191,7 +225,7 @@ const barStyle = computed(() => {
 
     // 如果最小值超出最大值或最大值超出最小值，调整显示
     if (minOutOfRange.value || maxOutOfRange.value) {
-      if (minDragging.value && min > max) {
+      if (state.minDragging && min > max) {
         // 最小滑块拖动超过最大值，将宽度设为0
         if (props.vertical) {
           style.bottom = `${valueToPosition(max)}%`;
@@ -200,7 +234,7 @@ const barStyle = computed(() => {
           style.left = `${valueToPosition(max)}%`;
           style.width = "0%";
         }
-      } else if (maxDragging.value && max < min) {
+      } else if (state.maxDragging && max < min) {
         // 最大滑块拖动小于最小值，将宽度设为0
         if (props.vertical) {
           style.bottom = `${valueToPosition(min)}%`;
@@ -384,7 +418,7 @@ const formatValue = (val: number | number[]): string | number => {
 // 处理滑块点击
 const onSliderClick = (event: MouseEvent) => {
   if (props.disabled) return;
-  if (dragging.value || minDragging.value || maxDragging.value) return;
+  if (state.dragging || state.minDragging || state.maxDragging) return;
 
   const sliderRect = sliderRunway.value!.getBoundingClientRect();
   let position: number;
@@ -437,8 +471,8 @@ const onButtonDown = (event: MouseEvent | TouchEvent) => {
   }
 
   oldValue.value = model.value;
-  dragging.value = true;
-  showTooltip.value = true;
+  state.dragging = true;
+  state.showSingleTooltip = true;
 
   document.addEventListener("mousemove", onDragging);
   document.addEventListener("touchmove", onDragging);
@@ -466,8 +500,8 @@ const onMinButtonDown = (event: MouseEvent | TouchEvent) => {
   }
 
   oldValue.value = model.value;
-  minDragging.value = true;
-  showMinTooltip.value = true;
+  state.minDragging = true;
+  state.showMinTooltip = true;
 
   document.addEventListener("mousemove", onMinDragging);
   document.addEventListener("touchmove", onMinDragging);
@@ -495,8 +529,8 @@ const onMaxButtonDown = (event: MouseEvent | TouchEvent) => {
   }
 
   oldValue.value = model.value;
-  maxDragging.value = true;
-  showMaxTooltip.value = true;
+  state.maxDragging = true;
+  state.showMaxTooltip = true;
 
   document.addEventListener("mousemove", onMaxDragging);
   document.addEventListener("touchmove", onMaxDragging);
@@ -507,7 +541,7 @@ const onMaxButtonDown = (event: MouseEvent | TouchEvent) => {
 
 // 拖动处理
 const onDragging = bindThrottle((event: MouseEvent | TouchEvent) => {
-  if (props.disabled || !dragging.value) return;
+  if (props.disabled || !state.dragging) return;
 
   const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
   const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
@@ -537,7 +571,7 @@ const onDragging = bindThrottle((event: MouseEvent | TouchEvent) => {
 
 // 最小值拖动处理
 const onMinDragging = bindThrottle((event: MouseEvent | TouchEvent) => {
-  if (props.disabled || !minDragging.value || !props.range) return;
+  if (props.disabled || !state.minDragging || !props.range) return;
 
   const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
   const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
@@ -574,7 +608,7 @@ const onMinDragging = bindThrottle((event: MouseEvent | TouchEvent) => {
 
 // 最大值拖动处理
 const onMaxDragging = bindThrottle((event: MouseEvent | TouchEvent) => {
-  if (props.disabled || !maxDragging.value || !props.range) return;
+  if (props.disabled || !state.maxDragging || !props.range) return;
 
   const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
   const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
@@ -611,7 +645,7 @@ const onMaxDragging = bindThrottle((event: MouseEvent | TouchEvent) => {
 
 // 拖动结束
 const onDragEnd = () => {
-  if (props.disabled || !dragging.value) return;
+  if (props.disabled || !state.dragging) return;
 
   // 确保在拖动结束时应用步长
   if (props.step > 0 && !props.onlySteps) {
@@ -619,8 +653,8 @@ const onDragEnd = () => {
     const roundedValue = props.min + Math.round((value - props.min) / props.step) * props.step;
     model.value = Number(Math.max(props.min, Math.min(props.max, roundedValue)).toFixed(5));
   }
-  dragging.value = false;
-  showTooltip.value = false;
+  state.dragging = false;
+  state.showSingleTooltip = false;
 
   // 触发change事件
   if (oldValue.value !== model.value) {
@@ -636,7 +670,7 @@ const onDragEnd = () => {
 
 // 最小值拖动结束
 const onMinDragEnd = () => {
-  if (props.disabled || !minDragging.value) return;
+  if (props.disabled || !state.minDragging) return;
 
   // 重置超出范围状态
   minOutOfRange.value = false;
@@ -653,17 +687,17 @@ const onMinDragEnd = () => {
     // 如果起始值大于结束值，交换它们
     model.value = [model.value[1], model.value[0]];
     // 交换拖动状态，使UI显示正确
-    const tempDragging = minDragging.value;
-    minDragging.value = maxDragging.value;
-    maxDragging.value = tempDragging;
+    const tempDragging = state.minDragging;
+    state.minDragging = state.maxDragging;
+    state.maxDragging = tempDragging;
 
-    const tempTooltip = showMinTooltip.value;
-    showMinTooltip.value = showMaxTooltip.value;
-    showMaxTooltip.value = tempTooltip;
+    const tempTooltip = state.showMinTooltip;
+    state.showMinTooltip = state.showMaxTooltip;
+    state.showMaxTooltip = tempTooltip;
   }
 
-  minDragging.value = false;
-  showMinTooltip.value = false;
+  state.minDragging = false;
+  state.showMinTooltip = false;
 
   // 触发change事件
   if (oldValue.value !== model.value) {
@@ -679,7 +713,7 @@ const onMinDragEnd = () => {
 
 // 最大值拖动结束
 const onMaxDragEnd = () => {
-  if (props.disabled || !maxDragging.value) return;
+  if (props.disabled || !state.maxDragging) return;
 
   // 重置超出范围状态
   maxOutOfRange.value = false;
@@ -696,17 +730,17 @@ const onMaxDragEnd = () => {
     // 如果起始值大于结束值，交换它们
     model.value = [model.value[1], model.value[0]];
     // 交换拖动状态，使UI显示正确
-    const tempDragging = minDragging.value;
-    minDragging.value = maxDragging.value;
-    maxDragging.value = tempDragging;
+    const tempDragging = state.minDragging;
+    state.minDragging = state.maxDragging;
+    state.maxDragging = tempDragging;
 
-    const tempTooltip = showMinTooltip.value;
-    showMinTooltip.value = showMaxTooltip.value;
-    showMaxTooltip.value = tempTooltip;
+    const tempTooltip = state.showMinTooltip;
+    state.showMinTooltip = state.showMaxTooltip;
+    state.showMaxTooltip = tempTooltip;
   }
 
-  maxDragging.value = false;
-  showMaxTooltip.value = false;
+  state.maxDragging = false;
+  state.showMaxTooltip = false;
 
   // 触发change事件
   if (oldValue.value !== model.value) {
@@ -764,12 +798,4 @@ const positionToValue = (position: number): number => {
 
 <style lang="scss" scoped>
 @import "./index.scss";
-
-// 根据size属性动态调整滑块样式
-.t-slider {
-  &__button {
-    width: v-bind("buttonSize + 'px'");
-    height: v-bind("buttonSize + 'px'");
-  }
-}
 </style>
