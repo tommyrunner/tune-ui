@@ -1,0 +1,58 @@
+@import "@/styles/index.scss";
+
+// SCSS变量定义
+$progress-dashboard-size: 126px !default;
+$progress-dashboard-stroke: 6px !default;
+$progress-dashboard-text-size: 14px !default;
+$progress-dashboard-text-color: $text-color-default !default;
+$progress-dashboard-bg: #f5f5f5 !default;
+
+// 仪表盘进度条样式
+.t-progress-dashboard {
+  position: relative;
+  width: $progress-dashboard-size;
+  height: $progress-dashboard-size;
+  overflow: hidden;
+
+  &__svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__track {
+    stroke: $progress-dashboard-bg;
+    fill: none;
+  }
+
+  &__path {
+    stroke: $theme-color-primary;
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.6s ease, stroke 0.3s ease;
+    will-change: stroke-dashoffset, stroke;
+  }
+
+  &__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $progress-dashboard-text-color;
+    font-size: $progress-dashboard-text-size;
+    white-space: nowrap;
+    text-align: center;
+  }
+}
+
+// 状态样式
+.t-progress--success .t-progress-dashboard__path {
+  stroke: $theme-color-success;
+}
+
+.t-progress--warning .t-progress-dashboard__path {
+  stroke: $theme-color-warning;
+}
+
+.t-progress--exception .t-progress-dashboard__path {
+  stroke: $theme-color-danger;
+} 

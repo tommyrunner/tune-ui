@@ -31,6 +31,7 @@ import DatePickerTest from "./packages/date-picker.vue";
 import DatePickerMultipleTest from "./packages/date-picker-multiple.vue";
 import ColorPickerTest from "./packages/color-picker.vue";
 import SliderTest from "./packages/slider.vue";
+import ProgressTest from "./packages/progress.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -65,7 +66,8 @@ export const testComponents = {
   DatePickerTest,
   DatePickerMultipleTest,
   ColorPickerTest,
-  SliderTest
+  SliderTest,
+  ProgressTest
 };
 
 /** 测试组件安装器 */
@@ -108,5 +110,6 @@ export const TDatePickerTest = DatePickerTest;
 export const TDatePickerMultipleTest = DatePickerMultipleTest;
 export const TColorPickerTest = ColorPickerTest;
 export const TSliderTest = SliderTest;
+export const TProgressTest = ProgressTest;
 // 默认导出安装器
 export default installTestComponents;

@@ -1,0 +1,173 @@
+@import "@/styles/index.scss";
+
+// 进度条容器样式
+.t-progress {
+  position: relative;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+
+  // 状态样式
+  &.is-success {
+    .t-progress-bar__inner {
+      background-color: $theme-color-success;
+    }
+    .t-progress-text {
+      color: $theme-color-success;
+    }
+  }
+
+  &.is-warning {
+    .t-progress-bar__inner {
+      background-color: $theme-color-warning;
+    }
+    .t-progress-text {
+      color: $theme-color-warning;
+    }
+  }
+
+  &.is-exception {
+    .t-progress-bar__inner {
+      background-color: $theme-color-danger;
+    }
+    .t-progress-text {
+      color: $theme-color-danger;
+    }
+  }
+
+  &.is-indeterminate {
+    .t-progress-bar__inner {
+      animation: t-progress-indeterminate-bar var(--t-progress-duration, 3s) infinite;
+      animation-timing-function: linear;
+    }
+  }
+
+  &.is-striped {
+    .t-progress-bar__inner {
+      background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+      );
+      background-size: 40px 40px;
+
+      &.is-striped-flow {
+        animation: t-progress-striped-flow 2s linear infinite;
+      }
+    }
+  }
+
+  // 线性进度条
+  &--line {
+    width: 100%;
+    padding-right: 50px;
+    box-sizing: border-box;
+
+    .t-progress-bar {
+      flex-grow: 1;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      position: relative;
+      height: 6px;
+      margin-right: 10px;
+      width: 100%;
+      overflow: hidden;
+
+      &__inner {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        background-color: $theme-color-primary;
+        text-align: right;
+        border-radius: 4px;
+        line-height: 1;
+        white-space: nowrap;
+        /* 添加过渡动画 */
+        transition:
+          width 0.3s ease,
+          background-color 0.3s ease;
+
+        &.text-inside {
+          display: flex;
+          align-items: center;
+          justify-content: center; // 文本完全居中
+          padding: 0 5px;
+          color: $color-white;
+          font-size: 12px;
+          height: 100%;
+
+          /* 设置最小宽度以避免文本溢出 */
+          min-width: 35px;
+
+          /* 确保文本不影响进度条高亮 */
+          &-text {
+            position: relative;
+            z-index: 1; // 提高层级，确保文本在进度条上方
+            pointer-events: none; // 防止文本影响鼠标事件
+          }
+        }
+      }
+    }
+
+    .t-progress-text {
+      margin-left: 5px;
+      line-height: 1;
+      vertical-align: middle;
+      display: inline-block;
+      color: $text-color-default;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+  }
+
+  // 圆形进度条
+  &--circle,
+  &--dashboard {
+    display: inline-block;
+    position: relative;
+
+    .t-progress-text {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      margin: 0;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: $text-color-default;
+
+      i {
+        vertical-align: middle;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+// 动画定义
+@keyframes t-progress-indeterminate-bar {
+  0% {
+    left: -100%;
+    width: 100%;
+  }
+  100% {
+    left: 100%;
+    width: 100%;
+  }
+}
+
+@keyframes t-progress-striped-flow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 0;
+  }
+}
