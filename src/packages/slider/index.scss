@@ -1,275 +1,133 @@
 @import "@/styles/index.scss";
 
-// 定义当前文件需要的颜色变量
-$slider-disabled-bg: #dcdfe699; // 替代rgba(220, 223, 230, $opacity-disabled)
-$slider-tooltip-shadow: #0000001a; // 替代rgba(0, 0, 0, 0.1)
-
+// 滑块组件主样式
 .t-slider {
-  width: 100%;
-  height: auto;
   position: relative;
-  display: flex;
-  align-items: center;
-  
-  // 使用CSS变量设置按钮大小
-  --slider-button-size: 16px;
+  width: 100%;
+  height: 6px; // 默认高度，可被size属性覆盖
+  border-radius: 3px;
+  background-color: $bg-color-hover;
+  margin: 20px 0;
+  user-select: none;
+
+  // 自定义颜色变量
+  $border-color-darker: #c0c4cc; // 深一点的边框颜色
+  $stop-color-light: #f2f3f5; // 更浅的断点背景色
+  $stop-border-color: #e4e7ed; // 更浅的断点边框色
 
   // 禁用状态
   &.t-disabled {
+    opacity: $opacity-disabled;
+    cursor: not-allowed;
+
     .t-slider__runway,
-    .t-slider__button {
-      cursor: not-allowed;
-    }
-
-    .t-slider__runway {
-      background-color: $slider-disabled-bg;
-    }
-
-    .t-slider__bar {
-      background-color: $slider-disabled-bg;
-    }
-
-    .t-slider__button {
-      border-color: $slider-disabled-bg;
-      background-color: $color-white;
+    .t-slider__bar,
+    .t-slider-button {
+      pointer-events: none;
     }
   }
 
+  // 不显示文本时调整外边距
+  &--without-text {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+
   // 垂直模式
-  &.is-vertical {
-    flex-direction: column;
+  &--vertical {
     height: 100%;
-    justify-content: center;
-    width: auto;
+    width: 6px; // 默认宽度，可被size属性覆盖
+    display: inline-block;
 
     .t-slider__runway {
-      width: 6px;
+      width: 6px; // 默认宽度，可被size属性覆盖
       height: 100%;
-      margin: 0 16px;
     }
 
     .t-slider__bar {
-      width: 100%;
+      width: 6px; // 默认宽度，可被size属性覆盖
       height: auto;
       bottom: 0;
+      left: 0;
+      top: auto;
     }
 
     .t-slider__button-wrapper {
       top: auto;
-      bottom: 0;
       left: 50%;
-      transform: translate(-50%, 50%);
-      margin-left: 0;
-    }
-
-    .t-slider__tooltip {
-      top: auto;
-      bottom: 50%;
-      left: calc(100% + 10px);
-      transform: translateY(50%);
-
-      &::after {
-        bottom: 50%;
-        left: -6px;
-        transform: translateY(50%) rotate(90deg);
-        border-top: 6px solid #303133;
-      }
-    }
-
-    .t-slider__marks {
-      top: 0;
-      left: auto;
-      right: calc(100% - 16px);
-      width: 18px;
-      height: 100%;
-    }
-
-    .t-slider__mark {
-      transform: translateY(50%);
-      left: auto;
-      right: 0;
+      transform: translateX(-50%);
+      z-index: 3;
+      height: auto;
+      width: 100%;
     }
 
     .t-slider__stop {
-      transform: translateX(-50%);
+      transform: translate(-50%, 50%);
       left: 50%;
-      bottom: 0;
-    }
-
-    .t-slider__input-wrapper {
       margin-left: 0;
-      margin-top: 16px;
     }
   }
 
   // 轨道
   &__runway {
-    flex: 1;
-    height: 6px;
-    background-color: $border-color-default;
-    border-radius: 3px;
     position: relative;
+    width: 100%;
+    height: 6px; // 默认高度，可被size属性覆盖
+    background-color: $bg-color-hover;
+    border-radius: 3px;
     cursor: pointer;
-    vertical-align: middle;
-    transition: background-color 0.2s;
-
-    // 小尺寸
-    .t-slider--small & {
-      height: 4px;
-    }
-
-    // 大尺寸
-    .t-slider--large & {
-      height: 8px;
-    }
   }
 
-  // 已选择部分
+  // 活动部分
   &__bar {
-    height: 100%;
+    position: absolute;
+    height: 6px; // 默认高度，可被size属性覆盖
     background-color: $theme-color-primary;
     border-radius: 3px;
-    position: absolute;
-    left: 0;
-  }
-
-  // 滑块按钮包装器
-  &__button-wrapper {
-    height: 36px;
-    width: 36px;
-    position: absolute;
     z-index: 1;
-    top: -15px;
-    transform: translateX(-50%);
-    background-color: transparent;
-    text-align: center;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
-    .t-slider--small & {
-      height: 28px;
-      width: 28px;
-      top: -12px;
+    // 状态样式
+    .t-slider.is-success & {
+      background-color: $theme-color-success;
     }
 
-    .t-slider--large & {
-      height: 44px;
-      width: 44px;
-      top: -18px;
-    }
-  }
-
-  // 滑块按钮
-  &__button {
-    width: var(--slider-button-size);
-    height: var(--slider-button-size);
-    border: 2px solid $theme-color-primary;
-    border-radius: 50%;
-    background-color: $color-white;
-    transition: all 0.2s;
-    user-select: none;
-    outline: none;
-
-    &:hover,
-    &.dragging {
-      transform: scale(1.1);
+    .t-slider.is-warning & {
+      background-color: $theme-color-warning;
     }
 
-    .t-slider--small & {
-      width: 12px;
-      height: 12px;
-    }
-
-    .t-slider--large & {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  // 输入框部分
-  &__input-wrapper {
-    margin-left: 16px;
-    width: 110px;
-    vertical-align: middle;
-    display: inline-block;
-
-    .t-slider--vertical & {
-      margin-left: 0;
-      margin-top: 16px;
+    .t-slider.is-exception & {
+      background-color: $theme-color-danger;
     }
   }
 
   // 间断点
   &__stop {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 6px; // 减小尺寸，更加精致
+    height: 6px; // 减小尺寸，更加精致
     border-radius: 50%;
-    background-color: #d3d4d6;
+    background-color: $stop-color-light;
+    border: 1px solid $stop-border-color;
     transform: translateX(-50%);
-
-    .t-slider--small & {
-      width: 4px;
-      height: 4px;
-    }
-
-    .t-slider--large & {
-      width: 8px;
-      height: 8px;
-    }
+    z-index: 2; // 保持在进度条上方
+    box-sizing: border-box;
+    transition: all 0.2s ease; // 添加过渡效果
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.05); // 添加轻微阴影
   }
 
-  // 标记点
-  &__marks {
+  // 按钮容器
+  &__button-wrapper {
     position: absolute;
-    width: 100%;
-    top: 14px;
-    left: 0;
-    z-index: 1;
-  }
-
-  &__mark {
-    position: absolute;
-    transform: translateX(-50%);
     height: 100%;
-    line-height: 1;
+    top: 0;
+    z-index: 3; // 提高按钮容器的z-index
+  }
+
+  // 文本
+  &-text {
     font-size: $font-size-small;
     color: $text-color-default;
-
-    &-text {
-      margin-top: 8px;
-    }
-  }
-
-  // tooltip
-  &__tooltip {
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 6px 8px;
-    border-radius: 4px;
-    background-color: #303133;
-    color: $color-white;
-    font-size: $font-size-small;
-    line-height: 1;
-    box-shadow: 0 2px 12px 0 $slider-tooltip-shadow;
-    visibility: visible;
-    z-index: $z-index-up;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 6px solid #303133;
-    }
+    margin-left: 10px;
+    vertical-align: middle;
   }
 }

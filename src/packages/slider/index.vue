@@ -1,350 +1,246 @@
 <template>
   <div
     class="t-slider"
-    :class="{
-      'is-vertical': props.vertical,
-      't-disabled': props.disabled
-    }"
+    :class="[
+      `t-slider--${vertical ? 'vertical' : 'horizontal'}`,
+      { 't-slider--without-tooltip': !showTooltip, 'is-disabled': disabled },
+      status ? `is-${status}` : ''
+    ]"
     :style="sliderStyle"
+    @click.prevent="onSliderClick"
   >
-    <!-- 滑块主轨道 -->
-    <div ref="sliderRunway" class="t-slider__runway" :style="runwayStyle" @click="onSliderClick">
-      <!-- 已选择部分的轨道 -->
+    <div class="t-slider__runway" :style="runwayStyle">
       <div class="t-slider__bar" :style="barStyle"></div>
 
-      <!-- 步长断点 -->
-      <template v-if="props.showStops && !props.range">
-        <div v-for="(stop, index) in stops" :key="index" class="t-slider__stop" :style="getStopStyle(stop)"></div>
+      <!-- 刻度点 -->
+      <template v-if="showStops">
+        <div v-for="(position, index) in stops" :key="index" class="t-slider__stop" :style="getStopStyle(position)"></div>
       </template>
 
-      <!-- 单滑块 -->
-      <div
-        v-if="!props.range"
-        ref="buttonWrapper"
-        class="t-slider__button-wrapper"
-        :style="wrapperStyle"
-        @mousedown="onButtonDown"
-        @touchstart="onButtonDown"
-      >
-        <!-- 使用插槽检测而非customButton属性 -->
-        <slot name="button" :dragging="state.dragging">
-          <!-- 默认按钮 -->
-          <div class="t-slider__button" :class="{ dragging: state.dragging }"></div>
-        </slot>
+      <!-- 刻度标记 -->
+      <slider-marks v-if="marks" v-model="model" />
 
-        <!-- 提示框 -->
-        <div v-if="props.showTooltip && !props.disabled" class="t-slider__tooltip" v-show="state.showSingleTooltip">
-          {{ formatValue(model) }}
+      <!-- 滑块按钮 -->
+      <template v-if="range">
+        <div v-for="(item, index) in sliderValues" :key="index" class="t-slider__button-wrapper" :style="getButtonStyle(item)">
+          <slider-button
+            v-model="sliderButtonValues[index]"
+            :vertical="vertical"
+            :tooltip-class="tooltipClass"
+            :index="index"
+            @dragstart="handleDragStart"
+            @dragging="value => handleDragging(index, value)"
+            @dragend="handleDragEnd"
+          />
         </div>
-      </div>
-
-      <!-- 范围滑块 -->
-      <template v-if="props.range">
-        <!-- 最小值滑块 -->
-        <div
-          ref="minButtonWrapper"
-          class="t-slider__button-wrapper"
-          :style="minWrapperStyle"
-          @mousedown="onMinButtonDown"
-          @touchstart="onMinButtonDown"
-        >
-          <!-- 使用插槽检测而非customButton属性 -->
-          <slot name="minButton" :dragging="state.minDragging">
-            <!-- 默认最小值按钮 -->
-            <div class="t-slider__button" :class="{ dragging: state.minDragging }"></div>
-          </slot>
-
-          <!-- 提示框 -->
-          <div v-if="props.showTooltip && !props.disabled" class="t-slider__tooltip" v-show="state.showMinTooltip">
-            {{ formatValue(Array.isArray(model) ? model[0] : props.min) }}
-          </div>
-        </div>
-
-        <!-- 最大值滑块 -->
-        <div
-          ref="maxButtonWrapper"
-          class="t-slider__button-wrapper"
-          :style="maxWrapperStyle"
-          @mousedown="onMaxButtonDown"
-          @touchstart="onMaxButtonDown"
-        >
-          <!-- 使用插槽检测而非customButton属性 -->
-          <slot name="maxButton" :dragging="state.maxDragging">
-            <!-- 默认最大值按钮 -->
-            <div class="t-slider__button" :class="{ dragging: state.maxDragging }"></div>
-          </slot>
-
-          <!-- 提示框 -->
-          <div v-if="props.showTooltip && !props.disabled" class="t-slider__tooltip" v-show="state.showMaxTooltip">
-            {{ formatValue(Array.isArray(model) ? model[1] : props.max) }}
-          </div>
-        </div>
-
-        <!-- 范围模式下的步长断点 -->
-        <template v-if="props.showStops">
-          <div v-for="(stop, index) in stops" :key="index" class="t-slider__stop" :style="getStopStyle(stop)"></div>
-        </template>
       </template>
-
-      <!-- 标记点 -->
-      <div v-if="marks.length > 0" class="t-slider__marks">
-        <div v-for="(mark, index) in marks" :key="index" class="t-slider__mark" :style="getMarkStyle(mark.position)">
-          <span class="t-slider__mark-text">{{ mark.label }}</span>
+      <template v-else>
+        <div class="t-slider__button-wrapper" :style="getButtonStyle(sliderValues[0])">
+          <slider-button
+            v-model="sliderButtonValues[0]"
+            :vertical="vertical"
+            :tooltip-class="tooltipClass"
+            :index="0"
+            @dragstart="handleDragStart"
+            @dragging="value => handleDragging(0, value)"
+            @dragend="handleDragEnd"
+          />
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { EmitsType, PropsType, SliderStateType } from "./slider";
-import { computed, onUnmounted, ref, reactive, onMounted, watch } from "vue";
-import { bindThrottle } from "@/utils";
+import { computed, provide, reactive, watch, ref } from "vue";
+import { sliderKey } from "./constants";
+import type { SliderStateType, SliderPropsType } from "./slider";
+import SliderButton from "./components/slider-button/index.vue";
+import SliderMarks from "./components/slider-marks/index.vue";
 
-defineOptions({ name: "TSlider" });
+/**
+ * @description 滑块组件
+ */
+defineOptions({
+  name: "TSlider"
+});
 
-const emit = defineEmits<EmitsType>();
-const props = withDefaults(defineProps<PropsType>(), {
-  disabled: false,
+const model = defineModel<number | number[]>({
+  // 添加默认值，确保model始终有值
+  default: 0
+});
+
+// 子组件按钮值，用于同步按钮组件的值
+const sliderButtonValues = ref<number[]>([]);
+
+const props = withDefaults(defineProps<SliderPropsType>(), {
   min: 0,
   max: 100,
-  step: 0.1,
+  disabled: false,
+  step: 1,
+  size: 6,
   showStops: false,
   showTooltip: true,
-  formatTooltip: (v: number) => String(v),
   range: false,
   vertical: false,
-  onlySteps: false,
-  height: "medium",
-  size: 6,
-  marks: () => []
+  placement: "top",
+  debounce: 300
 });
 
-// 使用defineModel进行双向绑定
-const model = defineModel<number | number[]>();
+// 事件
+const emit = defineEmits<{
+  (e: "change", value: number | number[]): void;
+  (e: "input", value: number | number[]): void;
+}>();
 
-// 初始化模型默认值
-if (model.value === undefined) {
-  model.value = props.range ? [props.min, props.max] : props.min;
-}
-
-// DOM引用
-const sliderRunway = ref<HTMLElement | null>(null);
-const buttonWrapper = ref<HTMLElement | null>(null);
-const minButtonWrapper = ref<HTMLElement | null>(null);
-const maxButtonWrapper = ref<HTMLElement | null>(null);
-
-// 使用reactive创建统一的状态对象
-const state = reactive<SliderStateType>({
-  // 基本属性
-  isRange: props.range,
-  disabled: props.disabled,
-  vertical: props.vertical,
-  min: props.min,
-  max: props.max,
-  step: props.step,
-  size: props.size,
-  buttonSize: 14, // 使用固定按钮尺寸，不再根据size变化
-  onlySteps: props.onlySteps,
-  showStops: props.showStops,
-  showTooltip: props.showTooltip,
-  // 拖动状态
+// 内部状态
+const sliderState = reactive<SliderStateType>({
   dragging: false,
-  minDragging: false,
-  maxDragging: false,
-  // 模型值
-  modelValue: model.value,
-  // 提示状态
-  showSingleTooltip: false,
-  showMinTooltip: false,
-  showMaxTooltip: false
+  currentValue: model.value ?? (props.range ? [props.min, props.max] : props.min),
+  tooltipVisible: props.range ? [false, false] : [false]
 });
 
-// 监听模型值变化
+// 初始化处理
+const initData = () => {
+  // 确保范围选择时，值是数组
+  if (props.range && !Array.isArray(model.value)) {
+    sliderState.currentValue = [props.min, props.max];
+    model.value = sliderState.currentValue;
+  } else if (!props.range && Array.isArray(model.value)) {
+    sliderState.currentValue = model.value[0] || props.min;
+    model.value = sliderState.currentValue;
+  } else if (model.value === undefined || model.value === null) {
+    // 处理model值为undefined或null的情况
+    sliderState.currentValue = props.range ? [props.min, props.max] : props.min;
+    model.value = sliderState.currentValue;
+  } else {
+    sliderState.currentValue = model.value;
+  }
+
+  // 初始化按钮值
+  updateSliderButtonValues();
+};
+
+// 移除多余的监听器，保留必要的监听
 watch(
   model,
-  newValue => {
-    state.modelValue = newValue;
+  val => {
+    if (val !== sliderState.currentValue) {
+      sliderState.currentValue = val ?? (props.range ? [props.min, props.max] : props.min);
+      updateSliderButtonValues();
+    }
   },
   { immediate: true }
 );
 
-// 其他不包含在state中的状态
-const startX = ref(0);
-const startY = ref(0);
-const startPosition = ref(0);
-const newPosition = ref(0);
-const oldValue = ref<number | number[]>(props.range ? [props.min, props.max] : props.min);
+// 调整值以符合步长
+const adjustValueToStep = (value: number): number => {
+  if (props.step <= 0) return value;
 
-// 超出范围状态标记
-const minOutOfRange = ref(false);
-const maxOutOfRange = ref(false);
+  const steps = Math.round((value - props.min) / props.step);
+  const stepValue = steps * props.step + props.min;
+
+  return parseFloat(stepValue.toFixed(5));
+};
+
+// 更新按钮值
+const updateSliderButtonValues = () => {
+  if (Array.isArray(sliderState.currentValue)) {
+    sliderButtonValues.value = [...sliderState.currentValue];
+  } else {
+    sliderButtonValues.value = [sliderState.currentValue as number];
+  }
+};
+
+// 计算滑块值
+const sliderValues = computed(() => {
+  if (Array.isArray(sliderState.currentValue)) {
+    return [...sliderState.currentValue].sort((a, b) => a - b);
+  }
+  return [sliderState.currentValue as number];
+});
+
+// 计算步长点
+const stops = computed(() => {
+  if (!props.showStops || props.min >= props.max) return [];
+
+  const stopCount = (props.max - props.min) / props.step;
+  const stepWidth = 100 / stopCount;
+  const result: number[] = [];
+
+  // 避免首尾点
+  for (let i = 1; i < stopCount; i++) {
+    result.push(i * stepWidth);
+  }
+
+  return result;
+});
 
 // 计算滑块容器样式
 const sliderStyle = computed(() => {
   if (props.vertical) {
     return {
-      height: typeof props.height === "number" ? `${props.height}px` : props.height
+      height: props.height || "200px"
     };
   }
   return {};
 });
 
-// 动态设置按钮尺寸的CSS变量
-const setButtonSizeVar = () => {
-  const sliderEl = document.querySelector(".t-slider") as HTMLElement;
-  if (sliderEl) {
-    sliderEl.style.setProperty("--slider-button-size", `${state.buttonSize}px`);
-  }
-};
-
-// 在组件挂载后设置CSS变量
-onMounted(() => {
-  setButtonSizeVar();
-});
-
-// 轨道样式计算
+// 计算滑道样式
 const runwayStyle = computed(() => {
-  const style: Record<string, any> = {};
-  if (props.size) {
+  const style: Record<string, string> = {};
+
+  // 根据size属性调整滑道尺寸
+  if (props.size && props.size > 0) {
     if (props.vertical) {
-      style.width = `${props.size}px`; // 垂直模式控制宽度
+      style.width = `${props.size}px`;
     } else {
-      style.height = `${props.size}px`; // 水平模式控制高度
+      style.height = `${props.size}px`;
     }
   }
+
   return style;
 });
 
-// 已选择部分的轨道样式
+// 计算滑块条样式
 const barStyle = computed(() => {
   const style: Record<string, string> = {};
 
-  if (props.range) {
-    const [min, max] = Array.isArray(model.value) ? model.value : [props.min, props.max];
-
-    // 如果最小值超出最大值或最大值超出最小值，调整显示
-    if (minOutOfRange.value || maxOutOfRange.value) {
-      if (state.minDragging && min > max) {
-        // 最小滑块拖动超过最大值，将宽度设为0
-        if (props.vertical) {
-          style.bottom = `${valueToPosition(max)}%`;
-          style.height = "0%";
-        } else {
-          style.left = `${valueToPosition(max)}%`;
-          style.width = "0%";
-        }
-      } else if (state.maxDragging && max < min) {
-        // 最大滑块拖动小于最小值，将宽度设为0
-        if (props.vertical) {
-          style.bottom = `${valueToPosition(min)}%`;
-          style.height = "0%";
-        } else {
-          style.left = `${valueToPosition(min)}%`;
-          style.width = "0%";
-        }
-      } else {
-        // 常规超出范围处理
-        const minPos = Math.max(0, Math.min(100, valueToPosition(min)));
-        const maxPos = Math.max(0, Math.min(100, valueToPosition(max)));
-
-        if (props.vertical) {
-          style.bottom = `${minPos}%`;
-          style.height = `${maxPos - minPos}%`;
-        } else {
-          style.left = `${minPos}%`;
-          style.width = `${maxPos - minPos}%`;
-        }
-      }
+  // 根据size属性调整滑块条尺寸
+  if (props.size && props.size > 0) {
+    if (props.vertical) {
+      style.width = `${props.size}px`;
     } else {
-      // 常规显示情况
-      const minPosition = valueToPosition(min);
-      const maxPosition = valueToPosition(max);
+      style.height = `${props.size}px`;
+    }
+  }
 
-      if (props.vertical) {
-        style.bottom = `${minPosition}%`;
-        style.height = `${maxPosition - minPosition}%`;
-      } else {
-        style.left = `${minPosition}%`;
-        style.width = `${maxPosition - minPosition}%`;
-      }
+  if (props.range && Array.isArray(sliderState.currentValue)) {
+    const [min, max] = sliderValues.value;
+    const startPercent = ((min - props.min) / (props.max - props.min)) * 100;
+    const endPercent = ((max - props.min) / (props.max - props.min)) * 100;
+
+    if (props.vertical) {
+      style.bottom = `${startPercent}%`;
+      style.height = `${endPercent - startPercent}%`;
+    } else {
+      style.left = `${startPercent}%`;
+      style.width = `${endPercent - startPercent}%`;
     }
   } else {
-    // 单滑块情况保持不变
-    const position = valueToPosition(Number(model.value));
+    const percent = ((sliderValues.value[0] - props.min) / (props.max - props.min)) * 100;
+
     if (props.vertical) {
-      style.height = `${position}%`;
+      style.height = `${percent}%`;
     } else {
-      style.width = `${position}%`;
+      style.width = `${percent}%`;
     }
   }
 
   return style;
 });
 
-// 计算滑块按钮位置
-const wrapperStyle = computed(() => {
-  const position = valueToPosition(Number(model.value));
-  if (props.vertical) {
-    return {
-      bottom: `${position}%`
-    };
-  }
-  return {
-    left: `${position}%`
-  };
-});
-
-// 计算范围滑块最小值按钮位置
-const minWrapperStyle = computed(() => {
-  if (!props.range) return {};
-  const [min] = Array.isArray(model.value) ? model.value : [props.min, props.max];
-  const position = valueToPosition(min);
-  if (props.vertical) {
-    return {
-      bottom: `${position}%`
-    };
-  }
-  return {
-    left: `${position}%`
-  };
-});
-
-// 计算范围滑块最大值按钮位置
-const maxWrapperStyle = computed(() => {
-  if (!props.range) return {};
-  const [, max] = Array.isArray(model.value) ? model.value : [props.min, props.max];
-  const position = valueToPosition(max);
-  if (props.vertical) {
-    return {
-      bottom: `${position}%`
-    };
-  }
-  return {
-    left: `${position}%`
-  };
-});
-
-// 计算步长断点
-const stops = computed(() => {
-  if (!props.showStops || props.min === props.max || props.step <= 0) return [];
-
-  const stopCount = Math.floor((props.max - props.min) / props.step) + 1;
-  const stops: number[] = [];
-
-  // 添加所有步长断点，不再考虑是否在区间内
-  for (let i = 1; i < stopCount; i++) {
-    const stopValue = props.min + i * props.step;
-    if (stopValue < props.max) {
-      const stopPosition = valueToPosition(stopValue);
-      stops.push(stopPosition);
-    }
-  }
-
-  return stops;
-});
-
-// 获取步长断点样式
+// 获取间断点样式
 const getStopStyle = (position: number) => {
   if (props.vertical) {
     return {
@@ -356,444 +252,132 @@ const getStopStyle = (position: number) => {
   };
 };
 
-// 处理标记点
-const marks = computed(() => {
-  const result: { position: number; label: string | number }[] = [];
+// 获取按钮位置样式
+const getButtonStyle = (value: number) => {
+  const percent = ((value - props.min) / (props.max - props.min)) * 100;
 
-  if (Array.isArray(props.marks)) {
-    props.marks.forEach(mark => {
-      result.push({
-        position: valueToPosition(mark.value),
-        label: mark.label
-      });
-    });
-  } else if (props.marks) {
-    Object.keys(props.marks).forEach(key => {
-      const value = Number(key);
-      if (!isNaN(value)) {
-        const markValue = props.marks![value];
-        result.push({
-          position: valueToPosition(value),
-          label: typeof markValue === "string" ? markValue : String(markValue)
-        });
-      }
-    });
-  }
-
-  return result;
-});
-
-// 获取标记点样式
-const getMarkStyle = (position: number) => {
   if (props.vertical) {
     return {
-      bottom: `${position}%`
+      bottom: `${percent}%`
     };
   }
+
   return {
-    left: `${position}%`
+    left: `${percent}%`
   };
 };
 
-// 将值转换为位置
-const valueToPosition = (value: number): number => {
-  if (props.min === props.max) return 0;
-  if (props.vertical) {
-    return ((value - props.min) / (props.max - props.min)) * 100;
-  }
-  return ((value - props.min) / (props.max - props.min)) * 100;
+// 将值转换为步长的倍数
+const valueToStep = (value: number): number => {
+  return adjustValueToStep(value);
 };
 
-// 格式化值显示
-const formatValue = (val: number | number[]): string | number => {
-  const value = typeof val === "object" ? val[0] : val;
-
-  if (props.formatTooltip) {
-    return props.formatTooltip(value);
-  }
-
-  return value;
+// 将百分比转换为值
+const percentToValue = (percent: number): number => {
+  const value = (percent * (props.max - props.min)) / 100 + props.min;
+  return valueToStep(value);
 };
 
-// 处理滑块点击
-const onSliderClick = (event: MouseEvent) => {
-  if (props.disabled) return;
-  if (state.dragging || state.minDragging || state.maxDragging) return;
+// 处理拖动开始
+const handleDragStart = () => {
+  sliderState.dragging = true;
+};
 
-  const sliderRect = sliderRunway.value!.getBoundingClientRect();
-  let position: number;
+// 处理拖动过程
+const handleDragging = (index: number, value: number) => {
+  // 更新数值
+  const newValue = valueToStep(value);
 
-  if (props.vertical) {
-    const bottom = sliderRect.bottom;
-    position = ((bottom - event.clientY) / sliderRect.height) * 100;
+  if (props.range && Array.isArray(sliderState.currentValue)) {
+    const updatedValue = [...sliderState.currentValue];
+    updatedValue[index] = newValue;
+
+    // 直接更新model值，确保实时同步
+    model.value = [...updatedValue].sort((a, b) => a - b);
+    sliderState.currentValue = model.value;
+
+    // 更新按钮值
+    updateSliderButtonValues();
+
+    // 触发事件
+    emit("input", model.value);
   } else {
-    const left = sliderRect.left;
-    position = ((event.clientX - left) / sliderRect.width) * 100;
+    // 直接更新model值，确保实时同步
+    model.value = newValue;
+    sliderState.currentValue = newValue;
+
+    // 更新按钮值
+    sliderButtonValues.value[0] = newValue;
+
+    // 触发事件
+    emit("input", newValue);
   }
+};
 
-  // 直接调用positionToValue确保值符合步长要求
-  const value = positionToValue(position);
+// 处理拖动结束
+const handleDragEnd = () => {
+  sliderState.dragging = false;
 
-  if (props.range) {
-    // 范围模式下，点击时判断应该移动哪个滑块
-    if (Array.isArray(model.value)) {
-      const [min, max] = model.value;
-      const middle = (min + max) / 2;
-      if (value <= middle) {
-        model.value = [value, max];
-      } else {
-        model.value = [min, value];
-      }
-    }
-  } else {
-    model.value = value;
-  }
-
+  // 触发事件
   emit("change", model.value);
 };
 
-// 按下按钮
-const onButtonDown = (event: MouseEvent | TouchEvent) => {
-  if (props.disabled) return;
+// 处理点击滑块
+const onSliderClick = (event: MouseEvent) => {
+  if (props.disabled || sliderState.dragging) return;
 
-  event.preventDefault();
-
-  const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
-  const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
-
-  startX.value = clientX;
-  startY.value = clientY;
+  // 获取点击位置
+  const sliderRect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+  let percent = 0;
 
   if (props.vertical) {
-    startPosition.value = parseFloat(wrapperStyle.value.bottom as string);
+    const sliderHeight = sliderRect.height;
+    // 计算从底部开始的百分比
+    percent = ((sliderRect.bottom - event.clientY) / sliderHeight) * 100;
   } else {
-    startPosition.value = parseFloat(wrapperStyle.value.left as string);
+    const sliderWidth = sliderRect.width;
+    // 计算从左侧开始的百分比
+    percent = ((event.clientX - sliderRect.left) / sliderWidth) * 100;
   }
 
-  oldValue.value = model.value;
-  state.dragging = true;
-  state.showSingleTooltip = true;
+  // 转换为值
+  const value = percentToValue(percent);
 
-  document.addEventListener("mousemove", onDragging);
-  document.addEventListener("touchmove", onDragging);
-  document.addEventListener("mouseup", onDragEnd);
-  document.addEventListener("touchend", onDragEnd);
-  document.addEventListener("contextmenu", onDragEnd);
+  if (props.range) {
+    // 范围模式下找到最近的滑块
+    const [min, max] = sliderValues.value;
+    const middle = (min + max) / 2;
+
+    if (value <= middle) {
+      model.value = [value, max];
+    } else {
+      model.value = [min, value];
+    }
+
+    // 更新内部状态
+    sliderState.currentValue = model.value;
+    updateSliderButtonValues();
+  } else {
+    // 单值模式
+    model.value = value;
+    sliderState.currentValue = value;
+    updateSliderButtonValues();
+  }
+
+  // 触发事件
+  emit("change", model.value);
 };
 
-// 按下最小值按钮
-const onMinButtonDown = (event: MouseEvent | TouchEvent) => {
-  if (props.disabled) return;
+// 初始化
+initData();
 
-  event.preventDefault();
-
-  const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
-  const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
-
-  startX.value = clientX;
-  startY.value = clientY;
-
-  if (props.vertical) {
-    startPosition.value = parseFloat(minWrapperStyle.value.bottom as string);
-  } else {
-    startPosition.value = parseFloat(minWrapperStyle.value.left as string);
-  }
-
-  oldValue.value = model.value;
-  state.minDragging = true;
-  state.showMinTooltip = true;
-
-  document.addEventListener("mousemove", onMinDragging);
-  document.addEventListener("touchmove", onMinDragging);
-  document.addEventListener("mouseup", onMinDragEnd);
-  document.addEventListener("touchend", onMinDragEnd);
-  document.addEventListener("contextmenu", onMinDragEnd);
-};
-
-// 按下最大值按钮
-const onMaxButtonDown = (event: MouseEvent | TouchEvent) => {
-  if (props.disabled) return;
-
-  event.preventDefault();
-
-  const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
-  const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
-
-  startX.value = clientX;
-  startY.value = clientY;
-
-  if (props.vertical) {
-    startPosition.value = parseFloat(maxWrapperStyle.value.bottom as string);
-  } else {
-    startPosition.value = parseFloat(maxWrapperStyle.value.left as string);
-  }
-
-  oldValue.value = model.value;
-  state.maxDragging = true;
-  state.showMaxTooltip = true;
-
-  document.addEventListener("mousemove", onMaxDragging);
-  document.addEventListener("touchmove", onMaxDragging);
-  document.addEventListener("mouseup", onMaxDragEnd);
-  document.addEventListener("touchend", onMaxDragEnd);
-  document.addEventListener("contextmenu", onMaxDragEnd);
-};
-
-// 拖动处理
-const onDragging = bindThrottle((event: MouseEvent | TouchEvent) => {
-  if (props.disabled || !state.dragging) return;
-
-  const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
-  const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
-
-  const sliderRect = sliderRunway.value!.getBoundingClientRect();
-  let diff: number;
-
-  if (props.vertical) {
-    diff = ((startY.value - clientY) / sliderRect.height) * 100;
-  } else {
-    diff = ((clientX - startX.value) / sliderRect.width) * 100;
-  }
-
-  newPosition.value = startPosition.value + diff;
-  let value = positionToValue(newPosition.value);
-
-  // 如果不是onlySteps模式，那么拖动过程中不强制吸附到步长值
-  // 但仍然应该限制精度，避免出现太多小数位
-  if (!props.onlySteps && props.step > 0) {
-    const precision = Math.max(0, String(props.step).split(".")[1]?.length || 0);
-    value = Number(value.toFixed(precision));
-  }
-
-  model.value = value;
-  emit("input", model.value);
-}, 16);
-
-// 最小值拖动处理
-const onMinDragging = bindThrottle((event: MouseEvent | TouchEvent) => {
-  if (props.disabled || !state.minDragging || !props.range) return;
-
-  const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
-  const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
-
-  const sliderRect = sliderRunway.value!.getBoundingClientRect();
-  let diff: number;
-
-  if (props.vertical) {
-    diff = ((startY.value - clientY) / sliderRect.height) * 100;
-  } else {
-    diff = ((clientX - startX.value) / sliderRect.width) * 100;
-  }
-
-  newPosition.value = startPosition.value + diff;
-  let value = positionToValue(newPosition.value);
-
-  // 如果不是onlySteps模式，那么拖动过程中不强制吸附到步长值
-  // 但仍然应该限制精度，避免出现太多小数位
-  if (!props.onlySteps && props.step > 0) {
-    const precision = Math.max(0, String(props.step).split(".")[1]?.length || 0);
-    value = Number(value.toFixed(precision));
-  }
-
-  if (Array.isArray(model.value)) {
-    // 检测是否超出范围
-    minOutOfRange.value = value > model.value[1];
-
-    // 允许自由拖动，不限制最小值必须小于最大值
-    model.value = [value, model.value[1]];
-  }
-
-  emit("input", model.value);
-}, 16);
-
-// 最大值拖动处理
-const onMaxDragging = bindThrottle((event: MouseEvent | TouchEvent) => {
-  if (props.disabled || !state.maxDragging || !props.range) return;
-
-  const clientX = "touches" in event ? event.touches[0].clientX : event.clientX;
-  const clientY = "touches" in event ? event.touches[0].clientY : event.clientY;
-
-  const sliderRect = sliderRunway.value!.getBoundingClientRect();
-  let diff: number;
-
-  if (props.vertical) {
-    diff = ((startY.value - clientY) / sliderRect.height) * 100;
-  } else {
-    diff = ((clientX - startX.value) / sliderRect.width) * 100;
-  }
-
-  newPosition.value = startPosition.value + diff;
-  let value = positionToValue(newPosition.value);
-
-  // 如果不是onlySteps模式，那么拖动过程中不强制吸附到步长值
-  // 但仍然应该限制精度，避免出现太多小数位
-  if (!props.onlySteps && props.step > 0) {
-    const precision = Math.max(0, String(props.step).split(".")[1]?.length || 0);
-    value = Number(value.toFixed(precision));
-  }
-
-  if (Array.isArray(model.value)) {
-    // 检测是否超出范围
-    maxOutOfRange.value = value < model.value[0];
-
-    // 允许自由拖动，不限制最大值必须大于最小值
-    model.value = [model.value[0], value];
-  }
-
-  emit("input", model.value);
-}, 16);
-
-// 拖动结束
-const onDragEnd = () => {
-  if (props.disabled || !state.dragging) return;
-
-  // 确保在拖动结束时应用步长
-  if (props.step > 0 && !props.onlySteps) {
-    const value = Number(model.value);
-    const roundedValue = props.min + Math.round((value - props.min) / props.step) * props.step;
-    model.value = Number(Math.max(props.min, Math.min(props.max, roundedValue)).toFixed(5));
-  }
-  state.dragging = false;
-  state.showSingleTooltip = false;
-
-  // 触发change事件
-  if (oldValue.value !== model.value) {
-    emit("change", model.value);
-  }
-
-  document.removeEventListener("mousemove", onDragging);
-  document.removeEventListener("touchmove", onDragging);
-  document.removeEventListener("mouseup", onDragEnd);
-  document.removeEventListener("touchend", onDragEnd);
-  document.removeEventListener("contextmenu", onDragEnd);
-};
-
-// 最小值拖动结束
-const onMinDragEnd = () => {
-  if (props.disabled || !state.minDragging) return;
-
-  // 重置超出范围状态
-  minOutOfRange.value = false;
-
-  // 确保在拖动结束时应用步长
-  if (props.step > 0 && !props.onlySteps && Array.isArray(model.value)) {
-    const min = model.value[0];
-    const roundedMin = props.min + Math.round((min - props.min) / props.step) * props.step;
-    model.value = [Number(Math.max(props.min, Math.min(props.max, roundedMin)).toFixed(5)), model.value[1]];
-  }
-
-  // 自动调整起始值和结束值的顺序
-  if (Array.isArray(model.value) && model.value[0] > model.value[1]) {
-    // 如果起始值大于结束值，交换它们
-    model.value = [model.value[1], model.value[0]];
-    // 交换拖动状态，使UI显示正确
-    const tempDragging = state.minDragging;
-    state.minDragging = state.maxDragging;
-    state.maxDragging = tempDragging;
-
-    const tempTooltip = state.showMinTooltip;
-    state.showMinTooltip = state.showMaxTooltip;
-    state.showMaxTooltip = tempTooltip;
-  }
-
-  state.minDragging = false;
-  state.showMinTooltip = false;
-
-  // 触发change事件
-  if (oldValue.value !== model.value) {
-    emit("change", model.value);
-  }
-
-  document.removeEventListener("mousemove", onMinDragging);
-  document.removeEventListener("touchmove", onMinDragging);
-  document.removeEventListener("mouseup", onMinDragEnd);
-  document.removeEventListener("touchend", onMinDragEnd);
-  document.removeEventListener("contextmenu", onMinDragEnd);
-};
-
-// 最大值拖动结束
-const onMaxDragEnd = () => {
-  if (props.disabled || !state.maxDragging) return;
-
-  // 重置超出范围状态
-  maxOutOfRange.value = false;
-
-  // 确保在拖动结束时应用步长
-  if (props.step > 0 && !props.onlySteps && Array.isArray(model.value)) {
-    const max = model.value[1];
-    const roundedMax = props.min + Math.round((max - props.min) / props.step) * props.step;
-    model.value = [model.value[0], Number(Math.max(props.min, Math.min(props.max, roundedMax)).toFixed(5))];
-  }
-
-  // 自动调整起始值和结束值的顺序
-  if (Array.isArray(model.value) && model.value[0] > model.value[1]) {
-    // 如果起始值大于结束值，交换它们
-    model.value = [model.value[1], model.value[0]];
-    // 交换拖动状态，使UI显示正确
-    const tempDragging = state.minDragging;
-    state.minDragging = state.maxDragging;
-    state.maxDragging = tempDragging;
-
-    const tempTooltip = state.showMinTooltip;
-    state.showMinTooltip = state.showMaxTooltip;
-    state.showMaxTooltip = tempTooltip;
-  }
-
-  state.maxDragging = false;
-  state.showMaxTooltip = false;
-
-  // 触发change事件
-  if (oldValue.value !== model.value) {
-    emit("change", model.value);
-  }
-
-  document.removeEventListener("mousemove", onMaxDragging);
-  document.removeEventListener("touchmove", onMaxDragging);
-  document.removeEventListener("mouseup", onMaxDragEnd);
-  document.removeEventListener("touchend", onMaxDragEnd);
-  document.removeEventListener("contextmenu", onMaxDragEnd);
-};
-
-// 组件卸载时移除事件监听
-onUnmounted(() => {
-  document.removeEventListener("mousemove", onDragging);
-  document.removeEventListener("touchmove", onDragging);
-  document.removeEventListener("mouseup", onDragEnd);
-  document.removeEventListener("touchend", onDragEnd);
-  document.removeEventListener("contextmenu", onDragEnd);
-
-  document.removeEventListener("mousemove", onMinDragging);
-  document.removeEventListener("touchmove", onMinDragging);
-  document.removeEventListener("mouseup", onMinDragEnd);
-  document.removeEventListener("touchend", onMinDragEnd);
-  document.removeEventListener("contextmenu", onMinDragEnd);
-
-  document.removeEventListener("mousemove", onMaxDragging);
-  document.removeEventListener("touchmove", onMaxDragging);
-  document.removeEventListener("mouseup", onMaxDragEnd);
-  document.removeEventListener("touchend", onMaxDragEnd);
-  document.removeEventListener("contextmenu", onMaxDragEnd);
+// 提供上下文
+provide(sliderKey, {
+  ...props, // 直接提供整个props对象，确保响应式
+  sliderState,
+  // 确保formatTooltip函数正确传递
+  formatTooltip: props.formatTooltip
 });
-
-// 位置转换为值
-const positionToValue = (position: number): number => {
-  // 从位置百分比转换为实际值
-  const range = props.max - props.min;
-
-  // 根据步长进行调整
-  let value = props.min + (position * range) / 100;
-
-  if (props.step > 0) {
-    // 对齐到最近的步长值，确保始终对齐到步长的倍数
-    value = props.min + Math.round((value - props.min) / props.step) * props.step;
-  }
-
-  // 确保值在允许范围内
-  value = Math.max(props.min, Math.min(props.max, value));
-
-  // 格式化为固定小数位数，避免浮点数精度问题
-  return Number(value.toFixed(5));
-};
 </script>
 
 <style lang="scss" scoped>

@@ -5,7 +5,10 @@ import Slider from "./index.vue";
  * @component TSlider
  */
 export const TSlider = Slider;
-/**
- * @description 导出Slider组件类型
- */
-export type TSliderType = InstanceType<typeof Slider>;
+export default TSlider;
+
+// 导出类型定义
+export * from "./slider";
+
+// 组件类型
+export type SliderInstance = InstanceType<typeof Slider>;

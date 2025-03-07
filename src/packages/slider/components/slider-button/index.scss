@@ -1,0 +1,134 @@
+@import "@/styles/index.scss";
+
+// 滑块按钮样式
+.t-slider-button {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: $color-white;
+  border: 2px solid $theme-color-primary;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  top: 50%; // 默认垂直居中，可被JS动态调整
+  left: 0; // 默认左对齐，由父组件控制水平位置
+  transition: all 0.2s;
+  z-index: 4; // 再次提升z-index确保在所有元素之上
+
+  &:hover,
+  &:focus {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 5; // 悬停时进一步提升z-index
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &--dragging {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    z-index: 5; // 拖动时提升z-index
+  }
+
+  // Tooltip 样式
+  &__tooltip {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    min-width: 24px;
+    background-color: $theme-color-primary;
+    color: $color-white;
+    border-radius: 3px;
+    font-size: $font-size-small;
+    line-height: 1.2;
+    text-align: center;
+    z-index: 5; // 提升tooltip的z-index
+
+    &::after {
+      content: "";
+      position: absolute;
+      border-style: solid;
+      border-width: 5px 5px 0;
+      border-color: $theme-color-primary transparent transparent;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    // 不同位置样式
+    &.is-top {
+      top: -30px;
+      &::after {
+        border-width: 5px 5px 0;
+        border-color: $theme-color-primary transparent transparent;
+        bottom: -5px;
+        top: auto;
+      }
+    }
+
+    &.is-bottom {
+      top: 25px;
+      &::after {
+        border-width: 0 5px 5px;
+        border-color: transparent transparent $theme-color-primary;
+        top: -5px;
+        bottom: auto;
+      }
+    }
+
+    &.is-left {
+      top: 50%;
+      left: -8px;
+      transform: translate(-100%, -50%);
+      &::after {
+        border-width: 5px 0 5px 5px;
+        border-color: transparent transparent transparent $theme-color-primary;
+        right: -5px;
+        top: 50%;
+        left: auto;
+        transform: translateY(-50%);
+      }
+    }
+
+    &.is-right {
+      top: 50%;
+      right: -8px;
+      left: auto;
+      transform: translate(100%, -50%);
+      &::after {
+        border-width: 5px 5px 5px 0;
+        border-color: transparent $theme-color-primary transparent transparent;
+        left: -5px;
+        top: 50%;
+        right: auto;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  &__tooltip-text {
+    white-space: nowrap;
+  }
+
+  // 垂直模式下按钮定位调整
+  .t-slider--vertical & {
+    top: auto;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+
+    &:hover,
+    &:focus {
+      transform: translate(-50%, 50%) scale(1.1);
+    }
+
+    &--dragging {
+      transform: translate(-50%, 50%) scale(1.1);
+    }
+  }
+}

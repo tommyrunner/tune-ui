@@ -19,12 +19,12 @@
 </template>
 
 <script lang="ts" setup>
+import type { ColorObject, ProgressPropsType } from "./progress";
 import { computed, provide, reactive, watch } from "vue";
 import { progressKey } from "./constants";
 import ProgressLine from "./components/progress-line/index.vue";
 import ProgressCircle from "./components/progress-circle/index.vue";
 import ProgressDashboard from "./components/progress-dashboard/index.vue";
-import type { ColorObject } from "./progress";
 import "./index.scss";
 
 /**
@@ -34,32 +34,16 @@ defineOptions({
   name: "TProgress"
 });
 
-const props = withDefaults(
-  defineProps<{
-    percentage?: number;
-    type?: "line" | "circle" | "dashboard";
-    status?: "success" | "exception" | "warning";
-    strokeWidth?: number;
-    textInside?: boolean;
-    width?: number;
-    showText?: boolean;
-    color?: string | ((percentage: number) => string) | ColorObject[];
-    format?: (percentage: number) => string;
-    indeterminate?: boolean;
-    duration?: number;
-    stripedFlow?: boolean;
-  }>(),
-  {
-    percentage: 0,
-    type: "line",
-    strokeWidth: 6,
-    textInside: false,
-    width: 126,
-    showText: true,
-    duration: 3,
-    stripedFlow: false
-  }
-);
+const props = withDefaults(defineProps<ProgressPropsType>(), {
+  percentage: 0,
+  type: "line",
+  strokeWidth: 6,
+  textInside: false,
+  width: 126,
+  showText: true,
+  duration: 3,
+  stripedFlow: false
+});
 
 // 状态颜色映射
 const statusColors = {
@@ -156,7 +140,6 @@ const formatText = computed(() => {
 // 提供上下文给子组件
 provide(progressKey, {
   ...props,
-  progressState,
-  format: props.format
+  progressState
 });
 </script>

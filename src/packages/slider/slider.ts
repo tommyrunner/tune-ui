@@ -1,128 +1,84 @@
-export interface SliderMark {
-  value: number;
-  position: string;
-  style?: Record<string, string>;
-  label?: string | number;
-}
-
-export type SliderFormatTooltip = (val: number) => string | number;
+/**
+ * @description 滑块尺寸类型
+ */
+export type SliderSizeType = "large" | "default" | "small";
 
 /**
- * 滑块组件状态类型定义
+ * @description 滑块位置类型
+ */
+export type SliderPlacementType = "top" | "right" | "bottom" | "left";
+
+/**
+ * @description 标记对象类型
+ * @interface MarkObject
+ * @property {Record<string, string>} style - 自定义样式
+ * @property {string} label - 标记文本
+ */
+export interface MarkObject {
+  style?: Record<string, string>;
+  label: string;
+}
+
+/**
+ * @description 标记类型
+ */
+export type MarksType = Record<number, string | MarkObject>;
+
+/**
+ * @description 滑块属性接口
+ */
+export interface SliderPropsType {
+  /** 最小值 */
+  min?: number;
+  /** 最大值 */
+  max?: number;
+  /** 是否禁用 */
+  disabled?: boolean;
+  /** 步长 */
+  step?: number;
+  /** 滚动条大小 */
+  size?: number;
+  /** 是否显示间断点 */
+  showStops?: boolean;
+  /** 是否显示提示信息 */
+  showTooltip?: boolean;
+  /** 格式化提示信息的函数 */
+  formatTooltip?: (val: number) => string;
+  /** 是否开启选择范围 */
+  range?: boolean;
+  /** 是否为垂直模式 */
+  vertical?: boolean;
+  /** 滑块高度，垂直模式必填 */
+  height?: string;
+  /** tooltip 的自定义类名 */
+  tooltipClass?: string;
+  /** Tooltip 出现的位置 */
+  placement?: SliderPlacementType;
+  /** 标记 */
+  marks?: MarksType;
+  /** 输入框去抖动延迟，毫秒 */
+  debounce?: number;
+  /** 状态类型 */
+  status?: "success" | "exception" | "warning";
+}
+
+/**
+ * @description 滑块内部状态类型
  */
 export interface SliderStateType {
-  /** 是否为范围选择 */
-  isRange: boolean;
-  /** 是否禁用 */
-  disabled: boolean;
-  /** 是否为垂直模式 */
-  vertical: boolean;
-  /** 最小值 */
-  min: number;
-  /** 最大值 */
-  max: number;
-  /** 步长 */
-  step: number;
-  /** 滑块尺寸 */
-  size: number;
-  /** 按钮尺寸 */
-  buttonSize: number;
-  /** 是否只能拖动到步长位置 */
-  onlySteps: boolean;
-  /** 是否显示间断点 */
-  showStops: boolean;
-  /** 是否显示提示 */
-  showTooltip: boolean;
-  /** 是否正在拖动（单滑块） */
+  /** 是否正在拖动 */
   dragging: boolean;
-  /** 是否正在拖动最小值滑块 */
-  minDragging: boolean;
-  /** 是否正在拖动最大值滑块 */
-  maxDragging: boolean;
-  /** 当前模型值 */
-  modelValue: number | number[];
-  /** 是否显示单滑块提示 */
-  showSingleTooltip: boolean;
-  /** 是否显示最小值提示 */
-  showMinTooltip: boolean;
-  /** 是否显示最大值提示 */
-  showMaxTooltip: boolean;
+  /** 当前值 */
+  currentValue: number | number[];
+  /** Tooltip显示标志 */
+  tooltipVisible: boolean[];
 }
 
-export interface PropsType {
-  /**
-   * 是否禁用
-   * @default false
-   */
-  disabled?: boolean;
-  /**
-   * 最小值
-   * @default 0
-   */
-  min?: number;
-  /**
-   * 最大值
-   * @default 100
-   */
-  max?: number;
-  /**
-   * 步长
-   * @default 1
-   */
-  step?: number;
-  /**
-   * 是否显示间断点
-   * @default false
-   */
-  showStops?: boolean;
-  /**
-   * 是否显示tooltip
-   * @default true
-   */
-  showTooltip?: boolean;
-  /**
-   * 格式化 tooltip
-   */
-  formatTooltip?: (value: number) => string;
-  /**
-   * 是否为范围选择
-   * @default false
-   */
-  range?: boolean;
-  /**
-   * 是否竖向模式
-   * @default false
-   */
-  vertical?: boolean;
-  /**
-   * 是否只能拖动到步长的位置
-   * @default false
-   */
-  onlySteps?: boolean;
-  /**
-   * 高度，用于调整轨道粗细
-   * @default "medium"
-   */
-  height?: "thin" | "medium" | "thick";
-  /**
-   * 滑块尺寸，控制轨道粗细及按钮大小
-   */
-  size?: number;
-  /**
-   * 标记点
-   */
-  marks?: Record<number, string>;
+/**
+ * @description 滑块上下文类型
+ * @extends SliderProps
+ */
+export interface SliderContextType extends Omit<SliderPropsType, "modelValue"> {
+  /** 滑块状态对象 */
+  sliderState: SliderStateType;
 }
-
-export interface EmitsType {
-  /**
-   * 值变化时触发
-   */
-  (e: "change", value: number | number[]): void;
-  /**
-   * 数据改变时触发
-   */
-  (e: "input", value: number | number[]): void;
-}
-
-export type ModelValueType = number | number[];

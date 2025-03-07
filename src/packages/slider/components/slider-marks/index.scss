@@ -1,0 +1,70 @@
+@import "@/styles/index.scss";
+
+// 滑块刻度标记样式
+.t-slider-marks {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  // 自定义颜色变量
+  $border-color-darker: #c0c4cc; // 深一点的边框颜色
+  $primary-color-darker: #409eff; // 深一点的主题色
+  $mark-color-light: #f2f3f5; // 更浅的标记点背景色（与断点一致）
+  $mark-border-color: #e4e7ed; // 更浅的标记点边框色（与断点一致）
+
+  // 刻度点
+  &__mark {
+    position: absolute;
+    width: 6px; // 减小尺寸，与断点保持一致
+    height: 6px; // 减小尺寸，与断点保持一致
+    border-radius: 50%;
+    background-color: $mark-color-light;
+    border: 1px solid $mark-border-color;
+    transform: translate(-50%, -50%);
+    z-index: 2; // 保持在进度条上方
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.2s ease; // 添加过渡效果
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.05); // 添加轻微阴影
+
+    // 活跃状态
+    &.is-active {
+      background-color: $theme-color-primary;
+      border-color: $primary-color-darker;
+      transform: translate(-50%, -50%) scale(1.1); // 活跃状态稍微放大
+    }
+  }
+
+  // 标签
+  &__label {
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: $font-size-small;
+    color: $text-color-default;
+    margin-top: 14px;
+    white-space: nowrap;
+    cursor: pointer;
+    padding: 2px 4px;
+    min-width: 20px;
+    text-align: center;
+
+    // 垂直模式下样式
+    .t-slider--vertical & {
+      transform: translateY(50%) translateX(14px);
+      margin-top: 0;
+    }
+  }
+}
+
+// 水平模式下确保标记点垂直居中
+.t-slider--horizontal .t-slider-marks__mark {
+  top: 50%;
+}
+
+// 垂直模式下确保标记点水平居中
+.t-slider--vertical .t-slider-marks__mark {
+  left: 50%;
+}
