@@ -7,7 +7,7 @@ export interface GroupContextType extends PropsType {
   /** 当前选中值 */
   model?: ValueType;
 
-  /** 
+  /**
    * 修改选中状态
    * @param el 目标元素
    * @param value 选中值
@@ -16,7 +16,7 @@ export interface GroupContextType extends PropsType {
    */
   changeEvent: (el: HTMLElement, value?: ValueType, isChange?: boolean, isEmit?: boolean) => void;
 
-  /** 
+  /**
    * 处理关闭事件
    * @param value 关闭项的值
    */

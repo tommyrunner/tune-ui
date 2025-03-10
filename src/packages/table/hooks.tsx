@@ -26,15 +26,10 @@ export function useTable(props: PropsType, emit: EmitsType) {
     if (props.changeType !== "none") {
       columnsCopy.left.push({
         label: "选择",
-        prop: "select", 
+        prop: "select",
         width: 60,
         fixed: "left",
-        render: params => (
-          <TCheckbox
-            v-model={params.data[props.changeKey]}
-            onChange={() => handleSelectionChange(params)}
-          />
-        )
+        render: params => <TCheckbox v-model={params.data[props.changeKey]} onChange={() => handleSelectionChange(params)} />
       });
     }
 

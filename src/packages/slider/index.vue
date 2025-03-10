@@ -31,7 +31,11 @@
             @dragstart="handleDragStart"
             @dragging="value => handleDragging(index, value)"
             @dragend="handleDragEnd"
-          />
+          >
+            <template #default="slotProps">
+              <slot name="button" v-bind="slotProps"></slot>
+            </template>
+          </slider-button>
         </div>
       </template>
       <template v-else>
@@ -44,7 +48,11 @@
             @dragstart="handleDragStart"
             @dragging="value => handleDragging(0, value)"
             @dragend="handleDragEnd"
-          />
+          >
+            <template #default="slotProps">
+              <slot name="button" v-bind="slotProps"></slot>
+            </template>
+          </slider-button>
         </div>
       </template>
     </div>

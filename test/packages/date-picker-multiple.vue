@@ -100,12 +100,7 @@
       <div class="date-picker-section">
         <div class="date-picker-block">
           <div class="date-picker-label">显示时间选择器：</div>
-          <t-date-picker-multiple
-            v-model="state.showTimeDates"
-            :show-time="true"
-            :is-range="true"
-            format="YYYY-MM-DD HH:mm:ss"
-          />
+          <t-date-picker-multiple v-model="state.showTimeDates" :show-time="true" :is-range="true" format="YYYY-MM-DD HH:mm:ss" />
           <div class="value-display">
             <div>选择的日期时间：{{ formatDisplayDates(state.showTimeDates) }}</div>
           </div>
@@ -142,11 +137,7 @@
       <div class="date-picker-section">
         <div class="date-picker-block">
           <div class="date-picker-label">自定义占位符：</div>
-          <t-date-picker-multiple
-            v-model="state.placeholderDates"
-            placeholder="请点击选择日期范围"
-            :is-range="true"
-          />
+          <t-date-picker-multiple v-model="state.placeholderDates" placeholder="请点击选择日期范围" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.placeholderDates) }}</div>
           </div>
@@ -159,22 +150,14 @@
       <div class="date-picker-section">
         <div class="date-picker-block">
           <div class="date-picker-label">可清空：</div>
-          <t-date-picker-multiple
-            v-model="state.clearableDates"
-            :clearable="true"
-            :is-range="true"
-          />
+          <t-date-picker-multiple v-model="state.clearableDates" :clearable="true" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.clearableDates) }}</div>
           </div>
         </div>
         <div class="date-picker-block">
           <div class="date-picker-label">不可清空：</div>
-          <t-date-picker-multiple
-            v-model="state.nonClearableDates"
-            :clearable="false"
-            :is-range="true"
-          />
+          <t-date-picker-multiple v-model="state.nonClearableDates" :clearable="false" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.nonClearableDates) }}</div>
           </div>
@@ -187,44 +170,28 @@
       <div class="date-picker-section">
         <div class="date-picker-block">
           <div class="date-picker-label">顶部弹出 (top)：</div>
-          <t-date-picker-multiple
-            v-model="state.topPositionDates"
-            position="top"
-            :is-range="true"
-          />
+          <t-date-picker-multiple v-model="state.topPositionDates" position="top" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.topPositionDates) }}</div>
           </div>
         </div>
         <div class="date-picker-block">
           <div class="date-picker-label">底部弹出 (bottom)：</div>
-          <t-date-picker-multiple
-            v-model="state.bottomPositionDates"
-            position="bottom"
-            :is-range="true"
-          />
+          <t-date-picker-multiple v-model="state.bottomPositionDates" position="bottom" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.bottomPositionDates) }}</div>
           </div>
         </div>
         <div class="date-picker-block">
           <div class="date-picker-label">左侧弹出 (left)：</div>
-          <t-date-picker-multiple
-            v-model="state.leftPositionDates"
-            position="left"
-            :is-range="true"
-          />
+          <t-date-picker-multiple v-model="state.leftPositionDates" position="left" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.leftPositionDates) }}</div>
           </div>
         </div>
         <div class="date-picker-block">
           <div class="date-picker-label">右侧弹出 (right)：</div>
-          <t-date-picker-multiple
-            v-model="state.rightPositionDates"
-            position="right"
-            :is-range="true"
-          />
+          <t-date-picker-multiple v-model="state.rightPositionDates" position="right" :is-range="true" />
           <div class="value-display">
             <div>选择的日期：{{ formatDisplayDates(state.rightPositionDates) }}</div>
           </div>

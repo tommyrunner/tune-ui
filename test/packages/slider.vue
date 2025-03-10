@@ -328,6 +328,96 @@
         </div>
       </div>
     </test-section>
+
+    <!-- 自定义按钮 -->
+    <h3>自定义按钮</h3>
+
+    <!-- 文本自定义按钮 -->
+    <test-section title="文本自定义按钮">
+      <div class="slider-row">
+        <span class="slider-label">简单文本:</span>
+        <t-slider v-model="customButtonTextValue">
+          <template #button="{ value }">
+            <div class="custom-button custom-button--text">
+              {{ value }}
+            </div>
+          </template>
+        </t-slider>
+        <div class="value-display">当前值: {{ customButtonTextValue }}</div>
+      </div>
+    </test-section>
+
+    <!-- 图标自定义按钮 -->
+    <test-section title="图标自定义按钮">
+      <div class="slider-row">
+        <span class="slider-label">带图标:</span>
+        <t-slider v-model="customButtonIconValue">
+          <template #button="{ value, dragging }">
+            <div :class="['custom-button', 'custom-button--icon', { 'is-dragging': dragging }]">
+              <t-icon icon="success" :size="14" color="#ff9f43" />
+              <div class="tooltip" v-if="dragging">{{ Math.round(value) }}</div>
+            </div>
+          </template>
+        </t-slider>
+        <div class="value-display">当前值: {{ customButtonIconValue }}</div>
+      </div>
+    </test-section>
+
+    <!-- 范围选择自定义按钮 -->
+    <test-section title="范围选择自定义按钮">
+      <div class="slider-row">
+        <span class="slider-label">范围选择:</span>
+        <t-slider v-model="customButtonRangeValue" range>
+          <template #button="{ value, index }">
+            <div class="custom-button custom-button--range">
+              <t-icon :icon="index === 0 ? 'left' : 'right'" :size="12" color="#409eff" />
+              <div class="value">{{ value }}</div>
+            </div>
+          </template>
+        </t-slider>
+        <div class="value-display">当前值: {{ customButtonRangeValue }}</div>
+      </div>
+    </test-section>
+
+    <!-- 垂直模式自定义按钮 -->
+    <test-section title="垂直自定义按钮">
+      <div class="vertical-custom-container">
+        <t-slider v-model="customButtonVerticalValue" vertical height="200px">
+          <template #button="{ value, vertical }">
+            <div :class="['custom-button', { 'is-vertical': vertical }]">
+              {{ value }}
+            </div>
+          </template>
+        </t-slider>
+        <div class="value-display">当前值: {{ customButtonVerticalValue }}</div>
+      </div>
+    </test-section>
+
+    <!-- 状态响应自定义按钮 -->
+    <test-section title="状态响应按钮">
+      <div class="slider-row">
+        <span class="slider-label">状态感知:</span>
+        <t-slider v-model="customButtonStateValue" :disabled="customButtonDisabled">
+          <template #button="{ value, disabled, dragging }">
+            <div :class="['custom-button', { 'is-disabled': disabled, 'is-dragging': dragging }]">
+              <div class="state-icon">
+                <t-icon
+                  :icon="disabled ? 'close' : dragging ? 'success' : 'success-to'"
+                  :size="14"
+                  :color="disabled ? '#9ca3af' : '#0ea5e9'"
+                />
+              </div>
+              <div class="state-value">{{ value }}</div>
+            </div>
+          </template>
+        </t-slider>
+        <div class="custom-controls">
+          <button @click="customButtonDisabled = !customButtonDisabled">
+            {{ customButtonDisabled ? "启用" : "禁用" }}
+          </button>
+        </div>
+      </div>
+    </test-section>
   </div>
 </template>
 
@@ -335,6 +425,7 @@
 import { ref } from "vue";
 import { TSlider } from "@/packages/slider";
 import { TInputNumber } from "@/packages/input-number";
+import { TIcon } from "@/packages/icon";
 import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "SliderTest" });
@@ -384,7 +475,7 @@ const tooltipClassValue = ref(55);
 const placementValue = ref(50);
 
 // 不同尺寸
-const sizeValue = ref(45);
+// const sizeValue = ref(45);
 
 // 标记
 const marksValue = ref(50);
@@ -430,6 +521,14 @@ const verticalSizeDefaultValue = ref(50);
 const verticalSizeMediumValue = ref(50);
 const verticalSizeLargeValue = ref(50);
 const verticalSizeXLargeValue = ref(50);
+
+// 自定义按钮测试数据
+const customButtonTextValue = ref(45);
+const customButtonIconValue = ref(60);
+const customButtonRangeValue = ref([25, 75]);
+const customButtonVerticalValue = ref(55);
+const customButtonStateValue = ref(50);
+const customButtonDisabled = ref(false);
 
 /**
  * 处理change事件
@@ -621,6 +720,120 @@ const handleInput = (value: number | number[]) => {
         margin-right: 0;
         margin-bottom: 4px;
       }
+    }
+  }
+
+  // 自定义按钮相关样式
+  .custom-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .custom-button--text {
+    color: #409eff;
+    border: 2px solid #409eff;
+    background-color: #ecf5ff;
+  }
+
+  .custom-button--icon {
+    border: 2px solid #ff9f43;
+    transition: all 0.3s;
+
+    &.is-dragging {
+      transform: scale(1.2);
+      box-shadow: 0 0 10px rgba(255, 159, 67, 0.5);
+    }
+
+    .icon {
+      font-size: 14px;
+    }
+
+    .tooltip {
+      position: absolute;
+      top: -30px;
+      background-color: #ff9f43;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+  }
+
+  .custom-button--range {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #409eff;
+
+    .icon {
+      font-size: 12px;
+    }
+
+    .value {
+      font-size: 10px;
+      margin-top: -3px;
+    }
+  }
+
+  .is-vertical {
+    background-color: #e6f7ff;
+    border: 2px solid #1890ff;
+    color: #1890ff;
+  }
+
+  .vertical-custom-container {
+    height: 220px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .custom-controls {
+    margin-left: 16px;
+
+    button {
+      padding: 4px 12px;
+      background-color: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+
+      &:hover {
+        background-color: #e5e7eb;
+      }
+    }
+  }
+
+  // 状态响应按钮样式
+  .custom-button {
+    &.is-disabled {
+      background-color: #f3f4f6;
+      border: 2px solid #d1d5db;
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+
+    &.is-dragging {
+      background-color: #f0f9ff;
+      border: 2px solid #0ea5e9;
+    }
+
+    .state-icon {
+      font-size: 14px;
+    }
+
+    .state-value {
+      font-size: 10px;
+      margin-top: 2px;
     }
   }
 }

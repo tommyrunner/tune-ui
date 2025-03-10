@@ -24,4 +24,4 @@ export const HOURS = Array.from({ length: 24 }, (_, i) => i);
 /** 分钟列表 */
 export const MINUTES = Array.from({ length: 60 }, (_, i) => i);
 /** 秒列表 */
-export const SECONDS = Array.from({ length: 60 }, (_, i) => i); 
+export const SECONDS = Array.from({ length: 60 }, (_, i) => i);

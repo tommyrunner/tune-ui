@@ -72,4 +72,4 @@ export default {
   parseDate,
   getCurrentDateTime,
   DATE_FORMATS
-}; 
+};

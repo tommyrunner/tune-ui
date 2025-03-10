@@ -5,4 +5,4 @@ import DatePicker from "./index.vue";
 // 导出组件
 export const TDatePicker = DatePicker;
 // 导出组件类型
-export type TDatePickerType = InstanceType<typeof TDatePicker>; 
+export type TDatePickerType = InstanceType<typeof TDatePicker>;

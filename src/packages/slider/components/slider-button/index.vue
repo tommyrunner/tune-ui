@@ -18,14 +18,20 @@
     :aria-orientation="vertical ? 'vertical' : 'horizontal'"
     :aria-disabled="disabled"
   >
-    <div
-      ref="tooltip"
-      class="t-slider-button__tooltip"
-      :class="[tooltipClass, `is-${placement}`]"
-      v-show="showTooltip && (tooltipVisible || dragging)"
-    >
-      <span class="t-slider-button__tooltip-text">{{ formatValue }}</span>
-    </div>
+    <!-- 自定义按钮内容插槽 -->
+    <slot :value="currentValue" :index="index" :dragging="dragging" :disabled="disabled" :vertical="vertical">
+      <!-- 默认按钮内容 -->
+      <div class="t-slider-button__default">
+        <div
+          ref="tooltip"
+          class="t-slider-button__tooltip"
+          :class="[tooltipClass, `is-${placement}`]"
+          v-show="showTooltip && (tooltipVisible || dragging)"
+        >
+          <span class="t-slider-button__tooltip-text">{{ formatValue }}</span>
+        </div>
+      </div>
+    </slot>
   </div>
 </template>
 

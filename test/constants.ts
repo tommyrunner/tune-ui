@@ -24,4 +24,4 @@ export interface ComponentConfig {
   category: ComponentCategory;
   /** 组件实例 */
   component: any;
-} 
+}
