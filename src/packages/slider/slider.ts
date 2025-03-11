@@ -61,7 +61,15 @@ export interface SliderPropsType {
   /** 状态类型 */
   status?: "success" | "exception" | "warning";
 }
-
+/**
+ * @description: 组件emit类型
+ */
+export interface EmitsType {
+  /** 滑块值变化事件 */
+  (e: "change", value: number | number[]): void;
+  /** 滑块值输入事件 */
+  (e: "input", value: number | number[]): void;
+}
 /**
  * @description 滑块内部状态类型
  */

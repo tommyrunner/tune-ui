@@ -62,7 +62,7 @@
 <script lang="ts" setup>
 import { computed, provide, reactive, watch, ref } from "vue";
 import { sliderKey } from "./constants";
-import type { SliderStateType, SliderPropsType } from "./slider";
+import type { SliderStateType, SliderPropsType, EmitsType } from "./slider";
 import SliderButton from "./components/slider-button/index.vue";
 import SliderMarks from "./components/slider-marks/index.vue";
 
@@ -96,10 +96,7 @@ const props = withDefaults(defineProps<SliderPropsType>(), {
 });
 
 // 事件
-const emit = defineEmits<{
-  (e: "change", value: number | number[]): void;
-  (e: "input", value: number | number[]): void;
-}>();
+const emit = defineEmits<EmitsType>();
 
 // 内部状态
 const sliderState = reactive<SliderStateType>({

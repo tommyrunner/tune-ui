@@ -78,7 +78,7 @@ export interface ProgressStateType {
  * @description 进度条上下文类型
  * @extends ProgressProps
  */
-export interface ProgressContextType extends ProgressProps {
+export interface ProgressContextType extends ProgressPropsType {
   /** 进度值 */
   percentage: number;
   /** 进度条状态对象 */

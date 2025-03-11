@@ -1,0 +1,549 @@
+---
+description: 新建组件模板
+globs: *
+alwaysApply: false
+---
+# TUI Vue3 组件开发模板规范
+
+## 1. 文件结构规范
+
+组件应当遵循以下文件结构：
+
+```
+component-name/
+├── index.ts                # 组件入口文件，导出组件和类型
+├── index.vue               # 主组件文件
+├── component-name.ts       # 类型定义文件
+├── constants.ts            # 常量定义，包括注入键等
+├── index.scss              # 组件样式
+└── components/             # 子组件目录（如有需要）
+    └── component-part/     # 子组件
+        ├── index.vue       # 子组件实现
+        └── index.scss      # 子组件样式
+```
+
+### 1.1 入口文件 (index.ts)
+
+入口文件负责导出组件和类型定义，使用以下格式：
+
+```ts
+import Component from "./index.vue";
+
+/**
+ * @description 导出组件
+ * @component TComponentName
+ */
+export const TComponentName = Component;
+export default TComponentName;
+
+// 导出类型定义
+export * from "./component-name";
+
+// 组件实例类型
+export type ComponentNameInstance = InstanceType<typeof Component>;
+```
+
+### 1.2 类型定义文件 (component-name.ts)
+
+类型定义文件应包含：
+
+- 组件所需的所有类型定义
+- 组件 Props 接口
+- 组件上下文接口（用于 provide/inject）
+- 组件状态接口
+
+```ts
+/**
+ * @description 组件特定类型定义
+ */
+export type ComponentSpecificType = "value1" | "value2" | "value3";
+
+/**
+ * @description 组件Props接口
+ */
+export interface ComponentPropsType {
+  /** 属性描述 */
+  propName?: string;
+  /** 是否禁用 */
+  disabled?: boolean;
+  // 其他属性...
+}
+
+/**
+ * @description 组件状态接口
+ */
+export interface ComponentStateType {
+  /** 状态描述 */
+  stateProperty: boolean;
+  // 其他状态...
+}
+
+/**
+ * @description 组件上下文接口
+ */
+export interface ComponentContextType extends Omit<ComponentPropsType, "modelValue"> {
+  /** 组件状态对象 */
+  state: ComponentStateType;
+  // 其他上下文属性...
+}
+```
+
+### 1.3 常量文件 (constants.ts)
+
+常量文件用于定义组件需要的常量和注入键：
+
+```ts
+import type { InjectionKey } from "vue";
+import type { ComponentContextType } from "./component-name";
+
+/**
+ * @description 组件注入键
+ * @type {InjectionKey<ComponentContextType>}
+ */
+export const componentKey: InjectionKey<ComponentContextType> = Symbol("componentKey");
+```
+
+## 2. 组件组件化方式
+
+### 2.1 主从组件模式
+
+对于复杂组件，采用主从组件模式：
+
+- 主组件 (index.vue) 负责整体逻辑和状态管理
+- 子组件负责特定功能的实现
+- 通过 provide/inject 机制在组件间共享状态
+
+### 2.2 组件拆分原则
+
+- 单一职责：每个组件只负责一个功能
+- 逻辑内聚：相关逻辑应集中在一个组件中
+- 组件复用：抽象共用逻辑为独立子组件
+- 合理粒度：避免过度拆分或过于庞大
+
+## 3. 组件基本属性方式
+
+### 3.1 组件选项定义
+
+```ts
+/**
+ * @description 组件名称定义
+ */
+defineOptions({
+  name: "TComponentName",
+});
+```
+
+### 3.2 Props 定义
+
+```ts
+const props = withDefaults(defineProps<ComponentPropsType>(), {
+  // 属性默认值
+  propName: "defaultValue",
+  disabled: false,
+});
+```
+
+### 3.3 事件定义
+
+```ts
+const emit = defineEmits<{
+  (e: "change", value: string): void;
+  (e: "update", value: number): void;
+}>();
+```
+
+### 3.4 使用 defineModel 进行双向绑定
+
+基础用法：
+
+```ts
+// 基本用法
+const model = defineModel<ValueType>();
+
+// 带默认值
+const model = defineModel<ValueType>({
+  default: defaultValue,
+});
+
+// 多v-model
+const secondProperty = defineModel<boolean>("secondProperty", {
+  default: false,
+});
+```
+
+### 3.5 响应式状态管理
+
+```ts
+// 组件内部状态
+const state = reactive<ComponentStateType>({
+  stateProperty: false,
+  // 其他状态...
+});
+
+// 计算属性
+const computedValue = computed(() => {
+  // 计算逻辑
+  return result;
+});
+```
+
+## 4. 使用 provide/inject 传递数据
+
+### 4.1 在父组件中提供上下文
+
+```ts
+// 创建上下文对象
+provide<ComponentContextType>(
+  componentKey,
+  reactive({
+    ...toRefs(props), // 传递props引用
+    state, // 传递状态
+    // 传递方法
+    updateValue: (newValue) => {
+      // 更新逻辑
+    },
+  })
+);
+```
+
+### 4.2 在子组件中注入上下文
+
+```ts
+// 注入父组件提供的上下文
+const context = inject<ComponentContextType>(componentKey);
+
+// 使用可选链处理未提供的情况
+const value = computed(() => context?.someValue);
+```
+
+## 5. 命名规范
+
+### 5.1 文件命名
+
+- 组件文件夹：`kebab-case`，如 `slider`
+- 组件文件：`index.vue`, `index.scss`
+- 类型文件：与组件名相同，如 `slider.ts`
+
+### 5.2 变量命名
+
+- Props: `camelCase`，如 `showTooltip`
+- 状态变量: `camelCase`，如 `sliderState`
+- 常量: `camelCase`，如 `sliderKey`
+- 类型: `PascalCase` + `Type` 后缀，如 `SliderPropsType`
+- 上下文: `PascalCase` + `ContextType` 后缀，如 `SliderContextType`
+
+### 5.3 方法命名
+
+- 事件处理方法: `handle` + 事件名，如 `handleChange`
+- 内部方法: `camelCase` 动词开头，如 `updateValue`
+- 计算方法: 名词 + 动词，如 `valueFormatted`
+
+### 5.4 CSS 类命名
+
+- 组件根类: `t-组件名`，如 `t-slider`
+- 子元素类: `t-组件名__子元素`，如 `t-slider__bar`
+- 元素状态类: `is-状态名`，如 `is-disabled`
+- 修饰符类: `t-组件名--修饰符`，如 `t-slider--vertical`
+
+## 6. 其他规范
+
+### 6.1 注释规范
+
+- 使用 JSDoc 风格注释
+- 组件必须有功能描述
+- Props 必须说明类型和用途
+- 复杂逻辑需要详细注释
+
+```ts
+/**
+ * @description 组件功能描述
+ * @param {string} propName - 属性说明
+ * @param {boolean} disabled - 是否禁用
+ * @emits {change} 值变更事件
+ */
+```
+
+### 6.2 模板结构规范
+
+```html
+<template>
+  <!-- 1. 根元素带t-前缀类名 -->
+  <div
+    class="t-component-name"
+    :class="[
+      `t-component-name--${variant}`,
+      { 'is-disabled': disabled }
+    ]"
+  >
+    <!-- 2. 子元素使用BEM命名法 -->
+    <div class="t-component-name__part">
+      <!-- 3. 组件状态使用is-前缀 -->
+      <span class="t-component-name__label" :class="{ 'is-active': isActive }">{{ label }}</span>
+    </div>
+
+    <!-- 4. 子组件使用 -->
+    <component-part v-model="model" @change="handleChildChange" />
+
+    <!-- 5. 使用具名插槽提供扩展 -->
+    <slot name="custom" :value="value"></slot>
+  </div>
+</template>
+```
+
+### 6.3 样式规范
+
+- 使用 `scoped` 防止样式泄漏
+- 使用 SCSS 变量（必须来自 @/styles/index.scss）
+- 使用 BEM 命名约定
+- 只在必要时使用全局样式
+
+```scss
+.t-component-name {
+  display: flex;
+  align-items: center;
+
+  &__part {
+    color: $text-color-default;
+
+    &:hover {
+      background-color: $bg-color-hover;
+    }
+  }
+
+  &--variant {
+    border: 1px solid $border-color-default;
+  }
+
+  &.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+```
+
+### 6.4 响应式设计规范
+
+- 使用相对单位（em, rem, %）
+- 考虑不同屏幕尺寸
+- 实现垂直和水平变体
+- 适当使用媒体查询
+
+### 6.5 无障碍性规范
+
+- 添加适当的 ARIA 属性
+- 确保键盘导航可用
+- 提供足够的颜色对比度
+- 添加适当的焦点样式
+
+```html
+<div role="slider" :aria-valuemin="min" :aria-valuemax="max" :aria-valuenow="value" :aria-disabled="disabled" tabindex="0">
+  <!-- 组件内容 -->
+</div>
+```
+
+### 6.6 性能优化规范
+
+- 合理使用 computed 属性
+- 避免不必要的响应式
+- 及时销毁事件监听器
+- 使用 v-memo 优化列表渲染
+- 对大型列表使用虚拟滚动
+
+```ts
+// 使用computed而非方法
+const formattedValue = computed(() => {
+  return formatValue(value.value);
+});
+
+// 及时销毁事件监听器
+onMounted(() => {
+  window.addEventListener("resize", handleResize);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", handleResize);
+});
+```
+
+## 7. 组件测试用例规范
+
+创建组件后，需要在测试目录中创建相应的测试用例，并将其集成到home.vue和index.ts中。
+
+### 7.1 测试用例文件结构
+
+在 `tui/test/packages/` 目录下创建与组件名对应的测试文件：
+
+```
+test/
+├── packages/
+│   └── component-name.vue   # 组件测试用例文件
+```
+
+### 7.2 测试用例模板结构
+
+测试用例文件应遵循以下结构：
+
+```vue
+<template>
+  <div class="test-container">
+    <h2>ComponentName 组件名称</h2>
+
+    <!-- 基础用法 -->
+    <test-section title="基础用法">
+      <t-component-name v-model="basicValue" />
+      <div class="value-display">当前值: {{ basicValue }}</div>
+    </test-section>
+
+    <!-- 不同属性测试 -->
+    <test-section title="属性测试">
+      <div class="test-row">
+        <span class="test-label">属性名称:</span>
+        <t-component-name v-model="propValue" :specific-prop="propValue" />
+      </div>
+    </test-section>
+
+    <!-- 事件测试 -->
+    <test-section title="事件测试">
+      <t-component-name v-model="eventValue" @change="handleChange" />
+      <div class="event-log">
+        <div>事件日志:</div>
+        <div v-for="(log, index) in eventLogs" :key="index" class="log-item">
+          {{ log }}
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 更多测试场景... -->
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+import { TComponentName } from "@/packages/component-name";
+import TestSection from "../components/test-section.vue";
+
+defineOptions({ name: "ComponentNameTest" });
+
+// 基础测试数据
+const basicValue = ref(初始值);
+
+// 属性测试数据
+const propValue = ref(属性初始值);
+
+// 事件测试数据
+const eventValue = ref(事件初始值);
+const eventLogs = ref<string[]>([]);
+
+/**
+ * 处理事件
+ */
+const handleChange = (value: any) => {
+  eventLogs.value.unshift(`Change事件: ${value}`);
+  if (eventLogs.value.length > 5) {
+    eventLogs.value.pop();
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.test-container {
+  padding: 24px;
+
+  h2 {
+    margin-bottom: 24px;
+    font-weight: 600;
+    font-size: 28px;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
+  }
+
+  .test-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+
+    .test-label {
+      width: 120px;
+      font-size: 14px;
+      color: #4b5563;
+    }
+  }
+
+  .value-display {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6b7280;
+  }
+
+  .event-log {
+    margin-top: 16px;
+    padding: 12px;
+    background-color: #f9fafb;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+}
+</style>
+```
+
+### 7.3 将测试组件添加到 index.ts
+
+在 `tui/test/index.ts` 文件中导出测试组件：
+
+```ts
+// 已有的导入...
+import ComponentNameTest from "./packages/component-name.vue";
+
+// 导出测试组件
+export const TComponentNameTest = ComponentNameTest;
+
+// 注册所有测试组件的函数中添加
+export const installTestComponents = (app: App) => {
+  // 已有的注册...
+  app.component(TComponentNameTest.name, TComponentNameTest);
+};
+```
+
+### 7.4 将测试组件添加到 home.vue
+
+在 `tui/test/home.vue` 文件中的 `componentList` 数组中添加组件：
+
+```ts
+// 组件列表配置
+const componentList: ComponentConfig[] = [
+  // 已有的组件...
+  { 
+    name: "TComponentNameTest", 
+    label: "ComponentName 组件名称", 
+    category: ComponentCategory.适当分类, 
+    component: TComponentNameTest 
+  },
+  // 其他组件...
+];
+```
+
+### 7.5 测试用例编写原则
+
+- 全面覆盖组件功能：基础用法、不同属性组合、边界情况
+- 测试组件交互：各种事件的触发和处理
+- 测试组件状态：不同状态下的展示效果
+- 自定义样式测试：样式定制的效果
+- 测试边界情况：极限值、非法值的处理
+- 性能测试：大数据量下的表现
+
+### 7.6 测试项分类规范
+
+测试项应按以下分类组织：
+
+1. **基础功能测试**：组件的基本使用方式
+2. **属性测试**：测试不同属性及组合的效果
+3. **事件测试**：测试事件触发和响应
+4. **状态测试**：测试不同状态下的展示
+5. **交互测试**：测试用户交互的响应
+6. **样式测试**：测试不同样式配置
+7. **边界测试**：测试边界条件和异常情况
+8. **性能测试**：测试性能表现（如适用）
+
+每个测试分类使用独立的 `test-section` 进行组织，确保测试用例清晰、全面。

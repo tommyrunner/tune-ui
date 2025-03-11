@@ -99,6 +99,10 @@ tui/
 - Use `<script setup lang="ts">` syntax
 - Use `defineProps` and `defineEmits` to define properties and events
 - Use `defineOptions` to define component options
+- Use `defineModel` for bidirectional binding, support multiple v-model
+  - Basic usage: `const model = defineModel<ValueType>()`
+  - With default value: `const model = defineModel<ValueType>({ default: defaultValue })`
+  - Multiple v-model: `const loading = defineModel<boolean>('loading', { default: false })`
 - Prioritize Composition API
 - Properly use provide/inject to share state
 
