@@ -6,6 +6,20 @@
   "description": "tui 组件库 icon",
   "glyphs": [
     {
+      "icon_id": "42194482",
+      "name": "旋转-左",
+      "font_class": "rotate-left",
+      "unicode": "e772",
+      "unicode_decimal": 59250
+    },
+    {
+      "icon_id": "42194506",
+      "name": "旋转-右",
+      "font_class": "rotate-right",
+      "unicode": "e773",
+      "unicode_decimal": 59251
+    },
+    {
       "icon_id": "5835481",
       "name": "详情",
       "font_class": "info",

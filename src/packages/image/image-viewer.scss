@@ -1,0 +1,209 @@
+@import "@/styles/index.scss";
+
+// 本地变量定义
+$viewer-action-size: 18px;
+$viewer-btn-size: 44px;
+$viewer-header-height: 44px;
+$viewer-spacing: 1rem;
+$viewer-bg-color: rgba($color-black, 0.9);
+$viewer-action-hover-opacity: 0.2;
+
+.t-image-viewer {
+  &__wrapper {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: rgba($color-black, 0.9);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    z-index: $z-index-up;
+  }
+
+  &__header {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 60px;
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba($color-black, 0.7) 0%, rgba($color-black, 0.3) 60%, transparent 100%);
+    backdrop-filter: blur(8px);
+    z-index: $z-index-up;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    &-divider {
+      width: 1px;
+      height: 20px;
+      background-color: rgba($color-white, 0.3);
+      margin: 0 4px;
+    }
+  }
+
+  &__action {
+    font-size: 24px;
+    color: rgba($color-white, 0.9);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: transparent;
+
+    &:hover {
+      color: $color-white;
+      background-color: rgba($color-white, 0.1);
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  &__canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  &__img {
+    max-width: 100vw;
+    max-height: 100vh;
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba($color-black, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: $z-index-up;
+    opacity: 0;
+
+    .t-icon {
+      font-size: 24px;
+      color: rgba($color-white, 0.9);
+      transition: color 0.3s ease;
+    }
+
+    &:hover {
+      background-color: rgba($color-black, 0.5);
+      .t-icon {
+        color: $color-white;
+      }
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    @media (max-width: 768px) {
+      width: 40px;
+      height: 40px;
+      background-color: rgba($color-black, 0.5);
+      opacity: 1;
+
+      .t-icon {
+        font-size: 20px;
+      }
+    }
+  }
+
+  &__wrapper:hover {
+    .t-image-viewer__btn,
+    .t-image-viewer__header {
+      opacity: 1;
+    }
+  }
+
+  &__prev {
+    left: 20px;
+  }
+
+  &__next {
+    right: 20px;
+  }
+
+  &__progress {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    background-color: rgba($color-black, 0.5);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    color: $color-white;
+    font-size: 14px;
+    z-index: $z-index-up;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    @media (max-width: 768px) {
+      bottom: 20px;
+      padding: 6px 12px;
+      font-size: 12px;
+      opacity: 1;
+      background-color: rgba($color-black, 0.7);
+    }
+  }
+
+  &__wrapper:hover &__progress {
+    opacity: 1;
+  }
+}
+
+// 动画效果
+.t-fade-enter-active,
+.t-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.t-fade-enter-from,
+.t-fade-leave-to {
+  opacity: 0;
+}
+
+// 去除不必要的滚动锁定，保留预览本身的样式
+body.t-image-viewer-open {
+  overflow: hidden !important;
+}

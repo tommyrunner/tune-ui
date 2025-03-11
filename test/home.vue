@@ -73,7 +73,8 @@ import {
   TDatePickerMultipleTest,
   TColorPickerTest,
   TSliderTest,
-  TProgressTest
+  TProgressTest,
+  TImageTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -111,6 +112,7 @@ const componentList: ComponentConfig[] = [
   { name: "TScrollbarTest", label: "Scrollbar 滚动条", category: ComponentCategory.Data, component: TScrollbarTest },
   { name: "TTableTest", label: "Table 表格", category: ComponentCategory.Data, component: TTableTest },
   { name: "TProgressTest", label: "Progress 进度条", category: ComponentCategory.Data, component: TProgressTest },
+  { name: "TImageTest", label: "Image 图片", category: ComponentCategory.Data, component: TImageTest },
 
   // 反馈组件
   { name: "TMessageTest", label: "Message 消息提示", category: ComponentCategory.Feedback, component: TMessageTest },
@@ -135,7 +137,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TSliderTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TImageTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {
@@ -153,7 +155,7 @@ const categories = computed(() => {
 .test-home {
   display: flex;
   min-height: 100vh;
-
+  box-sizing: border-box;
   .test-sidebar {
     position: relative;
     width: 260px;
@@ -185,7 +187,7 @@ const categories = computed(() => {
 
     .sidebar-content {
       padding: 12px 0;
-      height: calc(100vh - 73px);
+      height: calc(100vh - 120px);
       overflow-y: auto;
 
       &::-webkit-scrollbar {
@@ -249,6 +251,8 @@ const categories = computed(() => {
   .test-content {
     flex: 1;
     padding: 20px;
+    box-sizing: border-box;
+    height: 100vh;
     overflow: auto;
   }
 
