@@ -2,105 +2,78 @@
   <div class="test-container">
     <h2>Image 图片组件</h2>
 
-    <!-- 基础用法 -->
-    <test-section title="基础用法">
-      <template #description>
-        基础的图片用法
-        <div class="params">属性：src / width / height</div>
-      </template>
-      <t-image :src="testImages.basic" width="200px" height="200px" />
+    <!-- 基础属性 -->
+    <test-section title="基础属性">
+      <t-image :src="testImages.basic" alt="测试图片" width="200px" height="200px" referrerPolicy="no-referrer" />
     </test-section>
 
     <!-- 适应容器方式 -->
     <test-section title="适应容器方式">
-      <template #description>
-        <div class="params">属性：fit</div>
-        <div class="params">可选值：fill / contain / cover / none / scale-down</div>
-      </template>
       <div class="fit-container">
         <div v-for="fit in fitTypes" :key="fit" class="fit-item">
-          <span class="fit-title">fit: {{ fit }}</span>
-          <t-image :fit="fit" :src="testImages.fit" width="200px" height="200px">
+          <span class="fit-title">{{ fit }}</span>
+          <t-image :src="testImages.fit" :fit="fit" width="200px" height="200px" />
+        </div>
+      </div>
+    </test-section>
+
+    <!-- 加载状态 -->
+    <test-section title="加载状态">
+      <div class="state-container">
+        <div class="state-item">
+          <div class="state-title">加载中</div>
+          <t-image :src="testImages.loading" width="200px" height="200px">
+            <template #placeholder>
+              <div class="image-slot">
+                <t-icon icon="loading" class="t-loading" />
+                <span>加载中...</span>
+              </div>
+            </template>
+          </t-image>
+        </div>
+        <div class="state-item">
+          <div class="state-title">加载失败</div>
+          <t-image :src="testImages.error" width="200px" height="200px">
             <template #error>
-              <div>{{ fit }}</div>
+              <div class="image-slot">
+                <t-icon icon="image" />
+                <span>加载失败</span>
+              </div>
             </template>
           </t-image>
         </div>
       </div>
     </test-section>
 
-    <!-- 加载中占位 -->
-    <test-section title="加载中占位">
-      <template #description>
-        <div class="params">插槽：#placeholder</div>
-      </template>
-      <t-image :src="testImages.loading" width="200px" height="200px">
-        <template #placeholder>
-          <div class="image-slot">
-            <t-icon icon="loading" class="t-loading" />
-            <span>加载中...</span>
-          </div>
-        </template>
-      </t-image>
-    </test-section>
-
-    <!-- 加载失败 -->
-    <test-section title="加载失败">
-      <template #description>
-        <div class="params">插槽：#error</div>
-      </template>
-      <t-image :src="testImages.error" width="200px" height="200px">
-        <template #error>
-          <div class="image-slot">
-            <t-icon icon="image" />
-            <span>加载失败</span>
-          </div>
-        </template>
-      </t-image>
-    </test-section>
-
     <!-- 懒加载 -->
     <test-section title="懒加载">
-      <template #description>
-        <div class="params">属性：lazy</div>
-      </template>
       <div class="lazy-container">
         <t-image v-for="(url, index) in testImages.lazy" :key="index" :src="url" lazy width="200px" height="200px" />
       </div>
     </test-section>
 
-    <!-- 图片预览 -->
-    <test-section title="图片预览">
-      <template #description>
-        <div class="params">属性：preview-src-list / initial-index</div>
-      </template>
-      <t-image
-        :src="testImages.preview[0]"
-        width="200px"
-        height="200px"
-        :preview-src-list="testImages.preview"
-        :initial-index="0"
-      />
+    <!-- 图片预览基础 -->
+    <test-section title="图片预览基础">
+      <div class="preview-container">
+        <t-image
+          ref="previewImageRef"
+          :src="testImages.preview[0]"
+          width="200px"
+          height="200px"
+          :preview-src-list="testImages.preview"
+          :initial-index="0"
+          :close-on-press-escape="true"
+          :z-index="2000"
+          :infinite="true"
+          @show="handleShow"
+          @close="handleClose"
+        />
+        <t-button @click="handlePreviewClick">点击预览</t-button>
+      </div>
     </test-section>
 
-    <!-- 自定义预览操作 -->
-    <test-section title="自定义预览操作">
-      <template #description>
-        <div class="params">
-          属性：<br />
-          zoom-rate：缩放比例<br />
-          min-scale：最小缩放<br />
-          max-scale：最大缩放<br />
-          initial-index：初始索引
-        </div>
-        <div class="params">
-          事件：<br />
-          @load：加载成功<br />
-          @error：加载失败<br />
-          @switch：切换图片<br />
-          @close：关闭预览
-        </div>
-      </template>
+    <!-- 预览缩放 -->
+    <test-section title="预览缩放">
       <t-image
         :src="testImages.preview[1]"
         width="200px"
@@ -114,18 +87,24 @@
         @error="handleError"
         @switch="handleSwitch"
         @close="handleClose"
+        @show="handleShow"
       />
     </test-section>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { ref } from "vue";
 import { TImage } from "@/packages/image";
 import { TIcon } from "@/packages/icon";
+import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
 import type { ImageFit } from "@/packages/image/image";
 
 defineOptions({ name: "ImageTest" });
+
+// 图片预览ref
+const previewImageRef = ref();
 
 // 图片适应类型
 const fitTypes: ImageFit[] = ["fill", "contain", "cover", "none", "scale-down"];
@@ -174,6 +153,20 @@ const handleSwitch = (index: number) => {
 const handleClose = () => {
   console.log("预览关闭");
 };
+
+/**
+ * 处理预览显示
+ */
+const handleShow = () => {
+  console.log("显示预览");
+};
+
+/**
+ * 处理预览按钮点击
+ */
+const handlePreviewClick = () => {
+  previewImageRef.value?.showPreview();
+};
 </script>
 
 <style lang="scss" scoped>
@@ -189,42 +182,21 @@ const handleClose = () => {
     padding-bottom: 12px;
   }
 
-  :deep(.test-section) {
-    .test-section-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-
-    code {
-      background-color: #f3f4f6;
-      padding: 2px 4px;
-      border-radius: 4px;
-      color: #e11d48;
-      font-family: monospace;
-    }
-
-    .params {
-      margin-top: 8px;
-      color: #666;
-      font-size: 14px;
-      font-family: monospace;
-      line-height: 1.5;
-    }
-  }
-
-  .fit-container {
+  .fit-container,
+  .state-container {
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
 
-    .fit-item {
+    .fit-item,
+    .state-item {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 8px;
 
-      .fit-title {
+      .fit-title,
+      .state-title {
         font-size: 14px;
         color: #666;
       }
@@ -260,6 +232,12 @@ const handleClose = () => {
     span {
       font-size: 14px;
     }
+  }
+
+  .preview-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
 }
 </style>

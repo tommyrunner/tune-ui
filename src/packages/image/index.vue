@@ -127,9 +127,16 @@ const handleError = (evt: Event) => {
 
 // 预览相关
 const clickHandler = () => {
-  if (state.hasError || !state.isLoaded) {
+  if (state.hasError || !state.isLoaded || !props.previewSrcList) {
     return;
   }
+  showPreview();
+};
+
+/**
+ * 显示预览
+ */
+const showPreview = () => {
   state.showViewer = true;
   emit("show");
 };
@@ -175,6 +182,11 @@ onBeforeUnmount(() => {
     observer.disconnect();
     observer = null;
   }
+});
+
+// 导出方法供外部使用
+defineExpose({
+  showPreview
 });
 </script>
 

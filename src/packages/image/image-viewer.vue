@@ -118,11 +118,11 @@ const handleActions = (action: ViewerAction) => {
       state.scale = Math.max(props.minScale, state.scale / props.zoomRate);
       break;
     case "clockwise":
-      state.rotate = (state.rotate + 90) % 360;
+      state.rotate = state.rotate + 90;
       emit("rotate", state.rotate);
       break;
     case "anticlockwise":
-      state.rotate = (state.rotate - 90) % 360;
+      state.rotate = state.rotate - 90;
       emit("rotate", state.rotate);
       break;
   }
