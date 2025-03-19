@@ -74,7 +74,8 @@ import {
   TColorPickerTest,
   TSliderTest,
   TProgressTest,
-  TImageTest
+  TImageTest,
+  TUploadTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -103,6 +104,7 @@ const componentList: ComponentConfig[] = [
   },
   { name: "TColorPickerTest", label: "ColorPicker 颜色选择器", category: ComponentCategory.Form, component: TColorPickerTest },
   { name: "TSliderTest", label: "Slider 滑块", category: ComponentCategory.Form, component: TSliderTest },
+  { name: "TUploadTest", label: "Upload 上传", category: ComponentCategory.Form, component: TUploadTest },
   // 数据展示
   { name: "TBadgeTest", label: "Badge 徽标", category: ComponentCategory.Data, component: TBadgeTest },
   { name: "TCardTest", label: "Card 卡片", category: ComponentCategory.Data, component: TCardTest },
@@ -137,7 +139,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TImageTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TUploadTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {

@@ -1,0 +1,182 @@
+@import "@/styles/index.scss";
+
+// 定义变量
+$upload-list-item-padding: 8px 6px;
+$upload-list-item-radius: 4px;
+$upload-list-item-margin: 6px 0;
+$upload-list-item-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+$upload-list-item-disabled-bg: #f5f5f5;
+$upload-list-item-disabled-color: #909399;
+
+.t-upload-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  &-item {
+    position: relative;
+    padding: $upload-list-item-padding;
+    background-color: $bg-color-default;
+    border: $border-color-default;
+    border-radius: $upload-list-item-radius;
+    margin: $upload-list-item-margin;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    box-shadow: $upload-list-item-shadow;
+
+    &:hover {
+      background-color: $bg-color-hover;
+      border-color: $theme-color-primary;
+
+      .t-upload-list-item__close {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    &__info {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      overflow: hidden;
+      min-width: 0; // 确保flex子项可以压缩
+    }
+
+    &__preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 4px;
+    }
+
+    &__content {
+      flex: 1;
+      min-width: 0; // 确保flex子项可以压缩
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &__icon {
+      color: $theme-color-primary;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    &__name {
+      color: $text-color-default;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-align: left;
+    }
+
+    &__thumbnail {
+      width: 28px;
+      height: 28px;
+      object-fit: cover;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    &__image-placeholder {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f5f5f5;
+      border-radius: 3px;
+    }
+
+    &__progress-text {
+      color: $theme-color-primary;
+      font-size: 12px;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    &__error {
+      color: $theme-color-warning;
+      font-size: 12px;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    &__actions {
+      width: 18px; // 固定宽度，防止布局抖动
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    &__close {
+      cursor: pointer;
+      color: $theme-color-danger;
+      font-size: 16px;
+      transition: all 0.2s;
+      flex-shrink: 0;
+      position: absolute;
+      right: 0;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    &__progress {
+      height: 100%;
+    }
+
+    &--uploading {
+      .t-upload-list-item__progress-text {
+        color: $theme-color-primary;
+      }
+    }
+
+    &--fail {
+      .t-upload-list-item__error {
+        color: $theme-color-warning;
+      }
+    }
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+      background-color: $upload-list-item-disabled-bg;
+      color: $upload-list-item-disabled-color;
+
+      &:hover {
+        border-color: $border-color-default;
+        background-color: $upload-list-item-disabled-bg;
+      }
+
+      .t-upload-list-item__thumbnail,
+      .t-upload-list-item__close {
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+    }
+
+    &--picture {
+      .t-upload-list-item__preview {
+        margin-right: 6px;
+      }
+
+      .t-upload-list-item__thumbnail {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}

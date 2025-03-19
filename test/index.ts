@@ -33,6 +33,7 @@ import ColorPickerTest from "./packages/color-picker.vue";
 import SliderTest from "./packages/slider.vue";
 import ProgressTest from "./packages/progress.vue";
 import ImageTest from "./packages/image.vue";
+import UploadTest from "./packages/upload.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -69,7 +70,8 @@ export const testComponents = {
   ColorPickerTest,
   SliderTest,
   ProgressTest,
-  ImageTest
+  ImageTest,
+  UploadTest
 };
 
 /** 测试组件安装器 */
@@ -114,5 +116,6 @@ export const TColorPickerTest = ColorPickerTest;
 export const TSliderTest = SliderTest;
 export const TProgressTest = ProgressTest;
 export const TImageTest = ImageTest;
+export const TUploadTest = UploadTest;
 // 默认导出安装器
 export default installTestComponents;

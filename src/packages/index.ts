@@ -29,6 +29,8 @@ import { TDatePicker } from "./date-picker";
 import { TDatePickerMultiple } from "./date-picker-multiple";
 import { TSlider } from "./slider";
 import { TProgress } from "./progress";
+import { TImage } from "./image";
+import { TUpload } from "./upload";
 
 const components = {
   TButton,
@@ -69,7 +71,9 @@ const components = {
   TDatePicker,
   TDatePickerMultiple,
   TSlider,
-  TProgress
+  TProgress,
+  TImage,
+  TUpload
 };
 // 全局组件注册
 export default {
@@ -117,3 +121,5 @@ export * from "./date-picker";
 export * from "./date-picker-multiple";
 export * from "./slider";
 export * from "./progress";
+export * from "./image";
+export * from "./upload";

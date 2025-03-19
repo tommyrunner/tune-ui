@@ -25,7 +25,6 @@ import { progressKey } from "./constants";
 import ProgressLine from "./components/progress-line/index.vue";
 import ProgressCircle from "./components/progress-circle/index.vue";
 import ProgressDashboard from "./components/progress-dashboard/index.vue";
-import "./index.scss";
 
 /**
  * @description 进度条组件
@@ -143,3 +142,6 @@ provide(progressKey, {
   progressState
 });
 </script>
+<style lang="scss" scoped>
+@import "./index.scss";
+</style>

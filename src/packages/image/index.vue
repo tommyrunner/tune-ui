@@ -5,12 +5,7 @@
       :src="imgSrc"
       :alt="alt"
       :style="imageStyle"
-      :class="[
-        't-image__inner',
-        fit && `t-image__fit--${fit}`,
-        state.isLoaded && 'is-loaded',
-        { 't-image__inner--center': true }
-      ]"
+      :class="imageClasses"
       :referrerpolicy="referrerPolicy"
       @load="handleLoad"
       @error="handleError"
@@ -100,11 +95,22 @@ const imageStyle = computed(
 );
 
 const hasLoadedImage = computed(() => state.isLoaded && !state.hasError);
-
+/**
+ * 图片源
+ */
 const imgSrc = computed(() => {
   if (!props.lazy) return props.src;
   return isInView.value ? props.src : "";
 });
+/**
+ * 图片类名
+ */
+const imageClasses = computed(() => [
+  "t-image__inner",
+  props.fit && `t-image__fit--${props.fit}`,
+  state.isLoaded && "is-loaded",
+  { "t-image__inner--center": true }
+]);
 
 // 图片加载相关
 const handleLoad = (evt: Event) => {

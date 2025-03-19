@@ -24,6 +24,3 @@ export type TImageType = InstanceType<typeof TImage>;
  * @typedef {InstanceType<typeof TImageViewer>} TImageViewerType
  */
 export type TImageViewerType = InstanceType<typeof TImageViewer>;
-
-export * from "./image";
-export * from "./image-viewer";

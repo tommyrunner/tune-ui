@@ -1,0 +1,90 @@
+@import "@/styles/index.scss";
+
+// 定义变量
+$upload-dragger-bg: #f9f9fb; // 淡灰色背景，让拖拽区域更加明显
+$upload-dragger-hover-bg: rgba(64, 158, 255, 0.05); // 浅蓝色背景
+$upload-dragger-active-bg: rgba(64, 158, 255, 0.1); // 主题色的浅色背景，比hover更明显
+$upload-dragger-disabled-bg: #f5f5f5; // 禁用状态背景色
+$upload-dragger-disabled-color: #909399; // 禁用状态文本色
+$upload-dragger-tip-color: #909399; // 提示文本颜色
+
+.t-upload-dragger {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 200px;
+  background-color: $upload-dragger-bg;
+  border: 2px dashed $border-color-default;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: all 0.3s;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  &:hover {
+    border-color: $theme-color-primary;
+    background-color: $upload-dragger-hover-bg;
+
+    .t-icon {
+      color: $theme-color-primary;
+      transform: scale(1.05);
+    }
+  }
+
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    background-color: #f5f5f5;
+
+    &:hover {
+      border-color: $border-color-default;
+      background-color: #f5f5f5;
+    }
+
+    .t-icon,
+    .t-upload-dragger__text {
+      color: #c0c4cc;
+    }
+  }
+
+  &.is-dragover {
+    border-color: $theme-color-primary;
+    background-color: rgba(64, 158, 255, 0.1);
+    box-shadow: 0 0 8px rgba(64, 158, 255, 0.3);
+  }
+
+  .t-icon {
+    font-size: 32px;
+    color: $upload-dragger-tip-color;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+  }
+
+  &__text {
+    margin-top: 16px;
+    color: #606266;
+    font-size: 14px;
+    text-align: center;
+
+    p {
+      margin: 0;
+      line-height: 1.5;
+
+      em {
+        color: $theme-color-primary;
+        font-style: normal;
+      }
+    }
+
+    &-tip {
+      margin-top: 8px;
+      color: $upload-dragger-tip-color;
+      font-size: 12px;
+    }
+  }
+}
