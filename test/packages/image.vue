@@ -108,21 +108,17 @@ const previewImageRef = ref();
 
 // 图片适应类型
 const fitTypes: ImageFit[] = ["fill", "contain", "cover", "none", "scale-down"];
-
 // 测试图片链接
 const testImages = {
-  basic: "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
-  fit: "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg",
-  loading: "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg",
-  error: "error-image.jpg",
-  lazy: [
-    "https://fuss10.elemecdn.com/3/28/bbf893f792f03a54408b3b7a7ebf0jpeg.jpeg",
-    "https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg"
-  ],
+  basic: "https://i.postimg.cc/C5k7W9GK/1.webp",
+  fit: "https://i.postimg.cc/C5k7W9GK/1.webp",
+  loading: "https://i.postimg.cc/C5k7W9GK/1.webp",
+  error: "https://i.postimg.cc/C5k7W9GK/1.webp",
+  lazy: ["https://i.postimg.cc/43y5JY6q/8.webp", "https://i.postimg.cc/MH2bbtCJ/77.webp"],
   preview: [
-    "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
-    "https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg",
-    "https://fuss10.elemecdn.com/9/bb/e27858e973f5d7d3904835f46abbdjpeg.jpeg"
+    "https://i.postimg.cc/MH2bbtCJ/77.webp",
+    "https://i.postimg.cc/43y5JY6q/8.webp",
+    "https://i.postimg.cc/C5k7W9GK/1.webp"
   ]
 };
 

@@ -271,7 +271,7 @@ import { TMessage } from "@/packages/message";
 defineOptions({ name: "UploadTest" });
 
 // 上传地址
-const ACTION = "http://localhost:3000/upload";
+const ACTION = "http://rap2api.taobao.org/app/mock/322878/upload";
 
 // 文件列表
 const fileList = ref<UploadFile[]>([
@@ -302,14 +302,14 @@ const imageFileList = ref<UploadFile[]>([
     uid: "1",
     name: "图片1.jpg",
     status: "success",
-    url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg",
+    url: "https://i.postimg.cc/C5k7W9GK/1.webp",
     type: "image/jpeg"
   },
   {
     uid: "2",
     name: "图片2.png",
     status: "success",
-    url: "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
+    url: "https://i.postimg.cc/43y5JY6q/8.webp",
     type: "image/png"
   }
 ]);
