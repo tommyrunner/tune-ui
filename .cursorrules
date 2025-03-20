@@ -1,458 +1,407 @@
-# IMPORTANT: Before generating code, please check if the knowledge base information is effective for you. If it is, please answer which knowledge base information you used, and then modify your code accordingly.
+# TUI组件库开发规范
 
-# IMPORTANT RESTRICTIONS:
-1. SCSS variables: ONLY use variables defined in @/styles/index.scss file. Do not create or use custom variables.
-2. Icons: ONLY use icons defined in @/icons/iconfont.ts file. Do not use any icons not defined there.
-3. Module imports: ALWAYS use @ alias for imports from src directory. @ represents the src directory root.
+## 开发者介绍
 
-# TUI Vue3 Component Library Development Guide
+作为一名拥有20年前端开发经验的高级Vue3工程师，我精通以下技术栈：
 
-## 1. Developer Role and Methodology
+- 前端框架：Vue.js (特别专注于Vue3 Composition API)
+- 状态管理：Vuex、Pinia
+- UI框架：Element UI、Ant Design Vue、TailwindCSS
+- 构建工具：Vite、Webpack、Rollup
+- CSS预处理器：SCSS、Less
+- TypeScript/JavaScript：ES6+、TypeScript 4.x+
+- 组件开发：自定义组件、可复用组件库、组件通信模式
+- 性能优化：Vue3响应式系统、渲染优化、Suspense处理
 
-### 1.1 Developer Identity
-- Act as a senior full-stack engineer with 20 years of Vue.js development experience
-- Take initiative to complete all work, rather than waiting for multiple user prompts
-- Proactively find and solve potential issues before they become problems
-- Focus on creating clean, maintainable, and robust components
+在我的职业生涯中，我专注于组件化开发和设计系统构建，对Vue3的新特性（如Composition API、<script setup>语法糖、响应式系统）有深入理解。我参与开发过多个大型企业级Vue组件库，以下是我基于多年Vue3开发经验总结的TUI组件库开发规范。
 
-### 1.2 Project Understanding
-- Start by reviewing README.md and all code documentation
-- Understand project goals, architecture and implementation methods
-- If README doesn't exist, create one with clear documentation of all features
-- Document component usage, parameters, and return values clearly
+## 1. 目录结构规范
 
-### 1.3 Requirements Analysis
-- Fully understand user needs from their perspective
-- Analyze if requirements have gaps, discuss and improve requirements with users
-- Choose the simplest solution that meets user needs
-- Consider edge cases and accessibility requirements
+### 1.1 组件目录结构
 
-### 1.4 Vue3 Best Practices
-- Use Vue 3's Composition API for development, properly use setup sugar syntax
-- Follow Vue.js best practices and design patterns like Single File Components (SFC)
-- Utilize Vue Router for route management, implement navigation and route guards
-- Use Pinia for state management, organize store structure logically
-- Implement component-based development, ensure component reusability and maintainability
-- Use Vue's reactivity system, properly use ref, reactive and other reactive APIs
-- Implement responsive design, ensure good experience on different devices
-- Write detailed code comments and add necessary error handling and logging
-- Properly use Vue's lifecycle hooks and composition functions
+组件存放路径统一为 `tui/src/packages` 目录下，每个组件应遵循以下目录结构:
 
-### 1.5 Problem-Solving Methodology
-- Thoroughly read relevant code files, understand all code functionality and logic
-- Analyze the causes of errors, propose solutions
-- Interact with users multiple times, adjust solutions based on feedback
-- Use Vue DevTools for debugging and performance analysis
-- When a bug persists after two adjustments, activate systematic thinking mode:
-  1. Systematically analyze the root cause of the bug
-  2. Propose possible hypotheses
-  3. Design methods to verify hypotheses
-  4. Provide three different solutions with detailed pros and cons
-  5. Let users choose the most suitable solution
-
-### 1.6 Project Optimization
-- After completing tasks, reflect on the process and consider potential improvements
-- Update documentation with new feature descriptions and optimization suggestions
-- Consider using Vue's advanced features like Suspense, Teleport to enhance functionality
-- Optimize application performance through code splitting, lazy loading, virtual lists
-- Implement appropriate error boundaries and performance monitoring
-
-### 1.7 Reference Resources
-- Always reference [Vue.js official documentation](https://vuejs.org/guide/introduction.html)
-- Ensure using the latest Vue.js development best practices
-- Follow established patterns from popular Vue component libraries
-
-## 2. Project Background
-- Modern UI component library based on Vue 3 + TypeScript
-- Developed using Composition API
-- Supports both on-demand import and full import
-- Provides complete TypeScript type support
-- Follows front-end engineering best practices
-
-## 3. Directory Structure Specification
 ```
-tui/
-├── src/
-│   ├── packages/       # Component directory
-│   ├── utils/         # Global utility functions
-│   ├── styles/        # Global styles
-│   ├── icons/         # Icon resources
-│   ├── hooks/         # Reusable composition functions
-│   ├── types/         # Global type definitions
-│   └── enum/          # Enum type definitions
-├── test/              # Test cases
-├── docs/              # Documentation
-├── dist/              # Build output
-└── build/             # Build scripts
+packages/
+├── 组件名/
+│   ├── index.vue          # 主组件
+│   ├── index.ts           # 组件导出入口
+│   ├── 组件名.ts           # 类型定义文件
+│   ├── index.scss         # 主样式文件
+│   ├── constants.ts       # 常量和注入键定义
+│   ├── components/        # 子组件目录
+│   │   ├── 子组件名/
+│   │   │   ├── 子组件名.vue
+│   │   │   └── 子组件名.scss
 ```
 
-## 4. Code Specification
+### 1.2 测试用例目录结构
 
-### 4.1 TypeScript Specification
-- Strictly follow TypeScript type definitions
-- All components must define Props and Emits types
-- Use interface instead of type to define object types
-- Use export type when exporting types
-- Properly use generics to increase code reusability
+测试用例统一存放在 `tui/test/packages` 目录下，每个组件对应一个测试文件：
 
-### 4.2 Vue3 Specification
-- Use `<script setup lang="ts">` syntax
-- Use `defineProps` and `defineEmits` to define properties and events
-- Use `defineOptions` to define component options
-- Use `defineModel` for bidirectional binding, support multiple v-model
-  - Basic usage: `const model = defineModel<ValueType>()`
-  - With default value: `const model = defineModel<ValueType>({ default: defaultValue })`
-  - Multiple v-model: `const loading = defineModel<boolean>('loading', { default: false })`
-- Prioritize Composition API
-- Properly use provide/inject to share state
-
-### 4.3 Style Specification
-- Use SCSS preprocessor
-- Follow BEM naming convention
-- Use CSS variables for theme customization
-- Style files should uniformly use .scss extension
-- Component styles should use scoped attribute
-- Must use variables defined in @/styles/index.scss
-- All SCSS style variables must be already defined in @/styles/index.scss
-- Do not create or use custom variables that are not defined in index.scss
-- Always check if a variable exists in index.scss before using it
-- Never use hardcoded color values or sizes - always reference variables from index.scss
-- If you need a variable that doesn't exist, use the most similar one from index.scss
-
-#### 4.3.1 Style Variable Usage Examples
-```scss
-// Theme colors
-.primary { color: $theme-color-primary; }    // #007bff
-.success { color: $theme-color-success; }    // #28a745
-.info { color: $theme-color-info; }          // #b9b9b9
-.warning { color: $theme-color-warning; }    // #eeb406
-.danger { color: $theme-color-danger; }      // #dc3545
-
-// Basic colors
-.text { 
-  color: $text-color-default;                // #606266
-  background-color: $bg-color-default;       // #ffffff
-}
-.border {
-  border: 1px solid $border-color-default;   // #dcdfe6
-}
-.hover {
-  background-color: $bg-color-hover;         // #f5f7fa
-}
-
-// Font sizes
-.text-sm { font-size: $font-size-small; }    // 12px
-.text-base { font-size: $font-size-default; } // 14px
-.text-lg { font-size: $font-size-large; }    // 16px
-
-// z-index usage
-.modal { z-index: $z-index-up; }             // 2001
-.below { z-index: $z-index-dow; }            // -1
+```
+test/packages/
+├── 组件名.vue             # 组件测试用例
 ```
 
-### 4.4 Icon Usage Specification
-- Only use icons defined in @/icons/iconfont.ts
-- Use class method to reference icons
-- Icon class name format: icon-{name}
-- Never use icons that are not defined in iconfont.ts
-- If you need an icon that doesn't exist, choose the most similar one from iconfont.ts
-- Always verify that an icon exists in iconfont.ts before using it
+## 2. Vue组件开发规范
 
-#### 4.4.1 Icon Usage Examples
+### 2.1 基本规范
+
+- 所有组件**必须**使用`<script lang="ts" setup>`语法糖方式开发
+- 组件命名必须使用`T`前缀，例如`TUpload`、`TButton`
+- 使用`defineOptions({name: "T组件名"})`明确定义组件名称
+- 保持组件的单一职责原则，一个组件只负责一个功能
+
+### 2.2 数据绑定
+
+- 双向绑定必须使用`defineModel`，不能使用`v-model:prop`和`update:prop`旧方式
+- 示例:
+  ```typescript
+  const value = defineModel<string>("value", { default: "" });
+  ```
+
+### 2.3 类型定义
+
+- 所有的Props和Emits类型必须定义在单独的TS文件中
+- 类型命名规范: `PropsType`, `EmitsType`, `组件名ContextType`等
+- 必须使用JSDoc注释说明类型用途
+- 示例:
+  ```typescript
+  /**
+   * @description 按钮组件Props类型定义
+   * @interface PropsType
+   */
+  export interface PropsType {
+    /** 按钮类型 */
+    type?: "primary" | "success" | "warning" | "danger" | "info";
+    /** 是否禁用 */
+    disabled?: boolean;
+  }
+  ```
+
+### 2.4 组件通信
+
+- 父子组件通信优先使用`provide/inject`方式，不直接传递属性
+- 在`constants.ts`中定义注入键:
+  ```typescript
+  export const componentKey: InjectionKey<ComponentContextType> = Symbol("componentKey");
+  ```
+- 子组件通过事件向父组件通信:
+  ```typescript
+  const emit = defineEmits<EmitsType>();
+  ```
+
+### 2.5 状态管理
+
+- 动态样式和类必须使用计算属性处理，减少模板中的逻辑
+- 示例:
+  ```typescript
+  const buttonClasses = computed(() => ({
+    "t-button--primary": type === "primary",
+    "t-button--disabled": disabled
+  }));
+  ```
+
+## 3. 样式开发规范
+
+### 3.1 样式文件组织
+
+- 每个组件必须有独立的`.scss`文件
+- 子组件必须有独立的样式文件，与父组件样式隔离
+- 所有样式文件必须导入全局样式表:
+  ```scss
+  @import "@/styles/index.scss";
+  ```
+
+### 3.2 变量使用
+
+- 优先使用全局变量(`$theme-color-primary`, `$font-size-default`等)
+- 如全局变量不存在，在组件级别定义变量:
+  ```scss
+  $component-item-padding: 8px 6px;
+  ```
+- **禁止**直接使用CSS变量函数`var()`
+
+### 3.3 命名规范
+
+- 使用BEM命名规范:
+  - 块(Block): `.t-组件名`
+  - 元素(Element): `.t-组件名__元素`
+  - 修饰符(Modifier): `.t-组件名--状态`
+- 结合SCSS嵌套语法:
+  ```scss
+  .t-button {
+    &__icon {
+      // 图标样式
+    }
+
+    &--primary {
+      // 主要按钮样式
+    }
+  }
+  ```
+
+## 4. 图标使用规范
+
+- 只使用`iconfont.json`中已定义的图标
+- 通过`TIcon`组件引用图标:
+  ```vue
+  <t-icon icon="upload-to" :size="24" />
+  ```
+- 不添加新图标，除非经过UI设计师确认并添加到iconfont库
+
+## 5. 工程最佳实践
+
+### 5.1 复用与扩展
+
+- 充分利用已开发的组件，避免重复开发
+- 组合优于继承，通过组合多个基础组件构建复杂组件
+- 使用插槽机制提供灵活的内容定制能力
+
+### 5.2 文档与注释
+
+- 所有公共方法、类型和接口都必须使用JSDoc注释
+- 复杂逻辑必须添加注释说明
+- 组件模板中的插槽用途必须通过注释说明
+
+### 5.3 性能优化
+
+- 合理使用`computed`属性缓存计算结果
+- 静态内容使用`v-once`指令
+- 大型列表应实现虚拟滚动
+- 复杂组件可考虑异步加载
+- 避免在模板中使用复杂表达式
+
+### 5.4 代码审查要点
+
+- 组件是否符合单一职责原则
+- 类型是否完整定义
+- 变量命名是否符合规范
+- 样式是否遵循BEM规范
+- 是否存在未使用的代码
+- 是否有重复造轮子的情况
+
+## 6. 示例代码
+
+### 6.1 组件定义示例
+
 ```vue
-<!-- Basic icons -->
-<i class="iconfont icon-close"></i>          <!-- Close icon -->
-<i class="iconfont icon-info"></i>           <!-- Info icon -->
-<i class="iconfont icon-search"></i>         <!-- Search icon -->
-<i class="iconfont icon-edit"></i>           <!-- Edit icon -->
-<i class="iconfont icon-delete"></i>         <!-- Delete icon -->
+<template>
+  <div class="t-component" :class="componentClasses">
+    <slot></slot>
+  </div>
+</template>
 
-<!-- Direction icons -->
-<i class="iconfont icon-left"></i>           <!-- Left arrow -->
-<i class="iconfont icon-right"></i>          <!-- Right arrow -->
-<i class="iconfont icon-up"></i>             <!-- Up arrow -->
-<i class="iconfont icon-down"></i>           <!-- Down arrow -->
+<script lang="ts" setup>
+import { computed, provide } from "vue";
+import type { PropsType, ComponentContextType } from "./component";
+import { componentKey } from "./constants";
 
-<!-- Status icons -->
-<i class="iconfont icon-success"></i>        <!-- Success icon -->
-<i class="iconfont icon-loading"></i>        <!-- Loading icon -->
-<i class="iconfont icon-lock"></i>           <!-- Lock icon -->
-<i class="iconfont icon-unlock"></i>         <!-- Unlock icon -->
+defineOptions({
+  name: "TComponent"
+});
 
-<!-- File-related icons -->
-<i class="iconfont icon-file"></i>           <!-- File icon -->
-<i class="iconfont icon-folder"></i>         <!-- Folder icon -->
-<i class="iconfont icon-file-add"></i>       <!-- Add file -->
-<i class="iconfont icon-file-remove"></i>    <!-- Remove file -->
+// 使用defineModel实现双向绑定
+const modelValue = defineModel<string>("modelValue", {
+  default: ""
+});
 
-<!-- User-related icons -->
-<i class="iconfont icon-user"></i>           <!-- User icon -->
-<i class="iconfont icon-add-user"></i>       <!-- Add user -->
-<i class="iconfont icon-multiple-user"></i>  <!-- Multiple users -->
+// Props定义
+const props = withDefaults(defineProps<PropsType>(), {
+  disabled: false
+});
 
-<!-- Social media icons -->
-<i class="iconfont icon-wechat"></i>         <!-- WeChat icon -->
-<i class="iconfont icon-alipay"></i>         <!-- Alipay icon -->
-<i class="iconfont icon-github"></i>         <!-- GitHub icon -->
+// 计算属性处理动态类
+const componentClasses = computed(() => ({
+  "t-component--disabled": props.disabled
+}));
+
+// 提供上下文给子组件
+provide<ComponentContextType>(componentKey, {
+  value: modelValue,
+  disabled: props.disabled
+});
+</script>
+
+<style lang="scss" scoped>
+@import "./index.scss";
+</style>
 ```
 
-### 4.5 Comment Specification
-- Use JSDoc comment format
-- Components must include functional description
-- Props must specify type and purpose
-- Complex logic must include comments
-- Example:
-```typescript
-/**
- * @description Button component
- * @param {string} type - Button type
- * @param {boolean} disabled - Whether disabled
- * @emits {click} Click event
- */
-```
+### 6.2 子组件注入示例
 
-### 4.6 Import Path Specification
-- Always use @ alias for imports from src directory
-- @ alias represents the src directory root
-- Never use relative paths (../../../) for imports from src directory
-- Local component imports can use relative paths
-- Examples:
-```typescript
-// Correct imports
-import { Button } from '@/packages/Button';
-import { formatDate } from '@/utils/date';
-import { useTheme } from '@/hooks/useTheme';
-import '@/styles/common.scss';
-import { IconType } from '@/types/icon';
-import { UserRoleEnum } from '@/enum/user';
-
-// Incorrect imports - never use these patterns
-// import { Button } from '../../packages/Button';
-// import { formatDate } from 'src/utils/date';
-```
-
-## 5. Global Resource Usage Specification
-
-### 5.1 Utility Functions (utils)
-- Stored in src/utils directory
-- Files divided by functional modules
-- Must include type definitions and comments
-- Prioritize pure functions
-- Use named exports when exporting
-
-### 5.2 Global Styles (styles)
-- Stored in src/styles directory
-- Includes variables, mixins, functions, etc.
-- Use index.scss for unified export
-- Avoid directly modifying global styles
-- Properly use style inheritance
-
-### 5.3 Icon Components (icons)
-- Uniformly use SVG icons
-- Encapsulated as Vue components
-- Support color and size customization
-- Import on demand to reduce size
-- Provide type declaration files
-
-### 5.4 Hooks (hooks)
-- Stored in src/hooks directory
-- Single responsibility, easy to reuse
-- Must include type definitions
-- Follow use prefix naming convention
-- Detailed usage examples
-
-## 6. Component Development Specification
-
-### 6.1 Directory Structure
-```
-component/
-├── index.ts          # Entry file
-├── index.vue         # Main component file
-├── index.scss        # Style file
-├── types.ts          # Type definitions
-```
-
-### 6.2 Naming Convention
-- Component files use PascalCase
-- Props use camelCase
-- Events use kebab-case
-- Constants use UPPER_CASE
-- Types end with Type
-
-### 6.3 Props Definition
-- Must specify type
-- Provide default values
-- Add validation functions
-- Use readonly properties
-- Detailed property descriptions
-
-### 6.4 Event Handling
-- Uniformly use handle prefix
-- Clearly specify event parameter types
-- Handle event bubbling
-- Add debounce/throttle
-- Error handling
-
-### 6.5 Component Structure Guidelines
-- Create a simple and flat component structure when possible
-- Only create constants.ts or enums.ts files when necessary
-- If a component doesn't have parent-child structure, do not create constants file
-- Keep component files minimal and focused on their specific functionality
-- Avoid unnecessary files that don't contribute to component functionality
-
-## 7. Performance Optimization Specification
-- Properly use computed properties
-- Avoid unnecessary reactivity
-- Timely destroy event listeners
-- Use async components
-- Code splitting
-
-## 8. Testing Specification
-
-### 8.1 Test Directory Structure
-```
-test/
-├── components/        # Test common components
-│   └── test-section.vue   # Test section component
-├── packages/         # Component test cases
-│   ├── button.vue    # Button component test
-│   ├── input.vue     # Input component test
-│   └── ...
-├── index.ts          # Test entry file
-├── home.vue          # Test home page
-└── constants.ts      # Test constants
-```
-
-### 8.2 Test Case Writing Specification
-- Use `test-section` component to divide test scenarios
-- Each scenario should include:
-  - Scenario title (title attribute)
-  - Related property tests
-  - Different state displays
-  - Interaction event tests
-- Example:
 ```vue
-<test-section title="Basic Type Buttons">
-  <t-button>Default Button</t-button>
-  <t-button type="primary">Primary Button</t-button>
-</test-section>
+<template>
+  <div class="t-component-item">
+    {{ componentContext.value }}
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { inject } from "vue";
+import { componentKey } from "../../constants";
+import type { ComponentContextType } from "../../component";
+
+// 从父组件注入上下文
+const componentContext = inject<ComponentContextType>(componentKey, {
+  value: "",
+  disabled: false
+});
+</script>
+
+<style lang="scss" scoped>
+@import "./component-item.scss";
+</style>
 ```
 
-### 8.3 Test Scenario Coverage
-- Basic functionality testing
-  - Component basic rendering
-  - Different type displays
-  - Size changes
-  - State switching (disabled, loading, etc.)
-- Property testing
-  - Required property validation
-  - Optional property effects
-  - Property combination testing
-- Event testing
-  - Click events
-  - State change events
-  - Async operation testing
-- Style testing
-  - Theme styles
-  - Custom styles
-  - Animation effects
+以上规范旨在保持代码风格的一致性，提高组件的可维护性和复用性。在开发过程中，请严格遵循这些规则，共同打造高质量的TUI组件库。
 
-### 8.4 Test Code Specification
-- Use TypeScript to write test cases
-- Use setup syntax sugar
-- Add comments to event handling functions
-- Handle loading states for async operations
-- Properly organize test data
+## 7. 测试用例开发规范
 
-### 8.5 Test Case Organization
+### 7.1 测试文件结构
+
+每个组件的测试文件必须遵循以下结构：
+
 ```vue
 <template>
   <div class="test-container">
-    <!-- Component title -->
-    <h2>Component Name</h2>
+    <h2>组件名 组件</h2>
 
-    <!-- Basic functionality testing -->
-    <test-section title="Basic Functionality">
-      <!-- Test cases -->
+    <!-- 测试区块 -->
+    <test-section title="测试场景1">
+      <!-- 组件的不同状态和配置展示 -->
     </test-section>
 
-    <!-- Property testing -->
-    <test-section title="Property Testing">
-      <!-- Test cases -->
+    <!-- 更多测试区块 -->
+  </div>
+</template>
+```
+
+### 7.2 测试场景划分
+
+- 使用 `<test-section>` 组件划分不同的测试场景
+- 每个测试场景必须有明确的 `title` 属性说明测试内容
+- 按照功能特性和属性类型分组进行测试
+
+### 7.3 基础测试内容
+
+每个组件的测试至少应包含以下基础场景：
+
+1. 基础用法：组件的默认状态和基本功能
+2. 不同状态：组件的各种状态变化（禁用、加载等）
+3. 尺寸变化：组件的尺寸变化（如有）
+4. 样式变化：组件的样式变化（如有）
+5. 事件响应：组件的交互和事件处理
+
+### 7.4 测试文件样式
+
+测试文件样式应当遵循以下规范：
+
+```scss
+.test-container {
+  padding: 24px;
+
+  h2 {
+    margin-bottom: 24px;
+    font-weight: 600;
+    font-size: 28px;
+    color: #1f2937;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
+  }
+
+  :deep(.test-section) {
+    .test-section-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+  }
+}
+```
+
+### 7.5 测试用例示例
+
+以按钮组件测试为例：
+
+```vue
+<template>
+  <div class="test-container">
+    <h2>Button 按钮组件</h2>
+
+    <!-- 基础类型按钮 -->
+    <test-section title="基础类型按钮">
+      <t-button>默认按钮</t-button>
+      <t-button type="primary">主要按钮</t-button>
+      <t-button type="success">成功按钮</t-button>
     </test-section>
 
-    <!-- Event testing -->
-    <test-section title="Event Testing">
-      <!-- Test cases -->
+    <!-- 禁用状态 -->
+    <test-section title="禁用状态">
+      <t-button disabled>禁用按钮</t-button>
     </test-section>
 
-    <!-- Style testing -->
-    <test-section title="Style Testing">
-      <!-- Test cases -->
+    <!-- 事件测试 -->
+    <test-section title="点击事件">
+      <t-button @click="handleClick">点击事件</t-button>
     </test-section>
   </div>
 </template>
 
 <script lang="ts" setup>
-// Component import
-import { Component } from "@/src/packages/Component";
+import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
 
-// Define component name
-defineOptions({ name: "ComponentTest" });
+defineOptions({ name: "ButtonTest" });
 
-// Test data and methods
-...
+const handleClick = (event: MouseEvent) => {
+  console.log("按钮被点击:", event);
+};
 </script>
 ```
 
-### 8.6 Test Style Specification
-- Test container uses test-container class
-- Titles use h2 tag
-- Properly use spacing and layout
-- Keep test interface clean
-- Highlight test focus points
+## 8. 系统组件列表
 
-### 8.7 Test Notes
-- Maintain test case independence
-- Avoid mutual influence between test cases
-- Properly use ref and reactive
-- Handle exception cases
-- Maintain test code maintainability
+TUI组件库已开发的组件列表：
 
-## 9. Knowledge Base Usage Guidelines
+- back-top：回到顶部
+- badge：徽章
+- breadcrumb：面包屑
+- button：按钮
+- calendar：日历
+- card：卡片
+- carousel：轮播图
+- checkbox：复选框
+- collapse：折叠面板
+- color-picker：颜色选择器
+- date-picker：日期选择器
+- date-picker-multiple：多日期选择器
+- dialog：对话框
+- drawer：抽屉
+- flex：弹性布局
+- icon：图标
+- image：图片
+- input：输入框
+- input-number：数字输入框
+- list-view：列表视图
+- message：消息提示
+- pop-confirm：气泡确认框
+- popover：气泡卡片
+- progress：进度条
+- radio：单选框
+- rate：评分
+- scrollbar：滚动条
+- select：选择器
+- slider：滑块
+- switch：开关
+- table：表格
+- tabs：标签页
+- tag：标签
+- textarea：文本域
+- tree：树形控件
+- upload：上传
 
-### 9.1 Pre-Code Generation Check
-- Before generating code, please check if the knowledge base information is effective for you
-- If it is effective, please answer which knowledge base information you used
-- Then modify your code according to the knowledge base information
-- Always confirm you have access to @/styles/index.scss and @/icons/iconfont.ts before generating code
-- List the specific variables or icons you intend to use and confirm they exist in the knowledge base
+开发新组件时，应首先查看系统中是否已存在类似组件，避免重复开发。如需新增组件，请按照本规范的要求进行开发。
 
-### 9.2 Style Variable Check
-- Ensure to only use variables defined in @/styles/index.scss
-- Do not use custom color values, must use predefined variables
-- Check if the variable exists in the current knowledge base
-- Never create new SCSS variables that are not in index.scss
-- If a needed variable doesn't exist, use the closest existing variable instead
-- Required variables check list:
-  - Theme colors: $theme-color-primary, $theme-color-success, etc.
-  - Base colors: $color-white, $color-black, $text-color-default, etc.
-  - Font sizes: $font-size-small, $font-size-default, $font-size-large
-  - Z-index values: $z-index-show, $z-index-up, $z-index-dow
-
-### 9.3 Icon Usage Check
-- Ensure to only use icons defined in @/icons/iconfont.ts
-- Check if the icon name exists in the current knowledge base
-- Confirm the actual purpose and appearance of the icon before using it
-- Never use or create custom icons not defined in iconfont.ts
-- If a needed icon doesn't exist, use the closest existing icon or discuss alternatives
-- Always use the exact icon name as defined in iconfont.ts
-
-### 9.4 Directory Structure Check
-- Ensure newly generated code conforms to the project directory structure
-- Check if reference paths are correct
-- Ensure components are placed in the correct directory
-- Do not create constants.ts files for components without parent-child structure
-- Keep component file structure minimal and focused
-- Always use @ alias for imports that reference files in the src directory
+以上规范旨在保持代码风格的一致性，提高组件的可维护性和复用性。在开发过程中，请严格遵循这些规则，共同打造高质量的TUI组件库。

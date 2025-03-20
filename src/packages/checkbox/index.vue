@@ -4,7 +4,7 @@
       <slot name="checkboxSpan" :value="model" />
     </div>
     <span :class="['_span', `_span-${radius}`]" v-else-if="!icon">
-      <t-icon icon="success" color="white" v-if="isChecked" />
+      <t-icon :icon="checkIcon" color="white" v-if="isChecked" />
     </span>
     <t-icon class="_icon" :icon="icon" v-else />
     <input type="checkbox" :name="name" :value="value" />
@@ -58,6 +58,14 @@ const checkboxClasses = computed(() => {
     return [...base, `_type-${groupContext.type}`, `_direction-${groupContext.direction}`];
   }
   return base;
+});
+
+/**
+ * 计算半选图标
+ */
+const checkIcon = computed(() => {
+  const { indeterminate, indeterminateIcon, icon } = props;
+  return indeterminate ? indeterminateIcon ?? "minus" : icon ?? "success";
 });
 
 /**

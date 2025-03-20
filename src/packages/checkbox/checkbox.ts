@@ -20,6 +20,10 @@ export interface PropsType extends BaseProps {
   value?: ValueType;
   /** 自定义图表图形 */
   icon?: IconTypes;
+  /** 是否半选 */
+  indeterminate?: boolean;
+  /** 半选图标 */
+  indeterminateIcon?: IconTypes;
 }
 /**
  * @description: 组件emit类型

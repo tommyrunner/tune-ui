@@ -21,6 +21,16 @@
         </div>
       </div>
     </test-section>
+    <!-- 半选 -->
+    <test-section title="半选">
+      <div class="checkbox-group">
+        <div class="checkbox-content">
+          <t-checkbox v-model="checked1" indeterminate>半选状态</t-checkbox>
+          <!-- 半选图标 -->
+          <t-checkbox v-model="checked1" indeterminate indeterminateIcon="apple">自定义半选图标</t-checkbox>
+        </div>
+      </div>
+    </test-section>
 
     <!-- 复选框样式 -->
     <test-section title="复选框样式">
