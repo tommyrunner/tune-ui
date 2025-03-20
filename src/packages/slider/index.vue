@@ -3,7 +3,7 @@
     class="t-slider"
     :class="[
       `t-slider--${vertical ? 'vertical' : 'horizontal'}`,
-      { 't-slider--without-tooltip': !showTooltip, 'is-disabled': disabled },
+      { 't-slider--without-tooltip': !showTooltip, 't-disabled': disabled },
       status ? `is-${status}` : ''
     ]"
     :style="sliderStyle"

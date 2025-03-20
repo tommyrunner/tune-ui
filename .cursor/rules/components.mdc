@@ -242,7 +242,7 @@ const value = computed(() => context?.someValue);
 
 - 组件根类: `t-组件名`，如 `t-slider`
 - 子元素类: `t-组件名__子元素`，如 `t-slider__bar`
-- 元素状态类: `is-状态名`，如 `is-disabled`
+- 元素状态类: `t-状态名`，如 `t-disabled`
 - 修饰符类: `t-组件名--修饰符`，如 `t-slider--vertical`
 
 ## 6. 其他规范
@@ -272,7 +272,7 @@ const value = computed(() => context?.someValue);
     class="t-component-name"
     :class="[
       `t-component-name--${variant}`,
-      { 'is-disabled': disabled }
+      { 't-disabled': disabled }
     ]"
   >
     <!-- 2. 子元素使用BEM命名法 -->
@@ -314,7 +314,7 @@ const value = computed(() => context?.someValue);
     border: 1px solid $border-color-default;
   }
 
-  &.is-disabled {
+  &.t-disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }

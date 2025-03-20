@@ -1,7 +1,7 @@
 <template>
   <div
     class="t-upload-dragger"
-    :class="{ 'is-dragover': dragover, 'is-disabled': draggerContext.disabled }"
+    :class="{ 'is-dragover': dragover, 't-disabled': draggerContext.disabled }"
     @drop.prevent="handleDrop"
     @dragover.prevent="dragover = true"
     @dragleave.prevent="dragover = false"

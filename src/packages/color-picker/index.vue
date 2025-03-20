@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['t-color-picker', `t-color-picker--${props.size}`, { 'is-disabled': props.disabled }]"
+    :class="['t-color-picker', `t-color-picker--${props.size}`, { 't-disabled': props.disabled }]"
     :tabindex="props.disabled ? undefined : props.tabindex"
     @focus="handleFocus"
     @blur="handleBlur"

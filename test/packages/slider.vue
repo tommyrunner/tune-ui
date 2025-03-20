@@ -399,7 +399,7 @@
         <span class="slider-label">状态感知:</span>
         <t-slider v-model="customButtonStateValue" :disabled="customButtonDisabled">
           <template #button="{ value, disabled, dragging }">
-            <div :class="['custom-button', { 'is-disabled': disabled, 'is-dragging': dragging }]">
+            <div :class="['custom-button', { 't-disabled': disabled, 'is-dragging': dragging }]">
               <div class="state-icon">
                 <t-icon
                   :icon="disabled ? 'close' : dragging ? 'success' : 'success-to'"
@@ -815,7 +815,7 @@ const handleInput = (value: number | number[]) => {
 
   // 状态响应按钮样式
   .custom-button {
-    &.is-disabled {
+    &.t-disabled {
       background-color: #f3f4f6;
       border: 2px solid #d1d5db;
       color: #9ca3af;
