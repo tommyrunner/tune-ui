@@ -3,6 +3,10 @@
 // 只定义全局样式中不存在的变量
 $option-text-secondary: rgba(128, 128, 128, 0.63);
 
+.t-popover {
+  width: 100%;
+}
+
 ._options {
   min-width: 160px;
   overflow: hidden;
@@ -16,6 +20,7 @@ $option-text-secondary: rgba(128, 128, 128, 0.63);
 }
 
 .t-select {
+  width: 164px;
   ._icon-active {
     transform: rotate(180deg);
   }
@@ -32,7 +37,7 @@ $option-text-secondary: rgba(128, 128, 128, 0.63);
     transition: 0.22s;
     cursor: text;
     position: relative;
-    width: 164px;
+    width: 100%;
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;

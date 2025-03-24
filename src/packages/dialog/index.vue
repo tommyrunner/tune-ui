@@ -28,7 +28,7 @@
               <span class="_title">{{ title }}</span>
             </div>
           </slot>
-          <TIcon icon="close" :size="16" @click="handleSubmit(false)" v-if="isCloseIcon" />
+          <TIcon icon="close" :size="12" @click="handleSubmit(false)" v-if="isCloseIcon" />
         </div>
         <div class="content">
           <slot />
@@ -36,8 +36,8 @@
         <div class="_foot" :style="footStyle" v-if="isFoot">
           <slot name="foot">
             <div class="_btn">
-              <TButton :type="cancelType" @click="handleSubmit(true)">{{ cancelText }}</TButton>
-              <TButton :type="confirmType" @click="handleSubmit(false)">{{ confirmText }}</TButton>
+              <TButton :type="cancelType" @click="handleSubmit(false)">{{ cancelText }}</TButton>
+              <TButton :type="confirmType" @click="handleSubmit(true)">{{ confirmText }}</TButton>
             </div>
           </slot>
         </div>

@@ -47,8 +47,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   checkable: false,
   accordion: false,
   expandOnClickNode: true,
-  disabled: false,
-  checkStrictly: false
+  disabled: false
 });
 
 // 定义事件
@@ -112,7 +111,10 @@ function handleNodeExpand(node: TreeNodeType, expanded: boolean, deep: boolean =
       const siblings = getSiblings(node);
       siblings.forEach(sibling => {
         if (expandedKeys.value.includes(sibling.key)) {
-          removeNode(sibling);
+          const index = expandedKeys.value.indexOf(sibling.key);
+          if (index !== -1) {
+            expandedKeys.value.splice(index, 1);
+          }
           emit("node-collapse", sibling.data, sibling);
         }
       });
@@ -123,7 +125,10 @@ function handleNodeExpand(node: TreeNodeType, expanded: boolean, deep: boolean =
       emit("node-expand", node.data, node);
     }
   } else {
-    removeNode(node);
+    const index = expandedKeys.value.indexOf(key);
+    if (index !== -1) {
+      expandedKeys.value.splice(index, 1);
+    }
     emit("node-collapse", node.data, node);
   }
 
@@ -296,7 +301,10 @@ function collapseAll(node?: TreeNodeType, deep: boolean = true) {
       expandedKeys.value = expandedKeys.value.filter(key => !keysToRemove.includes(key));
     } else {
       // 如果不递归折叠，则只移除当前节点
-      removeNode(node);
+      const index = expandedKeys.value.indexOf(node.key);
+      if (index !== -1) {
+        expandedKeys.value.splice(index, 1);
+      }
     }
   } else {
     // 如果启用深度折叠，先递归折叠所有根节点
@@ -329,12 +337,6 @@ function removeNode(node: TreeNodeType) {
   }
 }
 
-// 暴露组件方法
-defineExpose({
-  expandAll,
-  collapseAll
-});
-
 // 通过context共享状态和方法到子组件
 provide<TreeContext>(treeContextKey, {
   expandedKeys,
@@ -357,6 +359,29 @@ watch(
     checkedKeys.value = [...newVal];
   }
 );
+
+// 导出公共方法
+/**
+ * 获取勾选的节点（只返回叶子节点）
+ * @returns 勾选的叶子节点列表
+ */
+function getCheckedNodes() {
+  // 只返回叶子节点
+  return checkedKeys.value
+    .map(key => {
+      const node = nodeMap.value.get(key);
+      // 只返回叶子节点
+      return node && node.isLeaf ? node.data : null;
+    })
+    .filter(Boolean);
+}
+
+// 暴露组件方法
+defineExpose({
+  expandAll,
+  collapseAll,
+  getCheckedNodes
+});
 </script>
 
 <style lang="scss" scoped>
