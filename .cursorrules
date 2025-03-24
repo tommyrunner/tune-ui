@@ -103,6 +103,68 @@ test/packages/
   }));
   ```
 
+### 2.6 导入语句排序规范
+
+#### 2.6.1 导入顺序规则
+
+所有import语句必须按以下顺序排列：
+
+1. 类型导入（type、interface、enum等）
+2. Vue核心库导入
+3. 第三方库导入
+4. 组件导入
+5. 工具函数导入
+6. 常量/配置导入
+7. 样式导入
+
+#### 2.6.2 导入语句分组与间距
+
+- 不同类别的导入之间使用一个空行分隔
+- 同一类别中的导入按字母顺序排序
+- type导入必须使用显式的type关键字
+
+#### 2.6.3 导入顺序示例
+
+```typescript
+// 1. 类型导入（排在最上面）
+import type { InjectionKey } from "vue";
+import type { ComponentContextType, PropsType } from "./component-name";
+
+// 2. Vue核心库导入
+import { computed, defineModel, inject, provide, reactive, ref } from "vue";
+
+// 3. 第三方库导入
+import dayjs from "dayjs";
+import { debounce } from "lodash-es";
+
+// 4. 组件导入
+import TIcon from "../icon/index.vue";
+import TButton from "../button/index.vue";
+
+// 5. 工具函数导入
+import { formatValue } from "@/utils/format";
+import { validateInput } from "@/utils/validators";
+
+// 6. 常量/配置导入
+import { componentKey } from "./constants";
+import { DEFAULT_CONFIG } from "@/config";
+
+// 7. 样式导入（如果需要在脚本中导入）
+import "./index.scss";
+```
+
+#### 2.6.4 不符合规范的导入示例（错误示例）
+
+```typescript
+// ❌ 错误的导入顺序
+import { ref, computed } from "vue";
+import "./styles.scss";
+import TButton from "../button";
+import { ComponentContextType } from "./types"; // 未使用type关键字
+import { DEFAULT_VALUE } from "./constants";
+import type { PropsType } from "./types";
+```
+
 ## 3. 样式开发规范
 
 ### 3.1 样式文件组织
@@ -164,6 +226,69 @@ test/packages/
 - 所有公共方法、类型和接口都必须使用JSDoc注释
 - 复杂逻辑必须添加注释说明
 - 组件模板中的插槽用途必须通过注释说明
+
+#### 5.2.1 函数注释规范
+
+- 所有函数和方法**必须**使用JSDoc标准格式进行注释
+- 函数注释必须包含功能描述、参数说明和返回值说明
+- 注释格式统一如下：
+
+```typescript
+/**
+ * 函数的主要功能描述
+ * @description 可选的详细描述
+ * @param {类型} 参数名 - 参数说明
+ * @param {类型} [可选参数名] - 可选参数说明
+ * @returns {返回值类型} 返回值说明
+ * @throws {错误类型} 可能抛出的错误说明
+ * @example
+ * // 使用示例
+ * const result = functionName(param);
+ */
+function functionName(param: string): number {
+  // 函数实现
+}
+```
+
+#### 5.2.2 注释示例
+
+```typescript
+/**
+ * 格式化日期为指定格式的字符串
+ * @param {Date} date - 要格式化的日期对象
+ * @param {string} [format="YYYY-MM-DD"] - 格式模板
+ * @returns {string} 格式化后的日期字符串
+ * @throws {TypeError} 当传入的date不是有效Date对象时
+ */
+const formatDate = (date: Date, format: string = "YYYY-MM-DD"): string => {
+  // 实现代码
+};
+
+/**
+ * 处理组件值变更
+ * @param {string} newValue - 新的值
+ * @returns {void}
+ */
+const handleChange = (newValue: string): void => {
+  // 实现代码
+};
+```
+
+#### 5.2.3 组件方法注释
+
+组件内部方法也必须遵循相同的注释规范：
+
+```typescript
+/**
+ * 处理选项选中状态变更
+ * @param {string} optionId - 选项ID
+ * @param {boolean} selected - 是否选中
+ * @returns {void}
+ */
+const handleOptionSelect = (optionId: string, selected: boolean): void => {
+  // 实现代码
+};
+```
 
 ### 5.3 性能优化
 

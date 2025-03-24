@@ -63,7 +63,12 @@ const rootNodes = computed(() => {
   return formatNodes(props.data, null);
 });
 
-// 格式化节点数据，扩展节点属性
+/**
+ * 格式化节点数据，扩展节点属性
+ * @param nodes 节点数据
+ * @param parent 父节点
+ * @returns 格式化后的节点数据
+ */
 function formatNodes(nodes: any[], parent: TreeNodeType | null): TreeNodeType[] {
   if (!nodes || !nodes.length) return [];
 
@@ -103,78 +108,77 @@ function formatNodes(nodes: any[], parent: TreeNodeType | null): TreeNodeType[] 
  * @param deep 是否深层展开/折叠子节点，默认false
  */
 function handleNodeExpand(node: TreeNodeType, expanded: boolean, deep: boolean = false) {
-  const key = node.key;
+  // 更新当前节点展开状态
+  updateNodeExpandState(node, expanded);
 
-  if (expanded) {
-    // 手风琴模式，同级节点只能展开一个
-    if (props.accordion) {
-      // 获取同级节点
-      let siblings: TreeNodeType[] = [];
-
-      if (node.parent) {
-        // 如果有父节点，则获取父节点下的所有子节点（除了当前节点）
-        siblings = getSiblings(node);
-      } else {
-        // 如果是根节点，则获取所有根节点（除了当前节点）
-        siblings = rootNodes.value.filter(n => n.key !== node.key);
-      }
-
-      // 关闭所有同级已展开节点
-      siblings.forEach(sibling => {
-        const siblingKey = sibling.key;
-        const index = expandedKeys.value.indexOf(siblingKey);
-        if (index !== -1) {
-          expandedKeys.value.splice(index, 1);
-          // 同时需要更新节点的isExpanded状态
-          if (nodeMap.value.has(siblingKey)) {
-            const siblingNode = nodeMap.value.get(siblingKey)!;
-            siblingNode.isExpanded = false;
-          }
-          emit("node-collapse", sibling.data, sibling);
-        }
-      });
-    }
-
-    // 展开当前节点
-    if (!expandedKeys.value.includes(key)) {
-      expandedKeys.value.push(key);
-      // 更新节点的isExpanded状态
-      if (nodeMap.value.has(key)) {
-        const currentNode = nodeMap.value.get(key)!;
-        currentNode.isExpanded = true;
-      }
-      emit("node-expand", node.data, node);
-    }
-  } else {
-    // 折叠当前节点
-    const index = expandedKeys.value.indexOf(key);
-    if (index !== -1) {
-      expandedKeys.value.splice(index, 1);
-      // 更新节点的isExpanded状态
-      if (nodeMap.value.has(key)) {
-        const currentNode = nodeMap.value.get(key)!;
-        currentNode.isExpanded = false;
-      }
-      emit("node-collapse", node.data, node);
-    }
+  // 处理手风琴模式
+  if (expanded && props.accordion) {
+    toggleSiblings(node);
   }
 
   // 深度展开/折叠子节点
   if (deep && node.hasChildren) {
-    // 确保子节点已加载
-    if (!node.children) {
-      node.children = formatNodes(node.data[props.children] || [], node);
-    }
-
+    // 懒加载子节点
+    ensureChildrenLoaded(node);
     // 递归处理所有子节点
-    node.children.forEach(child => {
+    node.children?.forEach(child => {
       handleNodeExpand(child, expanded, deep);
     });
   }
 }
 
 /**
- * 处理节点勾选(如果节点有子节点，则子节点也勾选，深层嵌套)
+ * 更新节点展开状态
+ * @param node 节点
+ * @param expanded 是否展开
+ */
+function updateNodeExpandState(node: TreeNodeType, expanded: boolean) {
+  if (expanded) {
+    if (!expandedKeys.value.includes(node.key)) {
+      expandedKeys.value.push(node.key);
+      // 更新节点状态
+      node.isExpanded = true;
+      emit("node-expand", node.data, node);
+    }
+  } else {
+    const index = expandedKeys.value.indexOf(node.key);
+    if (index !== -1) {
+      expandedKeys.value.splice(index, 1);
+      // 更新节点状态
+      node.isExpanded = false;
+      emit("node-collapse", node.data, node);
+    }
+  }
+}
+
+/**
+ * 手风琴模式下折叠同级节点
+ * @param node 节点
+ */
+function toggleSiblings(node: TreeNodeType) {
+  // 获取同级节点
+  const siblings: TreeNodeType[] = node.parent ? getSiblings(node) : rootNodes.value.filter(n => n.key !== node.key);
+
+  // 关闭所有同级已展开节点
+  siblings.forEach(sibling => {
+    if (sibling.isExpanded) {
+      updateNodeExpandState(sibling, false);
+    }
+  });
+}
+
+/**
+ * 确保子节点已加载
+ * @param node 节点
+ */
+function ensureChildrenLoaded(node: TreeNodeType) {
+  if (node.hasChildren && !node.children) {
+    node.children = formatNodes(node.data[props.children] || [], node);
+  }
+}
+
+/**
+ * 处理节点勾选
  * @param node 节点
  * @param checked 是否选中
  */
@@ -182,43 +186,59 @@ function handleNodeCheck(node: TreeNodeType, checked: boolean) {
   // 先展开所有子节点
   expandAll(node, true);
   nextTick(() => {
-    // 处理当前节点选中
+    // 处理当前节点及其子节点的选中状态
     handleNodeCheckDeep(node, checked);
-    // 触发选中事件
+    // 触发选中事件，只返回叶子节点
     emit(
       "check-change",
       checkedKeys.value.filter(key => nodeMap.value.get(key)?.isLeaf)
     );
   });
 }
+
 /**
  * 递归处理节点选中状态
  * @param node 节点
  * @param checked 是否选中
  */
 function handleNodeCheckDeep(node: TreeNodeType, checked: boolean) {
-  const key = node.key;
-  // 处理当前节点选中
-  if (checked) {
-    if (!checkedKeys.value.includes(key)) {
-      checkedKeys.value.push(key);
-    }
-  } else removeNode(node);
-  // 处理深度选中
+  // 更新当前节点状态
+  updateNodeCheckState(node, checked);
+
+  // 处理子节点
   if (node.children) {
     node.children.forEach(child => {
-      child.isChecked = checked;
-      if (checked) {
-        if (!checkedKeys.value.includes(child.key)) checkedKeys.value.push(child.key);
-      } else {
-        checkedKeys.value = checkedKeys.value.filter(key => key !== child.key);
-      }
       handleNodeCheckDeep(child, checked);
     });
   }
 }
 
-// 获取同级节点
+/**
+ * 更新节点选中状态
+ * @param node 节点
+ * @param checked 是否选中
+ */
+function updateNodeCheckState(node: TreeNodeType, checked: boolean) {
+  const key = node.key;
+  node.isChecked = checked;
+
+  if (checked) {
+    if (!checkedKeys.value.includes(key)) {
+      checkedKeys.value.push(key);
+    }
+  } else {
+    const index = checkedKeys.value.indexOf(key);
+    if (index !== -1) {
+      checkedKeys.value.splice(index, 1);
+    }
+  }
+}
+
+/**
+ * 获取同级节点
+ * @param node 节点
+ * @returns 同级节点列表
+ */
 function getSiblings(node: TreeNodeType): TreeNodeType[] {
   if (!node.parent) return [];
 
@@ -241,56 +261,27 @@ function expandAll(node?: TreeNodeType, deep: boolean = true) {
   if (node) {
     // 只展开指定节点及其子节点
     handleNodeExpand(node, true, deep);
-
-    if (!deep) {
-      // 如果不递归展开，则只添加当前节点到展开列表
-      if (!expandedKeys.value.includes(node.key)) {
-        expandedKeys.value.push(node.key);
-      }
-    } else {
-      // 如果递归展开，则需要获取所有子节点并添加到展开列表
-      const collectExpandedKeys = (currentNode: TreeNodeType): string[] => {
-        let keys: string[] = [currentNode.key];
-
-        // 如果有子节点且已加载，则递归收集子节点的key
-        if (currentNode.hasChildren) {
-          // 确保子节点已加载
-          if (!currentNode.children) {
-            currentNode.children = formatNodes(currentNode.data[props.children] || [], currentNode);
-          }
-
-          currentNode.children.forEach(child => {
-            keys = keys.concat(collectExpandedKeys(child));
-          });
-        }
-
-        return keys;
-      };
-
-      // 收集所有需要展开的节点key
-      const keysToExpand = collectExpandedKeys(node);
-
-      // 添加到展开列表中
-      keysToExpand.forEach(key => {
-        if (!expandedKeys.value.includes(key)) {
-          expandedKeys.value.push(key);
-        }
-      });
-    }
   } else {
     // 展开所有节点
-    const allKeys: string[] = [];
+    const allExpandableNodes: TreeNodeType[] = [];
     nodeMap.value.forEach(treeNode => {
       if (treeNode.hasChildren) {
-        allKeys.push(treeNode.key);
+        allExpandableNodes.push(treeNode);
       }
     });
-    expandedKeys.value = allKeys;
 
-    // 如果启用深度展开，递归处理所有根节点
+    // 如果深度展开，先处理根节点
     if (deep) {
       rootNodes.value.forEach(rootNode => {
         handleNodeExpand(rootNode, true, true);
+      });
+    } else {
+      // 如果不深度展开，只更新状态
+      allExpandableNodes.forEach(node => {
+        node.isExpanded = true;
+        if (!expandedKeys.value.includes(node.key)) {
+          expandedKeys.value.push(node.key);
+        }
       });
     }
   }
@@ -305,36 +296,8 @@ function collapseAll(node?: TreeNodeType, deep: boolean = true) {
   if (node) {
     // 只折叠指定节点及其子节点
     handleNodeExpand(node, false, deep);
-
-    if (deep) {
-      // 如果递归折叠，则需要删除当前节点及其所有子节点的key
-      const collectKeys = (currentNode: TreeNodeType): string[] => {
-        let keys: string[] = [currentNode.key];
-
-        // 如果有子节点且已加载，则递归收集子节点的key
-        if (currentNode.children && currentNode.children.length) {
-          currentNode.children.forEach(child => {
-            keys = keys.concat(collectKeys(child));
-          });
-        }
-
-        return keys;
-      };
-
-      // 收集所有需要从展开列表中移除的key
-      const keysToRemove = collectKeys(node);
-
-      // 从展开列表中移除
-      expandedKeys.value = expandedKeys.value.filter(key => !keysToRemove.includes(key));
-    } else {
-      // 如果不递归折叠，则只移除当前节点
-      const index = expandedKeys.value.indexOf(node.key);
-      if (index !== -1) {
-        expandedKeys.value.splice(index, 1);
-      }
-    }
   } else {
-    // 如果启用深度折叠，先递归折叠所有根节点
+    // 如果深度折叠，先处理根节点
     if (deep) {
       rootNodes.value.forEach(rootNode => {
         handleNodeExpand(rootNode, false, true);
@@ -343,8 +306,13 @@ function collapseAll(node?: TreeNodeType, deep: boolean = true) {
 
     // 折叠所有节点
     expandedKeys.value = [];
+    // 更新所有节点的展开状态
+    nodeMap.value.forEach(node => {
+      node.isExpanded = false;
+    });
   }
 }
+
 /**
  * 获取节点key
  * @param node 节点
@@ -352,16 +320,6 @@ function collapseAll(node?: TreeNodeType, deep: boolean = true) {
  */
 function getNodeKey(node: any): string {
   return node[props.nodeKey]?.toString() || "";
-}
-/**
- * 移除节点
- * @param node 节点
- */
-function removeNode(node: TreeNodeType) {
-  const index = checkedKeys.value.indexOf(node.key);
-  if (index !== -1) {
-    checkedKeys.value.splice(index, 1);
-  }
 }
 
 // 通过context共享状态和方法到子组件
@@ -387,20 +345,42 @@ watch(
   }
 );
 
-// 导出公共方法
+// 添加对节点选中状态的观察
+watch(
+  checkedKeys,
+  () => {
+    // 更新节点的选中状态
+    nodeMap.value.forEach(node => {
+      node.isChecked = checkedKeys.value.includes(node.key);
+    });
+  },
+  { deep: true }
+);
+
+// 添加对节点展开状态的观察
+watch(
+  expandedKeys,
+  () => {
+    // 更新节点的展开状态
+    nodeMap.value.forEach(node => {
+      node.isExpanded = expandedKeys.value.includes(node.key);
+    });
+  },
+  { deep: true }
+);
+
 /**
  * 获取勾选的节点（只返回叶子节点）
  * @returns 勾选的叶子节点列表
  */
 function getCheckedNodes() {
-  // 只返回叶子节点
-  return checkedKeys.value
-    .map(key => {
-      const node = nodeMap.value.get(key);
-      // 只返回叶子节点
-      return node && node.isLeaf ? node.data : null;
-    })
-    .filter(Boolean);
+  return checkedKeys.value.reduce((result: any[], key) => {
+    const node = nodeMap.value.get(key);
+    if (node && node.isLeaf) {
+      result.push(node.data);
+    }
+    return result;
+  }, []);
 }
 
 // 暴露组件方法

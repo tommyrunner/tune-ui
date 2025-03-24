@@ -3,7 +3,7 @@
     class="t-tree-node"
     :class="{
       't-tree-node--expanded': node.isExpanded,
-      't-tree-node--disabled': node.isDisabled
+      't-disabled': node.isDisabled
     }"
     :style="{ paddingLeft: `${props.indent * level}px` }"
   >
@@ -55,10 +55,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { NodePropsType, TreeNode } from "../../tree";
 import { computed, inject } from "vue";
 import { TIcon } from "../../../icon";
 import { TCheckbox } from "../../../checkbox";
-import type { NodePropsType, TreeNode } from "../../tree";
 import { treeContextKey, type TreeContext } from "../../constants";
 
 defineOptions({
