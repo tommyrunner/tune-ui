@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropsType, TreeNode as TreeNodeType } from "./tree";
+import type { PropsType, TreeNode as TreeNodeType, EmitsType } from "./tree";
 import { computed, nextTick, provide, ref, watch } from "vue";
 import TreeNode from "./components/tree-node/tree-node.vue";
 import { treeContextKey, type TreeContext } from "./constants";
@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<PropsType>(), {
 });
 
 // 定义事件
-const emit = defineEmits(["node-expand", "node-collapse", "check-change"]);
+const emit = defineEmits<EmitsType>();
 
 // 内部状态
 const expandedKeys = ref<string[]>(props.expanded);

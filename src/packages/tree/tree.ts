@@ -80,3 +80,16 @@ export interface NodePropsType {
   /** 是否可选择 */
   selectable?: boolean;
 }
+
+/**
+ * @description 树组件事件类型定义
+ * @interface EmitsType
+ */
+export interface EmitsType {
+  /** 节点展开事件 */
+  (e: "node-expand", data: any, node: TreeNode): void;
+  /** 节点折叠事件 */
+  (e: "node-collapse", data: any, node: TreeNode): void;
+  /** 节点勾选状态变化事件 */
+  (e: "check-change", checkedKeys: string[]): void;
+}
