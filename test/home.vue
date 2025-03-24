@@ -75,7 +75,8 @@ import {
   TSliderTest,
   TProgressTest,
   TImageTest,
-  TUploadTest
+  TUploadTest,
+  TTreeTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -115,6 +116,7 @@ const componentList: ComponentConfig[] = [
   { name: "TTableTest", label: "Table 表格", category: ComponentCategory.Data, component: TTableTest },
   { name: "TProgressTest", label: "Progress 进度条", category: ComponentCategory.Data, component: TProgressTest },
   { name: "TImageTest", label: "Image 图片", category: ComponentCategory.Data, component: TImageTest },
+  { name: "TTreeTest", label: "Tree 树", category: ComponentCategory.Data, component: TTreeTest },
 
   // 反馈组件
   { name: "TMessageTest", label: "Message 消息提示", category: ComponentCategory.Feedback, component: TMessageTest },
@@ -139,7 +141,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TUploadTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TTreeTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {

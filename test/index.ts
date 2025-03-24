@@ -34,6 +34,7 @@ import SliderTest from "./packages/slider.vue";
 import ProgressTest from "./packages/progress.vue";
 import ImageTest from "./packages/image.vue";
 import UploadTest from "./packages/upload.vue";
+import TreeTest from "./packages/tree.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -71,7 +72,8 @@ export const testComponents = {
   SliderTest,
   ProgressTest,
   ImageTest,
-  UploadTest
+  UploadTest,
+  TreeTest
 };
 
 /** 测试组件安装器 */
@@ -117,5 +119,6 @@ export const TSliderTest = SliderTest;
 export const TProgressTest = ProgressTest;
 export const TImageTest = ImageTest;
 export const TUploadTest = UploadTest;
+export const TTreeTest = TreeTest;
 // 默认导出安装器
 export default installTestComponents;

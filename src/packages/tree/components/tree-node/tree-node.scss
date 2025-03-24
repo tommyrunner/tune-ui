@@ -1,0 +1,95 @@
+@import "@/styles/index.scss";
+
+// 本地变量定义
+$text-color-secondary: #8c8c8c;
+$text-color-disabled: #bfbfbf;
+
+$node-height: 32px;
+$icon-color: #606266;
+$icon-size: 14px;
+$icon-margin: 8px;
+$indent-width: 16px;
+$bg-color-hover: #f5f7fa;
+$bg-color-disabled: #f5f5f5;
+
+.t-tree-node {
+  position: relative;
+  font-size: $font-size-default;
+  line-height: 1.5;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    height: $node-height;
+    cursor: pointer;
+    border-radius: 4px;
+    padding-right: 8px;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: $bg-color-hover;
+    }
+  }
+
+  &__expand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: $icon-size;
+    height: $icon-size;
+    margin-right: $icon-margin;
+    color: $icon-color;
+    transition: transform 0.2s;
+
+    &--expanded {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__placeholder {
+    display: inline-block;
+    width: $icon-size;
+    height: $icon-size;
+    margin-right: $icon-margin;
+  }
+
+  &__checkbox {
+    display: flex;
+    align-items: center;
+    margin-right: $icon-margin;
+  }
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 4px;
+    font-size: 16px;
+    color: $text-color-secondary;
+  }
+
+  &__label {
+    flex: 1;
+    padding: 4px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__children {
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  // 禁用状态
+  &--disabled > &__content {
+    color: $text-color-disabled;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}

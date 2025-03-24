@@ -1,0 +1,24 @@
+@import "@/styles/index.scss";
+
+// 本地变量
+$tree-bg-color: #fff;
+$tree-border-color: #e4e7ed;
+$tree-empty-color: #c0c4cc;
+
+.t-tree {
+  position: relative;
+  padding: 8px 0;
+  font-size: 14px;
+  color: #303133;
+  background-color: $tree-bg-color;
+  
+  &__empty {
+    padding: 20px 0;
+    color: $tree-empty-color;
+    text-align: center;
+  }
+  
+  &__wrapper {
+    position: relative;
+  }
+}
