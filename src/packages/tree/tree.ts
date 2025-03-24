@@ -25,8 +25,6 @@ export interface PropsType {
   expandOnClickNode?: boolean;
   /** 是否禁用 */
   disabled?: boolean;
-  /** 是否在严格模式下勾选节点，开启后只返回叶子节点 */
-  checkStrictly?: boolean;
 }
 
 /**

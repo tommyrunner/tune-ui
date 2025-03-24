@@ -16,22 +16,6 @@
       </div>
     </test-section>
 
-    <!-- 严格勾选模式 -->
-    <test-section title="严格勾选模式（只返回叶子节点）">
-      <t-tree
-        ref="strictTreeRef"
-        :data="baseData"
-        node-key="id"
-        checkable
-        check-strictly
-        @check-change="handleStrictCheckChange"
-      />
-      <div v-if="strictCheckedNodes.length > 0" class="result-display mt-2">
-        <div class="result-title">已勾选叶子节点：</div>
-        <div v-for="(node, index) in strictCheckedNodes" :key="index" class="result-item">{{ node.label }} (ID: {{ node }})</div>
-      </div>
-    </test-section>
-
     <!-- 禁用状态 -->
     <test-section title="禁用状态">
       <t-tree :data="disabledData" node-key="id" checkable />

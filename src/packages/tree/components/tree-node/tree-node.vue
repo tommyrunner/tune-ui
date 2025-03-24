@@ -21,7 +21,6 @@
 
       <!-- 复选框 -->
       <span v-if="checkable" class="t-tree-node__checkbox">
-        {{ props.node.isChecked }}
         <t-checkbox v-bind="checkedFn" :disabled="node.isDisabled" @change="handleCheck" @click.stop></t-checkbox>
       </span>
 

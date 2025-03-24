@@ -93,14 +93,8 @@ function formatNodes(nodes: any[], parent: TreeNodeType | null): TreeNodeType[] 
     if (hasChildren && isExpanded) {
       treeNode.children = formatNodes(node[props.children], treeNode);
     }
-
     return treeNode;
   });
-}
-
-// 获取节点key
-function getNodeKey(node: any): string {
-  return node[props.nodeKey]?.toString() || "";
 }
 
 /**
@@ -118,8 +112,7 @@ function handleNodeExpand(node: TreeNodeType, expanded: boolean, deep: boolean =
       const siblings = getSiblings(node);
       siblings.forEach(sibling => {
         if (expandedKeys.value.includes(sibling.key)) {
-          const index = expandedKeys.value.indexOf(sibling.key);
-          expandedKeys.value.splice(index, 1);
+          removeNode(sibling);
           emit("node-collapse", sibling.data, sibling);
         }
       });
@@ -130,11 +123,8 @@ function handleNodeExpand(node: TreeNodeType, expanded: boolean, deep: boolean =
       emit("node-expand", node.data, node);
     }
   } else {
-    const index = expandedKeys.value.indexOf(key);
-    if (index !== -1) {
-      expandedKeys.value.splice(index, 1);
-      emit("node-collapse", node.data, node);
-    }
+    removeNode(node);
+    emit("node-collapse", node.data, node);
   }
 
   // 深度展开/折叠子节点
@@ -163,7 +153,10 @@ function handleNodeCheck(node: TreeNodeType, checked: boolean) {
     // 处理当前节点选中
     handleNodeCheckDeep(node, checked);
     // 触发选中事件
-    emit("check-change", checkedKeys.value, node.data, node);
+    emit(
+      "check-change",
+      checkedKeys.value.filter(key => nodeMap.value.get(key)?.isLeaf)
+    );
   });
 }
 /**
@@ -178,7 +171,7 @@ function handleNodeCheckDeep(node: TreeNodeType, checked: boolean) {
     if (!checkedKeys.value.includes(key)) {
       checkedKeys.value.push(key);
     }
-  } else deleteNode(node);
+  } else removeNode(node);
   // 处理深度选中
   if (node.children) {
     node.children.forEach(child => {
@@ -303,10 +296,7 @@ function collapseAll(node?: TreeNodeType, deep: boolean = true) {
       expandedKeys.value = expandedKeys.value.filter(key => !keysToRemove.includes(key));
     } else {
       // 如果不递归折叠，则只移除当前节点
-      const index = expandedKeys.value.indexOf(node.key);
-      if (index !== -1) {
-        expandedKeys.value.splice(index, 1);
-      }
+      removeNode(node);
     }
   } else {
     // 如果启用深度折叠，先递归折叠所有根节点
@@ -320,8 +310,19 @@ function collapseAll(node?: TreeNodeType, deep: boolean = true) {
     expandedKeys.value = [];
   }
 }
-
-function deleteNode(node: TreeNodeType) {
+/**
+ * 获取节点key
+ * @param node 节点
+ * @returns 节点key
+ */
+function getNodeKey(node: any): string {
+  return node[props.nodeKey]?.toString() || "";
+}
+/**
+ * 移除节点
+ * @param node 节点
+ */
+function removeNode(node: TreeNodeType) {
   const index = checkedKeys.value.indexOf(node.key);
   if (index !== -1) {
     checkedKeys.value.splice(index, 1);
