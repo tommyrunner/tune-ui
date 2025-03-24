@@ -41,7 +41,6 @@
       <div class="mb-2">
         <t-button @click="handleExpandAll">展开全部</t-button>
         <t-button @click="handleCollapseAll" class="ml-2">收起全部</t-button>
-        <t-button @click="handleGetSelected" class="ml-2">获取选中节点</t-button>
       </div>
       <t-tree ref="treeRef" :data="baseData" node-key="id" selectable />
       <div v-if="selectedNodes.length > 0" class="result-display mt-2">

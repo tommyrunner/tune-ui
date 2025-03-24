@@ -107,29 +107,56 @@ function handleNodeExpand(node: TreeNodeType, expanded: boolean, deep: boolean =
 
   if (expanded) {
     // 手风琴模式，同级节点只能展开一个
-    if (props.accordion && node.parent) {
-      const siblings = getSiblings(node);
+    if (props.accordion) {
+      // 获取同级节点
+      let siblings: TreeNodeType[] = [];
+
+      if (node.parent) {
+        // 如果有父节点，则获取父节点下的所有子节点（除了当前节点）
+        siblings = getSiblings(node);
+      } else {
+        // 如果是根节点，则获取所有根节点（除了当前节点）
+        siblings = rootNodes.value.filter(n => n.key !== node.key);
+      }
+
+      // 关闭所有同级已展开节点
       siblings.forEach(sibling => {
-        if (expandedKeys.value.includes(sibling.key)) {
-          const index = expandedKeys.value.indexOf(sibling.key);
-          if (index !== -1) {
-            expandedKeys.value.splice(index, 1);
+        const siblingKey = sibling.key;
+        const index = expandedKeys.value.indexOf(siblingKey);
+        if (index !== -1) {
+          expandedKeys.value.splice(index, 1);
+          // 同时需要更新节点的isExpanded状态
+          if (nodeMap.value.has(siblingKey)) {
+            const siblingNode = nodeMap.value.get(siblingKey)!;
+            siblingNode.isExpanded = false;
           }
           emit("node-collapse", sibling.data, sibling);
         }
       });
     }
 
+    // 展开当前节点
     if (!expandedKeys.value.includes(key)) {
       expandedKeys.value.push(key);
+      // 更新节点的isExpanded状态
+      if (nodeMap.value.has(key)) {
+        const currentNode = nodeMap.value.get(key)!;
+        currentNode.isExpanded = true;
+      }
       emit("node-expand", node.data, node);
     }
   } else {
+    // 折叠当前节点
     const index = expandedKeys.value.indexOf(key);
     if (index !== -1) {
       expandedKeys.value.splice(index, 1);
+      // 更新节点的isExpanded状态
+      if (nodeMap.value.has(key)) {
+        const currentNode = nodeMap.value.get(key)!;
+        currentNode.isExpanded = false;
+      }
+      emit("node-collapse", node.data, node);
     }
-    emit("node-collapse", node.data, node);
   }
 
   // 深度展开/折叠子节点
