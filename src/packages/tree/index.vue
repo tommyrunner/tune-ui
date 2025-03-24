@@ -12,7 +12,6 @@
         :label="label"
         :children="children"
         :indent="indent"
-        :show-line="false"
         :checkable="checkable"
         :selectable="false"
         :expand-on-click-node="expandOnClickNode"
@@ -27,10 +26,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { PropsType, TreeNode as TreeNodeType } from "./tree";
 import { computed, nextTick, provide, ref, watch } from "vue";
 import TreeNode from "./components/tree-node/tree-node.vue";
-import type { PropsType, TreeNode as TreeNodeType, TreeContext } from "./tree";
-import { treeContextKey } from "./constants";
+import { treeContextKey, type TreeContext } from "./constants";
 
 defineOptions({
   name: "TTree"
@@ -46,10 +45,10 @@ const props = withDefaults(defineProps<PropsType>(), {
   checked: () => [],
   indent: 16,
   checkable: false,
-  showLine: false,
   accordion: false,
   expandOnClickNode: true,
-  disabled: false
+  disabled: false,
+  checkStrictly: false
 });
 
 // 定义事件
@@ -158,25 +157,14 @@ function handleNodeExpand(node: TreeNodeType, expanded: boolean, deep: boolean =
  * @param checked 是否选中
  */
 function handleNodeCheck(node: TreeNodeType, checked: boolean) {
-  const key = node.key;
-
-  if (checked) {
-    if (!checkedKeys.value.includes(key)) {
-      checkedKeys.value.push(key);
-    }
-  } else {
-    const index = checkedKeys.value.indexOf(key);
-    if (index !== -1) {
-      checkedKeys.value.splice(index, 1);
-    }
-  }
   // 先展开所有子节点
   expandAll(node, true);
-  // 如果节点有子节点，则子节点也勾选，深层嵌套
   nextTick(() => {
+    // 处理当前节点选中
     handleNodeCheckDeep(node, checked);
+    // 触发选中事件
+    emit("check-change", checkedKeys.value, node.data, node);
   });
-  emit("check-change", checkedKeys.value, node.data, node);
 }
 /**
  * 递归处理节点选中状态
@@ -184,19 +172,21 @@ function handleNodeCheck(node: TreeNodeType, checked: boolean) {
  * @param checked 是否选中
  */
 function handleNodeCheckDeep(node: TreeNodeType, checked: boolean) {
-  // children 父容器也需要选中
+  const key = node.key;
+  // 处理当前节点选中
+  if (checked) {
+    if (!checkedKeys.value.includes(key)) {
+      checkedKeys.value.push(key);
+    }
+  } else deleteNode(node);
+  // 处理深度选中
   if (node.children) {
-    node.isChecked = checked;
     node.children.forEach(child => {
+      child.isChecked = checked;
       if (checked) {
-        child.isChecked = true;
-        checkedKeys.value.push(child.key);
+        if (!checkedKeys.value.includes(child.key)) checkedKeys.value.push(child.key);
       } else {
-        child.isChecked = false;
-        const index = checkedKeys.value.indexOf(child.key);
-        if (index !== -1) {
-          checkedKeys.value.splice(index, 1);
-        }
+        checkedKeys.value = checkedKeys.value.filter(key => key !== child.key);
       }
       handleNodeCheckDeep(child, checked);
     });
@@ -215,16 +205,6 @@ function getSiblings(node: TreeNodeType): TreeNodeType[] {
   return siblings
     .map((sibling: any) => nodeMap.value.get(getNodeKey(sibling)))
     .filter((sibling): sibling is TreeNodeType => sibling !== undefined && sibling.key !== node.key);
-}
-
-// 导出公共方法
-function getCheckedNodes() {
-  return checkedKeys.value
-    .map(key => {
-      const node = nodeMap.value.get(key);
-      return node ? node.data : null;
-    })
-    .filter(Boolean);
 }
 
 /**
@@ -341,18 +321,17 @@ function collapseAll(node?: TreeNodeType, deep: boolean = true) {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function filter(_value: string) {
-  // 实现过滤逻辑
-  // 暂未实现
+function deleteNode(node: TreeNodeType) {
+  const index = checkedKeys.value.indexOf(node.key);
+  if (index !== -1) {
+    checkedKeys.value.splice(index, 1);
+  }
 }
 
 // 暴露组件方法
 defineExpose({
-  getCheckedNodes,
   expandAll,
-  collapseAll,
-  filter
+  collapseAll
 });
 
 // 通过context共享状态和方法到子组件

@@ -7,14 +7,29 @@
       <t-tree :data="baseData" node-key="id" />
     </test-section>
 
-    <!-- 选择功能 -->
-    <test-section title="节点选择">
-      <t-tree :data="baseData" node-key="id" :selected="['1-1']" />
-    </test-section>
-
     <!-- 复选框功能 -->
     <test-section title="节点勾选">
-      <t-tree :data="baseData" node-key="id" checkable />
+      <t-tree ref="checkableTreeRef" :data="baseData" node-key="id" checkable @check-change="handleCheckChange" />
+      <div v-if="checkedNodes.length > 0" class="result-display mt-2">
+        <div class="result-title">已勾选节点：</div>
+        <div v-for="(node, index) in checkedNodes" :key="index" class="result-item">{{ node.label }} (ID: {{ node }})</div>
+      </div>
+    </test-section>
+
+    <!-- 严格勾选模式 -->
+    <test-section title="严格勾选模式（只返回叶子节点）">
+      <t-tree
+        ref="strictTreeRef"
+        :data="baseData"
+        node-key="id"
+        checkable
+        check-strictly
+        @check-change="handleStrictCheckChange"
+      />
+      <div v-if="strictCheckedNodes.length > 0" class="result-display mt-2">
+        <div class="result-title">已勾选叶子节点：</div>
+        <div v-for="(node, index) in strictCheckedNodes" :key="index" class="result-item">{{ node.label }} (ID: {{ node }})</div>
+      </div>
     </test-section>
 
     <!-- 禁用状态 -->
@@ -37,7 +52,7 @@
       <t-tree :data="baseData" node-key="id">
         <template #default="{ node, data }">
           <span :style="{ color: data.color || '#333' }">{{ data.label }}</span>
-          <span v-if="node.isLeaf" style="margin-left: 8px; font-size: 12px; color: #999;">(叶子节点)</span>
+          <span v-if="node.isLeaf" style="margin-left: 8px; font-size: 12px; color: #999">(叶子节点)</span>
         </template>
       </t-tree>
     </test-section>
@@ -49,7 +64,11 @@
         <t-button @click="handleCollapseAll" class="ml-2">收起全部</t-button>
         <t-button @click="handleGetSelected" class="ml-2">获取选中节点</t-button>
       </div>
-      <t-tree ref="treeRef" :data="baseData" node-key="id" show-line selectable />
+      <t-tree ref="treeRef" :data="baseData" node-key="id" selectable />
+      <div v-if="selectedNodes.length > 0" class="result-display mt-2">
+        <div class="result-title">已选中节点：</div>
+        <div v-for="(node, index) in selectedNodes" :key="index" class="result-item">{{ node.label }} (ID: {{ node.id }})</div>
+      </div>
     </test-section>
   </div>
 </template>
@@ -160,6 +179,13 @@ const disabledData = [
 
 // 方法引用
 const treeRef = ref<InstanceType<typeof TTree> | null>(null);
+const checkableTreeRef = ref<InstanceType<typeof TTree> | null>(null);
+const strictTreeRef = ref<InstanceType<typeof TTree> | null>(null);
+
+// 勾选和选中结果
+const checkedNodes = ref<any[]>([]);
+const selectedNodes = ref<any[]>([]);
+const strictCheckedNodes = ref<any[]>([]);
 
 // 处理展开全部
 function handleExpandAll() {
@@ -173,8 +199,18 @@ function handleCollapseAll() {
 
 // 获取选中节点
 function handleGetSelected() {
-  const nodes = treeRef.value?.getSelectedNodes();
-  console.log("选中的节点:", nodes);
+  selectedNodes.value = [];
+  console.log("暂无获取选中节点的方法");
+}
+
+// 处理节点勾选变化
+function handleCheckChange(_checkedKeys: string[]) {
+  checkedNodes.value = _checkedKeys;
+}
+
+// 处理严格模式下节点勾选变化
+function handleStrictCheckChange(_checkedKeys: string[]) {
+  strictCheckedNodes.value = _checkedKeys;
 }
 </script>
 
@@ -206,5 +242,30 @@ function handleGetSelected() {
   .ml-2 {
     margin-left: 8px;
   }
+
+  .mt-2 {
+    margin-top: 8px;
+  }
+
+  .result-display {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 12px;
+    margin-top: 12px;
+    max-width: 500px;
+  }
+
+  .result-title {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #334155;
+  }
+
+  .result-item {
+    padding: 4px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    color: #475569;
+  }
 }
-</style> 
+</style>

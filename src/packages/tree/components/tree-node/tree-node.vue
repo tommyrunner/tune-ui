@@ -21,6 +21,7 @@
 
       <!-- 复选框 -->
       <span v-if="checkable" class="t-tree-node__checkbox">
+        {{ props.node.isChecked }}
         <t-checkbox v-bind="checkedFn" :disabled="node.isDisabled" @change="handleCheck" @click.stop></t-checkbox>
       </span>
 
@@ -41,7 +42,6 @@
         :children="children"
         :level="level + 1"
         :indent="indent"
-        :show-line="false"
         :checkable="checkable"
         :selectable="selectable"
         :expand-on-click-node="expandOnClickNode"
@@ -59,8 +59,8 @@
 import { computed, inject } from "vue";
 import { TIcon } from "../../../icon";
 import { TCheckbox } from "../../../checkbox";
-import type { NodePropsType, TreeNode, TreeContext } from "../../tree";
-import { treeContextKey } from "../../constants";
+import type { NodePropsType, TreeNode } from "../../tree";
+import { treeContextKey, type TreeContext } from "../../constants";
 
 defineOptions({
   name: "TTreeNode"

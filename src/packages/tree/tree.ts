@@ -1,10 +1,3 @@
-// 导入Vue的Ref类型
-import type { Ref } from "vue";
-
-/**
- * @description Tree组件类型定义
- */
-
 /**
  * @description Tree组件Props类型定义
  * @interface PropsType
@@ -32,6 +25,8 @@ export interface PropsType {
   expandOnClickNode?: boolean;
   /** 是否禁用 */
   disabled?: boolean;
+  /** 是否在严格模式下勾选节点，开启后只返回叶子节点 */
+  checkStrictly?: boolean;
 }
 
 /**
@@ -62,21 +57,6 @@ export interface TreeNode {
 }
 
 /**
- * @description 树组件上下文
- * @interface TreeContext
- */
-export interface TreeContext {
-  /** 展开的节点keys */
-  expandedKeys: Ref<string[]>;
-  /** 勾选的节点keys */
-  checkedKeys: Ref<string[]>;
-  /** 处理节点展开/折叠 */
-  handleNodeExpand: (node: TreeNode, expanded: boolean) => void;
-  /** 处理节点勾选 */
-  handleNodeCheck: (node: TreeNode, checked: boolean) => void;
-}
-
-/**
  * @description 节点组件Props类型定义
  * @interface NodePropsType
  */
@@ -101,4 +81,4 @@ export interface NodePropsType {
   disabled?: boolean;
   /** 是否可选择 */
   selectable?: boolean;
-} 
+}

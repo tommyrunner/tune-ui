@@ -1,13 +1,10 @@
-import { App, Plugin } from "vue";
 import Tree from "./index.vue";
 
-export type { PropsType, TreeNode } from "./tree";
+/**
+ * @description 导出Tree组件
+ * @component TTree
+ */
+export const TTree = Tree;
 
-export const TTree: typeof Tree & Plugin = {
-  ...Tree,
-  install: (app: App) => {
-    app.component(Tree.name, Tree);
-  }
-};
-
-export default TTree; 
+// 组件类型
+export type TreeInstance = InstanceType<typeof Tree>;
