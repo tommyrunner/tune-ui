@@ -102,6 +102,21 @@ test/packages/
     "t-button--disabled": disabled
   }));
   ```
+- 响应式数据定义规则:
+  - 当组件中需要3个及以上响应式变量时，使用`reactive`统一管理，命名为`state`
+    ```typescript
+    const state = reactive({
+      loading: false,
+      visible: false,
+      selectedIndex: 0,
+      searchText: ""
+    });
+    ```
+  - 当组件中只有1-2个响应式变量时，使用`ref`独立定义
+    ```typescript
+    const visible = ref(false);
+    const count = ref(0);
+    ```
 
 ### 2.6 导入语句排序规范
 

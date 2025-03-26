@@ -3,12 +3,12 @@
     <teleport :to="props.appendTo">
       <transition :name="getTransitionName" @after-enter="animationAfterEnter" @enter="animationEnter" @leave="animationLeave">
         <div
+          v-if="(model && !props.disabled) || state.firstPosition"
           @mouseenter="onPopoverHoverEnter"
           @mouseleave="onPopoverHoverOut"
-          v-if="model && !props.disabled"
           :class="getPopoverClass"
           :style="getPopoverStyle"
-          :id="state.popoverId"
+          ref="popoverRef"
         >
           <slot name="content">
             <span>{{ props.content }}</span>
@@ -53,6 +53,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   closeOnPressOther: true
 });
 const state = reactive({
+  // 是否第一次计算位置(计算位置需要popover显示)
+  firstPosition: true,
   // 当前弹出元素
   currentEl: void 0 as Element,
   // popover标记id
@@ -159,11 +161,12 @@ const updateView = async (el?: Element) => {
   if (el) state.currentEl = el;
   await nextTick();
   const { position } = props;
-  popoverRef.value = document.body.querySelector(`#${state.popoverId}`);
   state.popoverRect = state.currentEl.getBoundingClientRect();
   state.point = getPoint(state.popoverRect, position);
   // 自动检测如果超出调整 position
   autoPosition(state.popoverRect, popoverRef.value);
+  // 标记已计算好位置
+  state.firstPosition = false;
 };
 /**
  * 自动调整 position
@@ -238,7 +241,8 @@ const mousedownHandler = () => {
  * 处理元素事件
  * @param remove 是否移出事件
  */
-const handlerEventListener = (remove = false) => {
+const handlerEventListener = async (remove = false) => {
+  await nextTick();
   const method = remove ? "removeEventListener" : "addEventListener";
   window[method]("keydown", keydownHandler);
   window[method]("mousedown", mousedownHandler);
@@ -294,6 +298,8 @@ const getPopoverStyle = computed((): StyleValue => {
   const { padding = [], boxShadow = [], radius = [], width } = props;
   return {
     pointerEvents: state.isTransitionEnterOk ? "none" : "initial",
+    // 如果第一次计算位置，则隐藏
+    visibility: state.firstPosition ? "hidden" : "visible",
     left: `${state.point.left}px`,
     top: `${state.point.top}px`,
     padding: `${fromCssVal(padding)}`,
@@ -334,7 +340,7 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position): typeof st
   if (position === "top") {
     point = {
       left: x + width / 2 - offsetWidth / 2, // 水平居中
-      top: !popoverRef.value ? y - gap : y - offsetHeight - gap
+      top: y - offsetHeight - gap
     };
   } else if (position === "right") {
     point = {
