@@ -1,0 +1,95 @@
+@import "@/styles/index.scss";
+
+.t-form-item {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  position: relative;
+  margin-bottom: 8px;
+
+  &.t-form-item--required {
+    .t-form-item__label label::before {
+      content: "*";
+      color: $theme-color-danger;
+      margin-right: 4px;
+    }
+  }
+
+  &.t-form-item--error {
+    .t-form-item__content input,
+    .t-form-item__content textarea,
+    .t-form-item__content .t-input,
+    .t-form-item__content .t-select,
+    .t-form-item__content .t-textarea {
+      border-color: $theme-color-danger;
+    }
+  }
+
+  &.t-form-item--top {
+    flex-direction: column;
+    .t-form-item__label {
+      justify-content: flex-start;
+    }
+  }
+
+  .t-form-item__label {
+    box-sizing: border-box;
+    padding-right: 16px;
+    min-width: 80px;
+    color: $text-color-default;
+    font-size: $font-size-default;
+    min-height: 32px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    label {
+      display: inline-block;
+    }
+  }
+
+  .t-form-item__content {
+    flex: 1;
+    position: relative;
+    font-size: $font-size-default;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+  }
+
+  .t-form-item__error {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    font-size: 12px;
+    color: $theme-color-danger;
+    padding-top: 2px;
+    line-height: 1;
+
+    &.t-form-item__error--inline {
+      position: relative;
+      top: auto;
+      margin-left: 8px;
+      display: inline-block;
+    }
+  }
+}
+
+.t-form--label-left .t-form-item__label {
+  justify-content: flex-start;
+}
+
+.t-form--label-right .t-form-item__label {
+  justify-content: flex-end;
+}
+
+// 过渡动画
+.t-form-item-fade-enter-active,
+.t-form-item-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.t-form-item-fade-enter-from,
+.t-form-item-fade-leave-to {
+  opacity: 0;
+}

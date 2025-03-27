@@ -35,6 +35,7 @@ import ProgressTest from "./packages/progress.vue";
 import ImageTest from "./packages/image.vue";
 import UploadTest from "./packages/upload.vue";
 import TreeTest from "./packages/tree.vue";
+import FormTest from "./packages/form.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -73,7 +74,8 @@ export const testComponents = {
   ProgressTest,
   ImageTest,
   UploadTest,
-  TreeTest
+  TreeTest,
+  FormTest
 };
 
 /** 测试组件安装器 */
@@ -120,5 +122,6 @@ export const TProgressTest = ProgressTest;
 export const TImageTest = ImageTest;
 export const TUploadTest = UploadTest;
 export const TTreeTest = TreeTest;
+export const TFormTest = FormTest;
 // 默认导出安装器
 export default installTestComponents;

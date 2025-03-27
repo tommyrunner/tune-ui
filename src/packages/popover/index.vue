@@ -57,8 +57,6 @@ const state = reactive({
   firstPosition: true,
   // 当前弹出元素
   currentEl: void 0 as Element,
-  // popover标记id
-  popoverId: "t-popover-0",
   // 需要popover的元素
   popoverRect: void 0 as DOMRect,
   // 动画标记
@@ -282,7 +280,6 @@ onDeactivated(() => {
 });
 
 onMounted(() => {
-  state.popoverId = `t-popover-${generateId()}`;
   handlerEventListener();
 });
 // 标记动画状态

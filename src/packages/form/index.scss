@@ -1,0 +1,55 @@
+@import "@/styles/index.scss";
+
+.t-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &.t-form--inline {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 14px;
+
+    .t-form-item {
+      margin-bottom: 0;
+      flex-wrap: nowrap;
+      width: auto;
+    }
+  }
+
+  &.t-form--label-left {
+    .t-form-item__label {
+      text-align: left;
+      justify-content: flex-start;
+    }
+  }
+
+  &.t-form--label-right {
+    .t-form-item__label {
+      text-align: right;
+      justify-content: flex-end;
+    }
+  }
+
+  &.t-form--label-top {
+    .t-form-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .t-form-item__label {
+      margin-bottom: 4px;
+      width: 100% !important;
+      text-align: left;
+      justify-content: flex-start;
+    }
+  }
+
+  &.t-disabled {
+    .t-form-item__content {
+      opacity: $opacity-disabled;
+      pointer-events: none;
+    }
+  }
+}

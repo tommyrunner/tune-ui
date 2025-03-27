@@ -76,7 +76,8 @@ import {
   TProgressTest,
   TImageTest,
   TUploadTest,
-  TTreeTest
+  TTreeTest,
+  TFormTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -106,6 +107,8 @@ const componentList: ComponentConfig[] = [
   { name: "TColorPickerTest", label: "ColorPicker 颜色选择器", category: ComponentCategory.Form, component: TColorPickerTest },
   { name: "TSliderTest", label: "Slider 滑块", category: ComponentCategory.Form, component: TSliderTest },
   { name: "TUploadTest", label: "Upload 上传", category: ComponentCategory.Form, component: TUploadTest },
+  { name: "TFormTest", label: "Form 表单", category: ComponentCategory.Form, component: TFormTest },
+
   // 数据展示
   { name: "TBadgeTest", label: "Badge 徽标", category: ComponentCategory.Data, component: TBadgeTest },
   { name: "TCardTest", label: "Card 卡片", category: ComponentCategory.Data, component: TCardTest },
@@ -116,7 +119,7 @@ const componentList: ComponentConfig[] = [
   { name: "TTableTest", label: "Table 表格", category: ComponentCategory.Data, component: TTableTest },
   { name: "TProgressTest", label: "Progress 进度条", category: ComponentCategory.Data, component: TProgressTest },
   { name: "TImageTest", label: "Image 图片", category: ComponentCategory.Data, component: TImageTest },
-  { name: "TTreeTest", label: "Tree 树", category: ComponentCategory.Data, component: TTreeTest },
+  { name: "TTreeTest", label: "Tree 树形控件", category: ComponentCategory.Navigation, component: TTreeTest },
 
   // 反馈组件
   { name: "TMessageTest", label: "Message 消息提示", category: ComponentCategory.Feedback, component: TMessageTest },
@@ -141,7 +144,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TTreeTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TFormTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {

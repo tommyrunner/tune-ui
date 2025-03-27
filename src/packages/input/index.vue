@@ -46,7 +46,8 @@ defineOptions({ name: "TInput" });
 const inputRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
-  debounce: undefined,
+  placeholder: "请输入",
+  debounce: void 0,
   isTip: true,
   clearable: true,
   size: configOptions.value.elSize,

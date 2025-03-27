@@ -32,6 +32,7 @@ import { TProgress } from "./progress";
 import { TImage } from "./image";
 import { TUpload } from "./upload";
 import { TTree } from "./tree";
+import { TForm, TFormItem } from "./form";
 
 const components = {
   TButton,
@@ -75,7 +76,9 @@ const components = {
   TProgress,
   TImage,
   TUpload,
-  TTree
+  TTree,
+  TForm,
+  TFormItem
 };
 // 全局组件注册
 export default {
@@ -126,3 +129,4 @@ export * from "./progress";
 export * from "./image";
 export * from "./upload";
 export * from "./tree";
+export * from "./form";
