@@ -5,13 +5,7 @@
     <!-- 基础用法 -->
     <test-section title="基础用法">
       <t-button type="primary" @click="dialogVisible1 = true">基础对话框</t-button>
-      <t-dialog
-        v-model="dialogVisible1"
-        title="基础对话框"
-        width="500px"
-        :padding="[16, 20, 16, 20]"
-        :box-shadow="[0, 2, 8, 'rgba(0, 0, 0, 0.1)']"
-      >
+      <t-dialog v-model="dialogVisible1" title="基础对话框" width="500px" :box-shadow="[0, 2, 8, 'rgba(0, 0, 0, 0.1)']">
         <div class="dialog-content">这是一个基础的对话框，展示了宽度、内边距和阴影的基本配置。</div>
       </t-dialog>
     </test-section>

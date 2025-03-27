@@ -57,6 +57,8 @@ export interface PropsType extends TipProps, BaseProps {
   showAllLevels?: boolean;
   /** 是否启用严格选择模式，开启后只能选择叶子节点 */
   checkStrictly?: boolean;
+  /** 是否可选择父级 */
+  selectParent?: boolean;
   /** 远程搜索方法(必须开启filterable) */
   remoteMethod?: (query: string) => void;
   /** 自定义过滤方法 */

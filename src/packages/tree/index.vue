@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropsType, TreeNode as TreeNodeType, EmitsType } from "./tree";
+import type { PropsType, TreeNodeType, EmitsType } from "./tree";
 import { computed, nextTick, provide, ref, watch } from "vue";
 import TreeNode from "./components/tree-node/tree-node.vue";
 import { treeContextKey, type TreeContext } from "./constants";
@@ -383,10 +383,42 @@ function getCheckedNodes() {
   }, []);
 }
 
+/**
+ * 通过key展开指定节点及其子节点
+ * @param key 节点key
+ * @param deep 是否深度展开，默认true
+ */
+function expandByKey(key?: string, deep: boolean = true) {
+  if (!key) {
+    expandAll();
+  } else {
+    const node = nodeMap.value.get(key);
+    if (node) {
+      handleNodeExpand(node, true, deep);
+    }
+  }
+}
+
+/**
+ * 通过key收起指定节点及其子节点
+ * @param key 节点key
+ * @param deep 是否深度收起，默认true
+ */
+function collapseByKey(key?: string, deep: boolean = true) {
+  if (!key) {
+    collapseAll();
+  } else {
+    const node = nodeMap.value.get(key);
+    if (node) {
+      handleNodeExpand(node, false, deep);
+    }
+  }
+}
+
 // 暴露组件方法
 defineExpose({
-  expandAll,
-  collapseAll,
+  expandByKey,
+  collapseByKey,
   getCheckedNodes
 });
 </script>

@@ -31,15 +31,15 @@ export interface PropsType {
  * @description 树节点数据结构
  * @interface TreeNode
  */
-export interface TreeNode {
+export interface TreeNodeType {
   /** 节点唯一标识 */
   key: string;
   /** 节点原始数据 */
   data: any;
   /** 父节点 */
-  parent: TreeNode | null;
+  parent: TreeNodeType | null;
   /** 子节点 */
-  children?: TreeNode[];
+  children?: TreeNodeType[];
   /** 节点层级 */
   level: number;
   /** 是否展开 */
@@ -60,7 +60,7 @@ export interface TreeNode {
  */
 export interface NodePropsType {
   /** 节点数据 */
-  node: TreeNode;
+  node: TreeNodeType;
   /** 节点Key字段 */
   nodeKey: string;
   /** 节点标签字段 */
@@ -87,9 +87,9 @@ export interface NodePropsType {
  */
 export interface EmitsType {
   /** 节点展开事件 */
-  (e: "node-expand", data: any, node: TreeNode): void;
+  (e: "node-expand", data: any, node: TreeNodeType): void;
   /** 节点折叠事件 */
-  (e: "node-collapse", data: any, node: TreeNode): void;
+  (e: "node-collapse", data: any, node: TreeNodeType): void;
   /** 节点勾选状态变化事件 */
   (e: "check-change", checkedKeys: string[]): void;
 }

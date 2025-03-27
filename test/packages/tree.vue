@@ -78,12 +78,7 @@
           </div>
           <div class="form-group">
             <label>父节点：</label>
-            <select v-model="dialogState.newNode.parentId" class="select-control" style="width: 100%">
-              <option value="">根节点</option>
-              <option v-for="node in availableParentNodes" :key="node.id" :value="node.id">
-                {{ node.label }}
-              </option>
-            </select>
+            <TSelect v-model="dialogState.newNode.parentId" :options="availableParentNodes" style="width: 100%" select-parent />
           </div>
         </div>
       </t-dialog>
@@ -99,11 +94,22 @@ import { TIcon } from "@/packages/icon";
 import { TDialog } from "@/packages/dialog";
 import { TInput } from "@/packages/input";
 import TestSection from "../components/test-section.vue";
-import { TreeNode } from "@/packages/tree/tree";
+import { TreeNodeType } from "@/packages/tree/tree";
+import { TSelect } from "@/packages/select";
 
 defineOptions({
   name: "TreeTest"
 });
+
+/**
+ * Select选项接口
+ */
+interface SelectOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+  children?: SelectOption[];
+}
 
 // 基础数据
 const baseData = reactive([
@@ -247,22 +253,27 @@ const dialogState = reactive({
   }
 });
 
-// 可用的父节点列表
+/**
+ * 递归格式化，将数据转换为select格式，保持树形结构
+ */
 const availableParentNodes = computed(() => {
-  const flatNodes: any[] = [];
-  const flattenNodes = (nodes: any[], level = 0) => {
-    nodes.forEach(node => {
-      flatNodes.push({
-        id: node.id,
-        label: "".padStart(level * 2, "　") + node.label
-      });
+  const formatData = (nodes: any[]): SelectOption[] => {
+    return nodes.map(node => {
+      const result: SelectOption = {
+        value: node.id,
+        label: node.label,
+        disabled: node.disabled
+      };
+
       if (node.children && node.children.length > 0) {
-        flattenNodes(node.children, level + 1);
+        result.children = formatData(node.children);
       }
+
+      return result;
     });
   };
-  flattenNodes(editableData);
-  return flatNodes;
+
+  return formatData(editableData);
 });
 
 // 添加节点对话框
@@ -291,23 +302,28 @@ const confirmAddNode = () => {
   if (!dialogState.newNode.parentId) {
     editableData.push(newNodeObj);
   } else {
-    // 添加到指定父节点
+    /**
+     * 递归找到指定父节点，并添加新节点
+     * @param nodes 节点列表
+     */
     const findAndAddNode = (nodes: any[]) => {
-      for (let i = 0; i < nodes.length; i++) {
-        if (nodes[i].id === dialogState.newNode.parentId) {
-          if (!nodes[i].children) {
-            nodes[i].children = [];
+      nodes.forEach(node => {
+        if (node.id === dialogState.newNode.parentId) {
+          if (node.children) {
+            node.children.push(newNodeObj);
+          } else {
+            console.log(node);
+            node.children = [newNodeObj];
           }
-          nodes[i].children.push(newNodeObj);
-          return true;
+          // 展开节点
+          editableTreeRef.value?.expandByKey();
+          // 找到后直接返回，避免继续递归
+          return;
         }
-        if (nodes[i].children && nodes[i].children.length > 0) {
-          if (findAndAddNode(nodes[i].children)) {
-            return true;
-          }
+        if (node.children && node.children.length > 0) {
+          return findAndAddNode(node.children);
         }
-      }
-      return false;
+      });
     };
     findAndAddNode(editableData);
   }
@@ -316,7 +332,7 @@ const confirmAddNode = () => {
 };
 
 // 确认删除节点
-const confirmDeleteNode = (node: TreeNode) => {
+const confirmDeleteNode = (node: TreeNodeType) => {
   if (confirm(`确定要删除节点 "${node.data.label}" 吗？`)) {
     const findAndRemoveNode = (nodes: any[]) => {
       for (let i = 0; i < nodes.length; i++) {
@@ -338,24 +354,18 @@ const confirmDeleteNode = (node: TreeNode) => {
 
 // 处理展开全部
 function handleExpandAll() {
-  treeRef.value?.expandAll();
+  // 展开第一个节点及其所有子节点
+  treeRef.value?.expandByKey();
 }
 
 // 处理收起全部
 function handleCollapseAll() {
-  treeRef.value?.collapseAll();
-}
-
-// 获取选中节点
-function handleGetSelected() {
-  // 清空数组，保持响应式
-  selectedNodes.length = 0;
-  console.log("暂无获取选中节点的方法");
+  // 收起第一个节点及其所有子节点
+  treeRef.value?.collapseByKey();
 }
 
 // 处理节点勾选变化
 function handleCheckChange(_checkedKeys: string[]) {
-  console.log(_checkedKeys);
   const nodes = checkableTreeRef.value?.getCheckedNodes();
   // 清空数组并添加新元素，保持响应式
   checkedNodes.length = 0;
@@ -463,20 +473,6 @@ function handleCheckChange(_checkedKeys: string[]) {
       outline: none;
       border-color: #409eff;
     }
-  }
-}
-
-.select-control {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #dcdfe6;
-  border-radius: 4px;
-  box-sizing: border-box;
-  background-color: #fff;
-
-  &:focus {
-    outline: none;
-    border-color: #409eff;
   }
 }
 </style>

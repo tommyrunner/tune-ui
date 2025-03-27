@@ -112,8 +112,10 @@ const maxZIndex = () => {
  * 监听model变化
  */
 watch(model, () => {
-  if (model.value && props.isModalNest) {
+  if (model.value) {
+    // 获取最大z-index
     const max = maxZIndex();
+    // 新显示的popover z-index 需要比当前最大z-index大1
     if (max >= state.zIndex) state.zIndex = max + 1;
   }
   // 抛出model改变事件

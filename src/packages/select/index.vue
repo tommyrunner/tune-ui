@@ -151,7 +151,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   filterable: false,
   multiple: false,
   showAllLevels: true,
-  checkStrictly: true
+  checkStrictly: true,
+  selectParent: false
 });
 
 /**
@@ -497,9 +498,7 @@ const handleFocus = (): void => {
  * @returns {void}
  */
 const handleBlur = (): void => {
-  setTimeout(() => {
-    state.isFocused = false;
-  }, 100);
+  state.isFocused = false;
 };
 
 /**
@@ -509,8 +508,8 @@ const handleBlur = (): void => {
 const handleClose = (): void => {
   state.filterText = null;
 
-  // 如果级联面板处于打开状态且启用严格选择模式
-  if (state.showCascadePanel && props.checkStrictly) {
+  // 如果级联面板处于打开状态且启用严格选择模式，且不允许选择父级
+  if (state.showCascadePanel && props.checkStrictly && !props.selectParent) {
     // 检查当前选中值是否为父节点
     const hasLeafNodeSelected = checkHasSelectedLeafNode();
 
