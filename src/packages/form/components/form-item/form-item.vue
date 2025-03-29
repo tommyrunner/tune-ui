@@ -4,6 +4,12 @@
       <label :for="labelId" v-if="label || $slots.label">
         <slot name="label">{{ label }}</slot>
       </label>
+      <!-- top格式时tip显示 -->
+      <div v-if="props.tip && formContext?.labelPosition === 'top'" class="t-form-item__tip">
+        <t-popover trigger="hover" :content="props.tip">
+          <t-icon color="#999" icon="help" :size="16" />
+        </t-popover>
+      </div>
     </div>
     <div class="t-form-item__content">
       <slot></slot>
@@ -12,6 +18,12 @@
           <slot name="error">{{ state.validateMessage }}</slot>
         </div>
       </transition>
+    </div>
+    <!-- 非top格式时tip显示 -->
+    <div v-if="props.tip && formContext?.labelPosition !== 'top'" class="t-form-item__tip">
+      <t-popover trigger="hover" :content="props.tip">
+        <t-icon color="#999" icon="help" :size="16" />
+      </t-popover>
     </div>
   </div>
 </template>
@@ -23,6 +35,8 @@ import type { FormItemPropsType, FormItemValidateState, FormItemState } from "./
 import { formKey } from "../../constants";
 import { generateId } from "@/utils";
 import { isNullOrUnDef, isString, isFunction, isArray, isValue } from "@/utils/is";
+import { TPopover } from "@/packages/popover";
+import { TIcon } from "@/packages/icon";
 
 defineOptions({
   name: "TFormItem"
@@ -34,7 +48,8 @@ const props = withDefaults(defineProps<FormItemPropsType>(), {
   required: void 0,
   showMessage: void 0,
   inlineMessage: void 0,
-  validateStatus: void 0
+  validateStatus: void 0,
+  tip: void 0
 });
 
 // 定义事件
@@ -46,7 +61,7 @@ const emit = defineEmits<{
 const $slots = useSlots();
 
 // 注入表单上下文
-const form = inject<FormContextType>(formKey, undefined);
+const formContext = inject<FormContextType>(formKey, undefined);
 
 // 使用reactive管理表单项状态
 const state = reactive<FormItemState>({
@@ -62,17 +77,13 @@ const labelId = generateId();
 /**
  * 计算表单项类名
  */
-const formItemClasses = computed(() => {
-  return [
-    {
-      "t-form-item--required": isRequired.value,
-      "t-form-item--error": state.validateState === "error",
-      "t-form-item--validating": state.validateState === "validating",
-      "t-form-item--success": state.validateState === "success",
-      "t-form-item--top": form?.labelPosition === "top"
-    }
-  ];
-});
+const formItemClasses = computed(() => ({
+  "t-form-item--required": isRequired.value,
+  "t-form-item--error": state.validateState === "error",
+  "t-form-item--validating": state.validateState === "validating",
+  "t-form-item--success": state.validateState === "success",
+  "t-form-item--top": formContext?.labelPosition === "top"
+}));
 
 // 是否有标签
 const hasLabel = computed(() => {
@@ -81,7 +92,7 @@ const hasLabel = computed(() => {
 
 // 最终的标签宽度
 const finalLabelWidth = computed(() => {
-  const width = props.labelWidth || form?.labelWidth;
+  const width = props.labelWidth || formContext?.labelWidth;
   if (!width) return "auto";
   return isString(width) && width.includes("px") ? width : `${width}px`;
 });
@@ -92,7 +103,7 @@ const isRequired = computed(() => {
     return props.required;
   }
 
-  if (!props.rules && !form?.rules) return false;
+  if (!props.rules && !formContext?.rules) return false;
 
   const rules = getFieldRules();
   return rules.some(rule => rule.required);
@@ -103,13 +114,13 @@ const showInlineError = computed(() => {
   if (props.inlineMessage !== undefined) {
     return props.inlineMessage;
   }
-  return form?.inlineMessage || false;
+  return formContext?.inlineMessage || false;
 });
 
 // 是否应该显示错误信息
 const shouldShowError = computed(() => {
   if (props.showMessage === false) return false;
-  if (form?.showMessage === false) return false;
+  if (formContext?.showMessage === false) return false;
   return state.validateState === "error" && state.validateMessage;
 });
 
@@ -117,11 +128,11 @@ const shouldShowError = computed(() => {
  * 获取表单项的字段值
  */
 const fieldValue = computed(() => {
-  if (!form?.model || !props.prop) return undefined;
+  if (!formContext?.model || !props.prop) return undefined;
 
   // 支持嵌套路径，如 'user.name'
   const paths = props.prop.split(".");
-  let value: any = form.model;
+  let value: any = formContext.model;
 
   for (const path of paths) {
     if (isNullOrUnDef(value)) return undefined;
@@ -132,23 +143,29 @@ const fieldValue = computed(() => {
 });
 
 /**
+ * 将规则转为数组
+ */
+const normalizeRules = (rules: FormItemRule | FormItemRule[] | undefined): FormItemRule[] => {
+  if (!rules) return [];
+  return isArray(rules) ? rules : [rules];
+};
+
+/**
  * 获取字段校验规则
  */
 const getFieldRules = () => {
-  const formRules = form?.rules;
+  const formRules = formContext?.rules;
   const selfRules = props.rules;
-
   const rules: FormItemRule[] = [];
 
+  // 添加表单级别规则
   if (formRules && props.prop) {
-    const _rules = formRules[props.prop];
-    if (_rules) {
-      rules.push(...(isArray(_rules) ? _rules : [_rules]));
-    }
+    rules.push(...normalizeRules(formRules[props.prop]));
   }
 
+  // 添加字段级别规则
   if (selfRules) {
-    rules.push(...(isArray(selfRules) ? selfRules : [selfRules]));
+    rules.push(...normalizeRules(selfRules));
   }
 
   return rules;
@@ -165,11 +182,6 @@ const validate = async (trigger?: FormItemTrigger): FormValidateResult => {
   if (rules.length === 0) return Promise.resolve(true);
 
   const value: any = fieldValue.value;
-
-  // 记录初始值
-  if (isNullOrUnDef(state.initialValue)) {
-    state.initialValue = value;
-  }
 
   // 设置校验状态为校验中
   state.validateState = "validating";
@@ -250,15 +262,11 @@ const validate = async (trigger?: FormItemTrigger): FormValidateResult => {
  * 重置表单项
  */
 const resetField = () => {
-  if (!props.prop || !form?.model) return;
-
-  state.validateState = "";
-  state.validateMessage = "";
-  state.isValidating = false;
+  if (!props.prop || !formContext?.model) return;
 
   // 支持嵌套路径，如 'user.name'
   const paths = props.prop.split(".");
-  let model = form.model;
+  let model = formContext.model;
 
   // 设置值为初始值
   if (paths.length > 1) {
@@ -273,6 +281,9 @@ const resetField = () => {
   } else {
     model[props.prop] = state.initialValue;
   }
+
+  // 清除验证状态
+  clearValidate();
 };
 
 /**
@@ -287,7 +298,12 @@ const clearValidate = () => {
 // 向表单注册和注销表单项
 onMounted(() => {
   if (props.prop) {
-    form?.addField({
+    // 记录初始值
+    if (fieldValue.value !== undefined) {
+      state.initialValue = fieldValue.value;
+    }
+
+    formContext?.addField({
       prop: props.prop,
       validateState: state.validateState,
       validate,
@@ -314,7 +330,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (props.prop) {
-    form?.removeField({
+    formContext?.removeField({
       prop: props.prop,
       validateState: state.validateState,
       validate,

@@ -66,21 +66,27 @@
       </t-tree>
 
       <!-- 使用TDialog组件 -->
-      <t-dialog v-model="dialogState.showDialog" title="添加节点" width="400px" @confirm="confirmAddNode">
-        <div class="dialog-body">
-          <div class="form-group">
-            <label>节点ID：</label>
-            <t-input v-model="dialogState.newNode.id" type="text" placeholder="请输入节点ID" style="width: 100%" />
-          </div>
-          <div class="form-group">
-            <label>节点标签：</label>
-            <t-input v-model="dialogState.newNode.label" type="text" placeholder="请输入节点标签" style="width: 100%" />
-          </div>
-          <div class="form-group">
-            <label>父节点：</label>
-            <TSelect v-model="dialogState.newNode.parentId" :options="availableParentNodes" style="width: 100%" select-parent />
-          </div>
-        </div>
+      <t-dialog v-model="dialogState.showDialog" title="添加节点" width="400px">
+        <t-form :model="dialogState.newNode" :rules="nodeFormRules" ref="nodeFormRef" @submit="confirmAddNode">
+          <t-form-item label="节点ID" prop="id" tip="输入唯一的节点标识符">
+            <t-input v-model="dialogState.newNode.id" placeholder="请输入节点ID" />
+          </t-form-item>
+          <t-form-item label="节点标签" prop="label" tip="输入节点显示的文本">
+            <t-input v-model="dialogState.newNode.label" placeholder="请输入节点标签" />
+          </t-form-item>
+          <t-form-item label="父节点" prop="parentId" tip="选择新节点的父节点">
+            <t-select
+              v-model="dialogState.newNode.parentId"
+              :options="availableParentNodes"
+              :clearable="true"
+              :select-parent="true"
+              placeholder="不选择则添加为根节点"
+            />
+          </t-form-item>
+        </t-form>
+        <template #footer>
+          <div></div>
+        </template>
       </t-dialog>
     </test-section>
   </div>
@@ -93,9 +99,12 @@ import { TButton } from "@/packages/button";
 import { TIcon } from "@/packages/icon";
 import { TDialog } from "@/packages/dialog";
 import { TInput } from "@/packages/input";
+import { TForm, TFormItem } from "@/packages/form";
 import TestSection from "../components/test-section.vue";
 import { TreeNodeType } from "@/packages/tree/tree";
 import { TSelect } from "@/packages/select";
+import type { FormItemRule, FormItemTrigger } from "@/packages/form/form";
+import type { TFormType } from "@/packages/form";
 
 defineOptions({
   name: "TreeTest"
@@ -253,6 +262,18 @@ const dialogState = reactive({
   }
 });
 
+// 表单引用
+const nodeFormRef = ref<TFormType>();
+
+// 表单验证规则
+const nodeFormRules = {
+  id: [
+    { required: true, message: "请输入节点ID", trigger: "blur" as FormItemTrigger },
+    { pattern: /^[a-zA-Z0-9_-]+$/, message: "ID只能包含字母、数字、下划线和连字符", trigger: "blur" as FormItemTrigger }
+  ],
+  label: [{ required: true, message: "请输入节点标签", trigger: "blur" as FormItemTrigger }]
+} as Record<string, FormItemRule[]>;
+
 /**
  * 递归格式化，将数据转换为select格式，保持树形结构
  */
@@ -287,17 +308,19 @@ const showAddNodeDialog = () => {
 };
 
 // 确认添加节点
-const confirmAddNode = () => {
-  if (!dialogState.newNode.id || !dialogState.newNode.label) {
-    alert("节点ID和标签不能为空");
-    return;
-  }
+const confirmAddNode = async () => {
+  // 校验表单
+  if (!nodeFormRef.value) return;
+
+  const valid = await nodeFormRef.value.validate();
+  if (!valid) return;
 
   const newNodeObj = {
     id: dialogState.newNode.id,
     label: dialogState.newNode.label,
     children: []
   };
+
   // 添加到根节点
   if (!dialogState.newNode.parentId) {
     editableData.push(newNodeObj);
@@ -312,7 +335,6 @@ const confirmAddNode = () => {
           if (node.children) {
             node.children.push(newNodeObj);
           } else {
-            console.log(node);
             node.children = [newNodeObj];
           }
           // 展开节点
@@ -329,6 +351,9 @@ const confirmAddNode = () => {
   }
 
   dialogState.showDialog = false;
+
+  // 重置表单
+  nodeFormRef.value.resetFields();
 };
 
 // 确认删除节点
@@ -450,29 +475,6 @@ function handleCheckChange(_checkedKeys: string[]) {
 
   &:hover .delete-btn {
     opacity: 1;
-  }
-}
-
-.form-group {
-  margin-bottom: 16px;
-
-  label {
-    display: block;
-    margin-bottom: 8px;
-  }
-
-  input,
-  select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #dcdfe6;
-    border-radius: 4px;
-    box-sizing: border-box;
-
-    &:focus {
-      outline: none;
-      border-color: #409eff;
-    }
   }
 }
 </style>

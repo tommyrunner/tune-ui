@@ -49,7 +49,7 @@
           <t-button size="small">操作按钮</t-button>
         </template>
         <div class="card-content">卡片主体内容</div>
-        <template #foot>
+        <template #footer>
           <div class="custom-footer">
             <span>自定义底部内容</span>
             <t-button type="primary" size="small">确认</t-button>

@@ -3,28 +3,28 @@
 // 时间选择面板样式（移到最外层）
 ._time-panel-wrapper {
   padding: 12px;
-  
+
   ._time-lists-container {
     display: flex;
     gap: 8px;
     margin-bottom: 12px;
-    
+
     ._time-list-column {
       flex: 1;
       min-width: 60px;
-      
+
       ._time-column-title {
         text-align: center;
         margin-bottom: 8px;
         font-size: $font-size-small;
         color: $text-color-default;
       }
-      
+
       ._time-list {
         height: 200px;
         border: 1px solid $border-color-default;
         border-radius: 4px;
-        
+
         ._time-item {
           height: 36px;
           display: flex;
@@ -33,11 +33,11 @@
           cursor: pointer;
           transition: 0.22s;
           padding: 0 8px;
-          
+
           &:hover {
             background-color: $bg-color-hover;
           }
-          
+
           &._selected {
             color: $theme-color-primary;
             font-weight: 500;
@@ -47,12 +47,12 @@
       }
     }
   }
-  
+
   ._time-actions {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    
+
     ._time-btn {
       padding: 4px 12px;
       border-radius: 4px;
@@ -60,16 +60,16 @@
       background-color: $bg-color-default;
       cursor: pointer;
       transition: 0.22s;
-      
+
       &:hover {
         background-color: $bg-color-hover;
       }
-      
+
       &._confirm {
         background-color: $theme-color-primary;
         color: $color-white;
         border-color: $theme-color-primary;
-        
+
         &:hover {
           opacity: 0.9;
         }
@@ -104,7 +104,7 @@
         display: flex;
         align-items: center;
         gap: 6px;
-        
+
         &._centered {
           width: 100%;
           justify-content: center;

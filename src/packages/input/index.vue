@@ -11,6 +11,7 @@
       :placeholder="props.placeholder"
       :disabled="props.disabled"
       :maxlength="props.maxLength"
+      :autocomplete="props.autocomplete"
       @focus="emit('focus', model)"
       @blur="emit('blur', model)"
       @keyup.enter="emit('enter', model)"
@@ -52,7 +53,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   clearable: true,
   size: configOptions.value.elSize,
   disabled: false,
-  debounceDelay: 1000
+  debounceDelay: 1000,
+  autocomplete: "off"
 });
 
 const model = defineModel<string>();

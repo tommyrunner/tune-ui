@@ -23,6 +23,8 @@ export interface PropsType extends BaseProps {
   disabled?: boolean;
   /** 是否启用缩放效果 */
   scale?: boolean;
+  /** 按钮类型 */
+  htmlType?: "button" | "submit" | "reset";
 }
 
 /**

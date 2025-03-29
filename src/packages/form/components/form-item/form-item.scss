@@ -2,10 +2,11 @@
 
 .t-form-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  gap: 12px;
 
   &.t-form-item--required {
     .t-form-item__label label::before {
@@ -29,12 +30,17 @@
     flex-direction: column;
     .t-form-item__label {
       justify-content: flex-start;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
   }
-
-  .t-form-item__label {
+  &__tip {
+    cursor: pointer;
+  }
+  &__label {
     box-sizing: border-box;
-    padding-right: 16px;
     min-width: 80px;
     color: $text-color-default;
     font-size: $font-size-default;
@@ -47,17 +53,20 @@
       display: inline-block;
     }
   }
-
-  .t-form-item__content {
+  &__content {
     flex: 1;
+    width: 100%;
     position: relative;
     font-size: $font-size-default;
     min-height: 32px;
     display: flex;
     align-items: center;
+    > * {
+      width: 100% !important;
+    }
   }
 
-  .t-form-item__error {
+  &__error {
     position: absolute;
     left: 0;
     top: 100%;
@@ -86,10 +95,13 @@
 // 过渡动画
 .t-form-item-fade-enter-active,
 .t-form-item-fade-leave-active {
-  transition: opacity 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
 }
 
 .t-form-item-fade-enter-from,
 .t-form-item-fade-leave-to {
   opacity: 0;
+  transform: translateY(-10px);
 }

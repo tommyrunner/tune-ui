@@ -1,5 +1,5 @@
 <template>
-  <button :class="buttonClasses" :style="buttonStyles" @click="handleClick">
+  <button :class="buttonClasses" :style="buttonStyles" @click="handleClick" :type="props.htmlType">
     <t-icon v-if="props.prefixIcon" :icon="props.prefixIcon" :size="ICON_SIZES[props.size]" class="_prefixIcon" />
     <slot />
     <t-icon
@@ -39,7 +39,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   loading: false,
   radius: "default",
   disabled: false,
-  scale: true
+  scale: true,
+  htmlType: "button"
 });
 
 /**

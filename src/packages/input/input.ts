@@ -16,6 +16,8 @@ export interface PropsType extends BaseProps, TipProps {
   debounce?: (data?: string) => void;
   /** 防抖延迟时间(ms) */
   debounceDelay?: number;
+  /** 自动补全 */
+  autocomplete?: "off" | "on";
 }
 /**
  * @description: 组件emit类型

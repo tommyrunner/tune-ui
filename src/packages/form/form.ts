@@ -46,21 +46,23 @@ export type FormValidateCallback = (isValid: boolean, invalidFields?: Record<str
 export interface FormStateType {
   /** 表单项实例数组 */
   fields: FormItemInstance[];
+  /** 是否正在提交 */
+  submitting: boolean;
 }
 
 /**
- * @description 表单组件Props类型
+ * @description 表单Props类型定义
  */
-export interface FormPropsType extends BaseProps {
+export interface FormPropsType {
   /** 表单数据对象 */
-  model?: Record<string, any>;
-  /** 表单校验规则 */
-  rules?: Record<string, FormItemRule | FormItemRule[]>;
-  /** 标签宽度 */
-  labelWidth?: string | number;
-  /** 标签位置 */
+  model: Record<string, any>;
+  /** 表单验证规则 */
+  rules?: Record<string, FormItemRule[]>;
+  /** 标签的位置 */
   labelPosition?: "right" | "left" | "top";
-  /** 是否行内表单 */
+  /** 标签的宽度 */
+  labelWidth?: string | number;
+  /** 是否为行内表单 */
   inline?: boolean;
   /** 是否禁用表单 */
   disabled?: boolean;
@@ -68,10 +70,20 @@ export interface FormPropsType extends BaseProps {
   hideRequiredAsterisk?: boolean;
   /** 是否显示校验错误信息 */
   showMessage?: boolean;
-  /** 是否在行内显示校验信息 */
+  /** 是否以行内形式展示校验信息 */
   inlineMessage?: boolean;
-  /** 是否滚动到第一个错误字段 */
+  /** 是否在提交时滚动到错误位置 */
   scrollToError?: boolean;
+  /** 提交按钮文本 */
+  submitText?: string;
+  /** 重置按钮文本 */
+  resetText?: string;
+  /** 是否显示默认的底部按钮 */
+  showDefaultFooter?: boolean;
+  /** 提交回调 */
+  onSubmit?: () => void | Promise<void>;
+  /** 重置回调 */
+  onReset?: () => void;
 }
 
 /**
@@ -117,25 +129,7 @@ export interface FormItemStateType {
 /**
  * @description 表单上下文类型
  */
-export interface FormContextType {
-  /** 表单数据对象 */
-  model?: Record<string, any>;
-  /** 表单校验规则 */
-  rules?: Record<string, FormItemRule | FormItemRule[]>;
-  /** 标签宽度 */
-  labelWidth?: string | number;
-  /** 标签位置 */
-  labelPosition: "right" | "left" | "top";
-  /** 是否行内表单 */
-  inline: boolean;
-  /** 是否禁用表单 */
-  disabled: boolean;
-  /** 是否隐藏必填星号 */
-  hideRequiredAsterisk: boolean;
-  /** 是否显示校验错误信息 */
-  showMessage: boolean;
-  /** 是否在行内显示校验信息 */
-  inlineMessage: boolean;
+export interface FormContextType extends Omit<FormPropsType, "onSubmit" | "onReset"> {
   /** 校验表单 */
   validate: (callback?: FormValidateCallback) => FormValidateResult;
   /** 校验特定表单字段 */

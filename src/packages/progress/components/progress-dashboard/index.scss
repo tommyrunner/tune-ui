@@ -28,7 +28,9 @@ $progress-dashboard-bg: #f5f5f5 !default;
     stroke: $theme-color-primary;
     fill: none;
     stroke-linecap: round;
-    transition: stroke-dashoffset 0.6s ease, stroke 0.3s ease;
+    transition:
+      stroke-dashoffset 0.6s ease,
+      stroke 0.3s ease;
     will-change: stroke-dashoffset, stroke;
   }
 
@@ -55,4 +57,4 @@ $progress-dashboard-bg: #f5f5f5 !default;
 
 .t-progress--exception .t-progress-dashboard__path {
   stroke: $theme-color-danger;
-} 
+}

@@ -33,7 +33,7 @@
           <slot />
         </div>
         <div class="_foot" :style="footStyle" v-if="props.isFoot">
-          <slot name="foot">
+          <slot name="footer">
             <div class="_btn">
               <TButton :type="props.cancelType" @click="handleSubmit(true)">{{ props.cancelText }}</TButton>
               <TButton :type="props.confirmType" @click="handleSubmit(false)">

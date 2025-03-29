@@ -11,13 +11,13 @@ $tree-empty-color: #c0c4cc;
   font-size: 14px;
   color: #303133;
   background-color: $tree-bg-color;
-  
+
   &__empty {
     padding: 20px 0;
     color: $tree-empty-color;
     text-align: center;
   }
-  
+
   &__wrapper {
     position: relative;
   }

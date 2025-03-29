@@ -38,6 +38,8 @@ export interface FormItemPropsType {
   size?: "large" | "default" | "small";
   /** 验证状态 */
   validateStatus?: FormItemValidateState;
+  /** 字段提示信息 */
+  tip?: string;
 }
 
 /**

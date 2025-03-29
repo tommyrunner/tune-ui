@@ -161,7 +161,7 @@
     justify-content: center;
     align-items: center;
     background-color: $color-white;
-    
+
     &.selected {
       background-color: $theme-color-primary;
       color: $color-white;
@@ -184,11 +184,12 @@
       background-color: $bg-color-hover;
     }
   }
-  
+
   // 确保月份和年份单元格也有正确的样式
-  ._month, ._year {
+  ._month,
+  ._year {
     cursor: pointer;
-    
+
     &._selected {
       background-color: $theme-color-primary;
       color: $color-white;

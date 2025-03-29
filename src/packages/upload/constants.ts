@@ -11,4 +11,4 @@ export const uploadKey: InjectionKey<UploadContextType> = Symbol("uploadKey");
  * @description 拖拽上传组件注入键
  * @type {InjectionKey<UploadDraggerContextType>}
  */
-export const uploadDraggerKey: InjectionKey<UploadDraggerContextType> = Symbol("uploadDraggerKey"); 
+export const uploadDraggerKey: InjectionKey<UploadDraggerContextType> = Symbol("uploadDraggerKey");

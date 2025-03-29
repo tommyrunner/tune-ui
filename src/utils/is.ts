@@ -2,14 +2,14 @@
  * @description: 判断值是否未某个类型
  */
 export function is(val: unknown, type: string) {
-  return Object.prototype.toString.call(val) === `[object ${type}]`;
+  return Object.prototype.toString.call(val).toLowerCase() === `[object ${type.toLowerCase()}]`;
 }
 
 /**
  * @description:  是否为函数
  */
 export function isFunction<T = Function>(val: unknown): val is T {
-  return is(val, "Function");
+  return is(val, "function") || is(val, "asyncfunction");
 }
 
 /**
@@ -30,49 +30,49 @@ export const isUnDef = <T = unknown>(val?: T): val is T => {
  * @description: 是否为对象
  */
 export const isObject = (val: any): val is Record<any, any> => {
-  return val !== null && is(val, "Object");
+  return val !== null && is(val, "object");
 };
 
 /**
  * @description:  是否为时间
  */
 export function isDate(val: unknown): val is Date {
-  return is(val, "Date");
+  return is(val, "date");
 }
 
 /**
  * @description:  是否为数值
  */
 export function isNumber(val: unknown): val is number {
-  return is(val, "Number");
+  return is(val, "number");
 }
 
 /**
  * @description:  是否为AsyncFunction
  */
 export function isAsyncFunction<T = any>(val: unknown): val is Promise<T> {
-  return is(val, "AsyncFunction");
+  return is(val, "asyncfunction");
 }
 
 /**
  * @description:  是否为promise
  */
 export function isPromise<T = any>(val: unknown): val is Promise<T> {
-  return is(val, "Promise") && isObject(val) && isFunction(val.then) && isFunction(val.catch);
+  return is(val, "promise") && isObject(val) && isFunction(val.then) && isFunction(val.catch);
 }
 
 /**
  * @description:  是否为字符串
  */
 export function isString(val: unknown): val is string {
-  return is(val, "String");
+  return is(val, "string");
 }
 
 /**
  * @description:  是否为boolean类型
  */
 export function isBoolean(val: unknown): val is boolean {
-  return is(val, "Boolean");
+  return is(val, "boolean");
 }
 /**
  * @description:  是否为 Float 类型
@@ -99,7 +99,7 @@ export const isClient = () => {
  * @description: 是否为浏览器
  */
 export const isWindow = (val: any): val is Window => {
-  return typeof window !== "undefined" && is(val, "Window");
+  return typeof window !== "undefined" && is(val, "window");
 };
 
 /**

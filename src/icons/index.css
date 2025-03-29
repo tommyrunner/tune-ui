@@ -1,9 +1,10 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4425231 */
-  src: url('iconfont.woff2?t=1741838365796') format('woff2'),
-       url('iconfont.woff?t=1741838365796') format('woff'),
-       url('iconfont.ttf?t=1741838365796') format('truetype'),
-       url('iconfont.svg?t=1741838365796#iconfont') format('svg');
+  src:
+    url("iconfont.woff2?t=1741838365796") format("woff2"),
+    url("iconfont.woff?t=1741838365796") format("woff"),
+    url("iconfont.ttf?t=1741838365796") format("truetype"),
+    url("iconfont.svg?t=1741838365796#iconfont") format("svg");
 }
 
 .iconfont {
@@ -849,4 +850,3 @@
 .icon-file-reduce:before {
   content: "\e68c";
 }
-

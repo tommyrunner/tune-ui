@@ -27,7 +27,9 @@ $progress-circle-text-color: $text-color-default !default;
     stroke: $theme-color-primary;
     fill: none;
     stroke-linecap: round;
-    transition: stroke-dashoffset 0.6s ease, stroke 0.3s ease;
+    transition:
+      stroke-dashoffset 0.6s ease,
+      stroke 0.3s ease;
     will-change: stroke-dashoffset, stroke;
   }
 
@@ -53,4 +55,4 @@ $progress-circle-text-color: $text-color-default !default;
 
 .t-progress--exception .t-progress-circle__path {
   stroke: $theme-color-danger;
-} 
+}

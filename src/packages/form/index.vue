@@ -1,13 +1,28 @@
 <template>
-  <form class="t-form" :class="formClasses" @submit.prevent>
+  <form class="t-form" :class="formClasses" @submit.prevent="handleSubmit">
     <slot></slot>
+    <div v-if="showDefaultFooter" class="t-form__footer">
+      <slot name="footer">
+        <t-button type="primary" html-type="submit" :loading="state.submitting">{{ submitText }}</t-button>
+        <t-button html-type="button" @click="handleReset" style="margin-left: 10px">{{ resetText }}</t-button>
+      </slot>
+    </div>
   </form>
 </template>
 
 <script lang="ts" setup>
-import type { FormPropsType, FormItemInstance, FormValidateResult, FormValidateCallback, FormStateType } from "./form";
-import { reactive, provide, computed } from "vue";
+import type {
+  FormPropsType,
+  FormItemInstance,
+  FormValidateResult,
+  FormValidateCallback,
+  FormStateType,
+  FormContextType
+} from "./form";
+import { reactive, provide, computed, useSlots } from "vue";
 import { formKey } from "./constants";
+import { TButton } from "@/packages/button";
+import { isFunction } from "@/utils/is";
 
 defineOptions({
   name: "TForm"
@@ -21,63 +36,48 @@ const props = withDefaults(defineProps<FormPropsType>(), {
   hideRequiredAsterisk: false,
   showMessage: true,
   inlineMessage: false,
-  scrollToError: false
+  scrollToError: false,
+  submitText: "提交",
+  resetText: "重置",
+  showDefaultFooter: true
 });
 
-// 使用reactive统一管理状态
+// 表单状态管理
 const state = reactive<FormStateType>({
-  fields: []
+  fields: [],
+  submitting: false
 });
 
-/**
- * 计算表单类名
- */
-const formClasses = computed(() => {
-  return [
-    {
-      "t-form--inline": props.inline,
-      "t-form--label-left": props.labelPosition === "left",
-      "t-form--label-right": props.labelPosition === "right",
-      "t-form--label-top": props.labelPosition === "top",
-      "t-disabled": props.disabled
-    }
-  ];
-});
+// 计算表单类名
+const formClasses = computed(() => ({
+  "t-form--inline": props.inline,
+  [`t-form--label-${props.labelPosition}`]: true,
+  "t-disabled": props.disabled
+}));
 
-/**
- * 添加表单项实例
- * @param {FormItemInstance} field - 表单项实例
- */
+// 检查是否有自定义footer插槽
+const slots = useSlots();
+const showDefaultFooter = computed(() => props.showDefaultFooter && !slots.footer);
+
+// 添加表单项
 const addField = (field: FormItemInstance) => {
   state.fields.push(field);
 };
 
-/**
- * 移除表单项实例
- * @param {FormItemInstance} field - 表单项实例
- */
+// 移除表单项
 const removeField = (field: FormItemInstance) => {
   if (field.prop) {
     state.fields = state.fields.filter(item => item.prop !== field.prop);
   }
 };
 
-/**
- * 校验整个表单
- * @param {FormValidateCallback} callback - 校验回调函数
- * @returns {FormValidateResult} 校验结果Promise
- */
-const validate = async (callback?: FormValidateCallback): FormValidateResult => {
-  if (!props.model) {
-    return Promise.resolve(true);
-  }
-
+// 执行字段验证的通用方法
+const validateFields = async (fields: FormItemInstance[]): Promise<[boolean, Record<string, any>]> => {
   let valid = true;
   const invalidFields: Record<string, any> = {};
 
-  // 所有表单项验证
-  const validateResults = await Promise.all(
-    state.fields.map(field => {
+  await Promise.all(
+    fields.map(field => {
       return field.validate().then(
         () => true,
         error => {
@@ -89,24 +89,33 @@ const validate = async (callback?: FormValidateCallback): FormValidateResult => 
     })
   );
 
+  return [valid, invalidFields];
+};
+
+// 校验表单
+const validate = async (callback?: FormValidateCallback): FormValidateResult => {
+  if (!props.model) {
+    return Promise.resolve(true);
+  }
+
+  const [valid, invalidFields] = await validateFields(state.fields);
+
   // 如果需要滚动到错误字段
   if (props.scrollToError && !valid) {
-    scrollToFirstError();
+    const errorField = state.fields.find(field => field.validateState === "error");
+    if (errorField) {
+      const errorElement = document.querySelector(`[data-prop="${errorField.prop}"]`);
+      if (errorElement) {
+        errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
   }
 
-  if (callback) {
-    callback(valid, invalidFields);
-  }
-
+  callback?.(valid, invalidFields);
   return valid;
 };
 
-/**
- * 校验特定表单字段
- * @param {string | string[]} props - 字段名或字段名数组
- * @param {FormValidateCallback} callback - 校验回调函数
- * @returns {FormValidateResult} 校验结果Promise
- */
+// 校验特定表单字段
 const validateField = async (fieldProps: string | string[], callback?: FormValidateCallback): FormValidateResult => {
   const propsArray = Array.isArray(fieldProps) ? fieldProps : [fieldProps];
   const fieldsToValidate = state.fields.filter(field => propsArray.includes(field.prop));
@@ -115,45 +124,23 @@ const validateField = async (fieldProps: string | string[], callback?: FormValid
     return Promise.resolve(true);
   }
 
-  let valid = true;
-  const invalidFields: Record<string, any> = {};
-
-  const validateResults = await Promise.all(
-    fieldsToValidate.map(field => {
-      return field.validate().then(
-        () => true,
-        error => {
-          valid = false;
-          invalidFields[field.prop] = error;
-          return false;
-        }
-      );
-    })
-  );
-
-  if (callback) {
-    callback(valid, invalidFields);
-  }
-
+  const [valid, invalidFields] = await validateFields(fieldsToValidate);
+  callback?.(valid, invalidFields);
   return valid;
 };
 
-/**
- * 重置表单
- */
+// 重置表单
 const resetFields = () => {
-  if (!props.model) {
-    return;
+  if (!props.model) return;
+
+  state.fields.forEach(field => field.resetField());
+
+  if (isFunction(props.onReset)) {
+    props.onReset();
   }
-  state.fields.forEach(field => {
-    field.resetField();
-  });
 };
 
-/**
- * 清除校验
- * @param {string | string[]} props - 字段名或字段名数组
- */
+// 清除校验
 const clearValidate = (fieldProps?: string | string[]) => {
   const fieldsToValidate = fieldProps
     ? state.fields.filter(field => {
@@ -162,26 +149,32 @@ const clearValidate = (fieldProps?: string | string[]) => {
       })
     : state.fields;
 
-  fieldsToValidate.forEach(field => {
-    field.clearValidate();
-  });
+  fieldsToValidate.forEach(field => field.clearValidate());
 };
 
-/**
- * 滚动到第一个错误字段
- */
-const scrollToFirstError = () => {
-  const errorField = state.fields.find(field => field.validateState === "error");
-  if (errorField) {
-    const errorElement = document.querySelector(`[data-prop="${errorField.prop}"]`);
-    if (errorElement) {
-      errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+// 处理提交
+const handleSubmit = async () => {
+  if (state.submitting) return;
+
+  state.submitting = true;
+  try {
+    const valid = await validate();
+    if (valid && isFunction(props.onSubmit)) {
+      await props.onSubmit();
     }
+  } finally {
+    state.submitting = false;
   }
 };
 
-// 向子组件提供表单上下文 - 直接结构props而非使用reactive包装
-provide(formKey, {
+// 处理重置
+const handleReset = () => {
+  resetFields();
+  state.submitting = false;
+};
+
+// 提供表单上下文
+provide<FormContextType>(formKey, {
   ...props,
   validate,
   validateField,

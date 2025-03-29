@@ -127,7 +127,7 @@
 
         <div class="drawer-content">自定义内容区域</div>
 
-        <template #foot>
+        <template #footer>
           <div class="custom-footer">
             <t-button type="text">返回</t-button>
             <t-button type="primary">确定</t-button>

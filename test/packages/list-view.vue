@@ -64,7 +64,7 @@
           <template #default="{ row, index }">
             <div class="list-item">{{ index + 1 }}. {{ row.label }}</div>
           </template>
-          <template #foot>
+          <template #footer>
             <div class="list-footer">列表底部</div>
           </template>
         </t-list-view>

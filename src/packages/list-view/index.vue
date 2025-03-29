@@ -36,8 +36,8 @@
       </div>
     </Scrollbar>
     <!-- 列表尾 -->
-    <div class="_foot t-hide-scrollbar" :ref="(el: HTMLElement) => handleExtItemRef(el, 1)" v-if="slots.foot">
-      <t-list-view-item><slot name="foot" /></t-list-view-item>
+    <div class="_foot t-hide-scrollbar" :ref="(el: HTMLElement) => handleExtItemRef(el, 1)" v-if="slots.footer">
+      <t-list-view-item><slot name="footer" /></t-list-view-item>
     </div>
   </ul>
 </template>

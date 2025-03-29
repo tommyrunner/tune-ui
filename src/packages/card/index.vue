@@ -12,8 +12,8 @@
     <div class="_card-body">
       <slot />
     </div>
-    <div v-if="slots.foot" class="_card-footer">
-      <slot name="foot" />
+    <div v-if="slots.footer" class="_card-footer">
+      <slot name="footer" />
     </div>
   </div>
 </template>
