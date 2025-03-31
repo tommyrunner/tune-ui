@@ -1,0 +1,17 @@
+@import "@/styles/index.scss";
+
+.t-watermark {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  &__container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    background-repeat: repeat;
+  }
+}

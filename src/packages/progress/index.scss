@@ -37,7 +37,7 @@
 
   &.is-indeterminate {
     .t-progress-bar__inner {
-      animation: t-progress-indeterminate-bar var(--t-progress-duration, 3s) infinite;
+      animation: t-progress-indeterminate-bar infinite;
       animation-timing-function: linear;
     }
   }

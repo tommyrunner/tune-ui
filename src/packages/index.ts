@@ -33,6 +33,8 @@ import { TImage } from "./image";
 import { TUpload } from "./upload";
 import { TTree } from "./tree";
 import { TForm, TFormItem } from "./form";
+import { TDivider } from "./divider";
+import { TWatermark } from "./watermark";
 
 const components = {
   TButton,
@@ -78,7 +80,9 @@ const components = {
   TUpload,
   TTree,
   TForm,
-  TFormItem
+  TFormItem,
+  TDivider,
+  TWatermark
 };
 // 全局组件注册
 export default {
@@ -130,3 +134,5 @@ export * from "./image";
 export * from "./upload";
 export * from "./tree";
 export * from "./form";
+export * from "./divider";
+export * from "./watermark";

@@ -77,7 +77,9 @@ import {
   TImageTest,
   TUploadTest,
   TTreeTest,
-  TFormTest
+  TFormTest,
+  TDividerTest,
+  TWatermarkTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -135,7 +137,9 @@ const componentList: ComponentConfig[] = [
 
   // 布局组件
   { name: "TFlexTest", label: "Flex 布局", category: ComponentCategory.Layout, component: TFlexTest },
-  { name: "TCalendarTest", label: "Calendar 日历", category: ComponentCategory.Layout, component: TCalendarTest }
+  { name: "TCalendarTest", label: "Calendar 日历", category: ComponentCategory.Layout, component: TCalendarTest },
+  { name: "TDividerTest", label: "Divider 分割线", category: ComponentCategory.Basic, component: TDividerTest },
+  { name: "TWatermarkTest", label: "Watermark 水印", category: ComponentCategory.Layout, component: TWatermarkTest }
 ];
 
 // 根据分类获取组件
@@ -144,7 +148,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TFormTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TWatermarkTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {

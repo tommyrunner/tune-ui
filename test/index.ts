@@ -36,6 +36,8 @@ import ImageTest from "./packages/image.vue";
 import UploadTest from "./packages/upload.vue";
 import TreeTest from "./packages/tree.vue";
 import FormTest from "./packages/form.vue";
+import DividerTest from "./packages/divider.vue";
+import WatermarkTest from "./packages/watermark.vue";
 
 /** 测试组件列表 */
 export const testComponents = {
@@ -75,7 +77,9 @@ export const testComponents = {
   ImageTest,
   UploadTest,
   TreeTest,
-  FormTest
+  FormTest,
+  DividerTest,
+  WatermarkTest
 };
 
 /** 测试组件安装器 */
@@ -123,5 +127,7 @@ export const TImageTest = ImageTest;
 export const TUploadTest = UploadTest;
 export const TTreeTest = TreeTest;
 export const TFormTest = FormTest;
+export const TDividerTest = DividerTest;
+export const TWatermarkTest = WatermarkTest;
 // 默认导出安装器
 export default installTestComponents;

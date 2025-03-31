@@ -1,0 +1,111 @@
+@import "@/styles/index.scss";
+
+.t-divider {
+  position: relative;
+  display: block;
+  height: 1px;
+  width: 100%;
+  margin: 16px 0;
+  background-color: $border-color-default;
+
+  // 水平分割线
+  &--horizontal {
+    clear: both;
+
+    // 带文本的分割线
+    &.t-divider--with-text {
+      display: flex;
+      align-items: center;
+      justify-content: center; // 默认居中
+      margin: 16px 0;
+      font-size: $font-size-default;
+      color: $text-color-default;
+      background: none;
+      border: 0;
+
+      // 用于创建线条的伪元素
+      &::before,
+      &::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background-color: $border-color-default;
+      }
+
+      // 默认插槽内的元素样式
+      > * {
+        padding: 0 20px;
+        font-weight: 500;
+        background-color: $bg-color-default;
+        z-index: 1;
+        font-size: $font-size-default;
+      }
+    }
+
+    // 文本左对齐
+    &.t-divider--text-left {
+      justify-content: flex-start;
+
+      > * {
+        padding: 0 20px 0 10px;
+      }
+
+      &::before {
+        max-width: 50px;
+      }
+    }
+
+    // 文本右对齐
+    &.t-divider--text-right {
+      justify-content: flex-end;
+
+      > * {
+        padding: 0 10px 0 20px;
+      }
+
+      &::after {
+        max-width: 50px;
+      }
+    }
+  }
+
+  // 垂直分割线
+  &--vertical {
+    display: inline-block;
+    width: 1px;
+    height: 1em;
+    margin: 0 8px;
+    vertical-align: middle;
+  }
+
+  // 不同边框样式
+  &--dashed {
+    background: none;
+    border-top: 1px dashed $border-color-default;
+
+    &.t-divider--vertical {
+      border-top: 0;
+      border-left: 1px dashed $border-color-default;
+    }
+  }
+
+  &--dotted {
+    background: none;
+    border-top: 1px dotted $border-color-default;
+
+    &.t-divider--vertical {
+      border-top: 0;
+      border-left: 1px dotted $border-color-default;
+    }
+  }
+
+  &--double {
+    background: none;
+    border-top: 3px double $border-color-default;
+
+    &.t-divider--vertical {
+      border-top: 0;
+      border-left: 3px double $border-color-default;
+    }
+  }
+}
