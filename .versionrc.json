@@ -1,0 +1,19 @@
+{
+  "types": [
+    {"type": "feat", "section": "✨ Features | 新功能"},
+    {"type": "fix", "section": "🐛 Bug Fixes | Bug修复"},
+    {"type": "docs", "section": "📝 Documentation | 文档更新"},
+    {"type": "style", "section": "💄 Styles | 代码风格"},
+    {"type": "refactor", "section": "♻️ Code Refactoring | 代码重构"},
+    {"type": "perf", "section": "⚡ Performance Improvements | 性能优化"},
+    {"type": "test", "section": "✅ Tests | 测试"},
+    {"type": "build", "section": "📦 Build System | 构建系统"},
+    {"type": "ci", "section": "👷 Continuous Integration | 持续集成"},
+    {"type": "chore", "section": "🔧 Chore | 其他修改"}
+  ],
+  "commitUrlFormat": "https://github.com/tommyrunner/tui/commit/{{hash}}",
+  "compareUrlFormat": "https://github.com/tommyrunner/tui/compare/{{previousTag}}...{{currentTag}}",
+  "issueUrlFormat": "https://github.com/tommyrunner/tui/issues/{{id}}",
+  "userUrlFormat": "https://github.com/{{user}}",
+  "releaseCommitMessageFormat": "chore(release): 🔖 发布{{currentTag}}版本"
+} 

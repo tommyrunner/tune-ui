@@ -150,7 +150,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TMenuTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TButtonTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {
