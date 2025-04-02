@@ -1,7 +1,7 @@
-# TUI (Tweak UI)
+# TUI (Tune UI)
 
 <p align="center">
-  <img src="https://i.postimg.cc/Wpk2R5RS/logo.png" width="200" height="200" alt="TUI logo">
+  <img src="https://i.postimg.cc/PxMBWVPz/logo.png" width="200" height="200" alt="TUI logo">
 </p>
 
 <p align="center">

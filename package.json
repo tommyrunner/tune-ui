@@ -1,5 +1,5 @@
 {
-  "name": "tui",
+  "name": "@tommyrunner/tui",
   "version": "1.0.0",
   "description": "基于Vue3的现代化UI组件库",
   "main": "./dist/lib/index.js",
@@ -35,7 +35,7 @@
     "release": "standard-version",
     "prepublishOnly": "npm run clean && npm run build",
     "postversion": "git push && git push --tags",
-    "publish": "npm run build && npm publish"
+    "publish": "npm run build && npm publish --access=public"
   },
   "author": "tommyrunner",
   "license": "MIT",
