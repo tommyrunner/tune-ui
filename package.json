@@ -1,10 +1,10 @@
 {
-  "name": "@tommyrunner/tui",
-  "version": "1.0.0",
+  "name": "tune-ui",
+  "version": "2.0.0",
   "description": "基于Vue3的现代化UI组件库",
   "main": "./dist/lib/index.js",
   "module": "./dist/es/index.js",
-  "typings": "./dist/lib/index.d.ts",
+  "typings": "./dist/lib/src/index.d.ts",
   "type": "module",
   "files": [
     "dist",
@@ -23,6 +23,7 @@
     "test:dev": "vite serve test",
     "build": "vite build",
     "build:analyze": "vite build --config vite.config.analyze.ts",
+    "build:check": "node scripts/check-build.js",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
@@ -33,9 +34,8 @@
     "prepare": "husky install",
     "commit": "git-cz",
     "release": "standard-version",
-    "prepublishOnly": "npm run clean && npm run build",
-    "postversion": "git push && git push --tags",
-    "publish": "npm run build && npm publish --access=public"
+    "prepublishOnly": "npm run clean && npm run build && npm run build:check",
+    "postversion": "git push && git push --tags"
   },
   "author": "tommyrunner",
   "license": "MIT",
