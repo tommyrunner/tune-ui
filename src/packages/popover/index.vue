@@ -92,12 +92,15 @@ const bounceShow = bindDebounce(() => {
  * 显示popover
  */
 const bindPopover = (el: Element, type: typeof props.type) => {
+  // 初始化位置
+  updateView(el);
   if (type === props.type) {
     if (props.type === "click" && model.value) {
       hidePopover(true);
     } else {
       model.value = true;
       state.isHoverContent = true;
+      // 显示后再次调整位置
       updateView(el);
     }
   }
