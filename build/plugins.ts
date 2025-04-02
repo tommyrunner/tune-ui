@@ -5,10 +5,12 @@ import type { Plugin } from "vite";
 export const vitePlugins: Plugin[] = [
   vue(),
   dts({
-    outDir: "dist/es"
+    outDir: "dist/es",
+    tsconfigPath: "tsconfig.json"
   }),
   dts({
-    outDir: "dist/lib"
+    outDir: "dist/lib",
+    tsconfigPath: "tsconfig.json"
   }),
   {
     name: "vite:import-css",

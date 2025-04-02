@@ -1,6 +1,6 @@
 {
   "name": "tune-ui",
-  "version": "2.0.0",
+  "version": "1.0.1",
   "description": "基于Vue3的现代化UI组件库",
   "main": "./dist/lib/index.js",
   "module": "./dist/es/index.js",

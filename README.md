@@ -34,13 +34,13 @@
 
 ```bash
 # 使用 npm
-npm install tui
+npm install tune-ui
 
 # 使用 yarn
-yarn add tui
+yarn add tune-ui
 
 # 使用 pnpm
-pnpm add tui
+pnpm add tune-ui
 ```
 
 ### 使用
@@ -48,55 +48,13 @@ pnpm add tui
 ```js
 import { createApp } from "vue";
 import App from "./App.vue";
-import TUI from "tui";
-import "tui/dist/styles/index.css";
+import TUI from "tune-ui";
+import "tune-ui/dist/styles/index.css";
 
 const app = createApp(App);
 app.use(TUI);
 app.mount("#app");
 ```
-
-## 📚 组件
-
-### 基础组件
-
-- Layout 布局
-- Color 颜色
-- Icon 图标
-- Loading 加载
-
-### 表单组件
-
-- Form 表单
-- Input 输入框
-- Textarea 文本域
-- Checkbox 复选框
-- Radio 单选框
-- Select 选择器
-- Switch 开关
-
-### 数据组件
-
-- Table 表格
-- Pagination 分页
-- Date 日期
-- Tree 树形控件
-- Progress 进度条
-
-### 交互组件
-
-- Tab 标签页
-- Message 消息提示
-- Popover 弹出框
-- Confirm 确认框
-- Dialog 对话框
-- Backdrop 背景遮罩
-
-### 媒体组件
-
-- Image 图片
-- Video 视频
-- Audio 音频
 
 ## 🎨 主题定制
 
@@ -105,7 +63,7 @@ TUI 提供了灵活的主题定制能力，支持两种配置方式：
 ### JavaScript 方式
 
 ```js
-import { useOptions } from "tui";
+import { useOptions } from "tune-ui";
 
 useOptions({
   themeColor: "#409eff",
