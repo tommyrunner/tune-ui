@@ -45,6 +45,7 @@ import PopConfirmTest from "./packages/pop-confirm.vue";
 import BreadcrumbTest from "./packages/breadcrumb.vue";
 import BackTopTest from "./packages/back-top.vue";
 import TabsTest from "./packages/tabs.vue";
+import MenuTest from "./packages/menu.vue";
 
 // 布局组件测试
 import FlexTest from "./packages/flex.vue";
@@ -98,6 +99,7 @@ export const testComponents = {
   BreadcrumbTest,
   BackTopTest,
   TabsTest,
+  MenuTest,
 
   // 布局组件测试
   FlexTest,
@@ -159,6 +161,7 @@ export const TPopConfirmTest = PopConfirmTest;
 export const TBreadcrumbTest = BreadcrumbTest;
 export const TBackTopTest = BackTopTest;
 export const TTabsTest = TabsTest;
+export const TMenuTest = MenuTest;
 
 // 布局组件测试
 export const TFlexTest = FlexTest;

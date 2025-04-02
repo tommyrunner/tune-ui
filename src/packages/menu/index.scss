@@ -1,0 +1,44 @@
+@import "@/styles/index.scss";
+
+.t-menu {
+  width: 240px;
+  background-color: #fff;
+  border-right: 1px solid #f0f0f0;
+  transition: width 0.3s ease;
+  box-sizing: border-box;
+  overflow-x: hidden;
+
+  &__inner {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  &--collapse {
+    width: 60px;
+
+    .t-menu-item {
+      &__content {
+        justify-content: center;
+        padding: 12px 0;
+      }
+
+      &__icon {
+        margin-right: 0;
+        transform: scale(1.2);
+      }
+
+      &__title {
+        opacity: 0;
+        max-width: 0;
+        margin: 0;
+      }
+
+      &__arrow {
+        opacity: 0;
+        width: 0;
+        margin: 0;
+      }
+    }
+  }
+} 

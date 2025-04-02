@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref } from "vue";
-import { TreeNode } from "./tree";
+import type { TreeNodeType } from "./tree";
 
 /**
  * @description 树组件上下文
@@ -11,9 +11,9 @@ export interface TreeContext {
   /** 勾选的节点keys */
   checkedKeys: Ref<string[]>;
   /** 处理节点展开/折叠 */
-  handleNodeExpand: (node: TreeNode, expanded: boolean) => void;
+  handleNodeExpand: (node: TreeNodeType, expanded: boolean) => void;
   /** 处理节点勾选 */
-  handleNodeCheck: (node: TreeNode, checked: boolean) => void;
+  handleNodeCheck: (node: TreeNodeType, checked: boolean) => void;
 }
 
 /**

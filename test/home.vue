@@ -79,7 +79,8 @@ import {
   TTreeTest,
   TFormTest,
   TDividerTest,
-  TWatermarkTest
+  TWatermarkTest,
+  TMenuTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -134,6 +135,7 @@ const componentList: ComponentConfig[] = [
   { name: "TBreadcrumbTest", label: "Breadcrumb 面包屑", category: ComponentCategory.Navigation, component: TBreadcrumbTest },
   { name: "TBackTopTest", label: "BackTop 回到顶部", category: ComponentCategory.Navigation, component: TBackTopTest },
   { name: "TTabsTest", label: "Tabs 标签页", category: ComponentCategory.Navigation, component: TTabsTest },
+  { name: "TMenuTest", label: "Menu 菜单", category: ComponentCategory.Navigation, component: TMenuTest },
 
   // 布局组件
   { name: "TFlexTest", label: "Flex 布局", category: ComponentCategory.Layout, component: TFlexTest },
@@ -148,7 +150,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TWatermarkTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TMenuTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {

@@ -48,6 +48,9 @@ import { TTabs, TTabsGroup } from "./tabs";
 import { TFlex, TFlexGroup } from "./flex";
 import { TWatermark } from "./watermark";
 
+// 菜单组件
+import { TMenu } from "./menu";
+
 /**
  * 组件集合
  */
@@ -108,7 +111,10 @@ const components = {
   // 布局组件
   TFlex,
   TFlexGroup,
-  TWatermark
+  TWatermark,
+
+  // 菜单组件
+  TMenu
 };
 
 /**
@@ -174,6 +180,7 @@ export * from "./pop-confirm";
 export * from "./breadcrumb";
 export * from "./back-top";
 export * from "./tabs";
+export * from "./menu";
 
 // 布局组件
 export * from "./flex";

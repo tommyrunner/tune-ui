@@ -1,0 +1,121 @@
+@import "@/styles/index.scss";
+
+.t-menu-item {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  color: $text-color-default;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: $bg-color-hover;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    margin-right: 8px;
+    transition:
+      margin 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  &__title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    transition:
+      opacity 0.3s ease,
+      max-width 0.3s ease,
+      margin 0.3s ease;
+    opacity: 1;
+    max-width: 200px;
+  }
+
+  &__arrow {
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    transition:
+      transform 0.3s,
+      opacity 0.3s ease,
+      width 0.3s ease,
+      margin 0.3s ease;
+    transform: rotate(0deg);
+  }
+
+  &__children {
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  &__popover {
+    width: 100%;
+    display: block;
+  }
+
+  &__popup {
+    background: #fff;
+
+    &-header {
+      padding: 8px 16px;
+      font-weight: 500;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    &-content {
+      padding: 8px 0;
+    }
+  }
+
+  // 修饰符
+  &--active {
+    > .t-menu-item__content {
+      background-color: rgba($theme-color-primary, 0.1);
+
+      .t-menu-item__title {
+        color: $theme-color-primary;
+      }
+
+      .t-menu-item__icon {
+        color: $theme-color-primary;
+      }
+
+      .t-menu-item__arrow {
+        color: $theme-color-primary;
+      }
+    }
+  }
+
+  &--expanded {
+    > .t-menu-item__content {
+      .t-menu-item__arrow {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  &.t-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // 嵌套层级样式
+  .t-menu-item {
+    .t-menu-item__content {
+      padding-left: 24px;
+    }
+  }
+}

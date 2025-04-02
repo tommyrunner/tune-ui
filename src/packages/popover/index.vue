@@ -294,18 +294,24 @@ const animationLeave = () => {
 };
 // 动态处理popover样式
 const getPopoverStyle = computed((): StyleValue => {
-  const { padding = [], boxShadow = [], radius = [], width } = props;
+  // 计算宽度值
+  let widthValue = props.width;
+  if (typeof widthValue === "number") {
+    widthValue = `${widthValue}px`;
+  }
+
   return {
-    pointerEvents: state.isTransitionEnterOk ? "none" : "initial",
-    // 如果第一次计算位置，则隐藏
-    visibility: state.firstPosition ? "hidden" : "visible",
+    zIndex: state.zIndex,
     left: `${state.point.left}px`,
     top: `${state.point.top}px`,
-    padding: `${fromCssVal(padding)}`,
-    boxShadow: `${fromCssVal(boxShadow)}`,
-    borderRadius: `${fromCssVal(radius)}`,
-    zIndex: state.zIndex,
-    width: width
+    width: widthValue,
+    borderRadius: Array.isArray(props.radius) ? props.radius.map(val => `${val}px`).join(" ") : `${props.radius}px`,
+    padding: Array.isArray(props.padding) ? props.padding.map(val => `${val}px`).join(" ") : `${props.padding}px`,
+    boxShadow: props.boxShadow
+      ? `${props.boxShadow[0]}px ${props.boxShadow[1]}px ${props.boxShadow[2]}px ${props.boxShadow[3]}`
+      : "",
+    display: props.custom ? "" : null,
+    visibility: state.firstPosition ? "hidden" : null
   };
 });
 

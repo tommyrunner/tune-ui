@@ -8,7 +8,7 @@ export const triangleWidth = 8;
  */
 export interface PropsType {
   /** 弹出框宽度 */
-  width?: string;
+  width?: string | number;
 
   /** 是否禁用 */
   disabled?: boolean;
