@@ -34,7 +34,8 @@
     "commit": "git-cz",
     "release": "standard-version",
     "prepublishOnly": "npm run clean && npm run build",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "publish": "npm run build && npm publish"
   },
   "author": "tommyrunner",
   "license": "MIT",
