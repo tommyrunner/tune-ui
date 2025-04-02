@@ -2,11 +2,11 @@
   <div class="t-breadcrumb">
     <div v-for="(item, index) in options" :key="item.value || index" class="_breadcrumb-item">
       <div v-if="index !== 0" class="_separator" :style="{ margin: `0px ${gap}px` }">
-        <t-icon v-if="separatedIcon" :icon="separatedIcon" :size="18" />
+        <t-icon v-if="separatedIcon" :icon="separatedIcon" :size="13" />
         <b v-else>/</b>
       </div>
       <div :class="['_content', item.disabled && 't-disabled', model === item.value && 't-active']" @click="handleClick(item)">
-        <t-icon v-if="item.icon" :icon="item.icon" :size="18" />
+        <t-icon v-if="item.icon" :icon="item.icon" :size="13" />
         <span v-html="item.label"></span>
       </div>
     </div>

@@ -5,6 +5,7 @@
   align-items: center;
   width: fit-content;
   color: $text-color-default;
+  font-size: 13px;
 
   ._breadcrumb-item {
     display: flex;
@@ -13,6 +14,7 @@
     ._separator {
       font-weight: bold;
       color: gainsboro;
+      font-size: 13px;
     }
 
     ._content {
@@ -21,6 +23,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
+      font-size: 13px;
 
       &:not(.t-disabled):hover {
         color: $theme-color-primary;
@@ -28,6 +31,7 @@
 
       &.t-active {
         color: $theme-color-primary;
+        font-weight: normal;
       }
 
       &.t-disabled {
