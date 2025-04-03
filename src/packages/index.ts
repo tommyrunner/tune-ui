@@ -1,5 +1,4 @@
 import { App } from "vue";
-
 // 基础组件
 import { TButton } from "./button";
 import { TIcon } from "./icon";
@@ -50,9 +49,60 @@ import { TWatermark } from "./watermark";
 
 // 菜单组件
 import { TMenu } from "./menu";
+// 版本号
+import { version } from "../../package.json";
+/** ----------------------------------------------------- */
+// 基础组件
+export * from "./button";
+export * from "./icon";
+export * from "./divider";
+
+// 表单组件
+export * from "./input";
+export * from "./input-number";
+export * from "./textarea";
+export * from "./radio";
+export * from "./checkbox";
+export * from "./switch";
+export * from "./rate";
+export * from "./select";
+export * from "./date-picker";
+export * from "./date-picker-multiple";
+export * from "./slider";
+export * from "./upload";
+export * from "./form";
+
+// 数据展示组件
+export * from "./badge";
+export * from "./card";
+export * from "./carousel";
+export * from "./collapse";
+export * from "./list-view";
+export * from "./scrollbar";
+export * from "./table";
+export * from "./progress";
+export * from "./image";
+export * from "./tree";
+
+// 反馈组件
+export * from "./message";
+export * from "./dialog";
+export * from "./drawer";
+export * from "./popover";
+export * from "./pop-confirm";
+
+// 导航组件
+export * from "./breadcrumb";
+export * from "./back-top";
+export * from "./tabs";
+export * from "./menu";
+
+// 布局组件
+export * from "./flex";
+export * from "./watermark";
 
 /**
- * 组件集合
+ * 全局注册
  */
 const components = {
   // 基础组件
@@ -117,11 +167,8 @@ const components = {
   TMenu
 };
 
-/**
- * TUI组件库全局注册
- */
-export default {
-  version: "1.0.0",
+export const install = {
+  version,
   install: (Vue: App) => {
     Object.entries(components).forEach(([_, component]) => {
       if (component.name) {
@@ -130,58 +177,8 @@ export default {
     });
 
     // 添加全局方法
-    Vue.config.globalProperties.$message = Message;
-    Vue.config.globalProperties.$notification = Notification;
+    Vue.config.globalProperties.$message = components.Message;
+    Vue.config.globalProperties.$notification = components.Notification;
   }
 };
-
-// 导出所有组件类型
-
-// 基础组件
-export * from "./button";
-export * from "./icon";
-export * from "./divider";
-
-// 表单组件
-export * from "./input";
-export * from "./input-number";
-export * from "./textarea";
-export * from "./radio";
-export * from "./checkbox";
-export * from "./switch";
-export * from "./rate";
-export * from "./select";
-export * from "./date-picker";
-export * from "./date-picker-multiple";
-export * from "./slider";
-export * from "./upload";
-export * from "./form";
-
-// 数据展示组件
-export * from "./badge";
-export * from "./card";
-export * from "./carousel";
-export * from "./collapse";
-export * from "./list-view";
-export * from "./scrollbar";
-export * from "./table";
-export * from "./progress";
-export * from "./image";
-export * from "./tree";
-
-// 反馈组件
-export * from "./message";
-export * from "./dialog";
-export * from "./drawer";
-export * from "./popover";
-export * from "./pop-confirm";
-
-// 导航组件
-export * from "./breadcrumb";
-export * from "./back-top";
-export * from "./tabs";
-export * from "./menu";
-
-// 布局组件
-export * from "./flex";
-export * from "./watermark";
+export default install;

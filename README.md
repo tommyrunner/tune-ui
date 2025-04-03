@@ -12,8 +12,8 @@
   <a href="https://github.com/tommyrunner/tui/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/tommyrunner/tui.svg" alt="license">
   </a>
-  <a href="https://www.npmjs.com/package/tui">
-    <img src="https://img.shields.io/npm/v/tui.svg" alt="npm">
+  <a href="https://www.npmjs.com/package/tune-ui">
+    <img src="https://img.shields.io/npm/v/tune-ui.svg" alt="npm">
   </a>
   <a href="https://github.com/tommyrunner/tui/stargazers">
     <img src="https://img.shields.io/github/stars/tommyrunner/tui.svg" alt="stars">
@@ -27,6 +27,7 @@
 - 📦 开箱即用的高质量组件
 - 🌈 支持主题定制，轻松适配不同设计风格
 - 👓 专注于开发体验与用户体验的平衡
+- ⚡ 支持全量引入和按需引入，优化应用体积
 
 ## 🚀 快速开始
 
@@ -43,17 +44,45 @@ yarn add tune-ui
 pnpm add tune-ui
 ```
 
-### 使用
+### 使用方式
+
+#### 全量引入
+
+如果你希望一次性注册所有组件，可以使用以下方式：
 
 ```js
 import { createApp } from "vue";
 import App from "./App.vue";
-import TUI from "tune-ui";
+import { install } from "tune-ui";
 import "tune-ui/dist/styles/index.css";
 
 const app = createApp(App);
-app.use(TUI);
+app.use(install);
 app.mount("#app");
+```
+
+#### 按需引入
+
+如果你只需要使用部分组件，可以按需引入以减小应用体积：
+
+```vue
+<template>
+  <t-button type="primary" prefix-icon="github">Click</t-button>
+  <t-input v-model="value1" placeholder="Please input" />
+  <t-select v-model="value2" placeholder="Please select" :options="options" />
+</template>
+
+<script lang="ts" setup>
+import { TButton, TInput, TSelect } from "tune-ui";
+import { ref } from "vue";
+const value1 = ref("");
+const value2 = ref("");
+const options = ref([
+  { label: "Option 1", value: "1" },
+  { label: "Option 2", value: "2" },
+  { label: "Option 3", value: "3" }
+]);
+</script>
 ```
 
 ## 🎨 主题定制
@@ -84,11 +113,60 @@ useOptions({
 
 ## 🧩 设计规范
 
-### 组件命名规范
+### 基础组件
 
-- 组件导出名称: `Txx`
-- 组件 class 名称: `t-xx-xx`
-- 组件嵌套样式类: `_xx`
+- `TButton` - 按钮
+- `TIcon` - 图标
+- `TDivider` - 分割线
+
+### 表单组件
+
+- `TInput` - 输入框
+- `TInputNumber` - 数字输入框
+- `TTextarea` - 文本域
+- `TRadio` / `TRadioGroup` - 单选框
+- `TCheckbox` / `TCheckboxGroup` - 复选框
+- `TSwitch` - 开关
+- `TSelect` - 选择器
+- `TDatePicker` - 日期选择器
+- `TDatePickerMultiple` - 多日期选择器
+- `TSlider` - 滑块
+- `TUpload` - 上传
+- `TForm` / `TFormItem` - 表单
+
+### 数据展示组件
+
+- `TBadge` - 徽章
+- `TCard` - 卡片
+- `TCarousel` / `TCarouselGroup` - 轮播图
+- `TCollapse` / `TCollapseGroup` - 折叠面板
+- `TListView` / `TListViewItem` - 列表视图
+- `TScrollbar` - 滚动条
+- `TTable` / `TTableRow` - 表格
+- `TProgress` - 进度条
+- `TImage` - 图片
+- `TTree` - 树形控件
+
+### 反馈组件
+
+- `Message` - 消息提示
+- `Notification` - 通知提醒
+- `TDialog` - 对话框
+- `TDrawer` - 抽屉
+- `TPopover` - 气泡卡片
+- `TPopConfirm` - 气泡确认框
+
+### 导航组件
+
+- `TBreadcrumb` - 面包屑
+- `TBackTop` - 回到顶部
+- `TTabs` / `TTabsGroup` - 标签页
+- `TMenu` - 菜单
+
+### 布局组件
+
+- `TFlex` / `TFlexGroup` - 弹性布局
+- `TWatermark` - 水印
 
 ## 🤝 贡献指南
 
