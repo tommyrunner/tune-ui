@@ -12,15 +12,11 @@
 </template>
 
 <script lang="ts" setup>
-// Vue相关导入
-import { computed } from "vue";
-
-// 类型导入
+import "./index.scss";
 import type { StyleValue } from "vue";
 import type { EmitsType, PropsType } from "./button";
 import type { IconTypes } from "@/packages/icon/icon";
-
-// 项目内导入
+import { computed } from "vue";
 import { ICON_SIZES } from "./button";
 import { configOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
@@ -103,7 +99,3 @@ defineExpose({
   handleClick
 });
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

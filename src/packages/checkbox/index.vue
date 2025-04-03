@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { PropsType, EmitsType, ValueType } from "./checkbox";
 import type { GroupContextType } from "./constants";
 import { computed, inject, onMounted, useSlots } from "vue";
@@ -121,7 +122,3 @@ const handleChecked = () => {
   emit("change", model.value);
 };
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

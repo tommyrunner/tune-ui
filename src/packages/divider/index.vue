@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { PropsType } from "./divider";
 import { computed, useSlots } from "vue";
 
@@ -44,7 +45,3 @@ const dividerClasses = computed((): string[] => {
   ].filter(Boolean);
 });
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

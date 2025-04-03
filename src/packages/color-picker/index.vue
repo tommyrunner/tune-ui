@@ -110,6 +110,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import type { PropsType } from "./color-picker";
 import { configOptions } from "@/hooks/useOptions";
@@ -590,7 +591,3 @@ defineExpose({
   handleTriggerClick
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

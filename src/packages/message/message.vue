@@ -8,6 +8,7 @@
   </Teleport>
 </template>
 <script lang="ts" setup>
+import "./message.scss";
 import type { PropsType } from "./types";
 import type { IconTypes } from "@/packages/icon/icon";
 import { computed, ref } from "vue";
@@ -83,6 +84,3 @@ defineExpose({
   closeMessage
 });
 </script>
-<style lang="scss" scoped>
-@import "message.scss";
-</style>

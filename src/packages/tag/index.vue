@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { EmitsType, PropsType } from "./tag";
 import { computed } from "vue";
 import { configOptions } from "@/hooks/useOptions";
@@ -48,7 +49,3 @@ const tagClasses = computed(() => {
  */
 const iconSize = computed(() => ICON_SIZES[props.size]);
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

@@ -10,6 +10,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import "./checkbox-group.scss";
 import type { ValueType } from "./checkbox";
 import type { PropsType, EmitsType } from "./checkbox-group";
 import { type GroupContextType, checkboxGroupKey } from "./constants";
@@ -66,11 +67,3 @@ provide<GroupContextType>(
   })
 );
 </script>
-<style lang="scss" scoped>
-.t-checkbox-group {
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  cursor: pointer;
-}
-</style>

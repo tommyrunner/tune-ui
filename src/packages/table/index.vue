@@ -26,6 +26,7 @@
   </div>
 </template>
 <script lang="tsx" setup>
+import "./index.scss";
 import type { EmitsType, PropsType, StateFilterType, TableColumnsType, TableRowType } from "./table";
 import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import { computed, provide, reactive, ref, StyleValue, toRefs } from "vue";
@@ -246,6 +247,3 @@ defineExpose({
   autoColWidth
 });
 </script>
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

@@ -6,11 +6,11 @@
 </template>
 
 <script lang="ts" setup>
+import { type GroupContextTableColType, tableColGroupKey } from "../constants";
 import { provide, reactive, toRefs } from "vue";
 import { PropsType } from "./table-col";
 import TableGroup from "./col-group/col-group.vue";
 import TableCell from "./col-cell/col-cell.vue";
-import { type GroupContextTableColType, tableColGroupKey } from "../constants";
 
 defineOptions({ name: "TTableCol" });
 

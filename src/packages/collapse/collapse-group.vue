@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./collapse-group.scss";
 import type { ValueType } from "./collapse";
 import type { PropsType, EmitsType } from "./collapse-group";
 import type { GroupContextType } from "./constants";
@@ -50,11 +51,3 @@ provide<GroupContextType>(
   })
 );
 </script>
-
-<style lang="scss" scoped>
-.t-collapse-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-</style>

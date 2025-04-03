@@ -70,8 +70,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
+import "./time-picker.scss";
 import type { TListViewType } from "@/packages/list-view";
+import { computed, ref, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
 import { TIcon } from "@/packages/icon";
 import { TPopover } from "@/packages/popover";
 import { TListView } from "@/packages/list-view";
@@ -301,7 +302,3 @@ onBeforeUnmount(() => {
   stopRealTimeTimer();
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./time-picker.scss";
-</style>

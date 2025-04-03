@@ -60,11 +60,12 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
+import type { SliderStateType, SliderPropsType, EmitsType } from "./slider";
 import { computed, provide, reactive, watch, ref } from "vue";
 import { sliderKey } from "./constants";
-import type { SliderStateType, SliderPropsType, EmitsType } from "./slider";
-import SliderButton from "./components/slider-button/index.vue";
-import SliderMarks from "./components/slider-marks/index.vue";
+import SliderButton from "./components/slider-button/slider-button.vue";
+import SliderMarks from "./components/slider-marks/slider-marks.vue";
 
 /**
  * @description 滑块组件
@@ -384,7 +385,3 @@ provide(sliderKey, {
   formatTooltip: props.formatTooltip
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

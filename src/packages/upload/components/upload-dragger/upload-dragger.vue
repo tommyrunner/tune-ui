@@ -23,10 +23,11 @@
 </template>
 
 <script lang="ts" setup>
+import "./upload-dragger.scss";
+import type { UploadDraggerContextType } from "../../upload";
 import { ref, inject } from "vue";
 import { TIcon } from "@/packages/icon";
 import { uploadDraggerKey } from "../../constants";
-import type { UploadDraggerContextType } from "../../upload";
 
 defineOptions({
   name: "TUploadDragger"
@@ -53,7 +54,3 @@ const handleClick = () => {
   emit("drag-click");
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./upload-dragger.scss";
-</style>

@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { EmitsType, PropsType } from "./rate";
 import { computed, ref, type StyleValue } from "vue";
 import { configOptions } from "@/hooks/useOptions";
@@ -125,7 +126,3 @@ const handleIconClick = () => {
   emit("change", model.value);
 };
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

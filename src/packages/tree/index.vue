@@ -26,6 +26,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { PropsType, TreeNodeType, EmitsType } from "./tree";
 import { computed, nextTick, provide, ref, watch } from "vue";
 import TreeNode from "./components/tree-node/tree-node.vue";
@@ -422,7 +423,3 @@ defineExpose({
   getCheckedNodes
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

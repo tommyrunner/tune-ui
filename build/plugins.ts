@@ -11,17 +11,5 @@ export const vitePlugins: Plugin[] = [
   dts({
     outDir: "dist/lib",
     tsconfigPath: "tsconfig.json"
-  }),
-  {
-    name: "vite:import-css",
-    apply: "build",
-    enforce: "post",
-    renderChunk(code, chunk) {
-      if (!chunk.isEntry && chunk.type === "chunk" && /\index.(js)$/i.test(chunk.fileName) && chunk.name.includes("packages/")) {
-        const fileNames = chunk.fileName.split("/");
-        const str = fileNames[fileNames.length - 1].split(".")[0];
-        return `import './${str}.css';\n${code}`;
-      }
-    }
-  }
+  })
 ];

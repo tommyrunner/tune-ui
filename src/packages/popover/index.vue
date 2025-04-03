@@ -31,10 +31,11 @@
   </div>
 </template>
 <script lang="ts" setup>
+import "./index.scss";
 import type { EmitsType, PropsType } from "./popover";
 import type { StyleValue } from "vue";
 import { triangleWidth } from "./popover";
-import { bindDebounce, fromCssVal, generateId, getMaxZIndex, isDownKeyboard } from "@/utils";
+import { bindDebounce, getMaxZIndex, isDownKeyboard } from "@/utils";
 import { computed, nextTick, onDeactivated, onMounted, reactive, ref, watch } from "vue";
 defineOptions({ name: "TPopover" });
 const props = withDefaults(defineProps<PropsType>(), {
@@ -441,6 +442,3 @@ defineExpose({
   hidePopover
 });
 </script>
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

@@ -28,6 +28,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./date.scss";
 import { computed, inject } from "vue";
 import { WEEK_DAYS, calendarKey } from "../constants";
 
@@ -153,7 +154,3 @@ const handleSelectDate = (date: Date) => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./date.scss";
-</style>

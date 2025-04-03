@@ -39,14 +39,15 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { EmitsType, ModelType, PropsType } from "./input-number";
 import type { ElSizeType } from "@/types";
-
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { configOptions } from "@/hooks/useOptions";
 import { bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
 import { TIcon } from "@/packages/icon";
+import { isValue } from "@/utils/is";
 
 defineOptions({ name: "TInputNumber" });
 
@@ -162,8 +163,19 @@ const handleInput = (target: HTMLInputElement, index: number) => {
     debounce(value);
   }
 };
-</script>
 
-<style lang="scss" scoped>
-@import "index.scss";
-</style>
+/**
+ * 监听值变化，处理输入
+ */
+watch(
+  () => model.value,
+  (newVal: ModelType) => {
+    if (!isValue(newVal)) return;
+
+    // 如果输入字符串，转换为数字处理
+    if (typeof newVal === "string") {
+      handleInput(inputRefs.value[0] as HTMLInputElement, 0);
+    }
+  }
+);
+</script>

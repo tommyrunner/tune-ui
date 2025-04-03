@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./table-row.scss";
 import { computed, inject, provide, StyleValue, toRefs } from "vue";
 import { tableRowGroupKey, tableGroupKey, type GroupContextTableRowType, type GroupContextType } from "../constants";
 import { EmitsType, PropsType } from "./table-row";
@@ -86,7 +87,3 @@ provide<GroupContextTableRowType>(
   })
 );
 </script>
-
-<style lang="scss" scoped>
-@import "./table-row.scss";
-</style>

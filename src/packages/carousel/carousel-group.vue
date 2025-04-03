@@ -33,6 +33,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./group.scss";
 import type { PropsType, EmitsType } from "./carousel-group";
 import type { StyleValue } from "vue";
 import { ref, reactive, onMounted, computed, onDeactivated, watch } from "vue";
@@ -366,7 +367,3 @@ const initCarousel = () => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./group.scss";
-</style>

@@ -25,6 +25,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./header.scss";
 import { TIcon } from "@/packages/icon";
 import type { ModeType } from "../calendar";
 
@@ -97,7 +98,3 @@ const handleMonthTitleClick = () => {
   emit("month-title-click");
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./header.scss";
-</style>

@@ -12,6 +12,7 @@ import type { GroupContextType } from "./constants";
 import type { StyleValue } from "vue";
 import { provide, reactive, toRefs, computed, nextTick, onMounted, onDeactivated, watch } from "vue";
 import { tabsGroupKey } from "./constants";
+import "./group.scss";
 
 defineOptions({ name: "TTabsGroup" });
 
@@ -128,7 +129,3 @@ defineExpose({
   updateAction
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./group.scss";
-</style>

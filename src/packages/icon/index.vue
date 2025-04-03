@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { StyleValue } from "vue";
 import type { PropsType } from "./icon";
 import { computed } from "vue";
@@ -35,7 +36,3 @@ const iconClass = computed(() => {
   return ["t-icon", "iconfont", `icon-${customIcon || icon}`, type && `t-icon-color-${type}`];
 });
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

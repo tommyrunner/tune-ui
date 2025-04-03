@@ -10,15 +10,11 @@
 </template>
 
 <script lang="ts" setup>
-// Vue相关导入
-import { computed, inject } from "vue";
-
-// 类型导入
+import "./option.scss";
 import type { EmitsType, PropsType } from "./option";
 import type { GroupContextType } from "./constants";
 import type { SingleValueType } from "./select";
-
-// 项目内导入
+import { computed, inject } from "vue";
 import { selectGroupKey } from "./constants";
 import { isEqual, isValue } from "@/utils/is";
 import { TIcon } from "@/packages/icon";
@@ -108,7 +104,3 @@ const optionClasses = computed((): string[] => {
   return ["t-option", (isActive || isInCascadePath) && "_active", disabled && "t-disabled", hasChildren.value && "_has-children"];
 });
 </script>
-
-<style lang="scss" scoped>
-@import "option.scss";
-</style>

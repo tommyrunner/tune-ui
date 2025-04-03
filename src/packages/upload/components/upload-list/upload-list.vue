@@ -78,6 +78,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./upload-list.scss";
 import type { UploadFile, UploadContextType } from "../../upload";
 import { inject } from "vue";
 import { TIcon } from "@/packages/icon";
@@ -160,7 +161,3 @@ const getFileIcon = (fileName: string): IconType => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./upload-list.scss";
-</style>

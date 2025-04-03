@@ -131,10 +131,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import "./index.scss";
 import type { PropsType, EmitsType } from "./date-picker-multiple";
 import type { DateType } from "@/packages/calendar/calendar";
 import type { TPopoverType } from "@/packages/popover";
+import { ref } from "vue";
 import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
 import { TCalendar } from "@/packages/calendar";
@@ -215,7 +216,3 @@ const { isYearSelected, isYearRangeStart, isYearRangeEnd, isYearInRange, isYearD
   tempSelectedDates
 );
 </script>
-
-<style lang="scss">
-@import "./index.scss";
-</style>

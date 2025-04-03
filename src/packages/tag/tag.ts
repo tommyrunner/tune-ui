@@ -21,6 +21,8 @@ export interface PropsType extends BaseProps {
 export interface EmitsType {
   /** 关闭事件 */
   (e: "close"): void;
+  /** 点击事件 */
+  (e: "click"): void;
 }
 
 // 不同尺寸对应的图标大小

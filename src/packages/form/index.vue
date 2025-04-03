@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type {
   FormPropsType,
   FormItemInstance,
@@ -192,7 +193,3 @@ defineExpose({
   clearValidate
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

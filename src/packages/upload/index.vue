@@ -41,11 +41,12 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
+import type { UploadFile, EmitsType, PropsType, UploadContextType, UploadDraggerContextType } from "./upload";
 import { ref, computed, provide } from "vue";
 import { generateId } from "@/utils/index";
 import UploadDragger from "./components/upload-dragger/upload-dragger.vue";
 import UploadList from "./components/upload-list/upload-list.vue";
-import type { UploadFile, EmitsType, PropsType, UploadContextType, UploadDraggerContextType } from "./upload";
 import { uploadKey, uploadDraggerKey } from "./constants";
 
 defineOptions({
@@ -334,7 +335,3 @@ provide<UploadDraggerContextType>(uploadDraggerKey, {
   handleDrop
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

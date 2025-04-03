@@ -100,24 +100,18 @@
 </template>
 
 <script lang="ts" setup>
-// Vue相关导入
-import { computed, reactive, ref, watch, provide, toRefs } from "vue";
+import "./index.scss";
 import type { StyleValue } from "vue";
-
-// 类型导入
 import type { EmitsType, ValueType, OptionsItemType, PropsType, SingleValueType } from "./select";
 import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import type { TPopoverType } from "@/packages/popover";
 import type { PropsType as OptionPropsType } from "./option";
-
-// 项目内组件导入
+import { computed, reactive, ref, watch, provide, toRefs } from "vue";
 import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
 import { TListView } from "@/packages/list-view";
 import { TTag } from "@/packages/tag";
 import Option from "./option.vue";
-
-// 工具函数、常量导入
 import { configOptions } from "@/hooks/useOptions";
 import { useTip } from "@/hooks";
 import { fromCssVal } from "@/utils";
@@ -659,7 +653,3 @@ provide(
   }) as GroupContextType
 );
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

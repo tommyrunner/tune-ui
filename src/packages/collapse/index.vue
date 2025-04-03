@@ -17,6 +17,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { StyleValue } from "vue";
 import type { PropsType, ValueType, EmitsType } from "./collapse";
 import type { GroupContextType } from "./constants";
@@ -92,7 +93,3 @@ const handleClick = () => {
   emit("change", props.value);
 };
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

@@ -58,6 +58,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import { computed, ref, watch, onMounted, onBeforeUnmount, provide, reactive, toRefs } from "vue";
 import type { DateType, EmitsType, PropsType, ModeType } from "./calendar";
 import { formatDate, parseDate } from "@/utils/dateFormat";
@@ -386,7 +387,3 @@ defineExpose({
   tempMode
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

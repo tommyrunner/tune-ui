@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { EmitsType, PropsType, ValueType } from "./breadcrumb";
 import { useRouter } from "vue-router";
 import { TIcon } from "@/packages/icon";
@@ -57,7 +58,3 @@ const handleClick = (item: ValueType) => {
   isReplace ? router.replace(item.to) : router.push(item.to);
 };
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

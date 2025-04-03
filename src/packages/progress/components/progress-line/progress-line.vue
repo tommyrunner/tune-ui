@@ -32,6 +32,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./progress-line.scss";
 import { computed, inject } from "vue";
 import { progressKey } from "../../constants";
 import type { ColorFunction } from "../../progress";
@@ -92,7 +93,3 @@ const computedColor = computed<string>(() => {
   return customColor as string;
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

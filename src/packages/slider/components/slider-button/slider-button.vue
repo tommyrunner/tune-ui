@@ -36,9 +36,10 @@
 </template>
 
 <script lang="ts" setup>
+import "./slider-button.scss";
+import type { SliderContextType } from "../../slider";
 import { computed, inject, ref, onMounted } from "vue";
 import { sliderKey } from "../../constants";
-import type { SliderContextType } from "../../slider";
 
 /**
  * @description 滑块按钮组件
@@ -244,7 +245,3 @@ const onDragEnd = () => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

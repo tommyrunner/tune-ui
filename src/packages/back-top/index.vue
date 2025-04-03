@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { EmitsType, PropsType } from "./back-top";
 import { computed, onMounted, onDeactivated, ref } from "vue";
 import { TIcon } from "@/packages/icon";
@@ -92,7 +93,3 @@ const backTopStyles = computed(() => {
 onMounted(() => scrollElement.value.addEventListener("scroll", handleScroll));
 onDeactivated(() => scrollElement.value.removeEventListener("scroll", handleScroll));
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

@@ -47,6 +47,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { PropsType, EmitsType } from "./dialog";
 import type { StyleValue } from "vue";
 import { computed, onMounted, reactive } from "vue";
@@ -132,7 +133,3 @@ const footStyle = computed((): StyleValue => {
   };
 });
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

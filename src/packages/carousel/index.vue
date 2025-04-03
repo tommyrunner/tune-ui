@@ -4,8 +4,6 @@
   </div>
 </template>
 <script lang="ts" setup>
+import "./index.scss";
 defineOptions({ name: "TCarousel" });
 </script>
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

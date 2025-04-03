@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { StyleValue } from "vue";
 import type { PropsType } from "./badge";
 import { computed, ref } from "vue";
@@ -56,7 +57,3 @@ const badgeText = computed(() => {
   return value;
 });
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

@@ -18,8 +18,9 @@
 </template>
 
 <script lang="ts" setup>
+import "./year.scss";
+import { calendarKey, type CalendarContextType } from "../constants";
 import { computed, inject } from "vue";
-import { calendarKey } from "../constants";
 
 defineOptions({ name: "TCalendarYear" });
 
@@ -34,7 +35,7 @@ interface PropsType {
 const props = defineProps<PropsType>();
 
 // 注入日历上下文
-const calendarContext = inject(calendarKey);
+const calendarContext = inject<CalendarContextType>(calendarKey);
 
 /**
  * @description 获取年份范围
@@ -89,7 +90,3 @@ const handleYearSelect = (year: number) => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./year.scss";
-</style>

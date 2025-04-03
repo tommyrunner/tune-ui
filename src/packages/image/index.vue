@@ -43,9 +43,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, onMounted, onBeforeUnmount } from "vue";
+import "./index.scss";
 import type { CSSProperties } from "vue";
 import type { PropsType, EmitsType, ImageState } from "./image";
+import { ref, reactive, computed, onMounted, onBeforeUnmount } from "vue";
 import { TIcon } from "@/packages/icon";
 import ImageViewer from "./image-viewer.vue";
 
@@ -195,7 +196,3 @@ defineExpose({
   showPreview
 });
 </script>
-
-<style lang="scss">
-@import "./index.scss";
-</style>

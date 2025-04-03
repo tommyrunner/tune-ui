@@ -19,12 +19,13 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { ColorObject, ProgressPropsType } from "./progress";
 import { computed, provide, reactive, watch } from "vue";
 import { progressKey } from "./constants";
-import ProgressLine from "./components/progress-line/index.vue";
-import ProgressCircle from "./components/progress-circle/index.vue";
-import ProgressDashboard from "./components/progress-dashboard/index.vue";
+import ProgressLine from "./components/progress-line/progress-line.vue";
+import ProgressCircle from "./components/progress-circle/progress-circle.vue";
+import ProgressDashboard from "./components/progress-dashboard/progress-dashboard.vue";
 
 /**
  * @description 进度条组件
@@ -142,6 +143,3 @@ provide(progressKey, {
   progressState
 });
 </script>
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

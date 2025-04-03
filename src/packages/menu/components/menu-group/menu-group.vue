@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./menu-group.scss";
 import type { PropsType } from "./menu-group";
 
 defineOptions({
@@ -16,7 +17,3 @@ defineOptions({
 
 defineProps<PropsType>();
 </script>
-
-<style lang="scss" scoped>
-@import "./menu-group.scss";
-</style> 

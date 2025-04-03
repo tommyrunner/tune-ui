@@ -5,10 +5,15 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
+
 // 类型导入
 import type { PropsType } from "./watermark";
 import type { StyleValue } from "vue";
+
+// Vue相关导入
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
+
 // 常量导入
 import {
   DEFAULT_FONT,
@@ -250,16 +255,18 @@ const drawWatermark = async (): Promise<void> => {
     return;
   }
 
+  // 处理文本水印
   if (props.content) {
-    const content = Array.isArray(props.content) ? props.content : [props.content];
-    const lineHeight = fontSize;
-    const textHeight = content.length * lineHeight;
+    let texts = Array.isArray(props.content) ? props.content : [props.content];
+    const len = texts.length;
+    const gap = 5;
+    const textHeight = fontSize + gap;
+    const startY = props.height / 2 - (textHeight * (len - 1)) / 2;
 
-    const centerX = props.width / 2;
-    const startY = (props.height - textHeight) / 2 + lineHeight / 2;
-
-    content.forEach((text, index) => {
-      ctx.fillText(text, centerX, startY + index * lineHeight);
+    // 渲染多行文本
+    texts.forEach((text, index) => {
+      const y = startY + index * textHeight;
+      ctx.fillText(text, props.width / 2, y);
     });
   }
 
@@ -270,73 +277,44 @@ const drawWatermark = async (): Promise<void> => {
 };
 
 /**
- * @description 重置水印
+ * @description 添加DOM变化监听
  */
-const resetWatermark = async (): Promise<void> => {
-  await drawWatermark();
+const startObserver = (): void => {
+  if (!props.antiTamper || !watermarkRef.value) return;
 
-  await nextTick();
-
-  if (props.antiTamper) {
-    setupAntiTamperMeasures();
-  }
-};
-
-/**
- * @description 检查容器是否已添加
- */
-const checkContainerExists = (): boolean => {
-  if (!watermarkRef.value || !containerEl) return false;
-
-  // 检查容器元素是否在DOM中
-  return watermarkRef.value.contains(containerEl);
-};
-
-/**
- * @description 设置防篡改措施
- */
-const setupAntiTamperMeasures = (): void => {
-  if (!watermarkRef.value) return;
-
-  removeObserver();
-
-  // 监听水印元素的变化
   observer = new MutationObserver(mutations => {
-    let needReset = false;
+    const shouldRedraw = mutations.some(mutation => {
+      const target = mutation.target as HTMLElement;
 
-    for (const mutation of mutations) {
-      // 如果是子节点变化，检查是否有容器元素被移除
-      if (mutation.type === "childList" && !checkContainerExists()) {
-        needReset = true;
-        break;
-      }
-
-      // 如果是属性变化，只关注style和class属性
+      // 检测水印容器是否被修改或移除
       if (
-        mutation.type === "attributes" &&
-        (mutation.attributeName === "style" || mutation.attributeName === "class") &&
-        (mutation.target === watermarkRef.value || mutation.target === containerEl)
+        containerEl &&
+        (mutation.type === "attributes" || mutation.type === "childList") &&
+        (target === containerEl || target === watermarkRef.value)
       ) {
-        needReset = true;
-        break;
+        return true;
       }
-    }
 
-    if (needReset) {
-      resetWatermark();
+      // 检测水印内容是否被修改
+      if (mutation.type === "childList" && mutation.removedNodes.length > 0) {
+        return Array.from(mutation.removedNodes).some(node => node === containerEl);
+      }
+
+      return false;
+    });
+
+    if (shouldRedraw) {
+      drawWatermark();
     }
   });
 
   observer.observe(watermarkRef.value, OBSERVER_CONFIG);
-  if (containerEl) {
-    observer.observe(containerEl, OBSERVER_CONFIG);
-  }
 };
 
 /**
- * @description 移除观察者
+ * @description 停止DOM变化监听
  */
-const removeObserver = (): void => {
+const stopObserver = (): void => {
   if (observer) {
     observer.disconnect();
     observer = null;
@@ -344,29 +322,72 @@ const removeObserver = (): void => {
 };
 
 /**
- * @description 监听属性变化，重新绘制水印
+ * @description 渲染初始化
  */
-watch(props, () => resetWatermark(), { deep: true });
+const initWatermark = (): void => {
+  drawWatermark();
+  if (props.antiTamper) {
+    nextTick(() => {
+      startObserver();
+    });
+  }
+};
 
 /**
- * @description 组件挂载时绘制水印并设置防篡改监听
+ * @description 生命周期 - 组件挂载
  */
 onMounted(() => {
-  resetWatermark();
+  initWatermark();
 });
 
 /**
- * @description 组件卸载时移除观察者和容器元素
+ * @description 生命周期 - 组件卸载
  */
 onUnmounted(() => {
-  removeObserver();
+  stopObserver();
   removeContainer();
 });
+
+/**
+ * @description 属性变化监听
+ */
+watch(
+  [
+    () => props.width,
+    () => props.height,
+    () => props.rotate,
+    () => props.zIndex,
+    () => props.image,
+    () => props.imageMode,
+    () => props.content,
+    () => props.font,
+    () => props.gap,
+    () => props.offset,
+    () => props.opacity
+  ],
+  () => {
+    drawWatermark();
+  }
+);
+
+/**
+ * @description 属性变化监听 - 防篡改开关
+ */
+watch(
+  () => props.antiTamper,
+  newVal => {
+    if (newVal) {
+      startObserver();
+    } else {
+      stopObserver();
+    }
+  }
+);
+
+/**
+ * @description 组件对外暴露方法
+ */
 defineExpose({
-  resetWatermark
+  update: drawWatermark
 });
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

@@ -18,8 +18,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, watchEffect } from "vue";
+import "./index.scss";
 import type { ModeType, MenuItemType, PropsType, EmitsType } from "./menu";
+import { computed, provide, watchEffect } from "vue";
 import TMenuItem from "./components/menu-item/menu-item.vue";
 import { menuContextKey } from "./constants";
 
@@ -165,7 +166,3 @@ watchEffect(() => {
   }
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

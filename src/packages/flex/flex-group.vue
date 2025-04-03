@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { StyleValue } from "vue";
 import type { PropsType } from "./flex-group";
 import { computed } from "vue";

@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./radio-group.scss";
 import type { PropsType, EmitsType } from "./radio-group";
 import type { ValueType } from "./radio";
 import type { GroupContextType } from "./constants";
@@ -55,12 +56,3 @@ provide<GroupContextType>(
   })
 );
 </script>
-
-<style lang="scss" scoped>
-.t-radio-group {
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  cursor: pointer;
-}
-</style>

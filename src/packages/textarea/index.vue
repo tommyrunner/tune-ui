@@ -19,8 +19,8 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { EmitsType, PropsType } from "./textarea";
-
 import { computed, ref } from "vue";
 import { configOptions } from "@/hooks/useOptions";
 import { isKeyboard, bindDebounce } from "@/utils";
@@ -114,7 +114,3 @@ const handleInput = () => {
   debounce(model.value);
 };
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

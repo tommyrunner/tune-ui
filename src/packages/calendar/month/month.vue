@@ -18,8 +18,9 @@
 </template>
 
 <script lang="ts" setup>
+import "./month.scss";
 import { inject } from "vue";
-import { MONTH_NAMES, calendarKey } from "../constants";
+import { MONTH_NAMES, calendarKey, type CalendarContextType } from "../constants";
 
 defineOptions({ name: "TCalendarMonth" });
 
@@ -34,7 +35,7 @@ interface PropsType {
 const props = defineProps<PropsType>();
 
 // 注入日历上下文
-const calendarContext = inject(calendarKey);
+const calendarContext = inject<CalendarContextType>(calendarKey);
 
 /**
  * @description 判断月份是否被选中
@@ -77,7 +78,3 @@ const handleMonthSelect = (month: number) => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./month.scss";
-</style>

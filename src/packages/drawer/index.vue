@@ -47,6 +47,7 @@
   </TPopover>
 </template>
 <script lang="ts" setup>
+import "./index.scss";
 import type { StyleValue } from "vue";
 import type { PropsType, EmitsType } from "./drawer";
 import { TPopover } from "../popover";
@@ -124,6 +125,3 @@ const footStyle = computed((): StyleValue => {
   };
 });
 </script>
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

@@ -59,9 +59,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, onMounted, onBeforeUnmount, ref } from "vue";
+import "./image-viewer.scss";
 import type { CSSProperties } from "vue";
 import type { ViewerProps, ViewerEmits, ViewerState, ViewerAction } from "./image-viewer";
+import { computed, reactive, onMounted, onBeforeUnmount, ref } from "vue";
 import { TIcon } from "@/packages/icon";
 
 // Props 定义
@@ -305,7 +306,3 @@ defineExpose({
   }
 });
 </script>
-
-<style lang="scss">
-@import "./image-viewer.scss";
-</style>

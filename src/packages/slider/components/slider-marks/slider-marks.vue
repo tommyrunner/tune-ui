@@ -20,9 +20,10 @@
 </template>
 
 <script lang="ts" setup>
+import "./slider-marks.scss";
+import type { MarkObject, MarksType, SliderContextType } from "../../slider";
 import { computed, inject } from "vue";
 import { sliderKey } from "../../constants";
-import type { MarkObject, MarksType, SliderContextType } from "../../slider";
 
 /**
  * @description 滑块刻度标记组件
@@ -100,7 +101,3 @@ const handleMark = (value: number) => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

@@ -33,6 +33,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { EmitsType, PropsType } from "./input";
 import type { ElSizeType } from "@/types";
 import type { InputTypeHTMLAttribute } from "vue";
@@ -125,7 +126,3 @@ const handleInput = () => {
   debounce(model.value);
 };
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

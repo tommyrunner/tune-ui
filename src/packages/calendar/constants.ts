@@ -9,6 +9,10 @@ export interface CalendarContextType extends PropsType {
   internalValue: Date;
   /** 处理日期选择 */
   handleSelectDate: (date: Date) => void;
+  /** 处理年份选择 */
+  handleYearSelect: (year: number) => void;
+  /** 处理月份选择 */
+  handleMonthSelect: (month: number) => void;
 }
 
 /** 日历组件注入键 */

@@ -74,10 +74,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, onMounted } from "vue";
+import "./index.scss";
 import type { EmitsType, PropsType } from "./date-picker";
 import type { DateType, ModeType } from "../calendar/calendar";
 import type { TPopoverType } from "@/packages/popover";
+import { computed, ref, onMounted } from "vue";
 import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
 import { TCalendar } from "@/packages/calendar";
@@ -318,7 +319,3 @@ defineExpose({
   jumpToDate
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

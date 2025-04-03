@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { PropsType } from "./card";
 import { computed, useSlots } from "vue";
 import { TIcon } from "@/packages/icon";
@@ -45,7 +46,3 @@ const showHeader = computed(() => {
   return props.title || slots.headLeft;
 });
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

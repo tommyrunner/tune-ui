@@ -13,9 +13,10 @@
   </div>
 </template>
 <script lang="ts" setup>
+import "./cell-filter.scss";
+import type { PropsType } from "./cell-filter";
 import { reactive } from "vue";
 import { TPopover } from "@/packages/popover";
-import { PropsType } from "./cell-filter";
 import { TIcon } from "@/packages/icon";
 import { TCheckbox } from "@/packages/checkbox";
 const props = withDefaults(defineProps<PropsType>(), {});
@@ -23,6 +24,3 @@ const state = reactive({
   isShowFilter: false
 });
 </script>
-<style lang="scss" scoped>
-@import "./cell-filter.scss";
-</style>

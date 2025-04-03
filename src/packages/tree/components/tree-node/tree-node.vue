@@ -55,7 +55,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { NodePropsType, TreeNode } from "../../tree";
+import "./tree-node.scss";
+import type { NodePropsType, TreeNodeType } from "../../tree";
 import { computed, inject } from "vue";
 import { TIcon } from "../../../icon";
 import { TCheckbox } from "../../../checkbox";
@@ -143,7 +144,7 @@ const checkedFn = computed(() => {
  * @param node 节点
  * @return {number} 1:全选 0:半选 -1:不选
  */
-const getCheckedDeep = (node: TreeNode): number => {
+const getCheckedDeep = (node: TreeNodeType): number => {
   if (!node.children || node.children.length === 0) {
     return node.isChecked ? 1 : -1;
   }
@@ -159,7 +160,3 @@ const getCheckedDeep = (node: TreeNode): number => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./tree-node.scss";
-</style>

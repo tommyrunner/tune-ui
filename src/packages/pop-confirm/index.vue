@@ -32,6 +32,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { PropsType, EmitsType } from "./pop-confirm";
 import type { StyleValue } from "vue";
 import { computed } from "vue";
@@ -86,7 +87,3 @@ const confirmStyles = computed((): StyleValue => {
   };
 });
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

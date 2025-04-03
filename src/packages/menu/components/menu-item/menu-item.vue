@@ -68,14 +68,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from "vue";
+import "./menu-item.scss";
 import type { StyleValue } from "vue";
-import { TIcon } from "@/packages/icon";
-import { TPopover } from "@/packages/popover";
 import type { MenuItemType, ModeType } from "../../menu";
 import type { MenuContextType } from "../../constants";
-import { menuContextKey } from "../../constants";
 import type { PropsType } from "./menu-item";
+import { computed, inject, ref } from "vue";
+import { TIcon } from "@/packages/icon";
+import { TPopover } from "@/packages/popover";
+import { menuContextKey } from "../../constants";
 
 defineOptions({
   name: "TMenuItem"
@@ -208,7 +209,3 @@ const expandAllChildren = (item: MenuItemType) => {
   });
 };
 </script>
-
-<style lang="scss" scoped>
-@import "./menu-item.scss";
-</style>

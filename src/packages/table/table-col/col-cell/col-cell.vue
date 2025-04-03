@@ -30,6 +30,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import "./col-cell.scss";
 import type { ColumnRenderScope, StateSortType } from "@/packages/table/table";
 import type { PropsType } from "./col-cell";
 import {
@@ -172,6 +173,3 @@ const getCellClass = computed(() => {
   return ["_cell", col.sortable && "_cell-pointer"];
 });
 </script>
-<style lang="scss" scoped>
-@import "./col-cell.scss";
-</style>

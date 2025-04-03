@@ -29,9 +29,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onBeforeUnmount, onMounted, reactive, useSlots, watch } from "vue";
+import "./form-item.scss";
 import type { FormContextType, FormItemRule, FormValidateResult, FormItemTrigger } from "../../form";
 import type { FormItemPropsType, FormItemValidateState, FormItemState } from "./form-item";
+import { computed, inject, onBeforeUnmount, onMounted, reactive, useSlots, watch } from "vue";
 import { formKey } from "../../constants";
 import { generateId } from "@/utils";
 import { isNullOrUnDef, isString, isFunction, isArray, isValue } from "@/utils/is";
@@ -349,7 +350,3 @@ defineExpose({
   validateState: state.validateState
 });
 </script>
-
-<style lang="scss" scoped>
-@import "./form-item.scss";
-</style>

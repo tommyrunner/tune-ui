@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { StyleValue } from "vue";
 import type { PropsType } from "./flex";
 import { computed, onDeactivated, ref } from "vue";
@@ -61,9 +62,3 @@ const flexStyle = computed((): StyleValue => {
   };
 });
 </script>
-
-<style lang="scss" scoped>
-.t-flex {
-  transition: 0.33s;
-}
-</style>

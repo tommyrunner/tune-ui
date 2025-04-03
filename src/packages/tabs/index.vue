@@ -13,6 +13,7 @@ import { computed, inject, onMounted, ref } from "vue";
 import { tabsGroupKey } from "./constants";
 import { isValue } from "@/utils/is";
 import { TIcon } from "@/packages/icon";
+import "./index.scss";
 
 defineOptions({ name: "TTabs" });
 
@@ -67,7 +68,3 @@ onMounted(() => {
   if (isChecked.value) handleChecked();
 });
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

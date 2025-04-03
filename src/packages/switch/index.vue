@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts" setup>
+import "./index.scss";
 import type { EmitsType, PropsType } from "./switch";
 import { computed } from "vue";
 import { configOptions } from "@/hooks/useOptions";
@@ -53,7 +54,3 @@ const handleClick = () => {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-@import "index.scss";
-</style>

@@ -20,8 +20,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { fromCssVal } from "@/utils";
+import "./index.scss";
 import type { PropsType, DirectionType, EmitsType } from "./scrollbar";
+import { fromCssVal } from "@/utils";
 import { computed, nextTick, onDeactivated, reactive, ref, StyleValue } from "vue";
 
 defineOptions({ name: "TScrollbar" });
@@ -278,6 +279,3 @@ defineExpose({
   scrollTo
 });
 </script>
-<style lang="scss" scoped>
-@import "./index.scss";
-</style>

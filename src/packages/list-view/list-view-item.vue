@@ -4,9 +4,10 @@
   </li>
 </template>
 <script lang="ts" setup>
+import "./list-view-item.scss";
+import type { PropsType } from "./list-view-item";
 import { fromCssVal } from "@/utils";
 import { GroupContextType, listViewGroupKey } from "./constants";
-import type { PropsType } from "./list-view-item";
 import { computed, inject, ref, StyleValue } from "vue";
 defineOptions({ name: "TListViewItem" });
 const groupContext = inject<GroupContextType | undefined>(listViewGroupKey, void 0);
@@ -26,6 +27,3 @@ const getListViewItemStyle = computed((): StyleValue => {
   };
 });
 </script>
-<style lang="scss" scoped>
-@import "./list-view-item.scss";
-</style>
