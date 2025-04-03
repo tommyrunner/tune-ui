@@ -9,14 +9,14 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/tommyrunner/tui/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/tommyrunner/tui.svg" alt="license">
+  <a href="https://github.com/tommyrunner/tune-ui/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/tommyrunner/tune-ui.svg" alt="license">
   </a>
   <a href="https://www.npmjs.com/package/tune-ui">
     <img src="https://img.shields.io/npm/v/tune-ui.svg" alt="npm">
   </a>
-  <a href="https://github.com/tommyrunner/tui/stargazers">
-    <img src="https://img.shields.io/github/stars/tommyrunner/tui.svg" alt="stars">
+  <a href="https://github.com/tommyrunner/tune-ui/stargazers">
+    <img src="https://img.shields.io/github/stars/tommyrunner/tune-ui.svg" alt="stars">
   </a>
 </p>
 
@@ -172,13 +172,13 @@ useOptions({
 
 我们非常欢迎您的贡献，您可以通过以下方式参与项目：
 
-1. 提交 [Issue](https://github.com/tommyrunner/tui/issues) 报告问题或建议
-2. 提交 [Pull Request](https://github.com/tommyrunner/tui/pulls) 改进代码
+1. 提交 [Issue](https://github.com/tommyrunner/tune-ui/issues) 报告问题或建议
+2. 提交 [Pull Request](https://github.com/tommyrunner/tune-ui/pulls) 改进代码
 
-在提交之前，请确保阅读我们的[贡献指南](https://github.com/tommyrunner/tui/blob/main/CONTRIBUTING.md)。
+在提交之前，请确保阅读我们的[贡献指南](https://github.com/tommyrunner/tune-ui/blob/main/CONTRIBUTING.md)。
 
 ## 📄 许可证
 
-[MIT](https://github.com/tommyrunner/tui/blob/main/LICENSE)
+[MIT](https://github.com/tommyrunner/tune-ui/blob/main/LICENSE)
 
 Copyright (c) 2024-present, TommyRunner
