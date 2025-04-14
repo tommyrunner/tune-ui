@@ -1,10 +1,12 @@
 import { ElSizeType } from "@/types";
+import { OptionsType as LoadingOptionsType } from "web-loading";
 /**
  * 全局配置
  */
 export interface OptionsType {
   theme: OptionsThemeType;
   elSize: ElSizeType;
+  loadingOptions?: LoadingOptionsType;
 }
 /**
  * 全局主题配置

@@ -16,7 +16,8 @@ export function initOptions(): OptionsType {
       dark: "#1890ff",
       light: "#fff"
     },
-    elSize: "default"
+    elSize: "default",
+    loadingOptions: {}
   };
 }
 // 全局配置，初始化一次

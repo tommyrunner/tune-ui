@@ -5,6 +5,7 @@ import ButtonTest from "./packages/button.vue";
 import IconTest from "./packages/icon.vue";
 import DividerTest from "./packages/divider.vue";
 import TagTest from "./packages/tag.vue";
+import LoadingTest from "./packages/loading.vue";
 
 // 表单组件测试
 import InputTest from "./packages/input.vue";
@@ -59,6 +60,7 @@ export const testComponents = {
   IconTest,
   DividerTest,
   TagTest,
+  LoadingTest,
 
   // 表单组件测试
   InputTest,
@@ -121,6 +123,7 @@ export const TButtonTest = ButtonTest;
 export const TIconTest = IconTest;
 export const TDividerTest = DividerTest;
 export const TTagTest = TagTest;
+export const TLoadingTest = LoadingTest;
 
 // 表单组件测试
 export const TInputTest = InputTest;

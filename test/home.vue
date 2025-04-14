@@ -80,7 +80,8 @@ import {
   TFormTest,
   TDividerTest,
   TWatermarkTest,
-  TMenuTest
+  TMenuTest,
+  TLoadingTest
 } from "./index";
 
 defineOptions({ name: "TestHome" });
@@ -91,6 +92,8 @@ const componentList: ComponentConfig[] = [
   { name: "TButtonTest", label: "Button 按钮", category: ComponentCategory.Basic, component: TButtonTest },
   { name: "TIconTest", label: "Icon 图标", category: ComponentCategory.Basic, component: TIconTest },
   { name: "TTagTest", label: "Tag 标签", category: ComponentCategory.Basic, component: TTagTest },
+  { name: "TLoadingTest", label: "Loading 加载", category: ComponentCategory.Layout, component: TLoadingTest },
+
   // 表单组件
   { name: "TInputTest", label: "Input 输入框", category: ComponentCategory.Form, component: TInputTest },
   { name: "TInputNumberTest", label: "InputNumber 数值输入框", category: ComponentCategory.Form, component: TInputNumberTest },
@@ -150,7 +153,7 @@ const getComponentsByCategory = (category: ComponentCategory) => {
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TButtonTest"));
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TLoadingTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {

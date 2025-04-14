@@ -56,6 +56,7 @@ import { version } from "../../package.json";
 export * from "./button";
 export * from "./icon";
 export * from "./divider";
+export * from "./loading";
 
 // 表单组件
 export * from "./input";
