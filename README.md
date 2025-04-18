@@ -54,7 +54,7 @@ pnpm add tune-ui
 import { createApp } from "vue";
 import App from "./App.vue";
 import { install } from "tune-ui";
-import "tune-ui/dist/styles/index.css";
+import "tune-ui/dist/lib/style.css";
 
 const app = createApp(App);
 app.use(install);

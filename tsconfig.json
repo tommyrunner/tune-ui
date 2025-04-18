@@ -41,10 +41,16 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    // 测试
     "test/**/*.vue",
     "test/**/*.ts",
+    // 构建
     "build/**/*.ts",
     "build/**/*.d.ts",
+    // 文档
+    "docs/**/*.ts",
+    "docs/**/*.d.ts",
+    "docs/**/*.vue",
     "vite.config.ts"
   ],
   "exclude": [
