@@ -5,19 +5,18 @@ import MarkdownIt from "markdown-it";
 import type { RenderRule } from "markdown-it/lib/renderer";
 import Token from "markdown-it/lib/token";
 import container from "markdown-it-container";
-import { highlight } from "../utils/highlight";
 
 interface ContainerOpts {
-  marker?: string | undefined;
+  marker?: string;
   validate?(params: string): boolean;
-  render?: RenderRule | undefined;
+  render?: RenderRule;
 }
 
 export default (md: MarkdownIt): void => {
+  // 创建自定义容器的通用函数
   const createContainer = (klass: string, defaultTitle: string, options: ContainerOpts = {}) => {
     const { validate, render, marker = ":" } = options;
 
-    // 使用 markdown-it-container 插件注册自定义容器
     md.use(container, klass, {
       validate:
         validate ||
@@ -32,11 +31,9 @@ export default (md: MarkdownIt): void => {
           const info = token.info.trim().match(new RegExp(`^${marker}\\s+${klass}\\s+(.*)$`));
 
           if (token.nesting === 1) {
-            // 容器开始标签
             const title = info && info[1] ? info[1] : defaultTitle;
             return `<div class="${klass} custom-block"><p class="custom-block-title">${md.utils.escapeHtml(title)}</p>\n`;
           } else {
-            // 容器结束标签
             return "</div>\n";
           }
         })
@@ -59,28 +56,25 @@ export default (md: MarkdownIt): void => {
         attrs.forEach(attr => {
           const [key, value] = attr.split("=");
           if (key && value) {
-            props[key] = value.replace(/["']/g, ""); // 去除引号
+            props[key] = value.replace(/["']/g, "");
           }
         });
       }
 
       if (token.nesting === 1) {
-        // 容器开始
         const content = tokens[idx + 1].content;
-
-        // 构建props字符串
         const propsString = Object.entries(props)
           .map(([key, value]) => `${key}="${value}"`)
           .join(" ");
 
-        // 使用新的Demo组件
+        const hasComponent = props["componentName"] && props["examples"];
         return `<Demo ${propsString}>
-                  ${content}
-                  <template #code v-if="${!props["componentName"]}">
-                `;
+                ${content}
+                ${hasComponent ? "" : `<template #code>`}
+              `;
       } else {
-        // 容器结束
-        return props["componentName"] ? "</Demo>" : "</template></Demo>";
+        const hasComponent = props["componentName"] && props["examples"];
+        return hasComponent ? "</Demo>" : "</template></Demo>";
       }
     }
   });

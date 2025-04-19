@@ -6,20 +6,20 @@ import "./styles/custom.css";
 import "./styles/demo.css";
 // 引入 tune-ui 组件库 样式文件
 import "tune-ui/dist/lib/style.css";
-
+// 导入自定义的VSCode风格样式
+import "./styles/code.css";
 // @ts-ignore
 import Demo from "./components/Demo.vue";
 
 export default {
   extends: DefaultTheme,
   Layout() {
-    return h(DefaultTheme.Layout, null, {
-      // 可以在这里自定义布局
-    });
+    return h(DefaultTheme.Layout, null, {});
   },
   enhanceApp({ app, router }) {
-    // 注册演示组件
+    // 注册组件
     app.component("Demo", Demo);
+
     // 注册UI模拟组件
     app.component("TButton", {
       props: ["type", "plain", "round", "circle", "loading", "disabled", "icon", "size", "color"],
@@ -36,15 +36,6 @@ export default {
                 </button>`
     });
 
-    app.component("TButtonGroup", {
-      template: `<div class="t-button-group"><slot></slot></div>`
-    });
-
-    app.component("TIcon", {
-      props: ["icon"],
-      template: `<i :class="'t-icon-' + icon"></i>`
-    });
-
     // 页面跳转回到顶部
     if (typeof window !== "undefined") {
       router.onAfterRouteChanged = () => {
@@ -52,13 +43,11 @@ export default {
       };
     }
 
-    // 注册暗色模式切换组件（正确使用useData）
+    // 注册暗色模式切换组件
     app.component("DarkModeSwitch", {
       setup() {
-        // 这里是正确的使用useData的地方 - 在组件setup函数内
         if (typeof window === "undefined") return {};
 
-        // 以下代码只在浏览器环境执行
         const { watch, onMounted, ref } = require("vue");
         const { useData } = require("vitepress");
         const { isDark } = useData();
@@ -79,9 +68,7 @@ export default {
           }
         }
 
-        return {
-          isDark
-        };
+        return { isDark };
       },
       template: `<div style="display:none;"></div>`
     });

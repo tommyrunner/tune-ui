@@ -2,23 +2,76 @@
 
 本文档提供了关于如何为 Tune UI 组件库开发新组件的指南。
 
+## 组件Demo展示用法
+
+在文档中展示组件示例时，可以使用我们的Demo容器组件。该组件支持两种使用方式：
+
+### 1. 使用组件名和示例名
+
+```html
+<demo component-name="button" examples="BasicButton"></demo>
+```
+
+这种方式会自动从 `/examples/{componentName}/{examples}.vue` 路径导入组件。
+
+### 2. 内联代码方式
+
+```html
+<demo>
+  <template>
+    <t-button>按钮</t-button>
+  </template>
+  
+  <script setup>
+  import { TButton } from "tune-ui";
+  </script>
+  
+  <template #code>
+    <!-- 这里放置要显示的代码 -->
+  </template>
+</demo>
+```
+
+这种方式适用于简单的示例，可以直接在markdown文件中编写示例组件，并通过code插槽提供要显示的代码。
+
+## 功能特点
+
+Demo容器组件提供以下功能：
+
+1. 自动导入并渲染组件
+2. 显示/隐藏源代码
+3. 一键复制源代码
+4. 跳转到GitHub查看源码
+
 ## 目录结构
 
-组件存放路径统一为 `tune-ui/src/packages` 目录下，每个组件应遵循以下目录结构:
+组件示例应当存放在 `/docs/examples/{componentName}/` 目录下，每个示例为一个单独的Vue文件。
 
 ```
-packages/
-├── 组件名/
-│   ├── index.vue          # 主组件
-│   ├── index.ts           # 组件导出入口
-│   ├── 组件名.ts           # 类型定义文件
-│   ├── index.scss         # 主样式文件
-│   ├── constants.ts       # 常量和注入键定义
-│   ├── components/        # 子组件目录
-│   │   ├── 子组件名/
-│   │   │   ├── 子组件名.vue
-│   │   │   └── 子组件名.scss
+docs/
+└── examples/
+    └── button/
+        ├── BasicButton.vue
+        ├── DisabledButton.vue
+        └── ... 其他示例
 ```
+
+## 示例开发规范
+
+开发组件示例时，请遵循以下规范：
+
+1. 每个示例应当专注于展示组件的一个特定功能或状态
+2. 示例命名应当清晰表达其展示的功能，如`BasicButton`、`IconButton`等
+3. 示例应当包含必要的样式，以确保在文档中展示良好
+4. 示例代码应当简洁明了，突出重点功能
+
+## 扩展阅读
+
+更多关于组件开发的指南，请参阅：
+
+- [Vue3组件最佳实践](/guide/best-practices)
+- [组件设计原则](/guide/design-principles)
+- [组件测试指南](/guide/testing)
 
 ## 基本规范
 

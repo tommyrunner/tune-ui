@@ -4,7 +4,7 @@
 import escapeHtml from "escape-html";
 import prism from "prismjs";
 
-// 导入其他语言的支持
+// 导入语言支持
 import "prismjs/components/prism-bash";
 import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-jsx";
@@ -30,38 +30,28 @@ export function highlight(str: string, lang: string): string {
     return highlightSFC(str);
   }
 
-  // 非Vue语法直接使用Prism处理
-  lang = lang.toLowerCase();
-  const rawLang = lang;
+  // 语言别名映射
+  const langMap: Record<string, string> = {
+    vue: "markup",
+    html: "markup",
+    md: "markdown",
+    ts: "typescript",
+    js: "javascript"
+  };
 
-  if (lang === "vue" || lang === "html") {
-    lang = "markup";
-  }
+  const normalizedLang = langMap[lang] || lang;
 
-  if (lang === "md") {
-    lang = "markdown";
-  }
-
-  if (lang === "ts") {
-    lang = "typescript";
-  }
-
-  if (lang === "js") {
-    lang = "javascript";
-  }
-
-  if (!prism.languages[lang]) {
+  if (!prism.languages[normalizedLang]) {
     try {
       // 动态加载语言
-      import(`prismjs/components/prism-${lang}.js`);
+      import(/* @vite-ignore */ `prismjs/components/prism-${normalizedLang}.js`);
     } catch (e) {
-      console.warn(`Syntax highlight for language "${lang}" is not supported.`);
+      console.warn(`语法高亮不支持 "${normalizedLang}" 语言`);
     }
   }
 
-  if (prism.languages[lang]) {
-    const code = prism.highlight(str, prism.languages[lang], lang);
-    return code;
+  if (prism.languages[normalizedLang]) {
+    return prism.highlight(str, prism.languages[normalizedLang], normalizedLang);
   }
 
   return escapeHtml(str);
@@ -69,41 +59,32 @@ export function highlight(str: string, lang: string): string {
 
 /**
  * 处理Vue SFC文件的语法高亮
- * @param source Vue源代码
- * @returns 高亮后的HTML
  */
 function highlightSFC(source: string): string {
   const result: string[] = [];
 
-  // 简单解析Vue SFC的各部分 - 实际情况应该使用vue/compiler-sfc
+  // 提取Vue SFC各部分
   const templateMatch = source.match(/<template>([\s\S]+)<\/template>/);
   const scriptMatch = source.match(/<script.*>([\s\S]+)<\/script>/);
-  const scriptSetupMatch = source.match(/<script.*setup.*>([\s\S]+)<\/script>/);
   const styleMatch = source.match(/<style.*>([\s\S]+)<\/style>/);
 
   // 处理template部分
   if (templateMatch) {
-    const template = templateMatch[0];
-    const highlightedTemplate = highlightVueBlock(template, "markup");
-    result.push(highlightedTemplate);
+    result.push(highlightVueBlock(templateMatch[0], "markup"));
   }
 
   // 处理script部分
   if (scriptMatch) {
-    const script = scriptMatch[0];
-    const langMatch = script.match(/lang="(\w+)"/);
+    const langMatch = scriptMatch[0].match(/lang="(\w+)"/);
     const lang = langMatch && langMatch[1] ? langMatch[1] : "javascript";
-    const highlightedScript = highlightVueBlock(script, lang === "ts" ? "typescript" : "javascript");
-    result.push(highlightedScript);
+    result.push(highlightVueBlock(scriptMatch[0], lang === "ts" ? "typescript" : "javascript"));
   }
 
   // 处理style部分
   if (styleMatch) {
-    const style = styleMatch[0];
-    const langMatch = style.match(/lang="(\w+)"/);
+    const langMatch = styleMatch[0].match(/lang="(\w+)"/);
     const lang = langMatch && langMatch[1] ? langMatch[1] : "css";
-    const highlightedStyle = highlightVueBlock(style, lang === "scss" ? "scss" : "css");
-    result.push(highlightedStyle);
+    result.push(highlightVueBlock(styleMatch[0], lang === "scss" ? "scss" : "css"));
   }
 
   return result.length > 0 ? result.join("\n") : escapeHtml(source);
@@ -111,9 +92,6 @@ function highlightSFC(source: string): string {
 
 /**
  * 高亮Vue SFC的各个块
- * @param block 代码块
- * @param lang 语言
- * @returns 高亮后的HTML
  */
 function highlightVueBlock(block: string, lang: string): string {
   // 提取内容
@@ -125,7 +103,9 @@ function highlightVueBlock(block: string, lang: string): string {
   const highlightedOpenTag = openTag
     ? `<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>${openTag[0].slice(1, -1)}</span><span class="token punctuation">&gt;</span></span>`
     : "";
+
   const highlightedContent = content ? prism.highlight(content, prism.languages[lang], lang) : "";
+
   const highlightedCloseTag = closeTag
     ? `<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>${closeTag[0].slice(2, -1)}</span><span class="token punctuation">&gt;</span></span>`
     : "";

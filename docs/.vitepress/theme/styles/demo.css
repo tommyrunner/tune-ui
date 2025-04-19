@@ -1,157 +1,217 @@
-/**
- * 演示组件相关样式
- */
-
-/* 演示容器 */
-.demo-block {
-  border: 1px solid var(--vp-c-divider);
+/* Demo组件包装器 */
+.demo-block-wrapper {
+  margin: 24px 0;
   border-radius: 8px;
-  margin: 20px 0;
   overflow: hidden;
-  transition: box-shadow 0.2s;
+  border: 1px solid #eaecef;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.demo-block:hover {
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+.demo-block-wrapper:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* 演示区域 */
-.demo-block .source {
-  padding: 24px;
+/* Demo内容容器 */
+.demo-container {
+  padding: 30px 32px;
+  color: var(--vp-c-text-1);
   background-color: var(--vp-c-bg);
+  border-bottom: 1px solid #eaecef;
 }
 
-/* 代码控制器 */
-.demo-block .demo-block-control {
-  border-top: 1px solid var(--vp-c-divider);
+/* Demo控制栏 */
+.demo-block-control {
   height: 44px;
   box-sizing: border-box;
   background-color: var(--vp-c-bg-soft);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  cursor: pointer;
-  position: relative;
   color: var(--vp-c-text-2);
+  padding: 0 16px;
+  position: relative;
+  transition: all 0.3s;
   font-size: 14px;
-  user-select: none;
+  border-bottom: 1px solid #eaecef;
 }
 
-.demo-block .demo-block-control:hover {
+.left-placeholder {
+  flex: 1;
+}
+
+.control-center {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 16px;
+}
+
+.control-center:hover {
   color: var(--vp-c-brand);
 }
 
-/* 箭头图标 */
-.demo-block .demo-block-control .arrow-icon {
-  transition: transform 0.2s;
-  margin-left: 8px;
+.arrow-icon {
+  margin-left: 6px;
+  transition: transform 0.3s;
+  opacity: 0.7;
 }
 
-.demo-block.is-expanded .demo-block-control .arrow-icon {
+.control-center:hover .arrow-icon {
+  opacity: 1;
+}
+
+.arrow-icon.is-expanded {
   transform: rotate(180deg);
 }
 
-/* 代码区域 */
-.demo-block .meta {
-  background-color: var(--vp-code-block-bg);
-  overflow: hidden;
-  height: 0;
-  transition: height 0.2s;
-}
-
-.demo-block.is-expanded .meta {
-  height: auto;
-  padding: 0 16px 16px;
-}
-
-/* 代码包装 */
-.demo-block .meta .code-wrapper {
-  font-size: 14px;
-  line-height: 1.5;
-  overflow: auto;
-}
-
-.demo-block .meta pre {
-  margin: 0;
-}
-
-/* 操作栏 */
-.demo-block .operation-bar {
+/* 操作图标区域 */
+.operation-icons {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 8px 16px;
   gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
 }
 
-.demo-block .operation-button {
-  display: inline-flex;
-  align-items: center;
+.operation-icon {
+  opacity: 0.7;
   cursor: pointer;
-  color: var(--vp-c-text-3);
-  font-size: 13px;
-  border: none;
-  background: none;
-  padding: 4px 8px;
+  transition: opacity 0.2s;
+  padding: 2px;
   border-radius: 4px;
-  transition:
-    color 0.2s,
-    background-color 0.2s;
 }
 
-.demo-block .operation-button:hover {
-  color: var(--vp-c-brand);
-  background-color: var(--vp-code-copy-code-hover-bg);
+.operation-icon:hover {
+  opacity: 1;
 }
 
-.demo-block .operation-button.copied {
-  color: var(--vp-c-brand);
+.operation-icon.copied {
+  opacity: 1;
+  animation: pulse 0.4s ease-in-out;
 }
 
-/* 工具提示 */
-.demo-block .tooltip {
-  position: relative;
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
-.demo-block .tooltip:after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 4px 8px;
-  background: var(--vp-c-text-1);
-  color: var(--vp-c-bg);
+/* 代码区域 */
+.demo-block-code {
+  background-color: var(--code-background);
+  overflow: hidden;
+}
+
+.code-wrapper {
+  overflow: auto;
+  line-height: 1.6;
+  padding: 0 16px;
+  font-size: 14px;
+}
+
+.code-wrapper pre {
+  margin: 0;
+  padding: 20px 10px;
   border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
+}
+
+.code-wrapper code {
+  display: block;
+  font-family: var(--vp-font-family-mono);
+  font-size: 16px;
+  white-space: pre;
+  word-break: normal;
+  word-wrap: normal;
+  overflow-x: auto;
+  padding: 0 5px;
+  letter-spacing: 0.3px;
+}
+
+/* 代码高亮定制 */
+.code-wrapper .token.tag {
+  color: #3b82f6;
+}
+.code-wrapper .token.attr-name {
+  color: #0f766e;
+}
+.code-wrapper .token.attr-value,
+.code-wrapper .token.string {
+  color: #b91c1c;
+}
+.code-wrapper .token.comment {
+  color: #64748b;
+  font-style: italic;
+}
+
+/* 展开/收起动画 */
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.3s ease;
+  max-height: 500px;
+  overflow: hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  max-height: 0;
   opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 0.2s,
-    visibility 0.2s;
-  pointer-events: none;
 }
 
-.demo-block .tooltip:hover:after {
-  opacity: 0.9;
-  visibility: visible;
+/* 深色模式适配 */
+.dark .demo-block-wrapper {
+  border-color: #333;
+}
+.dark .demo-container,
+.dark .demo-block-control {
+  border-bottom-color: #333;
 }
 
-/* 暗色模式适配 */
-.dark .demo-block {
-  border-color: var(--vp-c-divider);
+/* 加载状态容器 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
 }
 
-.dark .demo-block .demo-block-control {
-  border-top-color: var(--vp-c-divider);
-  background-color: var(--vp-c-bg-soft);
+.loading-container.code-loading {
+  padding: 20px;
+  background-color: var(--code-background);
 }
 
-.dark .demo-block .meta {
-  background-color: var(--vp-code-block-bg);
+/* 加载动画 */
+.loading-spinner {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 12px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--vp-c-brand);
+  animation: spin 0.8s linear infinite;
 }
 
-.dark .demo-block .operation-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 深色模式加载状态 */
+.dark .loading-spinner {
+  border-color: rgba(255, 255, 255, 0.1);
+  border-top-color: var(--vp-c-brand);
+}
+
+.dark .loading-container {
+  color: var(--vp-c-text-3);
 }

@@ -2,7 +2,12 @@
   <div class="demo-block-wrapper">
     <div class="demo-container">
       <div class="demo-content">
-        <slot></slot>
+        <!-- 组件加载状态 -->
+        <div v-if="isComponentLoading" class="loading-container">
+          <div class="loading-spinner"></div>
+          <span>组件加载中...</span>
+        </div>
+        <component v-else :is="demoComponent" />
       </div>
     </div>
 
@@ -46,9 +51,13 @@
     <!-- 代码展示区域 -->
     <transition name="expand">
       <div v-show="isExpanded" class="demo-block-code">
-        <div class="code-wrapper">
+        <div v-if="isCodeLoading" class="loading-container code-loading">
+          <div class="loading-spinner"></div>
+          <span>代码加载中...</span>
+        </div>
+        <div v-else class="code-wrapper">
           <slot v-if="$slots.code" name="code"></slot>
-          <pre v-else v-html="highlightedCode"></pre>
+          <pre v-else class="language-vue"><code class="language-vue" v-html="highlightedCode"></code></pre>
         </div>
       </div>
     </transition>
@@ -56,27 +65,61 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, defineAsyncComponent } from "vue";
+import { highlight } from "../../utils/highlight";
 
 interface PropsType {
-  componentName: string;
+  componentName?: string;
+  examples?: string;
 }
 
-const props = withDefaults(defineProps<PropsType>(), {});
+const props = withDefaults(defineProps<PropsType>(), {
+  componentName: "",
+  examples: ""
+});
 
-// 展开状态
+// 状态管理
 const isExpanded = ref(false);
-
-// 复制状态
 const copied = ref(false);
-
-// 源代码内容
 const sourceCode = ref("");
+const isComponentLoading = ref(true);
+const isCodeLoading = ref(false);
 
-// 高亮后的代码
+// 组件路径
+const componentPath = computed(() => {
+  if (props.componentName && props.examples) {
+    return `/examples/${props.componentName}/${props.examples}.vue`;
+  }
+  return "";
+});
+
+// 动态导入组件
+const demoComponent = computed(() => {
+  if (componentPath.value) {
+    const asyncComponent = defineAsyncComponent({
+      loader: () => import(/* @vite-ignore */ componentPath.value),
+      delay: 0,
+      onError(error, retry, fail, attempts) {
+        if (attempts <= 3) {
+          console.warn(`组件加载失败，正在重试 (${attempts}/3)...`);
+          retry();
+        } else {
+          console.error("组件加载失败:", error);
+          fail();
+          isComponentLoading.value = false;
+        }
+      }
+    });
+
+    return asyncComponent;
+  }
+  return {} as any;
+});
+
+// 代码高亮处理
 const highlightedCode = computed(() => {
   if (!sourceCode.value) return "";
-  return sourceCode.value;
+  return highlight(sourceCode.value, "vue");
 });
 
 // GitHub链接
@@ -87,9 +130,27 @@ const githubHref = computed(() => {
     : "https://github1s.com/tommyrunner/tune-ui";
 });
 
+// 加载源代码
+const loadSourceCode = async () => {
+  try {
+    if (componentPath.value) {
+      isCodeLoading.value = true;
+      const code = await import(/* @vite-ignore */ `${componentPath.value}?raw`);
+      sourceCode.value = code.default;
+    }
+  } catch (error) {
+    console.error("加载源代码失败:", error);
+  } finally {
+    isCodeLoading.value = false;
+  }
+};
+
 // 切换展开状态
 const toggleExpand = () => {
   isExpanded.value = !isExpanded.value;
+  if (isExpanded.value && !sourceCode.value) {
+    loadSourceCode();
+  }
 };
 
 // 打开GitHub源码
@@ -97,19 +158,12 @@ const openGithub = () => {
   window.open(githubHref.value, "_blank");
 };
 
-// 获取代码
+// 获取并复制代码
 const getSourceCode = () => {
-  // 优先使用插槽提供的代码
-  if (document.querySelector(".code-wrapper pre")) {
-    const highlight = document.querySelector(".code-wrapper pre");
-    return highlight ? highlight.textContent || "" : "";
-  }
-
-  // 否则使用sourceCode
-  return sourceCode.value;
+  const highlight = document.querySelector(".code-wrapper pre");
+  return highlight?.textContent || sourceCode.value || "";
 };
 
-// 复制代码
 const copyCode = async () => {
   if (copied.value) return;
 
@@ -122,131 +176,15 @@ const copyCode = async () => {
     }, 2000);
   }
 };
+
+// 组件初始化
+onMounted(() => {
+  setTimeout(() => {
+    isComponentLoading.value = false;
+  }, 300);
+
+  if (componentPath.value) {
+    loadSourceCode();
+  }
+});
 </script>
-
-<style scoped>
-.demo-block-wrapper {
-  margin: 24px 0;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--vp-c-divider-light);
-  transition: all 0.2s;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.demo-container {
-  padding: 28px 32px;
-  color: var(--vp-c-text-1);
-  background-color: var(--vp-c-bg);
-  border-bottom: 1px dashed var(--vp-c-divider-light);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 12px 12px 0 0;
-}
-
-.demo-block-wrapper:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.demo-block-control {
-  height: 44px;
-  box-sizing: border-box;
-  background-color: var(--vp-c-bg-soft);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--vp-c-text-2);
-  padding: 0 16px;
-  position: relative;
-  transition: all 0.3s;
-  font-size: 14px;
-}
-
-.left-placeholder {
-  flex: 1;
-}
-
-.control-center {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  padding: 0 16px;
-}
-
-.control-center:hover {
-  color: var(--vp-c-brand);
-}
-
-.arrow-icon {
-  margin-left: 6px;
-  transition: transform 0.3s;
-  opacity: 0.7;
-}
-
-.control-center:hover .arrow-icon {
-  opacity: 1;
-}
-
-.arrow-icon.is-expanded {
-  transform: rotate(180deg);
-}
-
-.demo-block-code {
-  background-color: var(--vp-code-block-bg);
-  overflow: hidden;
-}
-
-.operation-icons {
-  display: flex;
-  gap: 8px;
-  flex: 1;
-  justify-content: flex-end;
-}
-
-.operation-icon {
-  opacity: 0.7;
-  cursor: pointer;
-  transition: opacity 0.2s;
-  padding: 2px;
-  border-radius: 4px;
-}
-
-.operation-icon:hover {
-  opacity: 1;
-}
-
-.operation-icon.copied {
-  opacity: 1;
-  animation: pulse 0.4s ease-in-out;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-}
-
-.code-wrapper {
-  padding: 20px;
-  overflow: auto;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.expand-enter-active,
-.expand-leave-active {
-  transition: all 0.3s ease;
-  max-height: 500px;
-  overflow: hidden;
-}
-
-.expand-enter-from,
-.expand-leave-to {
-  max-height: 0;
-  opacity: 0;
-}
-</style>
