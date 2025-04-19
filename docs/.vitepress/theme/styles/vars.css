@@ -3,11 +3,11 @@
  */
 
 :root {
-  --vp-c-brand: #626aef;
-  --vp-c-brand-light: #727bf2;
-  --vp-c-brand-lighter: #8489f5;
-  --vp-c-brand-dark: #5258e5;
-  --vp-c-brand-darker: #3f46d4;
+  --vp-c-brand: #357390;
+  --vp-c-brand-light: #4085a3;
+  --vp-c-brand-lighter: #5096b5;
+  --vp-c-brand-dark: #2d6279;
+  --vp-c-brand-darker: #245162;
 
   --vp-c-sponsor: #fd1d7c;
 
@@ -19,20 +19,20 @@
   /* 自定义容器颜色 */
   --vp-custom-block-tip-border: var(--vp-c-brand);
   --vp-custom-block-tip-text: var(--vp-c-brand-darker);
-  --vp-custom-block-tip-bg: rgba(98, 106, 239, 0.1);
+  --vp-custom-block-tip-bg: rgba(53, 115, 144, 0.1);
 
   /* 代码块背景色 */
   --vp-code-block-bg: #f9fafb;
 
   /* 代码块按钮颜色 */
-  --vp-code-copy-code-bg: rgba(98, 106, 239, 0.05);
-  --vp-code-copy-code-hover-bg: rgba(98, 106, 239, 0.1);
+  --vp-code-copy-code-bg: rgba(53, 115, 144, 0.05);
+  --vp-code-copy-code-hover-bg: rgba(53, 115, 144, 0.1);
   --vp-code-copy-code-active-text: var(--vp-c-brand);
 
   /* 主页 Hero 区域链接 */
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: linear-gradient(120deg, #626aef, #9198f9);
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, rgba(98, 106, 239, 0.8) 30%, rgba(98, 106, 239, 0.5));
+  --vp-home-hero-name-background: linear-gradient(120deg, #357390, #5096b5);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, rgba(53, 115, 144, 0.8) 30%, rgba(53, 115, 144, 0.5));
   --vp-home-hero-image-filter: blur(30px);
 }
 

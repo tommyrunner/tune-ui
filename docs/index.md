@@ -7,7 +7,7 @@ hero:
   text: "高效、优雅的Vue3组件库"
   tagline: 为现代化前端开发提供流畅的UI解决方案
   image:
-    src: https://i.postimg.cc/PxMBWVPz/logo.png
+    src: https://i.postimg.cc/xTWLN1Lc/logo-plus.png
     alt: Tune UI
   actions:
     - theme: brand
@@ -37,4 +37,3 @@ features:
     title: 国际化
     details: 内置多语言支持，轻松实现应用的国际化需求
 ---
-
