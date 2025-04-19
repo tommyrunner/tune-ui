@@ -1,6 +1,8 @@
 import { defineConfig } from "vitepress";
 import { resolve } from "path";
 import demoBlockPlugin from "./plugins/demoBlock";
+import componentsSidebar from "./sidebar/components.json";
+import guideSidebar from "./sidebar/guide.json";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -60,55 +62,8 @@ export default defineConfig({
     ],
 
     sidebar: {
-      "/guide/": [
-        {
-          text: "基础",
-          items: [
-            { text: "快速开始", link: "/guide/" },
-            { text: "安装使用", link: "/guide/installation" },
-            { text: "组件开发指南", link: "/guide/component-development" }
-          ]
-        },
-        {
-          text: "进阶",
-          items: [
-            { text: "国际化", link: "/guide/i18n/" },
-            { text: "主题定制", link: "/guide/theming/" }
-          ]
-        }
-      ],
-      "/components/": [
-        {
-          text: "基础组件",
-          items: [
-            { text: "按钮 Button", link: "/components/button" },
-            { text: "图标 Icon", link: "/components/icon" }
-          ]
-        },
-        {
-          text: "表单组件",
-          items: [
-            { text: "输入框 Input", link: "/components/input" },
-            { text: "复选框 Checkbox", link: "/components/checkbox" },
-            { text: "单选框 Radio", link: "/components/radio" },
-            { text: "选择器 Select", link: "/components/select" }
-          ]
-        },
-        {
-          text: "数据展示",
-          items: [
-            { text: "表格 Table", link: "/components/table" },
-            { text: "标签页 Tabs", link: "/components/tabs" }
-          ]
-        },
-        {
-          text: "反馈组件",
-          items: [
-            { text: "对话框 Dialog", link: "/components/dialog" },
-            { text: "消息 Message", link: "/components/message" }
-          ]
-        }
-      ]
+      "/guide/": guideSidebar,
+      "/components/": componentsSidebar
     },
 
     socialLinks: [{ icon: "github", link: "https://github.com/yourusername/tune-ui" }],
