@@ -6,7 +6,7 @@
 
 使用 `type`、`plain`、`round` 和 `circle` 来定义按钮的样式。
 
-<demo>
+<demo component-name="button">
   <BasicButton />
   <template #code>
 
@@ -61,7 +61,7 @@ import { TButton } from "tune-ui";
 
 按钮的禁用状态。
 
-<demo>
+<demo component-name="button">
   <DisabledButton />
   <template #code>
 
@@ -98,7 +98,7 @@ import { TButton } from "tune-ui";
 
 使用 `size` 属性设置按钮的大小。
 
-<demo>
+<demo component-name="button">
   <SizeButton />
   <template #code>
 
@@ -131,7 +131,7 @@ import { TButton } from "tune-ui";
 
 点击按钮后进行数据加载操作，在按钮上显示加载状态。
 
-<demo>
+<demo component-name="button">
   <LoadingButton />
   <template #code>
 
@@ -164,7 +164,7 @@ const onClick = () => {
 
 使用 `icon` 属性为按钮添加图标。
 
-<demo>
+<demo component-name="button">
   <IconButton />
   <template #code>
 
@@ -189,7 +189,7 @@ import { TButton, TIcon } from "tune-ui";
 
 可以通过 `color` 属性自定义按钮颜色。
 
-<demo>
+<demo component-name="button">
   <CustomColorButton />
   <template #code>
 
