@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "Tune UI"
-  text: "高效、优雅的Vue3组件库"
+  text: "高效优雅的Vue3组件库"
   tagline: 为现代化前端开发提供流畅的UI解决方案
   image:
     src: https://i.postimg.cc/xTWLN1Lc/logo-plus.png
