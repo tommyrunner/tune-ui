@@ -1,7 +1,5 @@
 import { ref } from "vue";
 import { OptionsResultType, OptionsThemeType, OptionsType } from "./type";
-import { ElSizeType } from "@/types";
-import { OptionsType as LoadingOptionsType } from "web-loading";
 
 /**
  * 初始化全局配置api
@@ -29,16 +27,11 @@ export const configOptions = ref<OptionsType>(initOptions());
  * @returns OptionsResultType
  */
 export function useOptions(): OptionsResultType {
-  const updateThemeColor = (theme: OptionsThemeType) => {
+  function updateThemeColor(theme: OptionsThemeType) {
     let updateTheme = Object.assign(configOptions.value.theme, theme) as Required<OptionsThemeType>;
     document.getElementsByTagName("body")[0].style.setProperty("--primary", updateTheme.primary);
     configOptions.value.theme = updateTheme;
-  };
-  const updateSize = (size: ElSizeType) => {
-    configOptions.value.elSize = size;
-  };
-  const updateLoadingOptions = (options: LoadingOptionsType) => {
-    configOptions.value.loadingOptions = options;
-  };
-  return { updateThemeColor, updateSize, updateLoadingOptions, configOptions, initOptions };
+  }
+
+  return { updateThemeColor };
 }

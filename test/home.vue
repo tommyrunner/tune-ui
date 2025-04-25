@@ -3,7 +3,7 @@
     <!-- 侧边栏 -->
     <div class="test-sidebar">
       <div class="sidebar-header">
-        <div class="header-content" @click="breakHome">
+        <div class="header-content">
           <h1>TUI 组件库</h1>
           <span class="total-count">{{ componentList.length }}个组件</span>
         </div>
@@ -28,14 +28,6 @@
 
     <!-- 内容区 -->
     <div class="test-content">
-      <!-- 设置按钮 -->
-      <div class="header-actions">
-        <t-button @click="openSettings" :type="isSettingsOpen ? 'primary' : 'default'" class="settings-button">
-          <t-icon icon="setting" />
-          <span>系统设置</span>
-        </t-button>
-      </div>
-
       <component :is="currentComponent?.component" v-if="currentComponent" />
       <div v-else class="welcome-content">
         <h2>欢迎使用 TUI 组件库</h2>
@@ -48,8 +40,6 @@
 <script lang="ts" setup>
 import { ref, computed } from "vue";
 import { ComponentCategory, type ComponentConfig } from "./constants";
-import { TButton } from "@/packages/button";
-import { TIcon } from "@/packages/icon";
 import {
   TButtonTest,
   TInputTest,
@@ -93,7 +83,6 @@ import {
   TMenuTest,
   TLoadingTest
 } from "./index";
-import TSettingsTest from "./setting.vue";
 
 defineOptions({ name: "TestHome" });
 
@@ -158,35 +147,17 @@ const componentList: ComponentConfig[] = [
   { name: "TWatermarkTest", label: "Watermark 水印", category: ComponentCategory.Layout, component: TWatermarkTest }
 ];
 
-// 设置组件
-const settingsConfig: ComponentConfig = {
-  name: "TSettingsTest",
-  label: "系统设置",
-  category: ComponentCategory.Basic,
-  component: TSettingsTest
-};
-
-// 是否显示设置面板
-const isSettingsOpen = ref(false);
-
 // 根据分类获取组件
 const getComponentsByCategory = (category: ComponentCategory) => {
   return componentList.filter(item => item.category === category);
 };
 
 // 当前选中的组件(默认第一个)
-const currentComponent = ref<ComponentConfig>(componentList[0]);
+const currentComponent = ref<ComponentConfig>(componentList.find(col => col.name === "TLoadingTest"));
 
 // 处理组件切换
 const handleComponentChange = (item: ComponentConfig) => {
-  isSettingsOpen.value = false;
   currentComponent.value = item;
-};
-
-// 打开设置
-const openSettings = () => {
-  isSettingsOpen.value = true;
-  currentComponent.value = settingsConfig;
 };
 
 // 获取所有分类
@@ -194,12 +165,6 @@ const categories = computed(() => {
   const categorySet = new Set(componentList.map(item => item.category));
   return Array.from(categorySet);
 });
-
-// 跳转首页
-const breakHome = () => {
-  isSettingsOpen.value = false;
-  currentComponent.value = componentList[0];
-};
 </script>
 
 <style lang="scss" scoped>
@@ -220,7 +185,6 @@ const breakHome = () => {
       border-bottom: 1px solid #e5e7eb;
 
       .header-content {
-        cursor: pointer;
         flex: 1;
 
         h1 {
@@ -306,20 +270,6 @@ const breakHome = () => {
     box-sizing: border-box;
     height: 100vh;
     overflow: auto;
-    position: relative;
-
-    .header-actions {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 10;
-    }
-
-    .settings-button {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
   }
 
   .welcome-content {

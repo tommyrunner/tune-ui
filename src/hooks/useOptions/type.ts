@@ -1,5 +1,4 @@
 import { ElSizeType } from "@/types";
-import { Ref } from "vue";
 import { OptionsType as LoadingOptionsType } from "web-loading";
 /**
  * 全局配置
@@ -35,11 +34,7 @@ export interface OptionsThemeType {
  * 全局配置hooks操作返回
  */
 export interface OptionsResultType {
-  configOptions: Ref<OptionsType>;
-  initOptions: () => OptionsType;
   updateThemeColor: (theme: OptionsThemeType) => void;
-  updateSize: (size: ElSizeType) => void;
-  updateLoadingOptions: (options: LoadingOptionsType) => void;
 }
 
 /**

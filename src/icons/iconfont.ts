@@ -666,7 +666,7 @@ export default {
     {
       icon_id: "39110862",
       name: "设置",
-      font_class: "setting",
+      font_class: "seting",
       unicode: "e6a0",
       unicode_decimal: 59040
     },
