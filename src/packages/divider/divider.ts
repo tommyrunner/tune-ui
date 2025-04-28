@@ -1,11 +1,9 @@
-import type { BaseProps } from "@/types";
-
 /**
  * @description Divider组件Props类型定义
  * @interface PropsType
  * @extends {BaseProps}
  */
-export interface PropsType extends BaseProps {
+export interface PropsType {
   /** 设置分割线方向 */
   direction?: "horizontal" | "vertical";
   /** 设置分隔符样式 */

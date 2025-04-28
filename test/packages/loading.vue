@@ -1,7 +1,6 @@
 <template>
   <div class="test-container">
     <h2>Loading 加载组件</h2>
-    {{ configOptions }}
     <!-- 基础用法 -->
     <test-section title="基础用法">
       <div class="loading-demo-grid">
@@ -15,7 +14,7 @@
           <p>可以自定义加载文本</p>
         </div>
 
-        <div class="loading-demo-card" v-loading="loading3" loading-background="rgba(0, 0, 0, 0.7)">
+        <div class="loading-demo-card" v-loading="loading3">
           <h3>自定义背景</h3>
           <p>可以自定义加载遮罩背景</p>
         </div>
@@ -73,10 +72,13 @@ import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
 import { fullLoading, miniLoading } from "@/packages/loading";
 import { useOptions } from "@/hooks/useOptions";
+import type { OptionsType as LoadingOptionsType } from "web-loading";
+import { MODEL_TYPES } from "web-loading";
 
 defineOptions({ name: "LoadingTest" });
-const { updateLoadingOptions, configOptions } = useOptions();
+const { updateLoadingOptions } = useOptions();
 
+// 加载状态
 const loading1 = ref(false);
 const loading2 = ref(false);
 const loading3 = ref(false);
@@ -89,17 +91,40 @@ const loading5 = ref(false);
  */
 const toggleLoading = (loadingRef: "loading1" | "loading2" | "loading3" | "loading4" | "loading5") => {
   if (loadingRef === "loading1") {
+    // 默认加载
+    updateLoadingOptions({
+      text: "默认加载中...",
+      model: MODEL_TYPES.RING
+    });
     loading1.value = !loading1.value;
   } else if (loadingRef === "loading2") {
+    // 自定义文本加载
     updateLoadingOptions({
-      text: "自定义..."
+      text: "自定义文本加载...",
+      model: MODEL_TYPES.RING
     });
     loading2.value = !loading2.value;
   } else if (loadingRef === "loading3") {
+    // 自定义背景加载
+    updateLoadingOptions({
+      text: "自定义背景加载",
+      bgColor: "rgba(0, 0, 0, 0.5)",
+      model: MODEL_TYPES.RING
+    });
     loading3.value = !loading3.value;
   } else if (loadingRef === "loading4") {
+    // Bounce动画加载
+    updateLoadingOptions({
+      text: "Bounce动画加载",
+      model: MODEL_TYPES.BEAN
+    });
     loading4.value = !loading4.value;
   } else if (loadingRef === "loading5") {
+    // Spin动画加载
+    updateLoadingOptions({
+      text: "Spin动画加载",
+      model: MODEL_TYPES.BEAN
+    });
     loading5.value = !loading5.value;
   }
 };
@@ -108,8 +133,14 @@ const toggleLoading = (loadingRef: "loading1" | "loading2" | "loading3" | "loadi
  * 显示全屏加载
  */
 const showFullscreenLoading = () => {
-  const loading = fullLoading({});
-  loading.loading();
+  const options: LoadingOptionsType = {
+    text: "加载中...",
+    bgColor: "rgba(0, 0, 0, 0.5)",
+    model: MODEL_TYPES.RING,
+    delay: 200
+  };
+  const loading = fullLoading(options);
+  loading.loading(document.body);
   setTimeout(() => {
     loading.close();
   }, 2000);
@@ -119,8 +150,14 @@ const showFullscreenLoading = () => {
  * 显示迷你加载
  */
 const showMiniLoading = () => {
-  const loading = miniLoading({});
-  loading.loading();
+  const options: LoadingOptionsType = {
+    text: "加载中...",
+    bgColor: "rgba(0, 0, 0, 0.5)",
+    model: MODEL_TYPES.RING,
+    delay: 200
+  };
+  const loading = miniLoading(options);
+  loading.loading(document.body);
   setTimeout(() => {
     loading.close();
   }, 2000);

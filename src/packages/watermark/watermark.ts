@@ -1,5 +1,3 @@
-import type { BaseProps } from "@/types";
-
 /**
  * @description 字体样式类型定义
  * @interface FontType
@@ -30,9 +28,8 @@ export type ImageModeType = "contain" | "cover" | "fill" | "none";
 /**
  * @description Watermark组件Props类型定义
  * @interface PropsType
- * @extends {BaseProps}
  */
-export interface PropsType extends BaseProps {
+export interface PropsType {
   /** 水印宽度 */
   width?: number;
   /** 水印高度 */

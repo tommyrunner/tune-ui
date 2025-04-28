@@ -1,11 +1,11 @@
-import { ref } from "vue";
-import { OptionsResultType, OptionsThemeType, OptionsType } from "./type";
-import { ElSizeType } from "@/types";
-import { OptionsType as LoadingOptionsType } from "web-loading";
+import type { BaseProps, ElSizeType } from "@/types";
+import type { OptionsResultType, OptionsThemeType, OptionsType } from "./type";
+import type { OptionsType as LoadingOptionsType } from "web-loading";
+import { computed, ref } from "vue";
 
 /**
  * 初始化全局配置api
- * @returns
+ * @returns {OptionsType} 初始化的配置选项
  */
 export function initOptions(): OptionsType {
   return {
@@ -22,23 +22,64 @@ export function initOptions(): OptionsType {
     loadingOptions: {}
   };
 }
+
 // 全局配置，初始化一次
 export const configOptions = ref<OptionsType>(initOptions());
 /**
+ * 初始化基础属性
+ * @param props 基础属性
+ * @returns 基础属性
+ */
+export const initBaseProps = <T extends BaseProps>(props: T) => {
+  return {
+    ...props,
+    size: () => configOptions.value.elSize
+  };
+};
+
+/**
  * 抛出全局配置api
- * @returns OptionsResultType
+ * @returns {OptionsResultType} 配置操作方法和状态
  */
 export function useOptions(): OptionsResultType {
+  /**
+   * 更新主题色
+   * @param {OptionsThemeType} theme - 主题配置
+   */
   const updateThemeColor = (theme: OptionsThemeType) => {
     let updateTheme = Object.assign(configOptions.value.theme, theme) as Required<OptionsThemeType>;
-    document.getElementsByTagName("body")[0].style.setProperty("--primary", updateTheme.primary);
+    Object.keys(updateTheme).forEach(key => {
+      document.getElementsByTagName("body")[0].style.setProperty(`--${key}`, updateTheme[key]);
+    });
     configOptions.value.theme = updateTheme;
   };
-  const updateSize = (size: ElSizeType) => {
+
+  /**
+   * 更新默认尺寸
+   * @param {ElSizeType} size - 尺寸类型
+   */
+  const updateDefaultSize = (size: ElSizeType) => {
     configOptions.value.elSize = size;
   };
+
+  /**
+   * 更新loading配置
+   * @param {LoadingOptionsType} options - loading配置选项
+   */
   const updateLoadingOptions = (options: LoadingOptionsType) => {
     configOptions.value.loadingOptions = options;
   };
-  return { updateThemeColor, updateSize, updateLoadingOptions, configOptions, initOptions };
+  /**
+   * 获取基础尺寸
+   */
+  const baseSize = computed(() => configOptions.value.elSize);
+
+  return {
+    updateThemeColor,
+    updateDefaultSize,
+    updateLoadingOptions,
+    initOptions,
+    configOptions,
+    baseSize
+  };
 }

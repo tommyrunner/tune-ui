@@ -11,4 +11,4 @@ export interface PropsType {
   level?: number;
   /** 是否为弹出模式 */
   popupMode?: boolean;
-} 
+}

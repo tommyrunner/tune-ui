@@ -151,10 +151,10 @@ defineOptions({ name: "TDatePickerMultiple" });
 // Props 和 Emits 定义
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
+  size: configOptions.value.elSize,
   mode: "date",
   placeholder: "请选择日期",
   position: "bottom",
-  size: configOptions.value.elSize,
   isTip: true,
   disabled: false,
   clearable: true,

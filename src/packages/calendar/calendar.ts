@@ -1,5 +1,3 @@
-import type { BaseProps } from "@/types";
-
 /**
  * @description 日期类型
  */
@@ -18,7 +16,7 @@ export type TimeSelectType = "hour" | "minute" | "second" | null;
 /**
  * @description 日历组件属性类型
  */
-export interface PropsType extends BaseProps {
+export interface PropsType {
   /** 日历模式 */
   mode?: ModeType;
   /** 是否禁用 */

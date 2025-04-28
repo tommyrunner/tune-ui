@@ -1,4 +1,3 @@
-import type { BaseProps } from "@/types";
 import type { IconTypes } from "@/packages/icon/icon";
 
 /** 值类型定义 */
@@ -7,7 +6,7 @@ export type ValueType = string | number;
 /**
  * Tabs组件的Props类型定义
  */
-export interface PropsType extends BaseProps {
+export interface PropsType {
   /** 是否禁用 */
   disabled?: boolean;
 

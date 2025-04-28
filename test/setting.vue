@@ -3,12 +3,28 @@
     <h2>系统设置</h2>
     <!-- 主题设置 -->
     <test-section title="主题颜色配置">
-      <div class="settings-grid">
-        <div class="color-item" v-for="(_, key) in themeColors" :key="key">
-          <div class="color-label">{{ themeLabels[key] }}</div>
-          <div class="color-picker-wrapper">
-            <t-color-picker v-model="themeColors[key]" @change="handleThemeChange(key)" />
-            <div class="color-value">{{ themeColors[key] }}</div>
+      <div class="theme-color-section">
+        <!-- 横向布局的颜色选择器 -->
+        <div class="theme-colors-row">
+          <div class="color-item" v-for="(_, key) in themeColors" :key="key">
+            <div class="color-info">
+              <div class="color-label">{{ themeLabels[key] }}</div>
+              <t-color-picker v-model="themeColors[key]" @change="handleThemeChange(key)" />
+              <div class="color-value">{{ themeColors[key] }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 按钮示例 -->
+        <div class="theme-preview">
+          <h3 class="preview-title">颜色预览</h3>
+          <div class="buttons-preview">
+            <t-button>默认按钮</t-button>
+            <t-button type="primary">主要按钮</t-button>
+            <t-button type="success">成功按钮</t-button>
+            <t-button type="warning">警告按钮</t-button>
+            <t-button type="danger">危险按钮</t-button>
+            <t-button type="info">信息按钮</t-button>
           </div>
         </div>
       </div>
@@ -24,9 +40,9 @@
         </t-radio-group>
         <div class="size-preview">
           <div class="preview-items">
-            <t-button :size="elementSize" type="primary">按钮预览</t-button>
-            <t-input :size="elementSize" v-model="previewText" placeholder="输入框预览" />
-            <t-select :size="elementSize" v-model="previewSelect" placeholder="选择器预览" :options="selectOptions" />
+            <t-button type="primary">按钮预览</t-button>
+            <t-input v-model="previewText" placeholder="输入框预览" />
+            <t-select v-model="previewSelect" placeholder="选择器预览" :options="selectOptions" />
           </div>
         </div>
       </div>
@@ -43,7 +59,7 @@
                 <span>当前配置信息</span>
               </div>
             </template>
-            <pre class="config-code">{{ configInfo }}</pre>
+            <pre class="config-code">{{ configOptions }}</pre>
           </t-card>
         </t-flex>
       </div>
@@ -60,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
 import { TButton } from "@/packages/button";
 import { TInput } from "@/packages/input";
 import { TSelect } from "@/packages/select";
@@ -77,7 +93,7 @@ import type { OptionsThemeType } from "@/hooks/useOptions/type";
 defineOptions({ name: "SettingsTest" });
 
 // 使用全局配置API
-const { updateThemeColor, updateSize, configOptions, initOptions } = useOptions();
+const { updateThemeColor, updateDefaultSize, configOptions, initOptions } = useOptions();
 
 // 主题颜色标签映射
 const themeLabels = {
@@ -104,24 +120,13 @@ const selectOptions = [
   { value: "option2", label: "选项2" }
 ];
 
-// 当前配置信息
-const configInfo = computed(() => {
-  return JSON.stringify(
-    {
-      theme: themeColors,
-      elSize: elementSize.value
-    },
-    null,
-    2
-  );
-});
-
 /**
  * 处理主题颜色变更
  * @param {string} key - 颜色类型
  */
 const handleThemeChange = (key: keyof OptionsThemeType) => {
   const themeUpdate = { [key]: themeColors[key] } as OptionsThemeType;
+  console.log(themeUpdate);
   updateThemeColor(themeUpdate);
   TMessage.success(`${themeLabels[key]}已更新为 ${themeColors[key]}`);
 };
@@ -130,7 +135,7 @@ const handleThemeChange = (key: keyof OptionsThemeType) => {
  * 处理尺寸变更
  */
 const handleSizeChange = () => {
-  updateSize(elementSize.value);
+  updateDefaultSize(elementSize.value);
   TMessage.success(
     `元素默认尺寸已更新为${elementSize.value === "small" ? "小" : elementSize.value === "large" ? "大" : "默认"}尺寸`
   );
@@ -150,7 +155,7 @@ const resetAllSettings = () => {
 
   // 重置元素尺寸
   elementSize.value = defaultOptions.elSize;
-  updateSize(defaultOptions.elSize);
+  updateDefaultSize(defaultOptions.elSize);
 
   TMessage.success("已重置所有设置");
 };
@@ -184,13 +189,33 @@ const resetThemeSettings = () => {
     padding-bottom: 12px;
   }
 
-  .settings-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+  .theme-color-section {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .theme-colors-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
   }
 
   .color-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .color-swatch {
+    width: 36px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .color-info {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -202,16 +227,31 @@ const resetThemeSettings = () => {
     color: #4b5563;
   }
 
-  .color-picker-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
   .color-value {
-    font-size: 14px;
+    font-size: 12px;
     color: #6b7280;
     font-family: monospace;
+  }
+
+  .theme-preview {
+    margin-top: 16px;
+    padding: 24px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .preview-title {
+    margin-bottom: 16px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #374151;
+  }
+
+  .buttons-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
   .size-settings {
