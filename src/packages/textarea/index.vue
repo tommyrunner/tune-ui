@@ -22,11 +22,14 @@
 import "./index.scss";
 import type { EmitsType, PropsType } from "./textarea";
 import { computed, ref } from "vue";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { isKeyboard, bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
 
 defineOptions({ name: "TTextarea" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 const textareaRef = ref();
 const emit = defineEmits<EmitsType>();
@@ -50,7 +53,12 @@ const cursor = ref(0);
  */
 const textareaClasses = computed(() => {
   const { isResize, disabled } = props;
-  return ["t-textarea", !disabled && isResize && "t-textarea-resize", disabled && "t-disabled"];
+  return [
+    "t-textarea",
+    `t-textarea-size-${baseSize.value}`,
+    !disabled && isResize && "t-textarea-resize",
+    disabled && "t-disabled"
+  ];
 });
 
 /**

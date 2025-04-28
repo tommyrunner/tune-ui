@@ -84,12 +84,15 @@ import { TIcon } from "@/packages/icon";
 import { TCalendar } from "@/packages/calendar";
 import { formatDate, parseDate } from "@/utils/dateFormat";
 import { isValue } from "@/utils/is";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES } from "./date-picker";
 import { useTip } from "@/hooks";
 
 // 组件名称定义
 defineOptions({ name: "TDatePicker" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 // Props 和 Emits 定义
 const emit = defineEmits<EmitsType>();
@@ -151,13 +154,18 @@ const toDateObject = (value: DateType | null | undefined): Date => {
 
 // 计算属性
 const datePickerClassNames = computed(() => {
-  const { size, clearable, disabled } = props;
-  return ["_date-picker-content", `t-date-picker-size-${size}`, clearable && "t-date-picker-clearable", disabled && "t-disabled"];
+  const { clearable, disabled } = props;
+  return [
+    "_date-picker-content",
+    `t-date-picker-size-${baseSize.value}`,
+    clearable && "t-date-picker-clearable",
+    disabled && "t-disabled"
+  ];
 });
 
 const showClearIcon = computed(() => props.clearable && isValue(model.value) && !props.disabled);
 
-const iconSize = computed(() => ICON_SIZES[props.size]);
+const iconSize = computed(() => ICON_SIZES[baseSize.value]);
 
 /**
  * @description 根据模式获取默认格式化字符串

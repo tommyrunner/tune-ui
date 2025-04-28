@@ -3,6 +3,7 @@ import type { DateType, ModeType } from "@/packages/calendar/calendar";
 import type { ShortcutType, PropsType } from "./date-picker-multiple";
 import { formatDate, parseDate } from "@/utils/dateFormat";
 import { ICON_SIZES } from "./date-picker-multiple";
+import { useOptions } from "@/hooks";
 
 /**
  * @description 日期选择器核心逻辑Hook
@@ -18,6 +19,7 @@ export const useDatePickerMultiple = (props: PropsType, emit: any, model: any, c
   const selectedDates = ref<Date[]>([]);
   const tempSelectedDates = ref<Date[]>([]);
   const tempMode = ref<ModeType>(null);
+  const { baseSize } = useOptions();
 
   /**
    * @description 将任意日期类型转换为Date对象
@@ -233,18 +235,18 @@ export const useDatePickerMultiple = (props: PropsType, emit: any, model: any, c
 
   // 计算属性
   const datePickerClassNames = computed(() => {
-    const { size, clearable, disabled } = props;
+    const { clearable, disabled } = props;
     return [
-      "_date-picker-content",
-      `t-date-picker-size-${size}`,
-      clearable && "t-date-picker-clearable",
+      "_date-picker-multiple-content",
+      `t-date-picker-multiple-size-${baseSize.value}`,
+      clearable && "t-date-picker-multiple-clearable",
       disabled && "t-disabled"
     ];
   });
 
   const showClearIcon = computed(() => props.clearable && model.value.length > 0 && !props.disabled);
 
-  const iconSize = computed(() => ICON_SIZES[props.size]);
+  const iconSize = computed(() => ICON_SIZES[baseSize.value]);
 
   /**
    * @description 判断确认按钮是否禁用

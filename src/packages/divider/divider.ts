@@ -1,7 +1,6 @@
 /**
  * @description Divider组件Props类型定义
  * @interface PropsType
- * @extends {BaseProps}
  */
 export interface PropsType {
   /** 设置分割线方向 */

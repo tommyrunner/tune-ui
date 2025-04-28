@@ -5,7 +5,7 @@
       :key="i"
       :icon="getIcon(i)"
       :color="iconColor"
-      :size="iconSize"
+      :size="ICON_SIZES[baseSize]"
       @mouseenter="handleIconEnter(i)"
       @mousemove="handleIconMove($event, i)"
       @click="handleIconClick"
@@ -17,10 +17,14 @@
 import "./index.scss";
 import type { EmitsType, PropsType } from "./rate";
 import { computed, ref, type StyleValue } from "vue";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
+import { ICON_SIZES } from "./rate";
 
 defineOptions({ name: "TRate" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 /** Props定义 */
 const props = withDefaults(defineProps<PropsType>(), {
@@ -43,13 +47,6 @@ const showValue = ref<number>();
 /** 是否悬浮父容器 */
 const isHoverParent = ref(false);
 
-/** 图标尺寸配置 */
-const sizeMap = {
-  default: 16,
-  small: 14,
-  large: 18
-};
-
 /** 计算图标颜色 */
 const iconColor = computed(() => {
   if (!props.color) return "#f4ba3b";
@@ -61,13 +58,10 @@ const iconColor = computed(() => {
   return "#f4ba3b";
 });
 
-/** 计算图标尺寸 */
-const iconSize = computed(() => sizeMap[props.size]);
-
 /** 计算容器样式 */
 const rateClasses = computed(() => {
   const { disabled } = props;
-  return ["t-rate", disabled && "t-disabled"];
+  return ["t-rate", `t-rate-size-${baseSize}`, disabled && "t-disabled"];
 });
 
 /** 计算容器样式 */

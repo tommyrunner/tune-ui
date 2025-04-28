@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import "./index.scss";
-import type { ColorObject, ProgressPropsType } from "./progress";
+import type { ColorObject, PropsType } from "./progress";
 import { computed, provide, reactive, watch } from "vue";
 import { progressKey } from "./constants";
 import ProgressLine from "./components/progress-line/progress-line.vue";
@@ -34,7 +34,7 @@ defineOptions({
   name: "TProgress"
 });
 
-const props = withDefaults(defineProps<ProgressPropsType>(), {
+const props = withDefaults(defineProps<PropsType>(), {
   percentage: 0,
   type: "line",
   strokeWidth: 6,

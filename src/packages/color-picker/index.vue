@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['t-color-picker', `t-color-picker--${props.size}`, { 't-disabled': props.disabled }]"
+    :class="['t-color-picker', `t-color-picker--${baseSize}`, { 't-disabled': props.disabled }]"
     :tabindex="props.disabled ? undefined : props.tabindex"
     @focus="handleFocus"
     @blur="handleBlur"
@@ -113,13 +113,16 @@
 import "./index.scss";
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import type { PropsType } from "./color-picker";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TPopover } from "@/packages/popover";
 
 /**
  * @description 颜色选择器组件
  */
 defineOptions({ name: "TColorPicker" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 /**
  * @description 组件Props定义

@@ -41,8 +41,6 @@
         <div class="size-preview">
           <div class="preview-items">
             <t-button type="primary">按钮预览</t-button>
-            <t-input v-model="previewText" placeholder="输入框预览" />
-            <t-select v-model="previewSelect" placeholder="选择器预览" :options="selectOptions" />
           </div>
         </div>
       </div>
@@ -78,8 +76,6 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { TButton } from "@/packages/button";
-import { TInput } from "@/packages/input";
-import { TSelect } from "@/packages/select";
 import { TRadio, TRadioGroup } from "@/packages/radio";
 import { TColorPicker } from "@/packages/color-picker";
 import { TCard } from "@/packages/card";
@@ -111,14 +107,6 @@ const themeColors = reactive<OptionsThemeType>({ ...configOptions.value.theme })
 
 // 元素尺寸
 const elementSize = ref(configOptions.value.elSize || "default");
-
-// 预览数据
-const previewText = ref("TUI 输入框");
-const previewSelect = ref("option1");
-const selectOptions = [
-  { value: "option1", label: "选项1" },
-  { value: "option2", label: "选项2" }
-];
 
 /**
  * 处理主题颜色变更

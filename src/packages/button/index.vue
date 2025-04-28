@@ -19,7 +19,7 @@ import type { IconTypes } from "@/packages/icon/icon";
 import { computed } from "vue";
 import { ICON_SIZES } from "./button";
 import { TIcon } from "@/packages/icon";
-import { useOptions, initBaseProps } from "@/hooks/useOptions";
+import { useOptions, configOptions } from "@/hooks/useOptions";
 /**
  * @description 按钮组件
  */
@@ -30,17 +30,15 @@ const { baseSize } = useOptions();
 /**
  * @description 组件Props定义
  */
-const props = withDefaults(
-  defineProps<PropsType>(),
-  initBaseProps<PropsType>({
-    type: "default",
-    loading: false,
-    radius: "default",
-    disabled: false,
-    scale: true,
-    htmlType: "button"
-  })
-);
+const props = withDefaults(defineProps<PropsType>(), {
+  size: configOptions.value.elSize,
+  type: "default",
+  loading: false,
+  radius: "default",
+  disabled: false,
+  scale: true,
+  htmlType: "button"
+});
 
 /**
  * @description 组件事件定义

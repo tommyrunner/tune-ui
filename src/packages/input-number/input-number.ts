@@ -1,5 +1,5 @@
 import type { TipProps } from "@/hooks/useTip";
-import type { BaseProps } from "@/types";
+import type { BaseProps, ElSizeType } from "@/types";
 /**
  * @description: 组件props类型
  */
@@ -37,3 +37,11 @@ export interface EmitsType {
   /** 输入事件 */
   (e: "input", data?: ModelType): void;
 }
+/**
+ * @description 图标尺寸映射
+ */
+export const ICON_SIZES: Record<ElSizeType, number> = {
+  default: 14,
+  small: 14,
+  large: 16
+};

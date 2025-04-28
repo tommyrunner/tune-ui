@@ -1,4 +1,4 @@
-import type { BaseProps, ElSizeType } from "@/types";
+import type { ElSizeType } from "@/types";
 import type { OptionsResultType, OptionsThemeType, OptionsType } from "./type";
 import type { OptionsType as LoadingOptionsType } from "web-loading";
 import { computed, ref } from "vue";
@@ -25,17 +25,6 @@ export function initOptions(): OptionsType {
 
 // 全局配置，初始化一次
 export const configOptions = ref<OptionsType>(initOptions());
-/**
- * 初始化基础属性
- * @param props 基础属性
- * @returns 基础属性
- */
-export const initBaseProps = <T extends BaseProps>(props: T) => {
-  return {
-    ...props,
-    size: () => configOptions.value.elSize
-  };
-};
 
 /**
  * 抛出全局配置api

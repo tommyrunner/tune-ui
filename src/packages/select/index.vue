@@ -42,7 +42,7 @@
       <!-- 文本模式显示 -->
       <div class="_text-content" v-if="type === 'text'">
         {{ selectedLabel }}
-        <t-icon :size="iconSize" icon="caret-down" :color="ICON_COLOR" />
+        <t-icon :size="ICON_SIZES[baseSize]" icon="caret-down" :color="ICON_COLOR" />
       </div>
 
       <!-- 输入框模式显示 -->
@@ -85,11 +85,17 @@
 
         <!-- 右侧图标 -->
         <div class="_right-icon">
-          <t-icon v-if="showClearIcon" icon="close-to" :size="iconSize" :color="ICON_COLOR" @click.stop="handleClear" />
+          <t-icon
+            v-if="showClearIcon"
+            icon="close-to"
+            :size="ICON_SIZES[baseSize]"
+            :color="ICON_COLOR"
+            @click.stop="handleClear"
+          />
           <t-icon
             v-else
             :class="{ '_icon-active': !props.disabled && state.isDropdownVisible }"
-            :size="iconSize"
+            :size="ICON_SIZES[baseSize]"
             icon="caret-down"
             :color="ICON_COLOR"
           />
@@ -112,7 +118,7 @@ import { TIcon } from "@/packages/icon";
 import { TListView } from "@/packages/list-view";
 import { TTag } from "@/packages/tag";
 import Option from "./option.vue";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { useTip } from "@/hooks";
 import { fromCssVal } from "@/utils";
 import { isEqual, isValue } from "@/utils/is";
@@ -125,6 +131,9 @@ import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select"
  */
 defineOptions({ name: "TSelect" });
 
+// 基础尺寸
+const { baseSize } = useOptions();
+
 /**
  * @description 组件事件定义
  */
@@ -134,13 +143,13 @@ const emit = defineEmits<EmitsType>();
  * @description 组件Props定义
  */
 const props = withDefaults(defineProps<PropsType>(), {
+  size: configOptions.value.elSize,
   options: () => [],
   type: "input",
   placeholder: "请选择",
   emptyText: "暂无数据",
   isTip: true,
   clearable: true,
-  size: configOptions.value.elSize,
   disabled: false,
   filterable: false,
   multiple: false,
@@ -193,15 +202,13 @@ const state = reactive({
   activeMenuIndex: 0
 });
 
-// ================ 计算属性 ================
-
 /**
  * @description 计算选择器类名
  * @returns {string[]} 类名数组
  */
 const selectClasses = computed((): string[] => {
-  const { size, clearable, disabled } = props;
-  return ["_select-content", `t-select-size-${size}`, clearable && "t-select-clearable", disabled && "t-disabled"];
+  const { clearable, disabled } = props;
+  return ["_select-content", `t-select-size-${baseSize.value}`, clearable && "t-select-clearable", disabled && "t-disabled"];
 });
 
 /**
@@ -209,12 +216,6 @@ const selectClasses = computed((): string[] => {
  * @returns {boolean} 是否显示
  */
 const showClearIcon = computed((): boolean => props.clearable && isValue(model.value));
-
-/**
- * @description 计算图标尺寸
- * @returns {number} 图标尺寸
- */
-const iconSize = computed((): number => ICON_SIZES[props.size]);
 
 /**
  * @description 计算选中标签

@@ -6,7 +6,6 @@ export type ImageFit = "fill" | "contain" | "cover" | "none" | "scale-down";
 /**
  * @description 图片组件Props类型定义
  * @interface PropsType
- * @extends {BaseProps}
  */
 export interface PropsType {
   /** 图片源地址 */

@@ -45,6 +45,7 @@ import "./index.scss";
 import type { UploadFile, EmitsType, PropsType, UploadContextType, UploadDraggerContextType } from "./upload";
 import { ref, computed, provide } from "vue";
 import { generateId } from "@/utils/index";
+import { useOptions } from "@/hooks/useOptions";
 import UploadDragger from "./components/upload-dragger/upload-dragger.vue";
 import UploadList from "./components/upload-list/upload-list.vue";
 import { uploadKey, uploadDraggerKey } from "./constants";
@@ -52,6 +53,9 @@ import { uploadKey, uploadDraggerKey } from "./constants";
 defineOptions({
   name: "TUpload"
 });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 // 使用defineModel实现fileList的双向绑定
 const fileList = defineModel<UploadFile[]>("fileList", {
@@ -82,7 +86,8 @@ const inputRef = ref<HTMLInputElement | null>(null);
  */
 const uploadClasses = computed(() => ({
   "t-upload--drag": props.drag,
-  "t-upload--disabled": props.disabled
+  "t-upload--disabled": props.disabled,
+  [`t-upload--size-${baseSize.value}`]: true
 }));
 
 /**

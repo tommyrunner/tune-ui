@@ -23,15 +23,15 @@
       <!-- 步进控制按钮 -->
       <transition name="right-icon">
         <div class="_right-icon" v-if="props.isControls && !props.isRange">
-          <t-icon icon="caret-up" :color="defaultIconColor" :size="iconSize" @click="handleStepChange(true)" />
-          <t-icon icon="caret-down" :color="defaultIconColor" :size="iconSize" @click="handleStepChange(false)" />
+          <t-icon icon="caret-up" :color="defaultIconColor" :size="ICON_SIZES[baseSize]" @click="handleStepChange(true)" />
+          <t-icon icon="caret-down" :color="defaultIconColor" :size="ICON_SIZES[baseSize]" @click="handleStepChange(false)" />
         </div>
       </transition>
 
       <!-- 范围输入分隔符 -->
       <div class="_spe" v-if="index !== 2 && props.isRange">
         <slot name="spe">
-          <t-icon icon="minus" :color="defaultIconColor" :size="iconSize" />
+          <t-icon icon="minus" :color="defaultIconColor" :size="ICON_SIZES[baseSize]" />
         </slot>
       </div>
     </div>
@@ -41,22 +41,26 @@
 <script lang="ts" setup>
 import "./index.scss";
 import type { EmitsType, ModelType, PropsType } from "./input-number";
-import type { ElSizeType } from "@/types";
 import { computed, ref, watch } from "vue";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
 import { TIcon } from "@/packages/icon";
 import { isValue } from "@/utils/is";
+import { ICON_SIZES } from "./input-number";
 
 defineOptions({ name: "TInputNumber" });
 
 // Props & Emits 定义
 const emit = defineEmits<EmitsType>();
+
+// 基础尺寸
+const { baseSize } = useOptions();
+
 const props = withDefaults(defineProps<PropsType>(), {
+  size: configOptions.value.elSize,
   isTip: true,
   isControls: true,
-  size: configOptions.value.elSize,
   step: 1,
   debounceDelay: 1000
 });
@@ -68,11 +72,6 @@ const inputRefs = ref<(HTMLInputElement | null)[]>([]);
 
 // 图标配置
 const defaultIconColor = "#656a6e88";
-const iconSizes: Record<ElSizeType, number> = {
-  default: 14,
-  small: 12,
-  large: 16
-};
 
 /**
  * 计算组件类名
@@ -88,12 +87,6 @@ const inputNumberClasses = computed(() => {
     disabled && "t-disabled"
   ];
 });
-
-/**
- * 计算图标大小
- * @returns 当前尺寸对应的图标大小
- */
-const iconSize = computed(() => iconSizes[props.size]);
 
 /**
  * 检查并限制值的范围
