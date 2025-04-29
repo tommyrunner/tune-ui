@@ -1,5 +1,6 @@
 import type { InjectionKey } from "vue";
 import type { PropsType } from "./calendar";
+import { useI18n } from "@/hooks/useI18n";
 
 /** 日历组件上下文类型 */
 export interface CalendarContextType extends PropsType {
@@ -18,11 +19,36 @@ export interface CalendarContextType extends PropsType {
 /** 日历组件注入键 */
 export const calendarKey: InjectionKey<CalendarContextType> = Symbol("calendarKey");
 
-// 常量定义
+// 国际化
+const { t } = useI18n();
+
 /** 星期标题 */
-export const WEEK_DAYS = ["日", "一", "二", "三", "四", "五", "六"];
+export const WEEK_DAYS = [
+  t("calendar.week.sun"),
+  t("calendar.week.mon"),
+  t("calendar.week.tue"),
+  t("calendar.week.wed"),
+  t("calendar.week.thu"),
+  t("calendar.week.fri"),
+  t("calendar.week.sat")
+];
+
 /** 月份名称 */
-export const MONTH_NAMES = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"];
+export const MONTH_NAMES = [
+  t("calendar.month.jan"),
+  t("calendar.month.feb"),
+  t("calendar.month.mar"),
+  t("calendar.month.apr"),
+  t("calendar.month.may"),
+  t("calendar.month.jun"),
+  t("calendar.month.jul"),
+  t("calendar.month.aug"),
+  t("calendar.month.sep"),
+  t("calendar.month.oct"),
+  t("calendar.month.nov"),
+  t("calendar.month.dec")
+];
+
 /** 小时列表 */
 export const HOURS = Array.from({ length: 24 }, (_, i) => i);
 /** 分钟列表 */

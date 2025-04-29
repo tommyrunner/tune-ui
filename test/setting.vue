@@ -45,6 +45,17 @@
         </div>
       </div>
     </test-section>
+    <!-- 国际化配置 -->
+    <test-section title="国际化配置">
+      <div class="size-settings">
+        <t-select v-model="locale" @change="handleLocaleChange" :options="localeOptions" />
+        <div class="size-preview">
+          <div class="preview-items">
+            <t-calendar :default-select-today="false" />
+          </div>
+        </div>
+      </div>
+    </test-section>
 
     <!-- 配置预览 -->
     <test-section title="当前配置">
@@ -81,6 +92,8 @@ import { TColorPicker } from "@/packages/color-picker";
 import { TCard } from "@/packages/card";
 import { TFlex } from "@/packages/flex";
 import { TIcon } from "@/packages/icon";
+import { TCalendar } from "@/packages/calendar";
+import { TSelect } from "@/packages/select";
 import { TMessage } from "@/packages/message";
 import TestSection from "./components/test-section.vue";
 import { useOptions } from "@/hooks/useOptions";
@@ -89,7 +102,7 @@ import type { OptionsThemeType } from "@/hooks/useOptions/type";
 defineOptions({ name: "SettingsTest" });
 
 // 使用全局配置API
-const { updateThemeColor, updateDefaultSize, configOptions, initOptions } = useOptions();
+const { updateThemeColor, updateDefaultSize, configOptions, initOptions, setLocale } = useOptions();
 
 // 主题颜色标签映射
 const themeLabels = {
@@ -107,6 +120,13 @@ const themeColors = reactive<OptionsThemeType>({ ...configOptions.value.theme })
 
 // 元素尺寸
 const elementSize = ref(configOptions.value.elSize || "default");
+
+// 国际化配置
+const locale = ref(configOptions.value.locale || "zh-CN");
+const localeOptions = ref([
+  { label: "中文", value: "zh-CN" },
+  { label: "英文", value: "en-US" }
+]);
 
 /**
  * 处理主题颜色变更
@@ -159,8 +179,15 @@ const resetThemeSettings = () => {
     themeColors[key as keyof OptionsThemeType] = defaultOptions.theme[key as keyof OptionsThemeType];
   });
   updateThemeColor(themeColors);
-
   TMessage.success("已重置主题颜色");
+};
+
+/**
+ * 处理国际化配置变更
+ */
+const handleLocaleChange = () => {
+  setLocale(locale.value);
+  TMessage.success(`国际化已更新为${locale.value}`);
 };
 </script>
 

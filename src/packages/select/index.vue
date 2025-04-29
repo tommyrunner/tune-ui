@@ -8,6 +8,7 @@
       :radius="DROPDOWN_RADIUS"
       :disabled="disabled"
       @close="handleClose"
+      @open="handleDropdownShow"
       ref="popoverRef"
     >
       <!-- 下拉选项列表 -->
@@ -326,6 +327,7 @@ const renderLabel = (item: SingleValueType): string => {
 const handleDeleteOption = (item: SingleValueType): void => {
   const values = (model.value as SingleValueType[]) || [];
   model.value = values.filter(value => value !== item);
+  emit("remove-tag", item);
 };
 
 /**
@@ -359,6 +361,7 @@ const handleOptionSelect = (option: OptionsItemType): void => {
 
   // 普通选择处理
   updateModelValue(option);
+  emit("change", option);
 };
 
 /**
@@ -408,6 +411,9 @@ const handleCascadeItemClick = (option: OptionsItemType, menuIndex: number): voi
   // 更新级联路径 - 保留当前菜单索引之前的路径，替换当前菜单索引的选项
   state.cascadePath = state.cascadePath.slice(0, menuIndex);
   state.cascadePath.push(option);
+
+  // 触发级联菜单变化事件
+  emit("cascade-change", [...state.cascadePath]);
 
   // 更新模型值，确保当前选中的选项高亮
   model.value = option.value;
@@ -470,6 +476,9 @@ const handleFilter = (event: Event): void => {
   const target = event.target as HTMLInputElement;
   state.filterText = target.value;
 
+  // 触发input事件
+  emit("input", state.filterText);
+
   // 远程搜索方法
   if (props.remoteMethod) {
     loading.value = true;
@@ -482,18 +491,31 @@ const handleFilter = (event: Event): void => {
 
 /**
  * @description 处理输入框聚焦
+ * @param {FocusEvent} event - 聚焦事件
  * @returns {void}
  */
-const handleFocus = (): void => {
+const handleFocus = (event: FocusEvent): void => {
   state.isFocused = true;
+  emit("focus", event);
 };
 
 /**
  * @description 处理输入框失焦
+ * @param {FocusEvent} event - 失焦事件
  * @returns {void}
  */
-const handleBlur = (): void => {
+const handleBlur = (event: FocusEvent): void => {
   state.isFocused = false;
+  emit("blur", event);
+};
+
+/**
+ * @description 处理下拉框显示
+ * @returns {void}
+ */
+const handleDropdownShow = (): void => {
+  emit("visible-change", true);
+  handleOpen();
 };
 
 /**
@@ -502,6 +524,7 @@ const handleBlur = (): void => {
  */
 const handleClose = (): void => {
   state.filterText = null;
+  emit("visible-change", false);
 
   // 如果级联面板处于打开状态且启用严格选择模式，且不允许选择父级
   if (state.showCascadePanel && props.checkStrictly && !props.selectParent) {

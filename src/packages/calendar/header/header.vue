@@ -6,10 +6,12 @@
           <t-icon icon="left" />
         </div>
         <div class="_title">
-          <span class="year-text" :class="{ active: mode === 'year' }" @click="handleYearTitleClick">{{ currentYear }}年</span>
+          <span class="year-text" :class="{ active: mode === 'year' }" @click="handleYearTitleClick"
+            >{{ currentYear }}{{ t("calendar.year") }}</span
+          >
           <template v-if="mode !== 'year'">
             <span class="month-text" :class="{ active: mode === 'month' }" @click="handleMonthTitleClick">
-              {{ currentMonth }}月
+              {{ currentMonth }}{{ t("calendar.month") }}
             </span>
           </template>
         </div>
@@ -28,8 +30,11 @@
 import "./header.scss";
 import { TIcon } from "@/packages/icon";
 import type { ModeType } from "../calendar";
-
+import { useI18n } from "@/hooks/useI18n";
 defineOptions({ name: "TCalendarHeader" });
+
+// 国际化
+const { t } = useI18n();
 
 /**
  * @description 组件属性

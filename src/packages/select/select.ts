@@ -72,6 +72,20 @@ export interface PropsType extends TipProps, BaseProps {
 export interface EmitsType {
   /** 清空事件 */
   (e: "clear"): void;
+  /** 选择事件 */
+  (e: "change", option: OptionsItemType): void;
+  /** 下拉框展开事件 */
+  (e: "visible-change", visible: boolean): void;
+  /** 获取焦点事件 */
+  (e: "focus", event: FocusEvent): void;
+  /** 失去焦点事件 */
+  (e: "blur", event: FocusEvent): void;
+  /** 移除选项事件（多选模式下） */
+  (e: "remove-tag", value: SingleValueType): void;
+  /** 输入值变化事件（filterable模式下） */
+  (e: "input", value: string): void;
+  /** 级联菜单切换事件 */
+  (e: "cascade-change", path: OptionsItemType[]): void;
 }
 
 /**

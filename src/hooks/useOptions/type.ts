@@ -4,6 +4,12 @@ import type { Ref } from "vue";
 import type { OptionsType as LoadingOptionsType } from "web-loading";
 
 /**
+ * @description 语言类型
+ * @type {string}
+ */
+export type LocaleType = "zh-CN" | "en-US" | string;
+
+/**
  * @description 全局主题配置
  * @interface OptionsThemeType
  */
@@ -55,6 +61,8 @@ export interface OptionsType {
   elSize: ElSizeType;
   /** 加载配置选项 */
   loadingOptions?: LoadingOptionsType;
+  /** 当前语言 */
+  locale?: LocaleType;
 }
 
 /**
@@ -83,4 +91,8 @@ export interface OptionsResultType {
   updateDefaultSize: (size: ElSizeType) => void;
   /** 更新加载配置 */
   updateLoadingOptions: (options: LoadingOptionsType) => void;
+  /** 切换语言 */
+  setLocale: (locale: LocaleType) => void;
+  /** 当前语言 */
+  locale: Ref<LocaleType>;
 }

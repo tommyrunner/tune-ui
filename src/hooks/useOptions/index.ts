@@ -1,7 +1,8 @@
 import type { ElSizeType } from "@/types";
-import type { OptionsResultType, OptionsThemeType, OptionsType } from "./type";
+import type { OptionsResultType, OptionsThemeType, OptionsType, LocaleType } from "./type";
 import type { OptionsType as LoadingOptionsType } from "web-loading";
 import { computed, ref } from "vue";
+import { DEFAULT_LOCALE } from "./constants";
 
 /**
  * 初始化全局配置api
@@ -19,7 +20,8 @@ export function initOptions(): OptionsType {
       light: "#fff"
     },
     elSize: "default",
-    loadingOptions: {}
+    loadingOptions: {},
+    locale: DEFAULT_LOCALE
   };
 }
 
@@ -58,17 +60,33 @@ export function useOptions(): OptionsResultType {
   const updateLoadingOptions = (options: LoadingOptionsType) => {
     configOptions.value.loadingOptions = options;
   };
+
+  /**
+   * 切换语言
+   * @param {LocaleType} locale - 目标语言
+   */
+  const setLocale = (locale: LocaleType) => {
+    configOptions.value.locale = locale;
+  };
+
   /**
    * 获取基础尺寸
    */
   const baseSize = computed(() => configOptions.value.elSize);
 
+  /**
+   * 获取当前语言
+   */
+  const locale = computed(() => configOptions.value.locale || DEFAULT_LOCALE);
+
   return {
     updateThemeColor,
     updateDefaultSize,
     updateLoadingOptions,
+    setLocale,
     initOptions,
     configOptions,
-    baseSize
+    baseSize,
+    locale
   };
 }
