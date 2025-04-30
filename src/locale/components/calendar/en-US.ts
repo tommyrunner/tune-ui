@@ -1,36 +1,35 @@
 export default {
   // Basic
-  "calendar.year": " Year",
-  "calendar.month": " Month",
-  "calendar.today": "Today",
+  "calendar.year": " Yr",
+  "calendar.month": " Mh",
 
   // Week days
-  "calendar.week.sun": "Sun",
-  "calendar.week.mon": "Mon",
-  "calendar.week.tue": "Tue",
-  "calendar.week.wed": "Wed",
-  "calendar.week.thu": "Thu",
-  "calendar.week.fri": "Fri",
-  "calendar.week.sat": "Sat",
+  "calendar.sun": "Sun",
+  "calendar.mon": "Mon",
+  "calendar.tue": "Tue",
+  "calendar.wed": "Wed",
+  "calendar.thu": "Thu",
+  "calendar.fri": "Fri",
+  "calendar.sat": "Sat",
 
   // Month names
-  "calendar.month.jan": "January",
-  "calendar.month.feb": "February",
-  "calendar.month.mar": "March",
-  "calendar.month.apr": "April",
-  "calendar.month.may": "May",
-  "calendar.month.jun": "June",
-  "calendar.month.jul": "July",
-  "calendar.month.aug": "August",
-  "calendar.month.sep": "September",
-  "calendar.month.oct": "October",
-  "calendar.month.nov": "November",
-  "calendar.month.dec": "December",
+  "calendar.jan": "January",
+  "calendar.feb": "February",
+  "calendar.mar": "March",
+  "calendar.apr": "April",
+  "calendar.may": "May",
+  "calendar.jun": "June",
+  "calendar.jul": "July",
+  "calendar.aug": "August",
+  "calendar.sep": "September",
+  "calendar.oct": "October",
+  "calendar.nov": "November",
+  "calendar.dec": "December",
 
   // Time picker
-  "calendar.time.hour": "Hour",
-  "calendar.time.minute": "Min",
-  "calendar.time.second": "Sec",
-  "calendar.time.confirm": "Confirm",
-  "calendar.time.cancel": "Cancel"
+  "calendar.hour": "Hour",
+  "calendar.minute": "Min",
+  "calendar.second": "Sec",
+  "calendar.confirm": "Confirm",
+  "calendar.cancel": "Cancel"
 };

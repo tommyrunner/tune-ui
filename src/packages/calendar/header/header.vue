@@ -7,11 +7,11 @@
         </div>
         <div class="_title">
           <span class="year-text" :class="{ active: mode === 'year' }" @click="handleYearTitleClick"
-            >{{ currentYear }}{{ t("calendar.year") }}</span
+            >{{ currentYear }}{{ t("year") }}</span
           >
           <template v-if="mode !== 'year'">
             <span class="month-text" :class="{ active: mode === 'month' }" @click="handleMonthTitleClick">
-              {{ currentMonth }}{{ t("calendar.month") }}
+              {{ currentMonth }}{{ t("month") }}
             </span>
           </template>
         </div>
@@ -34,7 +34,7 @@ import { useI18n } from "@/hooks/useI18n";
 defineOptions({ name: "TCalendarHeader" });
 
 // 国际化
-const { t } = useI18n();
+const { t } = useI18n("calendar");
 
 /**
  * @description 组件属性

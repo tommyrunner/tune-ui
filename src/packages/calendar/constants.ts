@@ -1,4 +1,4 @@
-import type { InjectionKey } from "vue";
+import { computed, type InjectionKey } from "vue";
 import type { PropsType } from "./calendar";
 import { useI18n } from "@/hooks/useI18n";
 
@@ -20,34 +20,26 @@ export interface CalendarContextType extends PropsType {
 export const calendarKey: InjectionKey<CalendarContextType> = Symbol("calendarKey");
 
 // 国际化
-const { t } = useI18n();
+const { t } = useI18n("calendar");
 
 /** 星期标题 */
-export const WEEK_DAYS = [
-  t("calendar.week.sun"),
-  t("calendar.week.mon"),
-  t("calendar.week.tue"),
-  t("calendar.week.wed"),
-  t("calendar.week.thu"),
-  t("calendar.week.fri"),
-  t("calendar.week.sat")
-];
+export const WEEK_DAYS = computed(() => [t("sun"), t("mon"), t("tue"), t("wed"), t("thu"), t("fri"), t("sat")]);
 
 /** 月份名称 */
-export const MONTH_NAMES = [
-  t("calendar.month.jan"),
-  t("calendar.month.feb"),
-  t("calendar.month.mar"),
-  t("calendar.month.apr"),
-  t("calendar.month.may"),
-  t("calendar.month.jun"),
-  t("calendar.month.jul"),
-  t("calendar.month.aug"),
-  t("calendar.month.sep"),
-  t("calendar.month.oct"),
-  t("calendar.month.nov"),
-  t("calendar.month.dec")
-];
+export const MONTH_NAMES = computed(() => [
+  t("jan"),
+  t("feb"),
+  t("mar"),
+  t("apr"),
+  t("may"),
+  t("jun"),
+  t("jul"),
+  t("aug"),
+  t("sep"),
+  t("oct"),
+  t("nov"),
+  t("dec")
+]);
 
 /** 小时列表 */
 export const HOURS = Array.from({ length: 24 }, (_, i) => i);
