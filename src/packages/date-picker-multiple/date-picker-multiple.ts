@@ -1,6 +1,7 @@
 import type { BaseProps } from "@/types";
 import type { TipProps } from "@/hooks/useTip";
 import type { DateType, ModeType } from "@/packages/calendar/calendar";
+import { useI18n } from "@/hooks/useI18n";
 
 /**
  * @description 快捷选项类型
@@ -71,3 +72,5 @@ export const ICON_SIZES = {
   small: 14,
   large: 16
 };
+const { t } = useI18n("datePicker");
+export const DEFAULT_PLACEHOLDER = t("placeholderDate");

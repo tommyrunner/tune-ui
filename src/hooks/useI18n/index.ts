@@ -20,13 +20,13 @@ export function useI18n(namespace?: string): I18nReturnType {
     const currentLocale = locale.value;
     const messages = getMessages(currentLocale);
 
-    // 如果有命名空间，先尝试带命名空间的键
     let result = key;
-    if (namespace) {
+    // 如果key包含.，不使用命名空间
+    if (key.includes(".")) {
+      result = messages[key] || key;
+    } else {
       const namespacedKey = `${namespace}.${key}`;
       result = messages[namespacedKey] || messages[key] || key;
-    } else {
-      result = messages[key] || key;
     }
 
     // 简单的插值替换
@@ -44,4 +44,7 @@ export function useI18n(namespace?: string): I18nReturnType {
     locale,
     setLocale
   };
+}
+export function test() {
+  return "1";
 }

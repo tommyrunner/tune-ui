@@ -87,6 +87,7 @@ import { isValue } from "@/utils/is";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES } from "./date-picker";
 import { useTip } from "@/hooks";
+import { TEXT_DEFAULT_PLACEHOLDER, TEXT_DATE_PARSE_ERROR, TEXT_YEAR, TEXT_MONTH } from "./i18n";
 
 // 组件名称定义
 defineOptions({ name: "TDatePicker" });
@@ -98,7 +99,7 @@ const { baseSize } = useOptions();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   mode: "date",
-  placeholder: "请选择日期",
+  placeholder: TEXT_DEFAULT_PLACEHOLDER,
   position: "bottom",
   size: configOptions.value.elSize,
   isTip: true,
@@ -144,7 +145,7 @@ const toDateObject = (value: DateType | null | undefined): Date => {
     try {
       return parseDate(value, props.valueFormat);
     } catch (e) {
-      console.warn("日期格式解析失败，使用默认解析", e);
+      console.warn(TEXT_DATE_PARSE_ERROR, e);
       return new Date(value);
     }
   }
@@ -174,9 +175,9 @@ const getDefaultFormat = () => {
   if (props.showTime) return "YYYY-MM-DD HH:mm:ss";
   switch (props.mode) {
     case "year":
-      return "YYYY年";
+      return `YYYY${TEXT_YEAR}`;
     case "month":
-      return "YYYY年MM月";
+      return `YYYY${TEXT_MONTH}`;
     default:
       return "YYYY-MM-DD";
   }

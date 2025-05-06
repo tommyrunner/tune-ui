@@ -93,8 +93,10 @@
               <!-- 底部确认按钮 -->
               <template #footer>
                 <div class="_footer">
-                  <t-button size="small" type="text" @click="handleCancel">取消</t-button>
-                  <t-button size="small" type="primary" :disabled="isConfirmDisabled" @click="handleConfirm">确认</t-button>
+                  <t-button size="small" type="text" @click="handleCancel">{{ t("common.cancel") }}</t-button>
+                  <t-button size="small" type="primary" :disabled="isConfirmDisabled" @click="handleConfirm">{{
+                    t("common.confirm")
+                  }}</t-button>
                 </div>
               </template>
             </t-calendar>
@@ -141,10 +143,9 @@ import { TIcon } from "@/packages/icon";
 import { TCalendar } from "@/packages/calendar";
 import { TButton } from "@/packages/button";
 import { configOptions } from "@/hooks/useOptions";
-import { ICON_COLOR, DROPDOWN_RADIUS } from "./date-picker-multiple";
+import { ICON_COLOR, DROPDOWN_RADIUS, DEFAULT_PLACEHOLDER } from "./date-picker-multiple";
 import { useDatePickerMultiple, useMonthSelection, useYearSelection } from "./hooks";
 import { useTip } from "@/hooks";
-
 // 组件名称定义
 defineOptions({ name: "TDatePickerMultiple" });
 
@@ -153,7 +154,7 @@ const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   mode: "date",
-  placeholder: "请选择日期",
+  placeholder: DEFAULT_PLACEHOLDER,
   position: "bottom",
   isTip: true,
   disabled: false,

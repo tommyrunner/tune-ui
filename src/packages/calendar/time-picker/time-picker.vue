@@ -24,7 +24,7 @@
           <div class="_time-lists-container">
             <!-- 小时列表 -->
             <div class="_time-list-column">
-              <div class="_time-column-title">{{ t("hour") }}</div>
+              <div class="_time-column-title">{{ TEXT_HOUR }}</div>
               <t-list-view ref="hourListViewRef" :list-data="hoursList" class="_time-list" :height="200">
                 <template #default="{ row }">
                   <div class="_time-item" :class="{ _selected: tempTimeHour === row }" @click="handleHourSelect(row)">
@@ -36,7 +36,7 @@
 
             <!-- 分钟列表 -->
             <div class="_time-list-column">
-              <div class="_time-column-title">{{ t("minute") }}</div>
+              <div class="_time-column-title">{{ TEXT_MINUTE }}</div>
               <t-list-view ref="minuteListViewRef" :list-data="minutesList" class="_time-list" :height="200">
                 <template #default="{ row }">
                   <div class="_time-item" :class="{ _selected: tempTimeMinute === row }" @click="handleMinuteSelect(row)">
@@ -48,7 +48,7 @@
 
             <!-- 秒列表 -->
             <div class="_time-list-column">
-              <div class="_time-column-title">{{ t("second") }}</div>
+              <div class="_time-column-title">{{ TEXT_SECOND }}</div>
               <t-list-view ref="secondListViewRef" :list-data="secondsList" class="_time-list" :height="200">
                 <template #default="{ row }">
                   <div class="_time-item" :class="{ _selected: tempTimeSecond === row }" @click="handleSecondSelect(row)">
@@ -60,8 +60,8 @@
           </div>
 
           <div class="_time-actions">
-            <button class="_time-btn _confirm" @click="confirmTimeSelect">{{ t("confirm") }}</button>
-            <button class="_time-btn _cancel" @click="cancelTimeSelect">{{ t("cancel") }}</button>
+            <button class="_time-btn _confirm" @click="confirmTimeSelect">{{ TEXT_CONFIRM }}</button>
+            <button class="_time-btn _cancel" @click="cancelTimeSelect">{{ TEXT_CANCEL }}</button>
           </div>
         </div>
       </template>
@@ -77,12 +77,9 @@ import { TIcon } from "@/packages/icon";
 import { TPopover } from "@/packages/popover";
 import { TListView } from "@/packages/list-view";
 import { HOURS, MINUTES, SECONDS } from "../calendar";
-import { useI18n } from "@/hooks/useI18n";
+import { TEXT_HOUR, TEXT_MINUTE, TEXT_SECOND, TEXT_CONFIRM, TEXT_CANCEL } from "../i18n";
 
 defineOptions({ name: "TCalendarTimePicker" });
-
-// 国际化
-const { t } = useI18n("calendar");
 
 /**
  * @description 组件属性
