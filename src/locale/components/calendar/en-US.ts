@@ -29,7 +29,5 @@ export default {
   // Time picker
   "calendar.hour": "Hour",
   "calendar.minute": "Min",
-  "calendar.second": "Sec",
-  "calendar.confirm": "Confirm",
-  "calendar.cancel": "Cancel"
+  "calendar.second": "Sec"
 };

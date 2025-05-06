@@ -1,4 +1,4 @@
-import { computed, type InjectionKey } from "vue";
+import type { InjectionKey } from "vue";
 import type { PropsType } from "./calendar";
 import {
   TEXT_SUNDAY,
@@ -40,18 +40,10 @@ export interface CalendarContextType extends PropsType {
 export const calendarKey: InjectionKey<CalendarContextType> = Symbol("calendarKey");
 
 /** 星期标题 */
-export const WEEK_DAYS = computed(() => [
-  TEXT_SUNDAY,
-  TEXT_MONDAY,
-  TEXT_TUESDAY,
-  TEXT_WEDNESDAY,
-  TEXT_THURSDAY,
-  TEXT_FRIDAY,
-  TEXT_SATURDAY
-]);
+export const WEEK_DAYS = [TEXT_SUNDAY, TEXT_MONDAY, TEXT_TUESDAY, TEXT_WEDNESDAY, TEXT_THURSDAY, TEXT_FRIDAY, TEXT_SATURDAY];
 
 /** 月份名称 */
-export const MONTH_NAMES = computed(() => [
+export const MONTH_NAMES = [
   TEXT_JANUARY,
   TEXT_FEBRUARY,
   TEXT_MARCH,
@@ -64,7 +56,7 @@ export const MONTH_NAMES = computed(() => [
   TEXT_OCTOBER,
   TEXT_NOVEMBER,
   TEXT_DECEMBER
-]);
+];
 
 /** 小时列表 */
 export const HOURS = Array.from({ length: 24 }, (_, i) => i);

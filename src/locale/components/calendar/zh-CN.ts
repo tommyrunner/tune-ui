@@ -29,7 +29,5 @@ export default {
   // 时间选择相关
   "calendar.hour": "时",
   "calendar.minute": "分",
-  "calendar.second": "秒",
-  "calendar.confirm": "确定",
-  "calendar.cancel": "取消"
+  "calendar.second": "秒"
 };

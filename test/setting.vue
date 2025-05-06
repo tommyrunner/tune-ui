@@ -51,7 +51,7 @@
         <t-select v-model="locale" @change="handleLocaleChange" :options="localeOptions" />
         <div class="size-preview">
           <div class="preview-items">
-            <t-calendar :default-select-today="false" />
+            <t-calendar :disabled-time-view="false" show-time />
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
   <div class="_dates">
     <!-- 星期标题 -->
     <div class="_weekdays">
-      <div v-for="day in WEEK_DAYS" :key="day">{{ day }}</div>
+      <div v-for="day in WEEK_DAYS" :key="day.value">{{ day }}</div>
     </div>
 
     <!-- 日期网格 -->

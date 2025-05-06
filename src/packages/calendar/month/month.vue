@@ -2,7 +2,7 @@
   <div class="_months">
     <div
       v-for="(month, index) in MONTH_NAMES"
-      :key="month"
+      :key="month.value"
       class="_month"
       :class="{
         _selected: isSelected(index),
