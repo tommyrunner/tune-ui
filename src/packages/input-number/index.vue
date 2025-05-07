@@ -48,7 +48,7 @@ import { useTip } from "@/hooks";
 import { TIcon } from "@/packages/icon";
 import { isValue } from "@/utils/is";
 import { ICON_SIZES } from "./input-number";
-
+import { TEXT_PLACEHOLDER } from "./i18n";
 defineOptions({ name: "TInputNumber" });
 
 // Props & Emits 定义
@@ -59,6 +59,7 @@ const { baseSize } = useOptions();
 
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
+  placeholder: TEXT_PLACEHOLDER,
   isTip: true,
   isControls: true,
   step: 1,

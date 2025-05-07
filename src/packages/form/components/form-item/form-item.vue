@@ -38,6 +38,7 @@ import { generateId } from "@/utils";
 import { isNullOrUnDef, isString, isFunction, isArray, isValue } from "@/utils/is";
 import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
+import { TEXT_REQUIRED, TEXT_MIN, TEXT_MAX, TEXT_PATTERN, TEXT_VALIDATOR } from "../../i18n";
 
 defineOptions({
   name: "TFormItem"
@@ -211,7 +212,7 @@ const validate = async (trigger?: FormItemTrigger): FormValidateResult => {
     for (const rule of filteredRules) {
       // 必填校验
       if (rule.required && !isValue(value)) {
-        throw new Error(rule.message || `${props.label || props.prop}是必填项`);
+        throw new Error(rule.message || `${props.label || props.prop}${TEXT_REQUIRED}`);
       }
 
       // 如果值为空且不是必填，跳过其他校验
@@ -221,17 +222,17 @@ const validate = async (trigger?: FormItemTrigger): FormValidateResult => {
 
       // 最小长度校验
       if (rule.min !== undefined && String(value).length < rule.min) {
-        throw new Error(rule.message || `${props.label || props.prop}长度不能小于${rule.min}`);
+        throw new Error(rule.message || `${props.label || props.prop}${TEXT_MIN}${rule.min}`);
       }
 
       // 最大长度校验
       if (rule.max !== undefined && String(value).length > rule.max) {
-        throw new Error(rule.message || `${props.label || props.prop}长度不能大于${rule.max}`);
+        throw new Error(rule.message || `${props.label || props.prop}${TEXT_MAX}${rule.max}`);
       }
 
       // 正则校验
       if (rule.pattern && !rule.pattern.test(String(value))) {
-        throw new Error(rule.message || `${props.label || props.prop}格式不正确`);
+        throw new Error(rule.message || `${props.label || props.prop}${TEXT_PATTERN}`);
       }
 
       // 自定义校验函数
@@ -240,7 +241,7 @@ const validate = async (trigger?: FormItemTrigger): FormValidateResult => {
         if (isString(result)) {
           throw new Error(result);
         } else if (result === false) {
-          throw new Error(rule.message || `${props.label || props.prop}校验不通过`);
+          throw new Error(rule.message || `${props.label || props.prop}${TEXT_VALIDATOR}`);
         }
       }
     }
@@ -252,7 +253,7 @@ const validate = async (trigger?: FormItemTrigger): FormValidateResult => {
     return true;
   } catch (error: any) {
     state.validateState = "error";
-    state.validateMessage = error.message || "校验错误";
+    state.validateMessage = error.message || TEXT_VALIDATOR;
     state.isValidating = false;
     emit("validate", props.prop, false, error.message);
     return Promise.reject(error.message);

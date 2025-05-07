@@ -93,9 +93,9 @@
               <!-- 底部确认按钮 -->
               <template #footer>
                 <div class="_footer">
-                  <t-button size="small" type="text" @click="handleCancel">{{ t("common.cancel") }}</t-button>
+                  <t-button size="small" type="text" @click="handleCancel">{{ TEXT_CANCEL }}</t-button>
                   <t-button size="small" type="primary" :disabled="isConfirmDisabled" @click="handleConfirm">{{
-                    t("common.confirm")
+                    TEXT_CONFIRM
                   }}</t-button>
                 </div>
               </template>
@@ -146,6 +146,7 @@ import { configOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS, DEFAULT_PLACEHOLDER } from "./date-picker-multiple";
 import { useDatePickerMultiple, useMonthSelection, useYearSelection } from "./hooks";
 import { useTip } from "@/hooks";
+import { TEXT_CANCEL, TEXT_CONFIRM } from "./i18n";
 // 组件名称定义
 defineOptions({ name: "TDatePickerMultiple" });
 

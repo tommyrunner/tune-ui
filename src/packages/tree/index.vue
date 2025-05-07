@@ -1,7 +1,7 @@
 <template>
   <div class="t-tree">
     <div v-if="!data || data.length === 0" class="t-tree__empty">
-      <slot name="empty">暂无数据</slot>
+      <slot name="empty">{{ TEXT_EMPTY }}</slot>
     </div>
     <div v-else class="t-tree__wrapper">
       <tree-node
@@ -31,6 +31,7 @@ import type { PropsType, TreeNodeType, EmitsType } from "./tree";
 import { computed, nextTick, provide, ref, watch } from "vue";
 import TreeNode from "./components/tree-node/tree-node.vue";
 import { treeContextKey, type TreeContext } from "./constants";
+import { TEXT_EMPTY } from "./i18n";
 
 defineOptions({
   name: "TTree"

@@ -25,7 +25,7 @@ import { computed, ref } from "vue";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { isKeyboard, bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
-
+import { TEXT_PLACEHOLDER } from "./i18n";
 defineOptions({ name: "TTextarea" });
 
 // 基础尺寸
@@ -34,6 +34,7 @@ const { baseSize } = useOptions();
 const textareaRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
+  placeholder: TEXT_PLACEHOLDER,
   debounce: undefined,
   isTip: true,
   size: configOptions.value.elSize,

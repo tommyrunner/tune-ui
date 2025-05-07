@@ -3,6 +3,7 @@ export default {
   "common.confirm": "确认",
   "common.cancel": "取消",
   "common.submit": "提交",
+  "common.retry": "重试",
   "common.reset": "重置",
   "common.close": "关闭",
   "common.clear": "清空",

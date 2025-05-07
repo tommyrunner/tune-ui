@@ -126,6 +126,7 @@ import { isEqual, isValue } from "@/utils/is";
 import { bindDebounce } from "@/utils";
 import { GroupContextType, selectGroupKey } from "./constants";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
+import { TEXT_PLACEHOLDER_SELECT, TEXT_EMPTY } from "./i18n";
 
 /**
  * @description 选择器组件
@@ -147,8 +148,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   options: () => [],
   type: "input",
-  placeholder: "请选择",
-  emptyText: "暂无数据",
+  placeholder: TEXT_PLACEHOLDER_SELECT,
+  emptyText: TEXT_EMPTY,
   isTip: true,
   clearable: true,
   disabled: false,

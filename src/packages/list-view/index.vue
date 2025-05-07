@@ -49,13 +49,14 @@ import Scrollbar from "../scrollbar/index.vue";
 import { GroupContextType, listViewGroupKey } from "./constants";
 import { TListViewItem } from "./index";
 import { fromCssVal } from "@/utils";
+import { TEXT_EMPTY } from "./i18n";
 
 defineOptions({ name: "TListView" });
 
 const props = withDefaults(defineProps<PropsType>(), {
   isVirtualized: false,
   listData: () => [],
-  emptyText: "暂无数据"
+  emptyText: TEXT_EMPTY
 });
 
 const emit = defineEmits<EmitsType>();

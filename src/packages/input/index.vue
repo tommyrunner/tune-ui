@@ -48,6 +48,7 @@ import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
 import { bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
+import { TEXT_PLACEHOLDER } from "./i18n";
 
 defineOptions({ name: "TInput" });
 
@@ -57,7 +58,7 @@ const { baseSize } = useOptions();
 const inputRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
-  placeholder: "请输入",
+  placeholder: TEXT_PLACEHOLDER,
   debounce: void 0,
   isTip: true,
   clearable: true,

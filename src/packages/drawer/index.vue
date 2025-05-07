@@ -54,6 +54,7 @@ import { TPopover } from "../popover";
 import { TButton } from "../button";
 import { TIcon } from "../icon";
 import { computed, reactive } from "vue";
+import { TEXT_CONFIRM, TEXT_CANCEL } from "./i18n";
 defineOptions({ name: "TDrawer" });
 const emit = defineEmits<EmitsType>();
 const GAP = 4;
@@ -64,9 +65,9 @@ const props = withDefaults(defineProps<PropsType>(), {
   position: "left",
   size: "600px",
   icon: "inspiration",
-  confirmText: "确认",
+  confirmText: TEXT_CONFIRM,
+  cancelText: TEXT_CANCEL,
   confirmType: "primary",
-  cancelText: "取消",
   cancelType: "default",
   btnAlign: "flex-end",
   closeOnPressEscape: true,

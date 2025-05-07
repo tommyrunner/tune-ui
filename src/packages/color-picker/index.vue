@@ -100,8 +100,8 @@
 
           <!-- 操作按钮 -->
           <div class="t-color-picker__dropdown-footer">
-            <button class="t-color-picker__clear-btn" @click="handleClear">清空</button>
-            <button class="t-color-picker__confirm-btn" @click="handleConfirm">确定</button>
+            <button class="t-color-picker__clear-btn" @click="handleClear">{{ TEXT_CLEAR }}</button>
+            <button class="t-color-picker__confirm-btn" @click="handleConfirm">{{ TEXT_CONFIRM }}</button>
           </div>
         </div>
       </template>
@@ -115,6 +115,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import type { PropsType } from "./color-picker";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TPopover } from "@/packages/popover";
+import { TEXT_CLEAR, TEXT_CONFIRM } from "./i18n";
 
 /**
  * @description 颜色选择器组件

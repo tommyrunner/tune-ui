@@ -20,6 +20,7 @@ export function useI18n(namespace?: string): I18nReturnType {
   const translateText = (key: string, values: Record<string, any> = {}): string => {
     const currentLocale = locale.value;
     const messages = getMessages(currentLocale);
+    console.log(key, currentLocale);
 
     let result = key;
     // 如果key包含.，不使用命名空间

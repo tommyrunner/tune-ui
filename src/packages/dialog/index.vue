@@ -55,14 +55,14 @@ import { useDraggable } from "@/hooks/useDraggable";
 import { TPopover } from "@/packages/popover";
 import { TButton } from "@/packages/button";
 import { TIcon } from "@/packages/icon";
-
+import { TEXT_CONFIRM, TEXT_CANCEL } from "./i18n";
 defineOptions({ name: "TDialog" });
 
 const props = withDefaults(defineProps<PropsType>(), {
   width: "600px",
   icon: "inspiration",
-  confirmText: "确认",
-  cancelText: "取消",
+  confirmText: TEXT_CONFIRM,
+  cancelText: TEXT_CANCEL,
   confirmType: "success",
   cancelType: "default",
   btnAlign: "flex-end",

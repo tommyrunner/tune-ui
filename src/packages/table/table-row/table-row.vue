@@ -69,7 +69,7 @@ const getRowStyle = computed((): StyleValue => {
   return {
     backgroundColor: state.isHover || row[groupContext.changeKey] ? hoverBgColor : bgColor,
     height: isVirtualized ? "100%" : "auto",
-    ...rowStyle?.(rowIndex, props.row)
+    ...(rowStyle?.(rowIndex, props.row) as Object)
   };
 });
 

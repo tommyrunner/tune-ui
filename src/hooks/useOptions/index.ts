@@ -4,6 +4,8 @@ import type { OptionsType as LoadingOptionsType } from "web-loading";
 import { computed, ref } from "vue";
 import { DEFAULT_LOCALE } from "./constants";
 
+// 全局配置，初始化一次
+export const configOptions = ref<OptionsType>(initOptions());
 /**
  * 初始化全局配置api
  * @returns {OptionsType} 初始化的配置选项
@@ -20,13 +22,12 @@ export function initOptions(): OptionsType {
       light: "#fff"
     },
     elSize: "default",
-    loadingOptions: {},
+    loadingOptions: {
+      text: "loading..."
+    },
     locale: DEFAULT_LOCALE
   };
 }
-
-// 全局配置，初始化一次
-export const configOptions = ref<OptionsType>(initOptions());
 
 /**
  * 抛出全局配置api

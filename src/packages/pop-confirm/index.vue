@@ -39,6 +39,7 @@ import { computed } from "vue";
 import { TPopover } from "@/packages/popover";
 import { TButton } from "@/packages/button";
 import { TIcon } from "@/packages/icon";
+import { TEXT_CONFIRM, TEXT_CANCEL } from "./i18n";
 
 defineOptions({ name: "TPopConfirm" });
 
@@ -46,9 +47,9 @@ defineOptions({ name: "TPopConfirm" });
 const props = withDefaults(defineProps<PropsType>(), {
   icon: "illustrate",
   iconColor: "#999",
-  confirmText: "确认",
+  confirmText: TEXT_CONFIRM,
+  cancelText: TEXT_CANCEL,
   confirmType: "text",
-  cancelText: "取消",
   cancelType: "text",
   position: "top",
   padding: () => [8, 6, 8, 6],

@@ -24,6 +24,7 @@ import { reactive, provide, computed, useSlots } from "vue";
 import { formKey } from "./constants";
 import { TButton } from "@/packages/button";
 import { isFunction } from "@/utils/is";
+import { TEXT_SUBMIT, TEXT_RESET } from "./i18n";
 
 defineOptions({
   name: "TForm"
@@ -38,8 +39,8 @@ const props = withDefaults(defineProps<FormPropsType>(), {
   showMessage: true,
   inlineMessage: false,
   scrollToError: false,
-  submitText: "提交",
-  resetText: "重置",
+  submitText: TEXT_SUBMIT,
+  resetText: TEXT_RESET,
   showDefaultFooter: true
 });
 
