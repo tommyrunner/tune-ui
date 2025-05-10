@@ -14,11 +14,10 @@
       <div class="_inner" ref="innerRef" :style="getInnerStyle">
         <!-- 空数据展示 -->
         <template v-if="!props.listData.length">
-          <div class="_empty" v-if="slots.empty">
-            <slot name="empty" />
-          </div>
-          <div class="_empty" v-else>
-            <div>{{ TEXT_EMPTY }}</div>
+          <div class="_empty" :style="{ height: fromCssVal(props.height) }">
+            <slot name="empty">
+              <div>{{ TEXT_EMPTY }}</div>
+            </slot>
           </div>
         </template>
         <!-- 数据列表 -->
