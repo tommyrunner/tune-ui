@@ -77,7 +77,7 @@ import { TIcon } from "@/packages/icon";
 import { TPopover } from "@/packages/popover";
 import { TListView } from "@/packages/list-view";
 import { HOURS, MINUTES, SECONDS } from "../calendar";
-import { TEXT_HOUR, TEXT_MINUTE, TEXT_SECOND, TEXT_CONFIRM, TEXT_CANCEL } from "../i18n";
+import { useI18nText } from "../i18n";
 
 defineOptions({ name: "TCalendarTimePicker" });
 
@@ -98,6 +98,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabledTimeView: false
 });
 
+const { TEXT_HOUR, TEXT_MINUTE, TEXT_SECOND, TEXT_CONFIRM, TEXT_CANCEL } = useI18nText();
 /**
  * @description 组件事件
  */

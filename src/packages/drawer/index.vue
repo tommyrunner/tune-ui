@@ -35,9 +35,9 @@
         <div class="_foot" :style="footStyle" v-if="props.isFoot">
           <slot name="footer">
             <div class="_btn">
-              <TButton :type="props.cancelType" @click="handleSubmit(true)">{{ props.cancelText }}</TButton>
+              <TButton :type="props.cancelType" @click="handleSubmit(true)">{{ TEXT_CANCEL }}</TButton>
               <TButton :type="props.confirmType" @click="handleSubmit(false)">
-                {{ props.confirmText }}
+                {{ TEXT_CONFIRM }}
               </TButton>
             </div>
           </slot>
@@ -54,7 +54,7 @@ import { TPopover } from "../popover";
 import { TButton } from "../button";
 import { TIcon } from "../icon";
 import { computed, reactive } from "vue";
-import { TEXT_CONFIRM, TEXT_CANCEL } from "./i18n";
+import { useI18nText } from "./i18n";
 defineOptions({ name: "TDrawer" });
 const emit = defineEmits<EmitsType>();
 const GAP = 4;
@@ -65,8 +65,6 @@ const props = withDefaults(defineProps<PropsType>(), {
   position: "left",
   size: "600px",
   icon: "inspiration",
-  confirmText: TEXT_CONFIRM,
-  cancelText: TEXT_CANCEL,
   confirmType: "primary",
   cancelType: "default",
   btnAlign: "flex-end",
@@ -79,6 +77,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   padding: () => [12, 16, 12, 16],
   offset: () => ({ x: 0, y: 0 })
 });
+const { TEXT_CONFIRM, TEXT_CANCEL } = useI18nText(props);
 const visible = defineModel<boolean>();
 /**
  * 判断是否是两侧方向

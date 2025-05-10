@@ -1,7 +1,7 @@
 <template>
   <div class="_months">
     <div
-      v-for="(month, index) in MONTH_NAMES"
+      v-for="(month, index) in TEXT_MONTH_NAMES"
       :key="month.value"
       class="_month"
       :class="{
@@ -20,7 +20,8 @@
 <script lang="ts" setup>
 import "./month.scss";
 import { inject } from "vue";
-import { MONTH_NAMES, calendarKey, type CalendarContextType } from "../constants";
+import { calendarKey, type CalendarContextType } from "../constants";
+import { useI18nText } from "../i18n";
 
 defineOptions({ name: "TCalendarMonth" });
 
@@ -33,6 +34,7 @@ interface PropsType {
 }
 
 const props = defineProps<PropsType>();
+const { TEXT_MONTH_NAMES } = useI18nText();
 
 // 注入日历上下文
 const calendarContext = inject<CalendarContextType>(calendarKey);

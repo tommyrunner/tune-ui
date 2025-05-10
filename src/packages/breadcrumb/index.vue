@@ -18,7 +18,7 @@ import "./index.scss";
 import type { EmitsType, PropsType, ValueType } from "./breadcrumb";
 import { useRouter } from "vue-router";
 import { TIcon } from "@/packages/icon";
-import { TEXT_ROUTE_NOT_FOUND, TEXT_ROUTE_NOT_SET } from "./i18n";
+import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TBreadcrumb" });
 const props = withDefaults(defineProps<PropsType>(), {
@@ -26,6 +26,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   gap: 6,
   options: () => []
 });
+const { TEXT_ROUTE_NOT_FOUND, TEXT_ROUTE_NOT_SET } = useI18nText();
 
 const model = defineModel<string>();
 const emit = defineEmits<EmitsType>();

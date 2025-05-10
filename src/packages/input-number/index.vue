@@ -8,7 +8,7 @@
       <input
         :value="props.isRange ? model[index - 1] : model"
         type="number"
-        :placeholder="props.placeholder"
+        :placeholder="TEXT_PLACEHOLDER"
         :disabled="props.disabled"
         :step="props.step"
         :max="props.maxValue"
@@ -48,7 +48,7 @@ import { useTip } from "@/hooks";
 import { TIcon } from "@/packages/icon";
 import { isValue } from "@/utils/is";
 import { ICON_SIZES } from "./input-number";
-import { TEXT_PLACEHOLDER } from "./i18n";
+import { useI18nText } from "./i18n";
 defineOptions({ name: "TInputNumber" });
 
 // Props & Emits 定义
@@ -59,13 +59,13 @@ const { baseSize } = useOptions();
 
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
-  placeholder: TEXT_PLACEHOLDER,
   isTip: true,
   isControls: true,
   step: 1,
   debounceDelay: 1000
 });
 
+const { TEXT_PLACEHOLDER } = useI18nText(props);
 // 组件状态管理
 const model = defineModel<ModelType>();
 const TipComponent = useTip(props, model);

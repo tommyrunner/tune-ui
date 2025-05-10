@@ -126,7 +126,7 @@ import { isEqual, isValue } from "@/utils/is";
 import { bindDebounce } from "@/utils";
 import { GroupContextType, selectGroupKey } from "./constants";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
-import { TEXT_PLACEHOLDER_SELECT, TEXT_EMPTY } from "./i18n";
+import { useI18nText } from "./i18n";
 
 /**
  * @description 选择器组件
@@ -148,8 +148,6 @@ const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   options: () => [],
   type: "input",
-  placeholder: TEXT_PLACEHOLDER_SELECT,
-  emptyText: TEXT_EMPTY,
   isTip: true,
   clearable: true,
   disabled: false,
@@ -160,6 +158,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   selectParent: false
 });
 
+const { TEXT_PLACEHOLDER_SELECT, TEXT_EMPTY } = useI18nText(props);
 /**
  * @description v-model定义
  */
@@ -224,7 +223,7 @@ const showClearIcon = computed((): boolean => props.clearable && isValue(model.v
  * @returns {string} 标签文本
  */
 const selectedLabel = computed((): string => {
-  if (props.type === "text" && !model.value) return props.placeholder;
+  if (props.type === "text" && !model.value) return TEXT_PLACEHOLDER_SELECT.value;
 
   // 如果有级联路径且路径不为空
   if (state.cascadePath.length > 0) {
@@ -247,7 +246,7 @@ const selectedLabel = computed((): string => {
  * @returns {string} 占位符文本
  */
 const selectPlaceholder = computed((): string => {
-  if (!isValue(state.temModel)) return props.placeholder;
+  if (!isValue(state.temModel)) return TEXT_PLACEHOLDER_SELECT.value;
   const selectedOption = props.options.find(option => isEqual(option.value, state.temModel));
   return selectedOption?.label;
 });
@@ -292,7 +291,7 @@ const filteredOptions = computed((): OptionsItemType[] => {
  * @returns {string} 空文本
  */
 const emptyText = computed((): string => {
-  return loading.value ? "加载中..." : props.emptyText;
+  return loading.value ? "加载中..." : TEXT_EMPTY.value;
 });
 
 /**

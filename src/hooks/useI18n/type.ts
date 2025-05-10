@@ -9,7 +9,7 @@ export type TranslateFunctionType = (key: string, values?: Record<string, any>) 
 /**
  * @description 响应式翻译函数类型
  */
-export type ReactiveTranslateFunctionType = (key: string, values?: Record<string, any>) => ComputedRef<string>;
+export type ReactiveTranslateFunctionType = (key: string, priority?: string, values?: Record<string, any>) => ComputedRef<string>;
 
 /**
  * @description useI18n钩子返回类型

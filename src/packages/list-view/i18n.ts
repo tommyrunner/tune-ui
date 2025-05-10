@@ -1,5 +1,10 @@
 import { useI18n } from "@/hooks/useI18n";
+import type { PropsType } from "./list-view";
 
-const { t } = useI18n("common");
+export const useI18nText = (props?: PropsType) => {
+  const { tr } = useI18n("common");
 
-export const TEXT_EMPTY = t("empty");
+  return {
+    TEXT_EMPTY: tr("empty", props.emptyText)
+  };
+};

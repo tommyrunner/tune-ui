@@ -115,7 +115,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import type { PropsType } from "./color-picker";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TPopover } from "@/packages/popover";
-import { TEXT_CLEAR, TEXT_CONFIRM } from "./i18n";
+import { useI18nText } from "./i18n";
 
 /**
  * @description 颜色选择器组件
@@ -138,6 +138,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   teleported: true
 });
 
+const { TEXT_CLEAR, TEXT_CONFIRM } = useI18nText();
 /**
  * @description 使用defineModel实现响应式值
  */

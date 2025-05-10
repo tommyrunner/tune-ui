@@ -38,7 +38,7 @@ import { generateId } from "@/utils";
 import { isNullOrUnDef, isString, isFunction, isArray, isValue } from "@/utils/is";
 import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
-import { TEXT_REQUIRED, TEXT_MIN, TEXT_MAX, TEXT_PATTERN, TEXT_VALIDATOR } from "../../i18n";
+import { useI18nText } from "../../i18n";
 
 defineOptions({
   name: "TFormItem"
@@ -54,6 +54,7 @@ const props = withDefaults(defineProps<FormItemPropsType>(), {
   tip: void 0
 });
 
+const { TEXT_REQUIRED, TEXT_MIN, TEXT_MAX, TEXT_PATTERN, TEXT_VALIDATOR } = useI18nText();
 // 定义事件
 const emit = defineEmits<{
   (e: "validate", prop: string, isValid: boolean, message?: string): void;

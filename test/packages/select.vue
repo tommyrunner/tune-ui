@@ -5,7 +5,7 @@
     <h3>基础选择器</h3>
     <test-section title="基础用法">
       <div class="select-wrapper">
-        <t-select v-model="state.value" :options="options" placeholder="请选择" />
+        <t-select v-model="state.value" :options="options" />
         <div class="value-display">当前值：{{ state.value }}</div>
       </div>
     </test-section>

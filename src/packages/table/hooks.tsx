@@ -3,7 +3,7 @@ import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import { TCheckbox } from "@/packages/checkbox";
 import { TABLE_COL_FIXED_LAST } from "./constants";
 import TTableRow from "./table-row/table-row.vue";
-import { computed, VNode } from "vue";
+import { computed, h, VNode } from "vue";
 
 /**
  * 处理table功能列hooks
@@ -29,7 +29,11 @@ export function useTable(props: PropsType, emit: EmitsType) {
         prop: "select",
         width: 60,
         fixed: "left",
-        render: params => <TCheckbox v-model={params.data[props.changeKey]} onChange={() => handleSelectionChange(params)} />
+        render: params =>
+          h(TCheckbox, {
+            modelValue: params.data[props.changeKey],
+            onChange: () => handleSelectionChange(params)
+          })
       });
     }
 
@@ -76,18 +80,21 @@ export function useTable(props: PropsType, emit: EmitsType) {
 
   /**
    * 渲染表格行
+   * @description 使用h函数创建表格行组件
+   * @param {ListSlotParamsType} scope - 列表插槽参数
+   * @param {boolean} isHead - 是否为表头
+   * @param {boolean} isFoot - 是否为表尾
+   * @returns {VNode} 渲染的虚拟节点
    */
   const renderTableRow = (scope: ListSlotParamsType, isHead: boolean, isFoot: boolean): VNode => {
-    return (
-      <TTableRow
-        key={scope.index}
-        rowIndex={scope.index}
-        row={scope.row}
-        isHead={isHead}
-        isFoot={isFoot}
-        onClickRow={(params: TableRowType) => emit("click-row", params)}
-      />
-    );
+    return h(TTableRow, {
+      key: scope.index,
+      rowIndex: scope.index,
+      row: scope.row,
+      isHead: isHead,
+      isFoot: isFoot,
+      onClickRow: (params: TableRowType) => emit("click-row", params)
+    });
   };
 
   return { filterColumns, renderTableRow };

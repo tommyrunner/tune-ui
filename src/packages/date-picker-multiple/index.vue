@@ -116,7 +116,7 @@
             ref="inputRef"
             readonly
             :value="displayValue"
-            :placeholder="props.placeholder"
+            :placeholder="TEXT_DEFAULT_PLACEHOLDER"
             :disabled="props.disabled"
             @focus="handleFocus"
             @blur="handleBlur"
@@ -143,10 +143,10 @@ import { TIcon } from "@/packages/icon";
 import { TCalendar } from "@/packages/calendar";
 import { TButton } from "@/packages/button";
 import { configOptions } from "@/hooks/useOptions";
-import { ICON_COLOR, DROPDOWN_RADIUS, DEFAULT_PLACEHOLDER } from "./date-picker-multiple";
+import { ICON_COLOR, DROPDOWN_RADIUS } from "./date-picker-multiple";
 import { useDatePickerMultiple, useMonthSelection, useYearSelection } from "./hooks";
 import { useTip } from "@/hooks";
-import { TEXT_CANCEL, TEXT_CONFIRM } from "./i18n";
+import { useI18nText } from "./i18n";
 // 组件名称定义
 defineOptions({ name: "TDatePickerMultiple" });
 
@@ -155,7 +155,6 @@ const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   mode: "date",
-  placeholder: DEFAULT_PLACEHOLDER,
   position: "bottom",
   isTip: true,
   disabled: false,
@@ -163,6 +162,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   showTime: false,
   isRange: true
 });
+
+const { TEXT_CANCEL, TEXT_CONFIRM, TEXT_DEFAULT_PLACEHOLDER } = useI18nText(props);
 
 // v-model 定义
 const model = defineModel<DateType[]>({ default: () => [] });

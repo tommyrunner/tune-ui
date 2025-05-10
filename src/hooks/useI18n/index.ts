@@ -20,7 +20,6 @@ export function useI18n(namespace?: string): I18nReturnType {
   const translateText = (key: string, values: Record<string, any> = {}): string => {
     const currentLocale = locale.value;
     const messages = getMessages(currentLocale);
-    console.log(key, currentLocale);
 
     let result = key;
     // 如果key包含.，不使用命名空间
@@ -54,11 +53,12 @@ export function useI18n(namespace?: string): I18nReturnType {
   /**
    * 响应式翻译函数
    * @param {string} key - 翻译键
+   * @param {string} priority - 优先值
    * @param {Record<string, any>} values - 替换值
    * @returns {ComputedRef<string>} 响应式的翻译文本
    */
-  const tr = (key: string, values: Record<string, any> = {}) => {
-    return computed(() => translateText(key, values));
+  const tr = (key: string, priority?: string, values: Record<string, any> = {}) => {
+    return computed(() => priority ?? translateText(key, values));
   };
 
   return {

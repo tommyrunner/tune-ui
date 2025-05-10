@@ -2,7 +2,7 @@
   <div class="_dates">
     <!-- 星期标题 -->
     <div class="_weekdays">
-      <div v-for="day in WEEK_DAYS" :key="day.value">{{ day }}</div>
+      <div v-for="day in TEXT_WEEK_DAYS" :key="day.value">{{ day }}</div>
     </div>
 
     <!-- 日期网格 -->
@@ -30,7 +30,8 @@
 <script lang="ts" setup>
 import "./date.scss";
 import { computed, inject } from "vue";
-import { WEEK_DAYS, calendarKey } from "../constants";
+import { calendarKey } from "../constants";
+import { useI18nText } from "../i18n";
 
 defineOptions({ name: "TCalendarDate" });
 
@@ -43,6 +44,7 @@ interface PropsType {
 }
 
 const props = defineProps<PropsType>();
+const { TEXT_WEEK_DAYS } = useI18nText();
 
 // 注入日历上下文
 const calendarContext = inject(calendarKey);

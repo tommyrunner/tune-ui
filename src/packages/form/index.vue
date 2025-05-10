@@ -3,8 +3,8 @@
     <slot></slot>
     <div v-if="showDefaultFooter" class="t-form__footer">
       <slot name="footer">
-        <t-button type="primary" html-type="submit" :loading="state.submitting">{{ submitText }}</t-button>
-        <t-button html-type="button" @click="handleReset" style="margin-left: 10px">{{ resetText }}</t-button>
+        <TButton type="primary" html-type="submit" :loading="state.submitting">{{ TEXT_SUBMIT }}</TButton>
+        <TButton html-type="button" @click="handleReset" style="margin-left: 10px">{{ TEXT_RESET }}</TButton>
       </slot>
     </div>
   </form>
@@ -24,7 +24,7 @@ import { reactive, provide, computed, useSlots } from "vue";
 import { formKey } from "./constants";
 import { TButton } from "@/packages/button";
 import { isFunction } from "@/utils/is";
-import { TEXT_SUBMIT, TEXT_RESET } from "./i18n";
+import { useI18nText } from "./i18n";
 
 defineOptions({
   name: "TForm"
@@ -39,11 +39,10 @@ const props = withDefaults(defineProps<FormPropsType>(), {
   showMessage: true,
   inlineMessage: false,
   scrollToError: false,
-  submitText: TEXT_SUBMIT,
-  resetText: TEXT_RESET,
   showDefaultFooter: true
 });
 
+const { TEXT_SUBMIT, TEXT_RESET } = useI18nText(props);
 // 表单状态管理
 const state = reactive<FormStateType>({
   fields: [],

@@ -4,7 +4,7 @@
     <textarea
       ref="textareaRef"
       v-model="model"
-      :placeholder="props.placeholder"
+      :placeholder="TEXT_PLACEHOLDER"
       :disabled="props.disabled"
       :maxlength="props.maxLength"
       @focus="emit('focus', model)"
@@ -25,7 +25,7 @@ import { computed, ref } from "vue";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { isKeyboard, bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
-import { TEXT_PLACEHOLDER } from "./i18n";
+import { useI18nText } from "./i18n";
 defineOptions({ name: "TTextarea" });
 
 // 基础尺寸
@@ -34,7 +34,6 @@ const { baseSize } = useOptions();
 const textareaRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
-  placeholder: TEXT_PLACEHOLDER,
   debounce: undefined,
   isTip: true,
   size: configOptions.value.elSize,
@@ -45,6 +44,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   debounceDelay: 1000
 });
 
+const { TEXT_PLACEHOLDER } = useI18nText(props);
 const model = defineModel<string>();
 const TipComponent = useTip(props, model);
 const cursor = ref(0);

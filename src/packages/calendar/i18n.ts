@@ -1,39 +1,37 @@
 import { useI18n } from "@/hooks/useI18n";
 
-const { tr, t } = useI18n("calendar");
-const { t: tCommon } = useI18n();
+export const useI18nText = () => {
+  const { tr } = useI18n("calendar");
+  const { tr: trCommon } = useI18n();
 
-// 年月日时分秒
-export const TEXT_YEAR = t("year");
-export const TEXT_MONTH = t("month");
-export const TEXT_DAY = t("day");
-export const TEXT_HOUR = t("hour");
-export const TEXT_MINUTE = t("minute");
-export const TEXT_SECOND = t("second");
+  return {
+    // 星期标题
+    TEXT_WEEK_DAYS: [tr("sun"), tr("mon"), tr("tue"), tr("wed"), tr("thu"), tr("fri"), tr("sat")],
+    // 月份名称
+    TEXT_MONTH_NAMES: [
+      tr("jan"),
+      tr("feb"),
+      tr("mar"),
+      tr("apr"),
+      tr("may"),
+      tr("jun"),
+      tr("jul"),
+      tr("aug"),
+      tr("sep"),
+      tr("oct"),
+      tr("nov"),
+      tr("dec")
+    ],
+    // 年月日时分秒
+    TEXT_YEAR: tr("year"),
+    TEXT_MONTH: tr("month"),
+    TEXT_DAY: tr("day"),
+    TEXT_HOUR: tr("hour"),
+    TEXT_MINUTE: tr("minute"),
+    TEXT_SECOND: tr("second"),
 
-// 星期
-export const TEXT_SUNDAY = tr("sun");
-export const TEXT_MONDAY = tr("mon");
-export const TEXT_TUESDAY = tr("tue");
-export const TEXT_WEDNESDAY = tr("wed");
-export const TEXT_THURSDAY = tr("thu");
-export const TEXT_FRIDAY = tr("fri");
-export const TEXT_SATURDAY = tr("sat");
-
-// 月份
-export const TEXT_JANUARY = tr("jan");
-export const TEXT_FEBRUARY = tr("feb");
-export const TEXT_MARCH = tr("mar");
-export const TEXT_APRIL = tr("apr");
-export const TEXT_MAY = tr("may");
-export const TEXT_JUNE = tr("jun");
-export const TEXT_JULY = tr("jul");
-export const TEXT_AUGUST = tr("aug");
-export const TEXT_SEPTEMBER = tr("sep");
-export const TEXT_OCTOBER = tr("oct");
-export const TEXT_NOVEMBER = tr("nov");
-export const TEXT_DECEMBER = tr("dec");
-
-// 基础
-export const TEXT_CONFIRM = tCommon("common.confirm");
-export const TEXT_CANCEL = tCommon("common.cancel");
+    // 基础
+    TEXT_CONFIRM: trCommon("common.confirm"),
+    TEXT_CANCEL: trCommon("common.cancel")
+  };
+};

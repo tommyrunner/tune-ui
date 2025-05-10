@@ -18,7 +18,7 @@
             <slot name="empty" />
           </div>
           <div class="_empty" v-else>
-            <div>{{ props.emptyText }}</div>
+            <div>{{ TEXT_EMPTY }}</div>
           </div>
         </template>
         <!-- 数据列表 -->
@@ -49,16 +49,16 @@ import Scrollbar from "../scrollbar/index.vue";
 import { GroupContextType, listViewGroupKey } from "./constants";
 import { TListViewItem } from "./index";
 import { fromCssVal } from "@/utils";
-import { TEXT_EMPTY } from "./i18n";
+import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TListView" });
 
 const props = withDefaults(defineProps<PropsType>(), {
   isVirtualized: false,
-  listData: () => [],
-  emptyText: TEXT_EMPTY
+  listData: () => []
 });
 
+const { TEXT_EMPTY } = useI18nText(props);
 const emit = defineEmits<EmitsType>();
 
 /** 组件外部插槽引用列表，用于同步头尾部分的滚动 */

@@ -1,4 +1,8 @@
 import { useI18n } from "@/hooks/useI18n";
 
-const { t } = useI18n("common");
-export const TEXT_EMPTY = t("empty");
+export const useI18nText = () => {
+  const { t } = useI18n("common");
+  return {
+    TEXT_EMPTY: t("empty")
+  };
+};

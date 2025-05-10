@@ -36,8 +36,8 @@
         <div class="_foot" :style="footStyle" v-if="isFoot">
           <slot name="footer">
             <div class="_btn">
-              <TButton :type="cancelType" @click="handleSubmit(false)">{{ cancelText }}</TButton>
-              <TButton :type="confirmType" @click="handleSubmit(true)">{{ confirmText }}</TButton>
+              <TButton :type="cancelType" @click="handleSubmit(false)">{{ TEXT_CANCEL }}</TButton>
+              <TButton :type="confirmType" @click="handleSubmit(true)">{{ TEXT_CONFIRM }}</TButton>
             </div>
           </slot>
         </div>
@@ -55,14 +55,12 @@ import { useDraggable } from "@/hooks/useDraggable";
 import { TPopover } from "@/packages/popover";
 import { TButton } from "@/packages/button";
 import { TIcon } from "@/packages/icon";
-import { TEXT_CONFIRM, TEXT_CANCEL } from "./i18n";
+import { useI18nText } from "./i18n";
 defineOptions({ name: "TDialog" });
 
 const props = withDefaults(defineProps<PropsType>(), {
   width: "600px",
   icon: "inspiration",
-  confirmText: TEXT_CONFIRM,
-  cancelText: TEXT_CANCEL,
   confirmType: "success",
   cancelType: "default",
   btnAlign: "flex-end",
@@ -75,6 +73,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   offset: () => ({ x: 0, y: 0 })
 });
 
+const { TEXT_CONFIRM, TEXT_CANCEL } = useI18nText(props);
 const emit = defineEmits<EmitsType>();
 const visible = defineModel<boolean>();
 

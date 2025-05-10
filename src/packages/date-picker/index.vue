@@ -57,7 +57,7 @@
             ref="inputRef"
             readonly
             :value="displayValue"
-            :placeholder="props.placeholder"
+            :placeholder="TEXT_DEFAULT_PLACEHOLDER"
             :disabled="props.disabled"
             @focus="handleFocus"
             @blur="handleBlur"
@@ -87,7 +87,7 @@ import { isValue } from "@/utils/is";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES } from "./date-picker";
 import { useTip } from "@/hooks";
-import { TEXT_DEFAULT_PLACEHOLDER, TEXT_DATE_PARSE_ERROR, TEXT_YEAR, TEXT_MONTH } from "./i18n";
+import { useI18nText } from "./i18n";
 
 // 组件名称定义
 defineOptions({ name: "TDatePicker" });
@@ -99,7 +99,6 @@ const { baseSize } = useOptions();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   mode: "date",
-  placeholder: TEXT_DEFAULT_PLACEHOLDER,
   position: "bottom",
   size: configOptions.value.elSize,
   isTip: true,
@@ -108,6 +107,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   showTime: false
 });
 
+const { TEXT_DEFAULT_PLACEHOLDER, TEXT_DATE_PARSE_ERROR, TEXT_YEAR, TEXT_MONTH } = useI18nText(props);
 // v-model 定义
 const model = defineModel<DateType>();
 

@@ -31,7 +31,7 @@ import type { PropsType, TreeNodeType, EmitsType } from "./tree";
 import { computed, nextTick, provide, ref, watch } from "vue";
 import TreeNode from "./components/tree-node/tree-node.vue";
 import { treeContextKey, type TreeContext } from "./constants";
-import { TEXT_EMPTY } from "./i18n";
+import { useI18nText } from "./i18n";
 
 defineOptions({
   name: "TTree"
@@ -51,6 +51,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   expandOnClickNode: true,
   disabled: false
 });
+
+const { TEXT_EMPTY } = useI18nText();
 
 // 定义事件
 const emit = defineEmits<EmitsType>();

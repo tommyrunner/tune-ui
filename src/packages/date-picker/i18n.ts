@@ -1,8 +1,12 @@
 import { useI18n } from "@/hooks/useI18n";
+import type { PropsType } from "./date-picker";
+const { t, tr } = useI18n("datePicker");
 
-const { t } = useI18n("datePicker");
-
-export const TEXT_DEFAULT_PLACEHOLDER = t("common.placeholderDate");
-export const TEXT_DATE_PARSE_ERROR = t("dateParseError");
-export const TEXT_YEAR = t("year");
-export const TEXT_MONTH = t("month");
+export const useI18nText = (props: PropsType) => {
+  return {
+    TEXT_DEFAULT_PLACEHOLDER: tr("common.placeholderDate", props.placeholder),
+    TEXT_DATE_PARSE_ERROR: t("dateParseError"),
+    TEXT_YEAR: t("year"),
+    TEXT_MONTH: t("month")
+  };
+};

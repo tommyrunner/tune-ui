@@ -8,7 +8,7 @@
       ref="inputRef"
       v-model="model"
       :type="inputType"
-      :placeholder="props.placeholder"
+      :placeholder="TEXT_PLACEHOLDER"
       :disabled="props.disabled"
       :maxlength="props.maxLength"
       :autocomplete="props.autocomplete"
@@ -48,7 +48,7 @@ import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
 import { bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
-import { TEXT_PLACEHOLDER } from "./i18n";
+import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TInput" });
 
@@ -58,7 +58,6 @@ const { baseSize } = useOptions();
 const inputRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
-  placeholder: TEXT_PLACEHOLDER,
   debounce: void 0,
   isTip: true,
   clearable: true,
@@ -67,6 +66,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   debounceDelay: 1000,
   autocomplete: "off"
 });
+const { TEXT_PLACEHOLDER } = useI18nText(props);
 
 const model = defineModel<string>();
 const TipComponent = useTip(props, model);

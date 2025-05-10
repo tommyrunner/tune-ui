@@ -4,7 +4,7 @@
 
     <!-- 基础文本域 -->
     <test-section title="基础文本域">
-      <t-textarea v-model="textValue" placeholder="请输入内容" />
+      <t-textarea v-model="textValue" />
       <div class="value-display">当前值: {{ textValue }}</div>
     </test-section>
 
