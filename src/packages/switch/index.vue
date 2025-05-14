@@ -16,10 +16,13 @@
 import "./index.scss";
 import type { EmitsType, PropsType } from "./switch";
 import { computed } from "vue";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
 
 defineOptions({ name: "TSwitch" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 /** Props定义 */
 const props = withDefaults(defineProps<PropsType>(), {
@@ -36,11 +39,11 @@ const model = defineModel<boolean>();
 
 /** 计算开关样式 */
 const switchClasses = computed(() => {
-  const { size, radius, disabled, loading } = props;
+  const { radius, disabled, loading } = props;
   return [
     "t-switch",
     `t-switch-${model.value ? "on" : "off"}`,
-    `t-switch-size-${size}`,
+    `t-switch-size-${baseSize.value}`,
     `t-switch-radius-${radius}`,
     (disabled || loading) && "t-disabled"
   ];

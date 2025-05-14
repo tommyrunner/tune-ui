@@ -1,5 +1,3 @@
-import type { BaseProps } from "@/types";
-
 /**
  * @description 表单项校验状态
  */
@@ -89,7 +87,7 @@ export interface FormPropsType {
 /**
  * @description 表单项组件Props类型
  */
-export interface FormItemPropsType extends BaseProps {
+export interface FormItemPropsType {
   /** 标签文本 */
   label?: string;
   /** 表单域标签的宽度 */

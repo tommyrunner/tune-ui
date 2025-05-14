@@ -119,7 +119,7 @@
 </template>
 
 <script lang="tsx" setup>
-import { ref } from "vue";
+import { h, ref } from "vue";
 import type { TableColumnsType, ColumnRenderScope, StateSortType } from "@/packages/table/table";
 import { TTable } from "@/packages/table";
 import TestSection from "../components/test-section.vue";
@@ -198,27 +198,39 @@ const customRenderColumns = reactive<TableColumnsType[]>([
     prop: "name",
     label: "名称",
     width: 120,
-    render: (scope: ColumnRenderScope) => <span style="color: #2563eb; font-weight: 500;">{scope.value}</span>
+    render: ({ value }) => h("span", { style: { color: "#2563eb", fontWeight: "500" } }, value)
   },
   {
     prop: "age",
     label: "年龄",
     width: 100,
-    render: (scope: ColumnRenderScope) => (
-      <TButton type={scope.value >= 18 ? "primary" : "warning"} size="small">
-        {scope.value}岁
-      </TButton>
-    )
+    render: ({ data }) =>
+      h(
+        TButton,
+        {
+          type: data.age >= 18 ? "primary" : "warning",
+          size: "small"
+        },
+        {
+          default: () => data.age
+        }
+      )
   },
   {
     prop: "status",
     label: "状态",
     width: 100,
-    render: (scope: ColumnRenderScope) => (
-      <TButton type={scope.data.status === "在线" ? "success" : "info"} size="small">
-        {scope.data.status}
-      </TButton>
-    )
+    render: ({ data }) =>
+      h(
+        TButton,
+        {
+          type: data.status === "在线" ? "success" : "info",
+          size: "small"
+        },
+        {
+          default: () => data.status
+        }
+      )
   },
   { prop: "address", label: "地址" }
 ]);
@@ -362,9 +374,10 @@ const summaryData = ref<SummaryDataType[]>(
  * 处理列合计
  */
 const handleSummary = (value: number, scope: ColumnRenderScope) => {
-  if (scope.rowCol.prop === "name") return "-";
-  else if (scope.rowCol.prop === "amount") return `总金额: ${value}`;
-  return value;
+  let text = "";
+  if (scope.rowCol.prop === "name") text = "-";
+  else if (scope.rowCol.prop === "amount") text = `总金额: ${value}`;
+  return text;
 };
 </script>
 

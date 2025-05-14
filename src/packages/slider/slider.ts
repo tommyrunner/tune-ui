@@ -27,7 +27,7 @@ export type MarksType = Record<number, string | MarkObject>;
 /**
  * @description 滑块属性接口
  */
-export interface SliderPropsType {
+export interface PropsType {
   /** 最小值 */
   min?: number;
   /** 最大值 */
@@ -69,24 +69,4 @@ export interface EmitsType {
   (e: "change", value: number | number[]): void;
   /** 滑块值输入事件 */
   (e: "input", value: number | number[]): void;
-}
-/**
- * @description 滑块内部状态类型
- */
-export interface SliderStateType {
-  /** 是否正在拖动 */
-  dragging: boolean;
-  /** 当前值 */
-  currentValue: number | number[];
-  /** Tooltip显示标志 */
-  tooltipVisible: boolean[];
-}
-
-/**
- * @description 滑块上下文类型
- * @extends SliderProps
- */
-export interface SliderContextType extends Omit<SliderPropsType, "modelValue"> {
-  /** 滑块状态对象 */
-  sliderState: SliderStateType;
 }

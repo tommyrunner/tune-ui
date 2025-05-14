@@ -23,7 +23,8 @@ defineOptions({ name: "TTableRow" });
 
 const props = withDefaults(defineProps<PropsType>(), {
   hoverBgColor: "#f5f7fa",
-  defBgColor: "#fff"
+  defBgColor: "#fff",
+  row: () => ({})
 });
 
 const emit = defineEmits<EmitsType>();
@@ -69,7 +70,7 @@ const getRowStyle = computed((): StyleValue => {
   return {
     backgroundColor: state.isHover || row[groupContext.changeKey] ? hoverBgColor : bgColor,
     height: isVirtualized ? "100%" : "auto",
-    ...rowStyle?.(rowIndex, props.row)
+    ...(rowStyle?.(rowIndex, props.row) as Object)
   };
 });
 

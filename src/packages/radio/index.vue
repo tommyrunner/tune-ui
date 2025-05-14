@@ -16,11 +16,14 @@ import type { PropsType, ValueType, EmitsType } from "./radio";
 import type { GroupContextType } from "./constants";
 import { computed, inject, onMounted, useSlots } from "vue";
 import { radioGroupKey } from "./constants";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { isObject } from "@/utils/is";
 import { TIcon } from "@/packages/icon";
 
 defineOptions({ name: "TRadio" });
+
+/** 基础尺寸 */
+const { baseSize } = useOptions();
 
 /** Props定义 */
 const props = withDefaults(defineProps<PropsType>(), {
@@ -53,8 +56,8 @@ const titleClasses = computed(() => {
 
 /** 计算radio样式 */
 const radioClasses = computed(() => {
-  const { size, disabled } = props;
-  const base = ["t-radio", `t-radio-size-${size}`, disabled && "t-disabled"];
+  const { disabled } = props;
+  const base = ["t-radio", `t-radio-size-${baseSize.value}`, disabled && "t-disabled"];
 
   if (groupContext) {
     return [...base, `_type-${groupContext.type}`, `_direction-${groupContext.direction}`];

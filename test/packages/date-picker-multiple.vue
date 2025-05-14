@@ -8,12 +8,7 @@
         <!-- 范围选择模式 -->
         <div class="date-picker-block">
           <div class="date-picker-label">范围选择模式：</div>
-          <t-date-picker-multiple
-            v-model="state.dateRange"
-            :is-range="true"
-            placeholder="请选择日期范围"
-            @change="handleRangeChange"
-          />
+          <t-date-picker-multiple v-model="state.dateRange" :is-range="true" @change="handleRangeChange" />
           <div class="value-display">
             <div>选择的日期范围：{{ formatDisplayDates(state.dateRange) }}</div>
           </div>

@@ -2,7 +2,5 @@
 export * from "./packages";
 /** 导出hooks */
 export * from "./hooks";
-/** 导出指令 */
-export * from "./directive";
 /** 导出icons */
 import "./icons/index.css";

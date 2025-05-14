@@ -19,10 +19,10 @@
         </slot>
         <div class="_btn">
           <t-button :type="props.cancelType" size="small" @click="handleCancel">
-            {{ props.cancelText }}
+            {{ TEXT_CANCEL }}
           </t-button>
           <t-button :type="props.confirmType" size="small" @click="handleConfirm">
-            {{ props.confirmText }}
+            {{ TEXT_CONFIRM }}
           </t-button>
         </div>
       </div>
@@ -39,6 +39,7 @@ import { computed } from "vue";
 import { TPopover } from "@/packages/popover";
 import { TButton } from "@/packages/button";
 import { TIcon } from "@/packages/icon";
+import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TPopConfirm" });
 
@@ -46,15 +47,14 @@ defineOptions({ name: "TPopConfirm" });
 const props = withDefaults(defineProps<PropsType>(), {
   icon: "illustrate",
   iconColor: "#999",
-  confirmText: "确认",
   confirmType: "text",
-  cancelText: "取消",
   cancelType: "text",
   position: "top",
   padding: () => [8, 6, 8, 6],
   closeOnPressOther: false
 });
 
+const { TEXT_CONFIRM, TEXT_CANCEL } = useI18nText(props);
 /** Emits定义 */
 const emit = defineEmits<EmitsType>();
 

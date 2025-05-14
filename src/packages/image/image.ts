@@ -1,5 +1,3 @@
-import type { BaseProps } from "@/types";
-
 /**
  * @description 图片适应容器的方式
  */
@@ -8,9 +6,8 @@ export type ImageFit = "fill" | "contain" | "cover" | "none" | "scale-down";
 /**
  * @description 图片组件Props类型定义
  * @interface PropsType
- * @extends {BaseProps}
  */
-export interface PropsType extends BaseProps {
+export interface PropsType {
   /** 图片源地址 */
   src?: string;
   /** 图片适应容器的方式 */

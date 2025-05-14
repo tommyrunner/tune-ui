@@ -29,7 +29,7 @@ export type ColorFunction = (percentage: number) => string;
 /**
  * @description 进度条属性接口
  */
-export interface ProgressPropsType {
+export interface PropsType {
   /** 百分比值(必填) */
   percentage: number;
   /** 进度条类型 */
@@ -78,7 +78,7 @@ export interface ProgressStateType {
  * @description 进度条上下文类型
  * @extends ProgressProps
  */
-export interface ProgressContextType extends ProgressPropsType {
+export interface ProgressContextType extends PropsType {
   /** 进度值 */
   percentage: number;
   /** 进度条状态对象 */

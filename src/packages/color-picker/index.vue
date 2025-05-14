@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['t-color-picker', `t-color-picker--${props.size}`, { 't-disabled': props.disabled }]"
+    :class="['t-color-picker', `t-color-picker--${baseSize}`, { 't-disabled': props.disabled }]"
     :tabindex="props.disabled ? undefined : props.tabindex"
     @focus="handleFocus"
     @blur="handleBlur"
@@ -100,8 +100,8 @@
 
           <!-- 操作按钮 -->
           <div class="t-color-picker__dropdown-footer">
-            <button class="t-color-picker__clear-btn" @click="handleClear">清空</button>
-            <button class="t-color-picker__confirm-btn" @click="handleConfirm">确定</button>
+            <button class="t-color-picker__clear-btn" @click="handleClear">{{ TEXT_CLEAR }}</button>
+            <button class="t-color-picker__confirm-btn" @click="handleConfirm">{{ TEXT_CONFIRM }}</button>
           </div>
         </div>
       </template>
@@ -113,13 +113,17 @@
 import "./index.scss";
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import type { PropsType } from "./color-picker";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TPopover } from "@/packages/popover";
+import { useI18nText } from "./i18n";
 
 /**
  * @description 颜色选择器组件
  */
 defineOptions({ name: "TColorPicker" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 /**
  * @description 组件Props定义
@@ -134,6 +138,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   teleported: true
 });
 
+const { TEXT_CLEAR, TEXT_CONFIRM } = useI18nText();
 /**
  * @description 使用defineModel实现响应式值
  */

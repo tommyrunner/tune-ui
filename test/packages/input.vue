@@ -5,7 +5,7 @@
     <!-- 基础输入框 -->
     <test-section title="基础输入框">
       <div class="input-row">
-        <t-input v-model="inputValue" placeholder="请输入内容" />
+        <t-input v-model="inputValue" />
         <div class="value-display">当前值: {{ inputValue }}</div>
       </div>
     </test-section>

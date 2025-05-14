@@ -1,7 +1,13 @@
 <template>
   <div :class="tagClasses">
     <slot />
-    <t-icon v-if="props.closable" icon="close" :size="iconSize" class="_suffix-icon" @click.stop="handleClickSuffix" />
+    <t-icon
+      v-if="props.closable"
+      icon="close"
+      :size="ICON_SIZES[baseSize]"
+      class="_suffix-icon"
+      @click.stop="handleClickSuffix"
+    />
   </div>
 </template>
 
@@ -9,11 +15,14 @@
 import "./index.scss";
 import type { EmitsType, PropsType } from "./tag";
 import { computed } from "vue";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
 import { ICON_SIZES } from "./tag";
 
 defineOptions({ name: "TTag" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 // Props 定义
 const props = withDefaults(defineProps<PropsType>(), {
@@ -39,13 +48,8 @@ const handleClickSuffix = () => {
  * 计算标签类名
  */
 const tagClasses = computed(() => {
-  const { type, size, round, disabled } = props;
+  const { type, round, disabled } = props;
 
-  return ["t-tag", `t-tag-type-${type}`, `t-tag-size-${size}`, round && "t-tag-round", disabled && "t-disabled"];
+  return ["t-tag", `t-tag-type-${type}`, `t-tag-size-${baseSize.value}`, round && "t-tag-round", disabled && "t-disabled"];
 });
-
-/**
- * 计算图标尺寸
- */
-const iconSize = computed(() => ICON_SIZES[props.size]);
 </script>

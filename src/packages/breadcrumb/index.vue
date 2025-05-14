@@ -18,14 +18,15 @@ import "./index.scss";
 import type { EmitsType, PropsType, ValueType } from "./breadcrumb";
 import { useRouter } from "vue-router";
 import { TIcon } from "@/packages/icon";
+import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TBreadcrumb" });
-
 const props = withDefaults(defineProps<PropsType>(), {
   isRouter: true,
   gap: 6,
   options: () => []
 });
+const { TEXT_ROUTE_NOT_FOUND, TEXT_ROUTE_NOT_SET } = useI18nText();
 
 const model = defineModel<string>();
 const emit = defineEmits<EmitsType>();
@@ -33,7 +34,7 @@ const router = useRouter();
 
 // 路由检查
 if (!router) {
-  console.warn("路由实例未注入!");
+  console.warn(TEXT_ROUTE_NOT_FOUND);
 }
 
 /**
@@ -51,7 +52,7 @@ const handleClick = (item: ValueType) => {
   if (!isRouter || !router) return;
 
   if (!item.to) {
-    console.warn("未设置跳转路由!");
+    console.warn(TEXT_ROUTE_NOT_SET);
     return;
   }
 

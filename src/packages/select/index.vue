@@ -8,6 +8,7 @@
       :radius="DROPDOWN_RADIUS"
       :disabled="disabled"
       @close="handleClose"
+      @open="handleDropdownShow"
       ref="popoverRef"
     >
       <!-- 下拉选项列表 -->
@@ -42,7 +43,7 @@
       <!-- 文本模式显示 -->
       <div class="_text-content" v-if="type === 'text'">
         {{ selectedLabel }}
-        <t-icon :size="iconSize" icon="caret-down" :color="ICON_COLOR" />
+        <t-icon :size="ICON_SIZES[baseSize]" icon="caret-down" :color="ICON_COLOR" />
       </div>
 
       <!-- 输入框模式显示 -->
@@ -85,11 +86,17 @@
 
         <!-- 右侧图标 -->
         <div class="_right-icon">
-          <t-icon v-if="showClearIcon" icon="close-to" :size="iconSize" :color="ICON_COLOR" @click.stop="handleClear" />
+          <t-icon
+            v-if="showClearIcon"
+            icon="close-to"
+            :size="ICON_SIZES[baseSize]"
+            :color="ICON_COLOR"
+            @click.stop="handleClear"
+          />
           <t-icon
             v-else
             :class="{ '_icon-active': !props.disabled && state.isDropdownVisible }"
-            :size="iconSize"
+            :size="ICON_SIZES[baseSize]"
             icon="caret-down"
             :color="ICON_COLOR"
           />
@@ -112,18 +119,22 @@ import { TIcon } from "@/packages/icon";
 import { TListView } from "@/packages/list-view";
 import { TTag } from "@/packages/tag";
 import Option from "./option.vue";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { useTip } from "@/hooks";
 import { fromCssVal } from "@/utils";
 import { isEqual, isValue } from "@/utils/is";
 import { bindDebounce } from "@/utils";
 import { GroupContextType, selectGroupKey } from "./constants";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
+import { useI18nText } from "./i18n";
 
 /**
  * @description 选择器组件
  */
 defineOptions({ name: "TSelect" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 /**
  * @description 组件事件定义
@@ -134,13 +145,11 @@ const emit = defineEmits<EmitsType>();
  * @description 组件Props定义
  */
 const props = withDefaults(defineProps<PropsType>(), {
+  size: configOptions.value.elSize,
   options: () => [],
   type: "input",
-  placeholder: "请选择",
-  emptyText: "暂无数据",
   isTip: true,
   clearable: true,
-  size: configOptions.value.elSize,
   disabled: false,
   filterable: false,
   multiple: false,
@@ -149,6 +158,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   selectParent: false
 });
 
+const { TEXT_PLACEHOLDER_SELECT, TEXT_EMPTY } = useI18nText(props);
 /**
  * @description v-model定义
  */
@@ -193,15 +203,13 @@ const state = reactive({
   activeMenuIndex: 0
 });
 
-// ================ 计算属性 ================
-
 /**
  * @description 计算选择器类名
  * @returns {string[]} 类名数组
  */
 const selectClasses = computed((): string[] => {
-  const { size, clearable, disabled } = props;
-  return ["_select-content", `t-select-size-${size}`, clearable && "t-select-clearable", disabled && "t-disabled"];
+  const { clearable, disabled } = props;
+  return ["_select-content", `t-select-size-${baseSize.value}`, clearable && "t-select-clearable", disabled && "t-disabled"];
 });
 
 /**
@@ -211,17 +219,11 @@ const selectClasses = computed((): string[] => {
 const showClearIcon = computed((): boolean => props.clearable && isValue(model.value));
 
 /**
- * @description 计算图标尺寸
- * @returns {number} 图标尺寸
- */
-const iconSize = computed((): number => ICON_SIZES[props.size]);
-
-/**
  * @description 计算选中标签
  * @returns {string} 标签文本
  */
 const selectedLabel = computed((): string => {
-  if (props.type === "text" && !model.value) return props.placeholder;
+  if (props.type === "text" && !model.value) return TEXT_PLACEHOLDER_SELECT.value;
 
   // 如果有级联路径且路径不为空
   if (state.cascadePath.length > 0) {
@@ -244,7 +246,7 @@ const selectedLabel = computed((): string => {
  * @returns {string} 占位符文本
  */
 const selectPlaceholder = computed((): string => {
-  if (!isValue(state.temModel)) return props.placeholder;
+  if (!isValue(state.temModel)) return TEXT_PLACEHOLDER_SELECT.value;
   const selectedOption = props.options.find(option => isEqual(option.value, state.temModel));
   return selectedOption?.label;
 });
@@ -289,7 +291,7 @@ const filteredOptions = computed((): OptionsItemType[] => {
  * @returns {string} 空文本
  */
 const emptyText = computed((): string => {
-  return loading.value ? "加载中..." : props.emptyText;
+  return loading.value ? "加载中..." : TEXT_EMPTY.value;
 });
 
 /**
@@ -325,6 +327,7 @@ const renderLabel = (item: SingleValueType): string => {
 const handleDeleteOption = (item: SingleValueType): void => {
   const values = (model.value as SingleValueType[]) || [];
   model.value = values.filter(value => value !== item);
+  emit("remove-tag", item);
 };
 
 /**
@@ -358,6 +361,7 @@ const handleOptionSelect = (option: OptionsItemType): void => {
 
   // 普通选择处理
   updateModelValue(option);
+  emit("change", option);
 };
 
 /**
@@ -407,6 +411,9 @@ const handleCascadeItemClick = (option: OptionsItemType, menuIndex: number): voi
   // 更新级联路径 - 保留当前菜单索引之前的路径，替换当前菜单索引的选项
   state.cascadePath = state.cascadePath.slice(0, menuIndex);
   state.cascadePath.push(option);
+
+  // 触发级联菜单变化事件
+  emit("cascade-change", [...state.cascadePath]);
 
   // 更新模型值，确保当前选中的选项高亮
   model.value = option.value;
@@ -469,6 +476,9 @@ const handleFilter = (event: Event): void => {
   const target = event.target as HTMLInputElement;
   state.filterText = target.value;
 
+  // 触发input事件
+  emit("input", state.filterText);
+
   // 远程搜索方法
   if (props.remoteMethod) {
     loading.value = true;
@@ -481,18 +491,31 @@ const handleFilter = (event: Event): void => {
 
 /**
  * @description 处理输入框聚焦
+ * @param {FocusEvent} event - 聚焦事件
  * @returns {void}
  */
-const handleFocus = (): void => {
+const handleFocus = (event: FocusEvent): void => {
   state.isFocused = true;
+  emit("focus", event);
 };
 
 /**
  * @description 处理输入框失焦
+ * @param {FocusEvent} event - 失焦事件
  * @returns {void}
  */
-const handleBlur = (): void => {
+const handleBlur = (event: FocusEvent): void => {
   state.isFocused = false;
+  emit("blur", event);
+};
+
+/**
+ * @description 处理下拉框显示
+ * @returns {void}
+ */
+const handleDropdownShow = (): void => {
+  emit("visible-change", true);
+  handleOpen();
 };
 
 /**
@@ -501,6 +524,7 @@ const handleBlur = (): void => {
  */
 const handleClose = (): void => {
   state.filterText = null;
+  emit("visible-change", false);
 
   // 如果级联面板处于打开状态且启用严格选择模式，且不允许选择父级
   if (state.showCascadePanel && props.checkStrictly && !props.selectParent) {

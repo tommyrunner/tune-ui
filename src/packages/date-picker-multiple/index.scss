@@ -5,7 +5,7 @@
   display: inline-block;
   width: 100%;
 
-  ._date-picker-content {
+  ._date-picker-multiple-content {
     display: flex;
     align-items: center;
     width: 100%;
@@ -77,7 +77,7 @@
   }
 
   // 尺寸变体
-  .t-date-picker-size-small {
+  .t-date-picker-multiple-size-small {
     height: 24px;
 
     input {
@@ -86,7 +86,7 @@
     }
   }
 
-  .t-date-picker-size-default {
+  .t-date-picker-multiple-size-default {
     height: 30px;
 
     input {
@@ -95,7 +95,7 @@
     }
   }
 
-  .t-date-picker-size-large {
+  .t-date-picker-multiple-size-large {
     height: 34px;
 
     input {

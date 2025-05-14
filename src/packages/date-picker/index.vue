@@ -57,7 +57,7 @@
             ref="inputRef"
             readonly
             :value="displayValue"
-            :placeholder="props.placeholder"
+            :placeholder="TEXT_DEFAULT_PLACEHOLDER"
             :disabled="props.disabled"
             @focus="handleFocus"
             @blur="handleBlur"
@@ -84,18 +84,21 @@ import { TIcon } from "@/packages/icon";
 import { TCalendar } from "@/packages/calendar";
 import { formatDate, parseDate } from "@/utils/dateFormat";
 import { isValue } from "@/utils/is";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES } from "./date-picker";
 import { useTip } from "@/hooks";
+import { useI18nText } from "./i18n";
 
 // 组件名称定义
 defineOptions({ name: "TDatePicker" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 // Props 和 Emits 定义
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   mode: "date",
-  placeholder: "请选择日期",
   position: "bottom",
   size: configOptions.value.elSize,
   isTip: true,
@@ -104,6 +107,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   showTime: false
 });
 
+const { TEXT_DEFAULT_PLACEHOLDER, TEXT_DATE_PARSE_ERROR, TEXT_YEAR, TEXT_MONTH } = useI18nText(props);
 // v-model 定义
 const model = defineModel<DateType>();
 
@@ -141,7 +145,7 @@ const toDateObject = (value: DateType | null | undefined): Date => {
     try {
       return parseDate(value, props.valueFormat);
     } catch (e) {
-      console.warn("日期格式解析失败，使用默认解析", e);
+      console.warn(TEXT_DATE_PARSE_ERROR, e);
       return new Date(value);
     }
   }
@@ -151,13 +155,18 @@ const toDateObject = (value: DateType | null | undefined): Date => {
 
 // 计算属性
 const datePickerClassNames = computed(() => {
-  const { size, clearable, disabled } = props;
-  return ["_date-picker-content", `t-date-picker-size-${size}`, clearable && "t-date-picker-clearable", disabled && "t-disabled"];
+  const { clearable, disabled } = props;
+  return [
+    "_date-picker-content",
+    `t-date-picker-size-${baseSize.value}`,
+    clearable && "t-date-picker-clearable",
+    disabled && "t-disabled"
+  ];
 });
 
 const showClearIcon = computed(() => props.clearable && isValue(model.value) && !props.disabled);
 
-const iconSize = computed(() => ICON_SIZES[props.size]);
+const iconSize = computed(() => ICON_SIZES[baseSize.value]);
 
 /**
  * @description 根据模式获取默认格式化字符串
@@ -166,9 +175,9 @@ const getDefaultFormat = () => {
   if (props.showTime) return "YYYY-MM-DD HH:mm:ss";
   switch (props.mode) {
     case "year":
-      return "YYYY年";
+      return `YYYY${TEXT_YEAR}`;
     case "month":
-      return "YYYY年MM月";
+      return `YYYY${TEXT_MONTH}`;
     default:
       return "YYYY-MM-DD";
   }

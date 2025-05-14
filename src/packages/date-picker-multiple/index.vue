@@ -93,8 +93,10 @@
               <!-- 底部确认按钮 -->
               <template #footer>
                 <div class="_footer">
-                  <t-button size="small" type="text" @click="handleCancel">取消</t-button>
-                  <t-button size="small" type="primary" :disabled="isConfirmDisabled" @click="handleConfirm">确认</t-button>
+                  <t-button size="small" type="text" @click="handleCancel">{{ TEXT_CANCEL }}</t-button>
+                  <t-button size="small" type="primary" :disabled="isConfirmDisabled" @click="handleConfirm">{{
+                    TEXT_CONFIRM
+                  }}</t-button>
                 </div>
               </template>
             </t-calendar>
@@ -114,7 +116,7 @@
             ref="inputRef"
             readonly
             :value="displayValue"
-            :placeholder="props.placeholder"
+            :placeholder="TEXT_DEFAULT_PLACEHOLDER"
             :disabled="props.disabled"
             @focus="handleFocus"
             @blur="handleBlur"
@@ -144,23 +146,24 @@ import { configOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS } from "./date-picker-multiple";
 import { useDatePickerMultiple, useMonthSelection, useYearSelection } from "./hooks";
 import { useTip } from "@/hooks";
-
+import { useI18nText } from "./i18n";
 // 组件名称定义
 defineOptions({ name: "TDatePickerMultiple" });
 
 // Props 和 Emits 定义
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
-  mode: "date",
-  placeholder: "请选择日期",
-  position: "bottom",
   size: configOptions.value.elSize,
+  mode: "date",
+  position: "bottom",
   isTip: true,
   disabled: false,
   clearable: true,
   showTime: false,
   isRange: true
 });
+
+const { TEXT_CANCEL, TEXT_CONFIRM, TEXT_DEFAULT_PLACEHOLDER } = useI18nText(props);
 
 // v-model 定义
 const model = defineModel<DateType[]>({ default: () => [] });

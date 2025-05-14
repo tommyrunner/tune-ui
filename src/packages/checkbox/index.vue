@@ -17,12 +17,15 @@ import "./index.scss";
 import type { PropsType, EmitsType, ValueType } from "./checkbox";
 import type { GroupContextType } from "./constants";
 import { computed, inject, onMounted, useSlots } from "vue";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { isUnDef } from "@/utils/is";
 import { checkboxGroupKey } from "./constants";
 import { TIcon } from "@/packages/icon";
 
 defineOptions({ name: "TCheckbox" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
@@ -52,8 +55,8 @@ const titleClasses = computed(() => {
  * 计算复选框类名
  */
 const checkboxClasses = computed(() => {
-  const { size, disabled } = props;
-  const base = ["t-checkbox", `t-checkbox-size-${size}`, disabled && "t-disabled"];
+  const { disabled } = props;
+  const base = ["t-checkbox", `t-checkbox-size-${baseSize.value}`, disabled && "t-disabled"];
 
   if (groupContext) {
     return [...base, `_type-${groupContext.type}`, `_direction-${groupContext.direction}`];

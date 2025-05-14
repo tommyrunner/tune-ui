@@ -61,9 +61,9 @@
 
 <script lang="ts" setup>
 import "./index.scss";
-import type { SliderStateType, SliderPropsType, EmitsType } from "./slider";
+import type { EmitsType, PropsType } from "./slider";
 import { computed, provide, reactive, watch, ref } from "vue";
-import { sliderKey } from "./constants";
+import { sliderKey, type SliderStateType } from "./constants";
 import SliderButton from "./components/slider-button/slider-button.vue";
 import SliderMarks from "./components/slider-marks/slider-marks.vue";
 
@@ -82,7 +82,7 @@ const model = defineModel<number | number[]>({
 // 子组件按钮值，用于同步按钮组件的值
 const sliderButtonValues = ref<number[]>([]);
 
-const props = withDefaults(defineProps<SliderPropsType>(), {
+const props = withDefaults(defineProps<PropsType>(), {
   min: 0,
   max: 100,
   disabled: false,

@@ -8,7 +8,7 @@
       ref="inputRef"
       v-model="model"
       :type="inputType"
-      :placeholder="props.placeholder"
+      :placeholder="TEXT_PLACEHOLDER"
       :disabled="props.disabled"
       :maxlength="props.maxLength"
       :autocomplete="props.autocomplete"
@@ -23,10 +23,16 @@
           v-if="props.password"
           :icon="isPreview ? 'preview' : 'unpreview'"
           :color="defaultIconColor"
-          :size="iconSize"
+          :size="ICON_SIZES[baseSize]"
           @click="isPreview = !isPreview"
         />
-        <t-icon v-if="props.clearable" icon="close-to" :color="defaultIconColor" :size="iconSize" @click="handleClear" />
+        <t-icon
+          v-if="props.clearable"
+          icon="close-to"
+          :color="defaultIconColor"
+          :size="ICON_SIZES[baseSize]"
+          @click="handleClear"
+        />
       </div>
     </transition>
   </div>
@@ -35,20 +41,23 @@
 <script lang="ts" setup>
 import "./index.scss";
 import type { EmitsType, PropsType } from "./input";
-import type { ElSizeType } from "@/types";
 import type { InputTypeHTMLAttribute } from "vue";
+import { ICON_SIZES } from "./input";
 import { computed, ref } from "vue";
-import { configOptions } from "@/hooks/useOptions";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
 import { bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
+import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TInput" });
+
+// 基础尺寸
+const { baseSize } = useOptions();
 
 const inputRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
-  placeholder: "请输入",
   debounce: void 0,
   isTip: true,
   clearable: true,
@@ -57,6 +66,7 @@ const props = withDefaults(defineProps<PropsType>(), {
   debounceDelay: 1000,
   autocomplete: "off"
 });
+const { TEXT_PLACEHOLDER } = useI18nText(props);
 
 const model = defineModel<string>();
 const TipComponent = useTip(props, model);
@@ -66,10 +76,10 @@ const isPreview = ref(false);
  * 计算输入框类名
  */
 const inputClasses = computed(() => {
-  const { size, password, clearable, disabled } = props;
+  const { password, clearable, disabled } = props;
   return [
     "t-input",
-    `t-input-size-${size}`,
+    `t-input-size-${baseSize}`,
     password && "t-input-password",
     clearable && "t-input-clearable",
     disabled && "t-disabled"
@@ -83,20 +93,7 @@ const inputType = computed((): InputTypeHTMLAttribute => {
   return props.password && !isPreview.value ? "password" : "text";
 });
 
-const iconSizes: { [key in ElSizeType]: number } = {
-  default: 14,
-  small: 14,
-  large: 18
-};
-
 const defaultIconColor = "#656a6e56";
-
-/**
- * 计算图标大小
- */
-const iconSize = computed(() => {
-  return iconSizes[props.size];
-});
 
 /**
  * 是否显示右侧图标
