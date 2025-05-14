@@ -1,7 +1,10 @@
-import { App } from "vue";
+// 类型导入
+import type { App } from "vue";
+
 // 基础组件
 import { TButton } from "./button";
 import { TIcon } from "./icon";
+import { TTag } from "./tag";
 import { TDivider } from "./divider";
 
 // 表单组件
@@ -18,6 +21,7 @@ import { TDatePickerMultiple } from "./date-picker-multiple";
 import { TSlider } from "./slider";
 import { TUpload } from "./upload";
 import { TForm, TFormItem } from "./form";
+import { TColorPicker } from "./color-picker";
 
 // 数据展示组件
 import { TBadge } from "./badge";
@@ -30,6 +34,7 @@ import { TTable, TTableRow } from "./table";
 import { TProgress } from "./progress";
 import { TImage } from "./image";
 import { TTree } from "./tree";
+import { TCalendar } from "./calendar";
 
 // 反馈组件
 import { Message, Notification } from "./message";
@@ -49,14 +54,16 @@ import { TWatermark } from "./watermark";
 
 // 菜单组件
 import { TMenu } from "./menu";
+
 // 版本号
 import { version } from "../../package.json";
+
 /** ----------------------------------------------------- */
 // 基础组件
 export * from "./button";
 export * from "./icon";
+export * from "./tag";
 export * from "./divider";
-export * from "./loading";
 
 // 表单组件
 export * from "./input";
@@ -72,6 +79,7 @@ export * from "./date-picker-multiple";
 export * from "./slider";
 export * from "./upload";
 export * from "./form";
+export * from "./color-picker";
 
 // 数据展示组件
 export * from "./badge";
@@ -84,6 +92,7 @@ export * from "./table";
 export * from "./progress";
 export * from "./image";
 export * from "./tree";
+export * from "./calendar";
 
 // 反馈组件
 export * from "./message";
@@ -109,6 +118,7 @@ const components = {
   // 基础组件
   TButton,
   TIcon,
+  TTag,
   TDivider,
 
   // 表单组件
@@ -128,6 +138,7 @@ const components = {
   TUpload,
   TForm,
   TFormItem,
+  TColorPicker,
 
   // 数据展示组件
   TBadge,
@@ -144,6 +155,7 @@ const components = {
   TProgress,
   TImage,
   TTree,
+  TCalendar,
 
   // 反馈组件
   Message,
