@@ -6,7 +6,7 @@ import type { PropsType as ListViewItemPropsType } from "@/packages/list-view/li
  */
 export interface PropsType {
   // 行数据
-  row: TableRowType;
+  row?: TableRowType;
   // 行下标
   rowIndex?: number;
   // 是否头部数据

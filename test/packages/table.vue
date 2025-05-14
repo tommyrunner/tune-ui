@@ -374,9 +374,10 @@ const summaryData = ref<SummaryDataType[]>(
  * 处理列合计
  */
 const handleSummary = (value: number, scope: ColumnRenderScope) => {
-  if (scope.rowCol.prop === "name") return "-";
-  else if (scope.rowCol.prop === "amount") return `总金额: ${value}`;
-  return value;
+  let text = "";
+  if (scope.rowCol.prop === "name") text = "-";
+  else if (scope.rowCol.prop === "amount") text = `总金额: ${value}`;
+  return text;
 };
 </script>
 

@@ -23,7 +23,8 @@ defineOptions({ name: "TTableRow" });
 
 const props = withDefaults(defineProps<PropsType>(), {
   hoverBgColor: "#f5f7fa",
-  defBgColor: "#fff"
+  defBgColor: "#fff",
+  row: () => ({})
 });
 
 const emit = defineEmits<EmitsType>();
