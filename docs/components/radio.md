@@ -71,7 +71,7 @@
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
-| change | 值变化时触发 | (value: string / number / boolean / object) |
+| change | 值变化时触发 | (value: `string` / `number` / `boolean` / `object`) |
 
 ### 插槽
 
@@ -97,7 +97,7 @@
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
-| change | 值变化时触发 | (value: string / number / boolean / object) |
+| change | 值变化时触发 | (value: `string` / `number` / `boolean` / `object`) |
 
 ### 样式变量
 

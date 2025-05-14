@@ -68,10 +68,10 @@
 
 | 事件名 | 说明                 | 回调参数           |
 | ------ | -------------------- | ------------------ |
-| focus  | 获取焦点时触发       | (value: string)    |
-| blur   | 失去焦点时触发       | (value: string)    |
-| enter  | 按下回车键时触发     | (value: string)    |
-| input  | 输入值变化时触发     | (value: string)    |
+| focus  | 获取焦点时触发       | (value: `string`)    |
+| blur   | 失去焦点时触发       | (value: `string`)    |
+| enter  | 按下回车键时触发     | (value: `string`)    |
+| input  | 输入值变化时触发     | (value: `string`)    |
 | clear  | 点击清空按钮时触发   | —                  |
 
 ### 插槽

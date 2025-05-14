@@ -76,11 +76,11 @@
 
 | 事件名 | 说明 | 回调参数 |
 | --- | --- | --- |
-| blur | 失去焦点时触发 | (value: string) |
-| focus | 获得焦点时触发 | (value: string) |
-| input | 输入时触发 | (value: string) |
-| enter | 按下回车键时触发 | (value: string) |
-| clear | 清空内容时触发 | — |
+| focus | 获得焦点时触发 | (value: `string`) |
+| blur | 失去焦点时触发 | (value: `string`) |
+| input | 输入值变化时触发 | (value: `string`) |
+| enter | 按下回车键时触发 | (value: `string`) |
+| clear | 点击清空按钮时触发 | — |
 
 ### 样式变量
 
