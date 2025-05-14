@@ -2,64 +2,135 @@
 
 Tune UI 默认提供了一套主题，同时也支持多种方式自定义主题风格，满足个性化产品需求。
 
-## 使用预设主题
+## 全局主题配置API
 
-### 默认主题
+Tune UI 提供了`useOptions`钩子函数进行全局主题配置，这是推荐的主题配置方式：
 
-Tune UI 默认使用浅色主题，无需额外配置即可使用。
+```ts
+import { useOptions } from "tune-ui";
 
-### 内置暗色主题
+// 使用全局配置API
+const { updateThemeColor, updateDefaultSize } = useOptions();
 
-Tune UI 内置了暗色主题（Dark Mode），你可以通过以下方式启用：
+// 更新主题颜色
+updateThemeColor({
+  primary: "#6a1cf7",
+  success: "#28b178",
+  danger: "#eb2f4b"
+});
 
-1. 通过 CSS 类名切换：
-
-```html
-<html class="dark">
-  <!-- 应用会以暗色主题展示 -->
-</html>
+// 更新默认元素尺寸
+updateDefaultSize("large"); // 可选值: "small", "default", "large"
 ```
 
-2. 通过 JavaScript 动态切换：
+### 完整配置示例
 
-```js
-// 开启暗色模式
-document.documentElement.classList.add('dark')
+```vue
+<template>
+  <div>
+    <!-- 主题颜色配置 -->
+    <div class="theme-colors">
+      <div v-for="(_, key) in themeColors" :key="key">
+        <div>{{ themeLabels[key] }}</div>
+        <t-color-picker v-model="themeColors[key]" @change="handleThemeChange(key)" />
+        <div>{{ themeColors[key] }}</div>
+      </div>
+    </div>
+    
+    <!-- 尺寸设置 -->
+    <t-radio-group v-model="elementSize" @change="handleSizeChange">
+      <t-radio value="small">小尺寸</t-radio>
+      <t-radio value="default">默认尺寸</t-radio>
+      <t-radio value="large">大尺寸</t-radio>
+    </t-radio-group>
+    
+    <!-- 重置按钮 -->
+    <t-button type="primary" @click="resetThemeSettings">重置主题设置</t-button>
+  </div>
+</template>
 
-// 关闭暗色模式
-document.documentElement.classList.remove('dark')
+<script lang="ts" setup>
+import { ref, reactive } from "vue";
+import { useOptions } from "tune-ui";
+import type { OptionsThemeType } from "tune-ui";
 
-// 判断当前是否为暗色模式
-const isDark = document.documentElement.classList.contains('dark')
+// 使用全局配置API
+const { updateThemeColor, updateDefaultSize, configOptions, initOptions } = useOptions();
+
+// 主题颜色标签
+const themeLabels = {
+  primary: "主要颜色",
+  success: "成功颜色",
+  warning: "警告颜色",
+  danger: "危险颜色",
+  info: "信息颜色"
+};
+
+// 主题颜色数据
+const themeColors = reactive<OptionsThemeType>({ ...configOptions.value.theme });
+
+// 元素尺寸
+const elementSize = ref(configOptions.value.elSize || "default");
+
+/**
+ * 处理主题颜色变更
+ * @param {string} key - 颜色类型
+ */
+const handleThemeChange = (key: keyof OptionsThemeType) => {
+  const themeUpdate = { [key]: themeColors[key] } as OptionsThemeType;
+  updateThemeColor(themeUpdate);
+}
+
+/**
+ * 处理尺寸变更
+ */
+const handleSizeChange = () => {
+  updateDefaultSize(elementSize.value);
+}
+
+/**
+ * 重置主题设置
+ */
+const resetThemeSettings = () => {
+  const defaultOptions = initOptions();
+  
+  // 重置主题颜色
+  Object.keys(defaultOptions.theme).forEach(key => {
+    themeColors[key as keyof OptionsThemeType] = defaultOptions.theme[key as keyof OptionsThemeType];
+  });
+  updateThemeColor(themeColors);
+  
+  // 重置元素尺寸
+  elementSize.value = defaultOptions.elSize;
+  updateDefaultSize(defaultOptions.elSize);
+}
+</script>
 ```
 
-3. 跟随系统主题：
+### 主题配置API
 
-```css
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+TUI组件库提供的主题相关API：
+
+- `updateThemeColor(theme: OptionsThemeType)`: 更新主题颜色
+- `updateDefaultSize(size: ElSizeType)`: 更新默认元素尺寸
+- `initOptions()`: 初始化配置，返回默认配置
+- `configOptions`: 响应式的当前配置对象
+
+### 支持的主题颜色配置
+
+```ts
+interface OptionsThemeType {
+  primary: string; // 主要颜色
+  success: string; // 成功颜色
+  warning: string; // 警告颜色
+  danger: string;  // 危险颜色
+  info: string;    // 信息颜色
+  dark: string;    // 深色
+  light: string;   // 浅色
 }
 ```
 
-```js
-// 检测系统主题变化
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-  if (e.matches) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
-})
-
-// 初始化
-if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  document.documentElement.classList.add('dark')
-}
-```
-
-## 自定义主题
+## 使用CSS变量方式定制主题
 
 ### CSS 变量
 
@@ -129,26 +200,6 @@ import 'tune-ui/dist/index.css'
 import './theme.css'
 ```
 
-#### 暗色主题变量
-
-```css
-.dark {
-  --tune-bg-color: #141414;
-  --tune-bg-color-page: #0a0a0a;
-  --tune-bg-color-overlay: #1d1e1f;
-  
-  --tune-text-color-primary: #ffffff;
-  --tune-text-color-regular: #e5eaf3;
-  --tune-text-color-secondary: #a3a6ad;
-  --tune-text-color-placeholder: #8d9095;
-  
-  --tune-border-color: #434343;
-  --tune-border-color-light: #363637;
-  --tune-border-color-lighter: #262727;
-  --tune-border-color-extra-light: #1d1d1d;
-}
-```
-
 ### SCSS 变量
 
 如果你使用 SCSS 预处理器，还可以利用 Tune UI 提供的 SCSS 变量进行更深层次的主题定制。
@@ -170,71 +221,6 @@ $tune-danger-color: #dc3030;
 // 不再需要引入原组件库的 CSS 文件
 // import 'tune-ui/dist/index.css'
 import './theme.scss'
-```
-
-### 使用主题生成工具
-
-Tune UI 提供了一个在线主题生成工具，你可以直观地调整主题颜色，并下载生成的主题文件。
-
-[前往主题编辑器](https://tune-ui.example.com/theme-editor)
-
-## 动态主题切换
-
-### 在运行时切换主题
-
-```vue
-<template>
-  <div>
-    <t-button @click="toggleTheme">切换主题</t-button>
-    <t-select v-model="currentTheme" @change="changeTheme">
-      <t-option value="default" label="默认主题"></t-option>
-      <t-option value="dark" label="暗色主题"></t-option>
-      <t-option value="green" label="绿色主题"></t-option>
-      <t-option value="purple" label="紫色主题"></t-option>
-    </t-select>
-  </div>
-</template>
-
-<script setup>
-import { ref } from 'vue'
-
-const isDark = ref(document.documentElement.classList.contains('dark'))
-const currentTheme = ref('default')
-
-// 切换明暗主题
-const toggleTheme = () => {
-  if (isDark.value) {
-    document.documentElement.classList.remove('dark')
-  } else {
-    document.documentElement.classList.add('dark')
-  }
-  isDark.value = !isDark.value
-}
-
-// 切换自定义主题
-const changeTheme = (theme) => {
-  // 移除已有的主题类
-  document.documentElement.classList.remove('theme-green', 'theme-purple')
-  
-  if (theme !== 'default' && theme !== 'dark') {
-    document.documentElement.classList.add(`theme-${theme}`)
-  }
-}
-</script>
-
-<style>
-/* 自定义绿色主题 */
-.theme-green {
-  --tune-primary-color: #0c8918;
-  --tune-success-color: #13ce66;
-}
-
-/* 自定义紫色主题 */
-.theme-purple {
-  --tune-primary-color: #8e44ad;
-  --tune-success-color: #16a085;
-}
-</style>
 ```
 
 ## 按需引入时的主题定制
