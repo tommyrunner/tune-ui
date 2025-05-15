@@ -73,4 +73,3 @@
 | $font-size-small     | 字体大小-小 |
 | $font-size-default   | 字体大小-默认 |
 | $font-size-large     | 字体大小-大 |
-</rewritten_file> 

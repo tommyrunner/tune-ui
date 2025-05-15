@@ -109,4 +109,3 @@
 | $theme-color-warning  | 主题色-警告    |
 | $theme-color-danger   | 主题色-危险    |
 | $border-color-default | 边框颜色-默认  |
-</rewritten_file> 

@@ -62,60 +62,59 @@
 
 ### 属性
 
-| 属性名        | 说明                   | 类型                          | 可选值                | 默认值  |
-| ------------- | ---------------------- | ----------------------------- | --------------------- | ------- |
-| v-model       | 绑定值                 | `Date \| string \| number`      | —                     | —       |
-| mode          | 日期选择器模式         | string                        | date / month / year   | date    |
-| disabled      | 是否禁用               | boolean                       | —                     | false   |
-| readonly      | 是否只读               | boolean                       | —                     | false   |
-| disabled-date | 不可选择的日期         | `(date: Date) => boolean`     | —                     | —       |
-| show-time     | 是否显示时间选择器     | boolean                       | —                     | false   |
-| value-format  | 值的格式化             | string                        | —                     | —       |
-| format        | 显示格式化             | string                        | —                     | —       |
-| placeholder   | 占位符                 | string                        | —                     | —       |
-| clearable     | 是否可清空             | boolean                       | —                     | true    |
-| position      | 弹出位置               | string                        | top / bottom / left / right | bottom |
-| size          | 尺寸                   | string                        | small / default / large | default |
-| is-tip        | 是否显示提示           | boolean                       | —                     | true    |
-| tip-text      | 提示文本               | string                        | —                     | —       |
-| tip-position  | 提示位置               | string                        | top / bottom / left / right | —     |
-| default-time  | 默认时间              | `{ hours: number, minutes: number, seconds: number }` | — | — |
-| time-range-limit | 时间范围限制        | `{ minHour?: number, maxHour?: number }` | — | — |
+| 属性名           | 说明               | 类型                                                  | 可选值                      | 默认值  |
+| ---------------- | ------------------ | ----------------------------------------------------- | --------------------------- | ------- |
+| v-model          | 绑定值             | `Date \| string \| number`                            | —                           | —       |
+| mode             | 日期选择器模式     | string                                                | date / month / year         | date    |
+| disabled         | 是否禁用           | boolean                                               | —                           | false   |
+| readonly         | 是否只读           | boolean                                               | —                           | false   |
+| disabled-date    | 不可选择的日期     | `(date: Date) => boolean`                             | —                           | —       |
+| show-time        | 是否显示时间选择器 | boolean                                               | —                           | false   |
+| value-format     | 值的格式化         | string                                                | —                           | —       |
+| format           | 显示格式化         | string                                                | —                           | —       |
+| placeholder      | 占位符             | string                                                | —                           | —       |
+| clearable        | 是否可清空         | boolean                                               | —                           | true    |
+| position         | 弹出位置           | string                                                | top / bottom / left / right | bottom  |
+| size             | 尺寸               | string                                                | small / default / large     | default |
+| is-tip           | 是否显示提示       | boolean                                               | —                           | true    |
+| tip-text         | 提示文本           | string                                                | —                           | —       |
+| tip-position     | 提示位置           | string                                                | top / bottom / left / right | —       |
+| default-time     | 默认时间           | `{ hours: number, minutes: number, seconds: number }` | —                           | —       |
+| time-range-limit | 时间范围限制       | `{ minHour?: number, maxHour?: number }`              | —                           | —       |
 
 ### 事件
 
-| 事件名           | 说明                   | 回调参数                       |
-| ---------------- | ---------------------- | ------------------------------ |
-| change           | 日期变化时触发         | (value: `Date \| string \| number`) |
-| panel-change     | 面板变化时触发         | (mode: 'date \| month \| year') |
-| clear            | 清空时触发             | —                              |
-| focus            | 获得焦点时触发         | —                              |
-| blur             | 失去焦点时触发         | —                              |
-| time-dialog-open | 时间对话框打开时触发   | —                              |
-| time-dialog-close| 时间对话框关闭时触发   | —                              |
-| date-dialog-open | 日期对话框打开时触发   | —                              |
-| date-dialog-close| 日期对话框关闭时触发   | —                              |
+| 事件名            | 说明                 | 回调参数                            |
+| ----------------- | -------------------- | ----------------------------------- |
+| change            | 日期变化时触发       | (value: `Date \| string \| number`) |
+| panel-change      | 面板变化时触发       | (mode: 'date \| month \| year')     |
+| clear             | 清空时触发           | —                                   |
+| focus             | 获得焦点时触发       | —                                   |
+| blur              | 失去焦点时触发       | —                                   |
+| time-dialog-open  | 时间对话框打开时触发 | —                                   |
+| time-dialog-close | 时间对话框关闭时触发 | —                                   |
+| date-dialog-open  | 日期对话框打开时触发 | —                                   |
+| date-dialog-close | 日期对话框关闭时触发 | —                                   |
 
 ### 插槽
 
-| 插槽名  | 说明             | 作用域参数        |
-| ------- | ---------------- | ----------------- |
-| prefix  | 输入框前缀内容   | —                 |
-| date    | 自定义日期单元格 | { date: `Date` }  |
-| footer  | 日历面板底部区域 | —                 |
+| 插槽名 | 说明             | 作用域参数       |
+| ------ | ---------------- | ---------------- |
+| prefix | 输入框前缀内容   | —                |
+| date   | 自定义日期单元格 | { date: `Date` } |
+| footer | 日历面板底部区域 | —                |
 
 ### 样式变量
 
 日期选择器组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
 
-| 变量名                  | 说明             |
-| ----------------------- | ---------------- |
-| $border-color-default   | 边框颜色         |
-| $bg-color-default       | 背景色           |
-| $theme-color-primary    | 主题色           |
-| $text-color-default     | 文本颜色         |
-| $font-size-small        | 小号字体大小     |
-| $font-size-default      | 默认字体大小     |
-| $font-size-large        | 大号字体大小     |
-| $bg-color-hover         | 悬停背景色       |
-```
+| 变量名                | 说明         |
+| --------------------- | ------------ |
+| $border-color-default | 边框颜色     |
+| $bg-color-default     | 背景色       |
+| $theme-color-primary  | 主题色       |
+| $text-color-default   | 文本颜色     |
+| $font-size-small      | 小号字体大小 |
+| $font-size-default    | 默认字体大小 |
+| $font-size-large      | 大号字体大小 |
+| $bg-color-hover       | 悬停背景色   |
