@@ -88,7 +88,10 @@
 | 变量名               | 说明           |
 | -------------------- | -------------- |
 | $theme-color-primary | 主题色-主要    |
-| $border-color-default | 边框颜色-默认 |
-| $font-size-small     | 字体大小-小    |
-| $font-size-default   | 字体大小-默认  |
-| $font-size-large     | 字体大小-大    |
+| $text-color-default  | 默认文本颜色   |
+| $border-color-default | 默认边框颜色  |
+| $bg-color-default    | 默认背景颜色   |
+| $opacity-disabled    | 禁用状态透明度 |
+| $font-size-small     | 小号字体大小   |
+| $font-size-default   | 默认字体大小   |
+| $font-size-large     | 大号字体大小   |

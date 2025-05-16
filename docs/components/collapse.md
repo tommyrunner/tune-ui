@@ -82,12 +82,13 @@
 
 ### 样式变量
 
-| 变量名                     | 说明             |
-| -------------------------- | ---------------- |
-| `$collapse-border-color`   | 边框颜色         |
-| `$collapse-header-bg`      | 标题区域背景色   |
-| `$collapse-content-bg`     | 内容区域背景色   |
-| `$collapse-disabled-color` | 禁用状态文字颜色 |
-| `$collapse-icon-color`     | 图标颜色         |
+折叠面板组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
 
-</rewritten_file>
+| 变量名                | 说明           |
+| --------------------- | -------------- |
+| $border-color-default | 默认边框颜色   |
+| $bg-color-default     | 默认背景颜色   |
+| $bg-color-hover       | 悬停背景颜色   |
+| $text-color-default   | 默认文本颜色   |
+| $opacity-disabled     | 禁用状态透明度 |
+| $font-size-default    | 默认字体大小   |

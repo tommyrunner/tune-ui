@@ -106,6 +106,9 @@ interface NodeData {
 
 | 变量名               | 说明         |
 | -------------------- | ------------ |
-| `$font-size-default` | 默认字体大小 |
-| `$tree-bg-color`     | 树的背景色   |
-| `$tree-border-color` | 边框颜色     |
+| $font-size-default   | 默认字体大小 |
+| $text-color-default  | 默认文本颜色 |
+| $border-color-default| 默认边框颜色 |
+| $bg-color-default    | 默认背景颜色 |
+| $bg-color-hover      | 悬停背景颜色 |
+| $theme-color-primary | 主题色-主要  |

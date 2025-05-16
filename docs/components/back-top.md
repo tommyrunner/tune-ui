@@ -76,8 +76,10 @@
 
 回到顶部组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
 
-| 变量名                | 说明          |
-| --------------------- | ------------- |
-| $theme-color-primary  | 主题色-主要   |
-| $z-index-up           | z-index层级   |
+| 变量名                | 说明           |
+| --------------------- | -------------- |
+| $theme-color-primary  | 主题色-主要    |
+| $color-white          | 白色           |
+| $bg-color-default     | 默认背景颜色   |
+| $z-index-up           | 上层层级       |
 </rewritten_file> 

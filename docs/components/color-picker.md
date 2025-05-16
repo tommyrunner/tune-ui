@@ -86,10 +86,14 @@
 
 | 变量名                  | 说明         |
 | ----------------------- | ------------ |
-| `$theme-color-primary`  | 主题色       |
-| `$text-color-default`   | 文本颜色     |
-| `$border-color-default` | 边框颜色     |
-| `$bg-color-default`     | 背景色       |
-| `$font-size-default`    | 默认字体大小 |
+| $theme-color-primary    | 主题色-主要  |
+| $text-color-default     | 默认文本颜色 |
+| $border-color-default   | 默认边框颜色 |
+| $bg-color-default       | 默认背景颜色 |
+| $color-white            | 白色         |
+| $color-black            | 黑色         |
+| $font-size-default      | 默认字体大小 |
+| $font-size-small        | 小号字体大小 |
+| $opacity-disabled       | 禁用状态透明度 |
 
 </rewritten_file>

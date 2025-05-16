@@ -83,10 +83,14 @@
 
 开关组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
 
-| 变量名 | 说明 |
-| --- | --- |
-| $theme-color-primary | 主题色-主要 |
-| $theme-color-danger | 主题色-危险 |
-| $font-size-small | 字体大小-小 |
-| $font-size-default | 字体大小-默认 |
-| $font-size-large | 字体大小-大 |
+| 变量名                | 说明           |
+| --------------------- | -------------- |
+| $theme-color-primary  | 主题色-主要    |
+| $theme-color-danger   | 主题色-危险    |
+| $color-white          | 白色           |
+| $color-black          | 黑色           |
+| $bg-color-default     | 默认背景颜色   |
+| $opacity-disabled     | 禁用状态透明度 |
+| $font-size-small      | 小号字体大小   |
+| $font-size-default    | 默认字体大小   |
+| $font-size-large      | 大号字体大小   |

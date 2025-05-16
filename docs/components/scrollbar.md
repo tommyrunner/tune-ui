@@ -69,11 +69,11 @@
 
 ### 样式变量
 
-滚动条组件使用了以下CSS变量，可通过样式覆盖自定义：
+滚动条组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
 
-| 变量名 | 说明 | 默认值 |
-|--------|------|--------|
-| `--t-scrollbar-thumb-bg` | 滚动条滑块背景色 | `rgba(0, 0, 0, 0.3)` |
-| `--t-scrollbar-thumb-hover-bg` | 滚动条滑块悬停背景色 | `rgba(0, 0, 0, 0.5)` |
-| `--t-scrollbar-track-bg` | 滚动条轨道背景色 | `rgba(0, 0, 0, 0.1)` |
-| `--t-scrollbar-width` | 滚动条宽度 | `6px` | 
+| 变量名 | 说明 | 
+|--------|------|
+| $scrollbar-size | 滚动条大小 |
+| $scrollbar-bg | 滚动条背景色 |
+| $scrollbar-thumb-color | 滚动条滑块颜色 |
+| $bg-color-default | 默认背景颜色 | 

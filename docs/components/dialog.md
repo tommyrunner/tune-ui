@@ -115,13 +115,16 @@
 
 ### 样式变量
 
-| 变量名                     | 说明                 |
-| -------------------------- | -------------------- |
-| `$dialog-bg-color`         | 对话框背景色         |
-| `$dialog-border-radius`    | 对话框圆角           |
-| `$dialog-padding`          | 对话框内边距         |
-| `$dialog-header-height`    | 对话框标题栏高度     |
-| `$dialog-header-color`     | 对话框标题文字颜色   |
-| `$dialog-content-color`    | 对话框内容文字颜色   |
-| `$dialog-footer-height`    | 对话框底部区域高度   |
-| `$dialog-shadow`           | 对话框阴影           |
+对话框组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
+
+| 变量名                | 说明           |
+| --------------------- | -------------- |
+| $bg-color-default     | 默认背景颜色   |
+| $bg-color-model       | 模态背景颜色   |
+| $text-color-default   | 默认文本颜色   |
+| $border-color-default | 默认边框颜色   |
+| $theme-color-primary  | 主题色-主要    |
+| $color-white          | 白色           |
+| $color-black          | 黑色           |
+| $font-size-default    | 默认字体大小   |
+| $z-index-up           | 上层层级       |

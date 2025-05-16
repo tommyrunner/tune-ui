@@ -116,6 +116,9 @@
 
 | 变量名 | 说明 |
 | --- | --- |
-| $border-color-default | 边框颜色-默认 |
-| $z-index-dropdown | 层级-下拉菜单 |
-| $bg-color-overlay | 背景色-遮罩层 | 
+| $border-color-default | 默认边框颜色 |
+| $text-color-default | 默认文本颜色 |
+| $bg-color-default | 默认背景颜色 |
+| $bg-color-hover | 悬停背景颜色 |
+| $z-index-show | 显示层级 |
+| $z-index-up | 上层层级 | 

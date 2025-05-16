@@ -75,9 +75,6 @@ Flex 组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
 
 | 变量名                | 说明           |
 | --------------------- | -------------- |
-| $flex-gap-default     | 默认间距       |
-| $flex-breakpoint-xs   | 超小屏幕断点   |
-| $flex-breakpoint-sm   | 小屏幕断点     |
-| $flex-breakpoint-md   | 中等屏幕断点   |
-| $flex-breakpoint-lg   | 大屏幕断点     |
-| $flex-breakpoint-xl   | 超大屏幕断点   |
+| $bg-color-default     | 默认背景颜色   |
+| $border-color-default | 默认边框颜色   |
+| $text-color-default   | 默认文本颜色   |

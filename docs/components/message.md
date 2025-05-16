@@ -73,10 +73,17 @@
 
 ### 样式变量
 
-| 变量名                      | 说明                       | 默认值                               | 应用场景                           |
-| --------------------------- | -------------------------- | ------------------------------------ | ---------------------------------- |
-| `$message-bg-color`         | 消息提示背景色             | `#ffffff`                            | 设置消息框的背景颜色               |
-| `$message-text-color`       | 消息提示文字颜色           | `#333333`                            | 设置消息框的文字颜色               |
-| `$message-border-radius`    | 消息提示圆角               | `6px`                                | 设置消息框的圆角大小               |
-| `$message-shadow`           | 消息提示阴影               | `0 2px 6px rgba(0,0,0,.1)`           | 设置消息框的阴影效果               |
-| `$message-z-index`          | 消息提示层级               | `9000`                               | 设置消息框的层叠顺序               | 
+消息提示组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
+
+| 变量名                | 说明           |
+| --------------------- | -------------- |
+| $theme-color-primary  | 主题色-主要    |
+| $theme-color-success  | 主题色-成功    |
+| $theme-color-info     | 主题色-信息    |
+| $theme-color-warning  | 主题色-警告    |
+| $theme-color-danger   | 主题色-危险    |
+| $color-white          | 白色           |
+| $bg-color-default     | 默认背景颜色   |
+| $bg-color-model       | 模态背景颜色   |
+| $text-color-default   | 默认文本颜色   |
+| $z-index-up           | 上层层级       | 

@@ -101,5 +101,6 @@
 | $theme-color-success | 主题色-成功 |
 | $theme-color-warning | 主题色-警告 |
 | $theme-color-danger | 主题色-危险 |
-| $color-white | 颜色-白色 |
-| $text-color-default | 文本颜色-默认 | 
+| $color-white | 白色 |
+| $text-color-default | 默认文本颜色 |
+| $bg-color-default | 默认背景颜色 | 

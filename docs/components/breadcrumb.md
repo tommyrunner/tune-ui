@@ -72,8 +72,9 @@
 
 面包屑组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
 
-| 变量名               | 说明          |
-| -------------------- | ------------- |
-| $theme-color-primary | 主题色-主要   |
-| $text-color-default  | 文本颜色-默认 |
-| $font-size-default   | 字体大小-默认 |
+| 变量名               | 说明           |
+| -------------------- | -------------- |
+| $theme-color-primary | 主题色-主要    |
+| $text-color-default  | 默认文本颜色   |
+| $font-size-default   | 默认字体大小   |
+| $opacity-disabled    | 禁用状态透明度 |

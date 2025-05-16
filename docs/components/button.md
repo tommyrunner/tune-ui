@@ -92,9 +92,12 @@ Button 组件提供了三种尺寸：大型按钮、默认按钮和小型按钮�
 | $theme-color-info     | 主题色-信息  |
 | $theme-color-warning  | 主题色-警告  |
 | $theme-color-danger   | 主题色-危险  |
+| $color-white          | 白色         |
+| $color-black          | 黑色         |
 | $text-color-default   | 默认文本颜色 |
 | $bg-color-default     | 默认背景颜色 |
 | $border-color-default | 默认边框颜色 |
 | $font-size-default    | 默认字体大小 |
 | $font-size-small      | 小号字体大小 |
 | $font-size-large      | 大号字体大小 |
+| $opacity-disabled     | 禁用状态透明度 |
