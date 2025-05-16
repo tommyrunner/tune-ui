@@ -1,0 +1,213 @@
+/**
+ * 基本样式导入
+ */
+/* 移除默认主题，我们将完全自定义 */
+/* @import 'prismjs/themes/prism-tomorrow.css'; */
+
+/**
+ * 代码高亮主题
+ */
+
+:root {
+  /* 代码高亮变量 */
+  --code-background: #ffffff;
+  --code-foreground: #1f2328;
+  --code-comment: #4b535d;
+  --code-string: #0550ae;
+  --code-tag: #116329;
+  --code-tag-name: #116329;
+  --code-attribute-name: #5a1e9a;
+  --code-attribute-value: #0550ae;
+  --code-keyword: #cf222e;
+  --code-function: #0550ae;
+  --code-class-name: #5a1e9a;
+  --code-variable: #24292e;
+  --code-operator: #1f2328;
+  --code-punctuation: #2e3438;
+  --code-number: #0550ae;
+  --code-boolean: #0550ae;
+  --code-property: #0550ae;
+  --code-builtin: #5a1e9a;
+  --code-regex: #0550ae;
+  --code-inserted: #116329;
+  --code-deleted: #cf222e;
+  --code-border: #eaecef;
+}
+
+/**
+ * Demo容器样式定制
+ */
+.demo-block-code pre {
+  margin: 0;
+  padding: 0;
+  background-color: var(--code-background);
+  color: var(--code-foreground);
+  border-top: 1px solid var(--code-border);
+}
+
+.demo-block-code .language-vue {
+  padding: 2px;
+  border-radius: 0;
+  margin: 0;
+  font-family: "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono", monospace;
+  tab-size: 4;
+  overflow: auto;
+}
+.language-vue code {
+  padding: 2px !important;
+  font-size: 14px !important;
+}
+
+/* 代码块基础样式 */
+.demo-block-code code {
+  font-family: "Consolas", "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  /* 增大字体大小 */
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* 代码高亮样式 - 简洁风格 */
+.demo-block-code {
+  background-color: var(--code-background);
+}
+
+/* 语法高亮token样式 */
+.demo-block-code .token.comment,
+.demo-block-code .token.prolog,
+.demo-block-code .token.doctype,
+.demo-block-code .token.cdata {
+  color: var(--code-comment);
+  font-style: italic;
+}
+
+.demo-block-code .token.namespace {
+  opacity: 0.7;
+}
+
+.demo-block-code .token.string {
+  color: var(--code-string);
+}
+
+.demo-block-code .token.punctuation,
+.demo-block-code .token.operator {
+  color: var(--code-punctuation);
+}
+
+.demo-block-code .token.tag,
+.demo-block-code .token.tag .punctuation {
+  color: var(--code-tag);
+}
+
+.demo-block-code .token.tag .attr-name {
+  color: var(--code-attribute-name);
+}
+
+.demo-block-code .token.tag .attr-value,
+.demo-block-code .token.tag .attr-value .punctuation:not(:first-child) {
+  color: var(--code-attribute-value);
+}
+
+.demo-block-code .token.keyword {
+  color: var(--code-keyword);
+}
+
+.demo-block-code .token.property,
+.demo-block-code .token.attr-name {
+  color: var(--code-property);
+}
+
+.demo-block-code .token.function {
+  color: var(--code-function);
+}
+
+.demo-block-code .token.class-name {
+  color: var(--code-class-name);
+}
+
+.demo-block-code .token.number,
+.demo-block-code .token.unit {
+  color: var(--code-number);
+}
+
+.demo-block-code .token.boolean {
+  color: var(--code-boolean);
+}
+
+.demo-block-code .token.constant,
+.demo-block-code .token.symbol {
+  color: var(--code-variable);
+}
+
+.demo-block-code .token.selector,
+.demo-block-code .token.important,
+.demo-block-code .token.atrule {
+  color: var(--code-keyword);
+}
+
+.demo-block-code .token.string-property {
+  color: var(--code-string);
+}
+
+.demo-block-code .token.regex {
+  color: var(--code-regex);
+}
+
+.demo-block-code .token.entity {
+  color: var(--code-variable);
+  cursor: help;
+}
+
+/* script标签内的特殊处理 */
+.demo-block-code .language-vue .token.script {
+  color: var(--code-foreground);
+}
+
+.demo-block-code .language-vue .token.script .language-javascript {
+  color: inherit;
+}
+
+/* 调整代码滚动条样式 */
+.demo-block-code pre::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.demo-block-code pre::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.demo-block-code pre::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.demo-block-code pre::-webkit-scrollbar-track {
+  background-color: var(--code-background);
+}
+
+/* 深色模式下的简洁主题 */
+.dark .demo-block-code {
+  --code-background: #1e1e1e;
+  --code-foreground: #d4d4d4;
+  --code-comment: #6a9955;
+  --code-string: #ce9178;
+  --code-tag: #569cd6;
+  --code-tag-name: #569cd6;
+  --code-attribute-name: #9cdcfe;
+  --code-attribute-value: #ce9178;
+  --code-keyword: #c586c0;
+  --code-function: #dcdcaa;
+  --code-class-name: #4ec9b0;
+  --code-variable: #9cdcfe;
+  --code-operator: #d4d4d4;
+  --code-punctuation: #d4d4d4;
+  --code-number: #b5cea8;
+  --code-boolean: #569cd6;
+  --code-property: #9cdcfe;
+  --code-builtin: #4ec9b0;
+  --code-regex: #d16969;
+  --code-inserted: #b5cea8;
+  --code-deleted: #f14c4c;
+  --code-border: #333333;
+}

@@ -1,0 +1,54 @@
+<template>
+  <div class="back-top-demo">
+    <div class="demo-row">
+      <div class="scroll-container" id="container1">
+        <div class="container-title">容器1</div>
+        <p v-for="i in 20" :key="i" class="paragraph">
+          这是容器1的第 {{ i }} 行示例文本。
+        </p>
+      </div>
+      <div class="scroll-container" id="container2">
+        <div class="container-title">容器2</div>
+        <p v-for="i in 20" :key="i" class="paragraph">
+          这是容器2的第 {{ i }} 行示例文本。
+        </p>
+      </div>
+    </div>
+    <t-back-top target="#container1" :right="'120px'" :icon-size="24" />
+    <t-back-top target="#container2" :icon-size="24" />
+  </div>
+</template>
+
+<script setup>
+import { TBackTop } from "tune-ui";
+</script>
+
+<style scoped>
+.back-top-demo {
+  position: relative;
+  height: 300px;
+}
+.demo-row {
+  display: flex;
+  gap: 20px;
+}
+.scroll-container {
+  flex: 1;
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  padding: 12px;
+  position: relative;
+}
+.container-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #409eff;
+}
+.paragraph {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+</style> 
