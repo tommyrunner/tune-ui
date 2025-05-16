@@ -20,7 +20,7 @@ hero:
 features:
   - icon: 🚀
     title: High Performance
-    details: Built on Vue3 and TypeScript, providing excellent performance with all components developed using <script setup> syntax
+    details: Built on Vue3 and TypeScript, providing excellent performance experience, with components developed using the latest syntax
   - icon: 🎨
     title: Beautiful & Customizable
     details: Modern design style, supports theme customization to meet various project needs with multiple preset themes

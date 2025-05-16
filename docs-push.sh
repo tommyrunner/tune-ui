@@ -1,5 +1,5 @@
 # structure
-npm run docs:build
+vitepress build docs
 
 # Navigate to the build output directory
 cd docs/.vitepress/dist

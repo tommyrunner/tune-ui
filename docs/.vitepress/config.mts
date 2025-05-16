@@ -6,6 +6,7 @@ import locales from "./config/locales";
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Tune UI",
+  base: "/tune-ui/",
   description: "现代化Vue3 UI组件库，提高开发效率",
   head: [["link", { rel: "icon", href: "https://i.postimg.cc/PxMBWVPz/logo.png" }]],
   markdown: {

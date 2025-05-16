@@ -24,7 +24,8 @@ export default {
         items: [
           { text: "按钮 Button", link: "/components/button" },
           { text: "图标 Icon", link: "/components/icon" },
-          { text: "标签 Tag", link: "/components/tag" }
+          { text: "标签 Tag", link: "/components/tag" },
+          { text: "分割线 Divider", link: "/components/divider" }
         ]
       },
       {
@@ -109,7 +110,8 @@ export default {
         items: [
           { text: "Button", link: "/en/components/button" },
           { text: "Icon", link: "/en/components/icon" },
-          { text: "Tag", link: "/en/components/tag" }
+          { text: "Tag", link: "/en/components/tag" },
+          { text: "Divider", link: "/en/components/divider" }
         ]
       },
       {

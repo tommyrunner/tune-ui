@@ -88,7 +88,7 @@ const isCodeLoading = ref(false);
 // 组件路径
 const componentPath = computed(() => {
   if (props.componentName && props.examples) {
-    return `/examples/${props.componentName}/${props.examples}.vue`;
+    return `/tune-ui/examples/${props.componentName}/${props.examples}.vue`;
   }
   return "";
 });

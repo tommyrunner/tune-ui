@@ -20,7 +20,7 @@ hero:
 features:
   - icon: 🚀
     title: 高性能
-    details: 基于Vue3和TypeScript构建，提供卓越的性能体验，组件均使用<script setup>语法开发
+    details: 基于Vue3和TypeScript构建，提供卓越的性能体验，组件均使用最新语法开发
   - icon: 🎨
     title: 美观定制
     details: 现代化设计风格，支持主题定制，满足不同项目需求，提供多种预设主题
