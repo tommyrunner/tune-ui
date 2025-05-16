@@ -284,7 +284,3 @@ Tune UI 组件库提供了丰富的组件，覆盖了常见的 UI 交互场景�
     </a>
   </div>
 </div>
-
-## 开发指南
-
-如需了解如何开发新组件，请参考 [组件开发指南](/guide/component-development)。
