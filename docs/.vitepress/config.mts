@@ -1,49 +1,61 @@
 import { defineConfig } from "vitepress";
 import { resolve } from "path";
-import demoBlockPlugin from "./plugins/demoBlock";
 import locales from "./config/locales";
 
-// https://vitepress.dev/reference/site-config
+/**
+ * VitePress 配置文件
+ * @description 配置文档站点的基本信息和构建选项
+ * @see https://vitepress.dev/reference/site-config
+ */
 export default defineConfig({
+  // 站点基本信息
   title: "Tune UI",
   base: "/tune-ui/",
   description: "现代化Vue3 UI组件库，提高开发效率",
   head: [["link", { rel: "icon", href: "https://i.postimg.cc/PxMBWVPz/logo.png" }]],
-  markdown: {
-    // 代码块行数显示
-    lineNumbers: true,
-    // 使用自定义容器
-    config: md => {
-      demoBlockPlugin(md);
-    }
-  },
-  // 增加Vite配置，支持?raw后缀和处理Vue文件
+
+  // Vite 构建配置
   vite: {
+    // 路径别名配置
     resolve: {
+      dedupe: ["vue"],
       alias: {
         "@examples": resolve(__dirname, "../examples")
       }
     },
+
+    // 依赖优化配置
     optimizeDeps: {
-      // 确保示例组件和相关依赖被正确处理
-      include: ["vue", "vue-router"],
-      exclude: ["tune-ui"]
+      include: ["vue", "vue-router"]
     },
+
+    // 开发服务器配置
     server: {
       fs: {
-        // 允许访问上层目录中的示例文件
-        allow: [".."]
+        allow: [".."] // 允许访问上层目录文件
       }
     },
-    // 防止警告
+
+    // 构建优化配置
     build: {
+      commonjsOptions: {
+        include: [/src\/packages/, /node_modules/]
+      },
       rollupOptions: {
         onwarn(warning, warn) {
+          // 忽略未解析导入警告
           if (warning.code === "UNRESOLVED_IMPORT") return;
           warn(warning);
         }
       }
+    },
+
+    // 禁用ssr外部化，防止组件被跳过处理
+    ssr: {
+      noExternal: ["tune-ui"]
     }
   },
+
+  // 国际化配置
   locales
 });

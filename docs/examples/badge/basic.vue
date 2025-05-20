@@ -3,11 +3,11 @@
     <t-badge :value="12">
       <div class="badge-box">消息提醒</div>
     </t-badge>
-    
+
     <t-badge :value="5">
       <div class="badge-box">未读消息</div>
     </t-badge>
-    
+
     <t-badge :value="0">
       <div class="badge-box">无徽章</div>
     </t-badge>
@@ -35,4 +35,4 @@ import { TBadge } from "tune-ui";
   font-size: 14px;
   color: #606266;
 }
-</style> 
+</style>

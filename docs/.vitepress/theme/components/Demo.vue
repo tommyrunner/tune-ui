@@ -64,7 +64,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="Demo">
 import { ref, computed, onMounted, defineAsyncComponent } from "vue";
 import { highlight } from "../../utils/highlight";
 
@@ -110,7 +110,6 @@ const demoComponent = computed(() => {
         }
       }
     });
-
     return asyncComponent;
   }
   return {} as any;
