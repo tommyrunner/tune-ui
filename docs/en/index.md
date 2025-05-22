@@ -7,7 +7,7 @@ hero:
   text: "Elegant Vue3 Component Library"
   tagline: Providing a smooth UI solution for modern frontend development
   image:
-    src: https://i.postimg.cc/xTWLN1Lc/logo-plus.png
+    src: https://i.postimg.cc/nrB4d5k7/logo-plus.png
     alt: Tune UI
   actions:
     - theme: brand
