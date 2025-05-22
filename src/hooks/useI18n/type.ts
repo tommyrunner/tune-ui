@@ -1,5 +1,5 @@
 import type { Ref, ComputedRef } from "vue";
-import type { LocaleType } from "../useOptions/type";
+import type { LOCALE_TYPE } from "../useOptions/type";
 
 /**
  * @description 普通翻译函数类型
@@ -21,7 +21,7 @@ export interface I18nReturnType {
   /** 响应式翻译函数 */
   tr: ReactiveTranslateFunctionType;
   /** 当前语言 */
-  locale: Ref<LocaleType>;
+  locale: Ref<LOCALE_TYPE>;
   /** 设置语言 */
-  setLocale: (locale: LocaleType) => void;
+  setLocale: (locale: LOCALE_TYPE) => void;
 }

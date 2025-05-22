@@ -7,7 +7,10 @@ import type { OptionsType as LoadingOptionsType } from "web-loading";
  * @description 语言类型
  * @type {string}
  */
-export type LocaleType = "zh-CN" | "en-US" | string;
+export enum LOCALE_TYPE {
+  ZH_CN = "zh-CN",
+  EN_US = "en-US"
+}
 
 /**
  * @description 全局主题配置
@@ -62,7 +65,7 @@ export interface OptionsType {
   /** 加载配置选项 */
   loadingOptions?: LoadingOptionsType;
   /** 当前语言 */
-  locale?: LocaleType;
+  locale?: LOCALE_TYPE;
 }
 
 /**
@@ -92,7 +95,7 @@ export interface OptionsResultType {
   /** 更新加载配置 */
   updateLoadingOptions: (options: LoadingOptionsType) => void;
   /** 切换语言 */
-  setLocale: (locale: LocaleType) => void;
+  setLocale: (locale: LOCALE_TYPE) => void;
   /** 当前语言 */
-  locale: Ref<LocaleType>;
+  locale: Ref<LOCALE_TYPE>;
 }
