@@ -13,7 +13,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSwitch } from "tune-ui";
+
 
 const switchDefault = ref(true);
 const switchSquare = ref(true);

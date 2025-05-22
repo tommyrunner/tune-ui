@@ -3,20 +3,16 @@
     <t-badge :value="100" :max="99">
       <div class="badge-box">最大值99</div>
     </t-badge>
-    
+
     <t-badge :value="35" :max="20">
       <div class="badge-box">最大值20</div>
     </t-badge>
-    
+
     <t-badge :value="10" :max="10">
       <div class="badge-box">值等于最大值</div>
     </t-badge>
   </div>
 </template>
-
-<script setup>
-import { TBadge } from "tune-ui";
-</script>
 
 <style scoped>
 .badge-demo {
@@ -36,4 +32,4 @@ import { TBadge } from "tune-ui";
   color: #606266;
   text-align: center;
 }
-</style> 
+</style>

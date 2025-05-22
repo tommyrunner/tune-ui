@@ -34,7 +34,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TCheckbox, TCheckboxGroup } from "tune-ui";
+
 
 // 单个复选框
 const singleChecked = ref(false);

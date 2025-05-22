@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import inputNumberBasic from '../examples/input-number/basic.vue'
+import inputNumberStep from '../examples/input-number/step.vue'
+import inputNumberRange from '../examples/input-number/range.vue'
+import inputNumberControls from '../examples/input-number/controls.vue'
+import inputNumberSize from '../examples/input-number/size.vue'
+import inputNumberRangeInput from '../examples/input-number/range-input.vue'
+</script>
+
 # 数值输入框组件
 
 ![数值输入框组件](/components/input-number.png)
@@ -8,37 +17,37 @@
 
 基础数值输入框，支持输入数字并通过控制按钮调整值。
 
-<demo component-name="input-number" examples="basic"></demo>
+<demo :component="inputNumberBasic" name="input-number" examples="basic" />
 
 ## 步长设置
 
 通过 `step` 属性设置数值变化的步长，默认为 1。
 
-<demo component-name="input-number" examples="step"></demo>
+<demo :component="inputNumberStep" name="input-number" examples="step" />
 
 ## 数值范围限制
 
 通过 `min-value` 和 `max-value` 属性限制输入的数值范围。
 
-<demo component-name="input-number" examples="range"></demo>
+<demo :component="inputNumberRange" name="input-number" examples="range" />
 
 ## 控制按钮
 
 通过 `is-controls` 属性控制是否显示增减按钮，默认为 true。
 
-<demo component-name="input-number" examples="controls"></demo>
+<demo :component="inputNumberControls" name="input-number" examples="controls" />
 
 ## 不同尺寸
 
 数值输入框支持三种尺寸：small、default 和 large。
 
-<demo component-name="input-number" examples="size"></demo>
+<demo :component="inputNumberSize" name="input-number" examples="size" />
 
 ## 范围输入
 
 设置 `is-range` 属性开启范围输入模式，可同时输入两个数值。
 
-<demo component-name="input-number" examples="range-input"></demo>
+<demo :component="inputNumberRangeInput" name="input-number" examples="rangeinput" />
 
 ## 数值输入框 API
 

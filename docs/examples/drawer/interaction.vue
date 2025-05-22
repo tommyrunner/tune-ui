@@ -65,7 +65,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TDrawer, TButton, TCheckbox } from "tune-ui";
+
 
 const drawerVisible = ref(false);
 const showModal = ref(true);

@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { TMessage, TButton } from "tune-ui";
+
 
 /**
  * 显示信息消息

@@ -22,7 +22,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSlider } from "tune-ui";
+
 
 const value = ref(30);
 const rangeValue = ref([20, 60]);

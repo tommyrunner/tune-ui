@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import uploadBasic from '../examples/upload/basic.vue'
+import uploadListType from '../examples/upload/list-type.vue'
+import uploadDrag from '../examples/upload/drag.vue'
+import uploadManual from '../examples/upload/manual.vue'
+import uploadLimit from '../examples/upload/limit.vue'
+import uploadCustom from '../examples/upload/custom.vue'
+import uploadEvents from '../examples/upload/events.vue'
+import uploadSlots from '../examples/upload/slots.vue'
+</script>
+
 # 上传组件
 
 ![上传组件](/components/upload.png)
@@ -8,49 +19,49 @@
 
 通过点击上传按钮上传文件，使用 `action` 属性设置上传地址。
 
-<demo component-name="upload" examples="basic"></demo>
+<demo :component="uploadBasic" name="upload" examples="basic" />
 
 ## 列表类型
 
 上传组件支持两种文件列表展示方式：文本列表和图片列表。使用 `list-type` 属性进行设置。
 
-<demo component-name="upload" examples="list-type"></demo>
+<demo :component="uploadListType" name="upload" examples="listtype" />
 
 ## 拖拽上传
 
 设置 `drag` 属性可以启用拖拽上传模式，用户可以拖拽文件到特定区域以进行上传。
 
-<demo component-name="upload" examples="drag"></demo>
+<demo :component="uploadDrag" name="upload" examples="drag" />
 
 ## 手动上传
 
 设置 `auto-upload` 为 `false` 可以禁用自动上传，需要调用 `submit` 方法手动开始上传。
 
-<demo component-name="upload" examples="manual"></demo>
+<demo :component="uploadManual" name="upload" examples="manual" />
 
 ## 上传限制
 
 可以使用 `accept`、`max-size` 和 `limit` 属性分别限制文件类型、大小和数量。
 
-<demo component-name="upload" examples="limit"></demo>
+<demo :component="uploadLimit" name="upload" examples="limit" />
 
 ## 自定义上传
 
 通过 `http-request` 属性可以自定义上传行为，提供更灵活的上传实现方式。
 
-<demo component-name="upload" examples="custom"></demo>
+<demo :component="uploadCustom" name="upload" examples="custom" />
 
 ## 事件处理
 
 上传组件提供了丰富的事件用于处理上传过程中的各种状态变化。
 
-<demo component-name="upload" examples="events"></demo>
+<demo :component="uploadEvents" name="upload" examples="events" />
 
 ## 插槽使用
 
 通过多种插槽可以自定义上传组件的不同部分，包括触发按钮、文件列表等。
 
-<demo component-name="upload" examples="slots"></demo>
+<demo :component="uploadSlots" name="upload" examples="slots" />
 
 ## 上传组件 API
 

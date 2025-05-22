@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TUpload, TButton } from "tune-ui";
+
 
 // 文本文件列表初始值
 const textFileList = ref([

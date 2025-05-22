@@ -26,7 +26,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSwitch } from "tune-ui";
+
 
 const switchValue = ref(false);
 const eventLogs = ref([]);

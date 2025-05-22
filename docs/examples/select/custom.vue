@@ -13,11 +13,11 @@
       <div class="custom-item">
         <p class="custom-label">自定义选项内容</p>
         <t-select v-model="customValue" :options="userOptions" placeholder="选择用户">
-          <template #default="{ row }">
+          <template #default="data">
             <div class="user-option">
               <t-icon icon="user" />
-              <span class="user-name">{{ row.label }}</span>
-              <span class="user-id">ID: {{ row.value }}</span>
+              <span class="user-name">{{ data?.row?.label }}</span>
+              <span class="user-id">ID: {{ data?.row?.value }}</span>
             </div>
           </template>
         </t-select>
@@ -40,7 +40,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSelect, TIcon } from "tune-ui";
 
 const value = ref("");
 const customValue = ref("");

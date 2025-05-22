@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import backTopBasic from '../examples/back-top/basic.vue'
+import backTopIcon from '../examples/back-top/icon.vue'
+import backTopPlain from '../examples/back-top/plain.vue'
+import backTopPosition from '../examples/back-top/position.vue'
+import backTopHeight from '../examples/back-top/height.vue'
+import backTopTarget from '../examples/back-top/target.vue'
+import backTopCustom from '../examples/back-top/custom.vue'
+</script>
+
 # 回到顶部组件
 
 ![回到顶部组件](/components/back-top.png)
@@ -8,43 +18,43 @@
 
 基础的回到顶部按钮，当页面滚动超过指定高度时显示。
 
-<demo component-name="back-top" examples="basic"></demo>
+<demo :component="backTopBasic" name="back-top" examples="basic" />
 
 ## 自定义图标
 
 通过设置 `icon` 属性可以自定义回到顶部按钮的图标。
 
-<demo component-name="back-top" examples="icon"></demo>
+<demo :component="backTopIcon" name="back-top" examples="icon" />
 
 ## 朴素样式
 
 设置 `plain` 属性可以使用朴素样式的回到顶部按钮，添加背景色和边框。
 
-<demo component-name="back-top" examples="plain"></demo>
+<demo :component="backTopPlain" name="back-top" examples="plain" />
 
 ## 自定义位置
 
 通过设置 `bottom` 和 `right` 属性可以自定义回到顶部按钮的位置。
 
-<demo component-name="back-top" examples="position"></demo>
+<demo :component="backTopPosition" name="back-top" examples="position" />
 
 ## 自定义触发高度
 
 通过设置 `visibilityHeight` 属性可以自定义触发回到顶部按钮显示的滚动高度。
 
-<demo component-name="back-top" examples="height"></demo>
+<demo :component="backTopHeight" name="back-top" examples="height" />
 
 ## 指定滚动容器
 
 通过设置 `target` 属性可以指定触发滚动的容器元素，可以是CSS选择器字符串或HTML元素。
 
-<demo component-name="back-top" examples="target"></demo>
+<demo :component="backTopTarget" name="back-top" examples="target" />
 
 ## 自定义内容
 
 通过默认插槽可以自定义回到顶部按钮的内容，完全控制其外观。
 
-<demo component-name="back-top" examples="custom"></demo>
+<demo :component="backTopCustom" name="back-top" examples="custom" />
 
 ## 回到顶部 API
 

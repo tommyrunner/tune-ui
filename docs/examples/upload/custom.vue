@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { TUpload, TButton } from "tune-ui";
+
 
 // 自定义上传实现
 const customUpload = async options => {

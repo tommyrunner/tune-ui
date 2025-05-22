@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TCollapse, TCollapseGroup } from "tune-ui";
+
 
 // 手风琴模式 - 当前激活的面板（字符串）
 const activeName = ref("1");

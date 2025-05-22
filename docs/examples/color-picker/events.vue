@@ -30,7 +30,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TColorPicker, TButton } from "tune-ui";
+
 
 // 默认颜色值
 const color = ref("rgba(64, 158, 255, 0.8)");

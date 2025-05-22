@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { TMessage, TButton } from "tune-ui";
+
 
 /**
  * 显示自定义挂载消息

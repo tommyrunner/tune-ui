@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import sliderBasic from '../examples/slider/basic.vue'
+import sliderRange from '../examples/slider/range.vue'
+import sliderStops from '../examples/slider/stops.vue'
+import sliderMarks from '../examples/slider/marks.vue'
+import sliderVertical from '../examples/slider/vertical.vue'
+import sliderInput from '../examples/slider/input.vue'
+import sliderTooltip from '../examples/slider/tooltip.vue'
+import sliderEvents from '../examples/slider/events.vue'
+</script>
+
 # 滑块组件
 
 ![滑块组件](/components/slider.png)
@@ -8,49 +19,49 @@
 
 基础滑块用于在连续或离散的区间内选择单个值。
 
-<demo component-name="slider" examples="basic"></demo>
+<demo :component="sliderBasic" name="slider" examples="basic" />
 
 ## 范围选择
 
 设置 `range` 属性可以开启范围选择，适用于需要选择某个数值区间的场景。
 
-<demo component-name="slider" examples="range"></demo>
+<demo :component="sliderRange" name="slider" examples="range" />
 
 ## 显示间断点
 
 当 `step` 不为 1 时，可以设置 `show-stops` 属性显示间断点，让用户更清晰地知道可选的值。
 
-<demo component-name="slider" examples="stops"></demo>
+<demo :component="sliderStops" name="slider" examples="stops" />
 
 ## 带标记的滑块
 
 使用 `marks` 属性可以自定义滑块上的标记，每个标记可以是简单的文本或带有自定义样式的对象。
 
-<demo component-name="slider" examples="marks"></demo>
+<demo :component="sliderMarks" name="slider" examples="marks" />
 
 ## 垂直滑块
 
 设置 `vertical` 属性为 `true` 可以使滑块变为垂直方向，同时需要设置 `height` 指定滑块高度。
 
-<demo component-name="slider" examples="vertical"></demo>
+<demo :component="sliderVertical" name="slider" examples="vertical" />
 
 ## 滑块与输入框结合
 
 滑块可以与数字输入框组合使用，提供更精确的数值输入方式。
 
-<demo component-name="slider" examples="input"></demo>
+<demo :component="sliderInput" name="slider" examples="input" />
 
 ## 提示设置
 
 可以通过 `show-tooltip`、`format-tooltip` 和 `placement` 属性自定义滑块的提示信息。
 
-<demo component-name="slider" examples="tooltip"></demo>
+<demo :component="sliderTooltip" name="slider" examples="tooltip" />
 
 ## 事件处理
 
 滑块组件提供了 `change` 和 `input` 事件，分别在值改变完成和值改变过程中触发。
 
-<demo component-name="slider" examples="events"></demo>
+<demo :component="sliderEvents" name="slider" examples="events" />
 
 ## 滑块组件 API
 

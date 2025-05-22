@@ -1,8 +1,8 @@
 <template>
   <div class="list-view-demo">
     <t-list-view :listData="[]" :height="300" emptyText="暂无列表数据">
-      <template #default="{ row, index }">
-        <div class="list-item">{{ index + 1 }}. {{ row.label }}</div>
+      <template #default="data">
+        <div class="list-item">{{ data?.index + 1 }}. {{ data?.row?.label }}</div>
       </template>
       <template #empty>
         <div class="empty-content">
@@ -13,10 +13,6 @@
     </t-list-view>
   </div>
 </template>
-
-<script setup>
-import { TListView } from "tune-ui";
-</script>
 
 <style scoped>
 .list-view-demo {

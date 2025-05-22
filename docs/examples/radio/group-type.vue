@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TRadio, TRadioGroup } from "tune-ui";
+
 
 const defaultValue = ref("1");
 const textValue = ref("1");

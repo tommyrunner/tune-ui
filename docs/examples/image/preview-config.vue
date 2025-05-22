@@ -46,7 +46,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TImage } from "tune-ui";
+
 
 // 预览图片列表
 const previewImages = [

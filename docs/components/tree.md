@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import treeBasic from '../examples/tree/basic.vue'
+import treeCheckable from '../examples/tree/checkable.vue'
+import treeDefaultState from '../examples/tree/default-state.vue'
+import treeAccordion from '../examples/tree/accordion.vue'
+import treeDisabled from '../examples/tree/disabled.vue'
+import treeCustomNode from '../examples/tree/custom-node.vue'
+import treeExpandControl from '../examples/tree/expand-control.vue'
+</script>
+
 # 树形控件
 
 ![树形控件](/components/tree.png)
@@ -8,43 +18,43 @@
 
 基础的树形控件用法，展示层级结构的数据。
 
-<demo component-name="tree" examples="basic"></demo>
+<demo :component="treeBasic" name="tree" examples="basic" />
 
 ## 可选择的树形控件
 
 设置 `checkable` 属性为 `true` 可以显示复选框，实现节点的选择功能。
 
-<demo component-name="tree" examples="checkable"></demo>
+<demo :component="treeCheckable" name="tree" examples="checkable" />
 
 ## 默认展开和选中
 
 通过 `expanded` 和 `checked` 属性可以设置默认展开和选中的节点。
 
-<demo component-name="tree" examples="default-state"></demo>
+<demo :component="treeDefaultState" name="tree" examples="defaultstate" />
 
 ## 手风琴模式
 
 设置 `accordion` 属性为 `true` 可以实现手风琴模式，同级节点只能展开一个。
 
-<demo component-name="tree" examples="accordion"></demo>
+<demo :component="treeAccordion" name="tree" examples="accordion" />
 
 ## 禁用状态
 
 设置 `disabled` 属性可以禁用整棵树，也可以通过在数据中设置 `disabled` 字段来禁用特定节点。
 
-<demo component-name="tree" examples="disabled"></demo>
+<demo :component="treeDisabled" name="tree" examples="disabled" />
 
 ## 自定义节点内容
 
 通过默认插槽可以自定义节点的内容和样式。
 
-<demo component-name="tree" examples="custom-node"></demo>
+<demo :component="treeCustomNode" name="tree" examples="customnode" />
 
 ## 控制节点展开方式
 
 通过设置 `expand-on-click-node` 属性可以控制是否在点击节点时展开/折叠节点。
 
-<demo component-name="tree" examples="expand-control"></demo>
+<demo :component="treeExpandControl" name="tree" examples="expandcontrol" />
 
 ## 树形控件 API
 

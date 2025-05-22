@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import datePickerMultipleBasic from '../examples/date-picker-multiple/basic.vue'
+import datePickerMultipleModes from '../examples/date-picker-multiple/modes.vue'
+import datePickerMultipleSize from '../examples/date-picker-multiple/size.vue'
+import datePickerMultipleStatus from '../examples/date-picker-multiple/status.vue'
+import datePickerMultipleFormat from '../examples/date-picker-multiple/format.vue'
+import datePickerMultipleDateTime from '../examples/date-picker-multiple/date-time.vue'
+import datePickerMultipleShortcuts from '../examples/date-picker-multiple/shortcuts.vue'
+import datePickerMultiplePosition from '../examples/date-picker-multiple/position.vue'
+import datePickerMultipleEvents from '../examples/date-picker-multiple/events.vue'
+</script>
+
 # 多选日期选择器组件
 
 ![多选日期选择器组件](/components/date-picker-multiple.png)
@@ -8,55 +20,55 @@
 
 多选日期选择器提供了两种选择模式：日期范围选择和多个日期选择。
 
-<demo component-name="date-picker-multiple" examples="basic"></demo>
+<demo :component="datePickerMultipleBasic" name="date-picker-multiple" examples="basic" />
 
 ## 不同模式
 
 组件支持多种选择模式：日期、月份和年份。
 
-<demo component-name="date-picker-multiple" examples="modes"></demo>
+<demo :component="datePickerMultipleModes" name="date-picker-multiple" examples="modes" />
 
 ## 不同尺寸
 
 组件提供了三种尺寸：small、default、large。
 
-<demo component-name="date-picker-multiple" examples="size"></demo>
+<demo :component="datePickerMultipleSize" name="date-picker-multiple" examples="size" />
 
 ## 不同状态
 
 组件可以设置为禁用状态，也可以通过 `disabled-date` 函数自定义禁用特定日期。
 
-<demo component-name="date-picker-multiple" examples="status"></demo>
+<demo :component="datePickerMultipleStatus" name="date-picker-multiple" examples="status" />
 
 ## 格式化
 
 可以使用 `value-format` 和 `format` 分别控制值的格式和显示格式。
 
-<demo component-name="date-picker-multiple" examples="format"></demo>
+<demo :component="datePickerMultipleFormat" name="date-picker-multiple" examples="format" />
 
 ## 日期时间选择
 
 设置 `show-time` 属性可以在选择日期的同时选择时间。
 
-<demo component-name="date-picker-multiple" examples="date-time"></demo>
+<demo :component="datePickerMultipleDateTime" name="date-picker-multiple" examples="datetime" />
 
 ## 快捷选项
 
 通过 `shortcuts` 属性可以设置快捷选项，提供预设的日期选择。
 
-<demo component-name="date-picker-multiple" examples="shortcuts"></demo>
+<demo :component="datePickerMultipleShortcuts" name="date-picker-multiple" examples="shortcuts" />
 
 ## 自定义位置
 
 通过 `position` 属性可以设置下拉面板的弹出位置。
 
-<demo component-name="date-picker-multiple" examples="position"></demo>
+<demo :component="datePickerMultiplePosition" name="date-picker-multiple" examples="position" />
 
 ## 事件处理
 
 多选日期选择器提供了多种事件，如 `change`、`clear`、`focus` 等。
 
-<demo component-name="date-picker-multiple" examples="events"></demo>
+<demo :component="datePickerMultipleEvents" name="date-picker-multiple" examples="events" />
 
 ## 多选日期选择器组件 API
 

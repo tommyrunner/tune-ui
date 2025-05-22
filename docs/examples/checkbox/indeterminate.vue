@@ -22,7 +22,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { TCheckbox } from "tune-ui";
+
 
 const checked1 = ref(true);
 const checked2 = ref(true);

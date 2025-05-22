@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { TImage } from "tune-ui";
+
 
 // 懒加载图片列表
 const lazyImages = [

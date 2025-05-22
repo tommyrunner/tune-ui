@@ -6,7 +6,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TInput } from "tune-ui";
+
 
 const password = ref("");
 </script>

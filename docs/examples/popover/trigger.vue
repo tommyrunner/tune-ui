@@ -99,7 +99,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TPopover, TButton, TInput } from "tune-ui";
+
 
 // 手动控制状态
 const manualVisible = ref(false);

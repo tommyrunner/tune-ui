@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTextarea } from "tune-ui";
+
 
 const textValue = ref("");
 </script>

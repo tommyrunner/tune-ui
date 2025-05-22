@@ -13,25 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TButton } from "tune-ui";
-// 注意：在实际应用中，请从tune-ui导入
-// 这里仅用于演示，实际加载组件需要按照项目真实路径导入
-import { fullLoading, MODEL_TYPES } from "web-loading";
-
-const showFullscreenLoading = () => {
-  const loading = fullLoading({
-    text: "全屏加载中，2秒后自动关闭...",
-    bgColor: "rgba(0, 0, 0, 0.5)",
-    delay: 200,
-    model: MODEL_TYPES.RING
-  });
-
-  loading.loading(document.body);
-
-  setTimeout(() => {
-    loading.close();
-  }, 2000);
-};
+const showFullscreenLoading = () => {};
 </script>
 
 <style scoped>

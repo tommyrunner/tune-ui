@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import collapseBasic from '../examples/collapse/basic.vue'
+import collapseAccordion from '../examples/collapse/accordion.vue'
+import collapseCustom from '../examples/collapse/custom.vue'
+import collapseNested from '../examples/collapse/nested.vue'
+import collapseDisabled from '../examples/collapse/disabled.vue'
+import collapseIcon from '../examples/collapse/icon.vue'
+</script>
+
 # 折叠面板组件
 
 ![折叠面板组件](/components/collapse.png)
@@ -8,37 +17,37 @@
 
 基础的折叠面板用法，点击面板标题切换内容区域的展开/折叠状态。
 
-<demo component-name="collapse" examples="basic"></demo>
+<demo :component="collapseBasic" name="collapse" examples="basic" />
 
 ## 手风琴模式
 
 设置 `accordion` 属性为 `true` 可以启用手风琴模式，同时只能展开一个面板。
 
-<demo component-name="collapse" examples="accordion"></demo>
+<demo :component="collapseAccordion" name="collapse" examples="accordion" />
 
 ## 自定义样式
 
 可以通过设置相关属性自定义折叠面板的样式，如背景颜色、边框等。
 
-<demo component-name="collapse" examples="custom"></demo>
+<demo :component="collapseCustom" name="collapse" examples="custom" />
 
 ## 嵌套面板
 
 折叠面板可以嵌套使用，实现多层级的内容组织。
 
-<demo component-name="collapse" examples="nested"></demo>
+<demo :component="collapseNested" name="collapse" examples="nested" />
 
 ## 禁用状态
 
 通过在面板项上设置 `disabled` 属性可以禁用特定的面板项。
 
-<demo component-name="collapse" examples="disabled"></demo>
+<demo :component="collapseDisabled" name="collapse" examples="disabled" />
 
 ## 自定义图标
 
 设置 `rightIcon` 属性可以自定义展开/折叠的图标，还可以通过插槽完全自定义标题区域。
 
-<demo component-name="collapse" examples="icon"></demo>
+<demo :component="collapseIcon" name="collapse" examples="icon" />
 
 ## 折叠面板 API
 

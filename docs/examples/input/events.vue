@@ -21,7 +21,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TInput } from "tune-ui";
+
 
 const inputValue = ref("");
 const eventLogs = ref([]);

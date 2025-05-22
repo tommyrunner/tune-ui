@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { TImage } from "tune-ui";
+
 
 // 图片适应类型
 const fitTypes = ["fill", "contain", "cover", "none", "scale-down"];

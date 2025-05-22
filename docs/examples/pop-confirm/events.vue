@@ -43,7 +43,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TPopConfirm, TButton } from "tune-ui";
+
 
 // 事件日志
 const logs = ref([]);

@@ -44,7 +44,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { TDialog, TButton } from "tune-ui";
+
 
 const dialogVisible = ref(false);
 const isDraggable = ref(true);

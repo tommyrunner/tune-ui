@@ -2,12 +2,7 @@
   <div class="demo-block-wrapper">
     <div class="demo-container">
       <div class="demo-content">
-        <!-- 组件加载状态 -->
-        <div v-if="isComponentLoading" class="loading-container">
-          <div class="loading-spinner"></div>
-          <span>组件加载中...</span>
-        </div>
-        <component v-else :is="demoComponent" />
+        <component :is="props.component" />
       </div>
     </div>
 
@@ -65,86 +60,101 @@
 </template>
 
 <script lang="ts" setup name="Demo">
-import { ref, computed, onMounted, defineAsyncComponent } from "vue";
+import { ref, computed, onMounted, type Component } from "vue";
 import { highlight } from "../../utils/highlight";
 
+/**
+ * @description Demo组件Props类型定义
+ * @interface PropsType
+ */
 interface PropsType {
-  componentName?: string;
-  examples?: string;
+  /** 要展示的组件 */
+  component: Component;
+  /** 组件名称 */
+  name: string;
+  /** 示例名称 */
+  examples: string;
 }
 
-const props = withDefaults(defineProps<PropsType>(), {
-  componentName: "",
-  examples: ""
-});
+const props = withDefaults(defineProps<PropsType>(), {});
 
 // 状态管理
 const isExpanded = ref(false);
 const copied = ref(false);
 const sourceCode = ref("");
-const isComponentLoading = ref(true);
 const isCodeLoading = ref(false);
 
-// 组件路径
+/**
+ * 组件路径计算
+ * @returns {string} 组件示例路径
+ */
 const componentPath = computed(() => {
-  if (props.componentName && props.examples) {
-    return `/tune-ui/examples/${props.componentName}/${props.examples}.vue`;
-  }
-  return "";
+  return `/tune-ui/examples/${props.name}/${props.examples}.vue`;
 });
 
-// 动态导入组件
-const demoComponent = computed(() => {
-  if (componentPath.value) {
-    const asyncComponent = defineAsyncComponent({
-      loader: () => import(/* @vite-ignore */ componentPath.value),
-      delay: 0,
-      onError(error, retry, fail, attempts) {
-        if (attempts <= 3) {
-          console.warn(`组件加载失败，正在重试 (${attempts}/3)...`);
-          retry();
-        } else {
-          console.error("组件加载失败:", error);
-          fail();
-          isComponentLoading.value = false;
-        }
-      }
-    });
-    return asyncComponent;
-  }
-  return {} as any;
-});
-
-// 代码高亮处理
+/**
+ * 代码高亮处理
+ * @returns {string} 高亮后的HTML代码
+ */
 const highlightedCode = computed(() => {
   if (!sourceCode.value) return "";
   return highlight(sourceCode.value, "vue");
 });
 
-// GitHub链接
+/**
+ * GitHub链接
+ * @returns {string} GitHub源码链接
+ */
 const githubHref = computed(() => {
-  const { componentName } = props;
-  return componentName
-    ? `https://github1s.com/tommyrunner/tune-ui/tree/master/src/packages/${componentName}`
+  return props.name
+    ? `https://github1s.com/tommyrunner/tune-ui/tree/master/src/packages/${props.name}`
     : "https://github1s.com/tommyrunner/tune-ui";
 });
 
-// 加载源代码
+/**
+ * 加载源代码
+ * @returns {Promise<void>}
+ */
 const loadSourceCode = async () => {
   try {
     if (componentPath.value) {
       isCodeLoading.value = true;
-      const code = await import(/* @vite-ignore */ `${componentPath.value}?raw`);
-      sourceCode.value = code.default;
+
+      // 判断当前环境
+      if (import.meta.env.PROD) {
+        // 生产环境：使用fetch请求获取文件内容
+        try {
+          const response = await fetch(componentPath.value);
+          if (!response.ok) {
+            throw new Error(`${componentPath.value} 文件不存在`);
+          }
+          sourceCode.value = await response.text();
+        } catch (fetchError) {
+          console.error("Fetch加载源代码失败:", fetchError);
+          sourceCode.value = `// 无法加载 ${props.name}/${props.examples} 的示例代码`;
+        }
+      } else {
+        // 开发环境：使用import方式加载
+        try {
+          const code = await import(`${componentPath.value}?raw`);
+          sourceCode.value = code.default;
+        } catch (importError) {
+          console.error("Import加载源代码失败:", importError);
+          sourceCode.value = `// 无法加载 ${props.name}/${props.examples} 的示例代码`;
+        }
+      }
     }
   } catch (error) {
     console.error("加载源代码失败:", error);
+    sourceCode.value = `// 无法加载 ${props.name}/${props.examples} 的示例代码`;
   } finally {
     isCodeLoading.value = false;
   }
 };
 
-// 切换展开状态
+/**
+ * 切换展开状态
+ */
 const toggleExpand = () => {
   isExpanded.value = !isExpanded.value;
   if (isExpanded.value && !sourceCode.value) {
@@ -152,17 +162,25 @@ const toggleExpand = () => {
   }
 };
 
-// 打开GitHub源码
+/**
+ * 打开GitHub源码
+ */
 const openGithub = () => {
   window.open(githubHref.value, "_blank");
 };
 
-// 获取并复制代码
+/**
+ * 获取源代码文本
+ * @returns {string} 源代码文本
+ */
 const getSourceCode = () => {
   const highlight = document.querySelector(".code-wrapper pre");
   return highlight?.textContent || sourceCode.value || "";
 };
 
+/**
+ * 复制代码到剪贴板
+ */
 const copyCode = async () => {
   if (copied.value) return;
 
@@ -178,10 +196,7 @@ const copyCode = async () => {
 
 // 组件初始化
 onMounted(() => {
-  setTimeout(() => {
-    isComponentLoading.value = false;
-  }, 300);
-
+  // 加载源代码
   if (componentPath.value) {
     loadSourceCode();
   }

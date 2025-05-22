@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import tagBasic from '../examples/tag/basic.vue'
+import tagSize from '../examples/tag/size.vue'
+import tagClosable from '../examples/tag/closable.vue'
+import tagRound from '../examples/tag/round.vue'
+import tagDisabled from '../examples/tag/disabled.vue'
+</script>
+
 # 标签组件
 
 ![标签组件](/components/tag.png)
@@ -8,31 +16,31 @@
 
 标签有多种类型：默认、主要、成功、信息、警告和危险。
 
-<demo component-name="tag" examples="basic"></demo>
+<demo :component="tagBasic" name="tag" examples="basic" />
 
 ## 不同尺寸
 
 标签提供三种尺寸：small、default 和 large。
 
-<demo component-name="tag" examples="size"></demo>
+<demo :component="tagSize" name="tag" examples="size" />
 
 ## 可关闭标签
 
 设置 `closable` 属性可以让标签显示关闭按钮，点击关闭按钮会触发 `close` 事件。
 
-<demo component-name="tag" examples="closable"></demo>
+<demo :component="tagClosable" name="tag" examples="closable" />
 
 ## 圆角标签
 
 设置 `round` 属性可以让标签变成圆角形状。
 
-<demo component-name="tag" examples="round"></demo>
+<demo :component="tagRound" name="tag" examples="round" />
 
 ## 禁用状态
 
 设置 `disabled` 属性可以禁用标签交互功能。
 
-<demo component-name="tag" examples="disabled"></demo>
+<demo :component="tagDisabled" name="tag" examples="disabled" />
 
 ## 标签 API
 

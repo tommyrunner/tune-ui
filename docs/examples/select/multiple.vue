@@ -25,7 +25,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSelect, TTag } from "tune-ui";
 
 const value = ref([]);
 const filterValue = ref([]);

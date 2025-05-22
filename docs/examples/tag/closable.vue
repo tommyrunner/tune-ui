@@ -9,7 +9,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTag } from "tune-ui";
+
 
 const initialTags = [
   { text: "标签一", type: "default" },

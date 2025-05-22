@@ -24,7 +24,7 @@
 
 <script setup>
 import { reactive } from "vue";
-import { TColorPicker } from "tune-ui";
+
 
 // 不同格式的颜色值
 const colors = reactive({

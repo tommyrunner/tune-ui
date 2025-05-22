@@ -1,3 +1,15 @@
+<script setup lang="ts">
+import datePickerBasic from '../examples/date-picker/basic.vue'
+import datePickerSize from '../examples/date-picker/size.vue'
+import datePickerStatus from '../examples/date-picker/status.vue'
+import datePickerFormat from '../examples/date-picker/format.vue'
+import datePickerModes from '../examples/date-picker/modes.vue'
+import datePickerDateTime from '../examples/date-picker/date-time.vue'
+import datePickerDisabledDate from '../examples/date-picker/disabled-date.vue'
+import datePickerPosition from '../examples/date-picker/position.vue'
+import datePickerEvents from '../examples/date-picker/events.vue'
+</script>
+
 # 日期选择器组件
 
 ![日期选择器组件](/components/date-picker.png)
@@ -8,55 +20,55 @@
 
 使用 `v-model` 绑定日期值，默认情况下值为 `Date` 对象。
 
-<demo component-name="date-picker" examples="basic"></demo>
+<demo :component="datePickerBasic" name="date-picker" examples="basic" />
 
 ## 不同尺寸
 
 组件提供了三种尺寸：small、default、large。
 
-<demo component-name="date-picker" examples="size"></demo>
+<demo :component="datePickerSize" name="date-picker" examples="size" />
 
 ## 不同状态
 
 组件可以设置为禁用、只读、不可清除等不同状态。
 
-<demo component-name="date-picker" examples="status"></demo>
+<demo :component="datePickerStatus" name="date-picker" examples="status" />
 
 ## 格式化
 
 可以使用 `value-format` 和 `format` 分别控制值的格式和显示格式。
 
-<demo component-name="date-picker" examples="format"></demo>
+<demo :component="datePickerFormat" name="date-picker" examples="format" />
 
 ## 不同模式
 
 日期选择器支持多种选择模式：日期、月份和年份。
 
-<demo component-name="date-picker" examples="modes"></demo>
+<demo :component="datePickerModes" name="date-picker" examples="modes" />
 
 ## 日期时间选择
 
 设置 `show-time` 属性可以在选择日期的同时选择时间。
 
-<demo component-name="date-picker" examples="date-time"></demo>
+<demo :component="datePickerDateTime" name="date-picker" examples="datetime" />
 
 ## 禁用日期
 
 通过 `disabled-date` 函数可以自定义哪些日期不可选择。
 
-<demo component-name="date-picker" examples="disabled-date"></demo>
+<demo :component="datePickerDisabledDate" name="date-picker" examples="disableddate" />
 
 ## 自定义位置
 
 通过 `position` 属性可以设置下拉面板的弹出位置。
 
-<demo component-name="date-picker" examples="position"></demo>
+<demo :component="datePickerPosition" name="date-picker" examples="position" />
 
 ## 事件处理
 
 日期选择器提供了多种事件，如 `change`、`clear`、`focus` 等。
 
-<demo component-name="date-picker" examples="events"></demo>
+<demo :component="datePickerEvents" name="date-picker" examples="events" />
 
 ## 日期选择器组件 API
 

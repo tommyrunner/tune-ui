@@ -21,10 +21,6 @@
   </div>
 </template>
 
-<script setup>
-import { TIcon } from "tune-ui";
-</script>
-
 <style scoped>
 .icon-demo {
   padding: 16px 0;

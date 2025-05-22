@@ -1,9 +1,7 @@
 <template>
   <div class="back-top-demo">
     <div class="scroll-container">
-      <p v-for="i in 30" :key="i" class="paragraph">
-        这是第 {{ i }} 行示例文本，请向下滚动查看自定义内容的回到顶部按钮。
-      </p>
+      <p v-for="i in 30" :key="i" class="paragraph">这是第 {{ i }} 行示例文本，请向下滚动查看自定义内容的回到顶部按钮。</p>
     </div>
     <t-back-top target=".scroll-container" :right="'120px'">
       <div class="custom-back-top">
@@ -18,10 +16,6 @@
     </t-back-top>
   </div>
 </template>
-
-<script setup>
-import { TBackTop, TIcon } from "tune-ui";
-</script>
 
 <style scoped>
 .back-top-demo {
@@ -56,4 +50,4 @@ import { TBackTop, TIcon } from "tune-ui";
   justify-content: center;
   padding: 0;
 }
-</style> 
+</style>

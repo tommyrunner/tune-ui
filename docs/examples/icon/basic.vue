@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { TIcon } from "tune-ui";
+
 
 // 常用图标列表
 const commonIcons = [

@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTabs, TTabsGroup } from "tune-ui";
+
 
 const activeTab = ref("home");
 </script>

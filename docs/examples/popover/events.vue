@@ -47,7 +47,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TPopover, TButton } from "tune-ui";
+
 
 // 事件日志
 const logs = ref([]);

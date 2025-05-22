@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import selectBasic from '../examples/select/basic.vue'
+import selectDisabled from '../examples/select/disabled.vue'
+import selectSize from '../examples/select/size.vue'
+import selectClearable from '../examples/select/clearable.vue'
+import selectMultiple from '../examples/select/multiple.vue'
+import selectFilterable from '../examples/select/filterable.vue'
+import selectCustom from '../examples/select/custom.vue'
+import selectCascade from '../examples/select/cascade.vue'
+</script>
+
 # 选择器组件
 
 ![选择器组件](/components/select.png)
@@ -8,49 +19,49 @@
 
 基础选择器用于从下拉列表中选择单个选项。
 
-<demo component-name="select" examples="basic"></demo>
+<demo :component="selectBasic" name="select" examples="basic" />
 
 ## 禁用状态
 
 设置 `disabled` 属性可以禁用整个选择器，也可以在 `options` 中设置某个选项的 `disabled` 属性来禁用特定选项。
 
-<demo component-name="select" examples="disabled"></demo>
+<demo :component="selectDisabled" name="select" examples="disabled" />
 
 ## 不同尺寸
 
 选择器支持三种尺寸：small、default 和 large。
 
-<demo component-name="select" examples="size"></demo>
+<demo :component="selectSize" name="select" examples="size" />
 
 ## 可清空
 
 设置 `clearable` 属性可以创建一个可清空的选择器，允许用户快速清除已选项。
 
-<demo component-name="select" examples="clearable"></demo>
+<demo :component="selectClearable" name="select" examples="clearable" />
 
 ## 多选模式
 
 设置 `multiple` 属性可以启用多选模式，允许用户选择多个选项。
 
-<demo component-name="select" examples="multiple"></demo>
+<demo :component="selectMultiple" name="select" examples="multiple" />
 
 ## 可过滤和远程搜索
 
 设置 `filterable` 属性可以启用过滤功能，支持本地过滤，也可以通过 `remote-method` 实现远程搜索。
 
-<demo component-name="select" examples="filterable"></demo>
+<demo :component="selectFilterable" name="select" examples="filterable" />
 
 ## 自定义选项
 
 选择器支持通过插槽自定义选项内容和前缀图标等。
 
-<demo component-name="select" examples="custom"></demo>
+<demo :component="selectCustom" name="select" examples="custom" />
 
 ## 级联选择
 
 选择器支持级联选择功能，通过 `children` 属性配置多级数据。
 
-<demo component-name="select" examples="cascade"></demo>
+<demo :component="selectCascade" name="select" examples="cascade" />
 
 ## 选择器 API
 

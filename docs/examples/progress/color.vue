@@ -34,7 +34,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TProgress, TButton } from "tune-ui";
+
 
 // 百分比进度
 const percentage = ref(50);

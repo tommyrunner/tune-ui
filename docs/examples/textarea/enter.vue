@@ -15,7 +15,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTextarea } from "tune-ui";
+
 
 const enterValue = ref("");
 const noEnterValue = ref("");

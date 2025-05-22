@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import listViewBasic from '../examples/list-view/basic.vue'
+import listViewEmpty from '../examples/list-view/empty.vue'
+import listViewVirtual from '../examples/list-view/virtual.vue'
+import listViewFixed from '../examples/list-view/fixed.vue'
+import listViewSlots from '../examples/list-view/slots.vue'
+</script>
+
 # 列表视图组件
 
 ![列表视图组件](/components/list-view.png)
@@ -8,31 +16,31 @@
 
 基础列表视图用于展示一组数据。
 
-<demo component-name="list-view" examples="basic"></demo>
+<demo :component="listViewBasic" name="list-view" examples="basic" />
 
 ## 空数据展示
 
 当列表数据为空时，会显示空状态提示。
 
-<demo component-name="list-view" examples="empty"></demo>
+<demo :component="listViewEmpty" name="list-view" examples="empty" />
 
 ## 虚拟滚动
 
 当需要展示大量数据时，可以启用虚拟滚动以提高性能。
 
-<demo component-name="list-view" examples="virtual"></demo>
+<demo :component="listViewVirtual" name="list-view" examples="virtual" />
 
 ## 固定项
 
 通过 `itemFixed` 属性可以设置特定项固定不随滚动而移动。
 
-<demo component-name="list-view" examples="fixed"></demo>
+<demo :component="listViewFixed" name="list-view" examples="fixed" />
 
 ## 列表插槽
 
 列表视图提供了头部和底部插槽，用于添加额外的内容。
 
-<demo component-name="list-view" examples="slots"></demo>
+<demo :component="listViewSlots" name="list-view" examples="slots" />
 
 ## 列表视图 API
 

@@ -19,10 +19,6 @@
   </div>
 </template>
 
-<script setup>
-import { TProgress } from "tune-ui";
-</script>
-
 <style scoped>
 .progress-demo {
   width: 100%;

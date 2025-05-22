@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { TMessage, TButton } from "tune-ui";
+
 
 /**
  * 显示手动关闭消息

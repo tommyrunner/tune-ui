@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTabs, TTabsGroup } from "tune-ui";
+
 
 const lineType = ref("tab1");
 const blockType = ref("tab1");

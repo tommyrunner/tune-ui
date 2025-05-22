@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TRadio, TRadioGroup } from "tune-ui";
+
 
 const radioValue = ref(true);
 const groupValue = ref("1");

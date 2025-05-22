@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import textareaBasic from '../examples/textarea/basic.vue'
+import textareaDisabled from '../examples/textarea/disabled.vue'
+import textareaResize from '../examples/textarea/resize.vue'
+import textareaEnter from '../examples/textarea/enter.vue'
+import textareaMaxlength from '../examples/textarea/maxlength.vue'
+import textareaDebounce from '../examples/textarea/debounce.vue'
+import textareaSize from '../examples/textarea/size.vue'
+import textareaEvents from '../examples/textarea/events.vue'
+</script>
+
 # 文本域组件
 
 ![文本域组件](/components/textarea.png)
@@ -8,49 +19,49 @@
 
 基础的文本域用法，通过`v-model`绑定文本域的值。
 
-<demo component-name="textarea" examples="basic"></demo>
+<demo :component="textareaBasic" name="textarea" examples="basic" />
 
 ## 禁用状态
 
 添加`disabled`属性可以禁用文本域。
 
-<demo component-name="textarea" examples="disabled"></demo>
+<demo :component="textareaDisabled" name="textarea" examples="disabled" />
 
 ## 大小调整
 
 文本域默认可以调整大小，通过`isResize`属性可以控制是否允许调整大小。
 
-<demo component-name="textarea" examples="resize"></demo>
+<demo :component="textareaResize" name="textarea" examples="resize" />
 
 ## 换行控制
 
 文本域默认允许换行，通过`isEnter`属性可以控制是否允许换行。
 
-<demo component-name="textarea" examples="enter"></demo>
+<demo :component="textareaEnter" name="textarea" examples="enter" />
 
 ## 字数限制
 
 设置`maxLength`属性可以限制文本域的最大输入长度，默认会显示当前光标所在行数和字数统计，可以通过`isCursor`属性控制是否显示光标行数。
 
-<demo component-name="textarea" examples="maxlength"></demo>
+<demo :component="textareaMaxlength" name="textarea" examples="maxlength" />
 
 ## 防抖输入
 
 设置`debounce`属性可以实现防抖输入，延迟触发输入事件。
 
-<demo component-name="textarea" examples="debounce"></demo>
+<demo :component="textareaDebounce" name="textarea" examples="debounce" />
 
 ## 不同尺寸
 
 文本域支持三种尺寸：small、default 和 large。
 
-<demo component-name="textarea" examples="size"></demo>
+<demo :component="textareaSize" name="textarea" examples="size" />
 
 ## 事件处理
 
 文本域提供了多种事件：focus、blur、enter、input。
 
-<demo component-name="textarea" examples="events"></demo>
+<demo :component="textareaEvents" name="textarea" examples="events" />
 
 ## 文本域 API
 

@@ -11,10 +11,6 @@
   </div>
 </template>
 
-<script setup>
-import { TDivider } from "tune-ui";
-</script>
-
 <style scoped>
 .divider-demo {
   padding: 16px 0;

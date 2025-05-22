@@ -22,7 +22,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TRadio, TRadioGroup } from "tune-ui";
+
 
 const rowValue = ref("1");
 const columnValue = ref("1");

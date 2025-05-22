@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { TTable } from "tune-ui";
+
 
 // 固定列配置
 const fixedColumns = [

@@ -16,7 +16,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSlider } from "tune-ui";
+
 
 const value = ref(40);
 const value2 = ref(50);

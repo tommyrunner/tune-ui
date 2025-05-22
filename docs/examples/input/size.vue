@@ -15,10 +15,6 @@
   </div>
 </template>
 
-<script setup>
-import { TInput } from "tune-ui";
-</script>
-
 <style scoped>
 .input-demo {
   display: flex;

@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import rateBasic from '../examples/rate/basic.vue'
+import rateSize from '../examples/rate/size.vue'
+import rateCustomIcon from '../examples/rate/custom-icon.vue'
+import rateColor from '../examples/rate/color.vue'
+import rateMax from '../examples/rate/max.vue'
+import rateHalf from '../examples/rate/half.vue'
+import rateGap from '../examples/rate/gap.vue'
+import rateEvents from '../examples/rate/events.vue'
+</script>
+
 # 评分组件
 
 ![评分组件](/components/rate.png)
@@ -8,49 +19,49 @@
 
 基础的评分组件用法，通过 `v-model` 绑定评分值。
 
-<demo component-name="rate" examples="basic"></demo>
+<demo :component="rateBasic" name="rate" examples="basic" />
 
 ## 不同尺寸
 
 评分组件支持三种尺寸：small、default 和 large。
 
-<demo component-name="rate" examples="size"></demo>
+<demo :component="rateSize" name="rate" examples="size" />
 
 ## 自定义图标
 
 可以通过 `icon` 属性自定义评分组件的图标，包括未选中图标、半选图标和选中图标。
 
-<demo component-name="rate" examples="custom-icon"></demo>
+<demo :component="rateCustomIcon" name="rate" examples="customicon" />
 
 ## 自定义颜色
 
 通过 `color` 属性可以自定义不同分值下的颜色。
 
-<demo component-name="rate" examples="color"></demo>
+<demo :component="rateColor" name="rate" examples="color" />
 
 ## 最大评分值
 
 通过 `max` 属性设置评分组件的最大分值，默认为 5。
 
-<demo component-name="rate" examples="max"></demo>
+<demo :component="rateMax" name="rate" examples="max" />
 
 ## 半选模式
 
 评分组件默认支持半选模式，可以通过 `is-half` 属性控制是否启用半选。
 
-<demo component-name="rate" examples="half"></demo>
+<demo :component="rateHalf" name="rate" examples="half" />
 
 ## 自定义间距
 
 通过 `gap` 属性可以设置评分图标之间的间距，默认为 5px。
 
-<demo component-name="rate" examples="gap"></demo>
+<demo :component="rateGap" name="rate" examples="gap" />
 
 ## 事件处理
 
 评分组件提供了 `change` 事件，在评分值变化时触发。
 
-<demo component-name="rate" examples="events"></demo>
+<demo :component="rateEvents" name="rate" examples="events" />
 
 ## 评分组件 API
 

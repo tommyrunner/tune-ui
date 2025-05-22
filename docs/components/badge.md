@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import badgeBasic from '../examples/badge/basic.vue'
+import badgeDot from '../examples/badge/dot.vue'
+import badgeMax from '../examples/badge/max.vue'
+import badgeColor from '../examples/badge/color.vue'
+import badgeOffset from '../examples/badge/offset.vue'
+import badgeHidden from '../examples/badge/hidden.vue'
+</script>
+
 # 徽章
 
 ![徽章](/components/badge.png)
@@ -8,37 +17,37 @@
 
 徽章可以直接附加在其他元素上，通过 `value` 属性设置显示的数值。
 
-<demo component-name="badge" examples="basic"></demo>
+<demo :component="badgeBasic" name="badge" examples="basic" />
 
 ## 小圆点
 
 通过设置 `isDot` 属性，可以显示为一个小圆点，不显示具体数值。
 
-<demo component-name="badge" examples="dot"></demo>
+<demo :component="badgeDot" name="badge" examples="dot" />
 
 ## 最大值
 
 可以通过 `max` 属性设置最大显示数值，超过最大值时将显示为 "最大值+"。
 
-<demo component-name="badge" examples="max"></demo>
+<demo :component="badgeMax" name="badge" examples="max" />
 
 ## 自定义颜色
 
 通过 `color` 属性可以自定义徽章的背景颜色。
 
-<demo component-name="badge" examples="color"></demo>
+<demo :component="badgeColor" name="badge" examples="color" />
 
 ## 位置偏移
 
 可以通过 `offsetX` 和 `offsetY` 属性调整徽章的位置，实现灵活的位置定制。
 
-<demo component-name="badge" examples="offset"></demo>
+<demo :component="badgeOffset" name="badge" examples="offset" />
 
 ## 隐藏徽章
 
 通过设置 `hiddenValue` 属性，当数值等于隐藏值时，徽章将不显示。
 
-<demo component-name="badge" examples="hidden"></demo>
+<demo :component="badgeHidden" name="badge" examples="hidden" />
 
 ## 徽章 API
 

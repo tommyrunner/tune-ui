@@ -10,10 +10,6 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { TScrollbar } from "tune-ui";
-</script>
-
 <style scoped>
 .example-container {
   width: 100%;

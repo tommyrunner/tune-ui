@@ -7,7 +7,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TColorPicker } from "tune-ui";
+
 
 // 默认颜色值
 const color = ref("#409EFF");

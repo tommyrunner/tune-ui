@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import switchBasic from '../examples/switch/basic.vue'
+import switchDisabled from '../examples/switch/disabled.vue'
+import switchLoading from '../examples/switch/loading.vue'
+import switchRadius from '../examples/switch/radius.vue'
+import switchColor from '../examples/switch/color.vue'
+import switchSize from '../examples/switch/size.vue'
+import switchContent from '../examples/switch/content.vue'
+import switchEvents from '../examples/switch/events.vue'
+</script>
+
 # 开关组件
 
 ![开关组件](/components/switch.png)
@@ -8,49 +19,49 @@
 
 基础的开关用法，通过`v-model`绑定开关的值。
 
-<demo component-name="switch" examples="basic"></demo>
+<demo :component="switchBasic" name="switch" examples="basic" />
 
 ## 禁用状态
 
 设置`disabled`属性可以禁用开关。
 
-<demo component-name="switch" examples="disabled"></demo>
+<demo :component="switchDisabled" name="switch" examples="disabled" />
 
 ## 加载状态
 
 设置`loading`属性可以显示加载状态。
 
-<demo component-name="switch" examples="loading"></demo>
+<demo :component="switchLoading" name="switch" examples="loading" />
 
 ## 不同样式
 
 设置`radius`属性可以改变开关的样式，支持`default`（圆形）和`square`（方形）。
 
-<demo component-name="switch" examples="radius"></demo>
+<demo :component="switchRadius" name="switch" examples="radius" />
 
 ## 自定义颜色
 
 通过`onBgColor`和`offBgColor`属性可以自定义开关的背景颜色。
 
-<demo component-name="switch" examples="color"></demo>
+<demo :component="switchColor" name="switch" examples="color" />
 
 ## 不同尺寸
 
 开关支持三种尺寸：small、default 和 large。
 
-<demo component-name="switch" examples="size"></demo>
+<demo :component="switchSize" name="switch" examples="size" />
 
 ## 自定义内容
 
 使用`onContent`和`offContent`插槽可以自定义开关的内容。
 
-<demo component-name="switch" examples="content"></demo>
+<demo :component="switchContent" name="switch" examples="content" />
 
 ## 事件处理
 
 开关提供了`change`事件，在状态改变时触发。
 
-<demo component-name="switch" examples="events"></demo>
+<demo :component="switchEvents" name="switch" examples="events" />
 
 ## 开关 API
 

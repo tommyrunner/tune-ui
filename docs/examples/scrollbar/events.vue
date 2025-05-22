@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { TScrollbar } from "tune-ui";
+
 
 const scrollYPosition = ref(0);
 const scrollXPosition = ref(0);

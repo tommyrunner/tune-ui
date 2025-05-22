@@ -55,7 +55,7 @@ max-width: {{ maxWidth }}</code></pre>
 
 <script setup>
 import { ref, computed } from "vue";
-import { TPopConfirm, TButton } from "tune-ui";
+
 
 // 样式配置
 const padding = ref("medium");

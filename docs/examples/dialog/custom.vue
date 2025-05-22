@@ -45,7 +45,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { TDialog, TButton, TInput, TSwitch } from "tune-ui";
+
 
 const dialogVisible = ref(false);
 const width = ref("50%");

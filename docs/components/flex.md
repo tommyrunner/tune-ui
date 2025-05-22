@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import flexBasic from '../examples/flex/basic.vue'
+import flexGrid from '../examples/flex/grid.vue'
+import flexSort from '../examples/flex/sort.vue'
+import flexAlign from '../examples/flex/align.vue'
+import flexGap from '../examples/flex/gap.vue'
+import flexResponsive from '../examples/flex/responsive.vue'
+</script>
+
 # Flex 弹性布局
 
 ![Flex 弹性布局](/components/flex.png)
@@ -8,37 +17,37 @@ Flex 组件是一个基于 Flexbox 布局模型的容器组件，用于创建灵
 
 使用 `t-flex` 和 `t-flex-group` 组件创建简单的弹性布局。
 
-<demo component-name="flex" examples="basic"></demo>
+<demo :component="flexBasic" name="flex" examples="basic" />
 
 ## 栅格配置
 
 通过 `span` 和 `offset` 属性创建栅格布局，总栅格数为10。
 
-<demo component-name="flex" examples="grid"></demo>
+<demo :component="flexGrid" name="flex" examples="grid" />
 
 ## 排序
 
 使用 `sort` 属性控制元素的显示顺序。
 
-<demo component-name="flex" examples="sort"></demo>
+<demo :component="flexSort" name="flex" examples="sort" />
 
 ## 对齐方式
 
 通过 `justify` 和 `align` 属性设置弹性容器内元素的对齐方式。
 
-<demo component-name="flex" examples="align"></demo>
+<demo :component="flexAlign" name="flex" examples="align" />
 
 ## 间距设置
 
 使用 `gap` 属性设置元素之间的间距。
 
-<demo component-name="flex" examples="gap"></demo>
+<demo :component="flexGap" name="flex" examples="gap" />
 
 ## 响应式布局
 
 Flex 组件支持响应式布局，可以根据不同屏幕尺寸自动调整布局。
 
-<demo component-name="flex" examples="responsive"></demo>
+<demo :component="flexResponsive" name="flex" examples="responsive" />
 
 ## Flex API
 

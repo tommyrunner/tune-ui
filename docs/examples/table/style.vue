@@ -32,7 +32,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { TTable, TColorPicker } from "tune-ui";
+
 
 // 样式配置
 const headBgColor = ref("#f8fafc");

@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TInputNumber } from "tune-ui";
+
 
 const rangeValue = ref([0, 100]);
 </script>

@@ -3,24 +3,20 @@
     <t-badge :value="12" color="#1890ff">
       <div class="badge-box">蓝色徽章</div>
     </t-badge>
-    
+
     <t-badge :value="12" color="#52c41a">
       <div class="badge-box">绿色徽章</div>
     </t-badge>
-    
+
     <t-badge :value="12" color="#722ed1">
       <div class="badge-box">紫色徽章</div>
     </t-badge>
-    
+
     <t-badge :value="12" color="#faad14">
       <div class="badge-box">黄色徽章</div>
     </t-badge>
   </div>
 </template>
-
-<script setup>
-import { TBadge } from "tune-ui";
-</script>
 
 <style scoped>
 .badge-demo {
@@ -40,4 +36,4 @@ import { TBadge } from "tune-ui";
   font-size: 14px;
   color: #606266;
 }
-</style> 
+</style>

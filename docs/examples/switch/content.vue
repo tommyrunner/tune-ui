@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSwitch, TIcon } from "tune-ui";
+
 
 const switchValue = ref(true);
 const switchIcon = ref(true);

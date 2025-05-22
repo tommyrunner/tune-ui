@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import breadcrumbBasic from '../examples/breadcrumb/basic.vue'
+import breadcrumbSeparator from '../examples/breadcrumb/separator.vue'
+import breadcrumbIcon from '../examples/breadcrumb/icon.vue'
+import breadcrumbRouter from '../examples/breadcrumb/router.vue'
+import breadcrumbDisabled from '../examples/breadcrumb/disabled.vue'
+import breadcrumbGap from '../examples/breadcrumb/gap.vue'
+</script>
+
 # 面包屑组件
 
 ![面包屑组件](/components/breadcrumb.png)
@@ -8,37 +17,37 @@
 
 基础的面包屑用法，展示层级结构。
 
-<demo component-name="breadcrumb" examples="basic"></demo>
+<demo :component="breadcrumbBasic" name="breadcrumb" examples="basic" />
 
 ## 自定义分隔符
 
 通过设置 `separatedIcon` 属性可以自定义分隔符图标，不设置则使用默认的 `/` 符号。
 
-<demo component-name="breadcrumb" examples="separator"></demo>
+<demo :component="breadcrumbSeparator" name="breadcrumb" examples="separator" />
 
 ## 带图标的面包屑
 
 通过在 `options` 中设置 `icon` 属性为每个面包屑项添加图标。
 
-<demo component-name="breadcrumb" examples="icon"></demo>
+<demo :component="breadcrumbIcon" name="breadcrumb" examples="icon" />
 
 ## 路由跳转
 
 设置 `isRouter` 属性可以启用路由跳转功能，配合 `options` 中的 `to` 属性使用。
 
-<demo component-name="breadcrumb" examples="router"></demo>
+<demo :component="breadcrumbRouter" name="breadcrumb" examples="router" />
 
 ## 禁用状态
 
 在 `options` 中设置 `disabled` 属性可以禁用特定的面包屑项。
 
-<demo component-name="breadcrumb" examples="disabled"></demo>
+<demo :component="breadcrumbDisabled" name="breadcrumb" examples="disabled" />
 
 ## 自定义间距
 
 通过设置 `gap` 属性可以自定义分隔符与内容之间的间距。
 
-<demo component-name="breadcrumb" examples="gap"></demo>
+<demo :component="breadcrumbGap" name="breadcrumb" examples="gap" />
 
 ## 面包屑 API
 

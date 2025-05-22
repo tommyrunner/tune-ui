@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import tabsBasic from '../examples/tabs/basic.vue'
+import tabsType from '../examples/tabs/type.vue'
+import tabsGap from '../examples/tabs/gap.vue'
+import tabsHeight from '../examples/tabs/height.vue'
+import tabsIcon from '../examples/tabs/icon.vue'
+import tabsClose from '../examples/tabs/close.vue'
+import tabsDisabled from '../examples/tabs/disabled.vue'
+</script>
+
 # 标签页组件
 
 ![标签页组件](/components/tabs.png)
@@ -8,43 +18,43 @@
 
 基础的标签页用法，展示默认的线条样式标签页。
 
-<demo component-name="tabs" examples="basic"></demo>
+<demo :component="tabsBasic" name="tabs" examples="basic" />
 
 ## 不同类型
 
 标签页组件提供了三种不同的类型：线条样式（line）、块状样式（block）和边框样式（border）。
 
-<demo component-name="tabs" examples="type"></demo>
+<demo :component="tabsType" name="tabs" examples="type" />
 
 ## 自定义间距
 
 通过设置 `gap` 属性可以自定义标签页之间的间距，设置为 `0` 时标签页将充满整个容器。
 
-<demo component-name="tabs" examples="gap"></demo>
+<demo :component="tabsGap" name="tabs" examples="gap" />
 
 ## 自定义高度
 
 通过设置 `height` 属性可以自定义标签页的高度。
 
-<demo component-name="tabs" examples="height"></demo>
+<demo :component="tabsHeight" name="tabs" examples="height" />
 
 ## 带图标的标签页
 
 通过在 `TTabs` 组件上使用 `icon` 属性可以为标签页添加图标。
 
-<demo component-name="tabs" examples="icon"></demo>
+<demo :component="tabsIcon" name="tabs" examples="icon" />
 
 ## 带关闭按钮
 
 设置 `is-close` 属性为 `true` 可以启用标签页的关闭功能。
 
-<demo component-name="tabs" examples="close"></demo>
+<demo :component="tabsClose" name="tabs" examples="close" />
 
 ## 禁用状态
 
 在 `TTabs` 组件上设置 `disabled` 属性可以禁用特定的标签页。
 
-<demo component-name="tabs" examples="disabled"></demo>
+<demo :component="tabsDisabled" name="tabs" examples="disabled" />
 
 ## 标签页 API
 

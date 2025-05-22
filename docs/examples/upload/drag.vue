@@ -10,10 +10,6 @@
   </div>
 </template>
 
-<script setup>
-import { TUpload, TIcon } from "tune-ui";
-</script>
-
 <style scoped>
 .upload-demo {
   width: 100%;

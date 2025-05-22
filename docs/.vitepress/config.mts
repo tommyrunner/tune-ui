@@ -1,5 +1,6 @@
 import { defineConfig } from "vitepress";
 import { resolve } from "path";
+import fs from "fs";
 import locales from "./config/locales";
 
 /**
@@ -26,7 +27,8 @@ export default defineConfig({
 
     // 依赖优化配置
     optimizeDeps: {
-      include: ["vue", "vue-router"]
+      include: ["vue", "vue-router"],
+      exclude: ["tune-ui"]
     },
 
     // 开发服务器配置
@@ -50,12 +52,58 @@ export default defineConfig({
       }
     },
 
-    // 禁用ssr外部化，防止组件被跳过处理
+    // 确保tune-ui只在客户端加载，不在SSR阶段处理
     ssr: {
-      noExternal: ["tune-ui"]
+      external: ["tune-ui"]
     }
+  },
+
+  // 构建后钩子：复制examples目录到dist
+  buildEnd() {
+    // 默认的VitePress输出目录是 docs/.vitepress/dist
+    const distDir = resolve(__dirname, "dist");
+    const examplesSourceDir = resolve(__dirname, "../examples");
+    const examplesTargetDir = resolve(distDir, "examples");
+
+    // 确保examples目标目录存在
+    if (!fs.existsSync(examplesTargetDir)) {
+      fs.mkdirSync(examplesTargetDir, { recursive: true });
+    }
+
+    // 复制examples目录到dist/examples
+    copyDirectorySync(examplesSourceDir, examplesTargetDir);
+    console.log("✓ Examples目录已复制到dist/examples");
   },
 
   // 国际化配置
   locales
 });
+
+/**
+ * 递归复制目录及其内容
+ * @param source 源目录
+ * @param target 目标目录
+ */
+function copyDirectorySync(source, target) {
+  // 如果目标目录不存在则创建
+  if (!fs.existsSync(target)) {
+    fs.mkdirSync(target, { recursive: true });
+  }
+
+  // 读取源目录内容
+  const files = fs.readdirSync(source, { withFileTypes: true });
+
+  // 复制每个文件/目录
+  for (const file of files) {
+    const sourcePath = resolve(source, file.name);
+    const targetPath = resolve(target, file.name);
+
+    if (file.isDirectory()) {
+      // 递归复制子目录
+      copyDirectorySync(sourcePath, targetPath);
+    } else {
+      // 复制文件
+      fs.copyFileSync(sourcePath, targetPath);
+    }
+  }
+}

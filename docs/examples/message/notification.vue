@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { TNotification, TButton } from "tune-ui";
+
 
 /**
  * 显示不同位置的通知

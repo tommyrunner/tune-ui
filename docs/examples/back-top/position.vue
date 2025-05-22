@@ -1,9 +1,7 @@
 <template>
   <div class="back-top-demo">
     <div class="scroll-container">
-      <p v-for="i in 30" :key="i" class="paragraph">
-        这是第 {{ i }} 行示例文本，请向下滚动查看不同位置的回到顶部按钮。
-      </p>
+      <p v-for="i in 30" :key="i" class="paragraph">这是第 {{ i }} 行示例文本，请向下滚动查看不同位置的回到顶部按钮。</p>
     </div>
     <div class="demo-controller">
       <div class="control-item">
@@ -15,17 +13,12 @@
         <t-slider v-model="bottom" :min="20" :max="150" />
       </div>
     </div>
-    <t-back-top 
-      target=".scroll-container" 
-      :right="`${right}px`" 
-      :bottom="`${bottom}px`" 
-    />
+    <t-back-top target=".scroll-container" :right="`${right}px`" :bottom="`${bottom}px`" />
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { TBackTop, TSlider } from "tune-ui";
 
 const right = ref(32);
 const bottom = ref(32);
@@ -58,4 +51,4 @@ const bottom = ref(32);
   flex-direction: column;
   gap: 8px;
 }
-</style> 
+</style>

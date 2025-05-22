@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import carouselBasic from '../examples/carousel/basic.vue'
+import carouselSize from '../examples/carousel/size.vue'
+import carouselAutoplay from '../examples/carousel/autoplay.vue'
+import carouselToggle from '../examples/carousel/toggle.vue'
+import carouselIndicator from '../examples/carousel/indicator.vue'
+import carouselVertical from '../examples/carousel/vertical.vue'
+import carouselEvents from '../examples/carousel/events.vue'
+</script>
+
 # 轮播组件
 
 ![轮播组件](/components/carousel.png)
@@ -8,43 +18,43 @@
 
 轮播组件由 `TCarouselGroup` 容器和多个 `TCarousel` 项组成，默认展示水平方向轮播。
 
-<demo component-name="carousel" examples="basic"></demo>
+<demo :component="carouselBasic" name="carousel" examples="basic" />
 
 ## 尺寸与初始位置
 
 通过 `width` 和 `height` 属性设置轮播容器尺寸，`initIndex` 属性设置初始显示项的索引。
 
-<demo component-name="carousel" examples="size"></demo>
+<demo :component="carouselSize" name="carousel" examples="size" />
 
 ## 自动播放
 
 设置 `autoplay` 属性启用自动播放，`delay` 控制间隔时间，`autoplayBack` 控制播放方向，`pauseOnHover` 控制鼠标悬停是否暂停。
 
-<demo component-name="carousel" examples="autoplay"></demo>
+<demo :component="carouselAutoplay" name="carousel" examples="autoplay" />
 
 ## 切换效果
 
 通过 `toggle` 属性配置不同的切换效果，包括视觉差（vision）、重复（repeat）、反复（repeatedly）和不循环（none）模式，`animation` 属性控制是否启用动画。
 
-<demo component-name="carousel" examples="toggle"></demo>
+<demo :component="carouselToggle" name="carousel" examples="toggle" />
 
 ## 指示器与箭头
 
 `trigger` 属性配置指示器触发方式（hover、click、none），`arrow` 属性控制切换箭头的显示时机（always、hover、none）。
 
-<demo component-name="carousel" examples="indicator"></demo>
+<demo :component="carouselIndicator" name="carousel" examples="indicator" />
 
 ## 垂直方向轮播
 
 设置 `direction` 属性为 `vertical` 可实现垂直方向轮播，默认为 `horizontal`。
 
-<demo component-name="carousel" examples="vertical"></demo>
+<demo :component="carouselVertical" name="carousel" examples="vertical" />
 
 ## 事件处理
 
 轮播组件支持 `change` 事件（轮播切换时触发）和 `autoplay` 事件（自动播放切换时触发）。
 
-<demo component-name="carousel" examples="events"></demo>
+<demo :component="carouselEvents" name="carousel" examples="events" />
 
 ## 轮播组件 API
 

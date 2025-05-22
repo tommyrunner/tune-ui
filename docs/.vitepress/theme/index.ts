@@ -8,7 +8,6 @@ import "./styles/demo.css";
 import "tune-ui/dist/lib/style.css";
 // 导入自定义的VSCode风格样式
 import "./styles/code.css";
-// @ts-ignore
 import Demo from "./components/Demo.vue";
 
 export default {
@@ -16,8 +15,20 @@ export default {
   Layout() {
     return h(DefaultTheme.Layout, null, {});
   },
-  enhanceApp({ app }) {
-    // 注册组件
+  async enhanceApp({ app }) {
+    // 注册Demo组件
     app.component("Demo", Demo);
+
+    // 只在客户端环境中加载并注册tune-ui组件库
+    if (!import.meta.env.SSR) {
+      try {
+        // 动态导入tune-ui组件库
+        const tuneUi: any = await import("tune-ui");
+        // 使用类型断言处理类型问题
+        app.use(tuneUi.install);
+      } catch (error) {
+        console.error("加载组件库失败:", error);
+      }
+    }
   }
-} as Theme;
+} satisfies Theme;

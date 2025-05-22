@@ -6,10 +6,6 @@
   </div>
 </template>
 
-<script setup>
-import { TTag } from "tune-ui";
-</script>
-
 <style scoped>
 .tag-demo {
   display: flex;

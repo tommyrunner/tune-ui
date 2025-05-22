@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { TDatePicker } from "tune-ui";
+
 
 // 基础示例数据
 const date = ref(new Date());

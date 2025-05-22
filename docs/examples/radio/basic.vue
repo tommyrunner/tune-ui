@@ -14,7 +14,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TRadio } from "tune-ui";
 
 const radio1 = ref(false);
 const radio2 = ref("选项1");

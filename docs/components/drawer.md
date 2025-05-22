@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import drawerBasic from '../examples/drawer/basic.vue'
+import drawerPosition from '../examples/drawer/position.vue'
+import drawerStyle from '../examples/drawer/style.vue'
+import drawerButton from '../examples/drawer/button.vue'
+import drawerInteraction from '../examples/drawer/interaction.vue'
+import drawerCustom from '../examples/drawer/custom.vue'
+import drawerEvents from '../examples/drawer/events.vue'
+</script>
+
 # 抽屉组件
 
 ![抽屉组件](/components/drawer.png)
@@ -8,43 +18,43 @@
 
 基础的抽屉组件用法，默认从左侧弹出，包含标题、内容和底部按钮区域。
 
-<demo component-name="drawer" examples="basic"></demo>
+<demo :component="drawerBasic" name="drawer" examples="basic" />
 
 ## 弹出方向
 
 抽屉组件支持从四个方向弹出：左、右、上、下，适应不同的交互场景。
 
-<demo component-name="drawer" examples="position"></demo>
+<demo :component="drawerPosition" name="drawer" examples="position" />
 
 ## 尺寸和样式
 
 可以自定义抽屉的尺寸、内边距、阴影和偏移等样式属性。
 
-<demo component-name="drawer" examples="style"></demo>
+<demo :component="drawerStyle" name="drawer" examples="style" />
 
 ## 按钮配置
 
 可以自定义底部按钮的文本、类型、对齐方式，或者完全隐藏底部按钮区域和关闭图标。
 
-<demo component-name="drawer" examples="button"></demo>
+<demo :component="drawerButton" name="drawer" examples="button" />
 
 ## 交互配置
 
 抽屉组件提供了多种交互配置选项，如是否显示遮罩层、点击遮罩层是否关闭、按ESC键是否关闭、是否限制最大高度等。
 
-<demo component-name="drawer" examples="interaction"></demo>
+<demo :component="drawerInteraction" name="drawer" examples="interaction" />
 
 ## 自定义内容
 
 通过插槽可以自定义抽屉的标题、内容和底部区域，实现更灵活的布局和样式。
 
-<demo component-name="drawer" examples="custom"></demo>
+<demo :component="drawerCustom" name="drawer" examples="custom" />
 
 ## 事件处理
 
 抽屉组件提供了一系列事件，用于监听抽屉的打开、关闭和交互状态。
 
-<demo component-name="drawer" examples="events"></demo>
+<demo :component="drawerEvents" name="drawer" examples="events" />
 
 ## 抽屉 API
 

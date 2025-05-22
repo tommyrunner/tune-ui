@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import scrollbarBasic from '../examples/scrollbar/basic.vue'
+import scrollbarPermanent from '../examples/scrollbar/permanent.vue'
+import scrollbarHorizontal from '../examples/scrollbar/horizontal.vue'
+import scrollbarEvents from '../examples/scrollbar/events.vue'
+import scrollbarHeight from '../examples/scrollbar/height.vue'
+</script>
+
 # 滚动条组件
 
 ![滚动条组件](/components/scrollbar.png)
@@ -8,31 +16,31 @@
 
 最基本的用法是创建一个具有固定高度的滚动容器，当内容超出容器高度时，会自动显示滚动条。
 
-<demo component-name="scrollbar" examples="basic"></demo>
+<demo :component="scrollbarBasic" name="scrollbar" examples="basic" />
 
 ## 常驻滚动条
 
 默认情况下，滚动条仅在悬停时显示，设置`permanent`属性为`true`可以让滚动条常驻显示。
 
-<demo component-name="scrollbar" examples="permanent"></demo>
+<demo :component="scrollbarPermanent" name="scrollbar" examples="permanent" />
 
 ## 水平滚动
 
 当内容宽度超出容器宽度时，会自动显示水平滚动条。
 
-<demo component-name="scrollbar" examples="horizontal"></demo>
+<demo :component="scrollbarHorizontal" name="scrollbar" examples="horizontal" />
 
 ## 滚动事件
 
 滚动条组件提供了垂直滚动和水平滚动事件，可以实时获取滚动位置。
 
-<demo component-name="scrollbar" examples="events"></demo>
+<demo :component="scrollbarEvents" name="scrollbar" examples="events" />
 
 ## 自定义高度
 
 通过`height`属性可以指定滚动容器的高度。
 
-<demo component-name="scrollbar" examples="height"></demo>
+<demo :component="scrollbarHeight" name="scrollbar" examples="height" />
 
 ## 滚动条 API
 

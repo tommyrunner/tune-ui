@@ -15,7 +15,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TUpload, TButton } from "tune-ui";
+
 
 const uploadRef = ref();
 

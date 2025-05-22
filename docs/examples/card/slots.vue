@@ -30,10 +30,6 @@
   </div>
 </template>
 
-<script setup>
-import { TCard, TIcon, TButton } from "tune-ui";
-</script>
-
 <style scoped>
 .card-demo {
   padding: 12px;

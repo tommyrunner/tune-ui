@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { TIcon, TMessage } from "tune-ui";
+
 
 // 复制图标名称到剪贴板
 const copyIconName = iconName => {

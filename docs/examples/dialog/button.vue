@@ -65,7 +65,7 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-import { TDialog, TButton } from "tune-ui";
+
 
 const dialogVisible = ref(false);
 const dialogType = ref("");

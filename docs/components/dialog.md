@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import dialogBasic from '../examples/dialog/basic.vue'
+import dialogTitle from '../examples/dialog/title.vue'
+import dialogButton from '../examples/dialog/button.vue'
+import dialogInteraction from '../examples/dialog/interaction.vue'
+import dialogNested from '../examples/dialog/nested.vue'
+import dialogDraggable from '../examples/dialog/draggable.vue'
+import dialogEvents from '../examples/dialog/events.vue'
+import dialogAsyncClose from '../examples/dialog/async-close.vue'
+</script>
+
 # 对话框组件
 
 ![对话框组件](/components/dialog.png)
@@ -8,49 +19,49 @@
 
 基础的对话框用法，包含标题、内容和操作按钮区域。
 
-<demo component-name="dialog" examples="basic"></demo>
+<demo :component="dialogBasic" name="dialog" examples="basic" />
 
 ## 标题配置
 
 可以通过设置相关属性自定义对话框的标题，如添加图标、隐藏关闭按钮或使用自定义内容。
 
-<demo component-name="dialog" examples="title"></demo>
+<demo :component="dialogTitle" name="dialog" examples="title" />
 
 ## 按钮配置
 
 可以自定义底部按钮的文本、类型、对齐方式，或者完全隐藏底部按钮区域。
 
-<demo component-name="dialog" examples="button"></demo>
+<demo :component="dialogButton" name="dialog" examples="button" />
 
 ## 交互方式
 
 对话框提供了多种交互方式和样式配置选项，如隐藏遮罩层、禁用默认关闭方式、自定义样式等。
 
-<demo component-name="dialog" examples="interaction"></demo>
+<demo :component="dialogInteraction" name="dialog" examples="interaction" />
 
 ## 嵌套对话框
 
 在一个对话框内可以嵌套另一个对话框，满足更复杂的交互需求。
 
-<demo component-name="dialog" examples="nested"></demo>
+<demo :component="dialogNested" name="dialog" examples="nested" />
 
 ## 可拖拽对话框
 
 设置 `draggable` 属性为 `true` 可以实现对话框的拖拽功能。
 
-<demo component-name="dialog" examples="draggable"></demo>
+<demo :component="dialogDraggable" name="dialog" examples="draggable" />
 
 ## 事件处理
 
 对话框组件提供了丰富的事件，用于监听对话框的打开、关闭和交互状态。
 
-<demo component-name="dialog" examples="events"></demo>
+<demo :component="dialogEvents" name="dialog" examples="events" />
 
 ## 异步关闭
 
 可以结合 `before-close` 回调实现异步关闭对话框的功能，适用于需要在关闭前执行特定操作的场景。
 
-<demo component-name="dialog" examples="async-close"></demo>
+<demo :component="dialogAsyncClose" name="dialog" examples="asyncclose" />
 
 ## 对话框 API
 

@@ -8,10 +8,6 @@
   </div>
 </template>
 
-<script setup>
-import { TButton } from "tune-ui";
-</script>
-
 <style scoped>
 .button-demo {
   padding: 16px 0;

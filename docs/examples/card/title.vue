@@ -18,10 +18,6 @@
   </div>
 </template>
 
-<script setup>
-import { TCard } from "tune-ui";
-</script>
-
 <style scoped>
 .card-demo {
   padding: 12px;

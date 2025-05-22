@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import calendarBasic from '../examples/calendar/basic.vue'
+import calendarModes from '../examples/calendar/modes.vue'
+import calendarFormat from '../examples/calendar/format.vue'
+import calendarCustomCell from '../examples/calendar/custom-cell.vue'
+import calendarDisabledDate from '../examples/calendar/disabled-date.vue'
+import calendarTimePicker from '../examples/calendar/time-picker.vue'
+import calendarCustomFooter from '../examples/calendar/custom-footer.vue'
+</script>
+
 # 日历组件
 
 ![日历组件](/components/calendar.png)
@@ -8,43 +18,43 @@
 
 最简单的用法是提供一个双向绑定的日期值，组件会显示当前月份的日历并允许选择日期。
 
-<demo component-name="calendar" examples="basic"></demo>
+<demo :component="calendarBasic" name="calendar" examples="basic" />
 
 ## 不同视图模式
 
 Calendar组件支持三种视图模式：日期(`date`)、月份(`month`)、年份(`year`)，可以通过`mode`属性来指定。
 
-<demo component-name="calendar" examples="modes"></demo>
+<demo :component="calendarModes" name="calendar" examples="modes" />
 
 ## 格式化输出
 
 Calendar组件支持通过`value-format`属性指定日期的输出格式，组件将返回指定格式的字符串而不是Date对象。
 
-<demo component-name="calendar" examples="format"></demo>
+<demo :component="calendarFormat" name="calendar" examples="format" />
 
 ## 自定义日期单元格
 
 通过插槽`date`自定义日期单元格的内容和样式，可以添加假日标记、活动标记等。
 
-<demo component-name="calendar" examples="custom-cell"></demo>
+<demo :component="calendarCustomCell" name="calendar" examples="customcell" />
 
 ## 禁用日期
 
 通过`disabled-date`属性可以指定哪些日期不可选择，该属性接收一个函数，返回`true`表示禁用。
 
-<demo component-name="calendar" examples="disabled-date"></demo>
+<demo :component="calendarDisabledDate" name="calendar" examples="disableddate" />
 
 ## 时间选择器
 
 通过设置`show-time`属性可以开启时间选择功能，可以同时选择日期和时间。
 
-<demo component-name="calendar" examples="time-picker"></demo>
+<demo :component="calendarTimePicker" name="calendar" examples="timepicker" />
 
 ## 自定义底部
 
 通过插槽`footer`可以自定义日历底部内容，例如添加快捷按钮。
 
-<demo component-name="calendar" examples="custom-footer"></demo>
+<demo :component="calendarCustomFooter" name="calendar" examples="customfooter" />
 
 ## 日历 API
 

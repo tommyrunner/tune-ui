@@ -45,10 +45,6 @@
   </div>
 </template>
 
-<script setup>
-import { TImage } from "tune-ui";
-</script>
-
 <style scoped>
 .image-demo {
   width: 100%;

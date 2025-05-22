@@ -53,7 +53,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TCollapse, TCollapseGroup } from "tune-ui";
+
 
 const activeNames = ref(["1"]);
 const nestedActive = ref(["1-1"]);

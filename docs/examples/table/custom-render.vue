@@ -6,8 +6,6 @@
 
 <script lang="tsx" setup>
 import { h } from "vue";
-import { TTable } from "tune-ui";
-import { TButton } from "tune-ui";
 
 // 自定义渲染列配置
 const customColumns = [
@@ -24,7 +22,7 @@ const customColumns = [
     width: 100,
     render: ({ data }) =>
       h(
-        TButton,
+        "t-button",
         {
           type: data.age >= 30 ? "primary" : "info",
           size: "small"
@@ -40,22 +38,26 @@ const customColumns = [
     width: 100,
     render: ({ data }) => {
       const statusMap = {
-        "在线": { color: "#10b981", text: "在线" },
-        "离线": { color: "#6b7280", text: "离线" },
-        "忙碌": { color: "#f59e0b", text: "忙碌" }
+        在线: { color: "#10b981", text: "在线" },
+        离线: { color: "#6b7280", text: "离线" },
+        忙碌: { color: "#f59e0b", text: "忙碌" }
       };
       const status = statusMap[data.status] || { color: "#6b7280", text: data.status };
-      
-      return h("div", { 
-        style: {
-          padding: "2px 8px",
-          backgroundColor: `${status.color}20`,
-          color: status.color,
-          borderRadius: "4px",
-          display: "inline-block",
-          fontSize: "12px"
-        }
-      }, status.text);
+
+      return h(
+        "div",
+        {
+          style: {
+            padding: "2px 8px",
+            backgroundColor: `${status.color}20`,
+            color: status.color,
+            borderRadius: "4px",
+            display: "inline-block",
+            fontSize: "12px"
+          }
+        },
+        status.text
+      );
     }
   },
   {
@@ -67,28 +69,29 @@ const customColumns = [
     prop: "actions",
     label: "操作",
     width: 140,
-    render: ({ data }) => h("div", { style: { display: "flex", gap: "8px" } }, [
-      h(
-        TButton,
-        {
-          type: "primary",
-          size: "small"
-        },
-        {
-          default: () => "编辑"
-        }
-      ),
-      h(
-        TButton,
-        {
-          type: "danger",
-          size: "small"
-        },
-        {
-          default: () => "删除"
-        }
-      )
-    ])
+    render: ({ data }) =>
+      h("div", { style: { display: "flex", gap: "8px" } }, [
+        h(
+          "t-button",
+          {
+            type: "primary",
+            size: "small"
+          },
+          {
+            default: () => "编辑"
+          }
+        ),
+        h(
+          "t-button",
+          {
+            type: "danger",
+            size: "small"
+          },
+          {
+            default: () => "删除"
+          }
+        )
+      ])
   }
 ];
 
@@ -136,4 +139,4 @@ const tableData = [
 .table-demo {
   width: 100%;
 }
-</style> 
+</style>

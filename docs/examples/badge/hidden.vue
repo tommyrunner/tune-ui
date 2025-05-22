@@ -7,12 +7,12 @@
         <button class="control-button" @click="handleIncrease">+</button>
       </div>
     </div>
-    
+
     <div class="badge-row">
       <t-badge :value="count" :hiddenValue="0">
         <div class="badge-box">数值为0时隐藏</div>
       </t-badge>
-      
+
       <t-badge :value="count" :hiddenValue="5">
         <div class="badge-box">数值为5时隐藏</div>
       </t-badge>
@@ -22,7 +22,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TBadge } from "tune-ui";
 
 const count = ref(3);
 
@@ -102,4 +101,4 @@ const handleDecrease = () => {
   color: #606266;
   text-align: center;
 }
-</style> 
+</style>

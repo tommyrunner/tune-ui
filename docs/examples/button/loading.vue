@@ -14,7 +14,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TButton } from "tune-ui";
 
 const loading = ref(false);
 

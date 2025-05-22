@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import cardBasic from '../examples/card/basic.vue'
+import cardTitle from '../examples/card/title.vue'
+import cardShadow from '../examples/card/shadow.vue'
+import cardSlots from '../examples/card/slots.vue'
+</script>
+
 # 卡片
 
 ![卡片](/components/card.png)
@@ -8,25 +15,25 @@
 
 最基本的卡片用法，包含内容区域，可以包含任意内容。
 
-<demo component-name="card" examples="basic"></demo>
+<demo :component="cardBasic" name="card" examples="basic" />
 
 ## 卡片标题
 
 可以通过 `title` 属性设置卡片标题，或使用 `titleIcon` 属性添加标题图标。
 
-<demo component-name="card" examples="title"></demo>
+<demo :component="cardTitle" name="card" examples="title" />
 
 ## 阴影效果
 
 通过 `shadow` 属性可以设置卡片阴影的显示时机，有三种可选值：`always`（总是显示）、`hover`（悬浮时显示）和 `never`（从不显示）。
 
-<demo component-name="card" examples="shadow"></demo>
+<demo :component="cardShadow" name="card" examples="shadow" />
 
 ## 插槽用法
 
 卡片组件提供了多个插槽，包括默认插槽、头部左侧插槽、头部右侧插槽和底部插槽，可以实现各种自定义布局。
 
-<demo component-name="card" examples="slots"></demo>
+<demo :component="cardSlots" name="card" examples="slots" />
 
 ## 卡片 API
 

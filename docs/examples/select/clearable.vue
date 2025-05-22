@@ -16,7 +16,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSelect } from "tune-ui";
 
 const value = ref("1"); // 默认选中第一项
 const eventValue = ref("2"); // 默认选中第二项

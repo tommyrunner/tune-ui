@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TDrawer, TButton } from "tune-ui";
+
 
 const drawerVisible = ref(false);
 const logs = ref([]);

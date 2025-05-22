@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { TUpload, TButton } from "tune-ui";
+
 
 const handleSuccess = (file, response) => {
   console.log("上传成功", file, response);

@@ -13,7 +13,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TRadio } from "tune-ui";
+
 
 const radioValue1 = ref(true);
 const radioValue2 = ref(true);

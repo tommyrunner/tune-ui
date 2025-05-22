@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTree } from "tune-ui";
+
 
 // 部分节点禁用
 const treeData1 = ref([

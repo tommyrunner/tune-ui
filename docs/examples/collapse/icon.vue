@@ -59,7 +59,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TCollapse, TCollapseGroup, TIcon } from "tune-ui";
+
 
 const activeNames1 = ref(["1"]);
 const activeNames2 = ref(["1"]);

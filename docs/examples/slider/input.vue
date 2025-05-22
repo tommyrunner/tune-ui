@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSlider, TInputNumber } from "tune-ui";
+
 
 const value = ref(50);
 const rangeValue = ref([20, 80]);

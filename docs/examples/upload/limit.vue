@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { TUpload, TButton } from "tune-ui";
+
 
 const handleExceedSize = file => {
   alert(`文件 ${file.name} 超过2MB限制`);

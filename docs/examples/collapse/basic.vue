@@ -29,7 +29,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TCollapse, TCollapseGroup } from "tune-ui";
+
 
 // 默认展开第一个面板
 const activeNames = ref(["1"]);

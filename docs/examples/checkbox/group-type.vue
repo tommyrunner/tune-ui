@@ -40,7 +40,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TCheckbox, TCheckboxGroup } from "tune-ui";
+
 
 const checkedDefault = ref(["apple"]);
 const checkedText = ref(["banana"]);

@@ -17,7 +17,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSwitch } from "tune-ui";
+
 
 const switchOn = ref(true);
 const switchOff = ref(false);

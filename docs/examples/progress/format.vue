@@ -16,30 +16,30 @@
     <h4>使用默认插槽</h4>
     <div class="progress-row">
       <t-progress :percentage="50">
-        <template #default="{ percentage }">
-          <span class="custom-text">已完成 {{ percentage }}%</span>
+        <template #default="data">
+          <span class="custom-text">已完成 {{ data?.percentage }}%</span>
         </template>
       </t-progress>
     </div>
-    
+
     <div class="progress-circle-container">
       <div class="progress-circle-item">
         <t-progress :percentage="50" type="circle">
-          <template #default="{ percentage }">
+          <template #default="data">
             <div class="custom-circle-content">
-              <div class="value">{{ percentage }}%</div>
+              <div class="value">{{ data?.percentage }}%</div>
               <div class="text">已完成</div>
             </div>
           </template>
         </t-progress>
       </div>
-      
+
       <div class="progress-circle-item">
         <t-progress :percentage="50" type="dashboard">
-          <template #default="{ percentage }">
+          <template #default="data">
             <div class="custom-circle-content">
               <span class="icon">✓</span>
-              <div class="value">{{ percentage }}</div>
+              <div class="value">{{ data?.percentage }}</div>
             </div>
           </template>
         </t-progress>
@@ -49,8 +49,6 @@
 </template>
 
 <script setup>
-import { TProgress } from "tune-ui";
-
 // 自定义文本格式化
 const formatText = percentage => {
   if (percentage < 30) {
@@ -122,4 +120,4 @@ h4 {
   font-size: 20px;
   color: #67c23a;
 }
-</style> 
+</style>

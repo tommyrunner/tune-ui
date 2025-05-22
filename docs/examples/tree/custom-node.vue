@@ -1,12 +1,12 @@
 <template>
   <div class="tree-demo">
     <t-tree :data="treeData">
-      <template #default="{ node, data }">
+      <template #default="rowData">
         <div class="custom-node">
-          <span :class="getIconClass(node)" :style="{ color: getIconColor(node) }"></span>
-          <span class="node-label">{{ data.label }}</span>
-          <span v-if="data.tag" class="node-tag" :class="getTagClass(data.tag)">
-            {{ data.tag }}
+          <span :class="getIconClass(rowData?.node)" :style="{ color: getIconColor(rowData?.node) }"></span>
+          <span class="node-label">{{ rowData?.node?.label }}</span>
+          <span v-if="rowData?.node?.tag" class="node-tag" :class="getTagClass(rowData?.node?.tag)">
+            {{ rowData?.node?.tag }}
           </span>
         </div>
       </template>
@@ -16,7 +16,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTree } from "tune-ui";
 
 const treeData = ref([
   {
@@ -89,14 +88,21 @@ const treeData = ref([
   }
 ]);
 
-// 获取图标类
+/**
+ * 获取节点图标类
+ * @param {Object} node - 树节点对象
+ * @returns {string} 图标CSS类名
+ */
 const getIconClass = node => {
-  if (!node.isLeaf) {
+  // 判断是否有children属性且不为空数组来确定是否为文件夹
+  const hasChildren = node?.data?.children && node.data.children.length > 0;
+
+  if (hasChildren) {
     return node.isExpanded ? "icon icon-folder-open" : "icon icon-folder";
   }
 
   // 根据扩展名决定图标
-  const label = node.data.label || "";
+  const label = node?.data?.label || "";
   if (label.endsWith(".html")) return "icon icon-html";
   if (label.endsWith(".js")) return "icon icon-js";
   if (label.endsWith(".css")) return "icon icon-css";
@@ -107,11 +113,18 @@ const getIconClass = node => {
   return "icon icon-file";
 };
 
-// 获取图标颜色
+/**
+ * 获取图标颜色
+ * @param {Object} node - 树节点对象
+ * @returns {string} 颜色值
+ */
 const getIconColor = node => {
-  if (!node.isLeaf) return "#f9a825"; // 文件夹颜色
+  // 判断是否有children属性且不为空数组来确定是否为文件夹
+  const hasChildren = node?.data?.children && node.data.children.length > 0;
 
-  const label = node.data.label || "";
+  if (hasChildren) return "#f9a825"; // 文件夹颜色
+
+  const label = node?.data?.label || "";
   if (label.endsWith(".html")) return "#e44d26";
   if (label.endsWith(".js")) return "#f0db4f";
   if (label.endsWith(".css")) return "#264de4";
@@ -122,7 +135,11 @@ const getIconColor = node => {
   return "#607d8b";
 };
 
-// 获取标签样式
+/**
+ * 获取标签样式
+ * @param {string} tag - 标签文本
+ * @returns {string} 标签CSS类名
+ */
 const getTagClass = tag => {
   const map = {
     文件夹: "tag-folder",

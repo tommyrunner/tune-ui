@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TCheckbox, TCheckboxGroup } from "tune-ui";
+
 
 const checkedFruits = ref(["apple", "orange"]);
 </script>

@@ -44,7 +44,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TUpload, TButton, TIcon, TTag } from "tune-ui";
 
 // 示例文件列表
 const fileList = ref([

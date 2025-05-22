@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import { TCarousel, TCarouselGroup } from "tune-ui";
+
 
 // 测试数据
 const colors = ["#67C23A", "#E6A23C", "#F56C6C", "#909399"];

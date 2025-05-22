@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { TMessage, TButton } from "tune-ui";
+
 
 /**
  * 显示自定义宽度消息

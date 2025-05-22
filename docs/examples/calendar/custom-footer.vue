@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { TCalendar, TButton } from "tune-ui";
+
 import type { ModeType } from "@/packages/calendar/calendar";
 
 const date = ref(new Date());

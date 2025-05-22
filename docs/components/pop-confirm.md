@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import popConfirmBasic from '../examples/pop-confirm/basic.vue'
+import popConfirmIcon from '../examples/pop-confirm/icon.vue'
+import popConfirmButton from '../examples/pop-confirm/button.vue'
+import popConfirmPosition from '../examples/pop-confirm/position.vue'
+import popConfirmStyle from '../examples/pop-confirm/style.vue'
+import popConfirmTrigger from '../examples/pop-confirm/trigger.vue'
+import popConfirmEvents from '../examples/pop-confirm/events.vue'
+</script>
+
 # 气泡确认框组件
 
 ![气泡确认框组件](/components/pop-confirm.png)
@@ -8,43 +18,43 @@
 
 基础的气泡确认框，包含确认、取消按钮，并支持禁用状态。
 
-<demo component-name="pop-confirm" examples="basic"></demo>
+<demo :component="popConfirmBasic" name="pop-confirm" examples="basic" />
 
 ## 自定义图标
 
 可以通过设置`icon`和`icon-color`属性来自定义气泡确认框的图标类型和颜色，使操作语义更加明确。
 
-<demo component-name="pop-confirm" examples="icon"></demo>
+<demo :component="popConfirmIcon" name="pop-confirm" examples="icon" />
 
 ## 自定义按钮
 
 可以自定义确认和取消按钮的文本和类型，使其更符合业务场景需求。
 
-<demo component-name="pop-confirm" examples="button"></demo>
+<demo :component="popConfirmButton" name="pop-confirm" examples="button" />
 
 ## 弹出位置
 
 支持四个方向弹出：上、右、下、左，可以根据页面空间选择合适的弹出方向。
 
-<demo component-name="pop-confirm" examples="position"></demo>
+<demo :component="popConfirmPosition" name="pop-confirm" examples="position" />
 
 ## 自定义样式
 
 可以通过设置`padding`、`box-shadow`和`max-width`等属性自定义气泡确认框的样式。
 
-<demo component-name="pop-confirm" examples="style"></demo>
+<demo :component="popConfirmStyle" name="pop-confirm" examples="style" />
 
 ## 触发配置
 
 支持多种交互方式配置，如按ESC键关闭、点击其他区域关闭等。
 
-<demo component-name="pop-confirm" examples="trigger"></demo>
+<demo :component="popConfirmTrigger" name="pop-confirm" examples="trigger" />
 
 ## 事件处理
 
 气泡确认框提供了`confirm`和`cancel`事件，用于处理用户的确认和取消操作。
 
-<demo component-name="pop-confirm" examples="events"></demo>
+<demo :component="popConfirmEvents" name="pop-confirm" examples="events" />
 
 ## 气泡确认框 API
 

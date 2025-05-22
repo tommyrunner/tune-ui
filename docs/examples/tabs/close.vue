@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTabs, TTabsGroup, TButton } from "tune-ui";
+
 
 // 初始标签页
 const initialTabs = [

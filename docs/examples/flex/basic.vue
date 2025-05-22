@@ -15,10 +15,6 @@
   </div>
 </template>
 
-<script setup>
-import { TFlex, TFlexGroup } from "tune-ui";
-</script>
-
 <style scoped>
 .demo-container {
   padding: 16px 0;

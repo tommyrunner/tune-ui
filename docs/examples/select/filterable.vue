@@ -33,7 +33,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TSelect } from "tune-ui";
 
 const value = ref("");
 const customValue = ref("");

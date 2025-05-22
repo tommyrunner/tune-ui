@@ -55,10 +55,6 @@
   </div>
 </template>
 
-<script setup>
-import { TPopover, TButton } from "tune-ui";
-</script>
-
 <style scoped>
 .demo-container {
   padding: 16px 0;

@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import tableBasic from '../examples/table/basic.vue'
+import tableNested from '../examples/table/nested.vue'
+import tableVirtual from '../examples/table/virtual.vue'
+import tableFixedColumn from '../examples/table/fixed-column.vue'
+import tableFixedRow from '../examples/table/fixed-row.vue'
+import tableSortFilter from '../examples/table/sort-filter.vue'
+import tableCustomRender from '../examples/table/custom-render.vue'
+import tableSelection from '../examples/table/selection.vue'
+import tableStyle from '../examples/table/style.vue'
+import tableSummary from '../examples/table/summary.vue'
+</script>
+
 # 表格组件
 
 ![表格组件](/components/table.png)
@@ -8,61 +21,61 @@
 
 基础表格用于展示简单的表格数据。
 
-<demo component-name="table" examples="basic"></demo>
+<demo :component="tableBasic" name="table" examples="basic" />
 
 ## 多级表头
 
 通过 `columns` 的 `children` 属性可以创建多级表头。
 
-<demo component-name="table" examples="nested"></demo>
+<demo :component="tableNested" name="table" examples="nested" />
 
 ## 虚拟滚动
 
 当需要展示大量数据时，可以启用虚拟滚动以提高性能。
 
-<demo component-name="table" examples="virtual"></demo>
+<demo :component="tableVirtual" name="table" examples="virtual" />
 
 ## 固定列
 
 通过设置 `columns` 中的 `fixed` 属性可以固定列。
 
-<demo component-name="table" examples="fixed-column"></demo>
+<demo :component="tableFixedColumn" name="table" examples="fixedcolumn" />
 
 ## 固定行
 
 通过 `fixedRow` 属性可以设置特定行固定不随滚动而移动。
 
-<demo component-name="table" examples="fixed-row"></demo>
+<demo :component="tableFixedRow" name="table" examples="fixedrow" />
 
 ## 排序和筛选
 
 表格支持列排序和筛选功能。
 
-<demo component-name="table" examples="sort-filter"></demo>
+<demo :component="tableSortFilter" name="table" examples="sortfilter" />
 
 ## 自定义渲染
 
 通过 `render` 和 `renderHead` 属性可以自定义单元格和表头内容。
 
-<demo component-name="table" examples="custom-render"></demo>
+<demo :component="tableCustomRender" name="table" examples="customrender" />
 
 ## 选择与事件
 
 表格支持行选择功能和各种事件处理。
 
-<demo component-name="table" examples="selection"></demo>
+<demo :component="tableSelection" name="table" examples="selection" />
 
 ## 样式配置
 
 表格提供了丰富的样式配置选项，包括边框、斑马纹等。
 
-<demo component-name="table" examples="style"></demo>
+<demo :component="tableStyle" name="table" examples="style" />
 
 ## 合计行
 
 通过 `summary` 属性可以设置表格底部的合计行。
 
-<demo component-name="table" examples="summary"></demo>
+<demo :component="tableSummary" name="table" examples="summary" />
 
 ## 表格 API
 

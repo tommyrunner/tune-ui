@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import popoverBasic from '../examples/popover/basic.vue'
+import popoverGroup from '../examples/popover/group.vue'
+import popoverPosition from '../examples/popover/position.vue'
+import popoverStyle from '../examples/popover/style.vue'
+import popoverContent from '../examples/popover/content.vue'
+import popoverTrigger from '../examples/popover/trigger.vue'
+import popoverModal from '../examples/popover/modal.vue'
+import popoverEvents from '../examples/popover/events.vue'
+</script>
+
 # 弹出框组件
 
 ![弹出框组件](/components/popover.png)
@@ -8,49 +19,49 @@
 
 基础的弹出框，提供了hover和click两种触发方式。
 
-<demo component-name="popover" examples="basic"></demo>
+<demo :component="popoverBasic" name="popover" examples="basic" />
 
 ## 分组用法
 
 可以将弹出框应用于一组元素，同时管理它们的弹出行为。
 
-<demo component-name="popover" examples="group"></demo>
+<demo :component="popoverGroup" name="popover" examples="group" />
 
 ## 弹出位置
 
 支持四个方向弹出：上、右、下、左，可以根据页面空间选择合适的弹出方向。
 
-<demo component-name="popover" examples="position"></demo>
+<demo :component="popoverPosition" name="popover" examples="position" />
 
 ## 自定义样式
 
 可以自定义弹出框的宽度、圆角、内边距、阴影等样式。
 
-<demo component-name="popover" examples="style"></demo>
+<demo :component="popoverStyle" name="popover" examples="style" />
 
 ## 自定义内容
 
 可以通过插槽自定义弹出框的内容，支持任意HTML结构。
 
-<demo component-name="popover" examples="content"></demo>
+<demo :component="popoverContent" name="popover" examples="content" />
 
 ## 触发配置
 
 支持多种交互方式配置，如延迟隐藏、按ESC键关闭、点击其他区域关闭等。
 
-<demo component-name="popover" examples="trigger"></demo>
+<demo :component="popoverTrigger" name="popover" examples="trigger" />
 
 ## 遮罩层
 
 可以为弹出框添加遮罩层，提供更聚焦的交互体验。
 
-<demo component-name="popover" examples="modal"></demo>
+<demo :component="popoverModal" name="popover" examples="modal" />
 
 ## 事件处理
 
 弹出框提供了多种事件，用于监听鼠标进入、离开、状态变化等。
 
-<demo component-name="popover" examples="events"></demo>
+<demo :component="popoverEvents" name="popover" examples="events" />
 
 ## 弹出框 API
 

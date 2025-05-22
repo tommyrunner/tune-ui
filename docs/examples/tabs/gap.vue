@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTabs, TTabsGroup } from "tune-ui";
+
 
 const defaultTab = ref("tab1");
 const largeTab = ref("tab1");

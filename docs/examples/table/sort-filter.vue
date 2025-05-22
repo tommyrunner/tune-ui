@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { TTable } from "tune-ui";
+
 
 // 排序和筛选列配置
 const filterSortColumns = [

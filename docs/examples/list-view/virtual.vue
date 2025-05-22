@@ -8,8 +8,8 @@
       @scroll="handleScroll"
       @update-view="handleUpdateView"
     >
-      <template #default="{ row, index }">
-        <div class="list-item">{{ index + 1 }}. {{ row.label }}</div>
+      <template #default="data">
+        <div class="list-item">{{ data?.index + 1 }}. {{ data?.row?.label }}</div>
       </template>
     </t-list-view>
 
@@ -27,7 +27,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TListView } from "tune-ui";
 
 // 生成大量数据用于虚拟滚动测试
 const largeData = Array.from({ length: 10000 }, (_, index) => ({

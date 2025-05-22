@@ -15,10 +15,6 @@
   </div>
 </template>
 
-<script setup>
-import { TTextarea } from "tune-ui";
-</script>
-
 <style scoped>
 .textarea-demo {
   display: flex;

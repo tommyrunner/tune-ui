@@ -21,7 +21,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TRate } from "tune-ui";
+
 
 const value = ref(3.5);
 </script>

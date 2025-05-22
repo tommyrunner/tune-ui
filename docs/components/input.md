@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import inputBasic from '../examples/input/basic.vue'
+import inputDisabled from '../examples/input/disabled.vue'
+import inputPassword from '../examples/input/password.vue'
+import inputClearable from '../examples/input/clearable.vue'
+import inputSize from '../examples/input/size.vue'
+import inputMaxlength from '../examples/input/maxlength.vue'
+import inputEvents from '../examples/input/events.vue'
+</script>
+
 # 输入框组件
 
 ![输入框组件](/components/input.png)
@@ -8,43 +18,43 @@
 
 基础输入框用于输入单行文本。
 
-<demo component-name="input" examples="basic"></demo>
+<demo :component="inputBasic" name="input" examples="basic" />
 
 ## 禁用状态
 
 设置 `disabled` 属性可以禁用输入框。
 
-<demo component-name="input" examples="disabled"></demo>
+<demo :component="inputDisabled" name="input" examples="disabled" />
 
 ## 密码输入框
 
 设置 `password` 属性可以创建密码输入框，支持显示/隐藏密码切换。
 
-<demo component-name="input" examples="password"></demo>
+<demo :component="inputPassword" name="input" examples="password" />
 
 ## 可清除输入框
 
 默认情况下，设置了 `v-model` 的输入框在输入内容后会显示清除图标，点击可以清空内容。
 
-<demo component-name="input" examples="clearable"></demo>
+<demo :component="inputClearable" name="input" examples="clearable" />
 
 ## 不同尺寸
 
 输入框支持三种尺寸：small、default 和 large。
 
-<demo component-name="input" examples="size"></demo>
+<demo :component="inputSize" name="input" examples="size" />
 
 ## 最大输入长度
 
 设置 `maxLength` 属性可以限制最大输入长度。
 
-<demo component-name="input" examples="maxlength"></demo>
+<demo :component="inputMaxlength" name="input" examples="maxlength" />
 
 ## 事件处理
 
 输入框提供了多种事件：focus、blur、enter、input、clear。
 
-<demo component-name="input" examples="events"></demo>
+<demo :component="inputEvents" name="input" examples="events" />
 
 ## 输入框 API
 

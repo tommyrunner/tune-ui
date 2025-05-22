@@ -8,10 +8,10 @@
         </div>
       </template>
 
-      <template #default="{ row, index }">
+      <template #default="data">
         <div class="list-item">
-          <div class="item-index">{{ index + 1 }}</div>
-          <div class="item-content">{{ row.label }}</div>
+          <div class="item-index">{{ data?.index + 1 }}</div>
+          <div class="item-content">{{ data?.row?.label }}</div>
         </div>
       </template>
 
@@ -26,8 +26,6 @@
 </template>
 
 <script setup>
-import { TListView } from "tune-ui";
-
 // 生成示例数据
 const listData = Array.from({ length: 20 }, (_, index) => ({
   id: index,

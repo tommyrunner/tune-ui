@@ -17,7 +17,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TBreadcrumb } from "tune-ui";
 
 const options = ref([
   { label: "首页", value: "home" },
@@ -40,4 +39,4 @@ const options = ref([
   font-size: 14px;
   color: #606266;
 }
-</style> 
+</style>

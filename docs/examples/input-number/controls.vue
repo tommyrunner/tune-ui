@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TInputNumber } from "tune-ui";
+
 
 const value = ref(0);
 </script>

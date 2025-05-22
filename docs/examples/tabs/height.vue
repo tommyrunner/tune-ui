@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TTabs, TTabsGroup } from "tune-ui";
+
 
 const defaultHeight = ref("tab1");
 const smallHeight = ref("tab1");

@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import messageBasic from '../examples/message/basic.vue'
+import messageStyle from '../examples/message/style.vue'
+import messageNotification from '../examples/message/notification.vue'
+import messageClose from '../examples/message/close.vue'
+import messageCustom from '../examples/message/custom.vue'
+import messageEvents from '../examples/message/events.vue'
+</script>
+
 # 消息提示组件
 
 ![消息提示组件](/components/message.png)
@@ -8,37 +17,37 @@
 
 基础的消息提示，包含成功、警告、信息和错误四种类型。
 
-<demo component-name="message" examples="basic"></demo>
+<demo :component="messageBasic" name="message" examples="basic" />
 
 ## 消息样式
 
 可以自定义消息的宽度、内边距、图标和朴素样式。
 
-<demo component-name="message" examples="style"></demo>
+<demo :component="messageStyle" name="message" examples="style" />
 
 ## 通知类型
 
 支持四个方向的通知消息展示，可以包含标题和内容。
 
-<demo component-name="message" examples="notification"></demo>
+<demo :component="messageNotification" name="message" examples="notification" />
 
 ## 关闭配置
 
 支持手动关闭、自动关闭和按ESC键关闭等多种关闭方式。
 
-<demo component-name="message" examples="close"></demo>
+<demo :component="messageClose" name="message" examples="close" />
 
 ## 自定义配置
 
 可以自定义消息的挂载位置和显示位置。
 
-<demo component-name="message" examples="custom"></demo>
+<demo :component="messageCustom" name="message" examples="custom" />
 
 ## 事件处理
 
 消息提示提供了关闭回调事件，支持多条消息堆叠展示。
 
-<demo component-name="message" examples="events"></demo>
+<demo :component="messageEvents" name="message" examples="events" />
 
 ## 消息提示 API
 

@@ -10,7 +10,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TBreadcrumb } from "tune-ui";
 
 const currentRoute = ref("未点击");
 
@@ -32,7 +31,7 @@ const options = ref([
   }
 ]);
 
-const handleChange = (item) => {
+const handleChange = item => {
   currentRoute.value = JSON.stringify(item.to);
 };
 </script>
@@ -53,4 +52,4 @@ const handleChange = (item) => {
   color: #909399;
   font-style: italic;
 }
-</style> 
+</style>

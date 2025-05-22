@@ -14,10 +14,6 @@
   </div>
 </template>
 
-<script setup>
-import { TBadge } from "tune-ui";
-</script>
-
 <style scoped>
 .badge-demo {
   display: flex;

@@ -6,7 +6,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { TBreadcrumb } from "tune-ui";
 
 const options = ref([
   { label: "首页", value: "home", icon: "home" },
@@ -20,4 +19,4 @@ const options = ref([
 .breadcrumb-demo {
   padding: 16px 0;
 }
-</style> 
+</style>

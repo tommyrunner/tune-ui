@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import imageBasic from '../examples/image/basic.vue'
+import imageFit from '../examples/image/fit.vue'
+import imageLoading from '../examples/image/loading.vue'
+import imageLazy from '../examples/image/lazy.vue'
+import imagePreview from '../examples/image/preview.vue'
+import imagePreviewConfig from '../examples/image/preview-config.vue'
+</script>
+
 # 图片组件
 
 ![图片组件](/components/image.png)
@@ -8,37 +17,37 @@
 
 基础图片组件用于展示图像，设置宽高和替代文本。
 
-<demo component-name="image" examples="basic"></demo>
+<demo :component="imageBasic" name="image" examples="basic" />
 
 ## 适应容器方式
 
 通过 `fit` 属性可以设置图片在容器中的适应方式。
 
-<demo component-name="image" examples="fit"></demo>
+<demo :component="imageFit" name="image" examples="fit" />
 
 ## 图片加载状态
 
 组件提供了默认的加载中和加载失败状态，也可以通过插槽自定义。
 
-<demo component-name="image" examples="loading"></demo>
+<demo :component="imageLoading" name="image" examples="loading" />
 
 ## 懒加载
 
 设置 `lazy` 属性可以实现图片懒加载，在滚动到可视区域时才会加载。
 
-<demo component-name="image" examples="lazy"></demo>
+<demo :component="imageLazy" name="image" examples="lazy" />
 
 ## 图片预览
 
 设置 `preview-src-list` 属性可以开启图片预览功能。
 
-<demo component-name="image" examples="preview"></demo>
+<demo :component="imagePreview" name="image" examples="preview" />
 
 ## 预览配置
 
 可以配置预览的缩放比例、初始索引等。
 
-<demo component-name="image" examples="preview-config"></demo>
+<demo :component="imagePreviewConfig" name="image" examples="previewconfig" />
 
 ## 图片组件 API
 

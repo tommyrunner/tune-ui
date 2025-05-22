@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { TTable } from "tune-ui";
+
 
 // 多级表头配置
 const nestedColumns = [

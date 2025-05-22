@@ -1,17 +1,11 @@
 <template>
   <div class="back-top-demo">
     <div class="scroll-container">
-      <p v-for="i in 30" :key="i" class="paragraph">
-        这是第 {{ i }} 行示例文本，请向下滚动查看回到顶部按钮效果。
-      </p>
+      <p v-for="i in 30" :key="i" class="paragraph">这是第 {{ i }} 行示例文本，请向下滚动查看回到顶部按钮效果。</p>
     </div>
     <t-back-top />
   </div>
 </template>
-
-<script setup>
-import { TBackTop } from "tune-ui";
-</script>
 
 <style scoped>
 .back-top-demo {
@@ -29,4 +23,4 @@ import { TBackTop } from "tune-ui";
   margin: 10px 0;
   line-height: 1.6;
 }
-</style> 
+</style>

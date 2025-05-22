@@ -32,7 +32,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TCollapse, TCollapseGroup, TButton } from "tune-ui";
+
 
 const activeNames = ref(["1", "3"]);
 const dynamicActiveNames = ref(["1"]);

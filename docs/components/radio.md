@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import radioBasic from '../examples/radio/basic.vue'
+import radioDisabled from '../examples/radio/disabled.vue'
+import radioRadius from '../examples/radio/radius.vue'
+import radioIcon from '../examples/radio/icon.vue'
+import radioGroup from '../examples/radio/group.vue'
+import radioGroupType from '../examples/radio/group-type.vue'
+import radioDirection from '../examples/radio/direction.vue'
+import radioEvents from '../examples/radio/events.vue'
+</script>
+
 # 单选框组件
 
 ![单选框组件](/components/radio.png)
@@ -8,49 +19,49 @@
 
 基础单选框用于选择单个状态。
 
-<demo component-name="radio" examples="basic"></demo>
+<demo :component="radioBasic" name="radio" examples="basic" />
 
 ## 禁用状态
 
 设置 `disabled` 属性可以禁用单选框。
 
-<demo component-name="radio" examples="disabled"></demo>
+<demo :component="radioDisabled" name="radio" examples="disabled" />
 
 ## 不同样式
 
 设置 `radius` 属性可以改变单选框的样式，支持 `default`（圆形）和 `square`（方形）。
 
-<demo component-name="radio" examples="radius"></demo>
+<demo :component="radioRadius" name="radio" examples="radius" />
 
 ## 自定义图标
 
 设置 `icon` 属性可以自定义单选框的图标。
 
-<demo component-name="radio" examples="icon"></demo>
+<demo :component="radioIcon" name="radio" examples="icon" />
 
 ## 单选框组
 
 使用 `t-radio-group` 组件可以将多个单选框组合为一组，通过 `v-model` 绑定值。
 
-<demo component-name="radio" examples="group"></demo>
+<demo :component="radioGroup" name="radio" examples="group" />
 
 ## 单选框组类型
 
 单选框组支持四种类型：`default`（默认）、`text`（文本）、`border`（边框）和 `button`（按钮）。
 
-<demo component-name="radio" examples="group-type"></demo>
+<demo :component="radioGroupType" name="radio" examples="grouptype" />
 
 ## 排列方向
 
 通过 `direction` 属性设置单选框组的排列方向，支持 `row`（水平）和 `column`（垂直）。
 
-<demo component-name="radio" examples="direction"></demo>
+<demo :component="radioDirection" name="radio" examples="direction" />
 
 ## 事件处理
 
 单选框和单选框组提供了 `change` 事件。
 
-<demo component-name="radio" examples="events"></demo>
+<demo :component="radioEvents" name="radio" examples="events" />
 
 ## 单选框 API
 

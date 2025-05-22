@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import progressBasic from '../examples/progress/basic.vue'
+import progressStatus from '../examples/progress/status.vue'
+import progressTextInside from '../examples/progress/text-inside.vue'
+import progressColor from '../examples/progress/color.vue'
+import progressCircle from '../examples/progress/circle.vue'
+import progressDashboard from '../examples/progress/dashboard.vue'
+import progressStriped from '../examples/progress/striped.vue'
+import progressSize from '../examples/progress/size.vue'
+import progressIndeterminate from '../examples/progress/indeterminate.vue'
+import progressFormat from '../examples/progress/format.vue'
+</script>
+
 # 进度条组件
 
 ![进度条组件](/components/progress.png)
@@ -8,61 +21,61 @@
 
 基础进度条用于展示百分比进度。
 
-<demo component-name="progress" examples="basic"></demo>
+<demo :component="progressBasic" name="progress" examples="basic" />
 
 ## 进度条状态
 
 进度条提供了四种状态：默认、成功、警告和异常。
 
-<demo component-name="progress" examples="status"></demo>
+<demo :component="progressStatus" name="progress" examples="status" />
 
 ## 文本内显
 
 设置 `textInside` 属性可以将百分比显示在进度条内部。
 
-<demo component-name="progress" examples="text-inside"></demo>
+<demo :component="progressTextInside" name="progress" examples="textinside" />
 
 ## 自定义颜色
 
 通过 `color` 属性可以自定义进度条颜色，支持单色、多色区间和动态函数三种方式。
 
-<demo component-name="progress" examples="color"></demo>
+<demo :component="progressColor" name="progress" examples="color" />
 
 ## 环形进度条
 
 设置 `type` 为 `circle` 可以使用环形进度条。
 
-<demo component-name="progress" examples="circle"></demo>
+<demo :component="progressCircle" name="progress" examples="circle" />
 
 ## 仪表盘形进度条
 
 设置 `type` 为 `dashboard` 可以使用仪表盘形进度条。
 
-<demo component-name="progress" examples="dashboard"></demo>
+<demo :component="progressDashboard" name="progress" examples="dashboard" />
 
 ## 条纹效果
 
 设置 `striped` 属性可以让进度条呈现条纹效果，设置 `stripedFlow` 可以让条纹动起来。
 
-<demo component-name="progress" examples="striped"></demo>
+<demo :component="progressStriped" name="progress" examples="striped" />
 
 ## 自定义尺寸
 
 设置 `strokeWidth` 属性可以改变进度条的粗细，对于环形和仪表盘进度条，还可以通过 `width` 属性设置整体尺寸。
 
-<demo component-name="progress" examples="size"></demo>
+<demo :component="progressSize" name="progress" examples="size" />
 
 ## 不确定进度
 
 设置 `indeterminate` 属性可以创建不确定进度效果，适用于无法准确获知进度的场景。
 
-<demo component-name="progress" examples="indeterminate"></demo>
+<demo :component="progressIndeterminate" name="progress" examples="indeterminate" />
 
 ## 自定义文本格式
 
 通过 `format` 属性可以自定义显示文本格式，也可以使用默认插槽完全自定义内容。
 
-<demo component-name="progress" examples="format"></demo>
+<demo :component="progressFormat" name="progress" examples="format" />
 
 ## 进度条 API
 

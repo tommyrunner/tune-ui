@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import checkboxBasic from '../examples/checkbox/basic.vue'
+import checkboxDisabled from '../examples/checkbox/disabled.vue'
+import checkboxRadius from '../examples/checkbox/radius.vue'
+import checkboxIndeterminate from '../examples/checkbox/indeterminate.vue'
+import checkboxIcon from '../examples/checkbox/icon.vue'
+import checkboxSize from '../examples/checkbox/size.vue'
+import checkboxGroup from '../examples/checkbox/group.vue'
+import checkboxGroupType from '../examples/checkbox/group-type.vue'
+import checkboxDirection from '../examples/checkbox/direction.vue'
+import checkboxEvents from '../examples/checkbox/events.vue'
+</script>
+
 # 复选框组件
 
 ![复选框组件](/components/checkbox.png)
@@ -8,61 +21,61 @@
 
 基础复选框用于选择单个状态。
 
-<demo component-name="checkbox" examples="basic"></demo>
+<demo :component="checkboxBasic" name="checkbox" examples="basic" />
 
 ## 禁用状态
 
 设置 `disabled` 属性可以禁用复选框。
 
-<demo component-name="checkbox" examples="disabled"></demo>
+<demo :component="checkboxDisabled" name="checkbox" examples="disabled" />
 
 ## 不同样式
 
 设置 `radius` 属性可以改变复选框的样式，支持 `default`（圆形）和 `square`（方形，默认）。
 
-<demo component-name="checkbox" examples="radius"></demo>
+<demo :component="checkboxRadius" name="checkbox" examples="radius" />
 
 ## 半选状态
 
 设置 `indeterminate` 属性可以设置复选框为半选状态，通过 `indeterminateIcon` 属性可以自定义半选状态的图标。
 
-<demo component-name="checkbox" examples="indeterminate"></demo>
+<demo :component="checkboxIndeterminate" name="checkbox" examples="indeterminate" />
 
 ## 自定义图标
 
 设置 `icon` 属性可以自定义复选框的图标。
 
-<demo component-name="checkbox" examples="icon"></demo>
+<demo :component="checkboxIcon" name="checkbox" examples="icon" />
 
 ## 不同尺寸
 
 复选框支持三种尺寸：small、default 和 large。
 
-<demo component-name="checkbox" examples="size"></demo>
+<demo :component="checkboxSize" name="checkbox" examples="size" />
 
 ## 复选框组
 
 使用 `t-checkbox-group` 组件可以将多个复选框组合为一组，通过 `v-model` 绑定值。
 
-<demo component-name="checkbox" examples="group"></demo>
+<demo :component="checkboxGroup" name="checkbox" examples="group" />
 
 ## 复选框组类型
 
 复选框组支持四种类型：`default`（默认）、`text`（文本）、`border`（边框）和 `button`（按钮）。
 
-<demo component-name="checkbox" examples="group-type"></demo>
+<demo :component="checkboxGroupType" name="checkbox" examples="grouptype" />
 
 ## 排列方向
 
 通过 `direction` 属性设置复选框组的排列方向，支持 `row`（水平）和 `column`（垂直）。
 
-<demo component-name="checkbox" examples="direction"></demo>
+<demo :component="checkboxDirection" name="checkbox" examples="direction" />
 
 ## 事件处理
 
 复选框和复选框组提供了 `change` 事件。
 
-<demo component-name="checkbox" examples="events"></demo>
+<demo :component="checkboxEvents" name="checkbox" examples="events" />
 
 ## 复选框 API
 

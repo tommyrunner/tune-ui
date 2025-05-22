@@ -29,7 +29,7 @@
 
 <script setup>
 import { ref, onUnmounted } from "vue";
-import { TProgress, TButton } from "tune-ui";
+
 
 // 动态进度值
 const dynamicPercentage = ref(0);

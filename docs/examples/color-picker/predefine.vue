@@ -19,7 +19,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TColorPicker } from "tune-ui";
+
 
 // 预定义颜色列表
 const predefineColors = [

@@ -8,7 +8,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TColorPicker } from "tune-ui";
+
 
 // 默认带透明度的颜色值
 const color = ref("rgba(64, 158, 255, 0.68)");

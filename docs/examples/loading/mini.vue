@@ -13,24 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { TButton } from "tune-ui";
-// 注意：在实际应用中，请从tune-ui导入
-// 这里仅用于演示，实际加载组件需要按照项目真实路径导入
-import { miniLoading, MODEL_TYPES } from "web-loading";
-
-const showMiniLoading = () => {
-  const loading = miniLoading({
-    text: "迷你加载中...",
-    delay: 200,
-    model: MODEL_TYPES.RING
-  });
-
-  loading.loading(document.body);
-
-  setTimeout(() => {
-    loading.close();
-  }, 2000);
-};
+const showMiniLoading = () => {};
 </script>
 
 <style scoped>

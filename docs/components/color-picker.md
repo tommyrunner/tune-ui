@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import colorPickerBasic from '../examples/color-picker/basic.vue'
+import colorPickerAlpha from '../examples/color-picker/alpha.vue'
+import colorPickerPredefine from '../examples/color-picker/predefine.vue'
+import colorPickerSizes from '../examples/color-picker/sizes.vue'
+import colorPickerFormats from '../examples/color-picker/formats.vue'
+import colorPickerDisabled from '../examples/color-picker/disabled.vue'
+import colorPickerEvents from '../examples/color-picker/events.vue'
+</script>
+
 # 颜色选择器
 
 ![颜色选择器](/components/color-picker.png)
@@ -8,43 +18,43 @@
 
 最基本的颜色选择器用法。
 
-<demo component-name="color-picker" examples="basic"></demo>
+<demo :component="colorPickerBasic" name="color-picker" examples="basic" />
 
 ## 透明度选择
 
 通过设置 `show-alpha` 属性开启透明度选择功能。
 
-<demo component-name="color-picker" examples="alpha"></demo>
+<demo :component="colorPickerAlpha" name="color-picker" examples="alpha" />
 
 ## 预定义颜色
 
 通过 `predefine` 属性设置预定义颜色，提供常用颜色快速选择。
 
-<demo component-name="color-picker" examples="predefine"></demo>
+<demo :component="colorPickerPredefine" name="color-picker" examples="predefine" />
 
 ## 不同尺寸
 
 颜色选择器支持不同尺寸，通过 `size` 属性设置，支持 `small`、`default`、`large` 三种尺寸。
 
-<demo component-name="color-picker" examples="sizes"></demo>
+<demo :component="colorPickerSizes" name="color-picker" examples="sizes" />
 
 ## 不同颜色格式
 
 颜色选择器支持不同的颜色格式输出，可以通过 `color-format` 属性设置。
 
-<demo component-name="color-picker" examples="formats"></demo>
+<demo :component="colorPickerFormats" name="color-picker" examples="formats" />
 
 ## 禁用状态
 
 通过设置 `disabled` 属性禁用颜色选择器。
 
-<demo component-name="color-picker" examples="disabled"></demo>
+<demo :component="colorPickerDisabled" name="color-picker" examples="disabled" />
 
 ## 事件处理
 
 颜色选择器提供了多种事件用于处理颜色选择过程中的操作。
 
-<demo component-name="color-picker" examples="events"></demo>
+<demo :component="colorPickerEvents" name="color-picker" examples="events" />
 
 ## 颜色选择器 API
 
@@ -95,5 +105,3 @@
 | $font-size-default      | 默认字体大小 |
 | $font-size-small        | 小号字体大小 |
 | $opacity-disabled       | 禁用状态透明度 |
-
-</rewritten_file>

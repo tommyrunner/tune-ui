@@ -22,7 +22,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TCheckbox, TCheckboxGroup } from "tune-ui";
+
 
 const checkedRow = ref(["option1", "option2"]);
 const checkedColumn = ref(["option2", "option3"]);

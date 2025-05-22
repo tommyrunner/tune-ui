@@ -34,7 +34,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { TDialog, TButton } from "tune-ui";
+
 
 const dialogVisible = ref(false);
 const status = ref("");

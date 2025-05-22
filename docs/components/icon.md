@@ -1,3 +1,11 @@
+<script setup lang="ts">
+import iconBasic from '../examples/icon/basic.vue'
+import iconSize from '../examples/icon/size.vue'
+import iconColor from '../examples/icon/color.vue'
+import iconCustom from '../examples/icon/custom.vue'
+import iconAll from '../examples/icon/all.vue'
+</script>
+
 # 图标组件
 
 ![图标组件](/components/icon.png)
@@ -8,13 +16,13 @@
 
 Tune UI 内置了丰富的图标，通过 `icon` 属性指定图标名称。
 
-<demo component-name="icon" examples="basic"></demo>
+<demo :component="iconBasic" name="icon" examples="basic" />
 
 ## 图标尺寸
 
 可以通过 `size` 属性自定义图标的尺寸，单位为 `px`。
 
-<demo component-name="icon" examples="size"></demo>
+<demo :component="iconSize" name="icon" examples="size" />
 
 ## 图标颜色
 
@@ -23,19 +31,19 @@ Tune UI 内置了丰富的图标，通过 `icon` 属性指定图标名称。
 1. 使用 `color` 属性指定自定义颜色值
 2. 使用 `type` 属性使用主题颜色
 
-<demo component-name="icon" examples="color"></demo>
+<demo :component="iconColor" name="icon" examples="color" />
 
 ## 自定义图标
 
 除了内置图标，你还可以通过 `customIcon` 属性引入自定义的图标。
 
-<demo component-name="icon" examples="custom"></demo>
+<demo :component="iconCustom" name="icon" examples="custom" />
 
 ## 图标分类
 
 以下是所有可用的图标，按照不同的类别进行了分组。点击图标可复制图标名称。
 
-<demo component-name="icon" examples="all"></demo>
+<demo :component="iconAll" name="icon" examples="all" />
 
 ## 图标 API
 
