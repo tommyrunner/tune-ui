@@ -1,6 +1,6 @@
 {
   "name": "tune-ui",
-  "version": "1.1.11",
+  "version": "1.1.13",
   "description": "基于Vue3的现代化UI组件库",
   "main": "./dist/lib/index.js",
   "module": "./dist/es/index.js",
@@ -42,12 +42,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tommyrunner/tui.git"
+    "url": "https://github.com/tommyrunner/tune-ui"
   },
   "bugs": {
-    "url": "https://github.com/tommyrunner/tui/issues"
+    "url": "https://github.com/tommyrunner/tune-ui/issues"
   },
-  "homepage": "https://github.com/tommyrunner/tui#readme",
+  "homepage": "https://tommyrunner.github.io/tune-ui/",
   "engines": {
     "node": ">=16.0.0"
   },
