@@ -15,6 +15,13 @@ export default defineConfig({
   description: "现代化Vue3 UI组件库，提高开发效率",
   head: [["link", { rel: "icon", href: "https://i.postimg.cc/PxMBWVPz/logo.png" }]],
 
+  // 启用本地搜索功能
+  themeConfig: {
+    search: {
+      provider: 'local'
+    }
+  },
+
   // Vite 构建配置
   vite: {
     // 路径别名配置

@@ -69,7 +69,7 @@
     "rollup-plugin-visualizer": "^5.12.0",
     "sass": "^1.70.0",
     "standard-version": "^9.5.0",
-    "tune-ui": "^1.1.9",
+    "tune-ui": "^1.1.13",
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "vite-plugin-dts": "^3.7.2",
