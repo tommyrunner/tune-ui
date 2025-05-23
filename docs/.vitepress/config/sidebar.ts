@@ -7,14 +7,16 @@ export default {
         text: "基础",
         items: [
           { text: "快速开始", link: "/guide/" },
-          { text: "安装使用", link: "/guide/installation" }
+          { text: "安装使用", link: "/guide/installation/" }
         ]
       },
       {
         text: "进阶",
         items: [
           { text: "国际化", link: "/guide/i18n/" },
-          { text: "主题定制", link: "/guide/theming/" }
+          { text: "主题定制", link: "/guide/theming/" },
+          { text: "指令引入", link: "/guide/directives/" },
+          { text: "配置描述", link: "/guide/options/" }
         ]
       }
     ],
@@ -93,14 +95,16 @@ export default {
         text: "Basics",
         items: [
           { text: "Getting Started", link: "/en/guide/" },
-          { text: "Installation", link: "/en/guide/installation" }
+          { text: "Installation", link: "/en/guide/installation/" }
         ]
       },
       {
         text: "Advanced",
         items: [
           { text: "Internationalization", link: "/en/guide/i18n/" },
-          { text: "Theming", link: "/en/guide/theming/" }
+          { text: "Theming", link: "/en/guide/theming/" },
+          { text: "Directives", link: "/en/guide/directives/" },
+          { text: "Options", link: "/en/guide/options/" }
         ]
       }
     ],

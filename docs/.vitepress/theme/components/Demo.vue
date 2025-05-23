@@ -136,7 +136,7 @@ const loadSourceCode = async () => {
       } else {
         // 开发环境：使用import方式加载
         try {
-          const code = await import(`${componentPath.value}?raw`);
+          const code = await import(/* @vite-ignore */ `${componentPath.value}?raw`);
           sourceCode.value = code.default;
         } catch (importError) {
           console.error("Import加载源代码失败:", importError);
