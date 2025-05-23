@@ -48,7 +48,7 @@
     <!-- 国际化配置 -->
     <test-section title="国际化配置">
       <div class="size-settings">
-        <t-select v-model="locale" @change="handleLocaleChange" :options="localeOptions" />
+        <t-select v-model="locale" @change="handleLocaleChange" :options="localeOptions" :clearable="false" />
         <div class="size-preview">
           <div class="preview-items">
             <t-calendar :disabled-time-view="false" show-time />
@@ -85,6 +85,7 @@
 </template>
 
 <script lang="ts" setup>
+import { type OptionsThemeType, LOCALE_TYPE } from "@/hooks/useOptions/type";
 import { ref, reactive } from "vue";
 import { TButton } from "@/packages/button";
 import { TRadio, TRadioGroup } from "@/packages/radio";
@@ -97,7 +98,6 @@ import { TSelect } from "@/packages/select";
 import { TMessage } from "@/packages/message";
 import TestSection from "./components/test-section.vue";
 import { useOptions } from "@/hooks/useOptions";
-import type { OptionsThemeType } from "@/hooks/useOptions/type";
 
 defineOptions({ name: "SettingsTest" });
 
@@ -122,10 +122,10 @@ const themeColors = reactive<OptionsThemeType>({ ...configOptions.value.theme })
 const elementSize = ref(configOptions.value.elSize || "default");
 
 // 国际化配置
-const locale = ref(configOptions.value.locale || "zh-CN");
+const locale = ref(configOptions.value.locale || LOCALE_TYPE.ZH_CN);
 const localeOptions = ref([
-  { label: "中文", value: "zh-CN" },
-  { label: "英文", value: "en-US" }
+  { label: "中文", value: LOCALE_TYPE.ZH_CN },
+  { label: "英文", value: LOCALE_TYPE.EN_US }
 ]);
 
 /**

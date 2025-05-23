@@ -1,5 +1,5 @@
 import type { ElSizeType } from "@/types";
-import type { OptionsResultType, OptionsThemeType, OptionsType, LocaleType } from "./type";
+import type { OptionsResultType, OptionsThemeType, OptionsType, LOCALE_TYPE } from "./type";
 import type { OptionsType as LoadingOptionsType } from "web-loading";
 import { computed, ref } from "vue";
 import { DEFAULT_LOCALE } from "./constants";
@@ -66,7 +66,7 @@ export function useOptions(): OptionsResultType {
    * 切换语言
    * @param {LocaleType} locale - 目标语言
    */
-  const setLocale = (locale: LocaleType) => {
+  const setLocale = (locale: LOCALE_TYPE) => {
     configOptions.value.locale = locale;
   };
 
