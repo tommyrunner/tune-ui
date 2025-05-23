@@ -1,6 +1,6 @@
 <template>
   <div class="t-breadcrumb">
-    <div v-for="(item, index) in options" :key="item.value || index" class="_breadcrumb-item">
+    <div v-for="(item, index) in props.options" :key="item.value || index" class="_breadcrumb-item">
       <div v-if="index !== 0" class="_separator" :style="{ margin: `0px ${gap}px` }">
         <t-icon v-if="separatedIcon" :icon="separatedIcon" :size="13" />
         <b v-else>/</b>
@@ -19,7 +19,7 @@ import type { EmitsType, PropsType, ValueType } from "./breadcrumb";
 import { TIcon } from "@/packages/icon";
 
 defineOptions({ name: "TBreadcrumb" });
-const { gap, separatedIcon, options } = withDefaults(defineProps<PropsType>(), {
+const props = withDefaults(defineProps<PropsType>(), {
   gap: 6,
   options: () => []
 });

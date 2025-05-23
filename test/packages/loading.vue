@@ -72,8 +72,7 @@ import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
 import { fullLoading, miniLoading } from "@/packages/loading";
 import { useOptions } from "@/hooks/useOptions";
-import type { OptionsType as LoadingOptionsType } from "web-loading";
-import { MODEL_TYPES } from "web-loading";
+import { OptionsType, MODEL_TYPES } from "@/directive";
 
 defineOptions({ name: "LoadingTest" });
 const { updateLoadingOptions } = useOptions();
@@ -133,7 +132,7 @@ const toggleLoading = (loadingRef: "loading1" | "loading2" | "loading3" | "loadi
  * 显示全屏加载
  */
 const showFullscreenLoading = () => {
-  const options: LoadingOptionsType = {
+  const options: OptionsType = {
     text: "加载中...",
     bgColor: "rgba(0, 0, 0, 0.5)",
     model: MODEL_TYPES.RING,
@@ -150,7 +149,7 @@ const showFullscreenLoading = () => {
  * 显示迷你加载
  */
 const showMiniLoading = () => {
-  const options: LoadingOptionsType = {
+  const options: OptionsType = {
     text: "加载中...",
     bgColor: "rgba(0, 0, 0, 0.5)",
     model: MODEL_TYPES.RING,

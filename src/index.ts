@@ -5,4 +5,4 @@ export * from "./hooks";
 /** 导出icons */
 import "./icons/index.css";
 /** 导出指令 */
-import "./directive";
+export * from "./directive";
