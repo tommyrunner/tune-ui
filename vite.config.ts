@@ -20,7 +20,9 @@ export default defineConfig({
       fileName: format => {
         return format === "es" ? "es/index" : "lib/index";
       }
-    }
+    },
+    // 排除test目录
+    emptyOutDir: true
   },
   plugins: vitePlugins,
   resolve: {

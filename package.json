@@ -80,7 +80,8 @@
   "dependencies": {
     "dayjs": "^1.11.13",
     "escape-html": "^1.0.3",
-    "prismjs": "^1.30.0"
+    "prismjs": "^1.30.0",
+    "web-loading": "^1.5.2"
   },
   "peerDependencies": {
     "vue": "^3.3.0"

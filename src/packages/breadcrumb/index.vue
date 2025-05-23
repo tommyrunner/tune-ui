@@ -16,26 +16,16 @@
 <script lang="ts" setup>
 import "./index.scss";
 import type { EmitsType, PropsType, ValueType } from "./breadcrumb";
-import { useRouter } from "vue-router";
 import { TIcon } from "@/packages/icon";
-import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TBreadcrumb" });
-const props = withDefaults(defineProps<PropsType>(), {
-  isRouter: true,
+const { gap, separatedIcon, options } = withDefaults(defineProps<PropsType>(), {
   gap: 6,
   options: () => []
 });
-const { TEXT_ROUTE_NOT_FOUND, TEXT_ROUTE_NOT_SET } = useI18nText();
 
 const model = defineModel<string>();
 const emit = defineEmits<EmitsType>();
-const router = useRouter();
-
-// 路由检查
-if (!router) {
-  console.warn(TEXT_ROUTE_NOT_FOUND);
-}
 
 /**
  * 处理面包屑项点击
@@ -47,15 +37,7 @@ const handleClick = (item: ValueType) => {
   model.value = item.value;
   emit("change", item);
 
-  // 处理路由跳转
-  const { isRouter, isReplace } = props;
-  if (!isRouter || !router) return;
-
-  if (!item.to) {
-    console.warn(TEXT_ROUTE_NOT_SET);
-    return;
-  }
-
-  isReplace ? router.replace(item.to) : router.push(item.to);
+  // 触发点击事件，由使用者自行处理路由跳转
+  emit("click", item);
 };
 </script>

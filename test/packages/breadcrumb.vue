@@ -40,21 +40,12 @@
       </div>
     </test-section>
 
-    <!-- 路由跳转 -->
-    <test-section title="路由跳转">
-      <div class="breadcrumb-group">
-        <div class="breadcrumb-item">
-          <div class="breadcrumb-label">普通模式：</div>
-          <t-breadcrumb :options="routerOptions" v-model="activeValue" :isRouter="false" />
-        </div>
-        <div class="breadcrumb-item">
-          <div class="breadcrumb-label">路由模式：</div>
-          <t-breadcrumb :options="routerOptions" v-model="activeValue" :isRouter="true" />
-        </div>
-        <div class="breadcrumb-item">
-          <div class="breadcrumb-label">Replace模式：</div>
-          <t-breadcrumb :options="routerOptions" v-model="activeValue" isRouter isReplace />
-        </div>
+    <!-- 路由数据 -->
+    <test-section title="路由数据（回调处理）">
+      <t-breadcrumb :options="routerOptions" v-model="activeValue" @click="handleRouterClick" />
+      <div class="route-info">
+        <div class="route-title">路由信息:</div>
+        <div v-if="currentRoute" class="route-item">当前路由: {{ currentRoute.path }} ({{ currentRoute.name }})</div>
       </div>
     </test-section>
 
@@ -65,7 +56,7 @@
 
     <!-- 事件测试 -->
     <test-section title="事件测试">
-      <t-breadcrumb :options="baseOptions" v-model="activeValue" @change="handleChange" />
+      <t-breadcrumb :options="baseOptions" v-model="activeValue" @change="handleChange" @click="handleClick" />
       <div class="event-log">
         <div class="event-title">事件记录:</div>
         <div v-for="(event, index) in eventLogs" :key="index" class="event-item">
@@ -132,11 +123,40 @@ const activeValue = ref("list");
 // 事件记录
 const eventLogs = ref<string[]>([]);
 
+// 当前路由信息
+const currentRoute = ref<RouteRecordRaw>();
+
 /**
  * 处理选择事件
  */
 const handleChange = (item: ValueType) => {
-  eventLogs.value.unshift(`点击项: ${item.label}`);
+  eventLogs.value.unshift(`选择事件: ${item.label}`);
+  limitLogs();
+};
+
+/**
+ * 处理点击事件
+ */
+const handleClick = (item: ValueType) => {
+  eventLogs.value.unshift(`点击事件: ${item.label}`);
+  limitLogs();
+};
+
+/**
+ * 处理路由点击
+ */
+const handleRouterClick = (item: ValueType) => {
+  if (item.to) {
+    // 这里可以自行处理路由跳转，例如：
+    // router.push(item.to)
+    currentRoute.value = item.to as RouteRecordRaw;
+  }
+};
+
+/**
+ * 限制日志数量
+ */
+const limitLogs = () => {
   // 只保留最近5条记录
   if (eventLogs.value.length > 5) {
     eventLogs.value.pop();
@@ -171,19 +191,22 @@ const handleChange = (item: ValueType) => {
     }
   }
 
-  .event-log {
+  .event-log,
+  .route-info {
     margin-top: 16px;
     padding: 12px;
     background-color: #f9fafb;
     border-radius: 4px;
 
-    .event-title {
+    .event-title,
+    .route-title {
       margin-bottom: 8px;
       font-weight: 500;
       color: #374151;
     }
 
-    .event-item {
+    .event-item,
+    .route-item {
       padding: 4px 0;
       color: #666;
       font-size: 14px;

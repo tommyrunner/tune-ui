@@ -1,5 +1,4 @@
 import common from "./components/common/en-US";
-import breadcrumb from "./components/breadcrumb/en-US";
 import calendar from "./components/calendar/en-US";
 import datePicker from "./components/date-picker/en-US";
 import form from "./components/form/en-US";
@@ -9,8 +8,6 @@ export default {
   ...common,
   // 日历组件
   ...calendar,
-  // 面包屑组件
-  ...breadcrumb,
   // 日期选择器组件
   ...datePicker,
   // 表单组件

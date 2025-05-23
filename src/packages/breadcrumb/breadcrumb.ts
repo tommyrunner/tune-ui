@@ -1,4 +1,3 @@
-import type { RouteRecordRaw } from "vue-router";
 import type { IconTypes } from "@/packages/icon/icon";
 
 /**
@@ -12,7 +11,7 @@ export type ValueType = {
   /** 图标类型 */
   icon?: IconTypes;
   /** 跳转路由 */
-  to?: RouteRecordRaw;
+  to?: string;
   /** 是否禁用 */
   disabled?: boolean;
 };
@@ -23,10 +22,6 @@ export type ValueType = {
 export interface PropsType {
   /** 选项数据 */
   options: ValueType[];
-  /** 是否使用路由跳转 */
-  isRouter?: boolean;
-  /** 是否使用replace模式跳转 */
-  isReplace?: boolean;
   /** 分隔符图标 */
   separatedIcon?: IconTypes;
   /** 分隔符间距 */
@@ -39,4 +34,6 @@ export interface PropsType {
 export interface EmitsType {
   /** 选择事件 */
   (e: "change", data: ValueType): void;
+  /** 点击事件 */
+  (e: "click", data: ValueType): void;
 }
