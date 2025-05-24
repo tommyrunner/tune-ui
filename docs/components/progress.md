@@ -33,7 +33,7 @@ import progressFormat from '../examples/progress/format.vue'
 
 设置 `textInside` 属性可以将百分比显示在进度条内部。
 
-<demo :component="progressTextInside" name="progress" examples="textinside" />
+<demo :component="progressTextInside" name="progress" examples="text-inside" />
 
 ## 自定义颜色
 

@@ -50,7 +50,7 @@ import datePickerMultipleEvents from '../examples/date-picker-multiple/events.vu
 
 设置 `show-time` 属性可以在选择日期的同时选择时间。
 
-<demo :component="datePickerMultipleDateTime" name="date-picker-multiple" examples="datetime" />
+<demo :component="datePickerMultipleDateTime" name="date-picker-multiple" examples="date-time" />
 
 ## 快捷选项
 

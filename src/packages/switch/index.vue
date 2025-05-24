@@ -21,15 +21,15 @@ import { TIcon } from "@/packages/icon";
 
 defineOptions({ name: "TSwitch" });
 
-// 基础尺寸
-const { baseSize } = useOptions();
-
 /** Props定义 */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   loading: false,
   disabled: false
 });
+
+// 基础尺寸
+const { baseSize } = useOptions(props);
 
 /** Emits定义 */
 const emit = defineEmits<EmitsType>();

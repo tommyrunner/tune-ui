@@ -33,7 +33,7 @@ import dividerWithText from '../examples/divider/with-text.vue'
 
 可以在分割线中嵌入文本内容，支持自定义文本位置。
 
-<demo :component="dividerWithText" name="divider" examples="withtext" />
+<demo :component="dividerWithText" name="divider" examples="with-text" />
 
 ## 分割线 API
 

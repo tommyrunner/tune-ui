@@ -16,7 +16,7 @@
         <template v-if="!props.listData.length">
           <div class="_empty" :style="{ height: fromCssVal(props.height) }">
             <slot name="empty">
-              <div>{{ TEXT_EMPTY }}</div>
+              <div>{{ props.emptyText || TEXT_EMPTY }}</div>
             </slot>
           </div>
         </template>

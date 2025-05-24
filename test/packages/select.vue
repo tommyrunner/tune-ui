@@ -61,10 +61,11 @@
 
     <test-section title="远程搜索">
       <div class="select-wrapper">
+        <i>{{ state.loading ? "加载中..." : "没有加载" }}</i>
         <t-select
           v-model="state.remoteValue"
           :options="remoteOptions"
-          v-model:loading="state.loading"
+          :loading="state.loading"
           filterable
           :remote-method="handleRemoteMethod"
           placeholder="远程搜索"
@@ -351,6 +352,8 @@ const handleFilterMethod = (option: OptionsItemType, query: string) => {
  */
 const handleRemoteMethod = async (query: string) => {
   state.loading = true;
+  remoteOptions.value = [];
+  console.log(query);
   // 模拟远程请求
   setTimeout(() => {
     state.loading = false;

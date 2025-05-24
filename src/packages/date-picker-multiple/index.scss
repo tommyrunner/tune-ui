@@ -24,12 +24,9 @@
     &.t-disabled {
       background-color: $border-color-default;
       border-color: $border-color-default;
-      color: $text-color-default;
-      cursor: not-allowed;
-
       input {
-        cursor: not-allowed;
         color: $text-color-default;
+        cursor: not-allowed !important;
       }
     }
 

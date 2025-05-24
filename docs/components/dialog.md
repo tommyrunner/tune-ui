@@ -61,7 +61,7 @@ import dialogAsyncClose from '../examples/dialog/async-close.vue'
 
 可以结合 `before-close` 回调实现异步关闭对话框的功能，适用于需要在关闭前执行特定操作的场景。
 
-<demo :component="dialogAsyncClose" name="dialog" examples="asyncclose" />
+<demo :component="dialogAsyncClose" name="dialog" examples="async-close" />
 
 ## 对话框 API
 

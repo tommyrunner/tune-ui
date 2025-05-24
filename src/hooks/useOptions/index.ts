@@ -1,4 +1,4 @@
-import type { ElSizeType } from "@/types";
+import type { BaseProps, ElSizeType } from "@/types";
 import type { OptionsResultType, OptionsThemeType, OptionsType, LOCALE_TYPE } from "./type";
 import type { OptionsType as LoadingOptionsType } from "web-loading";
 import { computed, ref } from "vue";
@@ -31,9 +31,10 @@ export function initOptions(): OptionsType {
 
 /**
  * 抛出全局配置api
+ * @param {BaseProps} props - 组件props(可选，用于获取组件默认props属性)
  * @returns {OptionsResultType} 配置操作方法和状态
  */
-export function useOptions(): OptionsResultType {
+export function useOptions(props?: BaseProps): OptionsResultType {
   /**
    * 更新主题色
    * @param {OptionsThemeType} theme - 主题配置
@@ -73,7 +74,7 @@ export function useOptions(): OptionsResultType {
   /**
    * 获取基础尺寸
    */
-  const baseSize = computed(() => configOptions.value.elSize);
+  const baseSize = computed(() => props?.size || configOptions.value.elSize);
 
   /**
    * 获取当前语言

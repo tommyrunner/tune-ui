@@ -69,15 +69,6 @@ export interface OptionsType {
 }
 
 /**
- * @description 组件基础属性
- * @interface PropsBaseType
- */
-export interface PropsBaseType {
-  /** 组件尺寸 */
-  size: ElSizeType;
-}
-
-/**
  * @description 全局配置hooks操作返回
  * @interface OptionsResultType
  */

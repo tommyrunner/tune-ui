@@ -105,7 +105,7 @@
       </template>
 
       <!-- 输入框显示区域 -->
-      <div :class="datePickerClassNames">
+      <div :class="datePickerMultipleClassNames">
         <!-- 前缀插槽 -->
         <div class="_prefix" v-if="$slots.prefix">
           <slot name="prefix"></slot>
@@ -142,7 +142,6 @@ import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
 import { TCalendar } from "@/packages/calendar";
 import { TButton } from "@/packages/button";
-import { configOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS } from "./date-picker-multiple";
 import { useDatePickerMultiple, useMonthSelection, useYearSelection } from "./hooks";
 import { useTip } from "@/hooks";
@@ -153,7 +152,6 @@ defineOptions({ name: "TDatePickerMultiple" });
 // Props 和 Emits 定义
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
-  size: configOptions.value.elSize,
   mode: "date",
   position: "bottom",
   isTip: true,
@@ -188,7 +186,7 @@ const {
   handleDateCellClick,
   handleShortcutClick,
   handleConfirm,
-  datePickerClassNames,
+  datePickerMultipleClassNames,
   showClearIcon,
   iconSize,
   isConfirmDisabled,

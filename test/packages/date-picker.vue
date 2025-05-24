@@ -29,6 +29,15 @@
         </div>
       </div>
     </test-section>
+    <!-- 不同尺寸 -->
+    <test-section title="不同尺寸">
+      <div class="date-picker-section">
+        <!-- 默认日期选择器 -->
+        <t-date-picker v-model="state.date" size="small" placeholder="小尺寸" />
+        <t-date-picker v-model="state.date" size="default" placeholder="默认尺寸" />
+        <t-date-picker v-model="state.date" size="large" placeholder="大尺寸" />
+      </div>
+    </test-section>
 
     <!-- valueFormat格式化 -->
     <test-section title="valueFormat格式化">
@@ -149,7 +158,29 @@
         </div>
       </div>
     </test-section>
+    <!-- 禁用状态 -->
+    <test-section title="禁用状态 (disabled)">
+      <div class="date-picker-section">
+        <!-- 禁用状态 -->
+        <div class="date-picker-block">
+          <div class="date-picker-label">禁用状态：</div>
+          <t-date-picker v-model="state.disabledDate" disabled />
+          <div class="value-display">
+            <div>选择的日期：{{ state.disabledDate }}</div>
+          </div>
+        </div>
 
+        <!-- 禁用日期 -->
+        <div class="date-picker-block">
+          <div class="date-picker-label">禁用日期 (disabledDate)：</div>
+          <t-date-picker v-model="state.disabledBeforeTodayDate" :disabled-date="disableDateBeforeToday" />
+          <div class="value-display">
+            <div>选择的日期：{{ state.disabledBeforeTodayDate }}</div>
+            <div class="disabled-info">今天之前的日期已被禁用</div>
+          </div>
+        </div>
+      </div>
+    </test-section>
     <!-- 时间选择器 -->
     <test-section title="时间选择器">
       <div class="date-picker-section">
@@ -266,7 +297,11 @@ const state = reactive({
   // 时间对话框事件测试
   timeDialogDate: new Date(),
   timeDialogOpen: false,
-  timeDialogLogs: [] as string[]
+  timeDialogLogs: [] as string[],
+
+  // 禁用状态
+  disabledDate: new Date(),
+  disabledBeforeTodayDate: new Date()
 });
 
 /**
@@ -276,6 +311,15 @@ const resetInputs = () => {
   state.stringInput = new Date();
   state.dateInput = new Date();
   state.timestampInput = formatDate(new Date("2023-05-17"), "YYYY-MM-DD");
+};
+
+/**
+ * 禁用今天之前的日期
+ */
+const disableDateBeforeToday = (date: Date): boolean => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return date < today;
 };
 
 /**
@@ -409,5 +453,11 @@ const handleDateDialogClose = () => {
   margin-top: 8px;
   display: flex;
   gap: 8px;
+}
+
+.disabled-info {
+  color: #f56c6c;
+  font-size: 13px;
+  margin-top: 4px;
 }
 </style>

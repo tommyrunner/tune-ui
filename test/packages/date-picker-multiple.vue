@@ -30,6 +30,16 @@
       </div>
     </test-section>
 
+    <!-- 不同尺寸 -->
+    <test-section title="不同尺寸">
+      <div class="date-picker-section">
+        <!-- 默认日期选择器 -->
+        <t-date-picker-multiple v-model="state.multipleDates" size="small" placeholder="小尺寸" />
+        <t-date-picker-multiple v-model="state.multipleDates" size="default" placeholder="默认尺寸" />
+        <t-date-picker-multiple v-model="state.multipleDates" size="large" placeholder="大尺寸" />
+      </div>
+    </test-section>
+
     <!-- 不同模式 -->
     <test-section title="不同模式 (mode)">
       <div class="date-picker-section">

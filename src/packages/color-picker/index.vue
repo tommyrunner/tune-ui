@@ -122,9 +122,6 @@ import { useI18nText } from "./i18n";
  */
 defineOptions({ name: "TColorPicker" });
 
-// 基础尺寸
-const { baseSize } = useOptions();
-
 /**
  * @description 组件Props定义
  */
@@ -137,6 +134,9 @@ const props = withDefaults(defineProps<PropsType>(), {
   tabindex: 0,
   teleported: true
 });
+
+// 基础尺寸
+const { baseSize } = useOptions(props);
 
 const { TEXT_CLEAR, TEXT_CONFIRM } = useI18nText();
 /**

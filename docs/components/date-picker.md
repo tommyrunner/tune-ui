@@ -50,13 +50,13 @@ import datePickerEvents from '../examples/date-picker/events.vue'
 
 设置 `show-time` 属性可以在选择日期的同时选择时间。
 
-<demo :component="datePickerDateTime" name="date-picker" examples="datetime" />
+<demo :component="datePickerDateTime" name="date-picker" examples="date-time" />
 
 ## 禁用日期
 
 通过 `disabled-date` 函数可以自定义哪些日期不可选择。
 
-<demo :component="datePickerDisabledDate" name="date-picker" examples="disableddate" />
+<demo :component="datePickerDisabledDate" name="date-picker" examples="disabled-date" />
 
 ## 自定义位置
 

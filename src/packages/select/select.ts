@@ -59,6 +59,8 @@ export interface PropsType extends TipProps, BaseProps {
   checkStrictly?: boolean;
   /** 是否可选择父级 */
   selectParent?: boolean;
+  /** 是否显示loading */
+  loading?: boolean;
   /** 远程搜索方法(必须开启filterable) */
   remoteMethod?: (query: string) => void;
   /** 自定义过滤方法 */

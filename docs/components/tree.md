@@ -30,7 +30,7 @@ import treeExpandControl from '../examples/tree/expand-control.vue'
 
 通过 `expanded` 和 `checked` 属性可以设置默认展开和选中的节点。
 
-<demo :component="treeDefaultState" name="tree" examples="defaultstate" />
+<demo :component="treeDefaultState" name="tree" examples="default-state" />
 
 ## 手风琴模式
 
@@ -48,13 +48,13 @@ import treeExpandControl from '../examples/tree/expand-control.vue'
 
 通过默认插槽可以自定义节点的内容和样式。
 
-<demo :component="treeCustomNode" name="tree" examples="customnode" />
+<demo :component="treeCustomNode" name="tree" examples="custom-node" />
 
 ## 控制节点展开方式
 
 通过设置 `expand-on-click-node` 属性可以控制是否在点击节点时展开/折叠节点。
 
-<demo :component="treeExpandControl" name="tree" examples="expandcontrol" />
+<demo :component="treeExpandControl" name="tree" examples="expand-control" />
 
 ## 树形控件 API
 

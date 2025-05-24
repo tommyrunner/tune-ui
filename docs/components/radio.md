@@ -49,7 +49,7 @@ import radioEvents from '../examples/radio/events.vue'
 
 单选框组支持四种类型：`default`（默认）、`text`（文本）、`border`（边框）和 `button`（按钮）。
 
-<demo :component="radioGroupType" name="radio" examples="grouptype" />
+<demo :component="radioGroupType" name="radio" examples="group-type" />
 
 ## 排列方向
 

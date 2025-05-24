@@ -52,9 +52,6 @@ import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TInput" });
 
-// 基础尺寸
-const { baseSize } = useOptions();
-
 const inputRef = ref();
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
@@ -66,6 +63,10 @@ const props = withDefaults(defineProps<PropsType>(), {
   debounceDelay: 1000,
   autocomplete: "off"
 });
+
+// 基础尺寸
+const { baseSize } = useOptions(props);
+
 const { TEXT_PLACEHOLDER } = useI18nText(props);
 
 const model = defineModel<string>();
@@ -79,7 +80,7 @@ const inputClasses = computed(() => {
   const { password, clearable, disabled } = props;
   return [
     "t-input",
-    `t-input-size-${baseSize}`,
+    `t-input-size-${baseSize.value}`,
     password && "t-input-password",
     clearable && "t-input-clearable",
     disabled && "t-disabled"

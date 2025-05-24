@@ -39,25 +39,25 @@ import tableSummary from '../examples/table/summary.vue'
 
 通过设置 `columns` 中的 `fixed` 属性可以固定列。
 
-<demo :component="tableFixedColumn" name="table" examples="fixedcolumn" />
+<demo :component="tableFixedColumn" name="table" examples="fixed-column" />
 
 ## 固定行
 
 通过 `fixedRow` 属性可以设置特定行固定不随滚动而移动。
 
-<demo :component="tableFixedRow" name="table" examples="fixedrow" />
+<demo :component="tableFixedRow" name="table" examples="fixed-row" />
 
 ## 排序和筛选
 
 表格支持列排序和筛选功能。
 
-<demo :component="tableSortFilter" name="table" examples="sortfilter" />
+<demo :component="tableSortFilter" name="table" examples="sort-filter" />
 
 ## 自定义渲染
 
 通过 `render` 和 `renderHead` 属性可以自定义单元格和表头内容。
 
-<demo :component="tableCustomRender" name="table" examples="customrender" />
+<demo :component="tableCustomRender" name="table" examples="custom-render" />
 
 ## 选择与事件
 

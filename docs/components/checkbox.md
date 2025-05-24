@@ -63,7 +63,7 @@ import checkboxEvents from '../examples/checkbox/events.vue'
 
 复选框组支持四种类型：`default`（默认）、`text`（文本）、`border`（边框）和 `button`（按钮）。
 
-<demo :component="checkboxGroupType" name="checkbox" examples="grouptype" />
+<demo :component="checkboxGroupType" name="checkbox" examples="group-type" />
 
 ## 排列方向
 

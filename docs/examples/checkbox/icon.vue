@@ -4,20 +4,19 @@
       <t-checkbox v-model="checked1" icon="success">默认成功图标</t-checkbox>
     </div>
     <div class="checkbox-row">
-      <t-checkbox v-model="checked2" icon="check">使用"check"图标</t-checkbox>
+      <t-checkbox v-model="checked2" icon="lock">使用"lock"图标</t-checkbox>
     </div>
     <div class="checkbox-row">
-      <t-checkbox v-model="checked3" icon="heart">使用"heart"图标</t-checkbox>
+      <t-checkbox v-model="checked3" icon="info">使用"info"图标</t-checkbox>
     </div>
     <div class="checkbox-row">
-      <t-checkbox v-model="checked4" icon="star">使用"star"图标</t-checkbox>
+      <t-checkbox v-model="checked4" icon="close">使用"close"图标</t-checkbox>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-
 
 const checked1 = ref(true);
 const checked2 = ref(true);

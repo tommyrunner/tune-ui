@@ -54,9 +54,6 @@ defineOptions({ name: "TInputNumber" });
 // Props & Emits 定义
 const emit = defineEmits<EmitsType>();
 
-// 基础尺寸
-const { baseSize } = useOptions();
-
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   isTip: true,
@@ -64,6 +61,9 @@ const props = withDefaults(defineProps<PropsType>(), {
   step: 1,
   debounceDelay: 1000
 });
+
+// 基础尺寸
+const { baseSize } = useOptions(props);
 
 const { TEXT_PLACEHOLDER } = useI18nText(props);
 // 组件状态管理
@@ -79,10 +79,10 @@ const defaultIconColor = "#656a6e88";
  * @returns 组件的类名数组
  */
 const inputNumberClasses = computed(() => {
-  const { size, disabled, isRange, isControls } = props;
+  const { disabled, isRange, isControls } = props;
   return [
     "t-input-number",
-    `t-input-number-size-${size}`,
+    `t-input-number-size-${baseSize.value}`,
     isRange && "t-input-number-range",
     isControls && "t-input-number-controls",
     disabled && "t-disabled"

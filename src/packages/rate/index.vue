@@ -23,9 +23,6 @@ import { ICON_SIZES } from "./rate";
 
 defineOptions({ name: "TRate" });
 
-// 基础尺寸
-const { baseSize } = useOptions();
-
 /** Props定义 */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
@@ -34,6 +31,9 @@ const props = withDefaults(defineProps<PropsType>(), {
   isHalf: true,
   disabled: false
 });
+
+// 基础尺寸
+const { baseSize } = useOptions(props);
 
 /** Emits定义 */
 const emit = defineEmits<EmitsType>();

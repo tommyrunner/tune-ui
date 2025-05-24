@@ -24,15 +24,15 @@ import { TIcon } from "@/packages/icon";
 
 defineOptions({ name: "TCheckbox" });
 
-// 基础尺寸
-const { baseSize } = useOptions();
-
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   radius: "square",
   value: false,
   disabled: false
 });
+
+// 基础尺寸
+const { baseSize } = useOptions(props);
 
 const emit = defineEmits<EmitsType>();
 const slot = useSlots();

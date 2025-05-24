@@ -25,7 +25,7 @@ import uploadSlots from '../examples/upload/slots.vue'
 
 上传组件支持两种文件列表展示方式：文本列表和图片列表。使用 `list-type` 属性进行设置。
 
-<demo :component="uploadListType" name="upload" examples="listtype" />
+<demo :component="uploadListType" name="upload" examples="list-type" />
 
 ## 拖拽上传
 

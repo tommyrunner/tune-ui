@@ -36,25 +36,25 @@ Calendar组件支持通过`value-format`属性指定日期的输出格式，组�
 
 通过插槽`date`自定义日期单元格的内容和样式，可以添加假日标记、活动标记等。
 
-<demo :component="calendarCustomCell" name="calendar" examples="customcell" />
+<demo :component="calendarCustomCell" name="calendar" examples="custom-cell" />
 
 ## 禁用日期
 
 通过`disabled-date`属性可以指定哪些日期不可选择，该属性接收一个函数，返回`true`表示禁用。
 
-<demo :component="calendarDisabledDate" name="calendar" examples="disableddate" />
+<demo :component="calendarDisabledDate" name="calendar" examples="disabled-date" />
 
 ## 时间选择器
 
 通过设置`show-time`属性可以开启时间选择功能，可以同时选择日期和时间。
 
-<demo :component="calendarTimePicker" name="calendar" examples="timepicker" />
+<demo :component="calendarTimePicker" name="calendar" examples="time-picker" />
 
 ## 自定义底部
 
 通过插槽`footer`可以自定义日历底部内容，例如添加快捷按钮。
 
-<demo :component="calendarCustomFooter" name="calendar" examples="customfooter" />
+<demo :component="calendarCustomFooter" name="calendar" examples="custom-footer" />
 
 ## 日历 API
 

@@ -19,7 +19,7 @@ export const useDatePickerMultiple = (props: PropsType, emit: any, model: any, c
   const selectedDates = ref<Date[]>([]);
   const tempSelectedDates = ref<Date[]>([]);
   const tempMode = ref<ModeType>(null);
-  const { baseSize } = useOptions();
+  const { baseSize } = useOptions(props);
 
   /**
    * @description 将任意日期类型转换为Date对象
@@ -234,7 +234,7 @@ export const useDatePickerMultiple = (props: PropsType, emit: any, model: any, c
   };
 
   // 计算属性
-  const datePickerClassNames = computed(() => {
+  const datePickerMultipleClassNames = computed(() => {
     const { clearable, disabled } = props;
     return [
       "_date-picker-multiple-content",
@@ -357,7 +357,7 @@ export const useDatePickerMultiple = (props: PropsType, emit: any, model: any, c
     handleDateCellClick,
     handleShortcutClick,
     handleConfirm,
-    datePickerClassNames,
+    datePickerMultipleClassNames,
     showClearIcon,
     iconSize,
     isConfirmDisabled,

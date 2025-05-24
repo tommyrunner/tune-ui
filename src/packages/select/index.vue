@@ -1,5 +1,5 @@
 <template>
-  <div class="t-select">
+  <div class="t-select" @click="inputRef.focus()">
     <t-popover
       v-model="state.isDropdownVisible"
       type="click"
@@ -39,7 +39,6 @@
           </template>
         </t-list-view>
       </template>
-
       <!-- 文本模式显示 -->
       <div class="_text-content" v-if="type === 'text'">
         {{ selectedLabel }}
@@ -67,11 +66,12 @@
               </div>
             </template>
             <slot name="multiple-view" :model="model">
-              <t-tag size="small" type="primary"> 选择 {{ (model as SingleValueType[]).length }} 项 </t-tag>
+              <t-tag v-if="!state.isDropdownVisible" size="small" type="primary">
+                选择 {{ (model as SingleValueType[]).length }} 项
+              </t-tag>
             </slot>
           </t-popover>
         </div>
-
         <!-- 输入框 -->
         <input
           ref="inputRef"
@@ -123,7 +123,6 @@ import { configOptions, useOptions } from "@/hooks/useOptions";
 import { useTip } from "@/hooks";
 import { fromCssVal } from "@/utils";
 import { isEqual, isValue } from "@/utils/is";
-import { bindDebounce } from "@/utils";
 import { GroupContextType, selectGroupKey } from "./constants";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES, EMPTY_OPTION } from "./select";
 import { useI18nText } from "./i18n";
@@ -132,9 +131,6 @@ import { useI18nText } from "./i18n";
  * @description 选择器组件
  */
 defineOptions({ name: "TSelect" });
-
-// 基础尺寸
-const { baseSize } = useOptions();
 
 /**
  * @description 组件事件定义
@@ -158,19 +154,15 @@ const props = withDefaults(defineProps<PropsType>(), {
   selectParent: false
 });
 
+// 基础尺寸
+const { baseSize } = useOptions(props);
+
 const { TEXT_PLACEHOLDER_SELECT, TEXT_EMPTY } = useI18nText(props);
 /**
  * @description v-model定义
  */
 const model = defineModel<ValueType>({
   default: props => (props.multiple ? [] : "")
-});
-
-/**
- * @description 动态loading定义
- */
-const loading = defineModel<boolean>("loading", {
-  default: false
 });
 
 /**
@@ -277,11 +269,12 @@ const filteredOptions = computed((): OptionsItemType[] => {
   if (props.filterMethod) {
     return props.options.filter(option => props.filterMethod(option, state.filterText));
   }
-
   // 默认过滤方法
   return props.options.filter(option => {
-    const label = String(option.label || "").toLowerCase();
-    const filterText = state.filterText.toLowerCase();
+    const label = String(option.label || "")
+      .trim()
+      .toLowerCase();
+    const filterText = state.filterText.trim().toLowerCase();
     return label.includes(filterText);
   });
 });
@@ -291,7 +284,7 @@ const filteredOptions = computed((): OptionsItemType[] => {
  * @returns {string} 空文本
  */
 const emptyText = computed((): string => {
-  return loading.value ? "加载中..." : TEXT_EMPTY.value;
+  return props.loading ? "加载中..." : TEXT_EMPTY.value;
 });
 
 /**
@@ -481,11 +474,7 @@ const handleFilter = (event: Event): void => {
 
   // 远程搜索方法
   if (props.remoteMethod) {
-    loading.value = true;
-    bindDebounce(() => {
-      props.remoteMethod(state.filterText);
-      loading.value = false;
-    }, 300)();
+    props.remoteMethod(state.filterText);
   }
 };
 

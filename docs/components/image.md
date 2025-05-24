@@ -47,7 +47,7 @@ import imagePreviewConfig from '../examples/image/preview-config.vue'
 
 可以配置预览的缩放比例、初始索引等。
 
-<demo :component="imagePreviewConfig" name="image" examples="previewconfig" />
+<demo :component="imagePreviewConfig" name="image" examples="preview-config" />
 
 ## 图片组件 API
 

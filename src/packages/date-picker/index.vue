@@ -84,7 +84,7 @@ import { TIcon } from "@/packages/icon";
 import { TCalendar } from "@/packages/calendar";
 import { formatDate, parseDate } from "@/utils/dateFormat";
 import { isValue } from "@/utils/is";
-import { configOptions, useOptions } from "@/hooks/useOptions";
+import { useOptions } from "@/hooks/useOptions";
 import { ICON_COLOR, DROPDOWN_RADIUS, ICON_SIZES } from "./date-picker";
 import { useTip } from "@/hooks";
 import { useI18nText } from "./i18n";
@@ -92,20 +92,19 @@ import { useI18nText } from "./i18n";
 // 组件名称定义
 defineOptions({ name: "TDatePicker" });
 
-// 基础尺寸
-const { baseSize } = useOptions();
-
 // Props 和 Emits 定义
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   mode: "date",
   position: "bottom",
-  size: configOptions.value.elSize,
   isTip: true,
   disabled: false,
   clearable: true,
   showTime: false
 });
+
+// 基础尺寸
+const { baseSize } = useOptions(props);
 
 const { TEXT_DEFAULT_PLACEHOLDER, TEXT_DATE_PARSE_ERROR, TEXT_YEAR, TEXT_MONTH } = useI18nText(props);
 // v-model 定义

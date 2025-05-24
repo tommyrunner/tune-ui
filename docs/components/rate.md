@@ -31,7 +31,7 @@ import rateEvents from '../examples/rate/events.vue'
 
 可以通过 `icon` 属性自定义评分组件的图标，包括未选中图标、半选图标和选中图标。
 
-<demo :component="rateCustomIcon" name="rate" examples="customicon" />
+<demo :component="rateCustomIcon" name="rate" examples="custom-icon" />
 
 ## 自定义颜色
 
