@@ -2,7 +2,7 @@
   <span :class="tabsClasses" :checked="isChecked" @click="handleChecked" ref="tabsRef">
     <t-icon :icon="props.icon" v-if="props.icon" :size="18" />
     <span :class="labelClasses"><slot /></span>
-    <t-icon class="_icon-close" icon="close" v-if="groupContext.isClose" :size="10" @click="handleClose" />
+    <t-icon class="_icon-close" icon="close" v-if="groupContext.isClose" :size="14" @click="handleClose" />
   </span>
 </template>
 

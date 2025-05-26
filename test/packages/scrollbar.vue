@@ -20,6 +20,18 @@
         </t-scrollbar>
       </div>
     </div>
+    <!-- 动态高度 -->
+    <div class="test-section">
+      <h4>动态高度</h4>
+      <div class="test-item">
+        <p class="test-item-title">height - 动态高度{{ dynamicsHeight }}</p>
+        <t-scrollbar ref="scrollbarRef" :height="dynamicsHeight">
+          <div class="box"></div>
+        </t-scrollbar>
+        <br />
+        <t-button @click="handleDynamicsHeight" type="primary">高度+100</t-button>
+      </div>
+    </div>
 
     <!-- Events 测试 -->
     <div class="test-section">
@@ -53,10 +65,12 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TScrollbar } from "@/packages/scrollbar";
-
+import { TButton } from "@/packages/button";
 // 滚动事件信息
 const scrollYInfo = ref(0);
 const scrollXInfo = ref(0);
+const dynamicsHeight = ref(300);
+const scrollbarRef = ref<typeof TScrollbar>();
 
 /**
  * 处理垂直滚动
@@ -70,6 +84,10 @@ const handleScrollY = (element: HTMLElement) => {
  */
 const handleScrollX = (element: HTMLElement) => {
   scrollXInfo.value = element.scrollLeft;
+};
+const handleDynamicsHeight = () => {
+  dynamicsHeight.value = dynamicsHeight.value + 100;
+  scrollbarRef.value?.updateScrollbar();
 };
 </script>
 

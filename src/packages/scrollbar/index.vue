@@ -23,7 +23,7 @@
 import "./index.scss";
 import type { PropsType, DirectionType, EmitsType } from "./scrollbar";
 import { fromCssVal } from "@/utils";
-import { computed, nextTick, onDeactivated, reactive, ref, StyleValue } from "vue";
+import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, watch } from "vue";
 
 defineOptions({ name: "TScrollbar" });
 const emit = defineEmits<EmitsType>();
@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<PropsType>(), {
 // 最小thumb尺寸 比例
 const THUMB_MIN_SIZE = 0.046;
 let elementObserver: null | MutationObserver = null;
+let resizeObserver: null | ResizeObserver = null;
 const state = reactive({
   // 记录element宽高
   elementHeight: 0,
@@ -71,14 +72,14 @@ const state = reactive({
     isShowV: false
   }
 });
-nextTick(() => {
-  // 监听节点变化
-  elementObserver = new MutationObserver(updateScrollbar);
+
+onMounted(() => {
   // 初始化事件
   handlerEventListener();
   // 计算位置与大小
   updateScrollbar();
 });
+
 // 清理：移除滚动监听器
 onDeactivated(() => handlerEventListener(true));
 /**
@@ -94,18 +95,40 @@ const handlerEventListener = (remove = false) => {
   const element = scrollbarRef.value;
   if (element) {
     element[method]("scroll", handlerElementScrollbar);
-    element.parentElement[method]("mouseenter", handlerElementEnter);
-    element.parentElement[method]("mouseleave", handlerElementLeave);
+    if (element.parentElement) {
+      element.parentElement[method]("mouseenter", handlerElementEnter);
+      element.parentElement[method]("mouseleave", handlerElementLeave);
+    }
+
     // 节点发生变化，更新拖块大小
-    elementObserver.observe(element, {
-      childList: true,
-      attributes: true,
-      attributeFilter: ["style"],
-      subtree: true
-    });
-  }
-  if (remove) {
-    elementObserver.disconnect();
+    if (!remove) {
+      // MutationObserver监听DOM变化
+      elementObserver = new MutationObserver(updateScrollbar);
+      elementObserver.observe(element, {
+        childList: true,
+        attributes: true,
+        attributeFilter: ["style"],
+        subtree: true
+      });
+
+      // ResizeObserver监听尺寸变化
+      if (typeof ResizeObserver !== "undefined") {
+        resizeObserver = new ResizeObserver(updateScrollbar);
+        resizeObserver.observe(element);
+        // 同时监听父容器尺寸变化
+        if (element.parentElement) {
+          resizeObserver.observe(element.parentElement);
+        }
+      }
+    } else {
+      // 清理观察器
+      if (elementObserver) {
+        elementObserver.disconnect();
+      }
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+    }
   }
 };
 /**
@@ -126,6 +149,9 @@ const updateScrollbar = () => {
   );
   state.scrollbar.width = Math.max(clientWidth * (clientWidth / scrollWidth), clientWidth * THUMB_MIN_SIZE);
 };
+
+// 监听height属性变化
+watch(() => props.height, updateScrollbar);
 
 /**
  * 处理点击快捷跳转

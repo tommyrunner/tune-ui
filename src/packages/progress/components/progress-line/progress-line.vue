@@ -21,13 +21,6 @@
         </div>
       </div>
     </div>
-
-    <!-- 外部文本 -->
-    <div v-if="showText && !textInside" class="t-progress-text">
-      <slot :percentage="percentage">
-        {{ content }}
-      </slot>
-    </div>
   </div>
 </template>
 
