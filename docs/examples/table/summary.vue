@@ -1,17 +1,11 @@
 <template>
   <div class="table-demo">
-    <t-table
-      :columns="columns"
-      :data="summaryData"
-      :height="300"
-      :summary="handleSummary"
-    />
+    <t-table :columns="columns" :data="summaryData" :height="300" :summary="handleSummary" />
   </div>
 </template>
 
 <script setup>
 import { reactive } from "vue";
-
 
 // 列配置
 const columns = [
@@ -69,7 +63,7 @@ const summaryData = reactive([
  */
 const handleSummary = (value, scope) => {
   const prop = scope.rowCol.prop;
-  
+
   // 根据不同列显示不同合计内容
   if (prop === "id") {
     return "合计";
@@ -81,7 +75,7 @@ const handleSummary = (value, scope) => {
     const completed = summaryData.filter(item => item.status === "已完成").length;
     return `完成率: ${Math.round((completed / summaryData.length) * 100)}%`;
   }
-  
+
   return "";
 };
 </script>

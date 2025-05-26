@@ -36,6 +36,8 @@ import { useTable } from "./hooks";
 defineOptions({ name: "TTable" });
 const props = withDefaults(defineProps<PropsType>(), {
   headBgColor: "#f5f7fa",
+  footBgColor: "#f5f7fa",
+  hoverBgColor: "#f5f7fa",
   border: "#dcdcdc68",
   isDefSlotListHead: true,
   dbClickAutoWidth: true,

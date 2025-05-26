@@ -4,16 +4,17 @@
 
     <!-- 基础用法 -->
     <test-section title="基础用法">
-      <t-back-top :visible-height="200" />
-      <div class="scroll-content">
+      <t-back-top :visible-height="200" target=".scroll-content-basic" />
+      <t-back-top :visible-height="200" right="100px" plain target=".scroll-content-basic" />
+      <div class="scroll-content scroll-content-basic">
         <p v-for="i in 40" :key="i">这是第 {{ i }} 行内容</p>
       </div>
     </test-section>
 
     <!-- 位置和尺寸 -->
     <test-section title="位置和尺寸">
-      <t-back-top right="100px" bottom="100px" :size="50" :radius="8" />
-      <div class="scroll-content">
+      <t-back-top right="100px" bottom="100px" :size="50" :radius="8" target=".scroll-content-position" />
+      <div class="scroll-content scroll-content-position">
         <p>配置说明：</p>
         <ul>
           <li>right: 100px - 距离右侧100px</li>
@@ -27,8 +28,8 @@
 
     <!-- 图标配置 -->
     <test-section title="图标配置">
-      <t-back-top icon="afferent" :icon-size="24" background="#1f2937" color="#ffffff" />
-      <div class="scroll-content">
+      <t-back-top icon="afferent" :icon-size="24" background="#1f2937" color="#ffffff" target=".scroll-content-icon" />
+      <div class="scroll-content scroll-content-icon">
         <p>配置说明：</p>
         <ul>
           <li>icon: arrow-up - 使用向上箭头图标</li>
@@ -42,8 +43,14 @@
 
     <!-- 滚动配置 -->
     <test-section title="滚动配置">
-      <t-back-top :visible-height="300" :duration="800" :throttle-delay="500" @click="handleClick" />
-      <div class="scroll-content">
+      <t-back-top
+        :visible-height="300"
+        :duration="800"
+        :throttle-delay="500"
+        @click="handleClick"
+        target=".scroll-content-config"
+      />
+      <div class="scroll-content scroll-content-config">
         <p>配置说明：</p>
         <ul>
           <li>visible-height: 300 - 滚动超过300px显示</li>
@@ -53,44 +60,15 @@
         <p v-for="i in 40" :key="i">这是第 {{ i }} 行内容</p>
       </div>
     </test-section>
-
-    <!-- 指定容器 -->
-    <test-section title="指定容器">
-      <div class="custom-container" ref="containerRef">
-        <t-back-top :target="containerRef">
-          <template #default>
-            <t-button type="primary" size="small">TOP</t-button>
-          </template>
-        </t-back-top>
-        <p>配置说明：</p>
-        <ul>
-          <li>target: containerRef - 指定滚动容器</li>
-          <li>default slot - 自定义按钮内容</li>
-        </ul>
-        <p v-for="i in 40" :key="i">这是第 {{ i }} 行内容</p>
-      </div>
-    </test-section>
-
-    <!-- 事件记录 -->
-    <div class="event-log" v-if="logs.length">
-      <div class="event-title">事件记录：</div>
-      <div v-for="(log, index) in logs" :key="index" class="event-item">
-        {{ log }}
-      </div>
-    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
 import { TBackTop } from "@/packages/back-top";
-import { TButton } from "@/packages/button";
 import TestSection from "../components/test-section.vue";
 
 defineOptions({ name: "BackTopTest" });
-
-// 指定容器
-const containerRef = ref<HTMLElement>();
 
 // 事件日志
 const logs = ref<string[]>([]);

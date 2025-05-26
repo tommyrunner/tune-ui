@@ -1,9 +1,9 @@
 <template>
   <div class="back-top-demo">
-    <div class="scroll-container">
+    <div class="scroll-container-basic">
       <p v-for="i in 30" :key="i" class="paragraph">这是第 {{ i }} 行示例文本，请向下滚动查看回到顶部按钮效果。</p>
     </div>
-    <t-back-top />
+    <t-back-top target=".scroll-container-basic" />
   </div>
 </template>
 
@@ -12,7 +12,7 @@
   position: relative;
   height: 300px;
 }
-.scroll-container {
+.scroll-container-basic {
   height: 300px;
   overflow-y: auto;
   border: 1px solid #ebeef5;

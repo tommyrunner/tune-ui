@@ -22,7 +22,6 @@ import { isBoolean } from "@/utils/is";
 defineOptions({ name: "TTableRow" });
 
 const props = withDefaults(defineProps<PropsType>(), {
-  hoverBgColor: "#f5f7fa",
   defBgColor: "#fff",
   row: () => ({})
 });
@@ -52,14 +51,19 @@ const handleClick = () => {
 
 /** 获取行样式 */
 const getRowStyle = computed((): StyleValue => {
-  const { rowIndex, hoverBgColor, isHead, isFoot, defBgColor, row } = props;
-  const { stripe, isVirtualized, rowStyle } = groupContext;
+  const { rowIndex, isHead, isFoot, defBgColor, row } = props;
+  const { stripe, isVirtualized, headBgColor, hoverBgColor, footBgColor, rowStyle } = groupContext;
 
   let bgColor = defBgColor;
 
   // 表头样式固定
-  if (isHead || isFoot) {
-    return { backgroundColor: hoverBgColor };
+  if (isHead) {
+    return { backgroundColor: headBgColor };
+  }
+
+  // 表尾样式固定
+  if (isFoot) {
+    return { backgroundColor: footBgColor };
   }
 
   // 设置斑马纹

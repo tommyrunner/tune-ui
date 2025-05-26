@@ -133,3 +133,7 @@ div[class*="language-"]::before {
   background-color: var(--vp-c-bg-soft);
   transition: background-color 0.25s;
 }
+/* 特定，因为文档中有指定li属性，需要恢复 */
+.t-listView-item {
+  margin-top: 0px !important;
+}

@@ -68,7 +68,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineComponent } from "vue";
+import { ref } from "vue";
 import type { RouteRecordRaw } from "vue-router";
 import type { ValueType } from "@/packages/breadcrumb/breadcrumb";
 import { TBreadcrumb } from "@/packages/breadcrumb";
@@ -97,24 +97,11 @@ const disabledOptions: ValueType[] = [
   { label: "详情", value: "detail" }
 ];
 
-// 创建测试组件
-const TestView = defineComponent({
-  name: "TestView",
-  template: "<div>测试页面</div>"
-});
-
-// 路由配置
-const routeConfig: RouteRecordRaw[] = [
-  { path: "/", name: "home", component: TestView },
-  { path: "/list", name: "list", component: TestView },
-  { path: "/detail", name: "detail", component: TestView }
-];
-
 // 路由数据
 const routerOptions: ValueType[] = [
-  { label: "首页", value: "home", to: routeConfig[0] },
-  { label: "列表", value: "list", to: routeConfig[1] },
-  { label: "详情", value: "detail", to: routeConfig[2] }
+  { label: "首页", value: "home" },
+  { label: "列表", value: "list" },
+  { label: "详情", value: "detail" }
 ];
 
 // 当前选中值
@@ -130,7 +117,7 @@ const currentRoute = ref<RouteRecordRaw>();
  * 处理选择事件
  */
 const handleChange = (item: ValueType) => {
-  eventLogs.value.unshift(`选择事件: ${item.label}`);
+  eventLogs.value.unshift(`选择事件: ${item.label},value:${item.value}`);
   limitLogs();
 };
 
@@ -138,7 +125,7 @@ const handleChange = (item: ValueType) => {
  * 处理点击事件
  */
 const handleClick = (item: ValueType) => {
-  eventLogs.value.unshift(`点击事件: ${item.label}`);
+  eventLogs.value.unshift(`点击事件: ${item.label},value:${item.value}`);
   limitLogs();
 };
 

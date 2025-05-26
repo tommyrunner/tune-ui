@@ -81,57 +81,58 @@ import tableSummary from '../examples/table/summary.vue'
 
 ### 属性
 
-| 属性名 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| columns | 表格列配置 | array | — | [] |
-| data | 表格数据源 | array | — | [] |
-| height | 表格高度 | number | — | — |
-| isVirtualized | 是否启用虚拟滚动 | boolean | — | false |
-| virtualizedItemHeight | 虚拟滚动行高 | number | — | 50 |
-| headBgColor | 表头背景色 | string | — | #f5f7fa |
-| hoverBgColor | 鼠标悬浮背景色 | string | — | — |
-| border | 表格边框 | string | — | #dcdcdc68 |
-| stripe | 斑马纹 | boolean/string | — | false |
-| dbClickAutoWidth | 是否支持双击自适应列宽 | boolean | — | true |
-| changeType | 选择模式 | string | single/multiple/none | none |
-| changeKey | 选中标识字段 | string | — | _checked |
-| fixedRow | 固定行方法 | function(index, row) | — | — |
-| summary | 合计行配置 | boolean/function | — | — |
-| rowStyle | 自定义行样式 | function(index, row) | — | — |
-| sortMethod | 自定义排序方法 | function | — | — |
-| renderExtend | 行扩展内容 | function(row) | — | — |
+| 属性名                | 说明                   | 类型                 | 可选值               | 默认值    |
+| --------------------- | ---------------------- | -------------------- | -------------------- | --------- |
+| columns               | 表格列配置             | array                | —                    | []        |
+| data                  | 表格数据源             | array                | —                    | []        |
+| height                | 表格高度               | number               | —                    | —         |
+| isVirtualized         | 是否启用虚拟滚动       | boolean              | —                    | false     |
+| virtualizedItemHeight | 虚拟滚动行高           | number               | —                    | 50        |
+| headBgColor           | 表头背景色             | string               | —                    | #f5f7fa   |
+| footBgColor           | 表尾背景色             | string               | —                    | #f5f7fa   |
+| hoverBgColor          | 鼠标悬浮背景色         | string               | —                    | —         |
+| border                | 表格边框               | string               | —                    | #dcdcdc68 |
+| stripe                | 斑马纹                 | boolean/string       | —                    | false     |
+| dbClickAutoWidth      | 是否支持双击自适应列宽 | boolean              | —                    | true      |
+| changeType            | 选择模式               | string               | single/multiple/none | none      |
+| changeKey             | 选中标识字段           | string               | —                    | \_checked |
+| fixedRow              | 固定行方法             | function(index, row) | —                    | —         |
+| summary               | 合计行配置             | boolean/function     | —                    | —         |
+| rowStyle              | 自定义行样式           | function(index, row) | —                    | —         |
+| sortMethod            | 自定义排序方法         | function             | —                    | —         |
+| renderExtend          | 行扩展内容             | function(row)        | —                    | —         |
 
 ### 列配置
 
-| 属性名 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| prop | 列字段名 | string | — | — |
-| label | 列标题 | string | — | — |
-| width | 列宽度 | number | — | — |
-| fixed | 固定列位置 | string | left/right | — |
-| children | 子列配置 | array | — | — |
-| sort | 排序值 | number | — | — |
-| sortable | 是否可排序 | boolean | — | false |
-| filters | 筛选配置 | array | — | — |
-| renderHead | 自定义表头渲染 | function(scope) | — | — |
-| render | 自定义单元格渲染 | function(scope) | — | — |
+| 属性名     | 说明             | 类型            | 可选值     | 默认值 |
+| ---------- | ---------------- | --------------- | ---------- | ------ |
+| prop       | 列字段名         | string          | —          | —      |
+| label      | 列标题           | string          | —          | —      |
+| width      | 列宽度           | number          | —          | —      |
+| fixed      | 固定列位置       | string          | left/right | —      |
+| children   | 子列配置         | array           | —          | —      |
+| sort       | 排序值           | number          | —          | —      |
+| sortable   | 是否可排序       | boolean         | —          | false  |
+| filters    | 筛选配置         | array           | —          | —      |
+| renderHead | 自定义表头渲染   | function(scope) | —          | —      |
+| render     | 自定义单元格渲染 | function(scope) | —          | —      |
 
 ### 事件
 
-| 事件名 | 说明 | 回调参数 |
-| --- | --- | --- |
-| checked | 选中事件 | ({ row: `object`, data: `array` }) |
-| click-row | 行点击事件 | (row: `object`) |
+| 事件名    | 说明       | 回调参数                           |
+| --------- | ---------- | ---------------------------------- |
+| checked   | 选中事件   | ({ row: `object`, data: `array` }) |
+| click-row | 行点击事件 | (row: `object`)                    |
 
 ### 样式变量
 
 表格组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
 
-| 变量名 | 说明 |
-| --- | --- |
+| 变量名                | 说明         |
+| --------------------- | ------------ |
 | $border-color-default | 默认边框颜色 |
-| $text-color-default | 默认文本颜色 |
-| $bg-color-default | 默认背景颜色 |
-| $bg-color-hover | 悬停背景颜色 |
-| $z-index-show | 显示层级 |
-| $z-index-up | 上层层级 | 
+| $text-color-default   | 默认文本颜色 |
+| $bg-color-default     | 默认背景颜色 |
+| $bg-color-hover       | 悬停背景颜色 |
+| $z-index-show         | 显示层级     |
+| $z-index-up           | 上层层级     |

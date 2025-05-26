@@ -86,21 +86,6 @@
       </div>
     </test-section>
 
-    <!-- 样式配置 -->
-    <test-section title="样式配置">
-      <div class="table-span">
-        <t-table
-          :columns="basicColumns"
-          :data="basicData"
-          headBgColor="#f8fafc"
-          hoverBgColor="#f3f4f6"
-          border="1px solid #e5e7eb"
-          :stripe="true"
-          :dbClickAutoWidth="true"
-        />
-      </div>
-    </test-section>
-
     <!-- 列合计 -->
     <test-section title="列合计">
       <div class="table-span">
@@ -115,6 +100,38 @@
         />
       </div>
     </test-section>
+
+    <!-- 动态颜色设置 -->
+    <test-section title="动态颜色设置">
+      <div class="color-control">
+        <div class="control-item">
+          <span>表头背景：</span>
+          <t-color-picker v-model="tableColors.headBg" size="small" />
+        </div>
+        <div class="control-item">
+          <span>表尾背景：</span>
+          <t-color-picker v-model="tableColors.footBg" size="small" />
+        </div>
+        <div class="control-item">
+          <span>边框颜色：</span>
+          <t-color-picker v-model="tableColors.border" size="small" />
+        </div>
+        <div class="control-item">
+          <span>浮动行背景：</span>
+          <t-color-picker v-model="tableColors.hoverBg" size="small" />
+        </div>
+      </div>
+      <div class="table-span">
+        <t-table
+          :columns="basicColumns"
+          :data="basicData"
+          :headBgColor="tableColors.headBg"
+          :footBgColor="tableColors.footBg"
+          :hoverBgColor="tableColors.hoverBg"
+          :border="tableColors.border"
+        />
+      </div>
+    </test-section>
   </div>
 </template>
 
@@ -124,6 +141,7 @@ import type { TableColumnsType, ColumnRenderScope, StateSortType } from "@/packa
 import { TTable } from "@/packages/table";
 import TestSection from "../components/test-section.vue";
 import { TButton } from "@/packages/button";
+import { TColorPicker } from "@/packages/color-picker";
 import { reactive } from "vue";
 
 defineOptions({ name: "TableTest" });
@@ -337,7 +355,7 @@ const handleRenderExtend = (row: BasicDataType) => {
 /**
  * 处理选中事件
  */
-const handleChecked = ({ row }: { row: BasicDataType }) => {
+const handleChecked = ({ row }) => {
   eventLogs.value.unshift(`选中行: ${JSON.stringify(row)}`);
   if (eventLogs.value.length > 5) {
     eventLogs.value.pop();
@@ -379,6 +397,15 @@ const handleSummary = (value: number, scope: ColumnRenderScope) => {
   else if (scope.rowCol.prop === "amount") text = `总金额: ${value}`;
   return text;
 };
+
+// 动态颜色设置
+const tableColors = reactive({
+  headBg: "#f1f5f9",
+  border: "#94a3b8",
+  highlight: "#e0f2fe",
+  footBg: "#f1f5f9",
+  hoverBg: "#e0f2fe"
+});
 </script>
 
 <style lang="scss" scoped>
@@ -442,6 +469,29 @@ const handleSummary = (value: number, scope: ColumnRenderScope) => {
       font-family: ui-monospace, monospace;
       font-size: 13px;
       color: #4b5563;
+    }
+  }
+
+  .color-control {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background-color: #f8fafc;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+
+    .control-item {
+      display: flex;
+      align-items: center;
+
+      span {
+        width: 100px;
+        font-size: 14px;
+        color: #64748b;
+      }
     }
   }
 }

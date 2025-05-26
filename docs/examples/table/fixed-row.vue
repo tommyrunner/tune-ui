@@ -1,18 +1,10 @@
 <template>
   <div class="table-demo">
-    <t-table
-      :columns="columns"
-      :data="tableData"
-      :height="300"
-      :fixedRow="handleFixedRow"
-      :row-style="handleRowStyle"
-    />
+    <t-table :columns="columns" :data="tableData" :height="300" :fixedRow="handleFixedRow" :row-style="handleRowStyle" />
   </div>
 </template>
 
 <script setup>
-
-
 // 列配置
 const columns = [
   { prop: "id", label: "ID", width: 80 },
@@ -106,4 +98,4 @@ const handleRowStyle = (index, row) => {
 .table-demo {
   width: 100%;
 }
-</style> 
+</style>

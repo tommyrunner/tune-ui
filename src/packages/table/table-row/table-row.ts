@@ -17,8 +17,7 @@ export interface PropsType {
   columns?: TableColumnsType[];
   // 默认背景色
   defBgColor?: string;
-  // 鼠标浮动背景色
-  hoverBgColor?: string;
+  // 列表项绑定
   listItemBind?: ListViewItemPropsType;
 }
 /**

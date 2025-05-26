@@ -3,25 +3,30 @@
     <div class="style-options">
       <div class="option-item">
         <span class="option-label">表头背景色:</span>
-        <t-color-picker v-model="headBgColor" />
+        <t-color-picker v-model="headBgColor" size="small" />
+      </div>
+      <div class="option-item">
+        <span class="option-label">表尾背景色:</span>
+        <t-color-picker v-model="footBgColor" size="small" />
       </div>
       <div class="option-item">
         <span class="option-label">悬浮背景色:</span>
-        <t-color-picker v-model="hoverBgColor" />
+        <t-color-picker v-model="hoverBgColor" size="small" />
       </div>
       <div class="option-item">
         <span class="option-label">边框颜色:</span>
-        <t-color-picker v-model="borderColor" />
+        <t-color-picker v-model="borderColor" size="small" />
       </div>
       <div class="option-item">
         <span class="option-label">斑马纹:</span>
-        <input type="checkbox" v-model="useStripe" />
+        <t-switch v-model="useStripe" size="small" />
       </div>
     </div>
     <t-table
       :columns="columns"
       :data="tableData"
       :headBgColor="headBgColor"
+      :footBgColor="footBgColor"
       :hoverBgColor="hoverBgColor"
       :border="borderStyle"
       :stripe="useStripe"
@@ -33,9 +38,9 @@
 <script setup>
 import { ref, computed } from "vue";
 
-
 // 样式配置
 const headBgColor = ref("#f8fafc");
+const footBgColor = ref("#f8fafc");
 const hoverBgColor = ref("#f3f4f6");
 const borderColor = ref("#e5e7eb");
 const useStripe = ref(true);

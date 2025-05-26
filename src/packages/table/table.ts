@@ -103,6 +103,8 @@ export interface PropsType {
   isDefSlotListHead?: boolean;
   /** 表头背景色 */
   headBgColor?: string;
+  /** 表尾背景色 */
+  footBgColor?: string;
   /** 鼠标悬浮背景色 */
   hoverBgColor?: string;
   /** 表格边框 */

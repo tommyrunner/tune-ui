@@ -1,7 +1,6 @@
 <template>
   <div class="test-container">
     <h2>Dialog 对话框组件</h2>
-
     <!-- 基础用法 -->
     <test-section title="基础用法">
       <t-button type="primary" @click="dialogVisible1 = true">基础对话框</t-button>

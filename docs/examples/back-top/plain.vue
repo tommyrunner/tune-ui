@@ -1,11 +1,11 @@
 <template>
   <div class="back-top-demo">
-    <div class="scroll-container">
+    <div class="scroll-container-plain">
       <p v-for="i in 30" :key="i" class="paragraph">这是第 {{ i }} 行示例文本，请向下滚动查看朴素样式的回到顶部按钮。</p>
     </div>
     <div class="demo-row">
-      <t-back-top target=".scroll-container" :right="'100px'" />
-      <t-back-top target=".scroll-container" plain />
+      <t-back-top target=".scroll-container-plain" :right="'100px'" />
+      <t-back-top target=".scroll-container-plain" plain />
     </div>
   </div>
 </template>
@@ -15,7 +15,7 @@
   position: relative;
   height: 300px;
 }
-.scroll-container {
+.scroll-container-plain {
   height: 300px;
   overflow-y: auto;
   border: 1px solid #ebeef5;

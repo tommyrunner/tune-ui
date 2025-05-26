@@ -1,7 +1,7 @@
 <template>
   <div class="dialog-demo">
     <t-button type="primary" @click="dialogVisible = true">打开对话框</t-button>
-    
+
     <t-dialog v-model="dialogVisible" title="基础对话框">
       <div class="dialog-content">
         这是一个基础对话框的内容区域。对话框组件提供了一种优雅的方式，在不离开当前页面的情况下与用户交互。
@@ -14,7 +14,7 @@
         </div>
       </template>
     </t-dialog>
-    
+
     <div class="tip-container" v-if="tipMessage">
       <p>{{ tipMessage }}</p>
     </div>
@@ -24,14 +24,13 @@
 <script setup>
 import { ref } from "vue";
 
-
 const dialogVisible = ref(false);
 const tipMessage = ref("");
 
 const handleConfirm = () => {
   tipMessage.value = "您点击了确认按钮！";
   dialogVisible.value = false;
-  
+
   // 3秒后清除提示信息
   setTimeout(() => {
     tipMessage.value = "";
@@ -64,4 +63,4 @@ const handleConfirm = () => {
   color: #67c23a;
   font-size: 14px;
 }
-</style> 
+</style>
