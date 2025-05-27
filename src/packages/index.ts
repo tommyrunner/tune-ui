@@ -45,7 +45,7 @@ import { TCollapse, TCollapseGroup } from "./collapse";
 import { TDialog } from "./dialog";
 import { TDrawer } from "./drawer";
 import { TPopConfirm } from "./pop-confirm";
-import { Message, Notification } from "./message";
+import { TMessage, TNotification } from "./message";
 import { TPopover } from "./popover";
 
 // 布局组件
@@ -169,8 +169,8 @@ const components = {
   TDialog,
   TDrawer,
   TPopConfirm,
-  Message,
-  Notification,
+  TMessage,
+  TNotification,
   TPopover,
 
   // 布局组件
@@ -192,8 +192,8 @@ export const install = {
     });
 
     // 添加全局方法
-    Vue.config.globalProperties.$message = components.Message;
-    Vue.config.globalProperties.$notification = components.Notification;
+    Vue.config.globalProperties.$message = components.TMessage;
+    Vue.config.globalProperties.$notification = components.TNotification;
   }
 };
 export default install;

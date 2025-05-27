@@ -10,6 +10,16 @@ import tableSelection from '../examples/table/selection.vue'
 import tableStyle from '../examples/table/style.vue'
 import tableSummary from '../examples/table/summary.vue'
 </script>
+<style>
+    /* 特定，因为文档中有指定li属性，需要恢复 */
+    .t-listView-item {
+        margin-top: 0px !important;
+    }
+    .t-listView{
+        margin: 0px !important;
+        padding-left: 0px !important;
+    }
+</style>
 
 # 表格组件
 

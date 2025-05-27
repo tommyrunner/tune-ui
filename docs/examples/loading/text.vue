@@ -1,6 +1,6 @@
 <template>
   <div class="loading-example">
-    <div class="loading-card" v-loading="loading" loading-text="正在加载数据，请稍候...">
+    <div class="loading-card" v-loading="loading">
       <div class="loading-content">
         <h3>带文本的加载效果</h3>
         <p>通过loading-text属性可以设置加载提示文本</p>

@@ -2,7 +2,6 @@
 import loadingBasic from '../examples/loading/basic.vue'
 import loadingText from '../examples/loading/text.vue'
 import loadingBackground from '../examples/loading/background.vue'
-import loadingTypes from '../examples/loading/types.vue'
 import loadingFullscreen from '../examples/loading/fullscreen.vue'
 import loadingMini from '../examples/loading/mini.vue'
 </script>
@@ -35,14 +34,6 @@ import loadingMini from '../examples/loading/mini.vue'
 
 <ClientOnly>
   <demo :component="loadingBackground" name="loading" examples="background" />
-</ClientOnly>
-
-## 加载类型
-
-Loading组件提供了多种加载动画类型，通过`loading-type`属性设置。
-
-<ClientOnly>
-  <demo :component="loadingTypes" name="loading" examples="types" />
 </ClientOnly>
 
 ## 全屏加载

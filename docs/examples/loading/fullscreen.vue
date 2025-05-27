@@ -13,7 +13,20 @@
 </template>
 
 <script lang="ts" setup>
-const showFullscreenLoading = () => {};
+import { fullLoading, OptionsType, MODEL_TYPES } from "tune-ui";
+const showFullscreenLoading = () => {
+  const options: OptionsType = {
+    text: "加载中...",
+    bgColor: "rgba(0, 0, 0, 0.5)",
+    model: MODEL_TYPES.RING,
+    delay: 200
+  };
+  const loading = fullLoading(options);
+  loading.loading(document.body);
+  setTimeout(() => {
+    loading.close();
+  }, 2000);
+};
 </script>
 
 <style scoped>

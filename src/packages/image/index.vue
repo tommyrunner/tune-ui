@@ -49,6 +49,7 @@ import type { PropsType, EmitsType, ImageState } from "./image";
 import { ref, reactive, computed, onMounted, onBeforeUnmount } from "vue";
 import { TIcon } from "@/packages/icon";
 import ImageViewer from "./image-viewer.vue";
+defineOptions({ name: "TImage" });
 
 // Props 定义
 const props = withDefaults(defineProps<PropsType>(), {

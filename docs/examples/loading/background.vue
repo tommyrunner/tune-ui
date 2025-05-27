@@ -1,6 +1,6 @@
 <template>
   <div class="loading-example">
-    <div class="loading-card" v-loading="loading" loading-background="rgba(0, 0, 0, 0.7)">
+    <div class="loading-card" v-loading="loading">
       <div class="loading-content">
         <h3>自定义背景的加载效果</h3>
         <p>通过loading-background属性可以设置加载遮罩的背景颜色</p>

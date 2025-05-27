@@ -26,6 +26,9 @@ export default {
         const tuneUi: any = await import("tune-ui");
         // 使用类型断言处理类型问题
         app.use(tuneUi.install);
+        // 注册指令
+        app.use(tuneUi.directive);
+        console.log(tuneUi);
       } catch (error) {
         console.error("加载组件库失败:", error);
       }

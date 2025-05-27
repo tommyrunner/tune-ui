@@ -27,26 +27,6 @@
       </div>
     </test-section>
 
-    <!-- 加载类型 -->
-    <test-section title="加载类型">
-      <div class="loading-types-container">
-        <div class="loading-type-card" v-loading="loading4" loading-type="bounce">
-          <h3>Bounce动画</h3>
-          <div class="center-placeholder">点击下方按钮查看效果</div>
-        </div>
-
-        <div class="loading-type-card" v-loading="loading5" loading-type="spin">
-          <h3>Spin动画</h3>
-          <div class="center-placeholder">点击下方按钮查看效果</div>
-        </div>
-      </div>
-
-      <div class="loading-action-buttons">
-        <t-button @click="toggleLoading('loading4')" type="primary">{{ loading4 ? "隐藏" : "显示" }}Bounce加载</t-button>
-        <t-button @click="toggleLoading('loading5')" type="success">{{ loading5 ? "隐藏" : "显示" }}Spin加载</t-button>
-      </div>
-    </test-section>
-
     <!-- 全屏与迷你加载 -->
     <test-section title="全屏与迷你加载">
       <div class="loading-special-container">
@@ -141,7 +121,7 @@ const showFullscreenLoading = () => {
   const loading = fullLoading(options);
   loading.loading(document.body);
   setTimeout(() => {
-    loading.close();
+    // loading.close();
   }, 2000);
 };
 
