@@ -64,7 +64,7 @@ export interface PropsType {
   /** 是否点击其他区域关闭 */
   closeOnPressOther?: boolean;
 
-  /** 是否显示遮罩层 */
+  /** 是否显示遮罩层(控制遮罩层不能滚动) */
   isModal?: boolean;
 
   /** 是否允许遮罩层嵌套 */

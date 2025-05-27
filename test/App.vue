@@ -1,5 +1,4 @@
 <template>
-  <div style="height: 1000px; width: 100px">1</div>
   <div class="app-container">
     <TestHome />
   </div>
@@ -22,6 +21,5 @@ body {
 
 .app-container {
   width: 100%;
-  min-height: 100vh;
 }
 </style>

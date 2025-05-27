@@ -48,13 +48,7 @@
         <div class="drawer-content">自定义宽度为400px</div>
       </t-drawer>
 
-      <t-drawer
-        v-model="visible7"
-        title="自定义样式"
-        :padding="[24, 32, 24, 32]"
-        :box-shadow="[0, 4, 12, 'rgba(0, 0, 0, 0.1)']"
-        :offset="{ x: 20, y: 20 }"
-      >
+      <t-drawer v-model="visible7" title="自定义样式" :padding="[24, 32, 24, 32]" :box-shadow="[0, 4, 12, 'rgba(0, 0, 0, 0.1)']">
         <div class="drawer-content">自定义内边距、阴影和偏移</div>
       </t-drawer>
     </test-section>

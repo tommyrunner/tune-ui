@@ -58,7 +58,7 @@
       <t-dialog v-model="dialogVisible7" title="禁用关闭方式" :close-on-press-model="false" :close-on-press-escape="false">
         <div class="dialog-content">可以禁用点击遮罩层关闭和ESC关闭功能。</div>
       </t-dialog>
-      <t-dialog v-model="dialogVisible8" title="可拖动对话框" :draggable="true" :offset="{ x: -100, y: -50 }">
+      <t-dialog v-model="dialogVisible8" title="可拖动对话框" :draggable="true">
         <div class="dialog-content">通过 draggable 属性启用拖动功能，offset 可以设置初始偏移位置。</div>
       </t-dialog>
     </test-section>

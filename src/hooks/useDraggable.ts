@@ -42,9 +42,13 @@ export function useDraggable(gap: number = 18) {
     // 如果指定了触发元素,则检查点击的是否为指定元素
     if (dragPosition && document.querySelector(dragPosition) !== event.target) return;
 
-    // 记录鼠标按下时的初始位置
-    dragDownVal.x = event.clientX - element.offsetLeft;
-    dragDownVal.y = event.clientY - element.offsetTop;
+    // 获取当前滚动位置
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    // 记录鼠标按下时的初始位置（考虑滚动位置）
+    dragDownVal.x = event.clientX + scrollLeft - element.offsetLeft;
+    dragDownVal.y = event.clientY + scrollTop - element.offsetTop;
     dragMoveVal.x = event.clientX;
     dragMoveVal.y = event.clientY;
 
@@ -86,19 +90,31 @@ export function useDraggable(gap: number = 18) {
     const { element, isDrag, dragDownVal, dragMoveVal } = dragConfig;
     if (!element || !isDrag) return;
 
-    // 计算新位置
-    const newX = event.clientX - dragDownVal.x;
-    const newY = event.clientY - dragDownVal.y;
+    // 获取当前滚动位置
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-    // 计算边界值(考虑元素尺寸的一半以确保不会完全超出视口)
-    const maxX = document.documentElement.clientWidth - element.offsetWidth / 2 - gap;
-    const minX = gap + element.offsetWidth / 2;
-    const maxY = document.documentElement.clientHeight - element.offsetHeight / 2 - gap;
-    const minY = gap + element.offsetHeight / 2;
+    // 计算新位置 - 考虑滚动条位置
+    const newX = event.clientX + scrollLeft - dragDownVal.x;
+    const newY = event.clientY + scrollTop - dragDownVal.y;
+
+    // 计算可视区域和文档尺寸
+    const viewportWidth = document.documentElement.clientWidth;
+    const viewportHeight = document.documentElement.clientHeight;
+    const documentWidth = Math.max(document.documentElement.scrollWidth, viewportWidth);
+    const documentHeight = Math.max(document.documentElement.scrollHeight, viewportHeight);
+
+    // 计算边界值
+    const maxX = documentWidth - element.offsetWidth - gap;
+    const minX = gap;
+    const maxY = documentHeight - element.offsetHeight - gap;
+    const minY = gap;
 
     // 应用位置更新(确保在边界范围内)
-    element.style.left = `${Math.min(Math.max(newX, minX), maxX)}px`;
-    element.style.top = `${Math.min(Math.max(newY, minY), maxY)}px`;
+    const offsetX = element.offsetWidth / 2;
+    const offsetY = element.offsetHeight / 2;
+    element.style.left = `${Math.min(Math.max(newX, minX), maxX + offsetX)}px`;
+    element.style.top = `${Math.min(Math.max(newY, minY), maxY + offsetY)}px`;
 
     // 更新当前鼠标位置
     dragMoveVal.x = event.clientX;

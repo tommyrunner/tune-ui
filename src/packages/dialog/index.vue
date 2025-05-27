@@ -16,8 +16,9 @@
     :width="width"
     @click-model="handleClickModel"
     @hover-enter="handleDrag"
-    @open="emit('open')"
+    @open="handleOpen"
     @close="emit('close')"
+    ref="popoverRef"
   >
     <template #content>
       <div class="t-dialog">
@@ -50,7 +51,7 @@
 import "./index.scss";
 import type { PropsType, EmitsType } from "./dialog";
 import type { StyleValue } from "vue";
-import { computed, onMounted, reactive } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useDraggable } from "@/hooks/useDraggable";
 import { TPopover } from "@/packages/popover";
 import { TButton } from "@/packages/button";
@@ -76,6 +77,7 @@ const props = withDefaults(defineProps<PropsType>(), {
 const { TEXT_CONFIRM, TEXT_CANCEL } = useI18nText(props);
 const emit = defineEmits<EmitsType>();
 const visible = defineModel<boolean>();
+const popoverRef = ref<InstanceType<typeof TPopover>>();
 
 const state = reactive({
   custom: { x: 0, y: 0 }
@@ -83,17 +85,20 @@ const state = reactive({
 
 // 注册拖动hooks事件
 const { injectDrag } = useDraggable();
-
 /**
- * 生命周期
+ * 更新位置
  */
-onMounted(() => {
+const updatePosition = () => {
   const { offset } = props;
+  const top = document.documentElement.scrollTop;
+  const left = document.documentElement.scrollLeft;
   state.custom = {
-    x: window.innerWidth / 2 + offset.x,
-    y: window.innerHeight / 2 + offset.y
+    x: window.innerWidth / 2 + left + offset.x,
+    y: window.innerHeight / 2 + top + offset.y
   };
-});
+  popoverRef.value?.updateView();
+};
+onMounted(updatePosition);
 
 /**
  * 处理提交事件
@@ -105,6 +110,14 @@ const handleSubmit = (isConfirm: boolean) => {
     emit("cancel");
   }
   visible.value = false;
+};
+
+/**
+ * 处理打开事件
+ */
+const handleOpen = () => {
+  emit("open");
+  updatePosition();
 };
 
 /**

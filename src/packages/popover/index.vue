@@ -113,12 +113,17 @@ const maxZIndex = () => {
 /**
  * 监听model变化
  */
-watch(model, () => {
-  if (model.value) {
+watch(model, (val: boolean) => {
+  if (val) {
     // 获取最大z-index
     const max = maxZIndex();
     // 新显示的popover z-index 需要比当前最大z-index大1
     if (max >= state.zIndex) state.zIndex = max + 1;
+  }
+  // 监听isModal变化，控制遮罩层不能滚动
+  if (props.isModal) {
+    const el = document.querySelector(props.appendTo as string) as HTMLElement;
+    if (el) el.style.overflow = val ? "hidden" : "auto";
   }
   // 抛出model改变事件
   nextTick(() => {

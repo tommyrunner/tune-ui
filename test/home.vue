@@ -304,8 +304,7 @@ const breakHome = () => {
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
-    height: 100vh;
-    overflow: auto;
+    // overflow: auto;
     position: relative;
 
     .header-actions {

@@ -15,8 +15,9 @@
     :is-modal-nest="true"
     :radius="[0, 0, 0, 0]"
     @click-model="handleClickModel"
-    @open="emit('open')"
+    @open="handleOpen"
     @close="emit('close')"
+    ref="popoverRef"
   >
     <template #content>
       <div class="t-drawer" :style="drawerStyle">
@@ -53,7 +54,7 @@ import type { PropsType, EmitsType } from "./drawer";
 import { TPopover } from "../popover";
 import { TButton } from "../button";
 import { TIcon } from "../icon";
-import { computed, reactive } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useI18nText } from "./i18n";
 defineOptions({ name: "TDrawer" });
 const emit = defineEmits<EmitsType>();
@@ -79,12 +80,39 @@ const props = withDefaults(defineProps<PropsType>(), {
 });
 const { TEXT_CONFIRM, TEXT_CANCEL } = useI18nText(props);
 const visible = defineModel<boolean>();
+const popoverRef = ref<InstanceType<typeof TPopover>>();
 /**
  * 判断是否是两侧方向
  */
 const isSide = computed(() => {
   return ["left", "right"].includes(props.position);
 });
+/**
+ * 更新位置
+ */
+const updatePosition = () => {
+  const { offset } = props;
+  const top = document.documentElement.scrollTop;
+  const left = document.documentElement.scrollLeft;
+  state.custom = {
+    x: left + offset.x,
+    y: top + offset.y
+  };
+  // 右侧需要计算(样式已经 设置了right:0，所以需要去掉x的计算值)
+  if (["right"].includes(props.position)) state.custom.x = undefined;
+  // 底部需要计算(因为计算坐标是top的，所以需要减去高度)
+  if (["bottom"].includes(props.position)) state.custom.y += window.innerHeight - popoverRef.value.popoverRef.offsetHeight;
+  popoverRef.value?.updateView();
+};
+onMounted(updatePosition);
+
+/**
+ * 打开
+ */
+const handleOpen = () => {
+  emit("open");
+  updatePosition();
+};
 
 const handleSubmit = (isConfirm: boolean) => {
   if (isConfirm) {
@@ -111,8 +139,6 @@ const drawerStyle = computed((): StyleValue => {
     maxKey = "width";
     maxScreen = "100%";
   }
-  // 设置body样式
-  document.body.style.overflow = "hidden";
   return {
     [sizeKey]: isSide.value ? "100%" : size,
     // isSetMaxScreen 控制是否占全高(只适用于 left|right)

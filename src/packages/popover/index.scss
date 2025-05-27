@@ -63,6 +63,11 @@
   @include popover-triangle("bottom", rotate(180deg) translateY(0%));
   @include popover-triangle("left", rotate(270deg) translate(-50%, 0%));
 }
+._t-popover-throughout-center {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
 
 // 处理不同方向时出现，离开动画
 @mixin popover-animation($position, $direction, $enter-translate, $leave-translate) {
@@ -109,6 +114,7 @@
 // TODO: 可以优化，将动画抛出去除耦合
 // dialog轴后的动画
 ._t-popover-dialog {
+  position: fixed;
   transform: scale(1) translate(-50%, -50%);
   transform-origin: left;
 }
@@ -126,10 +132,19 @@
 // 处理不同方向 drawer 动画
 @mixin popover-drawer-animation($position, $top, $right, $bottom, $left, $translate) {
   ._t-popover-drawer-#{$position} {
-    top: #{$top} !important;
-    right: #{$right} !important;
-    bottom: #{$bottom} !important;
-    left: #{$left} !important;
+    position: fixed;
+    @if $top != none {
+      top: #{$top}px !important;
+    }
+    @if $right != none {
+      right: #{$right}px !important;
+    }
+    @if $bottom != none {
+      bottom: #{$bottom}px !important;
+    }
+    @if $left != none {
+      left: #{$left}px !important;
+    }
     transform: scale(1) translate(0, 0);
   }
   .t-popover-drawer-#{$position}-enter-from,
@@ -138,7 +153,7 @@
     transform: #{$translate};
   }
 }
-@include popover-drawer-animation("top", 0, initial, initial, 0, translate(0%, -100%));
-@include popover-drawer-animation("right", 0, 0, initial, initial, translate(100%, 0%));
-@include popover-drawer-animation("bottom", initial, initial, 0, 0, translate(0%, 100%));
-@include popover-drawer-animation("left", 0, initial, initial, 0, translate(-100%, 0%));
+@include popover-drawer-animation("top", none, none, none, 0, translate(0%, -100%));
+@include popover-drawer-animation("right", none, 0, none, none, translate(100%, 0%));
+@include popover-drawer-animation("bottom", none, none, none, 0, translate(0%, 100%));
+@include popover-drawer-animation("left", none, none, none, 0, translate(-100%, 0%));
