@@ -37,4 +37,4 @@ Tune UI 使用 Vite 构建，推荐你在项目中也使用 Vite 作为构建工
 
 ## 下一步
 
-请前往 [安装使用](/guide/installation) 了解如何在项目中集成 Tune UI 组件库。 
+请前往 [安装使用](/guide/installation/) 了解如何在项目中集成 Tune UI 组件库。 

@@ -37,4 +37,4 @@ Tune UI is built with Vite, and we recommend using Vite as the build tool for yo
 
 ## Next Steps
 
-Please proceed to [Installation](/en/guide/installation) to learn how to integrate Tune UI into your project. 
+Please proceed to [Installation](/en/guide/installation/) to learn how to integrate Tune UI into your project. 
