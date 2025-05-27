@@ -5,9 +5,9 @@
       <t-rate
         v-model="value1"
         :icon="{
-          empty: 'plus-circle',
-          half: 'message',
-          show: 'star'
+          empty: 'setting',
+          half: 'user',
+          show: 'message'
         }"
       />
     </div>
@@ -17,9 +17,9 @@
       <t-rate
         v-model="value2"
         :icon="{
-          empty: 'alert',
-          half: 'upload-to',
-          show: 'success'
+          empty: 'document',
+          half: 'calendar',
+          show: 'cloud'
         }"
       />
     </div>
@@ -28,7 +28,6 @@
 
 <script setup>
 import { ref } from "vue";
-
 
 const value1 = ref(2.5);
 const value2 = ref(3);

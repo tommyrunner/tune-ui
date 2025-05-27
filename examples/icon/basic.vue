@@ -10,8 +10,6 @@
 </template>
 
 <script setup>
-
-
 // 常用图标列表
 const commonIcons = [
   "search",
@@ -30,8 +28,6 @@ const commonIcons = [
   "edit",
   "info",
   "success-to",
-  "warning-to",
-  "error-to",
   "close"
 ];
 </script>

@@ -1,15 +1,15 @@
 <template>
   <div class="back-top-demo">
-    <div class="scroll-container">
+    <div class="scroll-container-custom">
       <p v-for="i in 30" :key="i" class="paragraph">这是第 {{ i }} 行示例文本，请向下滚动查看自定义内容的回到顶部按钮。</p>
     </div>
-    <t-back-top target=".scroll-container" :right="'120px'">
+    <t-back-top target=".scroll-container-custom" :right="'120px'">
       <div class="custom-back-top">
         <t-icon icon="caret-up" :size="12" />
         <span>顶部</span>
       </div>
     </t-back-top>
-    <t-back-top target=".scroll-container">
+    <t-back-top target=".scroll-container-custom">
       <div class="custom-back-top custom-back-top-circle">
         <t-icon icon="up" :size="16" />
       </div>
@@ -22,7 +22,7 @@
   position: relative;
   height: 300px;
 }
-.scroll-container {
+.scroll-container-custom {
   height: 300px;
   overflow-y: auto;
   border: 1px solid #ebeef5;

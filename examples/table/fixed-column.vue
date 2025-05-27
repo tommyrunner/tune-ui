@@ -5,8 +5,6 @@
 </template>
 
 <script setup>
-
-
 // 固定列配置
 const fixedColumns = [
   { prop: "id", label: "ID", width: 80, fixed: "left" },
@@ -84,4 +82,4 @@ const tableData = [
 .table-demo {
   width: 100%;
 }
-</style> 
+</style>

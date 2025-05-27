@@ -1,12 +1,12 @@
 <template>
   <div class="back-top-demo">
-    <div class="scroll-container">
+    <div class="scroll-container-icon">
       <p v-for="i in 30" :key="i" class="paragraph">这是第 {{ i }} 行示例文本，请向下滚动查看不同图标的回到顶部按钮。</p>
     </div>
     <div class="demo-row">
-      <t-back-top target=".scroll-container" :right="'120px'" icon="up" />
-      <t-back-top target=".scroll-container" :right="'60px'" icon="arrow-up" />
-      <t-back-top target=".scroll-container" icon="top" />
+      <t-back-top target=".scroll-container-icon" :right="'120px'" icon="up" icon-size="24" />
+      <t-back-top target=".scroll-container-icon" :right="'60px'" icon="upload" icon-size="24" />
+      <t-back-top target=".scroll-container-icon" :right="'10px'" icon="download" icon-size="24" />
     </div>
   </div>
 </template>
@@ -16,7 +16,7 @@
   position: relative;
   height: 300px;
 }
-.scroll-container {
+.scroll-container-icon {
   height: 300px;
   overflow-y: auto;
   border: 1px solid #ebeef5;
