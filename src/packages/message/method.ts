@@ -76,9 +76,10 @@ function createMessage(props: PropsType): { VNode: VNode } {
  */
 function initCustom(props: PropsType, lastMessageEl: HTMLElement): PropsType["custom"] {
   const { messageType } = props;
-  let custom = { x: "50%", y: `${MESSAGE_GAP}px` };
+  const yValue = MESSAGE_GAP + document.documentElement.scrollTop;
+  let custom = { x: "50%", y: `${yValue}px` };
   if (isNotification(messageType)) {
-    custom = { x: `${MESSAGE_GAP}px`, y: `${MESSAGE_GAP}px` };
+    custom = { x: `${yValue}px`, y: `${yValue}px` };
   }
   // 处理下一个位置
   if (lastMessageEl) {

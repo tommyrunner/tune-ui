@@ -14,45 +14,45 @@ import { TTextarea } from "./textarea";
 import { TRadio, TRadioGroup } from "./radio";
 import { TCheckbox, TCheckboxGroup } from "./checkbox";
 import { TSwitch } from "./switch";
-import { TRate } from "./rate";
 import { TSelect } from "./select";
+import { TRate } from "./rate";
+import { TSlider } from "./slider";
 import { TDatePicker } from "./date-picker";
 import { TDatePickerMultiple } from "./date-picker-multiple";
-import { TSlider } from "./slider";
 import { TUpload } from "./upload";
-import { TForm, TFormItem } from "./form";
 import { TColorPicker } from "./color-picker";
+import { TForm, TFormItem } from "./form";
 
 // 数据展示组件
 import { TBadge } from "./badge";
 import { TCard } from "./card";
 import { TCarousel, TCarouselGroup } from "./carousel";
-import { TCollapse, TCollapseGroup } from "./collapse";
 import { TListView, TListViewItem } from "./list-view";
-import { TScrollbar } from "./scrollbar";
 import { TTable, TTableRow } from "./table";
 import { TProgress } from "./progress";
 import { TImage } from "./image";
-import { TTree } from "./tree";
 import { TCalendar } from "./calendar";
-
-// 反馈组件
-import { Message, Notification } from "./message";
-import { TDialog } from "./dialog";
-import { TDrawer } from "./drawer";
-import { TPopover } from "./popover";
-import { TPopConfirm } from "./pop-confirm";
+import { TScrollbar } from "./scrollbar";
 
 // 导航组件
 import { TBreadcrumb } from "./breadcrumb";
 import { TBackTop } from "./back-top";
 import { TTabs, TTabsGroup } from "./tabs";
+import { TTree } from "./tree";
+import { TCollapse, TCollapseGroup } from "./collapse";
+
+// 反馈组件
+import { TDialog } from "./dialog";
+import { TDrawer } from "./drawer";
+import { TPopConfirm } from "./pop-confirm";
+import { Message, Notification } from "./message";
+import { TPopover } from "./popover";
 
 // 布局组件
 import { TFlex, TFlexGroup } from "./flex";
-import { TWatermark } from "./watermark";
 
-// 菜单组件
+// 其他组件
+import { TWatermark } from "./watermark";
 import { TMenu } from "./menu";
 
 // 版本号
@@ -72,44 +72,46 @@ export * from "./textarea";
 export * from "./radio";
 export * from "./checkbox";
 export * from "./switch";
-export * from "./rate";
 export * from "./select";
+export * from "./rate";
+export * from "./slider";
 export * from "./date-picker";
 export * from "./date-picker-multiple";
-export * from "./slider";
 export * from "./upload";
-export * from "./form";
 export * from "./color-picker";
+export * from "./form";
 
 // 数据展示组件
 export * from "./badge";
 export * from "./card";
 export * from "./carousel";
-export * from "./collapse";
 export * from "./list-view";
-export * from "./scrollbar";
 export * from "./table";
 export * from "./progress";
 export * from "./image";
-export * from "./tree";
 export * from "./calendar";
-
-// 反馈组件
-export * from "./message";
-export * from "./dialog";
-export * from "./drawer";
-export * from "./popover";
-export * from "./pop-confirm";
+export * from "./scrollbar";
 
 // 导航组件
 export * from "./breadcrumb";
 export * from "./back-top";
 export * from "./tabs";
-export * from "./menu";
+export * from "./tree";
+export * from "./collapse";
+
+// 反馈组件
+export * from "./dialog";
+export * from "./drawer";
+export * from "./pop-confirm";
+export * from "./message";
+export * from "./popover";
 
 // 布局组件
 export * from "./flex";
+
+// 其他组件
 export * from "./watermark";
+export * from "./menu";
 
 /**
  * 全局注册
@@ -130,53 +132,53 @@ const components = {
   TCheckbox,
   TCheckboxGroup,
   TSwitch,
-  TRate,
   TSelect,
+  TRate,
+  TSlider,
   TDatePicker,
   TDatePickerMultiple,
-  TSlider,
   TUpload,
+  TColorPicker,
   TForm,
   TFormItem,
-  TColorPicker,
 
   // 数据展示组件
   TBadge,
   TCard,
   TCarousel,
   TCarouselGroup,
-  TCollapse,
-  TCollapseGroup,
   TListView,
   TListViewItem,
-  TScrollbar,
   TTable,
   TTableRow,
   TProgress,
   TImage,
-  TTree,
   TCalendar,
-
-  // 反馈组件
-  Message,
-  Notification,
-  TDialog,
-  TDrawer,
-  TPopover,
-  TPopConfirm,
+  TScrollbar,
 
   // 导航组件
   TBreadcrumb,
   TBackTop,
   TTabs,
   TTabsGroup,
+  TTree,
+  TCollapse,
+  TCollapseGroup,
+
+  // 反馈组件
+  TDialog,
+  TDrawer,
+  TPopConfirm,
+  Message,
+  Notification,
+  TPopover,
 
   // 布局组件
   TFlex,
   TFlexGroup,
-  TWatermark,
 
-  // 菜单组件
+  // 其他组件
+  TWatermark,
   TMenu
 };
 

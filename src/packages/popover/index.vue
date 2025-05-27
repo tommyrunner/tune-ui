@@ -94,7 +94,7 @@ const bounceShow = bindDebounce(() => {
  */
 const bindPopover = (el: Element, type: typeof props.type) => {
   // 初始化位置
-  updateView(el);
+  // updateView(el);
   if (type === props.type) {
     if (props.type === "click" && model.value) {
       hidePopover(true);

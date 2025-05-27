@@ -1,7 +1,7 @@
 <template>
   <div class="demo-container">
     <p class="demo-desc">消息提示组件提供了四种不同类型，用于不同场景下的反馈。</p>
-    
+
     <div class="demo-block">
       <t-button type="info" @click="showInfoMessage">信息消息</t-button>
       <t-button type="success" @click="showSuccessMessage">成功消息</t-button>
@@ -12,8 +12,6 @@
 </template>
 
 <script setup>
-
-
 /**
  * 显示信息消息
  */
@@ -59,4 +57,4 @@ const showDangerMessage = () => {
   flex-wrap: wrap;
   gap: 16px;
 }
-</style> 
+</style>
