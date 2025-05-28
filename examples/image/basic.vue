@@ -9,17 +9,6 @@
         referrerPolicy="no-referrer"
       />
     </div>
-    <div class="code-block">
-      <pre>
-        &lt;t-image
-          src="https://i.postimg.cc/C5k7W9GK/1.webp"
-          alt="测试图片"
-          width="300px"
-          height="200px"
-          referrerPolicy="no-referrer"
-        /&gt;
-      </pre>
-    </div>
   </div>
 </template>
 
@@ -52,4 +41,4 @@ pre {
   margin: 0;
   white-space: pre-wrap;
 }
-</style> 
+</style>

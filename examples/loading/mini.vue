@@ -13,7 +13,18 @@
 </template>
 
 <script lang="ts" setup>
-const showMiniLoading = () => {};
+const showMiniLoading = () => {
+  const options = {
+    text: "加载中...",
+    bgColor: "rgba(0, 0, 0, 0.5)",
+    delay: 200
+  };
+  const loading = miniLoading(options);
+  loading.loading(document.body);
+  setTimeout(() => {
+    loading.close();
+  }, 2000);
+};
 </script>
 
 <style scoped>

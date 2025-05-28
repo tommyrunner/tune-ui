@@ -13,7 +13,18 @@
 </template>
 
 <script lang="ts" setup>
-const showFullscreenLoading = () => {};
+const showFullscreenLoading = () => {
+  const options = {
+    text: "加载中...",
+    bgColor: "rgba(0, 0, 0, 0.5)",
+    delay: 200
+  };
+  const loading = fullLoading(options);
+  loading.loading(document.body);
+  setTimeout(() => {
+    loading.close();
+  }, 2000);
+};
 </script>
 
 <style scoped>

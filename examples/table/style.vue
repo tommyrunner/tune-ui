@@ -19,7 +19,7 @@
       </div>
       <div class="option-item">
         <span class="option-label">斑马纹:</span>
-        <t-switch v-model="useStripe" size="small" />
+        <t-switch v-model="stripe" size="small" />
       </div>
     </div>
     <t-table
@@ -28,27 +28,23 @@
       :headBgColor="headBgColor"
       :footBgColor="footBgColor"
       :hoverBgColor="hoverBgColor"
-      :border="borderStyle"
-      :stripe="useStripe"
+      :border="borderColor"
+      :stripe="stripe"
       :dbClickAutoWidth="true"
+      summary
     />
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 // 样式配置
 const headBgColor = ref("#f8fafc");
 const footBgColor = ref("#f8fafc");
 const hoverBgColor = ref("#f3f4f6");
 const borderColor = ref("#e5e7eb");
-const useStripe = ref(true);
-
-// 计算边框样式
-const borderStyle = computed(() => {
-  return `1px solid ${borderColor.value}`;
-});
+const stripe = ref(true);
 
 // 列配置
 const columns = [
