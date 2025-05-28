@@ -13,12 +13,10 @@
 </template>
 
 <script lang="ts" setup>
-import { miniLoading, OptionsType, MODEL_TYPES } from "tune-ui";
 const showMiniLoading = () => {
-  const options: OptionsType = {
+  const options = {
     text: "加载中...",
     bgColor: "rgba(0, 0, 0, 0.5)",
-    model: MODEL_TYPES.RING,
     delay: 200
   };
   const loading = miniLoading(options);
