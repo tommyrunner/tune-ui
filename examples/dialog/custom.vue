@@ -13,16 +13,10 @@
         <label>标题和底部居中：</label>
         <t-switch v-model="center"></t-switch>
       </div>
-      <t-button type="primary" @click="dialogVisible = true">打开对话框</t-button>
+      <t-button type="primary" @click="customStyleDialogVisible = true">打开对话框</t-button>
     </div>
-    
-    <t-dialog
-      v-model="dialogVisible"
-      title="自定义样式对话框"
-      :width="width"
-      :top="top"
-      :center="center"
-    >
+
+    <t-dialog v-model="customStyleDialogVisible" title="自定义样式对话框" :width="width" :top="top" :center="center">
       <div class="dialog-content">
         <p>您可以通过以下属性自定义对话框的样式：</p>
         <ul>
@@ -35,8 +29,8 @@
       </div>
       <template #footer>
         <div class="dialog-footer" :class="{ 'is-center': center }">
-          <t-button @click="dialogVisible = false">取消</t-button>
-          <t-button type="primary" @click="dialogVisible = false">确定</t-button>
+          <t-button @click="customStyleDialogVisible = false">取消</t-button>
+          <t-button type="primary" @click="customStyleDialogVisible = false">确定</t-button>
         </div>
       </template>
     </t-dialog>
@@ -46,8 +40,7 @@
 <script setup>
 import { ref, computed } from "vue";
 
-
-const dialogVisible = ref(false);
+const customStyleDialogVisible = ref(false);
 const width = ref("50%");
 const top = ref("10vh");
 const center = ref(false);
@@ -117,4 +110,4 @@ const currentSettings = computed(() => {
 .dialog-footer.is-center {
   justify-content: center;
 }
-</style> 
+</style>

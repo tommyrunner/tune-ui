@@ -5,30 +5,30 @@
       <t-button type="primary" @click="openDialog('noclose')">无关闭图标</t-button>
       <t-button type="primary" @click="openDialog('custom')">自定义标题</t-button>
     </div>
-    
+
     <!-- 带图标标题 -->
-    <t-dialog v-model="dialogVisible" title="带图标标题" icon="info" v-if="dialogType === 'icon'">
+    <t-dialog v-model="iconDialogVisible" title="带图标标题" icon="info">
       <div class="dialog-content">
         <p>通过设置 <code>icon</code> 属性可以在标题前添加图标。</p>
         <p>适合用于强调对话框的类型或用途，如信息提示、警告提示、错误提示等。</p>
       </div>
     </t-dialog>
-    
+
     <!-- 无关闭图标 -->
-    <t-dialog v-model="dialogVisible" title="无关闭图标" :is-close-icon="false" v-if="dialogType === 'noclose'">
+    <t-dialog v-model="noCloseDialogVisible" title="无关闭图标" :is-close-icon="false">
       <div class="dialog-content">
         <p>通过设置 <code>is-close-icon</code> 属性为 <code>false</code> 可以隐藏右上角的关闭图标。</p>
         <p>适用于只允许通过特定按钮关闭的对话框，增强用户操作的确定性。</p>
       </div>
       <template #footer>
         <div class="dialog-footer">
-          <t-button type="primary" @click="dialogVisible = false">关闭</t-button>
+          <t-button type="primary" @click="noCloseDialogVisible = false">关闭</t-button>
         </div>
       </template>
     </t-dialog>
-    
+
     <!-- 自定义标题 -->
-    <t-dialog v-model="dialogVisible" v-if="dialogType === 'custom'">
+    <t-dialog v-model="titleCustomDialogVisible">
       <template #title>
         <div class="custom-title">
           <t-icon icon="warning" class="warning-icon" />
@@ -47,16 +47,23 @@
 <script setup>
 import { ref } from "vue";
 
-
-const dialogVisible = ref(false);
-const dialogType = ref("");
+const iconDialogVisible = ref(false);
+const noCloseDialogVisible = ref(false);
+const titleCustomDialogVisible = ref(false);
 
 /**
  * 打开不同类型的对话框
+ * @param {string} type - 对话框类型
+ * @returns {void}
  */
-const openDialog = (type) => {
-  dialogType.value = type;
-  dialogVisible.value = true;
+const openDialog = type => {
+  if (type === "icon") {
+    iconDialogVisible.value = true;
+  } else if (type === "noclose") {
+    noCloseDialogVisible.value = true;
+  } else if (type === "custom") {
+    titleCustomDialogVisible.value = true;
+  }
 };
 </script>
 
@@ -111,4 +118,4 @@ const openDialog = (type) => {
   display: flex;
   justify-content: flex-end;
 }
-</style> 
+</style>

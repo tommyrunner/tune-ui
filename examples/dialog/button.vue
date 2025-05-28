@@ -1,20 +1,19 @@
 <template>
   <div class="dialog-demo">
     <div class="button-group">
-      <t-button type="primary" @click="openDialog('custom')">自定义按钮</t-button>
-      <t-button type="primary" @click="openDialog('align')">按钮对齐方式</t-button>
-      <t-button type="primary" @click="openDialog('none')">无按钮</t-button>
+      <t-button type="primary" @click="customDialogVisible = true">自定义按钮</t-button>
+      <t-button type="primary" @click="alignDialogVisible = true">按钮对齐方式</t-button>
+      <t-button type="primary" @click="noneDialogVisible = true">无按钮</t-button>
     </div>
-    
+
     <!-- 自定义按钮 -->
     <t-dialog
-      v-model="dialogVisible"
+      v-model="customDialogVisible"
       title="自定义按钮"
       confirm-text="确认保存"
       cancel-text="返回列表"
       confirm-type="success"
       cancel-type="info"
-      v-if="dialogType === 'custom'"
     >
       <div class="dialog-content">
         <p>可以通过以下属性自定义底部按钮：</p>
@@ -26,14 +25,9 @@
         </ul>
       </div>
     </t-dialog>
-    
+
     <!-- 按钮对齐方式 -->
-    <t-dialog
-      v-model="dialogVisible"
-      title="按钮对齐方式"
-      :btn-align="btnAlign"
-      v-if="dialogType === 'align'"
-    >
+    <t-dialog v-model="alignDialogVisible" title="按钮对齐方式" :btn-align="btnAlign">
       <div class="dialog-content">
         <p>通过 <code>btn-align</code> 属性可以设置底部按钮的对齐方式。</p>
         <div class="align-options">
@@ -44,19 +38,14 @@
         <p class="current-align">当前对齐方式：{{ alignText[btnAlign] }}</p>
       </div>
     </t-dialog>
-    
+
     <!-- 无按钮 -->
-    <t-dialog
-      v-model="dialogVisible"
-      title="无底部按钮"
-      :is-foot="false"
-      v-if="dialogType === 'none'"
-    >
+    <t-dialog v-model="noneDialogVisible" title="无底部按钮" :is-foot="false">
       <div class="dialog-content">
         <p>通过设置 <code>is-foot</code> 属性为 <code>false</code> 可以隐藏底部按钮区域。</p>
         <p>适用于纯展示内容或内容本身已包含操作按钮的场景。</p>
         <div class="custom-actions">
-          <t-button type="primary" @click="dialogVisible = false">我知道了</t-button>
+          <t-button type="primary" @click="noneDialogVisible = false">我知道了</t-button>
         </div>
       </div>
     </t-dialog>
@@ -66,24 +55,16 @@
 <script setup>
 import { ref, reactive } from "vue";
 
-
-const dialogVisible = ref(false);
-const dialogType = ref("");
+const customDialogVisible = ref(false);
+const alignDialogVisible = ref(false);
+const noneDialogVisible = ref(false);
 const btnAlign = ref("flex-end");
 
 const alignText = reactive({
   "flex-start": "左对齐",
-  "center": "居中对齐",
+  center: "居中对齐",
   "flex-end": "右对齐"
 });
-
-/**
- * 打开不同类型的对话框
- */
-const openDialog = (type) => {
-  dialogType.value = type;
-  dialogVisible.value = true;
-};
 </script>
 
 <style scoped>
@@ -136,4 +117,4 @@ const openDialog = (type) => {
   justify-content: center;
   margin-top: 20px;
 }
-</style> 
+</style>

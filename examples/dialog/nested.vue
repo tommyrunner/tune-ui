@@ -1,7 +1,7 @@
 <template>
   <div class="dialog-demo">
     <t-button type="primary" @click="outerDialogVisible = true">打开外层对话框</t-button>
-    
+
     <!-- 外层对话框 -->
     <t-dialog v-model="outerDialogVisible" title="外层对话框" width="60%">
       <div class="dialog-content">
@@ -17,7 +17,7 @@
         </div>
       </template>
     </t-dialog>
-    
+
     <!-- 内层对话框 -->
     <t-dialog v-model="innerDialogVisible" title="嵌套对话框" width="400px" append-to-body>
       <div class="dialog-content">
@@ -34,7 +34,7 @@
         </div>
       </template>
     </t-dialog>
-    
+
     <!-- 三层对话框 -->
     <t-dialog v-model="deepDialogVisible" title="三层对话框" width="300px" append-to-body>
       <div class="dialog-content">
@@ -52,7 +52,6 @@
 
 <script setup>
 import { ref } from "vue";
-
 
 // 控制各层对话框的显示状态
 const outerDialogVisible = ref(false);
@@ -109,4 +108,4 @@ const handleInnerConfirm = () => {
   justify-content: flex-end;
   gap: 12px;
 }
-</style> 
+</style>

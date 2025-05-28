@@ -9,7 +9,7 @@
           <t-button size="small" @click="updateSize('800px')">宽</t-button>
         </div>
       </div>
-      
+
       <div class="option-group">
         <h4>内边距</h4>
         <div class="option-buttons">
@@ -18,7 +18,7 @@
           <t-button size="small" @click="updatePadding([24, 24, 24, 24])">大</t-button>
         </div>
       </div>
-      
+
       <div class="option-group">
         <h4>偏移设置</h4>
         <div class="option-buttons">
@@ -27,12 +27,12 @@
           <t-button size="small" @click="updateOffset({ x: 40, y: 40 })">大偏移</t-button>
         </div>
       </div>
-      
+
       <t-button type="primary" class="apply-button" @click="openDrawer">应用并打开抽屉</t-button>
     </div>
-    
+
     <t-drawer
-      v-model="drawerVisible"
+      v-model="styleDrawerVisible"
       title="自定义样式抽屉"
       :size="settings.size"
       :padding="settings.padding"
@@ -45,9 +45,9 @@
           <h3>当前设置</h3>
           <ul>
             <li><strong>尺寸：</strong>{{ settings.size }}</li>
-            <li><strong>内边距：</strong>[{{ settings.padding.join(', ') }}]</li>
+            <li><strong>内边距：</strong>[{{ settings.padding.join(", ") }}]</li>
             <li><strong>偏移：</strong>x={{ settings.offset.x }}, y={{ settings.offset.y }}</li>
-            <li><strong>阴影：</strong>[{{ settings.boxShadow.join(', ') }}]</li>
+            <li><strong>阴影：</strong>[{{ settings.boxShadow.join(", ") }}]</li>
           </ul>
         </div>
         <p>通过这些属性，可以根据不同的业务需求自定义抽屉的外观和尺寸。</p>
@@ -59,8 +59,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 
-
-const drawerVisible = ref(false);
+const styleDrawerVisible = ref(false);
 
 const settings = reactive({
   size: "500px",
@@ -71,30 +70,37 @@ const settings = reactive({
 
 /**
  * 更新尺寸设置
+ * @param {string} size - 尺寸值
+ * @returns {void}
  */
-const updateSize = (size) => {
+const updateSize = size => {
   settings.size = size;
 };
 
 /**
  * 更新内边距设置
+ * @param {Array} padding - 内边距数组
+ * @returns {void}
  */
-const updatePadding = (padding) => {
+const updatePadding = padding => {
   settings.padding = padding;
 };
 
 /**
  * 更新偏移设置
+ * @param {Object} offset - 偏移对象
+ * @returns {void}
  */
-const updateOffset = (offset) => {
+const updateOffset = offset => {
   settings.offset = offset;
 };
 
 /**
  * 打开抽屉
+ * @returns {void}
  */
 const openDrawer = () => {
-  drawerVisible.value = true;
+  styleDrawerVisible.value = true;
 };
 </script>
 
@@ -164,4 +170,4 @@ const openDrawer = () => {
   font-weight: 500;
   color: #303133;
 }
-</style> 
+</style>

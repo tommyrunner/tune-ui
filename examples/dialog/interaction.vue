@@ -1,26 +1,25 @@
 <template>
   <div class="dialog-demo">
     <div class="button-group">
-      <t-button type="primary" @click="openDialog('nomodal')">无遮罩层</t-button>
-      <t-button type="primary" @click="openDialog('noescape')">禁用关闭方式</t-button>
-      <t-button type="primary" @click="openDialog('custom')">自定义样式</t-button>
+      <t-button type="primary" @click="noModalDialogVisible = true">无遮罩层</t-button>
+      <t-button type="primary" @click="noEscapeDialogVisible = true">禁用关闭方式</t-button>
+      <t-button type="primary" @click="customStyleDialogVisible = true">自定义样式</t-button>
     </div>
-    
+
     <!-- 无遮罩层 -->
-    <t-dialog v-model="dialogVisible" title="无遮罩层对话框" :is-modal="false" v-if="dialogType === 'nomodal'">
+    <t-dialog v-model="noModalDialogVisible" title="无遮罩层对话框" :is-modal="false">
       <div class="dialog-content">
         <p>通过设置 <code>is-modal</code> 属性为 <code>false</code> 可以隐藏遮罩层。</p>
         <p>无遮罩层的对话框允许用户同时与页面其他部分进行交互，适用于不需要强制用户响应的辅助性对话框。</p>
       </div>
     </t-dialog>
-    
+
     <!-- 禁用关闭方式 -->
     <t-dialog
-      v-model="dialogVisible"
+      v-model="noEscapeDialogVisible"
       title="禁用默认关闭方式"
       :close-on-press-model="false"
       :close-on-press-escape="false"
-      v-if="dialogType === 'noescape'"
     >
       <div class="dialog-content">
         <p>通过设置以下属性可以禁用默认的关闭方式：</p>
@@ -32,20 +31,19 @@
       </div>
       <template #footer>
         <div class="dialog-footer">
-          <t-button type="primary" @click="dialogVisible = false">我已了解</t-button>
+          <t-button type="primary" @click="noEscapeDialogVisible = false">我已了解</t-button>
         </div>
       </template>
     </t-dialog>
-    
+
     <!-- 自定义样式 -->
     <t-dialog
-      v-model="dialogVisible"
+      v-model="customStyleDialogVisible"
       title="自定义样式对话框"
       :width="dialogWidth"
       :top="dialogTop"
       :padding="dialogPadding"
       :box-shadow="dialogShadow"
-      v-if="dialogType === 'custom'"
     >
       <div class="dialog-content">
         <p>对话框提供了多种样式自定义选项：</p>
@@ -80,7 +78,7 @@
           <ul>
             <li>宽度: {{ dialogWidth }}</li>
             <li>顶部距离: {{ dialogTop }}</li>
-            <li>内边距: [{{ dialogPadding.join(', ') }}]</li>
+            <li>内边距: [{{ dialogPadding.join(", ") }}]</li>
           </ul>
         </div>
       </div>
@@ -91,23 +89,15 @@
 <script setup>
 import { ref } from "vue";
 
-
-const dialogVisible = ref(false);
-const dialogType = ref("");
+const noModalDialogVisible = ref(false);
+const noEscapeDialogVisible = ref(false);
+const customStyleDialogVisible = ref(false);
 
 // 自定义样式属性
 const dialogWidth = ref("600px");
 const dialogTop = ref("15vh");
 const dialogPadding = ref([16, 16, 16, 16]);
 const dialogShadow = ref([0, 3, 10, "rgba(0, 0, 0, 0.1)"]);
-
-/**
- * 打开不同类型的对话框
- */
-const openDialog = (type) => {
-  dialogType.value = type;
-  dialogVisible.value = true;
-};
 </script>
 
 <style scoped>
@@ -181,4 +171,4 @@ const openDialog = (type) => {
   display: flex;
   justify-content: flex-end;
 }
-</style> 
+</style>

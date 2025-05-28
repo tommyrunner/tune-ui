@@ -16,7 +16,6 @@
  * 显示信息消息
  */
 const showInfoMessage = () => {
-  console.log(window.$cc);
   TMessage.message("这是一条信息消息", "info");
 };
 

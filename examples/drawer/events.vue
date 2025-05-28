@@ -1,9 +1,9 @@
 <template>
   <div class="drawer-demo">
-    <t-button type="primary" @click="drawerVisible = true">打开事件测试抽屉</t-button>
-    
+    <t-button type="primary" @click="eventsDrawerVisible = true">打开事件测试抽屉</t-button>
+
     <t-drawer
-      v-model="drawerVisible"
+      v-model="eventsDrawerVisible"
       title="事件测试抽屉"
       @open="handleOpen"
       @close="handleClose"
@@ -22,7 +22,7 @@
         <p>尝试操作抽屉，查看下方的事件记录。</p>
       </div>
     </t-drawer>
-    
+
     <div class="event-log" v-if="logs.length > 0">
       <h3>事件记录</h3>
       <ul class="log-list">
@@ -41,18 +41,19 @@
 <script setup>
 import { ref } from "vue";
 
-
-const drawerVisible = ref(false);
+const eventsDrawerVisible = ref(false);
 const logs = ref([]);
 
 /**
  * 添加事件日志
+ * @param {string} event - 事件名称
+ * @returns {void}
  */
-const addLog = (event) => {
+const addLog = event => {
   const now = new Date();
   const time = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")}`;
   logs.value.unshift({ event, time });
-  
+
   // 限制记录数量
   if (logs.value.length > 10) {
     logs.value = logs.value.slice(0, 10);
@@ -61,8 +62,10 @@ const addLog = (event) => {
 
 /**
  * 获取日志条目的CSS类
+ * @param {Object} log - 日志对象
+ * @returns {string} CSS类名
  */
-const getLogClass = (log) => {
+const getLogClass = log => {
   if (log.event.includes("open")) return "log-open";
   if (log.event.includes("close")) return "log-close";
   if (log.event.includes("confirm")) return "log-confirm";
@@ -183,4 +186,4 @@ const handleCancel = () => {
   justify-content: flex-end;
   margin-top: 12px;
 }
-</style> 
+</style>

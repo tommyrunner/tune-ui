@@ -1,9 +1,9 @@
 <template>
   <div class="dialog-demo">
-    <t-button type="primary" @click="dialogVisible = true">打开事件测试对话框</t-button>
-    
+    <t-button type="primary" @click="eventsDialogVisible = true">打开事件测试对话框</t-button>
+
     <t-dialog
-      v-model="dialogVisible"
+      v-model="eventsDialogVisible"
       title="事件测试对话框"
       @confirm="handleConfirm"
       @cancel="handleCancel"
@@ -39,7 +39,7 @@
         </div>
       </template>
     </t-dialog>
-    
+
     <div class="event-log" v-if="eventLogs.length > 0">
       <h4>事件记录：</h4>
       <ul>
@@ -57,18 +57,20 @@
 <script setup>
 import { ref } from "vue";
 
-
-const dialogVisible = ref(false);
+const eventsDialogVisible = ref(false);
 const eventLogs = ref([]);
 
 /**
  * 添加事件日志
+ * @param {string} event - 事件名称
+ * @param {string} detail - 事件详情
+ * @returns {void}
  */
 const addLog = (event, detail = "") => {
   const now = new Date();
-  const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}.${now.getMilliseconds().toString().padStart(3, '0')}`;
-  eventLogs.value.unshift(`${time} - ${event}${detail ? ': ' + detail : ''}`);
-  
+  const time = `${now.getHours().toString().padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")}.${now.getMilliseconds().toString().padStart(3, "0")}`;
+  eventLogs.value.unshift(`${time} - ${event}${detail ? ": " + detail : ""}`);
+
   // 限制日志条数
   if (eventLogs.value.length > 10) {
     eventLogs.value = eventLogs.value.slice(0, 10);
@@ -77,68 +79,71 @@ const addLog = (event, detail = "") => {
 
 /**
  * 获取日志条目的CSS类
+ * @param {string} log - 日志内容
+ * @returns {string} CSS类名
  */
-const getLogClass = (log) => {
-  if (log.includes('confirm')) return 'log-confirm';
-  if (log.includes('cancel')) return 'log-cancel';
-  if (log.includes('open')) return 'log-open';
-  if (log.includes('close')) return 'log-close';
-  if (log.includes('drag')) return 'log-drag';
-  return '';
+const getLogClass = log => {
+  if (log.includes("confirm")) return "log-confirm";
+  if (log.includes("cancel")) return "log-cancel";
+  if (log.includes("open")) return "log-open";
+  if (log.includes("close")) return "log-close";
+  if (log.includes("drag")) return "log-drag";
+  return "";
 };
 
 /**
  * 事件处理函数
  */
 const handleConfirm = () => {
-  addLog('confirm事件');
+  addLog("confirm事件");
 };
 
 const handleCancel = () => {
-  addLog('cancel事件');
+  addLog("cancel事件");
 };
 
 const handleOpen = () => {
-  addLog('open事件', '对话框开始打开');
+  addLog("open事件", "对话框开始打开");
 };
 
 const handleOpened = () => {
-  addLog('opened事件', '对话框打开动画结束');
+  addLog("opened事件", "对话框打开动画结束");
 };
 
 const handleClose = () => {
-  addLog('close事件', '对话框开始关闭');
+  addLog("close事件", "对话框开始关闭");
 };
 
 const handleClosed = () => {
-  addLog('closed事件', '对话框关闭动画结束');
+  addLog("closed事件", "对话框关闭动画结束");
 };
 
-const handleDragStart = (event) => {
-  addLog('drag-start事件', `x=${Math.round(event.x)}, y=${Math.round(event.y)}`);
+const handleDragStart = event => {
+  addLog("drag-start事件", `x=${Math.round(event.x)}, y=${Math.round(event.y)}`);
 };
 
-const handleDrag = (event) => {
-  if (Math.random() > 0.9) { // 只记录部分拖拽事件，避免过多日志
-    addLog('drag事件', `x=${Math.round(event.x)}, y=${Math.round(event.y)}`);
+const handleDrag = event => {
+  if (Math.random() > 0.9) {
+    // 只记录部分拖拽事件，避免过多日志
+    addLog("drag事件", `x=${Math.round(event.x)}, y=${Math.round(event.y)}`);
   }
 };
 
-const handleDragEnd = (event) => {
-  addLog('drag-end事件', `x=${Math.round(event.x)}, y=${Math.round(event.y)}`);
+const handleDragEnd = event => {
+  addLog("drag-end事件", `x=${Math.round(event.x)}, y=${Math.round(event.y)}`);
 };
 
 /**
  * 按钮点击处理
  */
 const handleConfirmBtn = () => {
-  console.log('确认按钮点击');
-  dialogVisible.value = false;
+  console.log("确认按钮点击");
+  eventsDialogVisible.value = false;
 };
 
 const handleCancelBtn = () => {
-  console.log('取消按钮点击');
-  dialogVisible.value = false;
+  console.log("取消按钮点击");
+  eventsDialogVisible.value = false;
 };
 </script>
 
@@ -216,7 +221,8 @@ const handleCancelBtn = () => {
   color: #f56c6c;
 }
 
-.log-open, .log-close {
+.log-open,
+.log-close {
   background-color: #ecf5ff;
   color: #409eff;
 }
@@ -231,4 +237,4 @@ const handleCancelBtn = () => {
   justify-content: flex-end;
   margin-top: 12px;
 }
-</style> 
+</style>
