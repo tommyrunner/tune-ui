@@ -20,6 +20,7 @@ function message(content: string, type?: PropsType["type"], config?: PropsType) 
   );
 }
 export default {
+  name: "TMessage",
   message,
   info: (content: string) => message(content, "info"),
   success: (content: string) => message(content, "success"),

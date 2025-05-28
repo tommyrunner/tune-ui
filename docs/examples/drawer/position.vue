@@ -6,14 +6,13 @@
       <t-button type="primary" @click="openDrawer('top')">顶部弹出</t-button>
       <t-button type="primary" @click="openDrawer('bottom')">底部弹出</t-button>
     </div>
-    
-    <t-drawer
-      v-model="drawerVisible"
-      :title="positionTitle"
-      :position="position"
-    >
+
+    <t-drawer v-model="positionDrawerVisible" :title="positionTitle" :position="position">
       <div class="drawer-content">
-        <p>当前抽屉从<strong>{{ positionText }}</strong>弹出。</p>
+        <p>
+          当前抽屉从<strong>{{ positionText }}</strong
+          >弹出。
+        </p>
         <p>抽屉组件支持从屏幕的四个方向弹出，可以根据不同的交互场景选择合适的弹出方向：</p>
         <ul>
           <li><strong>左侧弹出</strong>：适用于导航菜单、筛选条件等场景</li>
@@ -30,8 +29,7 @@
 <script setup>
 import { ref, computed } from "vue";
 
-
-const drawerVisible = ref(false);
+const positionDrawerVisible = ref(false);
 const position = ref("left");
 
 const positionMap = {
@@ -47,9 +45,9 @@ const positionTitle = computed(() => `${positionText.value}抽屉`);
 /**
  * 打开指定方向的抽屉
  */
-const openDrawer = (pos) => {
+const openDrawer = pos => {
   position.value = pos;
-  drawerVisible.value = true;
+  positionDrawerVisible.value = true;
 };
 </script>
 
@@ -94,4 +92,4 @@ const openDrawer = (pos) => {
   color: #409eff;
   font-family: Consolas, Monaco, monospace;
 }
-</style> 
+</style>

@@ -17,7 +17,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--vp-c-text-1);
-  overflow: auto !important;
 }
 
 /* 改善链接样式 */

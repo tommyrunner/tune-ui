@@ -94,7 +94,7 @@ const bounceShow = bindDebounce(() => {
  */
 const bindPopover = (el: Element, type: typeof props.type) => {
   // 初始化位置
-  updateView(el);
+  // updateView(el);
   if (type === props.type) {
     if (props.type === "click" && model.value) {
       hidePopover(true);
@@ -308,11 +308,11 @@ const getPopoverStyle = computed((): StyleValue => {
   if (typeof widthValue === "number") {
     widthValue = `${widthValue}px`;
   }
-
+  const { point, zIndex, firstPosition } = state;
   return {
-    zIndex: state.zIndex,
-    left: `${state.point.left}px`,
-    top: `${state.point.top}px`,
+    zIndex,
+    left: point.left === undefined ? undefined : `${point.left}px`,
+    top: point.top === undefined ? undefined : `${point.top}px`,
     width: widthValue,
     borderRadius: Array.isArray(props.radius) ? props.radius.map(val => `${val}px`).join(" ") : `${props.radius}px`,
     padding: Array.isArray(props.padding) ? props.padding.map(val => `${val}px`).join(" ") : `${props.padding}px`,
@@ -320,7 +320,7 @@ const getPopoverStyle = computed((): StyleValue => {
       ? `${props.boxShadow[0]}px ${props.boxShadow[1]}px ${props.boxShadow[2]}px ${props.boxShadow[3]}`
       : "",
     display: props.custom ? "" : null,
-    visibility: state.firstPosition ? "hidden" : null
+    visibility: firstPosition ? "hidden" : null
   };
 });
 

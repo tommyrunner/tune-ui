@@ -22,3 +22,10 @@ declare module "*.vue" {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
+
+// 声明全局Window接口扩展
+interface Window {
+  // 在此处添加需要的全局window变量
+  // 例如: customVariable: any;
+  [key: string]: any;
+}

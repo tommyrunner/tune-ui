@@ -1,8 +1,8 @@
 <template>
   <div class="drawer-demo">
-    <t-button type="primary" @click="drawerVisible = true">打开抽屉</t-button>
-    
-    <t-drawer v-model="drawerVisible" title="基础抽屉">
+    <t-button type="primary" @click="basicDrawerVisible = true">打开抽屉</t-button>
+
+    <t-drawer v-model="basicDrawerVisible" title="基础抽屉">
       <div class="drawer-content">
         <p>这是一个基础的抽屉组件，从屏幕边缘滑出的浮层面板。</p>
         <p>抽屉组件常用于以下场景：</p>
@@ -21,8 +21,7 @@
 <script setup>
 import { ref } from "vue";
 
-
-const drawerVisible = ref(false);
+const basicDrawerVisible = ref(false);
 </script>
 
 <style scoped>
@@ -47,4 +46,4 @@ const drawerVisible = ref(false);
 .drawer-content li {
   margin-bottom: 8px;
 }
-</style> 
+</style>

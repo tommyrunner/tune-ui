@@ -8,7 +8,7 @@
       <t-button type="primary" @click="openDialog('full')">全屏</t-button>
     </div>
 
-    <t-dialog v-model="dialogVisible" :title="dialogTitle" :size="currentSize">
+    <t-dialog v-model="sizeDialogVisible" :title="dialogTitle" :size="currentSize">
       <div class="dialog-content">
         <p>
           当前对话框尺寸：<strong>{{ sizeText }}</strong>
@@ -25,7 +25,7 @@
       </div>
       <template #footer>
         <div class="dialog-footer">
-          <t-button @click="dialogVisible = false">关闭</t-button>
+          <t-button @click="sizeDialogVisible = false">关闭</t-button>
         </div>
       </template>
     </t-dialog>
@@ -35,8 +35,7 @@
 <script setup>
 import { ref, computed } from "vue";
 
-
-const dialogVisible = ref(false);
+const sizeDialogVisible = ref(false);
 const currentSize = ref("medium");
 
 const sizeTextMap = {
@@ -47,12 +46,26 @@ const sizeTextMap = {
   full: "全屏"
 };
 
+/**
+ * 计算尺寸文本
+ * @returns {string} 尺寸文本
+ */
 const sizeText = computed(() => sizeTextMap[currentSize.value]);
+
+/**
+ * 计算对话框标题
+ * @returns {string} 对话框标题
+ */
 const dialogTitle = computed(() => `${sizeText.value}对话框`);
 
+/**
+ * 打开指定尺寸的对话框
+ * @param {string} size - 对话框尺寸
+ * @returns {void}
+ */
 const openDialog = size => {
   currentSize.value = size;
-  dialogVisible.value = true;
+  sizeDialogVisible.value = true;
 };
 </script>
 

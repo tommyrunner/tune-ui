@@ -21,6 +21,7 @@ function message(title: string, content: string, type?: PropsType["type"], confi
   );
 }
 export default {
+  name: "TNotification",
   message,
   info: (title: string, content: string) => message(title, content, "info"),
   success: (title: string, content: string) => message(title, content, "success"),

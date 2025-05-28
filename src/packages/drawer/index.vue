@@ -54,13 +54,13 @@ import type { PropsType, EmitsType } from "./drawer";
 import { TPopover } from "../popover";
 import { TButton } from "../button";
 import { TIcon } from "../icon";
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useI18nText } from "./i18n";
 defineOptions({ name: "TDrawer" });
 const emit = defineEmits<EmitsType>();
 const GAP = 4;
 const state = reactive({
-  custom: { x: 0, y: 0 }
+  custom: { x: undefined, y: undefined }
 });
 const props = withDefaults(defineProps<PropsType>(), {
   position: "left",
@@ -98,13 +98,16 @@ const updatePosition = () => {
     x: left + offset.x,
     y: top + offset.y
   };
+  console.log(state.custom);
   // 右侧需要计算(样式已经 设置了right:0，所以需要去掉x的计算值)
-  if (["right"].includes(props.position)) state.custom.x = undefined;
+  if (["right"].includes(props.position)) {
+    state.custom.x = undefined;
+  }
   // 底部需要计算(因为计算坐标是top的，所以需要减去高度)
   if (["bottom"].includes(props.position)) state.custom.y += window.innerHeight - popoverRef.value.popoverRef.offsetHeight;
   popoverRef.value?.updateView();
 };
-onMounted(updatePosition);
+// onMounted(updatePosition);
 
 /**
  * 打开

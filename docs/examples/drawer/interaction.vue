@@ -2,32 +2,32 @@
   <div class="drawer-demo">
     <div class="options-panel">
       <h3>交互配置选项</h3>
-      
+
       <div class="option-item">
         <t-checkbox v-model="showModal">显示遮罩层</t-checkbox>
         <div class="option-desc">控制抽屉背景是否显示遮罩层</div>
       </div>
-      
+
       <div class="option-item">
         <t-checkbox v-model="closeOnPressModel">点击遮罩层关闭</t-checkbox>
         <div class="option-desc">控制点击遮罩层是否可以关闭抽屉</div>
       </div>
-      
+
       <div class="option-item">
         <t-checkbox v-model="closeOnPressEscape">按ESC关闭</t-checkbox>
         <div class="option-desc">控制按ESC键是否可以关闭抽屉</div>
       </div>
-      
+
       <div class="option-item">
         <t-checkbox v-model="setMaxHeight">设置最大高度</t-checkbox>
         <div class="option-desc">控制是否限制抽屉的最大高度(适用于左右方向)</div>
       </div>
-      
+
       <t-button type="primary" @click="openDrawer">打开抽屉</t-button>
     </div>
 
     <t-drawer
-      v-model="drawerVisible"
+      v-model="interactionDrawerVisible"
       title="交互配置"
       :is-modal="showModal"
       :close-on-press-model="closeOnPressModel"
@@ -40,19 +40,19 @@
           <ul>
             <li>
               <span class="setting-name">显示遮罩层：</span>
-              <span class="setting-value" :class="{ 'enabled': showModal }">{{ showModal ? '是' : '否' }}</span>
+              <span class="setting-value" :class="{ enabled: showModal }">{{ showModal ? "是" : "否" }}</span>
             </li>
             <li>
               <span class="setting-name">点击遮罩层关闭：</span>
-              <span class="setting-value" :class="{ 'enabled': closeOnPressModel }">{{ closeOnPressModel ? '是' : '否' }}</span>
+              <span class="setting-value" :class="{ enabled: closeOnPressModel }">{{ closeOnPressModel ? "是" : "否" }}</span>
             </li>
             <li>
               <span class="setting-name">按ESC关闭：</span>
-              <span class="setting-value" :class="{ 'enabled': closeOnPressEscape }">{{ closeOnPressEscape ? '是' : '否' }}</span>
+              <span class="setting-value" :class="{ enabled: closeOnPressEscape }">{{ closeOnPressEscape ? "是" : "否" }}</span>
             </li>
             <li>
               <span class="setting-name">设置最大高度：</span>
-              <span class="setting-value" :class="{ 'enabled': setMaxHeight }">{{ setMaxHeight ? '是' : '否' }}</span>
+              <span class="setting-value" :class="{ enabled: setMaxHeight }">{{ setMaxHeight ? "是" : "否" }}</span>
             </li>
           </ul>
         </div>
@@ -66,8 +66,7 @@
 <script setup>
 import { ref } from "vue";
 
-
-const drawerVisible = ref(false);
+const interactionDrawerVisible = ref(false);
 const showModal = ref(true);
 const closeOnPressModel = ref(true);
 const closeOnPressEscape = ref(true);
@@ -75,9 +74,10 @@ const setMaxHeight = ref(true);
 
 /**
  * 打开抽屉
+ * @returns {void}
  */
 const openDrawer = () => {
-  drawerVisible.value = true;
+  interactionDrawerVisible.value = true;
 };
 </script>
 
@@ -164,4 +164,4 @@ const openDrawer = () => {
   border-left: 3px solid #e6a23c;
   color: #c28135;
 }
-</style> 
+</style>

@@ -1,8 +1,8 @@
 <template>
   <div class="drawer-demo">
-    <t-button type="primary" @click="drawerVisible = true">自定义内容抽屉</t-button>
+    <t-button type="primary" @click="customContentDrawerVisible = true">自定义内容抽屉</t-button>
 
-    <t-drawer v-model="drawerVisible">
+    <t-drawer v-model="customContentDrawerVisible">
       <!-- 自定义标题 -->
       <template #title>
         <div class="custom-title">
@@ -53,7 +53,7 @@
             <span>提交前请确认信息正确</span>
           </div>
           <div class="footer-buttons">
-            <t-button type="text" @click="drawerVisible = false">取消</t-button>
+            <t-button type="text" @click="customContentDrawerVisible = false">取消</t-button>
             <t-button type="success" @click="handleSubmit">保存</t-button>
           </div>
         </div>
@@ -65,8 +65,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 
-
-const drawerVisible = ref(false);
+const customContentDrawerVisible = ref(false);
 
 // 表单数据
 const form = reactive({
@@ -77,10 +76,11 @@ const form = reactive({
 
 /**
  * 处理表单提交
+ * @returns {void}
  */
 const handleSubmit = () => {
   console.log("表单数据:", form);
-  drawerVisible.value = false;
+  customContentDrawerVisible.value = false;
 };
 </script>
 

@@ -28,6 +28,9 @@ export default {
         app.use(tuneUi.install);
         // 注册指令
         app.use(tuneUi.directive);
+        // 注册全局方法(模拟按需引入组件)
+        window.TMessage = tuneUi.TMessage;
+        window.TNotification = tuneUi.TNotification;
       } catch (error) {
         console.error("加载组件库失败:", error);
       }

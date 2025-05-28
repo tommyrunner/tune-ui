@@ -6,7 +6,6 @@ import dialogInteraction from '../examples/dialog/interaction.vue'
 import dialogNested from '../examples/dialog/nested.vue'
 import dialogDraggable from '../examples/dialog/draggable.vue'
 import dialogEvents from '../examples/dialog/events.vue'
-import dialogAsyncClose from '../examples/dialog/async-close.vue'
 </script>
 
 # 对话框组件
@@ -57,85 +56,79 @@ import dialogAsyncClose from '../examples/dialog/async-close.vue'
 
 <demo :component="dialogEvents" name="dialog" examples="events" />
 
-## 异步关闭
-
-可以结合 `before-close` 回调实现异步关闭对话框的功能，适用于需要在关闭前执行特定操作的场景。
-
-<demo :component="dialogAsyncClose" name="dialog" examples="async-close" />
-
 ## 对话框 API
 
 ### TDialog 属性
 
-| 属性名                 | 说明                     | 类型              | 可选值                              | 默认值    |
-| ---------------------- | ------------------------ | ----------------- | ----------------------------------- | --------- |
-| `modelValue`           | 是否显示对话框(双向绑定) | `boolean`         | —                                   | `false`   |
-| `title`                | 对话框标题               | `string`          | —                                   | —         |
-| `width`                | 对话框宽度               | `string`/`number` | —                                   | `500px`   |
-| `top`                  | 对话框距离顶部距离       | `string`/`number` | —                                   | `15vh`    |
-| `center`               | 是否居中显示标题和底部   | `boolean`         | —                                   | `false`   |
-| `append-to-body`       | 是否插入到body元素       | `boolean`         | —                                   | `false`   |
-| `close-on-click-modal` | 点击遮罩是否关闭对话框   | `boolean`         | —                                   | `true`    |
-| `close-on-press-escape`| 按ESC是否关闭对话框     | `boolean`         | —                                   | `true`    |
-| `show-close`           | 是否显示关闭按钮         | `boolean`         | —                                   | `true`    |
-| `draggable`            | 是否可拖拽               | `boolean`         | —                                   | `false`   |
-| `fullscreen`           | 是否全屏显示             | `boolean`         | —                                   | `false`   |
-| `before-close`         | 关闭前的回调函数         | `function`        | —                                   | —         |
-| `destroy-on-close`     | 关闭时是否销毁组件       | `boolean`         | —                                   | `false`   |
-| `z-index`              | 对话框层级               | `number`          | —                                   | `2000`    |
-| `icon`                 | 标题图标                 | `string`          | —                                   | —         |
-| `is-close-icon`        | 是否显示关闭图标         | `boolean`         | —                                   | `true`    |
-| `is-modal`             | 是否显示遮罩层           | `boolean`         | —                                   | `true`    |
-| `confirm-text`         | 确认按钮文本             | `string`          | —                                   | `确定`    |
-| `cancel-text`          | 取消按钮文本             | `string`          | —                                   | `取消`    |
-| `confirm-type`         | 确认按钮类型             | `string`          | `primary`/`success`/`warning`/`danger`/`info` | `primary` |
-| `cancel-type`          | 取消按钮类型             | `string`          | `primary`/`success`/`warning`/`danger`/`info` | —         |
-| `btn-align`            | 按钮对齐方式             | `string`          | `flex-start`/`center`/`flex-end`    | `flex-end`|
-| `is-foot`              | 是否显示底部按钮         | `boolean`         | —                                   | `true`    |
-| `padding`              | 内边距                   | `array`           | —                                   | `[16, 16, 16, 16]` |
-| `box-shadow`           | 阴影设置                 | `array`           | —                                   | `[0, 2, 12, 'rgba(0, 0, 0, 0.1)']` |
+| 属性名                  | 说明                     | 类型              | 可选值                                        | 默认值                             |
+| ----------------------- | ------------------------ | ----------------- | --------------------------------------------- | ---------------------------------- |
+| `modelValue`            | 是否显示对话框(双向绑定) | `boolean`         | —                                             | `false`                            |
+| `title`                 | 对话框标题               | `string`          | —                                             | —                                  |
+| `width`                 | 对话框宽度               | `string`/`number` | —                                             | `500px`                            |
+| `top`                   | 对话框距离顶部距离       | `string`/`number` | —                                             | `15vh`                             |
+| `center`                | 是否居中显示标题和底部   | `boolean`         | —                                             | `false`                            |
+| `append-to-body`        | 是否插入到body元素       | `boolean`         | —                                             | `false`                            |
+| `close-on-click-modal`  | 点击遮罩是否关闭对话框   | `boolean`         | —                                             | `true`                             |
+| `close-on-press-escape` | 按ESC是否关闭对话框      | `boolean`         | —                                             | `true`                             |
+| `show-close`            | 是否显示关闭按钮         | `boolean`         | —                                             | `true`                             |
+| `draggable`             | 是否可拖拽               | `boolean`         | —                                             | `false`                            |
+| `fullscreen`            | 是否全屏显示             | `boolean`         | —                                             | `false`                            |
+| `before-close`          | 关闭前的回调函数         | `function`        | —                                             | —                                  |
+| `destroy-on-close`      | 关闭时是否销毁组件       | `boolean`         | —                                             | `false`                            |
+| `z-index`               | 对话框层级               | `number`          | —                                             | `2000`                             |
+| `icon`                  | 标题图标                 | `string`          | —                                             | —                                  |
+| `is-close-icon`         | 是否显示关闭图标         | `boolean`         | —                                             | `true`                             |
+| `is-modal`              | 是否显示遮罩层           | `boolean`         | —                                             | `true`                             |
+| `confirm-text`          | 确认按钮文本             | `string`          | —                                             | `确定`                             |
+| `cancel-text`           | 取消按钮文本             | `string`          | —                                             | `取消`                             |
+| `confirm-type`          | 确认按钮类型             | `string`          | `primary`/`success`/`warning`/`danger`/`info` | `primary`                          |
+| `cancel-type`           | 取消按钮类型             | `string`          | `primary`/`success`/`warning`/`danger`/`info` | —                                  |
+| `btn-align`             | 按钮对齐方式             | `string`          | `flex-start`/`center`/`flex-end`              | `flex-end`                         |
+| `is-foot`               | 是否显示底部按钮         | `boolean`         | —                                             | `true`                             |
+| `padding`               | 内边距                   | `array`           | —                                             | `[16, 16, 16, 16]`                 |
+| `box-shadow`            | 阴影设置                 | `array`           | —                                             | `[0, 2, 12, 'rgba(0, 0, 0, 0.1)']` |
 
 ### 事件
 
-| 事件名      | 说明                      | 回调参数 |
-| ----------- | ------------------------- | -------- |
-| `open`      | 对话框打开时触发          | —        |
-| `opened`    | 对话框打开动画结束时触发  | —        |
-| `close`     | 对话框关闭时触发          | —        |
-| `closed`    | 对话框关闭动画结束时触发  | —        |
-| `confirm`   | 点击确认按钮时触发        | —        |
-| `cancel`    | 点击取消按钮时触发        | —        |
-| `drag-start`| 开始拖拽时触发            | `event`  |
-| `drag`      | 拖拽时触发                | `event`  |
-| `drag-end`  | 拖拽结束时触发            | `event`  |
+| 事件名       | 说明                     | 回调参数 |
+| ------------ | ------------------------ | -------- |
+| `open`       | 对话框打开时触发         | —        |
+| `opened`     | 对话框打开动画结束时触发 | —        |
+| `close`      | 对话框关闭时触发         | —        |
+| `closed`     | 对话框关闭动画结束时触发 | —        |
+| `confirm`    | 点击确认按钮时触发       | —        |
+| `cancel`     | 点击取消按钮时触发       | —        |
+| `drag-start` | 开始拖拽时触发           | `event`  |
+| `drag`       | 拖拽时触发               | `event`  |
+| `drag-end`   | 拖拽结束时触发           | `event`  |
 
 ### 插槽
 
-| 插槽名    | 说明                   | 作用域参数 |
-| --------- | ---------------------- | ---------- |
-| `default` | 对话框的内容           | —          |
-| `title`   | 自定义标题区域内容     | —          |
-| `footer`  | 对话框底部操作区内容   | —          |
+| 插槽名    | 说明                 | 作用域参数 |
+| --------- | -------------------- | ---------- |
+| `default` | 对话框的内容         | —          |
+| `title`   | 自定义标题区域内容   | —          |
+| `footer`  | 对话框底部操作区内容 | —          |
 
 ### 方法
 
-| 方法名   | 说明          | 参数                |
-| -------- | ------------- | ------------------- |
-| `open`   | 打开对话框    | —                   |
-| `close`  | 关闭对话框    | —                   |
+| 方法名  | 说明       | 参数 |
+| ------- | ---------- | ---- |
+| `open`  | 打开对话框 | —    |
+| `close` | 关闭对话框 | —    |
 
 ### 样式变量
 
 对话框组件使用了以下样式变量，可通过 SCSS 变量进行自定义：
 
-| 变量名                | 说明           |
-| --------------------- | -------------- |
-| $bg-color-default     | 默认背景颜色   |
-| $bg-color-model       | 模态背景颜色   |
-| $text-color-default   | 默认文本颜色   |
-| $border-color-default | 默认边框颜色   |
-| $theme-color-primary  | 主题色-主要    |
-| $color-white          | 白色           |
-| $color-black          | 黑色           |
-| $font-size-default    | 默认字体大小   |
-| $z-index-up           | 上层层级       |
+| 变量名                | 说明         |
+| --------------------- | ------------ |
+| $bg-color-default     | 默认背景颜色 |
+| $bg-color-model       | 模态背景颜色 |
+| $text-color-default   | 默认文本颜色 |
+| $border-color-default | 默认边框颜色 |
+| $theme-color-primary  | 主题色-主要  |
+| $color-white          | 白色         |
+| $color-black          | 黑色         |
+| $font-size-default    | 默认字体大小 |
+| $z-index-up           | 上层层级     |

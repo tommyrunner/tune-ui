@@ -51,7 +51,7 @@
 import "./index.scss";
 import type { PropsType, EmitsType } from "./dialog";
 import type { StyleValue } from "vue";
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useDraggable } from "@/hooks/useDraggable";
 import { TPopover } from "@/packages/popover";
 import { TButton } from "@/packages/button";
@@ -80,7 +80,7 @@ const visible = defineModel<boolean>();
 const popoverRef = ref<InstanceType<typeof TPopover>>();
 
 const state = reactive({
-  custom: { x: 0, y: 0 }
+  custom: { x: undefined, y: undefined }
 });
 
 // 注册拖动hooks事件
@@ -98,7 +98,7 @@ const updatePosition = () => {
   };
   popoverRef.value?.updateView();
 };
-onMounted(updatePosition);
+// onMounted(updatePosition);
 
 /**
  * 处理提交事件

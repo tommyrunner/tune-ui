@@ -4,9 +4,9 @@
       <t-button type="primary" @click="openDialog(true)">可拖拽对话框</t-button>
       <t-button type="info" @click="openDialog(false)">普通对话框</t-button>
     </div>
-    
+
     <t-dialog
-      v-model="dialogVisible"
+      v-model="draggableDialogVisible"
       :title="dialogTitle"
       :draggable="isDraggable"
       width="500px"
@@ -15,15 +15,11 @@
       @drag-end="handleDragEnd"
     >
       <div class="dialog-content">
-        <p v-if="isDraggable">
-          当前对话框是<strong>可拖拽的</strong>。您可以通过点击并拖动标题栏来移动对话框的位置。
-        </p>
-        <p v-else>
-          当前对话框是<strong>不可拖拽的</strong>。对话框位置固定，无法移动。
-        </p>
+        <p v-if="isDraggable">当前对话框是<strong>可拖拽的</strong>。您可以通过点击并拖动标题栏来移动对话框的位置。</p>
+        <p v-else>当前对话框是<strong>不可拖拽的</strong>。对话框位置固定，无法移动。</p>
         <p>通过设置 <code>draggable</code> 属性为 <code>true</code> 可以启用对话框的拖拽功能。</p>
         <p>拖拽功能适用于需要灵活调整界面布局的场景，让用户能够根据自己的喜好调整对话框位置。</p>
-        
+
         <div class="drag-events" v-if="isDraggable && dragEvents.length > 0">
           <h4>拖拽事件记录：</h4>
           <ul>
@@ -35,7 +31,7 @@
       </div>
       <template #footer>
         <div class="dialog-footer">
-          <t-button @click="dialogVisible = false">关闭</t-button>
+          <t-button @click="draggableDialogVisible = false">关闭</t-button>
         </div>
       </template>
     </t-dialog>
@@ -45,8 +41,7 @@
 <script setup>
 import { ref, computed } from "vue";
 
-
-const dialogVisible = ref(false);
+const draggableDialogVisible = ref(false);
 const isDraggable = ref(true);
 const dragEvents = ref([]);
 
@@ -59,16 +54,16 @@ const dialogTitle = computed(() => {
  * 打开对话框
  * @param {boolean} draggable - 是否可拖拽
  */
-const openDialog = (draggable) => {
+const openDialog = draggable => {
   isDraggable.value = draggable;
   dragEvents.value = [];
-  dialogVisible.value = true;
+  draggableDialogVisible.value = true;
 };
 
 /**
  * 处理拖拽开始事件
  */
-const handleDragStart = (event) => {
+const handleDragStart = event => {
   dragEvents.value.push(`拖拽开始: x=${Math.round(event.x)}, y=${Math.round(event.y)}`);
   limitEventCount();
 };
@@ -76,7 +71,7 @@ const handleDragStart = (event) => {
 /**
  * 处理拖拽中事件
  */
-const handleDrag = (event) => {
+const handleDrag = event => {
   // 只记录部分拖拽事件以避免过多信息
   if (dragEvents.value.length % 5 === 0) {
     dragEvents.value.push(`拖拽中: x=${Math.round(event.x)}, y=${Math.round(event.y)}`);
@@ -87,7 +82,7 @@ const handleDrag = (event) => {
 /**
  * 处理拖拽结束事件
  */
-const handleDragEnd = (event) => {
+const handleDragEnd = event => {
   dragEvents.value.push(`拖拽结束: x=${Math.round(event.x)}, y=${Math.round(event.y)}`);
   limitEventCount();
 };
@@ -158,4 +153,4 @@ const limitEventCount = () => {
   display: flex;
   justify-content: flex-end;
 }
-</style> 
+</style>
