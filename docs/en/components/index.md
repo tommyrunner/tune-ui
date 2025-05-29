@@ -1,6 +1,6 @@
 # Component Overview
 
-Tune UI component library provides a rich set of components, covering common UI interaction scenarios. Below is a categorized navigation of all components (38 components in total).
+Tune UI component library provides a rich set of components covering common UI interaction scenarios. Below is the categorized navigation for all components (38 components in total).
 
 <style>
 .component-list {
@@ -278,4 +278,4 @@ Tune UI component library provides a rich set of components, covering common UI 
       </span>Flex
     </a>
   </div>
-</div> 
+</div>

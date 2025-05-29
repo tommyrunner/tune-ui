@@ -1,6 +1,6 @@
 import DefaultTheme from "vitepress/theme";
-import type { Theme } from "vitepress";
-import { h } from "vue";
+import { useData, type Theme } from "vitepress";
+import { h, watch } from "vue";
 import "./styles/vars.css";
 import "./styles/custom.css";
 import "./styles/demo.css";
@@ -15,7 +15,7 @@ export default {
   Layout() {
     return h(DefaultTheme.Layout, null, {});
   },
-  async enhanceApp({ app }) {
+  async enhanceApp({ app, router }) {
     // 注册Demo组件
     app.component("Demo", Demo);
 
@@ -28,6 +28,15 @@ export default {
         app.use(tuneUi.install);
         // 注册指令
         app.use(tuneUi.directive);
+        // 处理国际化切换
+        router.onBeforePageLoad = to => {
+          const { setLocale } = tuneUi.useOptions();
+          if (to.includes("/en/")) {
+            setLocale("en-US");
+          } else {
+            setLocale("zh-CN");
+          }
+        };
         // 注册全局方法(模拟按需引入组件)
         window.TMessage = tuneUi.TMessage;
         window.TNotification = tuneUi.TNotification;

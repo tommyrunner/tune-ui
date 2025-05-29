@@ -18,7 +18,7 @@ export default defineConfig({
   // 启用本地搜索功能
   themeConfig: {
     search: {
-      provider: 'local'
+      provider: "local"
     }
   },
 
@@ -71,6 +71,8 @@ export default defineConfig({
     const distDir = resolve(__dirname, "dist");
     const examplesSourceDir = resolve(__dirname, "../examples");
     const examplesTargetDir = resolve(distDir, "examples");
+    const examplesSourceDirEn = resolve(__dirname, "../examples/en");
+    const examplesTargetDirEn = resolve(distDir, "en/examples");
 
     // 确保examples目标目录存在
     if (!fs.existsSync(examplesTargetDir)) {
@@ -79,7 +81,9 @@ export default defineConfig({
 
     // 复制examples目录到dist/examples
     copyDirectorySync(examplesSourceDir, examplesTargetDir);
-    console.log("✓ Examples目录已复制到dist/examples");
+    // 复制examples目录到dist/en/examples
+    copyDirectorySync(examplesSourceDirEn, examplesTargetDirEn);
+    console.log("✓ Examples目录已复制到[dist/examples]和[dist/en/examples]");
   },
 
   // 国际化配置

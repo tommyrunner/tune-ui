@@ -25,7 +25,7 @@ declare module "*.vue" {
 
 // 声明全局Window接口扩展
 interface Window {
-  // 在此处添加需要的全局window变量
-  // 例如: customVariable: any;
-  [key: string]: any;
+  // 添加Tune UI组件库的全局方法
+  TMessage: any;
+  TNotification: any;
 }

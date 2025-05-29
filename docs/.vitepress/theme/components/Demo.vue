@@ -5,17 +5,16 @@
         <component :is="props.component" />
       </div>
     </div>
-
     <!-- 代码控制器 -->
     <div class="demo-block-control">
       <div class="left-placeholder"></div>
       <div class="control-center" @click="toggleExpand">
-        <span>{{ isExpanded ? "隐藏代码" : "显示代码" }}</span>
+        <span>{{ isExpanded ? TEXT_HIDE_CODE : TEXT_SHOW_CODE }}</span>
         <img
           class="arrow-icon"
           :class="{ 'is-expanded': isExpanded }"
           src="/images/arrow-dow.png"
-          alt="箭头"
+          :alt="TEXT_ALT_ARROW"
           width="18"
           height="18"
         />
@@ -25,20 +24,20 @@
           class="operation-icon"
           :class="{ copied }"
           src="/images/copy.png"
-          alt="复制"
+          :alt="TEXT_ALT_COPY"
           width="24"
           height="24"
           @click.stop="copyCode"
-          title="复制代码"
+          :title="TEXT_COPY_CODE"
         />
         <img
           class="operation-icon"
           src="/images/github.png"
-          alt="GitHub"
+          :alt="TEXT_ALT_GITHUB"
           width="24"
           height="24"
           @click.stop="openGithub"
-          title="查看GitHub源码"
+          :title="TEXT_VIEW_SOURCE"
         />
       </div>
     </div>
@@ -48,7 +47,7 @@
       <div v-show="isExpanded" class="demo-block-code">
         <div v-if="isCodeLoading" class="loading-container code-loading">
           <div class="loading-spinner"></div>
-          <span>代码加载中...</span>
+          <span>{{ TEXT_LOADING }}</span>
         </div>
         <div v-else class="code-wrapper">
           <slot v-if="$slots.code" name="code"></slot>
@@ -62,6 +61,7 @@
 <script lang="ts" setup name="Demo">
 import { ref, computed, onMounted, type Component } from "vue";
 import { highlight } from "../../utils/highlight";
+import { useDemoI18n } from "./i18n";
 
 /**
  * @description Demo组件Props类型定义
@@ -83,6 +83,22 @@ const isExpanded = ref(false);
 const copied = ref(false);
 const sourceCode = ref("");
 const isCodeLoading = ref(false);
+const { 
+  TEXT_SHOW_CODE, 
+  TEXT_HIDE_CODE, 
+  TEXT_COPY_CODE, 
+  TEXT_VIEW_SOURCE, 
+  TEXT_LOADING, 
+  TEXT_COPY_SUCCESS, 
+  TEXT_LOAD_ERROR,
+  TEXT_ALT_ARROW,
+  TEXT_ALT_COPY,
+  TEXT_ALT_GITHUB,
+  TEXT_FILE_NOT_EXIST,
+  TEXT_FETCH_ERROR,
+  TEXT_IMPORT_ERROR,
+  TEXT_LOAD_SOURCE_ERROR
+} = useDemoI18n();
 
 /**
  * 组件路径计算
@@ -121,17 +137,17 @@ const loadSourceCode = async () => {
       isCodeLoading.value = true;
 
       // 判断当前环境
-      if (import.meta.env.PROD) {
+      if ((import.meta as any).env?.PROD) {
         // 生产环境：使用fetch请求获取文件内容
         try {
           const response = await fetch(componentPath.value);
           if (!response.ok) {
-            throw new Error(`${componentPath.value} 文件不存在`);
+            throw new Error(TEXT_FILE_NOT_EXIST(componentPath.value));
           }
           sourceCode.value = await response.text();
         } catch (fetchError) {
-          console.error("Fetch加载源代码失败:", fetchError);
-          sourceCode.value = `// 无法加载 ${props.name}/${props.examples} 的示例代码`;
+          console.error(TEXT_FETCH_ERROR + ":", fetchError);
+          sourceCode.value = TEXT_LOAD_ERROR(props.name, props.examples);
         }
       } else {
         // 开发环境：使用import方式加载
@@ -139,14 +155,14 @@ const loadSourceCode = async () => {
           const code = await import(/* @vite-ignore */ `${componentPath.value}?raw`);
           sourceCode.value = code.default;
         } catch (importError) {
-          console.error("Import加载源代码失败:", importError);
-          sourceCode.value = `// 无法加载 ${props.name}/${props.examples} 的示例代码`;
+          console.error(TEXT_IMPORT_ERROR + ":", importError);
+          sourceCode.value = TEXT_LOAD_ERROR(props.name, props.examples);
         }
       }
     }
   } catch (error) {
-    console.error("加载源代码失败:", error);
-    sourceCode.value = `// 无法加载 ${props.name}/${props.examples} 的示例代码`;
+    console.error(TEXT_LOAD_SOURCE_ERROR + ":", error);
+    sourceCode.value = TEXT_LOAD_ERROR(props.name, props.examples);
   } finally {
     isCodeLoading.value = false;
   }

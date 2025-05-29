@@ -1,56 +1,63 @@
+<script setup lang="ts">
+import dividerBasic from '../examples/divider/basic.vue'
+import dividerDirection from '../examples/divider/direction.vue'
+import dividerStyle from '../examples/divider/style.vue'
+import dividerWithText from '../examples/divider/with-text.vue'
+</script>
+
 # Divider Component
 
 ![Divider Component](/components/divider.png)
 
-The divider component is used to separate content into groups, providing visual separation and better organization of the page structure.
+The divider component is used to separate content groups, visually dividing content to better organize page structure.
 
 ## Basic Usage
 
-The most basic divider, default is horizontal.
+The most basic divider, horizontal by default.
 
-<demo component-name="divider" examples="basic"></demo>
+<demo :component="dividerBasic" name="divider" examples="basic" />
 
 ## Direction
 
-Dividers can be horizontal or vertical, with horizontal being the default.
+Dividers have two directions: horizontal and vertical, with horizontal being the default.
 
-<demo component-name="divider" examples="direction"></demo>
+<demo :component="dividerDirection" name="divider" examples="direction" />
 
 ## Different Styles
 
 Dividers support different border styles: solid (default), dashed, dotted, and double.
 
-<demo component-name="divider" examples="style"></demo>
+<demo :component="dividerStyle" name="divider" examples="style" />
 
 ## Divider with Text
 
-Text content can be embedded in the divider, with customizable text position.
+You can embed text content in the divider and customize the text position.
 
-<demo component-name="divider" examples="with-text"></demo>
+<demo :component="dividerWithText" name="divider" examples="with-text" />
 
 ## Divider API
 
-### Properties
+### Attributes
 
-| Property        | Description      | Type   | Values                              | Default    |
-| --------------- | ---------------- | ------ | ----------------------------------- | ---------- |
-| direction       | Divider direction | string | horizontal / vertical               | horizontal |
-| borderStyle     | Border style     | string | solid / dashed / dotted / double    | solid      |
-| contentPosition | Text position    | string | left / center / right               | center     |
+| Attribute       | Description      | Type   | Accepted Values                  | Default    |
+| --------------- | ---------------- | ------ | -------------------------------- | ---------- |
+| direction       | Divider direction| string | horizontal / vertical            | horizontal |
+| borderStyle     | Divider style    | string | solid / dashed / dotted / double | solid      |
+| contentPosition | Text position    | string | left / center / right            | center     |
 
 ### Slots
 
-| Slot Name | Description           |
-| --------- | --------------------- |
-| default   | Text content inside the divider |
+| Slot Name | Description              |
+| --------- | ------------------------ |
+| default   | Text content in divider  |
 
 ### Style Variables
 
-The divider component uses the following style variables, which can be customized via SCSS variables:
+The divider component uses the following style variables, which can be customized through SCSS variables:
 
-| Variable Name        | Description        |
-| -------------------- | ------------------ |
+| Variable Name         | Description        |
+| --------------------- | ------------------ |
 | $border-color-default | Divider color      |
-| $text-color-default  | Text color         |
-| $bg-color-default    | Background color   |
-| $font-size-default   | Default font size  | 
+| $text-color-default   | Text color         |
+| $bg-color-default     | Background color   |
+| $font-size-default    | Default font size  |
