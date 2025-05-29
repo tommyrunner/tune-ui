@@ -71,7 +71,7 @@ export default defineConfig({
     const distDir = resolve(__dirname, "dist");
     const examplesSourceDir = resolve(__dirname, "../examples");
     const examplesTargetDir = resolve(distDir, "examples");
-    const examplesSourceDirEn = resolve(__dirname, "../examples/en");
+    const examplesSourceDirEn = resolve(__dirname, "../en/examples");
     const examplesTargetDirEn = resolve(distDir, "en/examples");
 
     // 确保examples目标目录存在
