@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 
-const requiredFiles = ["dist/lib/index.js", "dist/lib/src/index.d.ts", "dist/es/index.js", "dist/es/src/index.d.ts"];
+const requiredFiles = ["dist/lib/index.js", "dist/lib/index.d.ts", "dist/es/index.js", "dist/es/index.d.ts"];
 
 console.log("检查构建输出...");
 

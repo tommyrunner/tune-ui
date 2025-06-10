@@ -6,10 +6,22 @@ export const vitePlugins: Plugin[] = [
   vue(),
   dts({
     outDir: "dist/es",
-    tsconfigPath: "tsconfig.json"
+    tsconfigPath: "tsconfig.build.json",
+    include: ["src/**/*"],
+    exclude: ["test/**/*", "docs/**/*", "node_modules/**/*"],
+    insertTypesEntry: true,
+    copyDtsFiles: true,
+    logLevel: "info",
+    entryRoot: "src"
   }),
   dts({
     outDir: "dist/lib",
-    tsconfigPath: "tsconfig.json"
+    tsconfigPath: "tsconfig.build.json",
+    include: ["src/**/*"],
+    exclude: ["test/**/*", "docs/**/*", "node_modules/**/*"],
+    insertTypesEntry: true,
+    copyDtsFiles: true,
+    logLevel: "info",
+    entryRoot: "src"
   })
 ];

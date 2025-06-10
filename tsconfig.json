@@ -11,7 +11,6 @@
     ],
     "types": [
       "vite/client",
-      "element-plus/global"
     ],
     "skipLibCheck": true,
     /* Bundler mode */
@@ -48,7 +47,7 @@
     "docs/**/*.ts",
     "docs/**/*.d.ts",
     "docs/**/*.vue",
-    "vite.config.ts"
+    "vite.config.ts",
   ],
   "exclude": [
     "node_modules",

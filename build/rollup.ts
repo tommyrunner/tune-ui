@@ -1,5 +1,6 @@
 import type { RollupOptions, OutputOptions } from "rollup";
-
+import { copyFileSync, existsSync, mkdirSync } from "fs";
+import { dirname } from "path";
 /** CSS资源信息接口 */
 interface AssetInfo {
   type: string;
@@ -44,6 +45,32 @@ const createOutput = (format: "es" | "cjs"): OutputOptions => ({
   assetFileNames: createAssetFileName
 });
 
+// 安全复制函数
+function safeCopyFile(src: string, dest: string) {
+  try {
+    // 检查源文件是否存在
+    if (!existsSync(src)) {
+      console.warn(`⚠️  源文件不存在: ${src}`);
+      return false;
+    }
+
+    // 确保目标目录存在
+    const destDir = dirname(dest);
+    if (!existsSync(destDir)) {
+      mkdirSync(destDir, { recursive: true });
+      console.log(`📁 创建目录: ${destDir}`);
+    }
+
+    // 复制文件
+    copyFileSync(src, dest);
+    console.log(`✅ 已复制: ${src} -> ${dest}`);
+    return true;
+  } catch (error) {
+    console.error(`❌ 复制失败: ${src} -> ${dest}`, error);
+    return false;
+  }
+}
+
 /** Rollup配置 */
 export const rollupOptions: RollupOptions = {
   // 忽略打包vue文件
@@ -56,5 +83,15 @@ export const rollupOptions: RollupOptions = {
     createOutput("es"),
     // CommonJS格式输出
     createOutput("cjs")
+  ],
+  // 插件
+  plugins: [
+    // 复制文件
+    {
+      name: "copy-static-assets",
+      closeBundle() {
+        safeCopyFile("typings/global.d.ts", "dist/global.d.ts");
+      }
+    }
   ]
 };
