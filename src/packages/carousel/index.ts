@@ -3,7 +3,8 @@ import type { PropsType as CarouselPropsType, SlotsType as CarouselSlotsType } f
 import type {
   PropsType as CarouselGroupPropsType,
   SlotsType as CarouselGroupSlotsType,
-  EmitsType as CarouselGroupEmitsType
+  EmitsType as CarouselGroupEmitsType,
+  ExposesType as CarouselGroupExposesType
 } from "./carousel-group";
 import Carousel from "./index.vue";
 import CarouselGroup from "./carousel-group.vue";
@@ -13,7 +14,7 @@ export const TCarousel = Carousel as unknown as SFCWithInstall<CarouselPropsType
 /** 导出轮播组组件 */
 export const TCarouselGroup = CarouselGroup as unknown as SFCWithInstall<
   CarouselGroupPropsType,
-  {},
+  CarouselGroupExposesType,
   CarouselGroupSlotsType,
   CarouselGroupEmitsType
 >;

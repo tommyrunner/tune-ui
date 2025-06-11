@@ -37,7 +37,9 @@ defineOptions({
   name: "TTree"
 });
 
-// Props定义
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   data: () => [],
   nodeKey: "id",
@@ -52,26 +54,34 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabled: false
 });
 
+/** 国际化文本 */
 const { TEXT_EMPTY } = useI18nText();
 
-// 定义事件
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-// 内部状态
+/** 展开的节点keys */
 const expandedKeys = ref<string[]>(props.expanded);
+/** 勾选的节点keys */
 const checkedKeys = ref<string[]>(props.checked);
+/** 节点映射表 */
 const nodeMap = ref(new Map<string, TreeNodeType>());
 
-// 根节点
-const rootNodes = computed(() => {
+/**
+ * 根节点列表
+ * @returns {TreeNodeType[]} 格式化后的根节点数组
+ */
+const rootNodes = computed((): TreeNodeType[] => {
   return formatNodes(props.data, null);
 });
 
 /**
  * 格式化节点数据，扩展节点属性
- * @param nodes 节点数据
- * @param parent 父节点
- * @returns 格式化后的节点数据
+ * @param {any[]} nodes - 节点数据
+ * @param {TreeNodeType | null} parent - 父节点
+ * @returns {TreeNodeType[]} 格式化后的节点数据
  */
 function formatNodes(nodes: any[], parent: TreeNodeType | null): TreeNodeType[] {
   if (!nodes || !nodes.length) return [];
@@ -107,9 +117,9 @@ function formatNodes(nodes: any[], parent: TreeNodeType | null): TreeNodeType[] 
 
 /**
  * 处理节点展开/收起
- * @param node 节点
- * @param expanded 是否展开
- * @param deep 是否深层展开/折叠子节点，默认false
+ * @param {TreeNodeType} node - 节点
+ * @param {boolean} expanded - 是否展开
+ * @param {boolean} [deep=false] - 是否深层展开/折叠子节点
  */
 function handleNodeExpand(node: TreeNodeType, expanded: boolean, deep: boolean = false) {
   // 更新当前节点展开状态
@@ -133,8 +143,8 @@ function handleNodeExpand(node: TreeNodeType, expanded: boolean, deep: boolean =
 
 /**
  * 更新节点展开状态
- * @param node 节点
- * @param expanded 是否展开
+ * @param {TreeNodeType} node - 节点
+ * @param {boolean} expanded - 是否展开
  */
 function updateNodeExpandState(node: TreeNodeType, expanded: boolean) {
   if (expanded) {
@@ -157,7 +167,7 @@ function updateNodeExpandState(node: TreeNodeType, expanded: boolean) {
 
 /**
  * 手风琴模式下折叠同级节点
- * @param node 节点
+ * @param {TreeNodeType} node - 节点
  */
 function toggleSiblings(node: TreeNodeType) {
   // 获取同级节点
@@ -173,7 +183,7 @@ function toggleSiblings(node: TreeNodeType) {
 
 /**
  * 确保子节点已加载
- * @param node 节点
+ * @param {TreeNodeType} node - 节点
  */
 function ensureChildrenLoaded(node: TreeNodeType) {
   if (node.hasChildren && !node.children) {
@@ -183,8 +193,8 @@ function ensureChildrenLoaded(node: TreeNodeType) {
 
 /**
  * 处理节点勾选
- * @param node 节点
- * @param checked 是否选中
+ * @param {TreeNodeType} node - 节点
+ * @param {boolean} checked - 是否选中
  */
 function handleNodeCheck(node: TreeNodeType, checked: boolean) {
   // 先展开所有子节点
@@ -201,15 +211,15 @@ function handleNodeCheck(node: TreeNodeType, checked: boolean) {
 }
 
 /**
- * 递归处理节点选中状态
- * @param node 节点
- * @param checked 是否选中
+ * 深度处理节点勾选状态
+ * @param {TreeNodeType} node - 节点
+ * @param {boolean} checked - 是否选中
  */
 function handleNodeCheckDeep(node: TreeNodeType, checked: boolean) {
-  // 更新当前节点状态
-  updateNodeCheckState(node, checked);
+  // 更新当前节点的选中状态
+  updateNodeCheckState(node.key, checked);
 
-  // 处理子节点
+  // 递归处理子节点
   if (node.children) {
     node.children.forEach(child => {
       handleNodeCheckDeep(child, checked);
@@ -218,14 +228,11 @@ function handleNodeCheckDeep(node: TreeNodeType, checked: boolean) {
 }
 
 /**
- * 更新节点选中状态
- * @param node 节点
- * @param checked 是否选中
+ * 更新节点勾选状态
+ * @param {string} key - 节点key
+ * @param {boolean} checked - 是否选中
  */
-function updateNodeCheckState(node: TreeNodeType, checked: boolean) {
-  const key = node.key;
-  node.isChecked = checked;
-
+function updateNodeCheckState(key: string, checked: boolean) {
   if (checked) {
     if (!checkedKeys.value.includes(key)) {
       checkedKeys.value.push(key);
@@ -240,8 +247,8 @@ function updateNodeCheckState(node: TreeNodeType, checked: boolean) {
 
 /**
  * 获取同级节点
- * @param node 节点
- * @returns 同级节点列表
+ * @param {TreeNodeType} node - 节点
+ * @returns {TreeNodeType[]} 同级节点列表
  */
 function getSiblings(node: TreeNodeType): TreeNodeType[] {
   if (!node.parent) return [];
@@ -258,8 +265,8 @@ function getSiblings(node: TreeNodeType): TreeNodeType[] {
 
 /**
  * 全部展开
- * @param node 指定节点，不传则展开所有节点
- * @param deep 是否递归展开子节点，默认true
+ * @param {TreeNodeType} [node] - 指定节点，不传则展开所有节点
+ * @param {boolean} [deep=true] - 是否递归展开子节点
  */
 function expandAll(node?: TreeNodeType, deep: boolean = true) {
   if (node) {
@@ -293,8 +300,8 @@ function expandAll(node?: TreeNodeType, deep: boolean = true) {
 
 /**
  * 全部折叠
- * @param node 指定节点，不传则折叠所有节点
- * @param deep 是否递归折叠子节点，默认true
+ * @param {TreeNodeType} [node] - 指定节点，不传则折叠所有节点
+ * @param {boolean} [deep=true] - 是否递归折叠子节点
  */
 function collapseAll(node?: TreeNodeType, deep: boolean = true) {
   if (node) {
@@ -319,14 +326,44 @@ function collapseAll(node?: TreeNodeType, deep: boolean = true) {
 
 /**
  * 获取节点key
- * @param node 节点
- * @returns 节点key
+ * @param {any} node - 节点
+ * @returns {string} 节点key
  */
 function getNodeKey(node: any): string {
   return node[props.nodeKey]?.toString() || "";
 }
 
-// 通过context共享状态和方法到子组件
+/**
+ * 获取勾选的节点keys
+ * @returns {string[]} 勾选的叶子节点keys
+ */
+function getCheckedKeys(): string[] {
+  return checkedKeys.value.filter(key => nodeMap.value.get(key)?.isLeaf);
+}
+
+/**
+ * 获取勾选的节点数据
+ * @returns {any[]} 勾选的叶子节点数据
+ */
+function getCheckedNodes(): any[] {
+  return checkedKeys.value.reduce((result: any[], key) => {
+    const node = nodeMap.value.get(key);
+    if (node && node.isLeaf) {
+      result.push(node.data);
+    }
+    return result;
+  }, []);
+}
+
+/**
+ * 设置勾选的节点keys
+ * @param {string[]} keys - 节点keys
+ */
+function setCheckedKeys(keys: string[]) {
+  checkedKeys.value = [...keys];
+}
+
+/** 通过context共享状态和方法到子组件 */
 provide<TreeContext>(treeContextKey, {
   expandedKeys,
   checkedKeys,
@@ -334,7 +371,9 @@ provide<TreeContext>(treeContextKey, {
   handleNodeCheck
 });
 
-// 监听props变化
+/**
+ * 监听props.expanded变化
+ */
 watch(
   () => props.expanded,
   newVal => {
@@ -342,6 +381,9 @@ watch(
   }
 );
 
+/**
+ * 监听props.checked变化
+ */
 watch(
   () => props.checked,
   newVal => {
@@ -349,7 +391,9 @@ watch(
   }
 );
 
-// 添加对节点选中状态的观察
+/**
+ * 监听checkedKeys变化，更新节点选中状态
+ */
 watch(
   checkedKeys,
   () => {
@@ -361,7 +405,9 @@ watch(
   { deep: true }
 );
 
-// 添加对节点展开状态的观察
+/**
+ * 监听expandedKeys变化，更新节点展开状态
+ */
 watch(
   expandedKeys,
   () => {
@@ -374,55 +420,13 @@ watch(
 );
 
 /**
- * 获取勾选的节点（只返回叶子节点）
- * @returns 勾选的叶子节点列表
+ * @description 暴露组件方法
  */
-function getCheckedNodes() {
-  return checkedKeys.value.reduce((result: any[], key) => {
-    const node = nodeMap.value.get(key);
-    if (node && node.isLeaf) {
-      result.push(node.data);
-    }
-    return result;
-  }, []);
-}
-
-/**
- * 通过key展开指定节点及其子节点
- * @param key 节点key
- * @param deep 是否深度展开，默认true
- */
-function expandByKey(key?: string, deep: boolean = true) {
-  if (!key) {
-    expandAll();
-  } else {
-    const node = nodeMap.value.get(key);
-    if (node) {
-      handleNodeExpand(node, true, deep);
-    }
-  }
-}
-
-/**
- * 通过key收起指定节点及其子节点
- * @param key 节点key
- * @param deep 是否深度收起，默认true
- */
-function collapseByKey(key?: string, deep: boolean = true) {
-  if (!key) {
-    collapseAll();
-  } else {
-    const node = nodeMap.value.get(key);
-    if (node) {
-      handleNodeExpand(node, false, deep);
-    }
-  }
-}
-
-// 暴露组件方法
 defineExpose({
-  expandByKey,
-  collapseByKey,
-  getCheckedNodes
+  getCheckedKeys,
+  getCheckedNodes,
+  setCheckedKeys,
+  expandAll,
+  collapseAll
 });
 </script>

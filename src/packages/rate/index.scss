@@ -15,13 +15,8 @@
       transform: scale(1.1);
     }
   }
-
-  &.t-disabled {
-    pointer-events: none;
-
-    .t-icon {
-      opacity: $opacity-disabled;
-    }
+  &.t-disabled.t-icon {
+    opacity: $opacity-disabled;
   }
 }
 

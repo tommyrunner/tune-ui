@@ -43,7 +43,9 @@ import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TPopConfirm" });
 
-/** Props定义 */
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   icon: "illustrate",
   iconColor: "#999",
@@ -54,11 +56,15 @@ const props = withDefaults(defineProps<PropsType>(), {
   closeOnPressOther: false
 });
 
+/** 国际化文本 */
 const { TEXT_CONFIRM, TEXT_CANCEL } = useI18nText(props);
-/** Emits定义 */
+
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-/** 双向绑定 */
+/** v-model双向绑定 */
 const visible = defineModel<boolean>();
 
 /**
@@ -79,6 +85,7 @@ const handleCancel = () => {
 
 /**
  * 计算确认框样式
+ * @returns {StyleValue} 样式对象
  */
 const confirmStyles = computed((): StyleValue => {
   const { maxWidth } = props;

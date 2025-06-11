@@ -6,20 +6,22 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropsType, EmitsType } from "./tabs-group";
+import "./group.scss";
+import type { PropsType, EmitsType, ExposesType } from "./tabs-group";
 import type { ValueType } from "./tabs";
 import type { GroupContextType } from "./constants";
 import type { StyleValue } from "vue";
 import { provide, reactive, toRefs, computed, nextTick, onMounted, onDeactivated, watch } from "vue";
 import { tabsGroupKey } from "./constants";
-import "./group.scss";
 
 defineOptions({ name: "TTabsGroup" });
 
 /** 内边距常量 */
 const PADDING = 4;
 
-/** Props定义 */
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   height: "42px",
   type: "line",
@@ -27,13 +29,17 @@ const props = withDefaults(defineProps<PropsType>(), {
   actionDuration: 220
 });
 
-/** 双向绑定 */
+/**
+ * @description v-model定义
+ */
 const model = defineModel<ValueType>();
 
-/** Emits定义 */
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-/** 状态管理 */
+/** 组件状态管理 */
 const state = reactive({
   isChange: false,
   childEl: void 0 as HTMLElement,
@@ -44,20 +50,28 @@ const state = reactive({
   }
 });
 
-/** 监听参数变化调整action位置 */
+/**
+ * 监听参数变化调整action位置
+ */
 watch(
   () => props,
   () => updateAction(),
   { deep: true }
 );
 
-/** 计算group样式 */
-const groupClasses = computed(() => {
+/**
+ * 计算group样式类名
+ * @returns {string[]} 样式类名数组
+ */
+const groupClasses = computed((): string[] => {
   const { type } = props;
   return ["t-tabs-group", `t-tabs-type-${type}`];
 });
 
-/** 计算group样式 */
+/**
+ * 计算group样式
+ * @returns {StyleValue} 样式对象
+ */
 const groupStyles = computed((): StyleValue => {
   const { height, gap, type } = props;
   const isBorder = type === "border";
@@ -68,7 +82,10 @@ const groupStyles = computed((): StyleValue => {
   };
 });
 
-/** 计算action样式 */
+/**
+ * 计算action样式
+ * @returns {StyleValue} action样式对象
+ */
 const actionStyles = computed((): StyleValue => {
   const { left, width } = state.actionPosition;
   return {
@@ -78,7 +95,13 @@ const actionStyles = computed((): StyleValue => {
   };
 });
 
-/** 修改选中状态 */
+/**
+ * 修改选中状态
+ * @param {HTMLElement} childEl - 子元素
+ * @param {ValueType} value - 选中值
+ * @param {boolean} isChange - 是否改变状态
+ * @param {boolean} isEmit - 是否触发事件
+ */
 const handleChange = (childEl: HTMLElement, value?: ValueType, isChange?: boolean, isEmit = true) => {
   if (!childEl) return;
   nextTick(() => {
@@ -93,25 +116,32 @@ const handleChange = (childEl: HTMLElement, value?: ValueType, isChange?: boolea
   });
 };
 
-/** 更新action位置 */
+/**
+ * 更新action位置
+ */
 const updateAction = () => {
   if (state.childEl) {
     handleChange(state.childEl, model.value, true, false);
   }
 };
 
-/** 处理动画更新action位置 */
+/**
+ * 组件挂载后的初始化
+ */
 onMounted(() => {
   window.addEventListener("resize", updateAction);
   window.addEventListener("transitionend", updateAction);
 });
 
+/**
+ * 组件失活时的清理
+ */
 onDeactivated(() => {
   window.removeEventListener("resize", updateAction);
   window.removeEventListener("transitionend", updateAction);
 });
 
-/** 提供上下文 */
+/** 向子组件提供上下文数据 */
 provide<GroupContextType>(
   tabsGroupKey,
   reactive({
@@ -125,7 +155,10 @@ provide<GroupContextType>(
   })
 );
 
-defineExpose({
+/**
+ * 组件暴露的方法
+ */
+defineExpose<ExposesType>({
   updateAction
 });
 </script>

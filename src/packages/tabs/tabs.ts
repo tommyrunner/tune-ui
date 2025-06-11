@@ -1,10 +1,13 @@
 import type { IconTypes } from "@/packages/icon/icon";
 
-/** 值类型定义 */
+/**
+ * @description 值类型定义
+ */
 export type ValueType = string | number;
 
 /**
- * Tabs组件的Props类型定义
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 是否禁用 */
@@ -15,4 +18,13 @@ export interface PropsType {
 
   /** 自定义图标类型 */
   icon?: IconTypes;
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 标签页内容 */
+  default?: () => any;
 }

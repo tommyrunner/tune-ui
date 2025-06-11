@@ -26,13 +26,23 @@ import { configOptions, useOptions } from "@/hooks/useOptions";
 import { isKeyboard, bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
 import { useI18nText } from "./i18n";
+
 defineOptions({ name: "TTextarea" });
 
-// 基础尺寸
+/** 基础尺寸 */
 const { baseSize } = useOptions();
 
+/** 文本域DOM引用 */
 const textareaRef = ref();
+
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
+
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   debounce: undefined,
   isTip: true,
@@ -44,15 +54,25 @@ const props = withDefaults(defineProps<PropsType>(), {
   debounceDelay: 1000
 });
 
+/** 国际化文本 */
 const { TEXT_PLACEHOLDER } = useI18nText(props);
+
+/**
+ * @description v-model定义
+ */
 const model = defineModel<string>();
+
+/** 提示组件 */
 const TipComponent = useTip(props, model);
+
+/** 光标位置 */
 const cursor = ref(0);
 
 /**
  * 计算文本域类名
+ * @returns {string[]} 类名数组
  */
-const textareaClasses = computed(() => {
+const textareaClasses = computed((): string[] => {
   const { isResize, disabled } = props;
   return [
     "t-textarea",
@@ -64,13 +84,15 @@ const textareaClasses = computed(() => {
 
 /**
  * 计算计数器文本
+ * @returns {string} 计数器文本
  */
-const counterText = computed(() => {
+const counterText = computed((): string => {
   return (props.isCursor ? `[${cursor.value}]` : "") + (model.value?.length + "/" + props.maxLength);
 });
 
 /**
  * 处理键盘事件
+ * @param {KeyboardEvent} event - 键盘事件对象
  */
 const handleKeyup = (event: KeyboardEvent) => {
   if (isKeyboard(event, "enter")) {
@@ -97,7 +119,7 @@ const updateCursor = () => {
   cursor.value = startText.split("\n").length;
 };
 
-// 绑定防抖处理
+/** 绑定防抖处理 */
 const debounce = bindDebounce(props.debounce, props.debounceDelay);
 
 /**

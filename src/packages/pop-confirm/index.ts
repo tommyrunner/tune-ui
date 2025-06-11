@@ -1,7 +1,7 @@
+import type { SFCWithInstall } from "@/utils/pack";
+import type { PropsType, SlotsType, EmitsType } from "./pop-confirm";
 import PopConfirm from "./index.vue";
 
-/** 导出组件 */
-export const TPopConfirm = PopConfirm;
-
-/** 导出组件类型 */
-export type TPopConfirmType = InstanceType<typeof PopConfirm>;
+/** 气泡确认框组件 */
+export const TPopConfirm = PopConfirm as unknown as SFCWithInstall<PropsType, {}, SlotsType, EmitsType>;
+export type TPopConfirmType = InstanceType<typeof TPopConfirm>;

@@ -2,7 +2,8 @@ import { type BaseProps } from "@/types";
 import type { ElSizeType } from "@/types";
 
 /**
- * @description: 组件props类型
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType extends BaseProps {
   /** 标签类型 */
@@ -16,16 +17,28 @@ export interface PropsType extends BaseProps {
 }
 
 /**
- * @description: 组件emit类型
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 关闭事件 */
-  (e: "close"): void;
+  close: [];
   /** 点击事件 */
-  (e: "click"): void;
+  click: [];
 }
 
-// 不同尺寸对应的图标大小
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 标签内容 */
+  default?: () => any;
+}
+
+/**
+ * @description 不同尺寸对应的图标大小配置
+ */
 export const ICON_SIZES: Record<ElSizeType, number> = {
   default: 12,
   small: 8,

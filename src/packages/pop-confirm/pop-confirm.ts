@@ -2,7 +2,8 @@ import type { IconTypes } from "@/packages/icon/icon";
 import type { PropsType as ButtonPropsType } from "../button/button";
 
 /**
- * PopConfirm组件的Props类型定义
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 内边距大小 */
@@ -49,12 +50,25 @@ export interface PropsType {
 }
 
 /**
- * PopConfirm组件的事件类型定义
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 确认事件 */
-  (e: "confirm"): void;
+  confirm: [];
 
   /** 取消事件 */
-  (e: "cancel"): void;
+  cancel: [];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 触发元素内容 */
+  default?: () => any;
+
+  /** 内容插槽 - 自定义确认框内容 */
+  content?: () => any;
 }

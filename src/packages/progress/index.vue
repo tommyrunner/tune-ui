@@ -22,18 +22,16 @@
 import "./index.scss";
 import type { ColorObject, PropsType } from "./progress";
 import { computed, provide, reactive, watch } from "vue";
-import { progressKey } from "./constants";
 import ProgressLine from "./components/progress-line/progress-line.vue";
 import ProgressCircle from "./components/progress-circle/progress-circle.vue";
 import ProgressDashboard from "./components/progress-dashboard/progress-dashboard.vue";
+import { progressKey } from "./constants";
+
+defineOptions({ name: "TProgress" });
 
 /**
- * @description 进度条组件
+ * @description 组件Props定义
  */
-defineOptions({
-  name: "TProgress"
-});
-
 const props = withDefaults(defineProps<PropsType>(), {
   percentage: 0,
   type: "line",
@@ -45,21 +43,24 @@ const props = withDefaults(defineProps<PropsType>(), {
   stripedFlow: false
 });
 
-// 状态颜色映射
+/** 状态颜色映射 */
 const statusColors = {
   success: "#67c23a",
   exception: "#f56c6c",
   warning: "#e6a23c"
 };
 
-// 创建响应式状态对象
+/** 组件响应式状态对象 */
 const progressState = reactive({
   percentage: props.percentage,
   customColor: "",
   computedColor: ""
 });
 
-// 计算动态颜色
+/**
+ * 计算动态颜色
+ * @returns {string} 计算后的颜色值
+ */
 const computeColor = (): string => {
   // 如果设置了status，优先使用status对应的颜色
   if (props.status && statusColors[props.status]) {
@@ -89,11 +90,14 @@ const computeColor = (): string => {
     }
   }
 
-  // 默认返回空字符串
   return "";
 };
 
-// 从颜色数组中获取匹配百分比的颜色
+/**
+ * 从颜色数组中获取匹配百分比的颜色
+ * @param {ColorObject[]} colors - 颜色配置数组
+ * @returns {string} 匹配的颜色值
+ */
 const getColorFromArray = (colors: ColorObject[]): string => {
   if (colors.length < 2) {
     return "";
@@ -113,7 +117,9 @@ const getColorFromArray = (colors: ColorObject[]): string => {
   return sortedColors[sortedColors.length - 1].color;
 };
 
-// 监听百分比变化，更新内部状态
+/**
+ * 监听百分比变化，更新内部状态
+ */
 watch(
   () => props.percentage,
   val => {
@@ -126,18 +132,21 @@ watch(
   { immediate: true }
 );
 
-// 初始计算颜色
+/** 初始计算颜色 */
 progressState.computedColor = computeColor();
 
-// 计算显示的文本内容
-const formatText = computed(() => {
+/**
+ * 计算显示的文本内容
+ * @returns {string} 格式化后的文本
+ */
+const formatText = computed((): string => {
   if (props.format && typeof props.format === "function") {
     return props.format(props.percentage);
   }
   return `${props.percentage}%`;
 });
 
-// 提供上下文给子组件
+/** 向子组件提供上下文数据 */
 provide(progressKey, {
   ...props,
   progressState

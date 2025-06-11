@@ -62,10 +62,11 @@
 <script lang="ts" setup>
 import "./index.scss";
 import type { EmitsType, PropsType } from "./slider";
+import type { SliderStateType } from "./constants";
 import { computed, provide, reactive, watch, ref } from "vue";
-import { sliderKey, type SliderStateType } from "./constants";
 import SliderButton from "./components/slider-button/slider-button.vue";
 import SliderMarks from "./components/slider-marks/slider-marks.vue";
+import { sliderKey } from "./constants";
 
 /**
  * @description 滑块组件
@@ -74,14 +75,19 @@ defineOptions({
   name: "TSlider"
 });
 
+/**
+ * @description v-model定义
+ */
 const model = defineModel<number | number[]>({
-  // 添加默认值，确保model始终有值
   default: 0
 });
 
-// 子组件按钮值，用于同步按钮组件的值
+/** 子组件按钮值，用于同步按钮组件的值 */
 const sliderButtonValues = ref<number[]>([]);
 
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   min: 0,
   max: 100,
@@ -96,17 +102,21 @@ const props = withDefaults(defineProps<PropsType>(), {
   debounce: 300
 });
 
-// 事件
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-// 内部状态
+/** 组件内部状态 */
 const sliderState = reactive<SliderStateType>({
   dragging: false,
   currentValue: model.value ?? (props.range ? [props.min, props.max] : props.min),
   tooltipVisible: props.range ? [false, false] : [false]
 });
 
-// 初始化处理
+/**
+ * 初始化数据处理
+ */
 const initData = () => {
   // 确保范围选择时，值是数组
   if (props.range && !Array.isArray(model.value)) {
@@ -123,11 +133,12 @@ const initData = () => {
     sliderState.currentValue = model.value;
   }
 
-  // 初始化按钮值
   updateSliderButtonValues();
 };
 
-// 移除多余的监听器，保留必要的监听
+/**
+ * 监听model值变化
+ */
 watch(
   model,
   val => {
@@ -139,7 +150,11 @@ watch(
   { immediate: true }
 );
 
-// 调整值以符合步长
+/**
+ * 调整值以符合步长
+ * @param {number} value - 原始值
+ * @returns {number} 调整后的值
+ */
 const adjustValueToStep = (value: number): number => {
   if (props.step <= 0) return value;
 
@@ -149,7 +164,9 @@ const adjustValueToStep = (value: number): number => {
   return parseFloat(stepValue.toFixed(5));
 };
 
-// 更新按钮值
+/**
+ * 更新按钮值
+ */
 const updateSliderButtonValues = () => {
   if (Array.isArray(sliderState.currentValue)) {
     sliderButtonValues.value = [...sliderState.currentValue];
@@ -158,16 +175,22 @@ const updateSliderButtonValues = () => {
   }
 };
 
-// 计算滑块值
-const sliderValues = computed(() => {
+/**
+ * 计算滑块值
+ * @returns {number[]} 滑块值数组
+ */
+const sliderValues = computed((): number[] => {
   if (Array.isArray(sliderState.currentValue)) {
     return [...sliderState.currentValue].sort((a, b) => a - b);
   }
   return [sliderState.currentValue as number];
 });
 
-// 计算步长点
-const stops = computed(() => {
+/**
+ * 计算步长点
+ * @returns {number[]} 步长点位置数组
+ */
+const stops = computed((): number[] => {
   if (!props.showStops || props.min >= props.max) return [];
 
   const stopCount = (props.max - props.min) / props.step;
@@ -182,8 +205,11 @@ const stops = computed(() => {
   return result;
 });
 
-// 计算滑块容器样式
-const sliderStyle = computed(() => {
+/**
+ * 计算滑块容器样式
+ * @returns {Record<string, string>} 样式对象
+ */
+const sliderStyle = computed((): Record<string, string> => {
   if (props.vertical) {
     return {
       height: props.height || "200px"
@@ -192,11 +218,13 @@ const sliderStyle = computed(() => {
   return {};
 });
 
-// 计算滑道样式
-const runwayStyle = computed(() => {
+/**
+ * 计算滑道样式
+ * @returns {Record<string, string>} 滑道样式对象
+ */
+const runwayStyle = computed((): Record<string, string> => {
   const style: Record<string, string> = {};
 
-  // 根据size属性调整滑道尺寸
   if (props.size && props.size > 0) {
     if (props.vertical) {
       style.width = `${props.size}px`;
@@ -208,8 +236,11 @@ const runwayStyle = computed(() => {
   return style;
 });
 
-// 计算滑块条样式
-const barStyle = computed(() => {
+/**
+ * 计算滑块条样式
+ * @returns {Record<string, string>} 滑块条样式对象
+ */
+const barStyle = computed((): Record<string, string> => {
   const style: Record<string, string> = {};
 
   // 根据size属性调整滑块条尺寸
@@ -246,8 +277,12 @@ const barStyle = computed(() => {
   return style;
 });
 
-// 获取间断点样式
-const getStopStyle = (position: number) => {
+/**
+ * 获取间断点样式
+ * @param {number} position - 位置百分比
+ * @returns {Record<string, string>} 间断点样式对象
+ */
+const getStopStyle = (position: number): Record<string, string> => {
   if (props.vertical) {
     return {
       bottom: `${position}%`
@@ -258,8 +293,12 @@ const getStopStyle = (position: number) => {
   };
 };
 
-// 获取按钮位置样式
-const getButtonStyle = (value: number) => {
+/**
+ * 获取按钮位置样式
+ * @param {number} value - 按钮值
+ * @returns {Record<string, string>} 按钮位置样式对象
+ */
+const getButtonStyle = (value: number): Record<string, string> => {
   const percent = ((value - props.min) / (props.max - props.min)) * 100;
 
   if (props.vertical) {
@@ -273,84 +312,87 @@ const getButtonStyle = (value: number) => {
   };
 };
 
-// 将值转换为步长的倍数
+/**
+ * 将值转换为步长的倍数
+ * @param {number} value - 原始值
+ * @returns {number} 步长值
+ */
 const valueToStep = (value: number): number => {
   return adjustValueToStep(value);
 };
 
-// 将百分比转换为值
+/**
+ * 将百分比转换为值
+ * @param {number} percent - 百分比
+ * @returns {number} 转换后的值
+ */
 const percentToValue = (percent: number): number => {
   const value = (percent * (props.max - props.min)) / 100 + props.min;
   return valueToStep(value);
 };
 
-// 处理拖动开始
+/**
+ * 处理拖动开始
+ */
 const handleDragStart = () => {
   sliderState.dragging = true;
 };
 
-// 处理拖动过程
+/**
+ * 处理拖动过程
+ * @param {number} index - 滑块索引
+ * @param {number} value - 拖动值
+ */
 const handleDragging = (index: number, value: number) => {
-  // 更新数值
   const newValue = valueToStep(value);
 
   if (props.range && Array.isArray(sliderState.currentValue)) {
     const updatedValue = [...sliderState.currentValue];
     updatedValue[index] = newValue;
 
-    // 直接更新model值，确保实时同步
     model.value = [...updatedValue].sort((a, b) => a - b);
     sliderState.currentValue = model.value;
 
-    // 更新按钮值
     updateSliderButtonValues();
-
-    // 触发事件
     emit("input", model.value);
   } else {
-    // 直接更新model值，确保实时同步
     model.value = newValue;
     sliderState.currentValue = newValue;
 
-    // 更新按钮值
     sliderButtonValues.value[0] = newValue;
-
-    // 触发事件
     emit("input", newValue);
   }
 };
 
-// 处理拖动结束
+/**
+ * 处理拖动结束
+ */
 const handleDragEnd = () => {
   sliderState.dragging = false;
-
-  // 触发事件
   emit("change", model.value);
 };
 
-// 处理点击滑块
+/**
+ * 处理点击滑块
+ * @param {MouseEvent} event - 鼠标点击事件
+ */
 const onSliderClick = (event: MouseEvent) => {
   if (props.disabled || sliderState.dragging) return;
 
-  // 获取点击位置
   const sliderRect = (event.currentTarget as HTMLElement).getBoundingClientRect();
   let percent = 0;
 
   if (props.vertical) {
     const sliderHeight = sliderRect.height;
-    // 计算从底部开始的百分比
     percent = ((sliderRect.bottom - event.clientY) / sliderHeight) * 100;
   } else {
     const sliderWidth = sliderRect.width;
-    // 计算从左侧开始的百分比
     percent = ((event.clientX - sliderRect.left) / sliderWidth) * 100;
   }
 
-  // 转换为值
   const value = percentToValue(percent);
 
   if (props.range) {
-    // 范围模式下找到最近的滑块
     const [min, max] = sliderValues.value;
     const middle = (min + max) / 2;
 
@@ -360,28 +402,24 @@ const onSliderClick = (event: MouseEvent) => {
       model.value = [min, value];
     }
 
-    // 更新内部状态
     sliderState.currentValue = model.value;
     updateSliderButtonValues();
   } else {
-    // 单值模式
     model.value = value;
     sliderState.currentValue = value;
     updateSliderButtonValues();
   }
 
-  // 触发事件
   emit("change", model.value);
 };
 
-// 初始化
+/** 初始化组件 */
 initData();
 
-// 提供上下文
+/** 向子组件提供上下文数据 */
 provide(sliderKey, {
-  ...props, // 直接提供整个props对象，确保响应式
+  ...props,
   sliderState,
-  // 确保formatTooltip函数正确传递
   formatTooltip: props.formatTooltip
 });
 </script>

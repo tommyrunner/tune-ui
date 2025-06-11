@@ -1,10 +1,11 @@
-import type { RendererElement } from "vue";
+import type { Ref, RendererElement } from "vue";
 
 /** 全局三角箭头宽度(半径) */
 export const triangleWidth = 8;
 
 /**
- * Popover组件的Props类型定义
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 弹出框宽度 */
@@ -72,31 +73,64 @@ export interface PropsType {
 }
 
 /**
- * Tooltip钩子参数类型
- */
-export interface TooltipHookParamsType {
-  type: PropsType["type"];
-}
-
-/**
- * Popover组件的事件类型定义
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 点击遮罩层事件 */
-  (e: "clickModel"): void;
+  clickModel: [];
 
   /** hover进入事件 */
-  (e: "hoverEnter", el: HTMLElement): void;
+  hoverEnter: [el: HTMLElement];
 
   /** hover离开事件 */
-  (e: "hoverOut", el: HTMLElement): void;
+  hoverOut: [el: HTMLElement];
 
   /** 显示状态改变事件 */
-  (e: "modelChange"): void;
+  modelChange: [];
 
   /** 打开事件 */
-  (e: "open"): void;
+  open: [];
 
   /** 关闭事件 */
-  (e: "close"): void;
+  close: [];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 触发元素内容 */
+  default?: () => any;
+
+  /** 内容插槽 - 弹出框内容 */
+  content?: () => any;
+}
+
+/**
+ * @description 组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 弹出框实例 */
+  popoverRef: Ref<HTMLDivElement>;
+
+  /** 显示弹出框 */
+  showPopover: () => void;
+
+  /** 隐藏弹出框 */
+  hidePopover: (hide?: boolean) => void;
+
+  /** 更新元素位置 */
+  updateView: (el?: Element) => void;
+}
+
+/**
+ * @description Tooltip钩子参数类型
+ * @interface TooltipHookParamsType
+ */
+export interface TooltipHookParamsType {
+  /** 触发方式 */
+  type: PropsType["type"];
 }

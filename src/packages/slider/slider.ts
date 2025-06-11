@@ -11,11 +11,11 @@ export type SliderPlacementType = "top" | "right" | "bottom" | "left";
 /**
  * @description 标记对象类型
  * @interface MarkObject
- * @property {Record<string, string>} style - 自定义样式
- * @property {string} label - 标记文本
  */
 export interface MarkObject {
+  /** 自定义样式 */
   style?: Record<string, string>;
+  /** 标记文本 */
   label: string;
 }
 
@@ -25,7 +25,8 @@ export interface MarkObject {
 export type MarksType = Record<number, string | MarkObject>;
 
 /**
- * @description 滑块属性接口
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 最小值 */
@@ -61,12 +62,23 @@ export interface PropsType {
   /** 状态类型 */
   status?: "success" | "exception" | "warning";
 }
+
 /**
- * @description: 组件emit类型
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 滑块值变化事件 */
-  (e: "change", value: number | number[]): void;
+  change: [value: number | number[]];
   /** 滑块值输入事件 */
-  (e: "input", value: number | number[]): void;
+  input: [value: number | number[]];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 滑块按钮插槽 */
+  button?: (props: { value: number; index: number }) => any;
 }

@@ -1,6 +1,7 @@
+import type { SFCWithInstall } from "@/utils/pack";
+import type { PropsType, SlotsType, EmitsType } from "./tag";
 import Tag from "./index.vue";
 
-/** 导出组件 */
-export const TTag = Tag;
-/** 导出组件类型 */
-export type TTagType = InstanceType<typeof Tag>;
+/** 标签组件 */
+export const TTag = Tag as unknown as SFCWithInstall<PropsType, {}, SlotsType, EmitsType>;
+export type TTagType = InstanceType<typeof TTag>;

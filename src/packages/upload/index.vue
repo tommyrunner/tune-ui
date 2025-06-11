@@ -42,7 +42,7 @@
 
 <script lang="ts" setup>
 import "./index.scss";
-import type { UploadFile, EmitsType, PropsType, UploadContextType, UploadDraggerContextType } from "./upload";
+import type { UploadFile, EmitsType, PropsType, UploadContextType, UploadDraggerContextType, ExposesType } from "./upload";
 import { ref, computed, provide } from "vue";
 import { generateId } from "@/utils/index";
 import { useOptions } from "@/hooks/useOptions";
@@ -54,15 +54,19 @@ defineOptions({
   name: "TUpload"
 });
 
-// 基础尺寸
+/** 基础尺寸 */
 const { baseSize } = useOptions();
 
-// 使用defineModel实现fileList的双向绑定
+/**
+ * @description 使用defineModel实现fileList的双向绑定
+ */
 const fileList = defineModel<UploadFile[]>("fileList", {
   default: () => []
 });
 
-// Props 定义
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<Omit<PropsType, "fileList">>(), {
   method: "post",
   name: "file",
@@ -75,14 +79,17 @@ const props = withDefaults(defineProps<Omit<PropsType, "fileList">>(), {
   showFileList: true
 });
 
-// 事件
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-// 内部状态
+/** 内部状态 */
 const inputRef = ref<HTMLInputElement | null>(null);
 
 /**
- * 上传组件类名
+ * 计算上传组件类名
+ * @returns {object} 类名对象
  */
 const uploadClasses = computed(() => ({
   "t-upload--drag": props.drag,
@@ -92,8 +99,10 @@ const uploadClasses = computed(() => ({
 
 /**
  * 上传文件
+ * @param {File} rawFile - 原始文件对象
+ * @returns {void}
  */
-const uploadFile = (rawFile: File) => {
+const uploadFile = (rawFile: File): void => {
   if (props.disabled) return;
 
   // 检查文件数量限制
@@ -127,12 +136,20 @@ const uploadFile = (rawFile: File) => {
 
 /**
  * 开始上传文件
+ * @param {UploadFile} file - 上传文件对象
+ * @returns {void}
  */
-const upload = (file: UploadFile) => {
+const upload = (file: UploadFile): void => {
   if (!file.raw || file.status === "success") return;
 
-  // 更新文件状态
-  const updateFileStatus = (uid: number | string, status: "uploading" | "success" | "fail", data?: any) => {
+  /**
+   * 更新文件状态
+   * @param {number | string} uid - 文件唯一标识
+   * @param {"uploading" | "success" | "fail"} status - 文件状态
+   * @param {any} [data] - 额外数据
+   * @returns {void}
+   */
+  const updateFileStatus = (uid: number | string, status: "uploading" | "success" | "fail", data?: any): void => {
     const fileIdx = fileList.value.findIndex(item => item.uid === uid);
     if (fileIdx > -1) {
       const targetFile = fileList.value[fileIdx];
@@ -216,24 +233,27 @@ const upload = (file: UploadFile) => {
 
 /**
  * 提交所有待上传文件
+ * @returns {void}
  */
-const submit = () => {
+const submit = (): void => {
   if (props.disabled) return;
 
   fileList.value.filter(file => file.status === "ready").forEach(file => upload(file));
 };
 
 /**
- * 点击drag区域出发上次文件
+ * 点击drag区域触发上传文件
+ * @returns {void}
  */
-const handleDragClick = () => {
+const handleDragClick = (): void => {
   if (!props.disabled) inputRef.value?.click();
 };
 
 /**
  * 清空文件列表
+ * @returns {void}
  */
-const clearFiles = () => {
+const clearFiles = (): void => {
   if (props.disabled) return;
   fileList.value = [];
   emit("change", null, fileList.value);
@@ -241,8 +261,9 @@ const clearFiles = () => {
 
 /**
  * 处理点击上传
+ * @returns {void}
  */
-const handleClick = () => {
+const handleClick = (): void => {
   if (props.disabled) return;
   // 只有在非拖拽模式下才触发文件选择
   if (!props.drag) {
@@ -252,8 +273,10 @@ const handleClick = () => {
 
 /**
  * 处理文件选择变更
+ * @param {Event} e - 事件对象
+ * @returns {void}
  */
-const handleChange = (e: Event) => {
+const handleChange = (e: Event): void => {
   const target = e.target as HTMLInputElement;
   const files = Array.from(target.files || []);
 
@@ -276,8 +299,10 @@ const handleChange = (e: Event) => {
 
 /**
  * 处理移除文件
+ * @param {UploadFile} file - 要移除的文件
+ * @returns {void}
  */
-const handleRemove = (file: UploadFile) => {
+const handleRemove = (file: UploadFile): void => {
   const fileIndex = fileList.value.findIndex(item => item.uid === file.uid);
   if (fileIndex > -1) {
     fileList.value.splice(fileIndex, 1);
@@ -287,8 +312,10 @@ const handleRemove = (file: UploadFile) => {
 
 /**
  * 处理预览文件
+ * @param {any} data - 预览数据
+ * @returns {void}
  */
-const handlePreview = (data: any) => {
+const handlePreview = (data: any): void => {
   if (data.previewList && data.previewList.length > 0) {
     // 处理图片预览列表
     emit("preview", {
@@ -304,8 +331,10 @@ const handlePreview = (data: any) => {
 
 /**
  * 处理拖拽上传
+ * @param {FileList} files - 拖拽的文件列表
+ * @returns {void}
  */
-const handleDrop = (files: FileList) => {
+const handleDrop = (files: FileList): void => {
   if (props.disabled) return;
   const uploadFileList = Array.from(files);
 
@@ -319,13 +348,38 @@ const handleDrop = (files: FileList) => {
   uploadFileList.forEach(file => uploadFile(file));
 };
 
-// 提供外部方法
-defineExpose({
+/**
+ * 中止上传
+ * @param {UploadFile} [file] - 要中止的文件，不传则中止所有上传
+ * @returns {void}
+ */
+const abort = (file?: UploadFile): void => {
+  if (file) {
+    // 中止特定文件的上传
+    const targetFile = fileList.value.find(item => item.uid === file.uid);
+    if (targetFile && targetFile.status === "uploading") {
+      targetFile.status = "fail";
+    }
+  } else {
+    // 中止所有正在上传的文件
+    fileList.value.forEach(item => {
+      if (item.status === "uploading") {
+        item.status = "fail";
+      }
+    });
+  }
+};
+
+/**
+ * @description 暴露组件方法给父组件
+ */
+defineExpose<ExposesType>({
   submit,
-  clearFiles
+  clearFiles,
+  abort
 });
 
-// 提供上下文给子组件
+/** 提供上下文给子组件 */
 provide<UploadContextType>(uploadKey, {
   fileList: fileList.value,
   listType: props.listType,
@@ -334,7 +388,7 @@ provide<UploadContextType>(uploadKey, {
   handlePreview
 });
 
-// 提供上下文给拖拽组件
+/** 提供上下文给拖拽组件 */
 provide<UploadDraggerContextType>(uploadDraggerKey, {
   ...props,
   handleDrop

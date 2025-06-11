@@ -1,9 +1,11 @@
 /**
- * value 类型
+ * @description 值类型定义
  */
 export type ValueType = string | number;
+
 /**
- * @description 列表项属性类型定义
+ * @description 列表项Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 项目高度 */
@@ -12,4 +14,13 @@ export interface PropsType {
   fixed?: boolean;
   /** 虚拟列表定位位置 */
   top?: number;
+}
+
+/**
+ * @description 列表项插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 列表项内容 */
+  default?: () => any;
 }

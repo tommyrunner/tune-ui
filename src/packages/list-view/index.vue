@@ -40,24 +40,37 @@
     </div>
   </ul>
 </template>
+
 <script lang="ts" setup>
 import "./index.scss";
-import type { EmitsType, PropsType, ListItemType } from "./list-view";
-import { reactive, computed, onMounted, ref, StyleValue, nextTick, watch, toRefs, provide, useSlots } from "vue";
+import type { StyleValue } from "vue";
+import type { EmitsType, PropsType, ListItemType, ExposesType } from "./list-view";
+import type { GroupContextType } from "./constants";
+import { computed, nextTick, onMounted, provide, reactive, ref, toRefs, useSlots, watch } from "vue";
 import Scrollbar from "../scrollbar/index.vue";
-import { GroupContextType, listViewGroupKey } from "./constants";
 import { TListViewItem } from "./index";
 import { fromCssVal } from "@/utils";
 import { useI18nText } from "./i18n";
+import { listViewGroupKey } from "./constants";
 
+/**
+ * @description 列表视图组件
+ */
 defineOptions({ name: "TListView" });
 
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   isVirtualized: false,
   listData: () => []
 });
 
 const { TEXT_EMPTY } = useI18nText(props);
+
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
 /** 组件外部插槽引用列表，用于同步头尾部分的滚动 */
@@ -65,10 +78,11 @@ const extItemRefList = ref<HTMLElement[]>([]);
 
 /**
  * 获取外部插槽引用的处理函数
- * @param el 插槽DOM元素
- * @param index 插槽索引（0:头部, 1:尾部）
+ * @param {HTMLElement} el - 插槽DOM元素
+ * @param {number} index - 插槽索引（0:头部, 1:尾部）
+ * @returns {void}
  */
-const handleExtItemRef = (el: HTMLElement, index: number) => {
+const handleExtItemRef = (el: HTMLElement, index: number): void => {
   if (el) {
     extItemRefList.value[index] = el;
   }
@@ -78,10 +92,10 @@ const slots = useSlots();
 
 /**
  * 列表状态管理对象
- * @property itemViews - 当前渲染的列表项数组
- * @property scrollTop - 垂直滚动位置
- * @property scrollLeft - 水平滚动位置
- * @property inner - 内部容器相关状态
+ * @property {ListItemType[]} itemViews - 当前渲染的列表项数组
+ * @property {number} scrollTop - 垂直滚动位置
+ * @property {number} scrollLeft - 水平滚动位置
+ * @property {object} inner - 内部容器相关状态
  */
 const state = reactive({
   itemViews: [] as ListItemType[],
@@ -124,8 +138,9 @@ onMounted(() => {
 /**
  * 获取列表可视区域高度
  * 计算方式：总高度减去头尾插槽高度
+ * @returns {number} 可视区域高度
  */
-const getHeight = computed(() => {
+const getHeight = computed((): number => {
   let height = listViewRef.value.offsetHeight;
   if (slots.head && extItemRefList.value[0]) {
     height -= extItemRefList.value[0].offsetHeight;
@@ -140,8 +155,9 @@ const getHeight = computed(() => {
  * 获取列表内容实际高度
  * 虚拟列表：根据项目数量和固定高度计算
  * 普通列表：使用容器实际高度
+ * @returns {number} 列表内容高度
  */
-const getInnerHeight = computed(() => {
+const getInnerHeight = computed((): number => {
   return props.isVirtualized ? (props.listData.length - 1) * props.itemHeight : state.inner.height;
 });
 
@@ -149,6 +165,7 @@ const getInnerHeight = computed(() => {
  * 获取当前需要渲染的列表数据
  * 虚拟列表：返回计算后的可视区域数据
  * 普通列表：返回完整数据映射
+ * @returns {ListItemType[]} 列表数据
  */
 const getListData = computed((): ListItemType[] => {
   return props.isVirtualized ? state.itemViews : props.listData.map((l, index) => ({ row: l, index }));
@@ -158,8 +175,9 @@ const getListData = computed((): ListItemType[] => {
  * 渲染列表内容
  * 仅在虚拟滚动模式下执行
  * 根据当前滚动位置计算需要渲染的项目
+ * @returns {Promise<void>}
  */
-const renderList = async () => {
+const renderList = async (): Promise<void> => {
   const { isVirtualized } = props;
   if (!isVirtualized) return;
   const itemsToRender = calculateItemsToRender();
@@ -179,9 +197,9 @@ const renderList = async () => {
 
 /**
  * 计算需要渲染的元素范围
- * @returns 当前需要渲染的数据片段
+ * @returns {any[]} 当前需要渲染的数据片段
  */
-const calculateItemsToRender = () => {
+const calculateItemsToRender = (): any[] => {
   const itemHeight = props.itemHeight;
   const startIndex = Math.floor(state.scrollTop / itemHeight);
   const endIndex = startIndex + Math.ceil(getHeight.value / itemHeight);
@@ -191,10 +209,11 @@ const calculateItemsToRender = () => {
 
 /**
  * 处理列表滚动事件
- * @param content 滚动容器元素
- * @param type 滚动方向：'y'-垂直滚动，'x'-水平滚动
+ * @param {HTMLElement} content - 滚动容器元素
+ * @param {"y" | "x"} type - 滚动方向：'y'-垂直滚动，'x'-水平滚动
+ * @returns {void}
  */
-const handleScroll = (content: HTMLElement, type: "y" | "x") => {
+const handleScroll = (content: HTMLElement, type: "y" | "x"): void => {
   if (type === "y") {
     state.scrollTop = content.scrollTop;
     // 渲染列表
@@ -213,6 +232,7 @@ const handleScroll = (content: HTMLElement, type: "y" | "x") => {
 /**
  * 计算内容容器样式
  * 处理虚拟滚动模式下的定位和高度
+ * @returns {StyleValue} 样式对象
  */
 const getInnerStyle = computed(
   (): StyleValue => {
@@ -238,9 +258,11 @@ provide<GroupContextType>(listViewGroupKey, reactive({ ...toRefs(props) }));
 
 /**
  * 滚动到指定项目
- * @param top 项目top值
+ * @param {number} top - 项目top值
+ * @param {ScrollBehavior} [behavior="smooth"] - 滚动行为
+ * @returns {void}
  */
-const scrollToItem = (top: number, behavior: ScrollBehavior = "smooth") => {
+const scrollToItem = (top: number, behavior: ScrollBehavior = "smooth"): void => {
   if (!scrollbarRef.value) return;
   // 使用scrollbar组件的scrollTo方法
   scrollbarRef.value.scrollTo({
@@ -249,8 +271,10 @@ const scrollToItem = (top: number, behavior: ScrollBehavior = "smooth") => {
   });
 };
 
-// 暴露方法给父组件
-defineExpose({
+/**
+ * @description 暴露组件方法给父组件
+ */
+defineExpose<ExposesType>({
   scrollToItem
 });
 </script>

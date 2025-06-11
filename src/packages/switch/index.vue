@@ -16,29 +16,38 @@
 import "./index.scss";
 import type { EmitsType, PropsType } from "./switch";
 import { computed } from "vue";
-import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 
 defineOptions({ name: "TSwitch" });
 
-/** Props定义 */
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   loading: false,
   disabled: false
 });
 
-// 基础尺寸
+/** 基础尺寸 */
 const { baseSize } = useOptions(props);
 
-/** Emits定义 */
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-/** 双向绑定 */
+/**
+ * @description v-model定义
+ */
 const model = defineModel<boolean>();
 
-/** 计算开关样式 */
-const switchClasses = computed(() => {
+/**
+ * 计算开关样式
+ * @returns {string[]} 开关样式类名数组
+ */
+const switchClasses = computed((): string[] => {
   const { radius, disabled, loading } = props;
   return [
     "t-switch",
@@ -49,7 +58,9 @@ const switchClasses = computed(() => {
   ];
 });
 
-/** 处理点击事件 */
+/**
+ * 处理点击事件
+ */
 const handleClick = () => {
   if (!props.disabled && !props.loading) {
     model.value = !model.value;

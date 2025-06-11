@@ -23,7 +23,8 @@ export type ListItemType<T = any> = {
 };
 
 /**
- * @description 组件属性类型定义
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 列表容器高度 */
@@ -42,10 +43,35 @@ export interface PropsType {
 
 /**
  * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 滚动事件 */
-  (e: "scroll", element: HTMLElement): void;
+  scroll: [element: HTMLElement];
   /** 视图更新事件 */
-  (e: "update-view", element: HTMLElement): void;
+  "update-view": [element: HTMLElement];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 列表项内容 */
+  default?: (params: ListSlotParamsType) => any;
+  /** 头部插槽 */
+  head?: () => any;
+  /** 尾部插槽 */
+  footer?: () => any;
+  /** 空数据插槽 */
+  empty?: () => any;
+}
+
+/**
+ * @description 组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 滚动到指定项目 */
+  scrollToItem: (top: number, behavior?: ScrollBehavior) => void;
 }

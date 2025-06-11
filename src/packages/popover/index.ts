@@ -1,5 +1,7 @@
+import type { SFCWithInstall } from "@/utils/pack";
+import type { PropsType, SlotsType, EmitsType, ExposesType } from "./popover";
 import Popover from "./index.vue";
-/** 导出组件 */
-export const TPopover = Popover;
-/** 导出组件类型 */
-export type TPopoverType = InstanceType<typeof Popover>;
+
+/** 弹出框组件 */
+export const TPopover = Popover as unknown as SFCWithInstall<PropsType, ExposesType, SlotsType, EmitsType>;
+export type TPopoverType = InstanceType<typeof TPopover>;

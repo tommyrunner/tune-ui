@@ -32,12 +32,15 @@
 </template>
 <script lang="ts" setup>
 import "./index.scss";
-import type { EmitsType, PropsType } from "./popover";
+import type { EmitsType, PropsType, ExposesType } from "./popover";
 import type { StyleValue } from "vue";
 import { triangleWidth } from "./popover";
 import { bindDebounce, getMaxZIndex, isDownKeyboard } from "@/utils";
 import { computed, nextTick, onDeactivated, onMounted, reactive, ref, watch } from "vue";
 defineOptions({ name: "TPopover" });
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   gap: 12,
   type: "hover",
@@ -54,31 +57,31 @@ const props = withDefaults(defineProps<PropsType>(), {
   closeOnPressOther: true
 });
 const state = reactive({
-  // 是否第一次计算位置(计算位置需要popover显示)
+  /** 是否第一次计算位置(计算位置需要popover显示) */
   firstPosition: true,
-  // 当前弹出元素
+  /** 当前弹出元素 */
   currentEl: void 0 as Element,
-  // 需要popover的元素
+  /** 需要popover的元素 */
   popoverRect: void 0 as DOMRect,
-  // 动画标记
+  /** 动画标记 */
   isTransitionEnterOk: false,
-  // 标记hover进入popover
+  /** 标记hover进入popover */
   isHoverPopover: false,
-  // 标记hover进入元素
+  /** 标记hover进入元素 */
   isHoverContent: false,
-  // 动态方向
+  /** 动态方向 */
   dyPosition: props.position,
-  // 标记鼠标是否处于其他区域
+  /** 标记鼠标是否处于其他区域 */
   isHoverOther: false,
-  // 当前的z-index
+  /** 当前的z-index */
   zIndex: 2001,
-  // 暂存popover位置
+  /** 暂存popover位置 */
   point: {
     left: 0,
     top: 0
   }
 });
-// 绑定显示值
+/** 绑定显示值 */
 const model = defineModel<boolean>();
 const emit = defineEmits<EmitsType>();
 const contentRef = ref<HTMLDivElement>();
@@ -277,31 +280,55 @@ const childClickHandler = (event: MouseEvent) => {
   bindPopover(event.currentTarget as Element, "click");
 };
 
+/**
+ * 处理子元素hover进入事件
+ * @param event
+ */
 const childMouseenterHandler = (event: MouseEvent) => {
   bindPopover(event.currentTarget as Element, "hover");
 };
 
+/**
+ * 处理子元素hover离开事件
+ * @param event
+ */
 const childMouseleaveHandler = () => {
   hidePopover();
 };
+
+/**
+ * 处理组件卸载事件
+ */
 onDeactivated(() => {
   handlerEventListener(true);
 });
-
+/**
+ * 处理组件挂载事件
+ */
 onMounted(() => {
   handlerEventListener();
 });
-// 标记动画状态
+/**
+ * 标记动画状态
+ */
 const animationEnter = () => {
   state.isTransitionEnterOk = true;
 };
+/**
+ * 标记动画状态
+ */
 const animationAfterEnter = () => {
   state.isTransitionEnterOk = false;
 };
+/**
+ * 标记动画状态
+ */
 const animationLeave = () => {
   state.isTransitionEnterOk = false;
 };
-// 动态处理popover样式
+/**
+ * 动态处理popover样式
+ */
 const getPopoverStyle = computed((): StyleValue => {
   // 计算宽度值
   let widthValue = props.width;
@@ -324,7 +351,9 @@ const getPopoverStyle = computed((): StyleValue => {
   };
 });
 
-// 动态处理遮罩层样式
+/**
+ * 动态处理遮罩层样式
+ */
 const getModelStyle = computed((): StyleValue => {
   return {
     zIndex: state.zIndex - 1
@@ -377,6 +406,9 @@ const getPoint = (domRect: DOMRect, position?: typeof props.position): typeof st
     top: point.top + documentScrollY
   };
 };
+/**
+ * 获取popover类名
+ */
 const getPopoverClass = computed(() => {
   const { dialogAnimation, drawerAnimation } = props;
   let animationClass = `_t-popover-${state.dyPosition}`;
@@ -387,6 +419,9 @@ const getPopoverClass = computed(() => {
   // 因为抛出使用特殊格式
   return ["_t-popover", animationClass];
 });
+/**
+ * 获取过渡动画名称
+ */
 const getTransitionName = computed(() => {
   const { dialogAnimation, drawerAnimation } = props;
   let name = `t-popover-${state.dyPosition}`;
@@ -440,7 +475,7 @@ const getTriangleStyle = computed((): StyleValue => {
     ...position
   };
 });
-defineExpose({
+defineExpose<ExposesType>({
   popoverRef,
   updateView,
   showPopover,

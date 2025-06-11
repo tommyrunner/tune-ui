@@ -1,7 +1,9 @@
 import type { TipProps } from "@/hooks/useTip";
 
 /**
- * 文本域组件属性类型定义
+ * @description 组件Props类型定义
+ * @interface PropsType
+ * @extends {TipProps}
  */
 export interface PropsType extends TipProps {
   /** 最大输入长度 */
@@ -21,17 +23,27 @@ export interface PropsType extends TipProps {
 }
 
 /**
- * 文本域组件事件类型定义
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 清除事件 */
-  (e: "clear"): void;
+  clear: [];
   /** 失去焦点事件 */
-  (e: "blur", data?: string): void;
+  blur: [data?: string];
   /** 获得焦点事件 */
-  (e: "focus", data?: string): void;
+  focus: [data?: string];
   /** 回车事件 */
-  (e: "enter", data?: string): void;
+  enter: [data?: string];
   /** 输入事件 */
-  (e: "input", data?: string): void;
+  input: [data?: string];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 文本域内容 */
+  default?: () => any;
 }

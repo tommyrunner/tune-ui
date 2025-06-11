@@ -1,7 +1,8 @@
 import type { ValueType } from "./tabs";
 
 /**
- * TabsGroup组件的Props类型定义
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 标签页类型 */
@@ -21,11 +22,30 @@ export interface PropsType {
 }
 
 /**
- * TabsGroup组件的事件类型定义
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 切换事件 */
-  (e: "change", data?: ValueType): void;
+  change: [data?: ValueType];
   /** 关闭事件 */
-  (e: "close", data?: ValueType): void;
+  close: [data?: ValueType];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 标签页组内容 */
+  default?: () => any;
+}
+
+/**
+ * @description 组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 更新action位置 */
+  updateAction: () => void;
 }

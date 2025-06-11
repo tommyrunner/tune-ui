@@ -11,23 +11,22 @@ export type StatusType = "success" | "exception" | "warning";
 /**
  * @description 颜色对象类型
  * @interface ColorObject
- * @property {string} color - 颜色值
- * @property {number} percentage - 百分比临界值
  */
 export interface ColorObject {
+  /** 颜色值 */
   color: string;
+  /** 百分比临界值 */
   percentage: number;
 }
 
 /**
  * @description 颜色函数类型，接收百分比返回颜色值
- * @param {number} percentage - 百分比值
- * @returns {string} 颜色值
  */
 export type ColorFunction = (percentage: number) => string;
 
 /**
- * @description 进度条属性接口
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 百分比值(必填) */
@@ -61,7 +60,17 @@ export interface PropsType {
 }
 
 /**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 自定义进度文字内容 */
+  default?: (props: { percentage: number }) => any;
+}
+
+/**
  * @description 进度条内部状态类型
+ * @interface ProgressStateType
  */
 export interface ProgressStateType {
   /** 计算后的颜色 */
@@ -76,7 +85,7 @@ export interface ProgressStateType {
 
 /**
  * @description 进度条上下文类型
- * @extends ProgressProps
+ * @interface ProgressContextType
  */
 export interface ProgressContextType extends PropsType {
   /** 进度值 */

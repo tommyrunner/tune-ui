@@ -1,5 +1,5 @@
 /**
- * @description Tree组件Props类型定义
+ * @description 组件Props类型定义
  * @interface PropsType
  */
 export interface PropsType {
@@ -28,8 +28,47 @@ export interface PropsType {
 }
 
 /**
+ * @description 组件事件类型定义
+ * @interface EmitsType
+ */
+export interface EmitsType {
+  /** 节点展开事件 */
+  "node-expand": [data: any, node: TreeNodeType];
+  /** 节点折叠事件 */
+  "node-collapse": [data: any, node: TreeNodeType];
+  /** 节点勾选状态变化事件 */
+  "check-change": [checkedKeys: string[]];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 自定义节点内容 */
+  default?: (props: { node: TreeNodeType; data: any }) => any;
+}
+
+/**
+ * @description 组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 获取勾选的节点keys */
+  getCheckedKeys: () => string[];
+  /** 获取勾选的节点数据 */
+  getCheckedNodes: () => any[];
+  /** 设置勾选的节点keys */
+  setCheckedKeys: (keys: string[]) => void;
+  /** 展开所有节点 */
+  expandAll: () => void;
+  /** 折叠所有节点 */
+  collapseAll: () => void;
+}
+
+/**
  * @description 树节点数据结构
- * @interface TreeNode
+ * @interface TreeNodeType
  */
 export interface TreeNodeType {
   /** 节点唯一标识 */
@@ -79,17 +118,4 @@ export interface NodePropsType {
   disabled?: boolean;
   /** 是否可选择 */
   selectable?: boolean;
-}
-
-/**
- * @description 树组件事件类型定义
- * @interface EmitsType
- */
-export interface EmitsType {
-  /** 节点展开事件 */
-  (e: "node-expand", data: any, node: TreeNodeType): void;
-  /** 节点折叠事件 */
-  (e: "node-collapse", data: any, node: TreeNodeType): void;
-  /** 节点勾选状态变化事件 */
-  (e: "check-change", checkedKeys: string[]): void;
 }

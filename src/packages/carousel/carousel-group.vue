@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import "./group.scss";
 
-import type { PropsType, EmitsType } from "./carousel-group";
+import type { PropsType, EmitsType, ExposesType } from "./carousel-group";
 import type { StyleValue } from "vue";
 
 import { ref, reactive, onMounted, computed, onDeactivated, watch } from "vue";
@@ -328,7 +328,7 @@ const updateElClass = () => {
   });
 };
 
-defineExpose({
+defineExpose<ExposesType>({
   /**
    * 手动修改下表
    * @param index 下表位置 >=0

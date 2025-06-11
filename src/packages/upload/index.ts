@@ -1,8 +1,7 @@
+import type { SFCWithInstall } from "@/utils/pack";
+import type { PropsType, SlotsType, EmitsType, ExposesType } from "./upload";
 import Upload from "./index.vue";
 
-// 注册为带安装的组件
-export const TUpload = Upload;
-export default TUpload;
-
-// 组件类型
-export type UploadInstance = InstanceType<typeof Upload>;
+/** 上传组件 */
+export const TUpload = Upload as unknown as SFCWithInstall<PropsType, ExposesType, SlotsType, EmitsType>;
+export type TUploadType = InstanceType<typeof TUpload>;

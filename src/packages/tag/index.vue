@@ -15,16 +15,18 @@
 import "./index.scss";
 import type { EmitsType, PropsType } from "./tag";
 import { computed } from "vue";
-import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
+import { configOptions, useOptions } from "@/hooks/useOptions";
 import { ICON_SIZES } from "./tag";
 
 defineOptions({ name: "TTag" });
 
-// 基础尺寸
+/** 基础尺寸 */
 const { baseSize } = useOptions();
 
-// Props 定义
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   type: "default",
@@ -32,7 +34,9 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabled: false
 });
 
-// Emits 定义
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
 /**
@@ -46,10 +50,10 @@ const handleClickSuffix = () => {
 
 /**
  * 计算标签类名
+ * @returns {string[]} 标签样式类名数组
  */
-const tagClasses = computed(() => {
+const tagClasses = computed((): string[] => {
   const { type, round, disabled } = props;
-
   return ["t-tag", `t-tag-type-${type}`, `t-tag-size-${baseSize.value}`, round && "t-tag-round", disabled && "t-disabled"];
 });
 </script>

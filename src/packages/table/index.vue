@@ -25,15 +25,23 @@
     </TListView>
   </div>
 </template>
+
 <script lang="tsx" setup>
 import "./index.scss";
-import type { EmitsType, PropsType, StateFilterType, TableColumnsType, TableRowType } from "./table";
+import type { EmitsType, PropsType, StateFilterType, TableColumnsType, TableRowType, ExposesType } from "./table";
 import type { ListSlotParamsType } from "@/packages/list-view/list-view";
-import { computed, provide, reactive, ref, StyleValue, toRefs } from "vue";
+import type { StyleValue } from "vue";
+import type { GroupContextType } from "./constants";
+import { computed, provide, reactive, ref, toRefs } from "vue";
 import { TListView } from "@/packages/list-view";
-import { getTableColTag, type GroupContextType, TABLE_COL_FIXED_VALUE, TABLE_COL_GROUP, tableGroupKey } from "./constants";
+import { getTableColTag, TABLE_COL_FIXED_VALUE, TABLE_COL_GROUP, tableGroupKey } from "./constants";
 import { useTable } from "./hooks";
+
 defineOptions({ name: "TTable" });
+
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   headBgColor: "#f5f7fa",
   footBgColor: "#f5f7fa",
@@ -47,32 +55,44 @@ const props = withDefaults(defineProps<PropsType>(), {
   columns: () => [],
   data: () => []
 });
+
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
+
+/** 表格容器DOM引用 */
 const tTableRef = ref<HTMLDivElement>();
+
+/** 组件状态 */
 const state = reactive({
-  // 是否浮动列
+  /** 是否浮动列 */
   isFixedLeft: false,
   isFixedRight: true,
-  // 是否悬浮行
+  /** 是否悬浮行 */
   isFixedTop: false,
-  // 排序字段
+  /** 排序字段 */
   sortColProps: []
 });
+
+/** 表格渲染钩子 */
 const { filterColumns, renderTableRow } = useTable(props, emit);
 
 /**
- * 处理头部数据
+ * 计算头部数据
+ * @returns {TableRowType} 表头数据对象
  */
-const headData = computed(() => {
-  // 处理请求头
+const headData = computed((): TableRowType => {
   let head = {};
   initHeadData(filterColumns.value, head);
   return head;
 });
+
 /**
- * 处理表格数据
+ * 计算表格数据
+ * @returns {TableRowType[]} 处理后的表格数据
  */
-const listData = computed((): TableColumnsType[] => {
+const listData = computed((): TableRowType[] => {
   // 得出过滤条件
   let filterConditions = {} as { [key in string]: StateFilterType[] };
   props.columns.forEach(col => {
@@ -98,11 +118,16 @@ const listData = computed((): TableColumnsType[] => {
     }
     return 0;
   });
-  // 过滤
   return temData;
 });
-// 根据过滤条件过滤temData的函数
-function filterDataByConditions(data: TableRowType, conditions: { [key in string]: StateFilterType[] }) {
+
+/**
+ * 根据过滤条件过滤数据
+ * @param {TableRowType[]} data - 表格数据
+ * @param {object} conditions - 过滤条件
+ * @returns {TableRowType[]} 过滤后的数据
+ */
+function filterDataByConditions(data: TableRowType[], conditions: { [key in string]: StateFilterType[] }): TableRowType[] {
   return data.filter((item: TableRowType) => {
     for (const key in conditions) {
       const conditionArr = conditions[key];
@@ -119,7 +144,6 @@ function filterDataByConditions(data: TableRowType, conditions: { [key in string
           case "eq":
             isMatch = isMatch && value === condition.value;
             break;
-          // 可以根据实际需要扩展更多的比较类型逻辑，比如 "gte"（大于等于）、"lte"（小于等于）等
           default:
             break;
         }
@@ -137,8 +161,8 @@ function filterDataByConditions(data: TableRowType, conditions: { [key in string
 
 /**
  * 平铺并初始化表头
- * @param columns 列配置
- * @param head 初始化表头数据
+ * @param {TableColumnsType[]} columns - 列配置
+ * @param {TableRowType} head - 初始化表头数据
  */
 const initHeadData = (columns: TableColumnsType[], head: TableRowType) => {
   columns.forEach(col => {
@@ -149,6 +173,11 @@ const initHeadData = (columns: TableColumnsType[], head: TableRowType) => {
     }
   });
 };
+
+/**
+ * 计算表格样式
+ * @returns {StyleValue} 表格样式对象
+ */
 const getTableStyle = computed((): StyleValue => {
   const { border } = props;
   return {
@@ -157,26 +186,29 @@ const getTableStyle = computed((): StyleValue => {
     borderRight: `1px solid ${border}`
   };
 });
+
 /**
  * 列表渲染初始化
- * @param content
+ * @param {HTMLElement} content - 内容容器
  */
 const handleUpdateView = (content: HTMLElement) => {
   autoFixedPosition(content);
 };
+
 /**
  * 滚动监听
- * @param content 滚动容器
+ * @param {HTMLElement} content - 滚动容器
  */
 const handleScroll = (content: HTMLElement) => {
   autoFixedPosition(content);
 };
+
 /**
  * 固定列位置处理
- * @param columns 列配置
- * @param fixedDirection 浮动方向
- * @param content 滚动容器
- * @param fixedValues 浮动值
+ * @param {TableColumnsType[]} columns - 列配置
+ * @param {TableColumnsType["fixed"]} fixedDirection - 浮动方向
+ * @param {HTMLElement} content - 滚动容器
+ * @param {object} fixedValues - 浮动值
  */
 const processFixedColumns = (
   columns: TableColumnsType[],
@@ -201,9 +233,10 @@ const processFixedColumns = (
     }
   });
 };
+
 /**
  * 多个浮动字段时,需要动态设置浮动值
- * @param content
+ * @param {HTMLElement} content - 内容容器
  */
 const autoFixedPosition = (content: HTMLElement) => {
   if (!content) return;
@@ -221,8 +254,10 @@ const autoFixedPosition = (content: HTMLElement) => {
   // 处理右侧固定列，累加宽度并设置对应列的宽度值属性
   processFixedColumns(filterColumns.value, "right", content, fixedWidthValues);
 };
+
 /**
  * 适配并更新列宽度
+ * @param {string} prop - 列属性名
  */
 const autoColWidth = (prop: string) => {
   const findCol = filterColumns.value.find(c => c.prop === prop);
@@ -240,12 +275,22 @@ const autoColWidth = (prop: string) => {
   findCol.width = maxWidth;
 };
 
-// 抛出操作api，与子组件交互
-provide<GroupContextType>(tableGroupKey, reactive({ ...toRefs(props), autoColWidth, state, columns: filterColumns, headData }));
+/** 向子组件提供上下文数据 */
+provide<GroupContextType>(
+  tableGroupKey,
+  reactive({
+    ...toRefs(props),
+    autoColWidth,
+    state,
+    columns: filterColumns,
+    headData
+  })
+);
+
 /**
- * 抛出操作api
+ * 组件暴露的方法
  */
-defineExpose({
+defineExpose<ExposesType>({
   autoColWidth
 });
 </script>

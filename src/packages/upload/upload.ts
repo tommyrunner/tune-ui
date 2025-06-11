@@ -61,7 +61,7 @@ export interface UploadRequestOptions {
 }
 
 /**
- * @description 上传组件Props类型定义
+ * @description 组件Props类型定义
  * @interface PropsType
  */
 export interface PropsType {
@@ -102,6 +102,53 @@ export interface PropsType {
 }
 
 /**
+ * @description 组件事件类型定义
+ * @interface EmitsType
+ */
+export interface EmitsType {
+  /** 文件上传成功事件 */
+  success: [file: UploadFile, response: any];
+  /** 文件上传失败事件 */
+  error: [file: UploadFile, error: Error];
+  /** 文件上传进度事件 */
+  progress: [file: UploadFile, percent: number];
+  /** 文件状态改变事件 */
+  change: [file: UploadFile | null, fileList: UploadFile[]];
+  /** 文件超出限制事件 */
+  exceed: [files: File[], fileList: UploadFile[]];
+  /** 文件移除事件 */
+  remove: [file: UploadFile, fileList: UploadFile[]];
+  /** 文件预览事件 */
+  preview: [file: UploadFile | ImagePreview];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 上传触发区域 */
+  default?: () => any;
+  /** 提示插槽 */
+  tip?: () => any;
+  /** 文件列表插槽 */
+  file?: (props: { file: UploadFile }) => any;
+}
+
+/**
+ * @description 组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 清空文件列表 */
+  clearFiles: () => void;
+  /** 中止上传 */
+  abort: (file?: UploadFile) => void;
+  /** 手动上传文件 */
+  submit: () => void;
+}
+
+/**
  * @description 图片预览数据结构
  * @interface ImagePreview
  */
@@ -112,27 +159,6 @@ export interface ImagePreview {
   previewSrcList?: string[];
   /** 初始预览索引 */
   initialIndex?: number;
-}
-
-/**
- * @description 上传组件事件类型定义
- * @interface EmitsType
- */
-export interface EmitsType {
-  /** 文件上传成功事件 */
-  (e: "success", file: UploadFile, response: any): void;
-  /** 文件上传失败事件 */
-  (e: "error", file: UploadFile, error: Error): void;
-  /** 文件上传进度事件 */
-  (e: "progress", file: UploadFile, percent: number): void;
-  /** 文件状态改变事件 */
-  (e: "change", file: UploadFile | null, fileList: UploadFile[]): void;
-  /** 文件超出限制事件 */
-  (e: "exceed", files: File[], fileList: UploadFile[]): void;
-  /** 文件移除事件 */
-  (e: "remove", file: UploadFile, fileList: UploadFile[]): void;
-  /** 文件预览事件 */
-  (e: "preview", file: UploadFile | ImagePreview): void;
 }
 
 /**

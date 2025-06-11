@@ -48,3 +48,12 @@ export interface SlotsType {
   /** 默认插槽 - 轮播内容区域 */
   default?: () => any;
 }
+
+/**
+ * @description 组件暴露的方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  setIndex: (index: number, behavior: ScrollBehavior) => void;
+  incrementedIndex: (is: boolean) => void;
+}

@@ -1,12 +1,23 @@
+import type { SFCWithInstall } from "@/utils/pack";
+import type { PropsType as TabsPropsType, SlotsType as TabsSlotsType } from "./tabs";
+import type {
+  PropsType as TabsGroupPropsType,
+  EmitsType as TabsGroupEmitsType,
+  SlotsType as TabsGroupSlotsType,
+  ExposesType as TabsGroupExposesType
+} from "./tabs-group";
 import Tabs from "./index.vue";
 import TabsGroup from "./tabs-group.vue";
 
-/** 导出Tabs组件 */
-export const TTabs = Tabs;
-/** 导出Tabs组件类型 */
-export type TTabsType = InstanceType<typeof Tabs>;
+/** 标签页组件 */
+export const TTabs = Tabs as unknown as SFCWithInstall<TabsPropsType, {}, TabsSlotsType, {}>;
+export type TTabsType = InstanceType<typeof TTabs>;
 
-/** 导出TabsGroup组件 */
-export const TTabsGroup = TabsGroup;
-/** 导出TabsGroup组件类型 */
-export type TTabsGroupType = InstanceType<typeof TabsGroup>;
+/** 标签页组组件 */
+export const TTabsGroup = TabsGroup as unknown as SFCWithInstall<
+  TabsGroupPropsType,
+  TabsGroupExposesType,
+  TabsGroupSlotsType,
+  TabsGroupEmitsType
+>;
+export type TTabsGroupType = InstanceType<typeof TTabsGroup>;
