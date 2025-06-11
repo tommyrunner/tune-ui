@@ -77,9 +77,9 @@ export const rollupOptions: RollupOptions = {
   external: ["vue"],
   // 入口文件
   input: ["src/index.ts"],
-  // 输出配置
   output: [
     // ES Module格式输出
+
     createOutput("es"),
     // CommonJS格式输出
     createOutput("cjs")

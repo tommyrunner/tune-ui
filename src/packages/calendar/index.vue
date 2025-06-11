@@ -59,8 +59,10 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
+import type { DateType, EmitsType, PropsType, ModeType, ExposesType } from "./calendar";
+
 import { computed, ref, watch, onMounted, onBeforeUnmount, provide, reactive, toRefs } from "vue";
-import type { DateType, EmitsType, PropsType, ModeType } from "./calendar";
 import { formatDate, parseDate } from "@/utils/dateFormat";
 import CalendarHeader from "./header/header.vue";
 import CalendarYear from "./year/year.vue";
@@ -379,7 +381,7 @@ const switchPanelMode = (mode: ModeType) => {
 };
 
 // 暴露方法给父组件
-defineExpose({
+defineExpose<ExposesType>({
   jumpToDate,
   currentYear,
   currentMonth,

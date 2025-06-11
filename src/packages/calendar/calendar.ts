@@ -1,3 +1,5 @@
+import type { ComputedRef, Ref } from "vue";
+
 /**
  * @description 日期类型
  */
@@ -34,21 +36,54 @@ export interface PropsType {
 }
 
 /**
- * @description 组件事件类型
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
-export interface EmitsType {
+export type EmitsType = {
   /** 日期变化 */
-  (e: "change", value: DateType): void;
+  change: [DateType];
   /** 面板变化 */
-  (e: "panel-change", mode: ModeType): void;
+  "panel-change": [ModeType];
   /** 跳转到指定日期 */
-  (e: "jump-to-date", date: Date): void;
+  "jump-to-date": [Date];
   /** 时间变化 */
-  (e: "time-change", date: Date): void;
+  "time-change": [Date];
   /** 时间对话框打开 */
-  (e: "time-dialog-open"): void;
+  "time-dialog-open": [];
   /** 时间对话框关闭 */
-  (e: "time-dialog-close"): void;
+  "time-dialog-close": [];
+};
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 自定义日期渲染 */
+  date?: (props: { date: Date }) => any;
+  /** 自定义年份渲染 */
+  year?: (props: { year: number }) => any;
+  /** 自定义月份渲染 */
+  month?: (props: { month: number; index: number }) => any;
+  /** 底部区域 */
+  footer?: () => any;
+}
+
+/**
+ * @description 组件暴露的方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 跳转到指定日期 */
+  jumpToDate: (date: Date) => void;
+  /** 当前年份 */
+  currentYear: ComputedRef<number>;
+  /** 当前月份 */
+  currentMonth: ComputedRef<number>;
+  /** 切换面板模式 */
+  switchPanelMode: (mode: ModeType) => void;
+  /** 当前临时模式 */
+  tempMode: Ref<ModeType>;
 }
 
 // 常量定义

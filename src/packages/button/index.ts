@@ -1,13 +1,7 @@
+import type { SFCWithInstall } from "@/utils/pack";
+import type { PropsType, SlotsType, EmitsType } from "./button";
 import Button from "./index.vue";
 
-/**
- * @description 导出Button组件
- * @component TButton
- */
-export const TButton = Button;
+export const TButton = Button as unknown as SFCWithInstall<PropsType, {}, SlotsType, EmitsType>;
 
-/**
- * @description 导出Button组件类型
- * @typedef {InstanceType<typeof TButton>} TButtonType
- */
 export type TButtonType = InstanceType<typeof TButton>;

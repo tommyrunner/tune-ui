@@ -1,5 +1,5 @@
 // GlobalComponents for Volar
-declare module "@vue/runtime-core" {
+declare module "vue" {
   export interface GlobalComponents {
     TBackTop: (typeof import("tune-ui"))["TBackTop"];
     TBadge: (typeof import("tune-ui"))["TBadge"];

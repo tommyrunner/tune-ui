@@ -94,9 +94,4 @@ const buttonClasses = computed((): string[] => {
     (disabled || loading) && "t-disabled"
   ];
 });
-
-// 对外暴露方法
-defineExpose({
-  handleClick
-});
 </script>

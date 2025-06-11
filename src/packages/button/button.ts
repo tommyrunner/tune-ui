@@ -1,8 +1,7 @@
 import type { ElSizeType, BaseProps } from "@/types";
 import type { IconTypes } from "@/packages/icon/icon";
-
 /**
- * @description Button组件Props类型定义
+ * @description 组件Props类型定义
  * @interface PropsType
  * @extends {BaseProps}
  */
@@ -28,12 +27,21 @@ export interface PropsType extends BaseProps {
 }
 
 /**
- * @description Button组件事件类型定义
+ * @description 组件事件类型定义
  * @interface EmitsType
  */
-export interface EmitsType {
+export type EmitsType = {
   /** 点击事件 */
-  (e: "click", data: MouseEvent): void;
+  click: [MouseEvent];
+};
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 按钮内容 */
+  default?: () => any;
 }
 
 /**
