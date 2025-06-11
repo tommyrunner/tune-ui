@@ -4,9 +4,10 @@
 export type ViewerAction = "zoomIn" | "zoomOut" | "clockwise" | "anticlockwise";
 
 /**
- * @description 图片预览器的属性类型
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
-export interface ViewerProps {
+export interface PropsType {
   /** 预览图片列表 */
   urlList: string[];
   /** 预览层级 */
@@ -30,19 +31,43 @@ export interface ViewerProps {
 }
 
 /**
- * @description 图片预览器的事件类型
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
-export interface ViewerEmits {
+export interface EmitsType {
   /** 关闭事件 */
-  (e: "close"): void;
+  close: [];
   /** 切换事件 */
-  (e: "switch", index: number): void;
+  switch: [index: number];
   /** 旋转事件 */
-  (e: "rotate", deg: number): void;
+  rotate: [deg: number];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 预览器内容 */
+  default?: () => any;
+  /** 工具栏插槽 */
+  toolbar?: () => any;
+  /** 进度插槽 */
+  progress?: (props: { index: number; total: number }) => any;
+}
+
+/**
+ * @description 组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 设置当前活动项 */
+  setActiveItem: (index: number) => void;
 }
 
 /**
  * @description 图片预览器的状态类型
+ * @interface ViewerState
  */
 export interface ViewerState {
   visible: boolean;
@@ -63,3 +88,9 @@ export interface ViewerState {
     y: number;
   };
 }
+
+// 为了保持向后兼容，保留旧的类型别名
+/** @deprecated 请使用 PropsType */
+export type ViewerProps = PropsType;
+/** @deprecated 请使用 EmitsType */
+export type ViewerEmits = EmitsType;

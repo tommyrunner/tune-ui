@@ -60,13 +60,17 @@
 
 <script lang="ts" setup>
 import "./image-viewer.scss";
+
 import type { CSSProperties } from "vue";
-import type { ViewerProps, ViewerEmits, ViewerState, ViewerAction } from "./image-viewer";
+import type { PropsType, EmitsType, ViewerState, ViewerAction, ExposesType } from "./image-viewer";
+
 import { computed, reactive, onMounted, onBeforeUnmount, ref } from "vue";
 import { TIcon } from "@/packages/icon";
 
-// Props 定义
-const props = withDefaults(defineProps<ViewerProps>(), {
+/**
+ * @description 组件Props定义
+ */
+const props = withDefaults(defineProps<PropsType>(), {
   urlList: () => [],
   zIndex: 2000,
   initialIndex: 0,
@@ -79,14 +83,20 @@ const props = withDefaults(defineProps<ViewerProps>(), {
   closeOnPressEscape: true
 });
 
-// Emits 定义
-const emit = defineEmits<ViewerEmits>();
+/**
+ * @description 组件事件定义
+ */
+const emit = defineEmits<EmitsType>();
 
-// Refs
+/**
+ * @description DOM引用
+ */
 const viewerRef = ref<HTMLDivElement>();
 const imgRef = ref<HTMLImageElement>();
 
-// 状态管理
+/**
+ * @description 状态管理
+ */
 const state = reactive<ViewerState>({
   visible: false,
   currentIndex: props.initialIndex,
@@ -98,9 +108,16 @@ const state = reactive<ViewerState>({
   startPosition: { x: 0, y: 0 }
 });
 
-// 计算属性
-const currentUrl = computed(() => props.urlList[state.currentIndex]);
+/**
+ * @description 计算当前图片URL
+ * @returns {string} 当前图片地址
+ */
+const currentUrl = computed((): string => props.urlList[state.currentIndex]);
 
+/**
+ * @description 计算图片样式
+ * @returns {CSSProperties} 样式对象
+ */
 const imageStyle = computed((): CSSProperties => {
   const { x, y } = state.transform;
   return {
@@ -109,8 +126,12 @@ const imageStyle = computed((): CSSProperties => {
   };
 });
 
-// 图片操作方法
-const handleActions = (action: ViewerAction) => {
+/**
+ * @description 处理图片操作
+ * @param {ViewerAction} action - 操作类型
+ * @returns {void}
+ */
+const handleActions = (action: ViewerAction): void => {
   switch (action) {
     case "zoomIn":
       state.scale = Math.min(props.maxScale, state.scale * props.zoomRate);
@@ -129,15 +150,21 @@ const handleActions = (action: ViewerAction) => {
   }
 };
 
-// 重置变换
-const resetTransform = () => {
+/**
+ * @description 重置变换
+ * @returns {void}
+ */
+const resetTransform = (): void => {
   state.scale = 1;
   state.rotate = 0;
   state.transform = { x: 0, y: 0 };
 };
 
-// 图片切换
-const prev = () => {
+/**
+ * @description 切换到上一张图片
+ * @returns {void}
+ */
+const prev = (): void => {
   if (props.urlList.length <= 1) return;
   const newIndex = state.currentIndex - 1;
   state.currentIndex = props.infinite ? (newIndex + props.urlList.length) % props.urlList.length : Math.max(newIndex, 0);
@@ -145,7 +172,11 @@ const prev = () => {
   emit("switch", state.currentIndex);
 };
 
-const next = () => {
+/**
+ * @description 切换到下一张图片
+ * @returns {void}
+ */
+const next = (): void => {
   if (props.urlList.length <= 1) return;
   const newIndex = state.currentIndex + 1;
   state.currentIndex = props.infinite ? newIndex % props.urlList.length : Math.min(newIndex, props.urlList.length - 1);
@@ -153,8 +184,12 @@ const next = () => {
   emit("switch", state.currentIndex);
 };
 
-// 拖拽相关
-const handleMouseDown = (e: MouseEvent) => {
+/**
+ * @description 处理鼠标按下事件
+ * @param {MouseEvent} e - 鼠标事件
+ * @returns {void}
+ */
+const handleMouseDown = (e: MouseEvent): void => {
   e.preventDefault();
   state.isDragging = true;
   state.startPosition = {
@@ -163,7 +198,12 @@ const handleMouseDown = (e: MouseEvent) => {
   };
 };
 
-const handleMouseMove = (e: MouseEvent) => {
+/**
+ * @description 处理鼠标移动事件
+ * @param {MouseEvent} e - 鼠标事件
+ * @returns {void}
+ */
+const handleMouseMove = (e: MouseEvent): void => {
   if (!state.isDragging) return;
   e.preventDefault();
   state.transform = {
@@ -172,23 +212,36 @@ const handleMouseMove = (e: MouseEvent) => {
   };
 };
 
-const handleMouseUp = () => {
+/**
+ * @description 处理鼠标释放事件
+ * @returns {void}
+ */
+const handleMouseUp = (): void => {
   state.isDragging = false;
 };
 
-// 缩放相关
-const handleWheel = (e: WheelEvent) => {
+/**
+ * @description 处理鼠标滚轮事件
+ * @param {WheelEvent} e - 滚轮事件
+ * @returns {void}
+ */
+const handleWheel = (e: WheelEvent): void => {
   e.preventDefault();
   handleActions(e.deltaY > 0 ? "zoomOut" : "zoomIn");
 };
 
-// 触摸事件处理
+/**
+ * @description 触摸事件变量
+ */
 let touchStartX = 0;
 let touchStartY = 0;
 let initialScale = 1;
 
-// 添加触摸事件监听
-const addTouchListeners = () => {
+/**
+ * @description 添加触摸事件监听
+ * @returns {void}
+ */
+const addTouchListeners = (): void => {
   if (imgRef.value) {
     imgRef.value.addEventListener("touchstart", handleTouchStart, { passive: false });
     imgRef.value.addEventListener("touchmove", handleTouchMove, { passive: false });
@@ -196,8 +249,11 @@ const addTouchListeners = () => {
   }
 };
 
-// 移除触摸事件监听
-const removeTouchListeners = () => {
+/**
+ * @description 移除触摸事件监听
+ * @returns {void}
+ */
+const removeTouchListeners = (): void => {
   if (imgRef.value) {
     imgRef.value.removeEventListener("touchstart", handleTouchStart);
     imgRef.value.removeEventListener("touchmove", handleTouchMove);
@@ -205,7 +261,12 @@ const removeTouchListeners = () => {
   }
 };
 
-const handleTouchStart = (e: TouchEvent) => {
+/**
+ * @description 处理触摸开始事件
+ * @param {TouchEvent} e - 触摸事件
+ * @returns {void}
+ */
+const handleTouchStart = (e: TouchEvent): void => {
   e.preventDefault();
   if (e.touches.length === 1) {
     touchStartX = e.touches[0].clientX - state.transform.x;
@@ -220,7 +281,12 @@ const handleTouchStart = (e: TouchEvent) => {
   }
 };
 
-const handleTouchMove = (e: TouchEvent) => {
+/**
+ * @description 处理触摸移动事件
+ * @param {TouchEvent} e - 触摸事件
+ * @returns {void}
+ */
+const handleTouchMove = (e: TouchEvent): void => {
   e.preventDefault();
   if (e.touches.length === 1 && state.isDragging) {
     state.transform = {
@@ -239,39 +305,55 @@ const handleTouchMove = (e: TouchEvent) => {
   }
 };
 
-const handleTouchEnd = () => {
+/**
+ * @description 处理触摸结束事件
+ * @returns {void}
+ */
+const handleTouchEnd = (): void => {
   state.isDragging = false;
 };
 
-// 图片加载处理
-const handleLoad = () => {
+/**
+ * @description 处理图片加载完成
+ * @returns {void}
+ */
+const handleLoad = (): void => {
   state.visible = true;
   // 添加触摸事件支持
   addTouchListeners();
 };
 
-// 生命周期钩子
-onMounted(() => {
-  state.visible = true;
-  window.addEventListener("keydown", handleKeydown);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("keydown", handleKeydown);
-  removeTouchListeners();
-});
-
-// 关闭预览
-const hide = () => {
+/**
+ * @description 隐藏预览器
+ * @returns {void}
+ */
+const hide = (): void => {
   state.visible = false;
   resetTransform();
   emit("close");
 };
 
-// 键盘事件处理
-const handleKeydown = (e: KeyboardEvent) => {
-  if (!state.visible) return;
+// 生命周期钩子
+onMounted(() => {
+  state.visible = true;
+  // 添加键盘事件监听
+  if (props.closeOnPressEscape) {
+    document.addEventListener("keydown", handleKeydown);
+  }
+});
 
+onBeforeUnmount(() => {
+  removeTouchListeners();
+  document.removeEventListener("keydown", handleKeydown);
+});
+
+/**
+ * @description 处理键盘事件
+ * @param {KeyboardEvent} e - 键盘事件
+ * @returns {void}
+ */
+const handleKeydown = (e: KeyboardEvent): void => {
+  if (!state.visible) return;
   switch (e.key) {
     case "Escape":
       if (props.closeOnPressEscape) hide();
@@ -299,7 +381,7 @@ const handleKeydown = (e: KeyboardEvent) => {
 };
 
 // 对外暴露的方法
-defineExpose({
+defineExpose<ExposesType>({
   setActiveItem: (index: number) => {
     state.currentIndex = index;
     resetTransform();

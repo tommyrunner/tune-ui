@@ -6,21 +6,29 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { StyleValue } from "vue";
 import type { PropsType } from "./flex";
+
 import { computed, onDeactivated, ref } from "vue";
 
 defineOptions({ name: "TFlex" });
 
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {});
 
-// 当前屏幕宽度
+/**
+ * @description 当前屏幕宽度
+ */
 const innerWidth = ref(window.innerWidth);
 
 /**
- * 更新屏幕宽度
+ * @description 更新屏幕宽度
+ * @returns {void}
  */
-const updateLayout = () => {
+const updateLayout = (): void => {
   innerWidth.value = window.innerWidth;
 };
 
@@ -33,7 +41,8 @@ onDeactivated(() => {
 });
 
 /**
- * 计算Flex样式
+ * @description 计算Flex样式
+ * @returns {StyleValue} 样式对象
  */
 const flexStyle = computed((): StyleValue => {
   const { span, sort, offset, xs, sm, md, lg, xl } = props;

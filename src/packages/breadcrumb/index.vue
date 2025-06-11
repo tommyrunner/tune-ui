@@ -15,10 +15,13 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { EmitsType, PropsType, ValueType } from "./breadcrumb";
+
 import { TIcon } from "@/packages/icon";
 
 defineOptions({ name: "TBreadcrumb" });
+
 const props = withDefaults(defineProps<PropsType>(), {
   gap: 6,
   options: () => []
@@ -28,9 +31,11 @@ const model = defineModel<string>();
 const emit = defineEmits<EmitsType>();
 
 /**
- * 处理面包屑项点击
+ * @description 处理面包屑项点击
+ * @param {ValueType} item - 面包屑项数据
+ * @returns {void}
  */
-const handleClick = (item: ValueType) => {
+const handleClick = (item: ValueType): void => {
   if (item.disabled) return;
 
   // 更新选中值

@@ -11,11 +11,13 @@
 </template>
 <script lang="ts" setup>
 import "./checkbox-group.scss";
+
 import type { ValueType } from "./checkbox";
 import type { PropsType, EmitsType } from "./checkbox-group";
 import { type GroupContextType, checkboxGroupKey } from "./constants";
-import { configOptions } from "@/hooks/useOptions";
+
 import { ref, provide, reactive, toRefs, nextTick, onMounted } from "vue";
+import { configOptions } from "@/hooks/useOptions";
 
 defineOptions({ name: "TCheckboxGroup" });
 
@@ -32,11 +34,12 @@ const groupRef = ref<HTMLElement>();
 const model = defineModel<ValueType[]>();
 
 /**
- * 子组件状态更新函数
- * @param isChecked 当前是否选中
- * @param item 子组件绑定value值
+ * @description 子组件状态更新函数
+ * @param {boolean} isChecked 当前是否选中
+ * @param {ValueType} item 子组件绑定value值
+ * @returns {void}
  */
-const changeEvent = (isChecked?: boolean, item?: ValueType) => {
+const changeEvent = (isChecked?: boolean, item?: ValueType): void => {
   if (!item || !model.value) return;
   // 如果选中，则取消选中
   if (isChecked) {
@@ -54,12 +57,13 @@ const changeEvent = (isChecked?: boolean, item?: ValueType) => {
 };
 
 /**
- * 获取状态数据函数
- * @param model 当前对象
- * @param itemValue 判断对象
- * @param is 选中与非选中状态
+ * @description 获取状态数据函数
+ * @param {any} model 当前对象
+ * @param {any} itemValue 判断对象
+ * @param {boolean} is 选中与非选中状态
+ * @returns {boolean} 比较结果
  */
-const getItemByObjKey = (model: any, itemValue: any, is: boolean) => {
+const getItemByObjKey = (model: any, itemValue: any, is: boolean): boolean => {
   if (!props.objKey) return false;
   return is ? model[props.objKey] === itemValue[props.objKey] : model[props.objKey] !== itemValue[props.objKey];
 };

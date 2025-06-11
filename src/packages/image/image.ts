@@ -4,7 +4,7 @@
 export type ImageFit = "fill" | "contain" | "cover" | "none" | "scale-down";
 
 /**
- * @description 图片组件Props类型定义
+ * @description 组件Props类型定义
  * @interface PropsType
  */
 export interface PropsType {
@@ -41,20 +41,42 @@ export interface PropsType {
 }
 
 /**
- * @description 图片组件事件类型定义
+ * @description 组件事件类型定义
  * @interface EmitsType
  */
 export interface EmitsType {
   /** 图片加载成功时触发 */
-  (e: "load", evt: Event): void;
+  load: [evt: Event];
   /** 图片加载失败时触发 */
-  (e: "error", evt: Event): void;
+  error: [evt: Event];
   /** 切换图片时触发 */
-  (e: "switch", index: number): void;
+  switch: [index: number];
   /** 关闭预览时触发 */
-  (e: "close"): void;
+  close: [];
   /** 显示预览时触发 */
-  (e: "show"): void;
+  show: [];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 图片内容 */
+  default?: () => any;
+  /** 加载占位插槽 */
+  placeholder?: () => any;
+  /** 错误状态插槽 */
+  error?: () => any;
+}
+
+/**
+ * @description 组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 显示预览 */
+  showPreview: () => void;
 }
 
 /**

@@ -18,9 +18,11 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { StyleValue } from "vue";
 import type { PropsType, ValueType, EmitsType } from "./collapse";
 import type { GroupContextType } from "./constants";
+
 import { computed, inject, onMounted, ref } from "vue";
 import { collapseGroupKey } from "./constants";
 import { TIcon } from "@/packages/icon";
@@ -37,22 +39,24 @@ const model = defineModel<ValueType>();
 const groupContext = inject<GroupContextType | undefined>(collapseGroupKey, void 0);
 
 /**
- * DOM引用
+ * @description DOM引用
  */
 const bodyRef = ref<HTMLDivElement>();
 const bodyHeight = ref(0);
 
 /**
- * 生命周期
+ * @description 生命周期 - 获取内容区高度
+ * @returns {void}
  */
 onMounted(() => {
   bodyHeight.value = bodyRef.value?.clientHeight || 0;
 });
 
 /**
- * 计算是否选中
+ * @description 计算是否选中
+ * @returns {boolean} 选中状态
  */
-const isChecked = computed(() => {
+const isChecked = computed((): boolean => {
   if (groupContext?.model) {
     return groupContext.model.includes(props.value);
   }
@@ -65,7 +69,8 @@ const isChecked = computed(() => {
 });
 
 /**
- * 计算内容区样式
+ * @description 计算内容区样式
+ * @returns {StyleValue} 样式对象
  */
 const bodyStyle = computed((): StyleValue => {
   if (!bodyHeight.value) {
@@ -75,9 +80,10 @@ const bodyStyle = computed((): StyleValue => {
 });
 
 /**
- * 处理点击事件
+ * @description 处理点击事件
+ * @returns {void}
  */
-const handleClick = () => {
+const handleClick = (): void => {
   if (props.disabled) return;
 
   if (groupContext) {

@@ -9,8 +9,10 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { StyleValue } from "vue";
 import type { PropsType } from "./badge";
+
 import { computed, ref } from "vue";
 
 defineOptions({ name: "TBadge" });
@@ -26,15 +28,17 @@ const props = withDefaults(defineProps<PropsType>(), {
 const badgeRef = ref<HTMLDivElement>();
 
 /**
- * 计算徽章类名
+ * @description 计算徽章类名
+ * @returns {string[]} 类名数组
  */
-const badgeClasses = computed(() => {
+const badgeClasses = computed((): string[] => {
   const { isDot } = props;
   return [isDot ? "_badge-dot" : "_badge-num"];
 });
 
 /**
- * 计算徽章样式
+ * @description 计算徽章样式
+ * @returns {StyleValue} 样式对象
  */
 const badgeStyles = computed((): StyleValue => {
   const { offsetWidth = 0, offsetHeight = 0 } = badgeRef.value || {};
@@ -48,12 +52,13 @@ const badgeStyles = computed((): StyleValue => {
 });
 
 /**
- * 计算徽章文本
+ * @description 计算徽章文本
+ * @returns {string | number} 徽章显示文本
  */
-const badgeText = computed(() => {
+const badgeText = computed((): string | number => {
   const { max, isDot, value } = props;
   if (isDot) return "";
-  if (value > max) return `${max}+`;
-  return value;
+  if (value && value > max) return `${max}+`;
+  return value || "";
 });
 </script>

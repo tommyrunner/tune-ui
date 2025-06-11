@@ -10,7 +10,9 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { EmitsType, PropsType } from "./back-top";
+
 import { computed, onMounted, onDeactivated, ref } from "vue";
 import { TIcon } from "@/packages/icon";
 import { isString } from "@/utils/is";
@@ -29,24 +31,27 @@ const emit = defineEmits<EmitsType>();
 const isShow = ref(false);
 
 /**
- * 获取目标元素
+ * @description 获取目标元素
+ * @returns {HTMLElement | null} 目标DOM元素
  */
 const getTarget = (): HTMLElement | null => {
   return isString(props.target) ? document.querySelector(props.target) : props.target;
 };
 
 /**
- * 获取滚动元素
+ * @description 获取滚动元素
+ * @returns {HTMLElement | Window} 滚动容器元素
  */
-const scrollElement = computed(() => {
+const scrollElement = computed((): HTMLElement | Window => {
   const target = getTarget();
   return target || window;
 });
 
 /**
- * 处理滚动事件
+ * @description 处理滚动事件
+ * @returns {void}
  */
-const handleScroll = () => {
+const handleScroll = (): void => {
   const { visibilityHeight } = props;
   const target = getTarget();
 
@@ -67,22 +72,25 @@ const handleScroll = () => {
 };
 
 /**
- * 处理点击事件
+ * @description 处理点击事件
+ * @returns {void}
  */
-const handleClick = () => {
+const handleClick = (): void => {
   scrollElement.value.scrollTo({ top: 0, behavior: "smooth" });
   emit("click");
 };
 
 /**
- * 计算组件类名
+ * @description 计算组件类名
+ * @returns {string[]} 类名数组
  */
-const backTopClasses = computed(() => {
+const backTopClasses = computed((): string[] => {
   return ["t-back-top", props.plain && "t-back-top-plain"];
 });
 
 /**
- * 计算组件样式
+ * @description 计算组件样式
+ * @returns {object} 样式对象
  */
 const backTopStyles = computed(() => {
   const { bottom, right } = props;

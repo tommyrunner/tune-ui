@@ -40,10 +40,12 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { EmitsType, PropsType } from "./input";
 import type { InputTypeHTMLAttribute } from "vue";
-import { ICON_SIZES } from "./input";
+
 import { computed, ref } from "vue";
+import { ICON_SIZES } from "./input";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TIcon } from "@/packages/icon";
 import { bindDebounce } from "@/utils";
@@ -52,8 +54,19 @@ import { useI18nText } from "./i18n";
 
 defineOptions({ name: "TInput" });
 
+/**
+ * @description DOM引用
+ */
 const inputRef = ref();
+
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
+
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   debounce: void 0,
   isTip: true,
@@ -64,19 +77,36 @@ const props = withDefaults(defineProps<PropsType>(), {
   autocomplete: "off"
 });
 
-// 基础尺寸
+/**
+ * @description 基础尺寸
+ */
 const { baseSize } = useOptions(props);
 
+/**
+ * @description 国际化文本
+ */
 const { TEXT_PLACEHOLDER } = useI18nText(props);
 
+/**
+ * @description v-model定义
+ */
 const model = defineModel<string>();
+
+/**
+ * @description 提示组件
+ */
 const TipComponent = useTip(props, model);
+
+/**
+ * @description 密码预览状态
+ */
 const isPreview = ref(false);
 
 /**
- * 计算输入框类名
+ * @description 计算输入框类名
+ * @returns {Array<string>} 类名数组
  */
-const inputClasses = computed(() => {
+const inputClasses = computed((): Array<string> => {
   const { password, clearable, disabled } = props;
   return [
     "t-input",
@@ -84,41 +114,50 @@ const inputClasses = computed(() => {
     password && "t-input-password",
     clearable && "t-input-clearable",
     disabled && "t-disabled"
-  ];
+  ].filter(Boolean);
 });
 
 /**
- * 计算输入框类型
+ * @description 计算输入框类型
+ * @returns {InputTypeHTMLAttribute} 输入框类型
  */
 const inputType = computed((): InputTypeHTMLAttribute => {
   return props.password && !isPreview.value ? "password" : "text";
 });
 
+/**
+ * @description 默认图标颜色
+ */
 const defaultIconColor = "#656a6e56";
 
 /**
- * 是否显示右侧图标
+ * @description 是否显示右侧图标
+ * @returns {boolean} 是否显示
  */
-const showRightIcon = computed(() => {
+const showRightIcon = computed((): boolean => {
   const { disabled, clearable, password } = props;
   return model.value && !disabled && (clearable || password);
 });
 
 /**
- * 处理清除内容
+ * @description 处理清除内容
+ * @returns {void}
  */
-const handleClear = () => {
+const handleClear = (): void => {
   model.value = "";
   emit("clear");
 };
 
-// 绑定防抖处理
+/**
+ * @description 绑定防抖处理
+ */
 const debounce = bindDebounce(props.debounce, props.debounceDelay);
 
 /**
- * 处理输入事件
+ * @description 处理输入事件
+ * @returns {void}
  */
-const handleInput = () => {
+const handleInput = (): void => {
   emit("input", model.value);
   if (!props.debounce) return;
   debounce(model.value);

@@ -1,5 +1,6 @@
 /**
- * 徽章组件属性类型定义
+ * @description 徽章组件属性类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 是否显示小圆点 */
@@ -16,4 +17,13 @@ export interface PropsType {
   color?: string;
   /** 隐藏时的数值 */
   hiddenValue?: number;
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 徽章内容 */
+  default?: () => any;
 }

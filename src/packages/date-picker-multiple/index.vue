@@ -134,9 +134,11 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { PropsType, EmitsType } from "./date-picker-multiple";
 import type { DateType } from "@/packages/calendar/calendar";
 import type { TPopoverType } from "@/packages/popover";
+
 import { ref } from "vue";
 import { TPopover } from "@/packages/popover";
 import { TIcon } from "@/packages/icon";
@@ -146,10 +148,12 @@ import { ICON_COLOR, DROPDOWN_RADIUS } from "./date-picker-multiple";
 import { useDatePickerMultiple, useMonthSelection, useYearSelection } from "./hooks";
 import { useTip } from "@/hooks";
 import { useI18nText } from "./i18n";
-// 组件名称定义
+
 defineOptions({ name: "TDatePickerMultiple" });
 
-// Props 和 Emits 定义
+/**
+ * @description Props和Emits定义
+ */
 const emit = defineEmits<EmitsType>();
 const props = withDefaults(defineProps<PropsType>(), {
   mode: "date",
@@ -161,20 +165,31 @@ const props = withDefaults(defineProps<PropsType>(), {
   isRange: true
 });
 
+/**
+ * @description 国际化文本
+ */
 const { TEXT_CANCEL, TEXT_CONFIRM, TEXT_DEFAULT_PLACEHOLDER } = useI18nText(props);
 
-// v-model 定义
+/**
+ * @description v-model定义
+ */
 const model = defineModel<DateType[]>({ default: () => [] });
 
-// 提示组件
+/**
+ * @description 提示组件
+ */
 const TipComponent = useTip(props, model);
 
-// refs
+/**
+ * @description DOM引用
+ */
 const inputRef = ref();
 const popoverRef = ref<TPopoverType>();
 const calendarRef = ref();
 
-// 使用核心日期选择器逻辑
+/**
+ * @description 使用核心日期选择器逻辑
+ */
 const {
   isDropdownVisible,
   tempSelectedDates,
@@ -200,7 +215,9 @@ const {
   handleCancel
 } = useDatePickerMultiple(props, emit, model, calendarRef);
 
-// 使用月份选择逻辑
+/**
+ * @description 使用月份选择逻辑
+ */
 const {
   currentYear,
   isMonthSelected,
@@ -211,7 +228,9 @@ const {
   handleMonthCellClick
 } = useMonthSelection(props, tempSelectedDates, calendarRef);
 
-// 使用年份选择逻辑
+/**
+ * @description 使用年份选择逻辑
+ */
 const { isYearSelected, isYearRangeStart, isYearRangeEnd, isYearInRange, isYearDisabled, handleYearCellClick } = useYearSelection(
   props,
   tempSelectedDates

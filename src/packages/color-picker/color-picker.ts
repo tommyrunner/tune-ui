@@ -40,13 +40,22 @@ export interface PropsType extends BaseProps {
  */
 export interface EmitsType {
   /** 当绑定值变化时触发 */
-  (e: "change", value: string): void;
+  change: [string];
   /** 面板中当前显示的颜色发生改变时触发 */
-  (e: "active-change", value: string): void;
+  "active-change": [string];
   /** 当获得焦点时触发 */
-  (e: "focus", event: FocusEvent): void;
+  focus: [FocusEvent];
   /** 当失去焦点时触发 */
-  (e: "blur", event: FocusEvent): void;
+  blur: [FocusEvent];
+}
+
+/**
+ * @description ColorPicker组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 用于自定义触发器内容 */
+  default?: () => any;
 }
 
 /**

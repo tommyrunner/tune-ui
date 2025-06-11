@@ -6,9 +6,11 @@
 
 <script lang="ts" setup>
 import "./collapse-group.scss";
+
 import type { ValueType } from "./collapse";
 import type { PropsType, EmitsType } from "./collapse-group";
 import type { GroupContextType } from "./constants";
+
 import { ref, provide, reactive, toRefs, nextTick } from "vue";
 import { collapseGroupKey } from "./constants";
 
@@ -21,9 +23,12 @@ const model = defineModel<ValueType[]>();
 const groupRef = ref<HTMLElement>();
 
 /**
- * 处理状态更新
+ * @description 处理状态更新
+ * @param {boolean} [isChecked] - 当前是否选中
+ * @param {ValueType} [item] - 折叠项的值
+ * @returns {void}
  */
-const handleChange = (isChecked?: boolean, item?: ValueType) => {
+const handleChange = (isChecked?: boolean, item?: ValueType): void => {
   if (!item || !model.value) return;
 
   if (isChecked && model.value.includes(item)) {
@@ -40,7 +45,8 @@ const handleChange = (isChecked?: boolean, item?: ValueType) => {
 };
 
 /**
- * 提供上下文
+ * @description 提供上下文给子组件
+ * @returns {void}
  */
 provide<GroupContextType>(
   collapseGroupKey,

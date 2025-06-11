@@ -2,7 +2,8 @@ import type { IconTypes } from "@/packages/icon/icon";
 import type { PropsType as ButtonPropsType } from "@/packages/button/button";
 
 /**
- * @description: 组件props类型
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 内间距 [上, 右, 下, 左] */
@@ -47,15 +48,29 @@ export interface PropsType {
 }
 
 /**
- * @description: 组件emit类型
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 确认事件 */
-  (e: "confirm"): void;
+  confirm: [];
   /** 取消事件 */
-  (e: "cancel"): void;
+  cancel: [];
   /** 打开事件 */
-  (e: "open"): void;
+  open: [];
   /** 关闭事件 */
-  (e: "close"): void;
+  close: [];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 抽屉内容 */
+  default?: () => any;
+  /** 标题插槽 */
+  title?: () => any;
+  /** 底部插槽 */
+  footer?: () => any;
 }

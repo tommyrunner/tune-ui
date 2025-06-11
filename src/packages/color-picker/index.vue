@@ -111,8 +111,10 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
+import type { PropsType, EmitsType } from "./color-picker";
+
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
-import type { PropsType } from "./color-picker";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { TPopover } from "@/packages/popover";
 import { useI18nText } from "./i18n";
@@ -135,10 +137,16 @@ const props = withDefaults(defineProps<PropsType>(), {
   teleported: true
 });
 
-// 基础尺寸
+/**
+ * @description 基础尺寸配置
+ */
 const { baseSize } = useOptions(props);
 
+/**
+ * @description 国际化文本
+ */
 const { TEXT_CLEAR, TEXT_CONFIRM } = useI18nText();
+
 /**
  * @description 使用defineModel实现响应式值
  */
@@ -147,32 +155,43 @@ const colorModel = defineModel<string>();
 /**
  * @description 组件事件定义
  */
-const emit = defineEmits(["change", "active-change", "focus", "blur"]);
+const emit = defineEmits<EmitsType>();
 
-// 面板可见状态
+/**
+ * @description 面板可见状态
+ */
 const visible = ref(false);
 
-// 颜色值
+/**
+ * @description 颜色值状态
+ */
 const hue = ref(0); // 色相 (0-1)
 const saturation = ref(1); // 饱和度 (0-1)
 const value = ref(1); // 明度 (0-1)
 const alpha = ref(1); // 透明度 (0-1)
 
-// DOM引用
+/**
+ * @description DOM引用
+ */
 const saturationRef = ref<HTMLElement | null>(null);
 const hueRef = ref<HTMLElement | null>(null);
 const alphaRef = ref<HTMLElement | null>(null);
 
-// 输入框颜色值
+/**
+ * @description 输入框颜色值
+ */
 const colorValue = ref("");
 
-// 拖动状态
+/**
+ * @description 拖动状态
+ */
 const dragging = ref(false);
 
 /**
  * @description 计算显示的颜色值
+ * @returns {string} 格式化后的颜色值
  */
-const displayedColor = computed(() => {
+const displayedColor = computed((): string => {
   if (!colorModel.value) {
     return "transparent";
   }
@@ -186,8 +205,9 @@ const displayedColor = computed(() => {
 
 /**
  * @description 计算色相对应的颜色
+ * @returns {string} RGB颜色值
  */
-const hueColor = computed(() => {
+const hueColor = computed((): string => {
   return hsvToRgb(hue.value, 1, 1);
 });
 
@@ -206,8 +226,10 @@ watch(
 
 /**
  * @description 解析颜色值
+ * @param {string} color - 要解析的颜色字符串
+ * @returns {void}
  */
-function parseColor(color: string) {
+function parseColor(color: string): void {
   // 简单实现，实际应该使用更完善的颜色解析库
   if (color.startsWith("#")) {
     // HEX格式
@@ -253,8 +275,12 @@ function parseColor(color: string) {
 
 /**
  * @description RGB转HSV
+ * @param {number} r - 红色值 (0-1)
+ * @param {number} g - 绿色值 (0-1)
+ * @param {number} b - 蓝色值 (0-1)
+ * @returns {void}
  */
-function rgbToHsv(r: number, g: number, b: number) {
+function rgbToHsv(r: number, g: number, b: number): void {
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   const d = max - min;
@@ -282,8 +308,12 @@ function rgbToHsv(r: number, g: number, b: number) {
 
 /**
  * @description HSV转RGB
+ * @param {number} h - 色相值 (0-1)
+ * @param {number} s - 饱和度值 (0-1)
+ * @param {number} v - 明度值 (0-1)
+ * @returns {string} RGB颜色字符串
  */
-function hsvToRgb(h: number, s: number, v: number) {
+function hsvToRgb(h: number, s: number, v: number): string {
   let r = 0,
     g = 0,
     b = 0;
@@ -336,8 +366,10 @@ function hsvToRgb(h: number, s: number, v: number) {
 
 /**
  * @description 格式化颜色值
+ * @param {string} format - 颜色格式
+ * @returns {string} 格式化后的颜色字符串
  */
-function formatColor(format: string) {
+function formatColor(format: string): string {
   // 使用标准的HSV到RGB转换方法，确保颜色一致性
   const rgb = hsvToRgb(hue.value, saturation.value, value.value);
   const rgbValues = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
@@ -362,8 +394,12 @@ function formatColor(format: string) {
 
 /**
  * @description RGB转HEX
+ * @param {number} r - 红色值 (0-255)
+ * @param {number} g - 绿色值 (0-255)
+ * @param {number} b - 蓝色值 (0-255)
+ * @returns {string} HEX颜色字符串
  */
-function rgbToHex(r: number, g: number, b: number) {
+function rgbToHex(r: number, g: number, b: number): string {
   const toHex = (c: number) => {
     const hex = c.toString(16);
     return hex.length === 1 ? "0" + hex : hex;
@@ -374,15 +410,18 @@ function rgbToHex(r: number, g: number, b: number) {
 
 /**
  * @description 更新颜色值输入框
+ * @returns {void}
  */
-function updateColorValue() {
+function updateColorValue(): void {
   colorValue.value = formatColor(props.colorFormat);
 }
 
 /**
  * @description 处理饱和度/明度区域鼠标按下
+ * @param {MouseEvent} event - 鼠标事件
+ * @returns {void}
  */
-function handleSaturationMouseDown(event: MouseEvent) {
+function handleSaturationMouseDown(event: MouseEvent): void {
   if (props.disabled) return;
 
   dragging.value = true;
@@ -394,8 +433,10 @@ function handleSaturationMouseDown(event: MouseEvent) {
 
 /**
  * @description 处理饱和度/明度区域鼠标移动
+ * @param {MouseEvent} event - 鼠标事件
+ * @returns {void}
  */
-function handleSaturationMouseMove(event: MouseEvent) {
+function handleSaturationMouseMove(event: MouseEvent): void {
   if (!saturationRef.value) return;
 
   const rect = saturationRef.value.getBoundingClientRect();
@@ -414,8 +455,9 @@ function handleSaturationMouseMove(event: MouseEvent) {
 
 /**
  * @description 处理饱和度/明度区域鼠标释放
+ * @returns {void}
  */
-function handleSaturationMouseUp() {
+function handleSaturationMouseUp(): void {
   dragging.value = false;
   window.removeEventListener("mousemove", handleSaturationMouseMove);
   window.removeEventListener("mouseup", handleSaturationMouseUp);
@@ -423,8 +465,10 @@ function handleSaturationMouseUp() {
 
 /**
  * @description 处理色相条鼠标按下
+ * @param {MouseEvent} event - 鼠标事件
+ * @returns {void}
  */
-function handleHueMouseDown(event: MouseEvent) {
+function handleHueMouseDown(event: MouseEvent): void {
   if (props.disabled) return;
 
   dragging.value = true;
@@ -436,8 +480,10 @@ function handleHueMouseDown(event: MouseEvent) {
 
 /**
  * @description 处理色相条鼠标移动
+ * @param {MouseEvent} event - 鼠标事件
+ * @returns {void}
  */
-function handleHueMouseMove(event: MouseEvent) {
+function handleHueMouseMove(event: MouseEvent): void {
   if (!hueRef.value) return;
 
   const rect = hueRef.value.getBoundingClientRect();
@@ -453,8 +499,9 @@ function handleHueMouseMove(event: MouseEvent) {
 
 /**
  * @description 处理色相条鼠标释放
+ * @returns {void}
  */
-function handleHueMouseUp() {
+function handleHueMouseUp(): void {
   dragging.value = false;
   window.removeEventListener("mousemove", handleHueMouseMove);
   window.removeEventListener("mouseup", handleHueMouseUp);
@@ -462,8 +509,10 @@ function handleHueMouseUp() {
 
 /**
  * @description 处理透明度条鼠标按下
+ * @param {MouseEvent} event - 鼠标事件
+ * @returns {void}
  */
-function handleAlphaMouseDown(event: MouseEvent) {
+function handleAlphaMouseDown(event: MouseEvent): void {
   if (props.disabled || !props.showAlpha) return;
 
   dragging.value = true;
@@ -475,8 +524,10 @@ function handleAlphaMouseDown(event: MouseEvent) {
 
 /**
  * @description 处理透明度条鼠标移动
+ * @param {MouseEvent} event - 鼠标事件
+ * @returns {void}
  */
-function handleAlphaMouseMove(event: MouseEvent) {
+function handleAlphaMouseMove(event: MouseEvent): void {
   if (!alphaRef.value) return;
 
   const rect = alphaRef.value.getBoundingClientRect();
@@ -492,8 +543,9 @@ function handleAlphaMouseMove(event: MouseEvent) {
 
 /**
  * @description 处理透明度条鼠标释放
+ * @returns {void}
  */
-function handleAlphaMouseUp() {
+function handleAlphaMouseUp(): void {
   dragging.value = false;
   window.removeEventListener("mousemove", handleAlphaMouseMove);
   window.removeEventListener("mouseup", handleAlphaMouseUp);
@@ -501,8 +553,10 @@ function handleAlphaMouseUp() {
 
 /**
  * @description 处理颜色输入
+ * @param {Event} event - 输入事件
+ * @returns {void}
  */
-function handleColorInput(event: Event) {
+function handleColorInput(event: Event): void {
   const value = (event.target as HTMLInputElement).value;
   parseColor(value);
   emitColorChange();
@@ -510,8 +564,10 @@ function handleColorInput(event: Event) {
 
 /**
  * @description 处理预定义颜色选择
+ * @param {string} color - 选择的颜色值
+ * @returns {void}
  */
-function handlePredefineColorSelect(color: string) {
+function handlePredefineColorSelect(color: string): void {
   parseColor(color);
   updateColorValue();
   emitColorChange();
@@ -520,8 +576,9 @@ function handlePredefineColorSelect(color: string) {
 
 /**
  * @description 处理清空
+ * @returns {void}
  */
-function handleClear() {
+function handleClear(): void {
   colorModel.value = "";
   emit("change", "");
   visible.value = false;
@@ -529,8 +586,9 @@ function handleClear() {
 
 /**
  * @description 处理确认
+ * @returns {void}
  */
-function handleConfirm() {
+function handleConfirm(): void {
   const color = formatColor(props.colorFormat);
   colorModel.value = color;
   emit("change", color);
@@ -539,38 +597,45 @@ function handleConfirm() {
 
 /**
  * @description 处理触发器点击
+ * @returns {void}
  */
-function handleTriggerClick() {
+function handleTriggerClick(): void {
   if (props.disabled) return;
   // TPopover 组件会自动处理 visible 的切换
 }
 
 /**
  * @description 处理获得焦点
+ * @param {FocusEvent} event - 焦点事件
+ * @returns {void}
  */
-function handleFocus(event: FocusEvent) {
+function handleFocus(event: FocusEvent): void {
   if (props.disabled) return;
   emit("focus", event);
 }
 
 /**
  * @description 处理失去焦点
+ * @param {FocusEvent} event - 焦点事件
+ * @returns {void}
  */
-function handleBlur(event: FocusEvent) {
+function handleBlur(event: FocusEvent): void {
   if (props.disabled) return;
   emit("blur", event);
 }
 
 /**
  * @description 发送颜色变化事件
+ * @returns {void}
  */
-function emitColorChange() {
+function emitColorChange(): void {
   const color = formatColor(props.colorFormat);
   emit("active-change", color);
 }
 
 /**
- * @description 组件挂载
+ * @description 组件挂载 - 初始化颜色值
+ * @returns {void}
  */
 onMounted(() => {
   if (colorModel.value) {
@@ -579,7 +644,8 @@ onMounted(() => {
 });
 
 /**
- * @description 组件卸载前
+ * @description 组件卸载前 - 清理事件监听器
+ * @returns {void}
  */
 onBeforeUnmount(() => {
   // 移除所有可能的事件监听器

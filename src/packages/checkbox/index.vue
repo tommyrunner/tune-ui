@@ -14,8 +14,10 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { PropsType, EmitsType, ValueType } from "./checkbox";
 import type { GroupContextType } from "./constants";
+
 import { computed, inject, onMounted, useSlots } from "vue";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { isUnDef } from "@/utils/is";
@@ -45,16 +47,18 @@ onMounted(() => {
 });
 
 /**
- * 计算标题类名
+ * @description 计算标题类名
+ * @returns {string[]} 类名数组
  */
-const titleClasses = computed(() => {
+const titleClasses = computed((): string[] => {
   return ["_title", props.disabled && "t-disabled", (slot.checkboxSpan || props.icon) && "_custom-span"];
 });
 
 /**
- * 计算复选框类名
+ * @description 计算复选框类名
+ * @returns {string[]} 类名数组
  */
-const checkboxClasses = computed(() => {
+const checkboxClasses = computed((): string[] => {
   const { disabled } = props;
   const base = ["t-checkbox", `t-checkbox-size-${baseSize.value}`, disabled && "t-disabled"];
 
@@ -65,7 +69,8 @@ const checkboxClasses = computed(() => {
 });
 
 /**
- * 计算半选图标
+ * @description 计算半选图标
+ * @returns {IconTypes} 图标类型
  */
 const checkIcon = computed(() => {
   const { indeterminate, indeterminateIcon, icon } = props;
@@ -73,16 +78,18 @@ const checkIcon = computed(() => {
 });
 
 /**
- * 计算对象key
+ * @description 计算对象key
+ * @returns {string} 对象key值
  */
 const modelObjKey = computed((): string => {
   return groupContext?.objKey || props.objKey || "";
 });
 
 /**
- * 计算选中状态
+ * @description 计算选中状态
+ * @returns {boolean} 是否选中
  */
-const isChecked = computed(() => {
+const isChecked = computed((): boolean => {
   // model值
   const visValue = groupContext?.objKey && model.value ? (model.value as any)[modelObjKey.value] : model.value;
   // 组件绑定value值
@@ -106,9 +113,10 @@ const isChecked = computed(() => {
 });
 
 /**
- * 处理选中事件
+ * @description 处理选中事件
+ * @returns {void}
  */
-const handleChecked = () => {
+const handleChecked = (): void => {
   if (props.disabled) return;
 
   if (groupContext) {

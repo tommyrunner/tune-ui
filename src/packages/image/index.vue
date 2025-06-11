@@ -44,14 +44,19 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { CSSProperties } from "vue";
-import type { PropsType, EmitsType, ImageState } from "./image";
+import type { PropsType, EmitsType, ImageState, ExposesType } from "./image";
+
 import { ref, reactive, computed, onMounted, onBeforeUnmount } from "vue";
 import { TIcon } from "@/packages/icon";
 import ImageViewer from "./image-viewer.vue";
+
 defineOptions({ name: "TImage" });
 
-// Props 定义
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   fit: "fill",
   lazy: false,
@@ -63,10 +68,14 @@ const props = withDefaults(defineProps<PropsType>(), {
   closeOnPressEscape: true
 });
 
-// Emits 定义
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-// 状态管理
+/**
+ * @description 状态管理
+ */
 const state = reactive<ImageState>({
   hasError: false,
   isLoaded: false,
@@ -76,11 +85,16 @@ const state = reactive<ImageState>({
   naturalHeight: 0
 });
 
-// Refs
+/**
+ * @description DOM引用
+ */
 const imgRef = ref<HTMLDivElement>();
 const isInView = ref(false);
 
-// 计算属性
+/**
+ * @description 计算容器样式
+ * @returns {CSSProperties} 样式对象
+ */
 const style = computed(
   (): CSSProperties => ({
     width: props.width,
@@ -89,6 +103,10 @@ const style = computed(
   })
 );
 
+/**
+ * @description 计算图片样式
+ * @returns {CSSProperties} 样式对象
+ */
 const imageStyle = computed(
   (): CSSProperties => ({
     width: "100%",
@@ -96,26 +114,41 @@ const imageStyle = computed(
   })
 );
 
-const hasLoadedImage = computed(() => state.isLoaded && !state.hasError);
 /**
- * 图片源
+ * @description 判断图片是否已加载
+ * @returns {boolean} 是否已加载
  */
-const imgSrc = computed(() => {
+const hasLoadedImage = computed((): boolean => state.isLoaded && !state.hasError);
+
+/**
+ * @description 计算图片源
+ * @returns {string} 图片源地址
+ */
+const imgSrc = computed((): string => {
   if (!props.lazy) return props.src;
   return isInView.value ? props.src : "";
 });
-/**
- * 图片类名
- */
-const imageClasses = computed(() => [
-  "t-image__inner",
-  props.fit && `t-image__fit--${props.fit}`,
-  state.isLoaded && "is-loaded",
-  { "t-image__inner--center": true }
-]);
 
-// 图片加载相关
-const handleLoad = (evt: Event) => {
+/**
+ * @description 计算图片类名
+ * @returns {Array<string | Record<string, boolean>>} 类名数组
+ */
+const imageClasses = computed(
+  (): Array<string | Record<string, boolean>> =>
+    [
+      "t-image__inner",
+      props.fit && `t-image__fit--${props.fit}`,
+      state.isLoaded && "is-loaded",
+      { "t-image__inner--center": true }
+    ].filter(Boolean)
+);
+
+/**
+ * @description 处理图片加载成功
+ * @param {Event} evt - 加载事件
+ * @returns {void}
+ */
+const handleLoad = (evt: Event): void => {
   state.loading = false;
   state.isLoaded = true;
   state.hasError = false;
@@ -127,14 +160,22 @@ const handleLoad = (evt: Event) => {
   emit("load", evt);
 };
 
-const handleError = (evt: Event) => {
+/**
+ * @description 处理图片加载失败
+ * @param {Event} evt - 错误事件
+ * @returns {void}
+ */
+const handleError = (evt: Event): void => {
   state.loading = false;
   state.hasError = true;
   emit("error", evt);
 };
 
-// 预览相关
-const clickHandler = () => {
+/**
+ * @description 处理点击事件
+ * @returns {void}
+ */
+const clickHandler = (): void => {
   if (state.hasError || !state.isLoaded || !props.previewSrcList) {
     return;
   }
@@ -142,26 +183,42 @@ const clickHandler = () => {
 };
 
 /**
- * 显示预览
+ * @description 显示预览
+ * @returns {void}
  */
-const showPreview = () => {
+const showPreview = (): void => {
   state.showViewer = true;
   emit("show");
 };
 
-const closeViewer = () => {
+/**
+ * @description 关闭预览器
+ * @returns {void}
+ */
+const closeViewer = (): void => {
   state.showViewer = false;
   emit("close");
 };
 
-const handleSwitch = (index: number) => {
+/**
+ * @description 处理图片切换
+ * @param {number} index - 图片索引
+ * @returns {void}
+ */
+const handleSwitch = (index: number): void => {
   emit("switch", index);
 };
 
-// 懒加载相关
+/**
+ * @description 懒加载观察器
+ */
 let observer: IntersectionObserver | null = null;
 
-const setupIntersectionObserver = () => {
+/**
+ * @description 设置交叉观察器
+ * @returns {void}
+ */
+const setupIntersectionObserver = (): void => {
   if (!props.lazy) return;
 
   observer = new IntersectionObserver(
@@ -193,7 +250,7 @@ onBeforeUnmount(() => {
 });
 
 // 导出方法供外部使用
-defineExpose({
+defineExpose<ExposesType>({
   showPreview
 });
 </script>

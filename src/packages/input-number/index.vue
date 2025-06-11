@@ -40,20 +40,28 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { EmitsType, ModelType, PropsType } from "./input-number";
+
 import { computed, ref, watch } from "vue";
+import { ICON_SIZES } from "./input-number";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { bindDebounce } from "@/utils";
 import { useTip } from "@/hooks";
 import { TIcon } from "@/packages/icon";
 import { isValue } from "@/utils/is";
-import { ICON_SIZES } from "./input-number";
 import { useI18nText } from "./i18n";
+
 defineOptions({ name: "TInputNumber" });
 
-// Props & Emits 定义
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   isTip: true,
@@ -62,23 +70,41 @@ const props = withDefaults(defineProps<PropsType>(), {
   debounceDelay: 1000
 });
 
-// 基础尺寸
+/**
+ * @description 基础尺寸
+ */
 const { baseSize } = useOptions(props);
 
+/**
+ * @description 国际化文本
+ */
 const { TEXT_PLACEHOLDER } = useI18nText(props);
-// 组件状态管理
+
+/**
+ * @description v-model定义
+ */
 const model = defineModel<ModelType>();
+
+/**
+ * @description 提示组件
+ */
 const TipComponent = useTip(props, model);
+
+/**
+ * @description 输入框引用
+ */
 const inputRefs = ref<(HTMLInputElement | null)[]>([]);
 
-// 图标配置
+/**
+ * @description 默认图标颜色
+ */
 const defaultIconColor = "#656a6e88";
 
 /**
- * 计算组件类名
- * @returns 组件的类名数组
+ * @description 计算组件类名
+ * @returns {Array<string>} 组件的类名数组
  */
-const inputNumberClasses = computed(() => {
+const inputNumberClasses = computed((): Array<string> => {
   const { disabled, isRange, isControls } = props;
   return [
     "t-input-number",
@@ -86,15 +112,15 @@ const inputNumberClasses = computed(() => {
     isRange && "t-input-number-range",
     isControls && "t-input-number-controls",
     disabled && "t-disabled"
-  ];
+  ].filter(Boolean);
 });
 
 /**
- * 检查并限制值的范围
+ * @description 检查并限制值的范围
  * HTML input 的 max/min 属性只会在用户手动输入时进行限制
  * 需要在 JS 层面进行额外的范围检查
- * @param value 需要检查的值
- * @returns 限制在有效范围内的值
+ * @param {number} value - 需要检查的值
+ * @returns {number} 限制在有效范围内的值
  */
 const checkValueRange = (value: number): number => {
   const { minValue, maxValue } = props;
@@ -102,22 +128,24 @@ const checkValueRange = (value: number): number => {
 };
 
 /**
- * 更新输入框显示的值
+ * @description 更新输入框显示的值
  * 由于 HTML input 的限制，需要手动同步显示值
- * @param index 输入框索引
- * @param value 需要显示的值
+ * @param {number} index - 输入框索引
+ * @param {number} value - 需要显示的值
+ * @returns {void}
  */
-const updateInputValue = (index: number, value: number) => {
+const updateInputValue = (index: number, value: number): void => {
   const input = inputRefs.value[index];
   if (!input) return;
   input.value = String(value);
 };
 
 /**
- * 处理步进变化
- * @param isIncrease 是否增加值
+ * @description 处理步进变化
+ * @param {boolean} isIncrease - 是否增加值
+ * @returns {void}
  */
-const handleStepChange = (isIncrease: boolean) => {
+const handleStepChange = (isIncrease: boolean): void => {
   if (props.disabled) return;
 
   const currentValue = model.value as number;
@@ -126,15 +154,18 @@ const handleStepChange = (isIncrease: boolean) => {
   emit("input", model.value);
 };
 
-// 绑定防抖处理
+/**
+ * @description 绑定防抖处理
+ */
 const debounce = bindDebounce(props.debounce, props.debounceDelay);
 
 /**
- * 处理输入事件
- * @param target 输入框元素
- * @param index 输入框索引
+ * @description 处理输入事件
+ * @param {HTMLInputElement} target - 输入框元素
+ * @param {number} index - 输入框索引
+ * @returns {void}
  */
-const handleInput = (target: HTMLInputElement, index: number) => {
+const handleInput = (target: HTMLInputElement, index: number): void => {
   const value = Number(target.value);
 
   // 处理范围输入和单值输入
@@ -159,11 +190,11 @@ const handleInput = (target: HTMLInputElement, index: number) => {
 };
 
 /**
- * 监听值变化，处理输入
+ * @description 监听值变化，处理输入
  */
 watch(
   () => model.value,
-  (newVal: ModelType) => {
+  (newVal: ModelType): void => {
     if (!isValue(newVal)) return;
 
     // 如果输入字符串，转换为数字处理

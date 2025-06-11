@@ -1,11 +1,12 @@
 import type { BaseProps } from "@/types";
 import type { IconTypes } from "@/packages/icon/icon";
 /**
- * value 类型
+ * @description value 类型
  */
 export type ValueType = string | number | boolean | object;
 /**
- * @description: 组件props类型
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType extends BaseProps {
   /** 选中图形样式 */
@@ -26,9 +27,20 @@ export interface PropsType extends BaseProps {
   indeterminateIcon?: IconTypes;
 }
 /**
- * @description: 组件emit类型
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 选择事件 */
-  (e: "change", data?: ValueType): void;
+  change: [ValueType?];
+}
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 复选框标签文本 */
+  default?: () => any;
+  /** 自定义复选框图形插槽 */
+  checkboxSpan?: (props: { value: ValueType }) => any;
 }

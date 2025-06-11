@@ -20,7 +20,9 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { PropsType } from "./card";
+
 import { computed, useSlots } from "vue";
 import { TIcon } from "@/packages/icon";
 
@@ -32,17 +34,19 @@ const props = withDefaults(defineProps<PropsType>(), {
 });
 
 /**
- * 计算卡片类名
+ * @description 计算卡片类名
+ * @returns {string[]} 类名数组
  */
-const cardClasses = computed(() => {
+const cardClasses = computed((): string[] => {
   const { shadow } = props;
   return ["t-card", `t-card-shadow-${shadow}`];
 });
 
 /**
- * 判断是否显示头部
+ * @description 判断是否显示头部
+ * @returns {boolean} 是否显示头部
  */
-const showHeader = computed(() => {
-  return props.title || slots.headLeft;
+const showHeader = computed((): boolean => {
+  return !!(props.title || slots.headLeft);
 });
 </script>

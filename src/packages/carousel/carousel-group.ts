@@ -1,5 +1,6 @@
 /**
- * 轮播组属性类型定义
+ * @description 轮播组属性类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 容器高度 */
@@ -29,11 +30,21 @@ export interface PropsType {
 }
 
 /**
- * 轮播组事件类型定义
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 切换事件 */
-  (e: "change", index?: number): void;
+  change: [number?];
   /** 轮播监听 */
-  (e: "autoplay", index?: number): void;
+  autoplay: [number?];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 轮播内容区域 */
+  default?: () => any;
 }

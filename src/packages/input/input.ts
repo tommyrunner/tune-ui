@@ -1,7 +1,9 @@
 import type { TipProps } from "@/hooks/useTip";
 import type { BaseProps, ElSizeType } from "@/types";
+
 /**
- * @description: 组件props类型
+ * @description 组件Props类型定义
+ * @interface PropsType
  */
 export interface PropsType extends BaseProps, TipProps {
   /** 是否显示清空按钮 */
@@ -19,21 +21,35 @@ export interface PropsType extends BaseProps, TipProps {
   /** 自动补全 */
   autocomplete?: "off" | "on";
 }
+
 /**
- * @description: 组件emit类型
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 清空事件 */
-  (e: "clear"): void;
+  clear: [];
   /** 失去焦点事件 */
-  (e: "blur", data?: string): void;
+  blur: [data?: string];
   /** 获得焦点事件 */
-  (e: "focus", data?: string): void;
+  focus: [data?: string];
   /** 回车事件 */
-  (e: "enter", data?: string): void;
+  enter: [data?: string];
   /** 输入事件 */
-  (e: "input", data?: string): void;
+  input: [data?: string];
 }
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 输入框内容 */
+  default?: () => any;
+  /** 前缀插槽 */
+  prefix?: () => any;
+}
+
 /**
  * @description 图标尺寸映射
  */

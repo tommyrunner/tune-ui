@@ -49,16 +49,22 @@
 
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { PropsType, EmitsType } from "./dialog";
 import type { StyleValue } from "vue";
+
 import { computed, reactive, ref } from "vue";
 import { useDraggable } from "@/hooks/useDraggable";
 import { TPopover } from "@/packages/popover";
 import { TButton } from "@/packages/button";
 import { TIcon } from "@/packages/icon";
 import { useI18nText } from "./i18n";
+
 defineOptions({ name: "TDialog" });
 
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   width: "600px",
   icon: "inspiration",
@@ -74,21 +80,43 @@ const props = withDefaults(defineProps<PropsType>(), {
   offset: () => ({ x: 0, y: 0 })
 });
 
+/**
+ * @description 国际化文本
+ */
 const { TEXT_CONFIRM, TEXT_CANCEL } = useI18nText(props);
+
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
+
+/**
+ * @description v-model定义
+ */
 const visible = defineModel<boolean>();
+
+/**
+ * @description DOM引用
+ */
 const popoverRef = ref<InstanceType<typeof TPopover>>();
 
+/**
+ * @description 组件状态
+ */
 const state = reactive({
   custom: { x: undefined, y: undefined }
 });
 
-// 注册拖动hooks事件
-const { injectDrag } = useDraggable();
 /**
- * 更新位置
+ * @description 注册拖动hooks事件
  */
-const updatePosition = () => {
+const { injectDrag } = useDraggable();
+
+/**
+ * @description 更新位置
+ * @returns {void}
+ */
+const updatePosition = (): void => {
   const { offset } = props;
   const top = document.documentElement.scrollTop;
   const left = document.documentElement.scrollLeft;
@@ -98,12 +126,13 @@ const updatePosition = () => {
   };
   popoverRef.value?.updateView();
 };
-// onMounted(updatePosition);
 
 /**
- * 处理提交事件
+ * @description 处理提交事件
+ * @param {boolean} isConfirm - 是否为确认操作
+ * @returns {void}
  */
-const handleSubmit = (isConfirm: boolean) => {
+const handleSubmit = (isConfirm: boolean): void => {
   if (isConfirm) {
     emit("confirm");
   } else {
@@ -113,31 +142,36 @@ const handleSubmit = (isConfirm: boolean) => {
 };
 
 /**
- * 处理打开事件
+ * @description 处理打开事件
+ * @returns {void}
  */
-const handleOpen = () => {
+const handleOpen = (): void => {
   emit("open");
   updatePosition();
 };
 
 /**
- * 处理遮罩层点击
+ * @description 处理遮罩层点击
+ * @returns {void}
  */
-const handleClickModel = () => {
+const handleClickModel = (): void => {
   if (props.closeOnPressModel) {
     handleSubmit(false);
   }
 };
 
 /**
- * 处理拖动
+ * @description 处理拖动
+ * @param {HTMLElement} el - DOM元素
+ * @returns {void}
  */
-const handleDrag = (el: HTMLElement) => {
+const handleDrag = (el: HTMLElement): void => {
   injectDrag(el, "._head-draggable");
 };
 
 /**
- * 计算底部样式
+ * @description 计算底部样式
+ * @returns {StyleValue} 样式对象
  */
 const footStyle = computed((): StyleValue => {
   return {

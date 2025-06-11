@@ -1,7 +1,8 @@
 import type { IconTypes } from "@/packages/icon/icon";
 
 /**
- * 面包屑项类型定义
+ * @description 面包屑项类型定义
+ * @interface ValueType
  */
 export type ValueType = {
   /** 显示文本 */
@@ -17,7 +18,8 @@ export type ValueType = {
 };
 
 /**
- * 面包屑组件属性类型定义
+ * @description 面包屑组件属性类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 选项数据 */
@@ -29,11 +31,21 @@ export interface PropsType {
 }
 
 /**
- * 面包屑组件事件类型定义
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 选择事件 */
-  (e: "change", data: ValueType): void;
+  change: [ValueType];
   /** 点击事件 */
-  (e: "click", data: ValueType): void;
+  click: [ValueType];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 面包屑内容 */
+  default?: () => any;
 }

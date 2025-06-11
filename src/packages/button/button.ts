@@ -30,10 +30,10 @@ export interface PropsType extends BaseProps {
  * @description 组件事件类型定义
  * @interface EmitsType
  */
-export type EmitsType = {
+export interface EmitsType {
   /** 点击事件 */
   click: [MouseEvent];
-};
+}
 
 /**
  * @description 组件插槽类型定义

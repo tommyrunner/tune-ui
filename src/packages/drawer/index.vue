@@ -49,19 +49,38 @@
 </template>
 <script lang="ts" setup>
 import "./index.scss";
+
 import type { StyleValue } from "vue";
 import type { PropsType, EmitsType } from "./drawer";
+
+import { computed, reactive, ref } from "vue";
 import { TPopover } from "../popover";
 import { TButton } from "../button";
 import { TIcon } from "../icon";
-import { computed, reactive, ref } from "vue";
 import { useI18nText } from "./i18n";
+
 defineOptions({ name: "TDrawer" });
+
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
+
+/**
+ * @description 间距常量
+ */
 const GAP = 4;
+
+/**
+ * @description 组件状态
+ */
 const state = reactive({
   custom: { x: undefined, y: undefined }
 });
+
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   position: "left",
   size: "600px",
@@ -78,19 +97,35 @@ const props = withDefaults(defineProps<PropsType>(), {
   padding: () => [12, 16, 12, 16],
   offset: () => ({ x: 0, y: 0 })
 });
-const { TEXT_CONFIRM, TEXT_CANCEL } = useI18nText(props);
-const visible = defineModel<boolean>();
-const popoverRef = ref<InstanceType<typeof TPopover>>();
+
 /**
- * 判断是否是两侧方向
+ * @description 国际化文本
  */
-const isSide = computed(() => {
+const { TEXT_CONFIRM, TEXT_CANCEL } = useI18nText(props);
+
+/**
+ * @description v-model定义
+ */
+const visible = defineModel<boolean>();
+
+/**
+ * @description DOM引用
+ */
+const popoverRef = ref<InstanceType<typeof TPopover>>();
+
+/**
+ * @description 判断是否是两侧方向
+ * @returns {boolean} 是否为左右方向
+ */
+const isSide = computed((): boolean => {
   return ["left", "right"].includes(props.position);
 });
+
 /**
- * 更新位置
+ * @description 更新位置
+ * @returns {void}
  */
-const updatePosition = () => {
+const updatePosition = (): void => {
   const { offset } = props;
   const top = document.documentElement.scrollTop;
   const left = document.documentElement.scrollLeft;
@@ -107,17 +142,22 @@ const updatePosition = () => {
   if (["bottom"].includes(props.position)) state.custom.y += window.innerHeight - popoverRef.value.popoverRef.offsetHeight;
   popoverRef.value?.updateView();
 };
-// onMounted(updatePosition);
 
 /**
- * 打开
+ * @description 处理打开事件
+ * @returns {void}
  */
-const handleOpen = () => {
+const handleOpen = (): void => {
   emit("open");
   updatePosition();
 };
 
-const handleSubmit = (isConfirm: boolean) => {
+/**
+ * @description 处理提交事件
+ * @param {boolean} isConfirm - 是否为确认操作
+ * @returns {void}
+ */
+const handleSubmit = (isConfirm: boolean): void => {
   if (isConfirm) {
     emit("confirm");
   } else {
@@ -125,11 +165,21 @@ const handleSubmit = (isConfirm: boolean) => {
   }
   visible.value = false;
 };
-const handleClickModel = () => {
+
+/**
+ * @description 处理遮罩层点击
+ * @returns {void}
+ */
+const handleClickModel = (): void => {
   if (props.closeOnPressModel) {
     handleSubmit(false);
   }
 };
+
+/**
+ * @description 计算抽屉样式
+ * @returns {StyleValue} 样式对象
+ */
 const drawerStyle = computed((): StyleValue => {
   const { size, isSetMaxHeight } = props;
   let sizeKey = "width";
@@ -148,6 +198,11 @@ const drawerStyle = computed((): StyleValue => {
     [maxKey]: isSetMaxHeight ? maxScreen : "auto"
   };
 });
+
+/**
+ * @description 计算底部样式
+ * @returns {StyleValue} 样式对象
+ */
 const footStyle = computed((): StyleValue => {
   return {
     justifyContent: props.btnAlign

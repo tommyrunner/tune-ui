@@ -1,7 +1,8 @@
 import type { IconTypes } from "@/packages/icon/icon";
 
 /**
- * 回到顶部组件属性类型定义
+ * @description 回到顶部组件属性类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 触发滚动的目标元素 */
@@ -21,9 +22,19 @@ export interface PropsType {
 }
 
 /**
- * 回到顶部组件事件类型定义
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 点击事件 */
-  (e: "click"): void;
+  click: [];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 回到顶部按钮内容 */
+  default?: () => any;
 }

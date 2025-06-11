@@ -4,6 +4,7 @@ import type { DateType, ModeType } from "../calendar/calendar";
 
 /**
  * @description 日期选择器组件属性类型
+ * @interface PropsType
  */
 export interface PropsType extends BaseProps, TipProps {
   /** 日期选择器模式 */
@@ -27,27 +28,43 @@ export interface PropsType extends BaseProps, TipProps {
 }
 
 /**
- * @description 组件事件类型
+ * @description 组件事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 日期变化 */
-  (e: "change", value: DateType): void;
+  change: [DateType];
   /** 面板变化 */
-  (e: "panel-change", mode: ModeType): void;
+  "panel-change": [ModeType];
   /** 清空事件 */
-  (e: "clear"): void;
+  clear: [];
   /** 聚焦事件 */
-  (e: "focus"): void;
+  focus: [];
   /** 失焦事件 */
-  (e: "blur"): void;
+  blur: [];
   /** 时间对话框打开事件 */
-  (e: "time-dialog-open"): void;
+  "time-dialog-open": [];
   /** 时间对话框关闭事件 */
-  (e: "time-dialog-close"): void;
+  "time-dialog-close": [];
   /** 日期对话框打开事件 */
-  (e: "date-dialog-open"): void;
+  "date-dialog-open": [];
   /** 日期对话框关闭事件 */
-  (e: "date-dialog-close"): void;
+  "date-dialog-close": [];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 用于自定义触发器内容 */
+  default?: () => any;
+  /** 前缀插槽 */
+  prefix?: () => any;
+  /** 日期单元格插槽 */
+  date?: (props: { date: Date }) => any;
+  /** 底部插槽 */
+  footer?: () => any;
 }
 
 // 常量定义
