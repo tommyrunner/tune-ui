@@ -109,7 +109,7 @@
 <script lang="ts" setup>
 import "./index.scss";
 import type { StyleValue } from "vue";
-import type { EmitsType, ValueType, OptionsItemType, PropsType, SingleValueType } from "./select";
+import type { EmitsType, ValueType, OptionsItemType, PropsType, SingleValueType, ExposesType } from "./select";
 import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import type { TPopoverType } from "@/packages/popover";
 import type { PropsType as OptionPropsType } from "./option";
@@ -158,6 +158,7 @@ const props = withDefaults(defineProps<PropsType>(), {
 const { baseSize } = useOptions(props);
 
 const { TEXT_PLACEHOLDER_SELECT, TEXT_EMPTY } = useI18nText(props);
+
 /**
  * @description v-model定义
  */
@@ -317,7 +318,7 @@ const renderLabel = (item: SingleValueType): string => {
  * @param {SingleValueType} item - 要删除的选项
  * @returns {void}
  */
-const handleDeleteOption = (item: SingleValueType): void => {
+const handleDeleteOption = (item: SingleValueType) => {
   const values = (model.value as SingleValueType[]) || [];
   model.value = values.filter(value => value !== item);
   emit("remove-tag", item);
@@ -328,7 +329,7 @@ const handleDeleteOption = (item: SingleValueType): void => {
  * @param {Event} event - 事件对象
  * @returns {void}
  */
-const handleClear = (event: Event): void => {
+const handleClear = (event?: Event) => {
   event.stopPropagation();
   if (!props.clearable) return;
   updateModelValue();
@@ -343,7 +344,7 @@ const handleClear = (event: Event): void => {
  * @param {OptionsItemType} option - 选中的选项
  * @returns {void}
  */
-const handleOptionSelect = (option: OptionsItemType): void => {
+const handleOptionSelect = (option: OptionsItemType) => {
   if (option.disabled) return;
 
   // 处理有子选项的情况
@@ -362,7 +363,7 @@ const handleOptionSelect = (option: OptionsItemType): void => {
  * @param {OptionsItemType} option - 选项
  * @returns {void}
  */
-const initCascadeView = (option: OptionsItemType): void => {
+const initCascadeView = (option: OptionsItemType) => {
   // 如果选项没有子选项，不处理
   if (!Array.isArray(option.children) || option.children.length === 0) {
     return;
@@ -394,7 +395,7 @@ const initCascadeView = (option: OptionsItemType): void => {
  * @param {number} menuIndex - 菜单索引
  * @returns {void}
  */
-const handleCascadeItemClick = (option: OptionsItemType, menuIndex: number): void => {
+const handleCascadeItemClick = (option: OptionsItemType, menuIndex: number) => {
   // 禁用状态下不处理
   if (option.disabled) return;
 
@@ -430,7 +431,7 @@ const handleCascadeItemClick = (option: OptionsItemType, menuIndex: number): voi
  * @param {OptionsItemType} [option] - 选中的选项
  * @returns {void}
  */
-const updateModelValue = (option?: OptionsItemType): void => {
+const updateModelValue = (option?: OptionsItemType) => {
   // 多选模式，追加选项
   if (props.multiple && option) {
     let values = (model.value as SingleValueType[]) || [];
@@ -462,7 +463,7 @@ const updateModelValue = (option?: OptionsItemType): void => {
  * @param {Event} event - 输入事件
  * @returns {void}
  */
-const handleFilter = (event: Event): void => {
+const handleFilter = (event: Event) => {
   // 级联模式下不进行过滤
   if (state.showCascadePanel) return;
 
@@ -483,7 +484,7 @@ const handleFilter = (event: Event): void => {
  * @param {FocusEvent} event - 聚焦事件
  * @returns {void}
  */
-const handleFocus = (event: FocusEvent): void => {
+const handleFocus = (event: FocusEvent) => {
   state.isFocused = true;
   emit("focus", event);
 };
@@ -493,7 +494,7 @@ const handleFocus = (event: FocusEvent): void => {
  * @param {FocusEvent} event - 失焦事件
  * @returns {void}
  */
-const handleBlur = (event: FocusEvent): void => {
+const handleBlur = (event: FocusEvent) => {
   state.isFocused = false;
   emit("blur", event);
 };
@@ -502,7 +503,7 @@ const handleBlur = (event: FocusEvent): void => {
  * @description 处理下拉框显示
  * @returns {void}
  */
-const handleDropdownShow = (): void => {
+const handleDropdownShow = () => {
   emit("visible-change", true);
   handleOpen();
 };
@@ -511,7 +512,7 @@ const handleDropdownShow = (): void => {
  * @description 处理下拉框关闭
  * @returns {void}
  */
-const handleClose = (): void => {
+const handleClose = () => {
   state.filterText = null;
   emit("visible-change", false);
 
@@ -554,7 +555,7 @@ const checkHasSelectedLeafNode = (): boolean => {
  * @description 根据当前选中值查找级联路径
  * @returns {void}
  */
-const buildCascadePathFromValue = (): void => {
+const buildCascadePathFromValue = () => {
   // 如果没有选中值，不进行处理
   if (!isValue(model.value)) return;
 
@@ -619,7 +620,7 @@ const buildCascadePathFromValue = (): void => {
  * @description 处理下拉框打开
  * @returns {void}
  */
-const handleOpen = (): void => {
+const handleOpen = () => {
   // 如果有选中值且是级联选择，自动展开到选中项
   if (isValue(model.value) && props.options.some(opt => Array.isArray(opt.children) && opt.children.length > 0)) {
     // 保存原始选中值
@@ -665,4 +666,24 @@ provide(
     groupState: state
   }) as GroupContextType
 );
+
+/**
+ * @description 获取焦点
+ */
+const focus = () => {
+  inputRef.value?.focus();
+};
+
+/**
+ * @description 失去焦点
+ */
+const blur = () => {
+  inputRef.value?.blur();
+};
+
+defineExpose<ExposesType>({
+  focus,
+  blur,
+  clear: handleClear
+});
 </script>

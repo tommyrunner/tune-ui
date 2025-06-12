@@ -50,18 +50,43 @@ export interface PropsType {
 
 /**
  * @description 菜单组件事件类型
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 菜单项选中事件 */
-  (e: "select", menuItem: MenuItemType): void;
+  select: [MenuItemType];
   /** 菜单项展开/收起事件 */
-  (e: "expand", expandKeys: string[]): void;
+  expand: [string[]];
   /** 菜单模式变更事件 */
-  (e: "modeChange", mode: ModeType): void;
+  modeChange: [ModeType];
   /** 更新modelValue事件 */
-  (e: "update:active", id: string): void;
+  "update:active": [string];
   /** 更新expandKeys事件 */
-  (e: "update:expandKeys", expandKeys: string[]): void;
+  "update:expandKeys": [string[]];
   /** 更新mode事件 */
-  (e: "update:mode", mode: ModeType): void;
+  "update:mode": [ModeType];
+}
+
+/**
+ * @description 菜单组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 菜单内容 */
+  default?: () => any;
+}
+
+/**
+ * @description 菜单组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 展开所有菜单项 */
+  expandAll: () => void;
+  /** 收起所有菜单项 */
+  collapseAll: () => void;
+  /** 切换菜单模式 */
+  toggleMode: () => void;
+  /** 获取当前激活的菜单项 */
+  getActiveItem: () => MenuItemType | undefined;
 }

@@ -7,20 +7,26 @@
     </div>
   </Teleport>
 </template>
+
 <script lang="ts" setup>
 import "./message.scss";
-import type { PropsType } from "./types";
+import type { PropsType, ExposesType } from "./types";
 import type { IconTypes } from "@/packages/icon/icon";
 import { computed, ref } from "vue";
+import { TIcon } from "@/packages/icon";
 import { MESSAGE_GAP, MESSAGE_TAG } from "./method";
 import { messageClass } from "./messageCall";
 import { fromCssVal } from "@/utils";
-import { TIcon } from "@/packages/icon";
 import { useMessage } from "./hooks";
 
+/**
+ * @description 消息组件
+ */
 defineOptions({ name: "TMessage" });
 
-// Props定义
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   type: "info",
   messageType: "default",
@@ -35,12 +41,15 @@ const props = withDefaults(defineProps<PropsType>(), {
   boxShadow: () => [0, 0, 4, "rgba(0, 0, 0, 0.5)"]
 });
 
-// 节点
+// 节点引用
 const messageRef = ref();
+
 // 处理基础事件
 const { id, closeMessage } = useMessage(props, messageRef);
+
 /**
- * 动态获取icon
+ * @description 动态获取icon
+ * @returns {IconTypes} 图标类型
  */
 const getIcon = computed((): IconTypes => {
   const { type, icon } = props;
@@ -59,15 +68,19 @@ const getIcon = computed((): IconTypes => {
       return "help";
   }
 });
+
 /**
- * 动态设置class
+ * @description 动态设置class
+ * @returns {string[]} 样式类名数组
  */
 const getMessageClass = computed(() => {
   const { type, plain } = props;
   return [messageClass, `t-message-type-${type}`, plain && `t-message-plain-${type}`];
 });
+
 /**
- * 动态设置style样式
+ * @description 动态设置style样式
+ * @returns {object} 样式对象
  */
 const getMessageStyle = computed(() => {
   const { padding = [], radius = [], custom, width } = props;
@@ -80,7 +93,7 @@ const getMessageStyle = computed(() => {
   };
 });
 
-defineExpose({
+defineExpose<ExposesType>({
   closeMessage
 });
 </script>

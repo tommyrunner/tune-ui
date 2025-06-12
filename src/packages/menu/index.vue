@@ -19,21 +19,28 @@
 
 <script lang="ts" setup>
 import "./index.scss";
-import type { ModeType, MenuItemType, PropsType, EmitsType } from "./menu";
+import type { ModeType, MenuItemType, PropsType, EmitsType, ExposesType } from "./menu";
 import { computed, provide, watchEffect } from "vue";
 import TMenuItem from "./components/menu-item/menu-item.vue";
 import { menuContextKey } from "./constants";
 
+/**
+ * @description 菜单组件
+ */
 defineOptions({
   name: "TMenu"
 });
 
-// 使用defineModel实现双向绑定
+/**
+ * @description v-model定义
+ */
 const modelActive = defineModel<string>("active", { default: "" });
 const modelExpandKeys = defineModel<string[]>("expandKeys", { default: () => [] });
 const mode = defineModel<ModeType>("mode", { default: "expand" });
 
-// Props定义
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<Omit<PropsType, "active" | "expandKeys" | "mode">>(), {
   data: () => [],
   accordion: false,
@@ -44,10 +51,15 @@ const props = withDefaults(defineProps<Omit<PropsType, "active" | "expandKeys" |
   popoverWidth: 180
 });
 
-// Emits定义
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-// 计算属性
+/**
+ * @description 计算菜单宽度
+ * @returns {string} 菜单宽度
+ */
 const computedWidth = computed(() => {
   if (mode.value === "expand") {
     return typeof props.width === "number" ? `${props.width}px` : props.width;
@@ -57,7 +69,10 @@ const computedWidth = computed(() => {
   return "auto";
 });
 
-// 方法
+/**
+ * @description 处理菜单项选中
+ * @param {MenuItemType} menuItem - 菜单项数据
+ */
 const handleSelect = (menuItem: MenuItemType) => {
   if (menuItem.disabled) return;
   // 设置当前选中项
@@ -68,8 +83,8 @@ const handleSelect = (menuItem: MenuItemType) => {
 };
 
 /**
- * 确保所有父菜单保持展开状态
- * @param id 当前菜单项ID
+ * @description 确保所有父菜单保持展开状态
+ * @param {string} id - 当前菜单项ID
  */
 const ensureParentsExpanded = (id: string) => {
   // 获取扁平化菜单数据
@@ -90,6 +105,10 @@ const ensureParentsExpanded = (id: string) => {
   }
 };
 
+/**
+ * @description 切换菜单项展开状态
+ * @param {string} id - 菜单项ID
+ */
 const toggleExpand = (id: string) => {
   if (props.accordion) {
     // 手风琴模式：同级菜单只能有一个展开
@@ -129,7 +148,12 @@ const toggleExpand = (id: string) => {
   emit("expand", modelExpandKeys.value);
 };
 
-// 扁平化菜单数据，为每个项添加parent标识
+/**
+ * @description 扁平化菜单数据，为每个项添加parent标识
+ * @param {MenuItemType[]} items - 菜单项数组
+ * @param {string | null} parent - 父级ID
+ * @returns {(MenuItemType & { parent: string | null })[]} 扁平化的菜单数组
+ */
 const flattenMenu = (items: MenuItemType[], parent: string | null = null): (MenuItemType & { parent: string | null })[] => {
   return items.reduce(
     (acc, item) => {
@@ -144,6 +168,41 @@ const flattenMenu = (items: MenuItemType[], parent: string | null = null): (Menu
     },
     [] as (MenuItemType & { parent: string | null })[]
   );
+};
+
+/**
+ * @description 展开所有菜单项
+ */
+const expandAll = () => {
+  const flatMenu = flattenMenu(props.data);
+  const allIds = flatMenu.filter(item => item.children && item.children.length > 0).map(item => item.id);
+  modelExpandKeys.value = allIds;
+  emit("expand", modelExpandKeys.value);
+};
+
+/**
+ * @description 收起所有菜单项
+ */
+const collapseAll = () => {
+  modelExpandKeys.value = [];
+  emit("expand", modelExpandKeys.value);
+};
+
+/**
+ * @description 切换菜单模式
+ */
+const toggleMode = () => {
+  mode.value = mode.value === "expand" ? "collapse" : "expand";
+  emit("modeChange", mode.value);
+};
+
+/**
+ * @description 获取当前激活的菜单项
+ * @returns {MenuItemType | undefined} 激活的菜单项
+ */
+const getActiveItem = (): MenuItemType | undefined => {
+  const flatMenu = flattenMenu(props.data);
+  return flatMenu.find(item => item.id === modelActive.value);
 };
 
 // 提供上下文
@@ -164,5 +223,12 @@ watchEffect(() => {
   if (mode.value) {
     emit("modeChange", mode.value);
   }
+});
+
+defineExpose<ExposesType>({
+  expandAll,
+  collapseAll,
+  toggleMode,
+  getActiveItem
 });
 </script>

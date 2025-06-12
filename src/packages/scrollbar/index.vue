@@ -21,22 +21,36 @@
 </template>
 <script lang="ts" setup>
 import "./index.scss";
-import type { PropsType, DirectionType, EmitsType } from "./scrollbar";
+import type { PropsType, DirectionType, EmitsType, ExposesType } from "./scrollbar";
+import type { StyleValue } from "vue";
 import { fromCssVal } from "@/utils";
-import { computed, nextTick, onDeactivated, onMounted, reactive, ref, StyleValue, watch } from "vue";
-
+import { computed, onDeactivated, onMounted, reactive, ref, watch } from "vue";
+/**
+ * @description 滚动条组件
+ */
 defineOptions({ name: "TScrollbar" });
-const emit = defineEmits<EmitsType>();
-const scrollbarRef = ref<HTMLDivElement>();
-const thumbVRef = ref<HTMLDivElement>();
-const thumbHRef = ref<HTMLDivElement>();
+
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   height: 300
 });
+
+/**
+ * @description 组件事件定义
+ */
+const emit = defineEmits<EmitsType>();
+
+const scrollbarRef = ref<HTMLDivElement>();
+const thumbVRef = ref<HTMLDivElement>();
+const thumbHRef = ref<HTMLDivElement>();
+
 // 最小thumb尺寸 比例
 const THUMB_MIN_SIZE = 0.046;
 let elementObserver: null | MutationObserver = null;
 let resizeObserver: null | ResizeObserver = null;
+
 const state = reactive({
   // 记录element宽高
   elementHeight: 0,
@@ -80,11 +94,14 @@ onMounted(() => {
   updateScrollbar();
 });
 
-// 清理：移除滚动监听器
-onDeactivated(() => handlerEventListener(true));
 /**
- * 统一处理事件
- * @param remove 是否移出
+ * @description 清理：移除滚动监听器
+ */
+onDeactivated(() => handlerEventListener(true));
+
+/**
+ * @description 统一处理事件
+ * @param {boolean} [remove=false] - 是否移除
  */
 const handlerEventListener = (remove = false) => {
   const method = remove ? "removeEventListener" : "addEventListener";
@@ -131,8 +148,9 @@ const handlerEventListener = (remove = false) => {
     }
   }
 };
+
 /**
- * 更新滚动条位置以及宽高
+ * @description 更新滚动条位置以及宽高
  */
 const updateScrollbar = () => {
   const element = scrollbarRef.value;
@@ -150,16 +168,18 @@ const updateScrollbar = () => {
   state.scrollbar.width = Math.max(clientWidth * (clientWidth / scrollWidth), clientWidth * THUMB_MIN_SIZE);
 };
 
-// 监听height属性变化
+/**
+ * @description 监听height属性变化
+ */
 watch(() => props.height, updateScrollbar);
 
 /**
- * 处理点击快捷跳转
- * @param event 事件
- * @param direction 方向
+ * @description 处理点击快捷跳转
+ * @param {MouseEvent} event - 鼠标事件对象
+ * @param {DirectionType} direction - 滚动方向
  */
 const handleScrollbarClick = (event: MouseEvent, direction: DirectionType) => {
-  //   计算当前位置
+  // 计算当前位置
   const rect = scrollbarRef.value.getBoundingClientRect();
   // 每次点击的时候获取element当前屏幕位置(*用于计算全屏拉动)
   state.pageElementPoint = {
@@ -172,9 +192,10 @@ const handleScrollbarClick = (event: MouseEvent, direction: DirectionType) => {
   setScrollbar(mobile - state.scrollbar.height / 2, direction);
   emit("click-track", scrollbarRef.value);
 };
+
 /**
- * 处理拖动事件(这里是全屏拖动，尽量模拟window)
- * @param event
+ * @description 处理拖动事件(这里是全屏拖动，尽量模拟window)
+ * @param {MouseEvent} event - 鼠标事件对象
  */
 const handlerScrollbarMove = (event: MouseEvent) => {
   const { isMoveH, isMoveV } = state.scrollbar;
@@ -188,13 +209,20 @@ const handlerScrollbarMove = (event: MouseEvent) => {
   }
   return false;
 };
+
 /**
- * 处理状态
+ * @description 关闭拖动状态
  */
 const handlerCloseMove = () => {
   state.scrollbar.isMoveH = false;
   state.scrollbar.isMoveV = false;
 };
+
+/**
+ * @description 开始拖动操作
+ * @param {MouseEvent} event - 鼠标事件对象
+ * @param {DirectionType} direction - 拖动方向
+ */
 const handleOpenMove = (event: MouseEvent, direction: DirectionType) => {
   // 更新当前触发滚动条方向
   state.scrollbar.direction = direction;
@@ -208,6 +236,10 @@ const handleOpenMove = (event: MouseEvent, direction: DirectionType) => {
   if (direction === "left") state.scrollbar.isMoveH = true;
   if (direction === "top") state.scrollbar.isMoveV = true;
 };
+
+/**
+ * @description 处理鼠标进入事件
+ */
 const handlerElementEnter = () => {
   if (!scrollbarRef.value) return;
   const { offsetHeight, offsetWidth, scrollHeight, scrollWidth } = scrollbarRef.value;
@@ -215,11 +247,16 @@ const handlerElementEnter = () => {
   state.scrollbar.isShowH = scrollWidth > offsetWidth;
   state.scrollbar.isShowV = scrollHeight > offsetHeight;
 };
+
+/**
+ * @description 处理鼠标离开事件
+ */
 const handlerElementLeave = () => {
   state.scrollbar.isShowV = state.scrollbar.isShowH = false;
 };
+
 /**
- * 动态element滚动值
+ * @description 处理元素滚动事件
  */
 const handlerElementScrollbar = () => {
   const element = scrollbarRef.value;
@@ -232,10 +269,17 @@ const handlerElementScrollbar = () => {
   }
   state.scrollTop = element.scrollTop;
   state.scrollLeft = element.scrollLeft;
-  emit(direction === "left" ? "scroll-x" : "scroll-y", element);
+  if (direction === "left") {
+    emit("scroll-x", element);
+  } else {
+    emit("scroll-y", element);
+  }
 };
+
 /**
- * 通过计算得到的拖动值,更新element滚动值
+ * @description 设置滚动条位置
+ * @param {number} mobile - 拖动距离
+ * @param {DirectionType} direction - 滚动方向
  */
 const setScrollbar = (mobile: number, direction: DirectionType) => {
   const element = scrollbarRef.value;
@@ -251,8 +295,10 @@ const setScrollbar = (mobile: number, direction: DirectionType) => {
     [direction]: scrollValue * (mobile / offsetValue)
   });
 };
+
 /**
- * 处理class 以及 style 动态样式
+ * @description 计算滚动条样式类
+ * @returns {string[]} 样式类数组
  */
 const scrollbarClasses = computed(() => {
   const { isMoveH, isMoveV, isShowH, isShowV } = state.scrollbar;
@@ -263,6 +309,11 @@ const scrollbarClasses = computed(() => {
     (isShowV || isMoveV) && "_scrollbar-hover-v"
   ];
 });
+
+/**
+ * @description 计算垂直滚动条拖块样式
+ * @returns {StyleValue} 样式对象
+ */
 const scrollbarThumbVStyle = computed((): StyleValue => {
   const { scrollbar, totalHeight, scrollTop, elementHeight } = state;
   // 得出位置率: 滚动位置/(滚动高度 - 组件高度)
@@ -275,6 +326,11 @@ const scrollbarThumbVStyle = computed((): StyleValue => {
     height: `${scrollbar.height}px`
   };
 });
+
+/**
+ * @description 计算水平滚动条拖块样式
+ * @returns {StyleValue} 样式对象
+ */
 const scrollbarThumbHStyle = computed((): StyleValue => {
   const { scrollbar, totalWidth, scrollLeft, elementWidth } = state;
   const ratio = scrollLeft / (totalWidth - elementWidth);
@@ -284,21 +340,28 @@ const scrollbarThumbHStyle = computed((): StyleValue => {
     width: `${scrollbar.width}px`
   };
 });
+
+/**
+ * @description 计算滚动条容器样式
+ * @returns {StyleValue} 样式对象
+ */
 const scrollbarStyle = computed((): StyleValue => {
   return {
     height: fromCssVal(props.height)
   };
 });
+
 /**
- * 滚动到指定位置
- * @param options 滚动选项
+ * @description 滚动到指定位置
+ * @param {ScrollToOptions} options - 滚动选项
  */
 const scrollTo = (options: ScrollToOptions) => {
   if (scrollbarRef.value) {
     scrollbarRef.value.scrollTo(options);
   }
 };
-defineExpose({
+
+defineExpose<ExposesType>({
   updateScrollbar,
   setScrollbar,
   contentRef: scrollbarRef,

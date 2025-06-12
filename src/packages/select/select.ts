@@ -73,21 +73,47 @@ export interface PropsType extends TipProps, BaseProps {
  */
 export interface EmitsType {
   /** 清空事件 */
-  (e: "clear"): void;
+  clear: [];
   /** 选择事件 */
-  (e: "change", option: OptionsItemType): void;
+  change: [OptionsItemType];
   /** 下拉框展开事件 */
-  (e: "visible-change", visible: boolean): void;
+  "visible-change": [boolean];
   /** 获取焦点事件 */
-  (e: "focus", event: FocusEvent): void;
+  focus: [FocusEvent];
   /** 失去焦点事件 */
-  (e: "blur", event: FocusEvent): void;
+  blur: [FocusEvent];
   /** 移除选项事件（多选模式下） */
-  (e: "remove-tag", value: SingleValueType): void;
+  "remove-tag": [SingleValueType];
   /** 输入值变化事件（filterable模式下） */
-  (e: "input", value: string): void;
+  input: [string];
   /** 级联菜单切换事件 */
-  (e: "cascade-change", path: OptionsItemType[]): void;
+  "cascade-change": [OptionsItemType[]];
+}
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 自定义选项内容 */
+  default?: (params: SelectSlotParamsType) => any;
+  /** 空状态插槽 */
+  empty?: () => any;
+  /** 前缀插槽 */
+  prefix?: () => any;
+}
+
+/**
+ * @description 组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 获取焦点 */
+  focus: () => void;
+  /** 失去焦点 */
+  blur: () => void;
+  /** 清空选择 */
+  clear: () => void;
 }
 
 /**

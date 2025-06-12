@@ -6,15 +6,9 @@
 
 <script lang="ts" setup>
 import "./index.scss";
-
-// 类型导入
-import type { PropsType } from "./watermark";
+import type { PropsType, ExposesType } from "./watermark";
 import type { StyleValue } from "vue";
-
-// Vue相关导入
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from "vue";
-
-// 常量导入
 import {
   DEFAULT_FONT,
   DEFAULT_GAP,
@@ -26,7 +20,6 @@ import {
   DEFAULT_FONT_WEIGHT,
   OBSERVER_CONFIG
 } from "./constants";
-
 /**
  * @description 水印组件
  */
@@ -68,9 +61,7 @@ const offsetTop = computed(() => props.offset?.[1] ?? gapY.value / 2);
 const backgroundSize = computed(() => `${props.width + gapX.value}px ${props.height + gapY.value}px`);
 const backgroundPosition = computed(() => `${offsetLeft.value}px ${offsetTop.value}px`);
 
-/**
- * @description MutationObserver实例
- */
+// MutationObserver实例
 let observer: MutationObserver | null = null;
 
 /**
@@ -125,6 +116,8 @@ const removeContainer = (): void => {
 
 /**
  * @description 获取画布
+ * @param {number} width - 画布宽度
+ * @param {number} height - 画布高度
  * @returns {HTMLCanvasElement} 画布元素
  */
 const getCanvas = (width: number, height: number): HTMLCanvasElement => {
@@ -137,7 +130,7 @@ const getCanvas = (width: number, height: number): HTMLCanvasElement => {
 /**
  * @description 绘制水印
  */
-const drawWatermark = async (): Promise<void> => {
+const drawWatermark = async () => {
   if (!watermarkRef.value) return;
 
   // 如果没有内容和图片，不需要创建水印
@@ -384,10 +377,7 @@ watch(
   }
 );
 
-/**
- * @description 组件对外暴露方法
- */
-defineExpose({
-  update: drawWatermark
+defineExpose<ExposesType>({
+  redraw: drawWatermark
 });
 </script>

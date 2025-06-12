@@ -12,20 +12,27 @@
 
 <script lang="ts" setup>
 import "./index.scss";
-import type { PropsType, ValueType, EmitsType } from "./radio";
+import type { PropsType, ValueType, EmitsType, ExposesType } from "./radio";
 import type { GroupContextType } from "./constants";
 import { computed, inject, onMounted, useSlots } from "vue";
+import { TIcon } from "@/packages/icon";
 import { radioGroupKey } from "./constants";
 import { configOptions, useOptions } from "@/hooks/useOptions";
 import { isObject } from "@/utils/is";
-import { TIcon } from "@/packages/icon";
 
+/**
+ * @description 单选框组件
+ */
 defineOptions({ name: "TRadio" });
 
-/** 基础尺寸 */
+/**
+ * @description 基础尺寸
+ */
 const { baseSize } = useOptions();
 
-/** Props定义 */
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   radius: "default",
@@ -33,28 +40,44 @@ const props = withDefaults(defineProps<PropsType>(), {
   disabled: false
 });
 
-/** Emits定义 */
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-/** 插槽 */
+/**
+ * @description 插槽
+ */
 const slot = useSlots();
 
-/** 双向绑定 */
+/**
+ * @description v-model定义
+ */
 const model = defineModel<ValueType>();
 
-/** 注入group上下文 */
+/**
+ * @description 注入group上下文
+ */
 const groupContext = inject<GroupContextType | undefined>(radioGroupKey, void 0);
 
-/** 初始化默认值 */
+/**
+ * @description 初始化默认值
+ */
 onMounted(() => (model.value = props.value));
 
-/** 计算标题样式 */
+/**
+ * @description 计算标题样式
+ * @returns {string[]} 样式类名数组
+ */
 const titleClasses = computed(() => {
   const base = ["_title", props.disabled && "t-disabled", (slot.radioSpan || props.icon) && "_custom-span"];
   return base;
 });
 
-/** 计算radio样式 */
+/**
+ * @description 计算radio样式
+ * @returns {string[]} 样式类名数组
+ */
 const radioClasses = computed(() => {
   const { disabled } = props;
   const base = ["t-radio", `t-radio-size-${baseSize.value}`, disabled && "t-disabled"];
@@ -65,7 +88,10 @@ const radioClasses = computed(() => {
   return base;
 });
 
-/** 计算是否选中 */
+/**
+ * @description 计算是否选中
+ * @returns {boolean} 是否选中
+ */
 const isChecked = computed(() => {
   if (isObject(modelValue.value) && modelObjKey.value) {
     return (props.value as any)[modelObjKey.value] === (modelValue.value as any)[modelObjKey.value];
@@ -75,19 +101,27 @@ const isChecked = computed(() => {
   }
 });
 
-/** 计算当前值 */
+/**
+ * @description 计算当前值
+ * @returns {ValueType} 当前值
+ */
 const modelValue = computed(() => {
   if (groupContext) return groupContext.model;
   return model.value;
 });
 
-/** 计算对象key */
+/**
+ * @description 计算对象key
+ * @returns {string} 对象key
+ */
 const modelObjKey = computed(() => {
   if (groupContext) return groupContext.objKey;
   return props.objKey;
 });
 
-/** 处理选中事件 */
+/**
+ * @description 处理选中事件
+ */
 const handleChecked = () => {
   if (props.disabled) return;
   if (groupContext) {
@@ -98,4 +132,17 @@ const handleChecked = () => {
   }
   emit("change", model.value);
 };
+
+/**
+ * @description 触发选中状态切换
+ */
+const toggle = () => {
+  if (!props.disabled) {
+    handleChecked();
+  }
+};
+
+defineExpose<ExposesType>({
+  toggle
+});
 </script>

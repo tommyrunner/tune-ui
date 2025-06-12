@@ -19,34 +19,53 @@ import { ref, provide, reactive, toRefs, nextTick, onMounted } from "vue";
 import { radioGroupKey } from "./constants";
 import { configOptions } from "@/hooks/useOptions";
 
+/**
+ * @description 单选框组组件
+ */
 defineOptions({ name: "TRadioGroup" });
 
-/** Props定义 */
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   size: configOptions.value.elSize,
   type: "button",
   direction: "row"
 });
 
-/** Emits定义 */
+/**
+ * @description 组件事件定义
+ */
 const emit = defineEmits<EmitsType>();
 
-/** 组件引用 */
+/**
+ * @description 组件引用
+ */
 const groupRef = ref<HTMLElement>();
 
-/** 双向绑定 */
+/**
+ * @description v-model定义
+ */
 const model = defineModel<ValueType>();
 
-/** 处理值改变事件 */
+/**
+ * @description 处理值改变事件
+ * @param {ValueType} value - 选中值
+ */
 const handleChange = (value?: ValueType) => {
   model.value = value;
+  // 触发change事件
   nextTick(() => emit("change", model.value));
 };
 
-/** 初始化立即触发 */
+/**
+ * @description 初始化立即触发
+ */
 onMounted(() => props.immediateChange && handleChange(model.value));
 
-/** 提供上下文 */
+/**
+ * @description 提供上下文
+ */
 provide<GroupContextType>(
   radioGroupKey,
   reactive({

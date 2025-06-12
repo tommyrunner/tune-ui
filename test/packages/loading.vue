@@ -121,7 +121,7 @@ const showFullscreenLoading = () => {
   const loading = fullLoading(options);
   loading.loading(document.body);
   setTimeout(() => {
-    // loading.close();
+    loading.close();
   }, 2000);
 };
 

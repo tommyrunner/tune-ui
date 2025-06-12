@@ -1,11 +1,16 @@
 import type { BaseProps } from "@/types";
 import type { IconTypes } from "@/packages/icon/icon";
 
-/** 值类型定义 */
+/**
+ * @description 值类型定义
+ * @typedef {string | number | boolean | object} ValueType
+ */
 export type ValueType = string | number | boolean | object;
 
 /**
- * Radio组件的Props类型定义
+ * @description Radio组件的Props类型定义
+ * @interface PropsType
+ * @extends {BaseProps}
  */
 export interface PropsType extends BaseProps {
   /** 选中图形样式 */
@@ -28,9 +33,30 @@ export interface PropsType extends BaseProps {
 }
 
 /**
- * Radio组件的事件类型定义
+ * @description Radio组件的事件类型定义
+ * @interface EmitsType
  */
 export interface EmitsType {
   /** 选择改变事件 */
-  (e: "change", data?: ValueType): void;
+  change: [ValueType];
+}
+
+/**
+ * @description Radio组件的插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 单选框文本内容 */
+  default?: () => any;
+  /** 自定义选中图标插槽 */
+  radioSpan?: (params: { value: ValueType }) => any;
+}
+
+/**
+ * @description Radio组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 触发选中状态切换 */
+  toggle: () => void;
 }

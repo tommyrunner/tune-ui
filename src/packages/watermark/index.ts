@@ -1,10 +1,12 @@
+import type { SFCWithInstall } from "@/utils/pack";
+import type { PropsType, SlotsType, ExposesType } from "./watermark";
 import Watermark from "./index.vue";
 
 /**
  * @description 导出Watermark组件
  * @component TWatermark
  */
-export const TWatermark = Watermark;
+export const TWatermark = Watermark as unknown as SFCWithInstall<PropsType, ExposesType, SlotsType, {}>;
 
 /**
  * @description 导出Watermark组件类型

@@ -1,6 +1,6 @@
 <template>
   <div class="t-menu-group">
-    <div class="t-menu-group__title" v-if="title">{{ title }}</div>
+    <div class="t-menu-group__title" v-if="props.title">{{ props.title }}</div>
     <div class="t-menu-group__content">
       <slot></slot>
     </div>
@@ -10,10 +10,11 @@
 <script lang="ts" setup>
 import "./menu-group.scss";
 import type { PropsType } from "./menu-group";
-
+const props = withDefaults(defineProps<PropsType>(), {});
+/**
+ * @description 菜单分组组件
+ */
 defineOptions({
   name: "TMenuGroup"
 });
-
-defineProps<PropsType>();
 </script>

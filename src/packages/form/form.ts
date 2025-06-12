@@ -50,6 +50,7 @@ export interface FormStateType {
 
 /**
  * @description 表单Props类型定义
+ * @interface FormPropsType
  */
 export interface FormPropsType {
   /** 表单数据对象 */
@@ -82,6 +83,45 @@ export interface FormPropsType {
   onSubmit?: () => void | Promise<void>;
   /** 重置回调 */
   onReset?: () => void;
+}
+
+/**
+ * @description 表单组件事件类型定义
+ * @interface EmitsType
+ */
+export interface EmitsType {
+  /** 表单提交事件 */
+  submit: [boolean, Record<string, any>?];
+  /** 表单重置事件 */
+  reset: [];
+  /** 表单验证事件 */
+  validate: [string, boolean, string?];
+}
+
+/**
+ * @description 表单组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 表单内容 */
+  default?: () => any;
+  /** 底部插槽 - 表单按钮区域 */
+  footer?: () => any;
+}
+
+/**
+ * @description 表单组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 校验表单 */
+  validate: (callback?: FormValidateCallback) => FormValidateResult;
+  /** 校验特定表单字段 */
+  validateField: (props: string | string[], callback?: FormValidateCallback) => FormValidateResult;
+  /** 重置表单 */
+  resetFields: () => void;
+  /** 清除校验 */
+  clearValidate: (props?: string | string[]) => void;
 }
 
 /**

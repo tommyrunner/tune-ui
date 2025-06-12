@@ -72,22 +72,30 @@ import "./menu-item.scss";
 import type { StyleValue } from "vue";
 import type { MenuItemType, ModeType } from "../../menu";
 import type { MenuContextType } from "../../constants";
-import type { PropsType } from "./menu-item";
+import type { PropsType, ExposesType } from "./menu-item";
 import { computed, inject, ref } from "vue";
 import { TIcon } from "@/packages/icon";
 import { TPopover } from "@/packages/popover";
 import { menuContextKey } from "../../constants";
 
+/**
+ * @description 菜单项组件
+ */
 defineOptions({
   name: "TMenuItem"
 });
 
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   level: 0,
   popupMode: false
 });
 
-// 注入菜单上下文
+/**
+ * @description 注入菜单上下文
+ */
 const menuContext = inject<MenuContextType>(menuContextKey, {
   activeId: ref(""),
   expandKeys: ref<string[]>([]),
@@ -100,19 +108,34 @@ const menuContext = inject<MenuContextType>(menuContextKey, {
   toggleExpand: (_id: string) => {}
 });
 
-// 计算属性
+/**
+ * @description 是否有子菜单
+ * @returns {boolean} 是否有子菜单
+ */
 const hasChildren = computed(() => {
   return props.menuItem.children && props.menuItem.children.length > 0;
 });
 
+/**
+ * @description 是否为激活状态
+ * @returns {boolean} 是否激活
+ */
 const isActive = computed(() => {
   return menuContext.activeId.value === props.menuItem.id;
 });
 
+/**
+ * @description 是否为展开状态
+ * @returns {boolean} 是否展开
+ */
 const isExpanded = computed(() => {
   return menuContext.expandKeys.value.includes(props.menuItem.id);
 });
 
+/**
+ * @description 菜单项样式类
+ * @returns {object} 样式类对象
+ */
 const menuItemClasses = computed(() => ({
   "t-menu-item--active": isActive.value,
   "t-menu-item--parent": hasChildren.value,
@@ -120,6 +143,10 @@ const menuItemClasses = computed(() => ({
   "t-disabled": props.menuItem.disabled
 }));
 
+/**
+ * @description 子菜单样式
+ * @returns {StyleValue} 样式对象
+ */
 const childrenStyle = computed((): StyleValue => {
   if (!isExpanded.value) {
     return {
@@ -141,6 +168,10 @@ const childrenStyle = computed((): StyleValue => {
   };
 });
 
+/**
+ * @description 图标尺寸
+ * @returns {number} 图标尺寸
+ */
 const iconSize = computed(() => {
   const mode = menuContext.mode.value;
   if (mode === "collapse" && props.level === 0) {
@@ -149,21 +180,34 @@ const iconSize = computed(() => {
   return 16;
 });
 
+/**
+ * @description 是否显示箭头
+ * @returns {boolean} 是否显示箭头
+ */
 const showArrow = computed(() => {
   if (menuContext.mode.value === "collapse" && props.level === 0) return false;
   return hasChildren.value;
 });
 
+/**
+ * @description 是否为折叠模式
+ * @returns {boolean} 是否折叠
+ */
 const isCollapsedMode = computed(() => {
   return menuContext.mode.value === "collapse";
 });
 
-// 折叠模式下的一级菜单
+/**
+ * @description 是否为折叠模式下的一级菜单
+ * @returns {boolean} 是否为折叠模式下的一级菜单
+ */
 const isCollapseAndRootLevel = computed(() => {
   return menuContext.mode.value === "collapse" && props.level === 0;
 });
 
-// 处理菜单项点击
+/**
+ * @description 处理菜单项点击
+ */
 const handleItemClick = () => {
   if (props.menuItem.disabled) return;
 
@@ -191,8 +235,8 @@ const handleItemClick = () => {
 };
 
 /**
- * 递归展开所有子节点
- * @param item 需要展开子节点的菜单项
+ * @description 递归展开所有子节点
+ * @param {MenuItemType} item - 需要展开子节点的菜单项
  */
 const expandAllChildren = (item: MenuItemType) => {
   if (!item.children || item.children.length === 0) return;
@@ -208,4 +252,8 @@ const expandAllChildren = (item: MenuItemType) => {
     }
   });
 };
+
+defineExpose<ExposesType>({
+  handleClick: handleItemClick
+});
 </script>

@@ -15,7 +15,7 @@
       <slot></slot>
       <transition name="t-form-item-fade">
         <div v-if="shouldShowError" class="t-form-item__error" :class="{ 't-form-item__error--inline': showInlineError }">
-          <slot name="error">{{ state.validateMessage }}</slot>
+          <slot name="error" :error="state.validateMessage">{{ state.validateMessage }}</slot>
         </div>
       </transition>
     </div>
@@ -31,20 +31,31 @@
 <script lang="ts" setup>
 import "./form-item.scss";
 import type { FormContextType, FormItemRule, FormValidateResult, FormItemTrigger } from "../../form";
-import type { FormItemPropsType, FormItemValidateState, FormItemState } from "./form-item";
+import type {
+  FormItemPropsType,
+  FormItemValidateState,
+  FormItemState,
+  FormItemEmitsType,
+  FormItemExposesType
+} from "./form-item";
 import { computed, inject, onBeforeUnmount, onMounted, reactive, useSlots, watch } from "vue";
+import { TPopover } from "@/packages/popover";
+import { TIcon } from "@/packages/icon";
 import { formKey } from "../../constants";
 import { generateId } from "@/utils";
 import { isNullOrUnDef, isString, isFunction, isArray, isValue } from "@/utils/is";
-import { TPopover } from "@/packages/popover";
-import { TIcon } from "@/packages/icon";
 import { useI18nText } from "../../i18n";
 
+/**
+ * @description 表单项组件
+ */
 defineOptions({
   name: "TFormItem"
 });
 
-// Props定义
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<FormItemPropsType>(), {
   labelWidth: void 0,
   required: void 0,
@@ -54,19 +65,29 @@ const props = withDefaults(defineProps<FormItemPropsType>(), {
   tip: void 0
 });
 
-const { TEXT_REQUIRED, TEXT_MIN, TEXT_MAX, TEXT_PATTERN, TEXT_VALIDATOR } = useI18nText();
-// 定义事件
-const emit = defineEmits<{
-  (e: "validate", prop: string, isValid: boolean, message?: string): void;
-}>();
+/**
+ * @description 组件事件定义
+ */
+const emit = defineEmits<FormItemEmitsType>();
 
-// 获取slots
+/**
+ * @description 国际化文本
+ */
+const { TEXT_REQUIRED, TEXT_MIN, TEXT_MAX, TEXT_PATTERN, TEXT_VALIDATOR } = useI18nText();
+
+/**
+ * @description 获取插槽
+ */
 const $slots = useSlots();
 
-// 注入表单上下文
+/**
+ * @description 注入表单上下文
+ */
 const formContext = inject<FormContextType>(formKey, undefined);
 
-// 使用reactive管理表单项状态
+/**
+ * @description 表单项状态管理
+ */
 const state = reactive<FormItemState>({
   validateState: props.validateStatus as FormItemValidateState,
   validateMessage: "",
@@ -74,11 +95,14 @@ const state = reactive<FormItemState>({
   initialValue: undefined
 });
 
-// 生成唯一ID
+/**
+ * @description 生成唯一ID
+ */
 const labelId = generateId();
 
 /**
- * 计算表单项类名
+ * @description 计算表单项类名
+ * @returns {object} 表单项样式类对象
  */
 const formItemClasses = computed(() => ({
   "t-form-item--required": isRequired.value,
@@ -88,19 +112,28 @@ const formItemClasses = computed(() => ({
   "t-form-item--top": formContext?.labelPosition === "top"
 }));
 
-// 是否有标签
+/**
+ * @description 是否有标签
+ * @returns {boolean} 是否有标签
+ */
 const hasLabel = computed(() => {
   return !!(props.label || $slots.label);
 });
 
-// 最终的标签宽度
+/**
+ * @description 最终的标签宽度
+ * @returns {string} 标签宽度
+ */
 const finalLabelWidth = computed(() => {
   const width = props.labelWidth || formContext?.labelWidth;
   if (!width) return "auto";
   return isString(width) && width.includes("px") ? width : `${width}px`;
 });
 
-// 是否是必填字段
+/**
+ * @description 是否是必填字段
+ * @returns {boolean} 是否必填
+ */
 const isRequired = computed(() => {
   if (props.required !== undefined) {
     return props.required;
@@ -112,7 +145,10 @@ const isRequired = computed(() => {
   return rules.some(rule => rule.required);
 });
 
-// 是否显示内联错误信息
+/**
+ * @description 是否显示内联错误信息
+ * @returns {boolean} 是否显示内联错误
+ */
 const showInlineError = computed(() => {
   if (props.inlineMessage !== undefined) {
     return props.inlineMessage;
@@ -120,7 +156,10 @@ const showInlineError = computed(() => {
   return formContext?.inlineMessage || false;
 });
 
-// 是否应该显示错误信息
+/**
+ * @description 是否应该显示错误信息
+ * @returns {boolean} 是否显示错误信息
+ */
 const shouldShowError = computed(() => {
   if (props.showMessage === false) return false;
   if (formContext?.showMessage === false) return false;
@@ -128,7 +167,8 @@ const shouldShowError = computed(() => {
 });
 
 /**
- * 获取表单项的字段值
+ * @description 获取表单项的字段值
+ * @returns {any} 字段值
  */
 const fieldValue = computed(() => {
   if (!formContext?.model || !props.prop) return undefined;
@@ -146,7 +186,9 @@ const fieldValue = computed(() => {
 });
 
 /**
- * 将规则转为数组
+ * @description 将规则转为数组
+ * @param {FormItemRule | FormItemRule[] | undefined} rules - 验证规则
+ * @returns {FormItemRule[]} 规则数组
  */
 const normalizeRules = (rules: FormItemRule | FormItemRule[] | undefined): FormItemRule[] => {
   if (!rules) return [];
@@ -154,7 +196,8 @@ const normalizeRules = (rules: FormItemRule | FormItemRule[] | undefined): FormI
 };
 
 /**
- * 获取字段校验规则
+ * @description 获取字段校验规则
+ * @returns {FormItemRule[]} 校验规则数组
  */
 const getFieldRules = () => {
   const formRules = formContext?.rules;
@@ -175,8 +218,9 @@ const getFieldRules = () => {
 };
 
 /**
- * 校验表单项
+ * @description 校验表单项
  * @param {FormItemTrigger} trigger - 触发校验的方式
+ * @returns {FormValidateResult} 校验结果Promise
  */
 const validate = async (trigger?: FormItemTrigger): FormValidateResult => {
   if (!props.prop) return Promise.resolve(true);
@@ -250,19 +294,19 @@ const validate = async (trigger?: FormItemTrigger): FormValidateResult => {
     // 全部校验通过
     state.validateState = "success";
     state.isValidating = false;
-    emit("validate", props.prop, true);
+    emit("validate", props.prop!, true);
     return true;
   } catch (error: any) {
     state.validateState = "error";
     state.validateMessage = error.message || TEXT_VALIDATOR;
     state.isValidating = false;
-    emit("validate", props.prop, false, error.message);
+    emit("validate", props.prop!, false, error.message);
     return Promise.reject(error.message);
   }
 };
 
 /**
- * 重置表单项
+ * @description 重置表单项
  */
 const resetField = () => {
   if (!props.prop || !formContext?.model) return;
@@ -290,7 +334,7 @@ const resetField = () => {
 };
 
 /**
- * 清除校验
+ * @description 清除校验
  */
 const clearValidate = () => {
   state.validateState = "";
@@ -343,8 +387,7 @@ onBeforeUnmount(() => {
   }
 });
 
-// 对外暴露方法
-defineExpose({
+defineExpose<FormItemExposesType>({
   validate,
   resetField,
   clearValidate,

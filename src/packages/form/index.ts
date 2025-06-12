@@ -1,12 +1,33 @@
+/**
+ * @module Form
+ */
+import type { SFCWithInstall } from "@/utils/pack";
+import type { FormPropsType as PropsType, SlotsType, EmitsType, ExposesType } from "./form";
+import type {
+  FormItemPropsType as ItemPropsType,
+  FormItemSlotsType as ItemSlotsType,
+  FormItemEmitsType as ItemEmitsType,
+  FormItemExposesType as ItemExposesType
+} from "./components/form-item/form-item";
 import Form from "./index.vue";
 import FormItem from "./components/form-item/form-item.vue";
 
-/** 导出表单组件 */
-export const TForm = Form;
-/** 导出表单项组件 */
-export const TFormItem = FormItem;
+/**
+ * @description form组件
+ */
+export const TForm = Form as unknown as SFCWithInstall<PropsType, ExposesType, SlotsType, EmitsType>;
 
-/** 导出表单组件类型 */
+/**
+ * @description form-item组件
+ */
+export const TFormItem = FormItem as unknown as SFCWithInstall<ItemPropsType, ItemExposesType, ItemSlotsType, ItemEmitsType>;
+
+/**
+ * @description form类型
+ */
 export type TFormType = InstanceType<typeof TForm>;
-/** 导出表单项组件类型 */
+
+/**
+ * @description form-item类型
+ */
 export type TFormItemType = InstanceType<typeof TFormItem>;

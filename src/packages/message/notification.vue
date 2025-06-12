@@ -12,17 +12,26 @@
     </div>
   </Teleport>
 </template>
+
 <script lang="ts" setup>
 import "./notification.scss";
-import type { PropsType } from "./types";
+import type { PropsType, ExposesType } from "./types";
 import type { IconTypes } from "@/packages/icon/icon";
 import { computed, ref, StyleValue } from "vue";
+import { TIcon } from "../icon";
 import { MESSAGE_GAP, MESSAGE_TAG } from "./method";
 import { notificationClass } from "./notificationCall";
 import { fromCssVal } from "@/utils";
-import { TIcon } from "../icon";
 import { useMessage } from "./hooks";
+
+/**
+ * @description 通知组件
+ */
 defineOptions({ name: "TNotification" });
+
+/**
+ * @description 组件Props定义
+ */
 const props = withDefaults(defineProps<PropsType>(), {
   width: "340px",
   type: "info",
@@ -38,12 +47,16 @@ const props = withDefaults(defineProps<PropsType>(), {
   padding: () => [12, 16, 12, 16],
   boxShadow: () => [0, 0, 4, "rgba(0, 0, 0, 0.5)"]
 });
-// 节点
+
+// 节点引用
 const messageRef = ref();
+
 // 处理基础事件
 const { id, closeMessage } = useMessage(props, messageRef);
+
 /**
- * 动态获取icon
+ * @description 动态获取icon
+ * @returns {IconTypes} 图标类型
  */
 const getIcon = computed((): IconTypes => {
   const { type, icon } = props;
@@ -60,15 +73,19 @@ const getIcon = computed((): IconTypes => {
       return "help";
   }
 });
+
 /**
- * 动态设置class
+ * @description 动态设置class
+ * @returns {string[]} 样式类名数组
  */
 const getMessageClass = computed(() => {
   const { type, position } = props;
   return [notificationClass, `t-notification-type-${type}`, `t-notification-${position}`];
 });
+
 /**
- * 动态设置style样式
+ * @description 动态设置style样式
+ * @returns {StyleValue} 样式对象
  */
 const getMessageStyle = computed((): StyleValue => {
   const { padding = [], radius = [], position, custom, width } = props;
@@ -83,7 +100,8 @@ const getMessageStyle = computed((): StyleValue => {
     [customY]: custom.y
   };
 });
-defineExpose({
+
+defineExpose<ExposesType>({
   closeMessage
 });
 </script>

@@ -57,3 +57,21 @@ export interface PropsType {
   /** 水印透明度，取值范围0-1 */
   opacity?: number;
 }
+
+/**
+ * @description 组件插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 需要添加水印的内容 */
+  default?: () => any;
+}
+
+/**
+ * @description 组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 重新绘制水印 */
+  redraw: () => Promise<void>;
+}

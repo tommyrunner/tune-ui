@@ -1,12 +1,16 @@
 import type { ExtractPropTypes } from "vue";
-import type { FormItemTrigger, FormItemRule } from "../../form";
+import type { FormItemTrigger, FormItemRule, FormValidateResult } from "../../form";
 
 /**
  * @description 表单项验证状态
+ * @typedef {"" | "error" | "validating" | "success"} FormItemValidateState
  */
 export type FormItemValidateState = "" | "error" | "validating" | "success";
 
-// 表单项状态
+/**
+ * @description 表单项状态类型
+ * @interface FormItemState
+ */
 export interface FormItemState {
   validateState: FormItemValidateState;
   validateMessage: string;
@@ -16,6 +20,7 @@ export interface FormItemState {
 
 /**
  * @description 表单项Props类型
+ * @interface FormItemPropsType
  */
 export interface FormItemPropsType {
   /** 标签文本 */
@@ -43,15 +48,47 @@ export interface FormItemPropsType {
 }
 
 /**
- * @description 表单项Emit类型
+ * @description 表单项事件类型定义
+ * @interface FormItemEmitsType
  */
 export interface FormItemEmitsType {
   /** 验证状态变更事件 */
-  (e: "validate", prop: string, isValid: boolean, message?: string): void;
+  validate: [string, boolean, string?];
+}
+
+/**
+ * @description 表单项插槽类型定义
+ * @interface FormItemSlotsType
+ */
+export interface FormItemSlotsType {
+  /** 默认插槽 - 表单项内容 */
+  default?: () => any;
+  /** 标签插槽 */
+  label?: () => any;
+  /** 错误提示插槽 */
+  error?: (params: { error: string }) => any;
+}
+
+/**
+ * @description 表单项暴露方法类型定义
+ * @interface FormItemExposesType
+ */
+export interface FormItemExposesType {
+  /** 验证方法 */
+  validate: (trigger?: FormItemTrigger) => FormValidateResult;
+  /** 重置表单项 */
+  resetField: () => void;
+  /** 清除验证状态 */
+  clearValidate: () => void;
+  /** 表单项标识 */
+  prop: string;
+  /** 验证状态 */
+  validateState: FormItemValidateState;
 }
 
 /**
  * @description 表单项上下文类型
+ * @interface FormItemContextType
  */
 export interface FormItemContextType {
   /** 标识 */
@@ -70,5 +107,6 @@ export interface FormItemContextType {
 
 /**
  * @description 表单项Props
+ * @typedef {ExtractPropTypes<FormItemPropsType>} FormItemProps
  */
 export type FormItemProps = ExtractPropTypes<FormItemPropsType>;

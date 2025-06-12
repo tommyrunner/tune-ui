@@ -2,7 +2,8 @@ import type { IconTypes } from "@/packages/icon/icon";
 import type { RendererElement } from "vue";
 
 /**
- * Message组件的Props类型定义
+ * @description Message组件的Props类型定义
+ * @interface PropsType
  */
 export interface PropsType {
   /** 消息框宽度 */
@@ -61,7 +62,41 @@ export interface PropsType {
 }
 
 /**
- * Tooltip钩子参数类型
+ * @description Message组件的事件类型定义
+ * @interface EmitsType
+ */
+export interface EmitsType {
+  /** 关闭事件 */
+  close: [string];
+  /** 点击事件 */
+  click: [MouseEvent];
+}
+
+/**
+ * @description Message组件的插槽类型定义
+ * @interface SlotsType
+ */
+export interface SlotsType {
+  /** 默认插槽 - 消息内容 */
+  default?: () => any;
+  /** 图标插槽 */
+  icon?: () => any;
+  /** 关闭按钮插槽 */
+  close?: () => any;
+}
+
+/**
+ * @description Message组件暴露方法类型定义
+ * @interface ExposesType
+ */
+export interface ExposesType {
+  /** 关闭消息 */
+  closeMessage: () => void;
+}
+
+/**
+ * @description Tooltip钩子参数类型
+ * @interface TooltipHookParamsType
  */
 export interface TooltipHookParamsType {
   type: PropsType["type"];

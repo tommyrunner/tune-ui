@@ -34,9 +34,7 @@ const props = withDefaults(defineProps<PropsType>(), {});
  */
 const emit = defineEmits<EmitsType>();
 
-/**
- * @description 注入选择器组上下文
- */
+// 注入选择器组上下文
 const groupContext = inject<GroupContextType | undefined>(selectGroupKey, void 0);
 
 /**
@@ -49,9 +47,8 @@ const hasChildren = computed((): boolean => {
 
 /**
  * @description 处理点击事件
- * @returns {void}
  */
-const handleChange = (): void => {
+const handleChange = () => {
   // 禁用状态下不触发点击事件
   if (props.disabled) return;
   emit("change", props);
