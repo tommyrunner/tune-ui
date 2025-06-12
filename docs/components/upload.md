@@ -119,20 +119,17 @@ import uploadSlots from '../examples/upload/slots.vue'
 
 | 方法名       | 说明             | 参数                                                     |
 | ------------ | ---------------- | -------------------------------------------------------- |
+| `clearFiles` | 清空文件列表 | — |
+| `abort`      | 中止上传     | `(file?: UploadFile)` 可选，指定文件。不传则中止所有上传                                |
 | `submit`     | 手动上传文件     | —                                                        |
-| `clearFiles` | 清空已选择的文件 | `(status?: UploadStatus[])` 可选，指定清空的文件状态类型 |
-| `abort`      | 取消上传请求     | `(file: UploadFile)` 文件                                |
 
 ### 插槽
 
 | 插槽名      | 说明                 | 作用域参数             |
 | ----------- | -------------------- | ---------------------- |
-| `default`   | 触发文件选择框的内容 | —                      |
-| `drag`      | 拖拽区域的内容       | —                      |
+| `default`   | 上传触发区域 | —                      |
 | `tip`       | 提示说明文字         | —                      |
-| `file-item` | 自定义文件列表项     | `{ file: UploadFile }` |
-| `prefix`    | 文件列表前内容       | —                      |
-| `suffix`    | 文件列表后内容       | —                      |
+| `file`      | 文件列表项     | `{ file: UploadFile }` |
 
 ### 样式变量
 

@@ -109,6 +109,14 @@ import selectCascade from '../examples/select/cascade.vue'
 | input          | 可过滤模式下输入值变化时触发 | (value: `string`)           |
 | cascade-change | 级联菜单切换时触发           | (path: `OptionsItemType[]`) |
 
+### 方法
+
+| 方法名  | 说明     | 参数 |
+| ------- | -------- | ---- |
+| focus   | 获取焦点 | —    |
+| blur    | 失去焦点 | —    |
+| clear   | 清空选择 | —    |
+
 ### 插槽
 
 | 插槽名        | 说明                   | 作用域参数                                  |

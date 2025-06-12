@@ -80,6 +80,27 @@ Message provides close callback events and supports stacked display of multiple 
 | `closeCallback`             | Close callback function        | `function(id: string)`                  | —                                           | —                     |
 | `closeOnPressEscape`        | Whether to support ESC key close | `boolean`                            | `true` / `false`                            | `true`                |
 
+### Events
+
+| Event Name | Description       | Callback Parameters  |
+| ---------- | ----------------- | ------------------- |
+| close      | Triggered when message closes | (id: `string`)     |
+| click      | Triggered when message is clicked | (event: `MouseEvent`) |
+
+### Slots
+
+| Slot Name | Description        |
+| --------- | ------------------ |
+| default   | Message content    |
+| icon      | Custom icon        |
+| close     | Custom close button |
+
+### Methods
+
+| Method Name   | Description   | Parameters |
+| ------------- | ------------- | ---------- |
+| closeMessage  | Close message | —          |
+
 ### Style Variables
 
 The message component uses the following style variables, which can be customized through SCSS variables:

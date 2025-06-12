@@ -87,8 +87,8 @@ ColorPicker provides various events for handling operations during the color sel
 ColorPicker component exposes the following methods, which can be called through template refs.
 
 | Method Name | Description | Parameters |
-| ------ | ---------------- | ---- |
-| `open` | Open color picker panel | — |
+| ------------------ | -------------- | ---- |
+| `handleTriggerClick` | Toggle color picker panel display/hide | — |
 
 ### Style Variables
 

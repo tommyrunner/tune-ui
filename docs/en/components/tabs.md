@@ -84,6 +84,12 @@ Set the `disabled` attribute on the `TTabs` component to disable specific tabs.
 | change     | Triggered when tab switches    | (value: `ValueType`) |
 | close      | Triggered when tab is closed   | (value: `ValueType`) |
 
+### TTabsGroup Methods
+
+| Method Name   | Description     | Parameters |
+| ------------- | --------------- | ---------- |
+| updateAction  | Update action position | —  |
+
 ### TTabs Slots
 
 | Slot Name | Description  |

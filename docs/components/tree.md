@@ -86,9 +86,11 @@ import treeExpandControl from '../examples/tree/expand-control.vue'
 
 | 方法名            | 说明                    | 参数                                  |
 | ----------------- | ----------------------- | ------------------------------------- |
-| `expandByKey`     | 通过 key 展开指定的节点 | `(key: string, deep: boolean = true)` |
-| `collapseByKey`   | 通过 key 收起指定的节点 | `(key: string, deep: boolean = true)` |
+| `getCheckedKeys`  | 获取当前选中的节点key数组 | —                                   |
 | `getCheckedNodes` | 获取当前选中的节点数据  | —                                     |
+| `setCheckedKeys`  | 设置选中的节点key数组   | `(keys: string[])`                    |
+| `expandAll`       | 展开所有节点            | —                                     |
+| `collapseAll`     | 折叠所有节点            | —                                     |
 
 ### 插槽
 

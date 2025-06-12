@@ -12,7 +12,8 @@ export default {
         { text: "NPM", link: "https://www.npmjs.com/package/tune-ui" },
         { text: "WebLoading", link: "https://tommyrunner.github.io/web-loading/" }
       ]
-    }
+    },
+    { text: "更新日志", link: "/changelog/" }
   ],
   en: [
     { text: "Home", link: "/en/" },

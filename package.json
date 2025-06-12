@@ -1,6 +1,6 @@
 {
   "name": "tune-ui",
-  "version": "1.1.45",
+  "version": "1.2.1",
   "description": "基于Vue3的现代化UI组件库",
   "main": "./dist/lib/index.js",
   "module": "./dist/es/index.js",
@@ -21,7 +21,7 @@
     "./global": {
       "types": "./dist/global.d.ts"
     },
-    "./dist/style.css": "./dist/es/style.css"
+    "./style.css": "./dist/lib/style.css"
   },
   "files": [
     "dist",
@@ -86,7 +86,7 @@
     "rollup-plugin-visualizer": "^5.12.0",
     "sass": "^1.70.0",
     "standard-version": "^9.5.0",
-    "tune-ui": "^1.1.21",
+    "tune-ui": "^1.2.1",
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "vite-plugin-dts": "^3.7.2",

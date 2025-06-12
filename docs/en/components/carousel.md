@@ -82,6 +82,13 @@ Carousel component supports `change` event (triggered when carousel switches) an
 | change | Triggered when carousel switches | (index: `number`) |
 | autoplay | Triggered when autoplay switches | (index: `number`) |
 
+### Methods
+
+| Method Name | Description | Parameters |
+| --- | --- | --- |
+| setIndex | Set current carousel item index | (index: `number`, behavior: `ScrollBehavior`) |
+| incrementedIndex | Increase or decrease current index | (is: `boolean`) true to increase, false to decrease |
+
 ### Slots
 
 | Slot Name | Description |

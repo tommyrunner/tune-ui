@@ -80,6 +80,27 @@ import messageEvents from '../examples/message/events.vue'
 | `closeCallback`             | 关闭回调函数               | `function(id: string)`                  | —                                           | —                     |
 | `closeOnPressEscape`        | 是否支持ESC键关闭          | `boolean`                               | `true` / `false`                            | `true`                |
 
+### 事件
+
+| 事件名 | 说明             | 回调参数        |
+| ------ | ---------------- | --------------- |
+| close  | 消息关闭时触发   | (id: `string`)  |
+| click  | 消息点击时触发   | (event: `MouseEvent`) |
+
+### 插槽
+
+| 插槽名   | 说明             |
+| -------- | ---------------- |
+| default  | 消息内容         |
+| icon     | 自定义图标       |
+| close    | 自定义关闭按钮   |
+
+### 方法
+
+| 方法名       | 说明       | 参数 |
+| ------------ | ---------- | ---- |
+| closeMessage | 关闭消息   | —    |
+
 ### 样式变量
 
 消息提示组件使用了以下样式变量，可通过 SCSS 变量进行自定义：

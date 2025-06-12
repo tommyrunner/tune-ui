@@ -134,6 +134,12 @@ A summary row at the bottom of the table can be set through the `summary` attrib
 | checked    | Selection event| ({ row: `object`, data: `array` }) |
 | click-row  | Row click event| (row: `object`)                    |
 
+### Methods
+
+| Method Name   | Description       | Parameters           |
+| ------------- | ----------------- | -------------------- |
+| autoColWidth  | Auto-adjust column width | (prop: `string`) |
+
 ### Style Variables
 
 The table component uses the following style variables, which can be customized through SCSS variables:

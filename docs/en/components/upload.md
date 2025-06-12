@@ -119,20 +119,17 @@ Through multiple slots, you can customize different parts of the upload componen
 
 | Method Name  | Description          | Parameters                                               |
 | ------------ | -------------------- | -------------------------------------------------------- |
+| `clearFiles` | Clear file list | — |
+| `abort`      | Cancel upload    | `(file?: UploadFile)` Optional, specify file. Cancels all uploads if not provided |
 | `submit`     | Manually upload file | —                                                        |
-| `clearFiles` | Clear selected files | `(status?: UploadStatus[])` Optional, specify file status types to clear |
-| `abort`      | Cancel upload request | `(file: UploadFile)` File                               |
 
 ### Slots
 
 | Slot Name   | Description                  | Scope Parameters       |
 | ----------- | ---------------------------- | ---------------------- |
-| `default`   | Content that triggers file selection box | —             |
-| `drag`      | Drag area content            | —                      |
+| `default`   | Upload trigger area | —                      |
 | `tip`       | Tip description text         | —                      |
-| `file-item` | Custom file list item        | `{ file: UploadFile }` |
-| `prefix`    | Content before file list     | —                      |
-| `suffix`    | Content after file list      | —                      |
+| `file`      | File list item        | `{ file: UploadFile }` |
 
 ### Style Variables
 

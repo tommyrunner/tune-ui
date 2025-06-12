@@ -82,6 +82,13 @@ import carouselEvents from '../examples/carousel/events.vue'
 | change | 轮播切换时触发 | (index: `number`) |
 | autoplay | 自动播放切换时触发 | (index: `number`) |
 
+### 方法
+
+| 方法名 | 说明 | 参数 |
+| --- | --- | --- |
+| setIndex | 设置当前轮播项索引 | (index: `number`, behavior: `ScrollBehavior`) |
+| incrementedIndex | 增加或减少当前索引 | (is: `boolean`) true表示增加，false表示减少 |
+
 ### 插槽
 
 | 插槽名 | 说明 |

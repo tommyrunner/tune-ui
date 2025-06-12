@@ -29,12 +29,23 @@ Tune UI 提供两种引入方式：全局引入和局部引入。
 ```js
 import { createApp } from "vue";
 import App from "./App.vue";
+
 import { install } from "tune-ui";
-import "tune-ui/dist/lib/style.css";
+import "tune-ui/style.css";
 
 const app = createApp(App);
 app.use(install);
 app.mount("#app");
+```
+
+全局引入会有样式丢失问题,需要在本地项目`tsconfig.json`中配置。
+
+```json
+"types": [
+  "vite/client",
+  // 配置全局组件类型
+  "tune-ui/dist/global"
+],
 ```
 
 ### 局部引入
@@ -50,13 +61,13 @@ app.mount("#app");
 <script setup>
 import { ref } from "vue";
 import { TButton, TInput } from "tune-ui";
-import "tune-ui/dist/lib/style.css";
+import "tune-ui/style.css";
 
 const value = ref("");
 </script>
 ```
 
-> 注意：使用局部引入时，仍需引入样式文件 `tune-ui/dist/lib/style.css`。
+> 注意：使用局部引入时，仍需引入样式文件 `tune-ui/style.css`。
 
 ## 浏览器兼容性
 

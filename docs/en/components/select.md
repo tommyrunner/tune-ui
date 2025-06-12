@@ -109,6 +109,14 @@ Select supports cascade selection functionality, configure multi-level data thro
 | input          | Triggered when input value changes in filterable mode | (value: `string`) |
 | cascade-change | Triggered when cascade menu switches | (path: `OptionsItemType[]`) |
 
+### Methods
+
+| Method Name | Description | Parameters |
+| ----------- | ----------- | ---------- |
+| focus       | Focus select | —          |
+| blur        | Blur select  | —          |
+| clear       | Clear selection | —       |
+
 ### Slots
 
 | Slot Name     | Description                    | Scope Parameters                            |

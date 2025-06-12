@@ -134,6 +134,12 @@ import tableSummary from '../examples/table/summary.vue'
 | checked   | 选中事件   | ({ row: `object`, data: `array` }) |
 | click-row | 行点击事件 | (row: `object`)                    |
 
+### 方法
+
+| 方法名       | 说明           | 参数                 |
+| ------------ | -------------- | -------------------- |
+| autoColWidth | 自动调整列宽度 | (prop: `string`)     |
+
 ### 样式变量
 
 表格组件使用了以下样式变量，可通过 SCSS 变量进行自定义：

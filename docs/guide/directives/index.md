@@ -14,7 +14,7 @@ Tune UI 提供的指令可以通过全局注册或局部引入的方式使用。
 import { createApp } from "vue";
 import App from "./App.vue";
 import { install } from "tune-ui";
-import "tune-ui/dist/lib/style.css";
+import "tune-ui/style.css";
 
 const app = createApp(App);
 app.use(install); // 自动注册所有指令

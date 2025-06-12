@@ -84,6 +84,12 @@ import tabsDisabled from '../examples/tabs/disabled.vue'
 | change | 标签页切换时触发     | (value: `ValueType`)     |
 | close  | 关闭标签页时触发     | (value: `ValueType`)     |
 
+### TTabsGroup 方法
+
+| 方法名       | 说明           | 参数 |
+| ------------ | -------------- | ---- |
+| updateAction | 更新action位置 | —    |
+
 ### TTabs 插槽
 
 | 插槽名  | 说明             |

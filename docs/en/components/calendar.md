@@ -100,6 +100,9 @@ The component exposes the following methods, which can be called through ref:
 |-------------|-------------|------------|
 | `jumpToDate` | Jump to specified date | `(date: Date)` |
 | `switchPanelMode` | Switch panel mode | `(mode: 'date' / 'month' / 'year')` |
+| `currentYear` | Get current year (computed property) | - |
+| `currentMonth` | Get current month (computed property) | - |
+| `tempMode` | Get current temporary mode | - |
 
 ### Style Variables
 

@@ -30,11 +30,21 @@ Global import registers all components, suitable for rapid development or when u
 import { createApp } from "vue";
 import App from "./App.vue";
 import { install } from "tune-ui";
-import "tune-ui/dist/lib/style.css";
+import "tune-ui/style.css";
 
 const app = createApp(App);
 app.use(install);
 app.mount("#app");
+```
+
+Global imports may have style loss issues, requiring configuration in your local project's `tsconfig.json`.
+
+```json
+"types": [
+  "vite/client",
+  // Configure global component types
+  "tune-ui/dist/global"
+],
 ```
 
 ### Local Import
@@ -50,13 +60,13 @@ Local import only imports the components you need, effectively reducing bundle s
 <script setup>
 import { ref } from "vue";
 import { TButton, TInput } from "tune-ui";
-import "tune-ui/dist/lib/style.css";
+import "tune-ui/style.css";
 
 const value = ref("");
 </script>
 ```
 
-> Note: When using local import, you still need to import the style file `tune-ui/dist/lib/style.css`.
+> Note: When using local import, you still need to import the style file `tune-ui/style.css`.
 
 ## Browser Compatibility
 

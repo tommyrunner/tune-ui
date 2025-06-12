@@ -14,7 +14,7 @@ When you import the component library globally, all directives will be automatic
 import { createApp } from "vue";
 import App from "./App.vue";
 import { install } from "tune-ui";
-import "tune-ui/dist/lib/style.css";
+import "tune-ui/style.css";
 
 const app = createApp(App);
 app.use(install); // Automatically register all directives

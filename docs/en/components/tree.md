@@ -86,9 +86,11 @@ You can control whether to expand/collapse nodes when clicking on them by settin
 
 | Method Name       | Description                     | Parameters                                |
 | ----------------- | ------------------------------- | ----------------------------------------- |
-| `expandByKey`     | Expand specified node by key    | `(key: string, deep: boolean = true)`     |
-| `collapseByKey`   | Collapse specified node by key  | `(key: string, deep: boolean = true)`     |
+| `getCheckedKeys`  | Get currently checked node keys | —                                         |
 | `getCheckedNodes` | Get currently checked node data | —                                         |
+| `setCheckedKeys`  | Set checked node keys           | `(keys: string[])`                        |
+| `expandAll`       | Expand all nodes                | —                                         |
+| `collapseAll`     | Collapse all nodes              | —                                         |
 
 ### Slots
 
