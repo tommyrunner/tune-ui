@@ -129,16 +129,17 @@ import tableSummary from '../examples/table/summary.vue'
 
 ### 事件
 
-| 事件名    | 说明       | 回调参数                           |
-| --------- | ---------- | ---------------------------------- |
-| checked   | 选中事件   | ({ row: `object`, data: `array` }) |
-| click-row | 行点击事件 | (row: `object`)                    |
+| 事件名        | 说明       | 回调参数                           |
+| ------------- | ---------- | ---------------------------------- |
+| checked       | 选中事件   | ({ row: `object`, data: `array` }) |
+| change-filter | 筛选触发   | (col: `TableColumnsType`)          |
+| click-row     | 行点击事件 | (row: `object`)                    |
 
 ### 方法
 
-| 方法名       | 说明           | 参数                 |
-| ------------ | -------------- | -------------------- |
-| autoColWidth | 自动调整列宽度 | (prop: `string`)     |
+| 方法名       | 说明           | 参数             |
+| ------------ | -------------- | ---------------- |
+| autoColWidth | 自动调整列宽度 | (prop: `string`) |
 
 ### 样式变量
 

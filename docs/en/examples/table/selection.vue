@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 
 // Column configuration
 const columns = [
@@ -30,7 +30,7 @@ const columns = [
 ];
 
 // Table data
-const tableData = [
+const tableData = reactive([
   {
     id: 1,
     name: "John Smith",
@@ -67,7 +67,7 @@ const tableData = [
     status: "Online",
     address: "Phoenix, AZ"
   }
-];
+]);
 
 // Event logs
 const eventLogs = ref(["Initialization: Selected John Smith"]);
@@ -122,4 +122,4 @@ const handleClickRow = row => {
   border-radius: 4px;
   font-size: 14px;
 }
-</style> 
+</style>

@@ -275,6 +275,14 @@ const autoColWidth = (prop: string) => {
   findCol.width = maxWidth;
 };
 
+/**
+ * 过滤回调
+ * @param {TableColumnsType} col - 列配置
+ */
+const handleChangeFilter = (col: TableColumnsType) => {
+  emit("change-filter", col);
+};
+
 /** 向子组件提供上下文数据 */
 provide<GroupContextType>(
   tableGroupKey,
@@ -283,7 +291,8 @@ provide<GroupContextType>(
     autoColWidth,
     state,
     columns: filterColumns,
-    headData
+    headData,
+    changeFilter: handleChangeFilter
   })
 );
 

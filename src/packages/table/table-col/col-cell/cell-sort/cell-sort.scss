@@ -1,10 +1,11 @@
 @import "@/styles/index.scss";
 ._sort {
-  height: 100%;
+  height: 18px;
   width: 12px;
   margin-left: 4px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   position: relative;
   .t-icon {
     font-size: 12px !important;

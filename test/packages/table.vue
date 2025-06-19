@@ -49,7 +49,13 @@
     <!-- 排序和筛选 -->
     <test-section title="排序和筛选">
       <div class="table-span">
-        <t-table :columns="filterSortColumns" :data="basicData" :height="300" :sortMethod="handleSort" />
+        <t-table
+          :columns="filterSortColumns"
+          :data="basicData"
+          :height="300"
+          :sortMethod="handleSort"
+          @change-filter="handleChangeFilter"
+        />
       </div>
     </test-section>
 
@@ -334,6 +340,9 @@ const handleSort = (data: { rowA: BasicDataType; rowB: BasicDataType }, config: 
     return valB > valA ? 1 : -1;
   }
   return 0;
+};
+const handleChangeFilter = (col: TableColumnsType) => {
+  console.log("col", col);
 };
 
 /**

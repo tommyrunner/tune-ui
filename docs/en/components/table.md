@@ -91,26 +91,26 @@ A summary row at the bottom of the table can be set through the `summary` attrib
 
 ### Attributes
 
-| Attribute             | Description                    | Type                 | Accepted Values      | Default   |
-| --------------------- | ------------------------------ | -------------------- | -------------------- | --------- |
-| columns               | Table column configuration     | array                | —                    | []        |
-| data                  | Table data source              | array                | —                    | []        |
-| height                | Table height                   | number               | —                    | —         |
-| isVirtualized         | Whether to enable virtual scrolling | boolean         | —                    | false     |
-| virtualizedItemHeight | Virtual scroll row height      | number               | —                    | 50        |
-| headBgColor           | Header background color        | string               | —                    | #f5f7fa   |
-| footBgColor           | Footer background color        | string               | —                    | #f5f7fa   |
-| hoverBgColor          | Mouse hover background color   | string               | —                    | —         |
-| border                | Table border                   | string               | —                    | #dcdcdc68 |
-| stripe                | Stripe pattern                 | boolean/string       | —                    | false     |
-| dbClickAutoWidth      | Whether to support double-click auto-fit column width | boolean | —         | true      |
-| changeType            | Selection mode                 | string               | single/multiple/none | none      |
-| changeKey             | Selection identifier field     | string               | —                    | \_checked |
-| fixedRow              | Fixed row method               | function(index, row) | —                    | —         |
-| summary               | Summary row configuration      | boolean/function     | —                    | —         |
-| rowStyle              | Custom row style               | function(index, row) | —                    | —         |
-| sortMethod            | Custom sort method             | function             | —                    | —         |
-| renderExtend          | Row expansion content          | function(row)        | —                    | —         |
+| Attribute             | Description                                           | Type                 | Accepted Values      | Default   |
+| --------------------- | ----------------------------------------------------- | -------------------- | -------------------- | --------- |
+| columns               | Table column configuration                            | array                | —                    | []        |
+| data                  | Table data source                                     | array                | —                    | []        |
+| height                | Table height                                          | number               | —                    | —         |
+| isVirtualized         | Whether to enable virtual scrolling                   | boolean              | —                    | false     |
+| virtualizedItemHeight | Virtual scroll row height                             | number               | —                    | 50        |
+| headBgColor           | Header background color                               | string               | —                    | #f5f7fa   |
+| footBgColor           | Footer background color                               | string               | —                    | #f5f7fa   |
+| hoverBgColor          | Mouse hover background color                          | string               | —                    | —         |
+| border                | Table border                                          | string               | —                    | #dcdcdc68 |
+| stripe                | Stripe pattern                                        | boolean/string       | —                    | false     |
+| dbClickAutoWidth      | Whether to support double-click auto-fit column width | boolean              | —                    | true      |
+| changeType            | Selection mode                                        | string               | single/multiple/none | none      |
+| changeKey             | Selection identifier field                            | string               | —                    | \_checked |
+| fixedRow              | Fixed row method                                      | function(index, row) | —                    | —         |
+| summary               | Summary row configuration                             | boolean/function     | —                    | —         |
+| rowStyle              | Custom row style                                      | function(index, row) | —                    | —         |
+| sortMethod            | Custom sort method                                    | function             | —                    | —         |
+| renderExtend          | Row expansion content                                 | function(row)        | —                    | —         |
 
 ### Column Configuration
 
@@ -129,26 +129,27 @@ A summary row at the bottom of the table can be set through the `summary` attrib
 
 ### Events
 
-| Event Name | Description    | Parameters                         |
-| ---------- | -------------- | ---------------------------------- |
-| checked    | Selection event| ({ row: `object`, data: `array` }) |
-| click-row  | Row click event| (row: `object`)                    |
+| Event Name    | Description     | Parameters                         |
+| ------------- | --------------- | ---------------------------------- |
+| checked       | Selection event | ({ row: `object`, data: `array` }) |
+| change-filter | Filter trigger  | (col: `TableColumnsType`)          |
+| click-row     | Row click event | (row: `object`)                    |
 
 ### Methods
 
-| Method Name   | Description       | Parameters           |
-| ------------- | ----------------- | -------------------- |
-| autoColWidth  | Auto-adjust column width | (prop: `string`) |
+| Method Name  | Description              | Parameters       |
+| ------------ | ------------------------ | ---------------- |
+| autoColWidth | Auto-adjust column width | (prop: `string`) |
 
 ### Style Variables
 
 The table component uses the following style variables, which can be customized through SCSS variables:
 
-| Variable Name         | Description           |
-| --------------------- | --------------------- |
-| $border-color-default | Default border color  |
-| $text-color-default   | Default text color    |
+| Variable Name         | Description              |
+| --------------------- | ------------------------ |
+| $border-color-default | Default border color     |
+| $text-color-default   | Default text color       |
 | $bg-color-default     | Default background color |
-| $bg-color-hover       | Hover background color |
-| $z-index-show         | Display z-index       |
-| $z-index-up           | Upper layer z-index   |
+| $bg-color-hover       | Hover background color   |
+| $z-index-show         | Display z-index          |
+| $z-index-up           | Upper layer z-index      |

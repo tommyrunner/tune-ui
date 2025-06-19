@@ -1,23 +1,24 @@
 <template>
   <div class="table-demo">
-    <t-table 
-      :columns="filterSortColumns" 
-      :data="tableData" 
-      :height="300" 
+    <t-table
+      :columns="filterSortColumns"
+      :data="tableData"
+      :height="300"
       :sortMethod="handleSort"
+      @change-filter="handleChangeFilter"
     />
   </div>
 </template>
 
 <script setup>
-
+import { reactive } from "vue";
 
 // 排序和筛选列配置
-const filterSortColumns = [
+const filterSortColumns = reactive([
   { prop: "id", label: "ID", width: 80, sortable: true },
-  { 
-    prop: "name", 
-    label: "名称", 
+  {
+    prop: "name",
+    label: "名称",
     width: 120,
     filters: [
       { label: "张三", value: "张三", type: "eq" },
@@ -25,9 +26,9 @@ const filterSortColumns = [
     ]
   },
   { prop: "age", label: "年龄", width: 100, sortable: true },
-  { 
-    prop: "status", 
-    label: "状态", 
+  {
+    prop: "status",
+    label: "状态",
     width: 100,
     filters: [
       { label: "在线", value: "在线", type: "eq" },
@@ -36,7 +37,7 @@ const filterSortColumns = [
     ]
   },
   { prop: "address", label: "地址" }
-];
+]);
 
 // 表格数据
 const tableData = [
@@ -78,25 +79,24 @@ const tableData = [
 ];
 
 // 自定义排序方法
-const handleSort = ({ rowA, rowB }, sortConfig) => {
-  // 获取排序配置
-  const config = sortConfig[0];
-  if (!config) return 0;
-  
-  const { prop, sort } = config;
-  
-  // 获取比较值
-  const valueA = rowA[prop];
-  const valueB = rowB[prop];
-  
-  // 根据排序方向返回比较结果
+const handleSort = (data, config) => {
+  const [sortConfig] = config;
+  if (!sortConfig) return 0;
+
+  const { sort, prop } = sortConfig;
+  const valA = data.rowA[prop];
+  const valB = data.rowB[prop];
+
   if (sort === "asc") {
-    return valueA > valueB ? 1 : -1;
+    return valA > valB ? 1 : -1;
   } else if (sort === "desc") {
-    return valueA < valueB ? 1 : -1;
+    return valB > valA ? 1 : -1;
   }
-  
   return 0;
+};
+
+const handleChangeFilter = col => {
+  console.log("col", col);
 };
 </script>
 
@@ -104,4 +104,4 @@ const handleSort = ({ rowA, rowB }, sortConfig) => {
 .table-demo {
   width: 100%;
 }
-</style> 
+</style>

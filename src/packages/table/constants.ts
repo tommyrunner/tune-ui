@@ -15,6 +15,7 @@ export const TABLE_COL_FIXED_LAST = Symbol("_fixedLast"); // 是否最后一行
  */
 export interface GroupContextType extends PropsType {
   autoColWidth: (prop: string) => void;
+  changeFilter: (col: TableColumnsType) => void;
   state: StateType;
   columns: TableColumnsType[];
   headData: TableRowType;

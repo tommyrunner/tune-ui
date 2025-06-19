@@ -3,7 +3,7 @@ import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import { TCheckbox } from "@/packages/checkbox";
 import { TABLE_COL_FIXED_LAST } from "./constants";
 import TTableRow from "./table-row/table-row.vue";
-import { computed, h, VNode } from "vue";
+import { computed, h, VNode, EmitFn } from "vue";
 
 /**
  * 处理table功能列hooks
@@ -11,7 +11,7 @@ import { computed, h, VNode } from "vue";
  * @param emit 事件
  * @returns
  */
-export function useTable(props: PropsType, emit: EmitsType) {
+export function useTable(props: PropsType, emit: EmitFn<EmitsType>) {
   /**
    * 过滤并处理列配置
    */
@@ -71,6 +71,8 @@ export function useTable(props: PropsType, emit: EmitsType) {
         row[props.changeKey] = false;
       });
       params.data[props.changeKey] = true;
+    } else {
+      params.data[props.changeKey] = !params.data[props.changeKey];
     }
     emit("checked", {
       row: params.data,

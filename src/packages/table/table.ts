@@ -146,6 +146,8 @@ export interface PropsType {
 export interface EmitsType {
   /** 选中事件 */
   checked: [params: { row: TableRowType; data: TableRowType[] }];
+  /** 筛选回调 */
+  "change-filter": [col: TableColumnsType];
   /** 行点击事件 */
   "click-row": [row: TableRowType];
 }

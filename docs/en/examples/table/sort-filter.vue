@@ -1,22 +1,24 @@
 <template>
   <div class="table-demo">
-    <t-table 
-      :columns="filterSortColumns" 
-      :data="tableData" 
-      :height="300" 
+    <t-table
+      :columns="filterSortColumns"
+      :data="tableData"
+      :height="300"
       :sortMethod="handleSort"
+      @change-filter="handleChangeFilter"
     />
   </div>
 </template>
 
 <script setup>
+import { reactive } from "vue";
 
 // Sort and filter column configuration
-const filterSortColumns = [
+const filterSortColumns = reactive([
   { prop: "id", label: "ID", width: 80, sortable: true },
-  { 
-    prop: "name", 
-    label: "Name", 
+  {
+    prop: "name",
+    label: "Name",
     width: 120,
     filters: [
       { label: "John Smith", value: "John Smith", type: "eq" },
@@ -24,9 +26,9 @@ const filterSortColumns = [
     ]
   },
   { prop: "age", label: "Age", width: 100, sortable: true },
-  { 
-    prop: "status", 
-    label: "Status", 
+  {
+    prop: "status",
+    label: "Status",
     width: 100,
     filters: [
       { label: "Online", value: "Online", type: "eq" },
@@ -35,7 +37,7 @@ const filterSortColumns = [
     ]
   },
   { prop: "address", label: "Address" }
-];
+]);
 
 // Table data
 const tableData = [
@@ -81,21 +83,25 @@ const handleSort = ({ rowA, rowB }, sortConfig) => {
   // Get sort configuration
   const config = sortConfig[0];
   if (!config) return 0;
-  
+
   const { prop, sort } = config;
-  
+
   // Get comparison values
   const valueA = rowA[prop];
   const valueB = rowB[prop];
-  
+
   // Return comparison result based on sort direction
   if (sort === "asc") {
     return valueA > valueB ? 1 : -1;
   } else if (sort === "desc") {
     return valueA < valueB ? 1 : -1;
   }
-  
+
   return 0;
+};
+
+const handleChangeFilter = col => {
+  console.log("col", col);
 };
 </script>
 
@@ -103,4 +109,4 @@ const handleSort = ({ rowA, rowB }, sortConfig) => {
 .table-demo {
   width: 100%;
 }
-</style> 
+</style>

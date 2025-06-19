@@ -1,13 +1,6 @@
 <template>
   <div class="table-demo">
-    <t-table
-      :columns="columns"
-      :data="tableData"
-      changeType="multiple"
-      changeKey="_checked"
-      @checked="handleChecked"
-      @click-row="handleClickRow"
-    />
+    <t-table :columns="columns" :data="tableData" changeType="multiple" changeKey="_checked" @checked="handleChecked" />
     <div class="event-log">
       <div class="event-title">事件记录:</div>
       <div v-for="(event, index) in eventLogs" :key="index" class="event-item">
@@ -18,8 +11,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-
+import { ref, reactive } from "vue";
 
 // 列配置
 const columns = [
@@ -31,7 +23,7 @@ const columns = [
 ];
 
 // 表格数据
-const tableData = [
+const tableData = reactive([
   {
     id: 1,
     name: "张三",
@@ -68,30 +60,17 @@ const tableData = [
     status: "在线",
     address: "杭州市西湖区"
   }
-];
-
-// 事件记录
-const eventLogs = ref([
-  "初始化：选中 张三"
 ]);
 
+// 事件记录
+const eventLogs = ref(["初始化：选中 张三"]);
+
 // 处理选中事件
-const handleChecked = ({ row, data }) => {
+const handleChecked = ({ row }) => {
   const action = row._checked ? "选中" : "取消选中";
   const message = `${action} ${row.name}`;
   eventLogs.value.unshift(message);
-  
-  // 保持最多显示5条记录
-  if (eventLogs.value.length > 5) {
-    eventLogs.value.pop();
-  }
-};
 
-// 处理行点击事件
-const handleClickRow = (row) => {
-  const message = `点击行 ${row.name}`;
-  eventLogs.value.unshift(message);
-  
   // 保持最多显示5条记录
   if (eventLogs.value.length > 5) {
     eventLogs.value.pop();
@@ -125,4 +104,4 @@ const handleClickRow = (row) => {
   border-radius: 4px;
   font-size: 14px;
 }
-</style> 
+</style>
