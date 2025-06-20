@@ -1,4 +1,4 @@
-import type { EmitsType, PropsType, TableColumnsType, TableRowType } from "./table";
+import type { ColumnRenderScope, EmitsType, PropsType, TableColumnsType, TableRowType } from "./table";
 import type { ListSlotParamsType } from "@/packages/list-view/list-view";
 import { TCheckbox } from "@/packages/checkbox";
 import { TABLE_COL_FIXED_LAST } from "./constants";
@@ -29,12 +29,12 @@ export function useTable(props: PropsType, emit: EmitFn<EmitsType>) {
         prop: "select",
         width: 60,
         fixed: "left",
-        renderHead: () => {
+        renderHead: params => {
           const { changeType } = props;
           if (changeType === "none" || changeType === "single") return h("span", "选择");
           return h(TCheckbox, {
             modelValue: false,
-            onChange: () => handleAllSelectionChange()
+            onChange: (value: boolean) => handleAllSelectionChange([params], value)
           });
         },
         render: params =>
@@ -73,7 +73,7 @@ export function useTable(props: PropsType, emit: EmitFn<EmitsType>) {
   /**
    * 处理选择变更
    */
-  const handleSelectionChange = (params: TableRowType[]) => {
+  const handleSelectionChange = (params: ColumnRenderScope[]) => {
     const { changeKey, changeType, data } = props;
     if (changeType === "single") {
       data.forEach(row => {
@@ -93,15 +93,15 @@ export function useTable(props: PropsType, emit: EmitFn<EmitsType>) {
   /**
    * 处理全选变更
    */
-  const handleAllSelectionChange = () => {
+  const handleAllSelectionChange = (params: ColumnRenderScope[], value: boolean) => {
     const { changeKey, changeType, data } = props;
-    if (changeType === "single") return;
+    if (changeType === "single" || changeType === "none") return;
     data.forEach(row => {
-      row[changeKey] = !row[changeKey];
+      row[changeKey] = value;
     });
-    emit("checked", {
-      row: data,
-      data: data
+    emit("checked-all", {
+      row: params,
+      _checked: value
     });
   };
 

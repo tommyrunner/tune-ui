@@ -75,7 +75,7 @@
     <!-- 选择和事件 -->
     <test-section title="选择和事件">
       <div class="table-span">
-        <t-table :columns="basicColumns" :data="basicData" changeType="single" changeKey="_checked" @checked="handleChecked" />
+        <t-table :columns="basicColumns" :data="basicData" changeType="multiple" changeKey="_checked" @checked="handleChecked" />
       </div>
       <div class="event-log">
         <div class="event-title">事件记录:</div>

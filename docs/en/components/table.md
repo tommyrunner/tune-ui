@@ -129,11 +129,12 @@ A summary row at the bottom of the table can be set through the `summary` attrib
 
 ### Events
 
-| Event Name    | Description     | Parameters                         |
-| ------------- | --------------- | ---------------------------------- |
-| checked       | Selection event | ({ row: `object`, data: `array` }) |
-| change-filter | Filter trigger  | (col: `TableColumnsType`)          |
-| click-row     | Row click event | (row: `object`)                    |
+| Event Name    | Description       | Parameters                                 |
+| ------------- | ----------------- | ------------------------------------------ |
+| checked       | Selection event   | ({ row: `object`, data: `array` })         |
+| checked-all   | Select all events | ({ row: `object`, `_checked`: `boolean` }) |
+| change-filter | Filter trigger    | (col: `TableColumnsType`)                  |
+| click-row     | Row click event   | (row: `object`)                            |
 
 ### Methods
 

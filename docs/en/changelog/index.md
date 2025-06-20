@@ -2,7 +2,7 @@
 
 This page records the updates of each version of Tune UI, helping you understand the development history and functional changes of the component library.
 
-## 1.2.3
+## 1.2.4
 
 `2025-6-20`
 
@@ -10,7 +10,7 @@ This page records the updates of each version of Tune UI, helping you understand
 
 - Fixed sorting and filtering functionality bugs in Table component
 - Added `change-filter` event callback to Table component
-- Added select all functionality for Table multi-selection
+- Multiple selection in the table adds the option to select all and throws the event 'change all'`
 
 ### Bug Fixes
 

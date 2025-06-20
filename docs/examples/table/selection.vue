@@ -1,6 +1,19 @@
 <template>
   <div class="table-demo">
-    <t-table :columns="columns" :data="tableData" changeType="multiple" changeKey="_checked" @checked="handleChecked" />
+    <t-radio-group v-model="changeType" @change="handleChangeType">
+      <t-radio value="multiple">多选</t-radio>
+      <t-radio value="single">单选</t-radio>
+      <t-radio value="none">无</t-radio>
+    </t-radio-group>
+    <br />
+    <t-table
+      :columns="columns"
+      :data="tableData"
+      :changeType="changeType"
+      changeKey="_checked"
+      @checked="handleChecked"
+      @checked-all="handleCheckedAll"
+    />
     <div class="event-log">
       <div class="event-title">事件记录:</div>
       <div v-for="(event, index) in eventLogs" :key="index" class="event-item">
@@ -12,6 +25,7 @@
 
 <script setup>
 import { ref, reactive } from "vue";
+const changeType = ref("multiple");
 
 // 列配置
 const columns = [
@@ -29,8 +43,7 @@ const tableData = reactive([
     name: "张三",
     age: 25,
     status: "在线",
-    address: "北京市朝阳区",
-    _checked: true
+    address: "北京市朝阳区"
   },
   {
     id: 2,
@@ -63,18 +76,26 @@ const tableData = reactive([
 ]);
 
 // 事件记录
-const eventLogs = ref(["初始化：选中 张三"]);
+const eventLogs = ref([]);
 
 // 处理选中事件
 const handleChecked = ({ row }) => {
-  const action = row._checked ? "选中" : "取消选中";
-  const message = `${action} ${row.name}`;
+  const action = row[0].data._checked ? "选中" : "取消选中";
+  const message = `${action} ${row[0].data.name}`;
   eventLogs.value.unshift(message);
 
   // 保持最多显示5条记录
   if (eventLogs.value.length > 5) {
     eventLogs.value.pop();
   }
+};
+
+const handleChangeType = value => {
+  changeType.value = value;
+};
+
+const handleCheckedAll = ({ _checked }) => {
+  eventLogs.value.unshift(`全选: ${_checked ? "选中" : "取消"}`);
 };
 </script>
 

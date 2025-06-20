@@ -145,7 +145,9 @@ export interface PropsType {
  */
 export interface EmitsType {
   /** 选中事件 */
-  checked: [params: { row: TableRowType[]; data: TableRowType[] }];
+  checked: [params: { row: ColumnRenderScope[]; data: TableRowType[] }];
+  /** 全选事件 */
+  "checked-all": [params: { row: ColumnRenderScope[]; _checked: boolean }];
   /** 筛选回调 */
   "change-filter": [col: TableColumnsType];
   /** 行点击事件 */

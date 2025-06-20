@@ -1,12 +1,18 @@
 <template>
   <div class="table-demo">
+    <t-radio-group v-model="changeType" @change="handleChangeType">
+      <t-radio value="multiple">Multiple</t-radio>
+      <t-radio value="single">Single</t-radio>
+      <t-radio value="none">None</t-radio>
+    </t-radio-group>
+    <br />
     <t-table
       :columns="columns"
       :data="tableData"
-      changeType="multiple"
+      :changeType="changeType"
       changeKey="_checked"
       @checked="handleChecked"
-      @click-row="handleClickRow"
+      @checked-all="handleCheckedAll"
     />
     <div class="event-log">
       <div class="event-title">Event Log:</div>
@@ -19,6 +25,7 @@
 
 <script setup>
 import { ref, reactive } from "vue";
+const changeType = ref("multiple");
 
 // Column configuration
 const columns = [
@@ -33,49 +40,52 @@ const columns = [
 const tableData = reactive([
   {
     id: 1,
-    name: "John Smith",
+    name: "Zhang San",
     age: 25,
     status: "Online",
-    address: "New York, NY",
-    _checked: true
+    address: "Chaoyang District, Beijing"
   },
   {
     id: 2,
-    name: "Jane Doe",
+    name: "Li Si",
     age: 30,
     status: "Offline",
-    address: "Los Angeles, CA"
+    address: "Pudong New District, Shanghai"
   },
   {
     id: 3,
-    name: "Bob Johnson",
+    name: "Wang Wu",
     age: 28,
     status: "Online",
-    address: "Chicago, IL"
+    address: "Tianhe District, Guangzhou"
   },
   {
     id: 4,
-    name: "Alice Brown",
+    name: "Zhao Liu",
     age: 32,
     status: "Busy",
-    address: "Houston, TX"
+    address: "Nanshan District, Shenzhen"
   },
   {
     id: 5,
-    name: "Charlie Wilson",
+    name: "Qian Qi",
     age: 26,
     status: "Online",
-    address: "Phoenix, AZ"
+    address: "West Lake District, Hangzhou"
   }
 ]);
 
 // Event logs
-const eventLogs = ref(["Initialization: Selected John Smith"]);
+const eventLogs = ref([]);
 
-// Handle checked event
+/**
+ * Handle selection event
+ * @param {Object} param0 - Event parameters
+ * @param {Array} param0.row - Selected row data
+ */
 const handleChecked = ({ row }) => {
-  const action = row._checked ? "Selected" : "Deselected";
-  const message = `${action} ${row.name}`;
+  const action = row[0].data._checked ? "Selected" : "Unselected";
+  const message = `${action} ${row[0].data.name}`;
   eventLogs.value.unshift(message);
 
   // Keep maximum 5 records
@@ -84,15 +94,21 @@ const handleChecked = ({ row }) => {
   }
 };
 
-// Handle row click event
-const handleClickRow = row => {
-  const message = `Clicked row ${row.name}`;
-  eventLogs.value.unshift(message);
+/**
+ * Handle selection type change
+ * @param {string} value - New selection type
+ */
+const handleChangeType = value => {
+  changeType.value = value;
+};
 
-  // Keep maximum 5 records
-  if (eventLogs.value.length > 5) {
-    eventLogs.value.pop();
-  }
+/**
+ * Handle select all event
+ * @param {Object} param0 - Event parameters
+ * @param {boolean} param0._checked - Whether all rows are selected
+ */
+const handleCheckedAll = ({ _checked }) => {
+  eventLogs.value.unshift(`Select All: ${_checked ? "Selected" : "Canceled"}`);
 };
 </script>
 
