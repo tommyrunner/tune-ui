@@ -75,14 +75,7 @@
     <!-- 选择和事件 -->
     <test-section title="选择和事件">
       <div class="table-span">
-        <t-table
-          :columns="basicColumns"
-          :data="basicData"
-          changeType="multiple"
-          changeKey="_checked"
-          @checked="handleChecked"
-          @click-row="handleClickRow"
-        />
+        <t-table :columns="basicColumns" :data="basicData" changeType="single" changeKey="_checked" @checked="handleChecked" />
       </div>
       <div class="event-log">
         <div class="event-title">事件记录:</div>
@@ -366,16 +359,7 @@ const handleRenderExtend = (row: BasicDataType) => {
  */
 const handleChecked = ({ row }) => {
   eventLogs.value.unshift(`选中行: ${JSON.stringify(row)}`);
-  if (eventLogs.value.length > 5) {
-    eventLogs.value.pop();
-  }
-};
-
-/**
- * 处理行点击事件
- */
-const handleClickRow = (row: BasicDataType) => {
-  eventLogs.value.unshift(`点击行: ${JSON.stringify(row)}`);
+  console.log(row);
   if (eventLogs.value.length > 5) {
     eventLogs.value.pop();
   }

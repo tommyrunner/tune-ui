@@ -1,6 +1,26 @@
-# Version Changelog
+# Version Update Log
 
-This page records the updates of each version of Tune UI, helping you understand the development history and feature changes of the component library.
+This page records the updates of each version of Tune UI, helping you understand the development history and functional changes of the component library.
+
+## 1.2.3
+
+`2025-6-20`
+
+### New Features
+
+- Fixed sorting and filtering functionality bugs in Table component
+- Added `change-filter` event callback to Table component
+- Added select all functionality for Table multi-selection
+
+### Bug Fixes
+
+- Fixed rendering issues in Table component in certain scenarios
+- Fixed path issues in documentation deployment scripts
+
+### Improvements
+
+- Improved component documentation and sample code
+- Enhanced type definitions for Table component
 
 ## 1.2.1
 
@@ -11,7 +31,7 @@ This page records the updates of each version of Tune UI, helping you understand
 - Added component method documentation, improved component API documentation
 - Optimized type definitions and exports for all components
 - Added type configuration instructions for global imports
-- Improved the `style.css` import method ([Type configuration for global imports](/en/guide/installation/))
+- Improved `style.css` import method ([Type configuration instructions for global imports](/guide/installation/))
 
 ### Bug Fixes
 

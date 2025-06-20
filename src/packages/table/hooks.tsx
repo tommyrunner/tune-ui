@@ -29,10 +29,18 @@ export function useTable(props: PropsType, emit: EmitFn<EmitsType>) {
         prop: "select",
         width: 60,
         fixed: "left",
+        renderHead: () => {
+          const { changeType } = props;
+          if (changeType === "none" || changeType === "single") return h("span", "选择");
+          return h(TCheckbox, {
+            modelValue: false,
+            onChange: () => handleAllSelectionChange()
+          });
+        },
         render: params =>
           h(TCheckbox, {
             modelValue: params.data[props.changeKey],
-            onChange: () => handleSelectionChange(params)
+            onChange: () => handleSelectionChange([params])
           })
       });
     }
@@ -65,18 +73,35 @@ export function useTable(props: PropsType, emit: EmitFn<EmitsType>) {
   /**
    * 处理选择变更
    */
-  const handleSelectionChange = (params: any) => {
-    if (props.changeType === "single") {
-      props.data.forEach(row => {
-        row[props.changeKey] = false;
+  const handleSelectionChange = (params: TableRowType[]) => {
+    const { changeKey, changeType, data } = props;
+    if (changeType === "single") {
+      data.forEach(row => {
+        row[changeKey] = false;
       });
-      params.data[props.changeKey] = true;
+      params[0].data[changeKey] = true;
     } else {
-      params.data[props.changeKey] = !params.data[props.changeKey];
+      params.forEach(item => {
+        item.data[changeKey] = !item.data[changeKey];
+      });
     }
     emit("checked", {
-      row: params.data,
-      data: props.data
+      row: params,
+      data: data
+    });
+  };
+  /**
+   * 处理全选变更
+   */
+  const handleAllSelectionChange = () => {
+    const { changeKey, changeType, data } = props;
+    if (changeType === "single") return;
+    data.forEach(row => {
+      row[changeKey] = !row[changeKey];
+    });
+    emit("checked", {
+      row: data,
+      data: data
     });
   };
 
