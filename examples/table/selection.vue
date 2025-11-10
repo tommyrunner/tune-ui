@@ -1,0 +1,128 @@
+<template>
+  <div class="table-demo">
+    <t-radio-group v-model="changeType" @change="handleChangeType">
+      <t-radio value="multiple">多选</t-radio>
+      <t-radio value="single">单选</t-radio>
+      <t-radio value="none">无</t-radio>
+    </t-radio-group>
+    <br />
+    <t-table
+      :columns="columns"
+      :data="tableData"
+      :changeType="changeType"
+      changeKey="_checked"
+      @checked="handleChecked"
+      @checked-all="handleCheckedAll"
+    />
+    <div class="event-log">
+      <div class="event-title">事件记录:</div>
+      <div v-for="(event, index) in eventLogs" :key="index" class="event-item">
+        {{ event }}
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, reactive } from "vue";
+const changeType = ref("multiple");
+
+// 列配置
+const columns = [
+  { prop: "id", label: "ID", width: 80 },
+  { prop: "name", label: "名称", width: 120 },
+  { prop: "age", label: "年龄", width: 100 },
+  { prop: "status", label: "状态", width: 100 },
+  { prop: "address", label: "地址" }
+];
+
+// 表格数据
+const tableData = reactive([
+  {
+    id: 1,
+    name: "张三",
+    age: 25,
+    status: "在线",
+    address: "北京市朝阳区"
+  },
+  {
+    id: 2,
+    name: "李四",
+    age: 30,
+    status: "离线",
+    address: "上海市浦东新区"
+  },
+  {
+    id: 3,
+    name: "王五",
+    age: 28,
+    status: "在线",
+    address: "广州市天河区"
+  },
+  {
+    id: 4,
+    name: "赵六",
+    age: 32,
+    status: "忙碌",
+    address: "深圳市南山区"
+  },
+  {
+    id: 5,
+    name: "钱七",
+    age: 26,
+    status: "在线",
+    address: "杭州市西湖区"
+  }
+]);
+
+// 事件记录
+const eventLogs = ref([]);
+
+// 处理选中事件
+const handleChecked = ({ row }) => {
+  const action = row[0].data._checked ? "选中" : "取消选中";
+  const message = `${action} ${row[0].data.name}`;
+  eventLogs.value.unshift(message);
+
+  // 保持最多显示5条记录
+  if (eventLogs.value.length > 5) {
+    eventLogs.value.pop();
+  }
+};
+
+const handleChangeType = value => {
+  changeType.value = value;
+};
+
+const handleCheckedAll = ({ _checked }) => {
+  eventLogs.value.unshift(`全选: ${_checked ? "选中" : "取消"}`);
+};
+</script>
+
+<style scoped>
+.table-demo {
+  width: 100%;
+}
+
+.event-log {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.event-title {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.event-item {
+  padding: 6px 10px;
+  margin-bottom: 4px;
+  background-color: #f3f4f6;
+  border-radius: 4px;
+  font-size: 14px;
+}
+</style>
