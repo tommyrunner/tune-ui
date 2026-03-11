@@ -24,8 +24,6 @@ import { useOptions, configOptions } from "@/hooks/useOptions";
  * @description 按钮组件
  */
 defineOptions({ name: "TButton" });
-// 基础尺寸
-const { baseSize } = useOptions();
 
 /**
  * @description 组件Props定义
@@ -39,6 +37,8 @@ const props = withDefaults(defineProps<PropsType>(), {
   scale: true,
   htmlType: "button"
 });
+// 基础尺寸
+const { baseSize } = useOptions(props);
 
 /**
  * @description 组件事件定义

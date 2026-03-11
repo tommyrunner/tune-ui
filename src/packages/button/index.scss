@@ -101,8 +101,8 @@
 // 主题大小
 .t-button-size-default {
   font-size: $font-size-default;
-  min-height: 24px;
-  line-height: 24px;
+  height: 28px;
+  line-height: 28px;
   padding: 2px 16px;
 
   ._prefixIcon,
@@ -113,7 +113,7 @@
 
 .t-button-size-small {
   font-size: $font-size-small;
-  min-height: 16px;
+  height: 16px;
   line-height: 16px;
   padding: 2px 8px;
 
@@ -125,9 +125,9 @@
 
 .t-button-size-large {
   font-size: $font-size-large;
-  min-height: 22px;
-  line-height: 22px;
-  padding: 6px 16px;
+  height: 32px;
+  line-height: 32px;
+  padding: 8px 16px;
 
   ._prefixIcon,
   ._suffixIcon {
